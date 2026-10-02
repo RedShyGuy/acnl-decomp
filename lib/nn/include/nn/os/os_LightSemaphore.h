@@ -1,6 +1,7 @@
 #pragma once
 
 #include "decomp.h"
+#include "nn/os/os_Atomic.h"
 
 namespace nn {
 namespace os {
@@ -9,6 +10,14 @@ namespace os {
 class LightSemaphore
 {
 public:
+    // inline (e.g. in BlockingQueueBase::Initialize)
+    void Initialize(s32 initialCount, s32 maxCount)
+    {
+        detail::AtomicStore(&mCount, initialCount);
+        detail::AtomicStore(&mNumWaiters, 0);
+        mMaxCount = static_cast<s16>(maxCount);
+    }
+
     void Acquire(); // 0x00143040 | fefates:bytes [tier B]
     // adds count (up to the maximum), returns the count before
     s32 Release(s32 count); // 0x001430F4 | nintendogs:callgraph [tier A]

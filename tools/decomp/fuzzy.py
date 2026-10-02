@@ -34,6 +34,9 @@ RUNTIME_FAMILIES = {
     'uldiv': ('uldivmod', 'udiv64', 'udivdi3'),
     'strcmp': ('strcmp',),
     'strlen': ('strlen',),
+    # ARMCC constructs an array of class objects with this helper (array, ctor, size, count);
+    # GCC writes the loop or the stores itself (see extract)
+    'vec_ctor': ('vec_ctor_nocookie_nodtor',),
 }
 
 
@@ -115,6 +118,43 @@ NOP = 0xE1A00000                                                         # mov r
 NOP_HINT = 0xE320F000                                                    # nop {0}
 
 
+def _arg_feature(words, pool, i, reg, resolve_word):
+    """The constant that argument register reg holds at the call at index i, if one of the few
+    instructions before set it ("mov / mvn rX, #imm" or "ldr rX, =literal"): its feature key as
+    extract counts it, else None"""
+    for j in range(i - 1, max(-1, i - 9), -1):
+        if j in pool:
+            continue
+        w = words[j]
+        if w >> 28 != COND_AL or (w >> 25) & 7 == 0b101:
+            return None                                   # conditional code, branch or call
+        rd = (w >> 12) & 0xF
+        op3 = (w >> 25) & 7
+        if op3 == 0b001 and rd == reg:                    # data processing, immediate
+            opc = (w >> 21) & 0xF
+            val = _ror(w & 0xFF, ((w >> 8) & 0xF) * 2)
+            if opc == 13:
+                return ('k', val) if val else None
+            if opc == 15:
+                return ('k', ~val & 0xFFFFFFFF)
+            if 8 <= opc <= 11:
+                continue                                  # tst / teq / cmp / cmn write no register
+            return None
+        if (w & 0x0F7F0000) == 0x051F0000 and w & (1 << 20) and rd == reg:     # ldr rX, [pc, #imm]
+            off = (w & 0xFFF) * (1 if w & (1 << 23) else -1)
+            k = j + 2 + off // 4
+            return resolve_word(k, words[k]) if 0 <= k < len(words) else None
+        if op3 == 0b100:
+            if w & (1 << 20) and w & (1 << reg):          # ldm that loads reg
+                return None
+            continue
+        if op3 in (0b000, 0b001) and rd == reg and not 8 <= (w >> 21) & 0xF <= 11:
+            return None                                   # another write to reg
+        if op3 in (0b010, 0b011) and w & (1 << 20) and rd == reg:
+            return None                                   # a load into reg
+    return None
+
+
 def extract(words, base, resolve_call, resolve_word, returns_this=lambda key: False, structor=False,
             next_key=None, resolve_target=lambda value: ('?',), read_const=None):
     """Features of one ARM function.
@@ -187,6 +227,24 @@ def extract(words, base, resolve_call, resolve_word, returns_this=lambda key: Fa
             regs.pop(r, None)
         regs[0] = keep if keep else (new(), 0)
 
+    dropped = Counter()                   # constants that were only arguments of the array helper
+
+    def call_key(i, w):
+        key = resolve_call(i, w)
+        if key == ('rt', 'vec_ctor'):
+            # (array, ctor, element size, count): compared as a call of the element's ctor, the
+            # size and the count are not compared (GCC writes the loop, or the stores, itself)
+            args = [_arg_feature(words, pool, i, r, resolve_word) for r in (1, 2, 3)]
+            for f in args:
+                if f is not None:
+                    dropped[f] += 1
+            ctor = args[0]
+            if ctor is not None and ctor[0] == 'k':
+                key = resolve_target(ctor[1])
+            elif ctor is not None and ctor[0] == 'fn':
+                key = ctor
+        return key
+
     flags_set = False                     # a compare / flag setting op waits for its first use
     seen_literals = set()
     # registers at forward branches: code after an unconditional exit is reached by a branch,
@@ -222,7 +280,7 @@ def extract(words, base, resolve_call, resolve_word, returns_this=lambda key: Fa
             flags_set = False
         if cond == 0xF:
             if (w & 0xFE000000) == 0xFA000000:                            # blx imm
-                key = resolve_call(i, w)
+                key = call_key(i, w)
                 calls.append(key if key is not None else ('?',))
                 shape.append('bl')
                 clobber_call(key)
@@ -234,7 +292,7 @@ def extract(words, base, resolve_call, resolve_word, returns_this=lambda key: Fa
             off = _sext24(w & 0xFFFFFF) * 4 + 8
             target = i * 4 + off
             if w & (1 << 24):
-                key = resolve_call(i, w)
+                key = call_key(i, w)
                 calls.append(key if key is not None else ('?',))
                 shape.append('bl')
                 clobber_call(key)
@@ -324,7 +382,12 @@ def extract(words, base, resolve_call, resolve_word, returns_this=lambda key: Fa
                         regs[rd] = (('g', key[1]), 0)
                         shape.append('lit')
                         continue
-                    if j not in seen_literals:                    # reloading a literal is the compiler's choice
+                    # "ldr r1, =0x04xxxxxx ; mov r0, #0 ; nop": a debug log call that armlink
+                    # removed (the sources leave it out), its message id is no constant
+                    nxt = [words[k] for k in range(i + 1, min(n, i + 6)) if k not in pool][:2]
+                    removed_log = rd == 1 and key[0] == 'k' and 0x04000000 <= key[1] < 0x05000000 \
+                        and nxt == [0xE3A00000, NOP]
+                    if j not in seen_literals and not removed_log:   # reloading a literal is the compiler's choice
                         consts[key] += 1
                     seen_literals.add(j)
                 regs[rd] = (new(), 0)
@@ -459,6 +522,8 @@ def extract(words, base, resolve_call, resolve_word, returns_this=lambda key: Fa
     flow.pop('return', None)
     flow.pop('loop', None)
     # how often a constant is materialized, and compares with 0 (cmp / subs / tst / lsrs), too
+    consts.subtract(dropped)
+    consts = +consts
     for k in list(consts):
         if k == ('cmp', 0):
             consts[('cmp0',)] += consts.pop(k)
@@ -593,11 +658,21 @@ def _near_cmp(a, b):
 def ignore_dtor_vptr(mine, theirs):
     """A destructor of GCC stores the vptr of its class before the base destructors run; ARMCC
     leaves that out when nothing virtual is called. Such a store (+0 with a vtable address) is
-    dropped when only one side has it."""
+    dropped when only one side has it. The same for the store of a base class's vptr when the
+    base destructor is inlined (GCC keeps it after the body, ARMCC leaves it out): when both
+    sides store the same vptr and one side has another vtable as well, that one is dropped."""
+    def is_vtable(k):
+        return k[0] == 'addr' or k[0] == 'name' and k[1].endswith('::vtable')
+
     for x, y in ((mine, theirs), (theirs, mine)):
-        vptrs = [k for k in x['consts'] if k[0] == 'addr' and not y['consts'][k]]
-        if vptrs and x['mem'][('S', 'w', 0)] and not y['mem'][('S', 'w', 0)]:
+        vptrs = [k for k in x['consts'] if is_vtable(k) and not y['consts'][k]]
+        if not vptrs or not x['mem'][('S', 'w', 0)]:
+            continue
+        if not y['mem'][('S', 'w', 0)]:
             del x['mem'][('S', 'w', 0)]
+            for k in vptrs:
+                del x['consts'][k]
+        elif any(is_vtable(k) and x['consts'][k] for k in y['consts']):
             for k in vptrs:
                 del x['consts'][k]
 
@@ -656,8 +731,22 @@ def _range_checks(a, b):
     return +a, +b
 
 
+def _halfword_consts(a, b):
+    """A value for a 16 bit store only needs its low half: GCC makes 0x7FFF as mvn #0x8000
+    (0xFFFF7FFF) where ARMCC loads 0x7FFF. Such a pair counts as the same constant."""
+    a, b = Counter(a), Counter(b)
+    for x, y in ((a, b), (b, a)):
+        for f in list(x - y):
+            if f[0] == 'k' and f[1] >= 0xFFFF0000:
+                low = ('k', f[1] & 0xFFFF)
+                if (y - x)[low] > 0:
+                    x[f] -= 1
+                    x[low] += 1
+    return +a, +b
+
+
 def _consts(a, b):
-    a, b = _range_checks(*_cmp_literal(*_data_literals(a, b)))
+    a, b = _range_checks(*_cmp_literal(*_data_literals(*_halfword_consts(a, b))))
     pairs = _near_cmp(a, b)
     # compares with 0 only count when they stand in for another compare
     a.pop(('cmp0',), None)

@@ -25,6 +25,10 @@ bool IsMemoryBlockEnabled(); // 0x0034C8F4 | tier C
 // to takes over the range of from (memory block space)
 void Switch(nn::os::StackMemoryBlock* to, nn::os::StackMemoryBlock* from); // 0x0034C988 | tier C
 
+// creates the thread pool of the alarms once (os_AlarmThreadPool.cpp; names are ours)
+void StartAlarmThreadPool(s32 workerPriority); // 0x0034C4AC (name is ours)
+void StartAlarmThreadPool(s32 workerPriority, s32 waitThreadPriority); // 0x0034C4B4 (name is ours)
+
 // the address spaces (names are ours)
 extern AddressSpaceManager s_MemoryBlockSpace;  // 0x00AE1F64, memory blocks and thread stacks
 extern AddressSpaceManager s_StackSpace;        // 0x00AE1F7C, 0x0E000000 up to the main thread's stack

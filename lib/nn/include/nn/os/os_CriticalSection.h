@@ -17,6 +17,8 @@ public:
     void Enter(); // 0x0013647C | libgarden [tier A]
     void Exit(); // 0x00136520 | libgarden [tier A]
     bool TryEnter(); // 0x0034C02C | nintendogs:bytes [tier A]
+    // back to the state before Initialize (inline, e.g. in BlockingQueueBase::Finalize; name is ours)
+    void Finalize() { mLockCount = -1; }
 
     // enters in the constructor, exits in the destructor (the class name is from the binary,
     // the member name is ours)

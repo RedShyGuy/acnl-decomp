@@ -49,5 +49,9 @@ set(DECOMP_GCC_FLAGS
     CACHE STRING "GCC options used for every source file")
 
 set(CMAKE_C_FLAGS_INIT "${DECOMP_GCC_FLAGS}")
-set(CMAKE_CXX_FLAGS_INIT "${DECOMP_GCC_FLAGS} -std=gnu++17 -fno-exceptions")
+# -fno-sized-deallocation: deleting destructors call operator delete(void*) like ARMCC (C++03 has no
+#   sized deallocation; GCC would call operator delete(void*, unsigned) with the object size)
+# -fcheck-new: the constructor only runs if new returned non-null; ARMCC tests the result of every
+#   new, placement new included (e.g. ThreadPool::Setup, detail::StartAlarmThreadPool)
+set(CMAKE_CXX_FLAGS_INIT "${DECOMP_GCC_FLAGS} -std=gnu++17 -fno-exceptions -fno-sized-deallocation -fcheck-new")
 

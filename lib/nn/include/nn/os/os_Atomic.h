@@ -62,6 +62,24 @@ inline s16 AtomicAdd(volatile s16* p, s16 delta)
     return value;
 }
 
+// Atomically stores value (16 bit).
+inline void AtomicStore(volatile s16* p, s16 value)
+{
+    do {
+        LoadExclusive(p);
+    } while (StoreExclusive(p, value));
+}
+
+// Atomically adds delta, returns the new value.
+inline s32 AtomicAdd(volatile s32* p, s32 delta)
+{
+    s32 value;
+    do {
+        value = LoadExclusive(p) + delta;
+    } while (StoreExclusive(p, value));
+    return value;
+}
+
 // If *p == compare, atomically sets it to value. Returns the old contents either way.
 inline s32 AtomicCompareAndSwap(volatile s32* p, s32 compare, s32 value)
 {

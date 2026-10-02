@@ -60,7 +60,12 @@ private:
 class ThreadPool : public ::nn::os::IWaitTaskInvoker, public ::nn::util::ADLFireWall::NonCopyable<nn::os::ThreadPool>
 {
 public:
-    ThreadPool(); // ctor address unknown
+    // inline (detail::StartAlarmThreadPool); the arguments are those of Setup
+    ThreadPool(uptr workBuffer, size_t maxWaitTasks, size_t numThreads, const uptr workerStackBottoms[], s32 workerPriority, s32 waitThreadPriority)
+        : mThreads(0)
+    {
+        Setup(workBuffer, maxWaitTasks, numThreads, workerStackBottoms, workerPriority, waitThreadPriority);
+    }
     virtual void AddTask(QueueableTask* task); // 0x0034BD68 slot 0x00 (the code is at 0x00129638)
     virtual ~ThreadPool(); // 0x0034BEA0 slot 0x04
     // 0x0034BE3C slot 0x08 (deleting dtor)
@@ -94,7 +99,8 @@ private:
     Thread* mThreads;                               // 0x00C, the start of the work buffer
     size_t mNumWaitTasks;                           // 0x010, tasks the wait thread waits for
     bool mIsFinalizing;                             // 0x014
-    u8 mWaitThreadStack[WAIT_THREAD_STACK_SIZE];    // 0x018
+    // 0x018; a stack is 8 byte aligned, so is the class: sizeof is 0x1E0 (StartAlarmThreadPool)
+    u8 mWaitThreadStack[WAIT_THREAD_STACK_SIZE] DECOMP_ALIGN(8);
     Thread mWaitThread;                             // 0x1A0
     detail::TaskQueue mWaitQueue;                   // 0x1A8, added, not yet waited for
     CriticalSection mWaitQueueLock;                 // 0x1B0, also guards the wait arrays
@@ -115,7 +121,7 @@ private:
         ASSERT_OFFSET(ThreadPool, mExecuteQueue, 0x1C0);
         ASSERT_OFFSET(ThreadPool, mExecuteQueueLock, 0x1C8);
         ASSERT_OFFSET(ThreadPool, mExecuteEvent, 0x1D4);
-        ASSERT_SIZE(ThreadPool, 0x1DC);
+        ASSERT_SIZE(ThreadPool, 0x1E0);
     }
 };
 

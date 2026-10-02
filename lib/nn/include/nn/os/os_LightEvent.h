@@ -16,6 +16,8 @@ namespace os {
 class LightEvent
 {
 public:
+    LightEvent() : mCounter(0) {}
+
     void Signal(); // 0x001296A8 | nintendogs:callgraph [tier A]
     void ClearSignal(); // 0x00129760 | nintendogs:callgraph [tier A]
     void Initialize(bool isManualReset); // 0x001305D8 | nintendogs:bytes-fuzzy [tier A]

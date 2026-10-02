@@ -95,11 +95,12 @@ def sig_key(qualname, params, const):
 
 def source_addresses():
     """(name, parameter count, const) -> address, from the '// 0x...' comments in the sources.
-    Also returns the keys whose body is still empty (generated stubs)."""
-    out, dup, empty = {}, set(), set()
+    Also returns the keys whose body is still empty (generated stubs), and for destructors the
+    address of the deleting variant (a second comment line that says 'deleting')."""
+    out, dup, empty, deleting = {}, set(), set(), {}
     for d in ('src', 'lib', 'modules'):
         for path in glob.glob(os.path.join(ROOT, d, '**', '*.cpp'), recursive=True):
-            ns, pending, sig, body_of = [], None, None, None
+            ns, pending, sig, body_of, pending_del = [], None, None, None, None
             for line in open(path, encoding='utf-8', errors='replace'):
                 st = line.strip()
                 if body_of is not None and st:
@@ -115,7 +116,13 @@ def source_addresses():
                     continue
                 m = re.match(r'//\s*0x([0-9A-Fa-f]{6,8})(?![0-9A-Fa-f])', st)
                 if m:
-                    pending, sig = int(m.group(1), 16) & ~1, ''
+                    if 'deleting' in st:
+                        # GCC's D0 variant; the line of the complete destructor may come before or after
+                        pending_del, sig = int(m.group(1), 16) & ~1, ''
+                        if pending is None:
+                            pending = -1
+                    else:
+                        pending, sig = int(m.group(1), 16) & ~1, ''
                     continue
                 if re.match(r'//\s*ctor (candidate|address unknown)', st):
                     pending, sig = -1, ''                 # no verified address: only track empty bodies
@@ -126,12 +133,15 @@ def source_addresses():
                 if '{' in st or st.endswith(';'):
                     parsed = split_signature(sig.split('{')[0].rstrip().rstrip(';'))   # also declarations
                     pending_addr, pending, sig = pending, None, None
+                    del_addr, pending_del = pending_del, None
                     if not parsed:
                         continue
                     name, params, const = parsed
                     # definitions inside "namespace a {" may or may not repeat "a::"
                     full = name if not ns or name.startswith(ns[0] + '::') else '::'.join(ns + [name])
                     key = sig_key(full, params, const)
+                    if del_addr is not None:
+                        deleting[key] = del_addr
                     if pending_addr >= 0:
                         if key in out and out[key] != pending_addr:
                             dup.add(key)
@@ -147,7 +157,7 @@ def source_addresses():
     # and names that correct symbols.json)
     for key, address in header_addresses().items():
         out.setdefault(key, address)
-    return out, empty
+    return out, empty, deleting
 
 
 def header_addresses():
@@ -295,6 +305,8 @@ def make_fuzzy_pair(mem, db, starts, names, by_source, by_name, variables=None):
     features of the original), both with call targets / literals in the same terms:
     ('fn', address) ('addr', vptr) ('str', text) ('k', value) ('data',) ('rodata',) ('name', n)"""
     start_set = set(starts)
+    # functions the sources name by address (e.g. Thumb veneers like nnosDefaultUnexpectedHandler)
+    source_set = {a for a in by_source.values() if a >= 0}
     addr_name = {}
     for f in sorted(db['functions'], key=lambda f: (f.get('tier') or 'Z', f['addr'])):
         addr_name.setdefault(f['addr'] & ~1, f['name'])
@@ -405,6 +417,8 @@ def make_fuzzy_pair(mem, db, starts, names, by_source, by_name, variables=None):
             g = global_address(name, typ, secname, value, w)
             if g is not None:
                 return ('gaddr', g)
+            if typ == 3 and secname.startswith('.rodata._ZTV'):
+                name = secname[len('.rodata.'):]            # section symbol of a local vtable
             if name.startswith('_ZTV'):
                 cls = names.get(name, name).replace('vtable for ', '')
                 vt = vptrs.get(cls)
@@ -443,7 +457,7 @@ def make_fuzzy_pair(mem, db, starts, names, by_source, by_name, variables=None):
         def orig_word(j, w):
             # a known function, or code that starts like one (push {..., lr}); other values in the
             # code range are constants (IPC headers like 0x001C0040 are)
-            if mem.in_text(w & ~1) and ((w & ~1) in start_set or
+            if mem.in_text(w & ~1) and ((w & ~1) in start_set or (w & ~1) in addr_name or (w & ~1) in source_set or
                                         (w & 3 == 0 and (mem.u32(w) & 0xFFFF4000) == 0xE92D4000)):
                 return orig_fn(w & ~1)
             if w in vptr_set:
@@ -509,9 +523,18 @@ def make_fuzzy_pair(mem, db, starts, names, by_source, by_name, variables=None):
                     if gain > 1e-9 and (best is None or gain > best[0]):
                         best = (gain, side, trial)
             if best is None:
-                return
+                break
             best[1].clear()
             best[1].update(best[2])
+        # where the callee was inlined, the test of its result ("if (TryX())") went into the
+        # callee's own branches: the side that calls it has one decision more per such call
+        for side, other, label in ((f_mine, f_orig, 'inlined'), (f_orig, f_mine, 'inlined_by_you')):
+            extra = side['flow']['decision'] - other['flow']['decision']
+            n = min(extra, len(side.get(label, [])))
+            if n > 0:
+                side['flow']['decision'] -= n
+                if not side['flow']['decision']:
+                    del side['flow']['decision']
 
     return pair
 
@@ -564,19 +587,30 @@ def main():
                                       sec2.data if sec2 else b'', rs.value)
                 funcs.append((os.path.relpath(path, a.build_dir), s.name, data, size, rel, syminfo))
 
-    names = demangle(sorted({f[1] for f in funcs} | {i[0] for f in funcs for i in f[5].values()}))
-    by_source, empty_bodies = source_addresses()
+    # vtables of classes in an unnamed namespace are local: GCC refers to them through the section
+    # symbol of '.rodata._ZTV...', so demangle the section names, too
+    vtable_sections = {i[2][len('.rodata.'):] for f in funcs for i in f[5].values() if i[2].startswith('.rodata._ZTV')}
+    names = demangle(sorted({f[1] for f in funcs} | {i[0] for f in funcs for i in f[5].values()} | vtable_sections))
+    by_source, empty_bodies, by_source_deleting = source_addresses()
     thumb = {s & ~1 for s in db['function_starts'] if s & 1}
     fuzzy_pair = make_fuzzy_pair(mem, db, starts, names, by_source, by_name, source_variables())
     results, counts = {}, {}
     details = []
     for obj, mangled, data, size, rel, syminfo in funcs:
-        if re.search(r'(C2|D2|D0)E', mangled):
-            continue                              # GCC's base-object / deleting variants
+        if re.search(r'(C2|D2)E', mangled):
+            continue                              # GCC's base-object variants
+        is_deleting = re.search(r'D0E', mangled) is not None
         name = names.get(mangled, mangled)
         parsed = split_signature(name)
         skey = sig_key(*parsed) if parsed else None
-        addr = by_source.get(skey) if parsed else None
+        if is_deleting:
+            # only compared where the source names the address of the deleting destructor
+            addr = by_source_deleting.get(skey)
+            if addr is None:
+                continue
+            name += ' [deleting]'
+        else:
+            addr = by_source.get(skey) if parsed else None
         if addr is None:
             addr = by_name.get(norm(name))
         mine = masked_words(data, rel, size)

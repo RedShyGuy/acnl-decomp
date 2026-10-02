@@ -142,6 +142,7 @@ void nn::os::ThreadPool::Finalize()
 }
 
 // 0x0034BEA0 slot 0x04
+// 0x0034BE3C slot 0x08 (deleting dtor)
 nn::os::ThreadPool::~ThreadPool()
 {
     Finalize();

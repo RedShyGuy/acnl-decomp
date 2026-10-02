@@ -16,6 +16,8 @@ namespace {
 class DefaultAutoStackManager : public nn::os::AutoStackManager
 {
 public:
+    // inline in __sti___14_os_Default_cpp (0x00790C98)
+    DefaultAutoStackManager() : mIsMutexInitialized(false) {}
     virtual ~DefaultAutoStackManager();
     virtual void* Construct(size_t stackSize);
     virtual void Destruct(void* stackBottom, bool isError);
@@ -78,6 +80,11 @@ void DefaultAutoStackManager::Destruct(void* stackBottom, bool isError)
     detail::CallOnStack(reinterpret_cast<uptr>(mFreeStack) + sizeof(mFreeStack), detail::FreeStackMemoryBlock,
                         block, reinterpret_cast<uptr>(__builtin_return_address(0)));
 }
+
+// constructed by __sti___14_os_Default_cpp (0x00790C98), which also registers the destructor
+// with __aeabi_atexit
+// 0x00AEB618 (name is ours)
+DefaultAutoStackManager s_DefaultAutoStackManager;
 
 } // namespace
 } // namespace os

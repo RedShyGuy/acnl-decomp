@@ -25,6 +25,7 @@
 | `manual:3dbrew` | IPC command name from 3dbrew, class from the IPC session | declared |
 | `manual:ours`, `manual:heapinit` | descriptive names, not original symbols | declared, comment says so |
 | `manual:inferred` | reasoned by hand, not proven | declared, comment says so |
+| `manual:abi` | runtime helper of the public ARM C++ ABI, recognized by its code (e.g. `__aeabi_vec_ctor_nocookie_nodtor`) | used by the tools |
 
 Every declaration carries its source and tier, for example `// 0x0064DB90 | libgarden [tier A]`.
 

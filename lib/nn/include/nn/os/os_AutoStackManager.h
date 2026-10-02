@@ -10,7 +10,7 @@ namespace os {
 class AutoStackManager
 {
 public:
-    AutoStackManager(); // ctor address unknown
+    AutoStackManager() {} // inline (see __sti___14_os_Default_cpp)
     virtual ~AutoStackManager() {}
     // returns the stack bottom (highest address) of a new stack
     virtual void* Construct(size_t stackSize) = 0; // slot 0x08
