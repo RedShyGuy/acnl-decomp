@@ -1,0 +1,28 @@
+#pragma once
+
+#include "decomp.h"
+#include "Other/dPWorkList.h"
+
+// RTTI 15PWorkDeleteList @ 0x008CC104
+// vtable 0x008F1DDC (vptr 0x008F1DE4), offset_to_top 0, 26 entries
+class PWorkDeleteList : public ::PWorkList
+{
+public:
+    PWorkDeleteList(); // ctor candidate(s) 0x007F4D50 (unverified)
+    virtual ~PWorkDeleteList(); // 0x0029EEFC slot 0x00 | slot vf_0x00 of CatalogBase
+    // 0x0029EE90 slot 0x04 | slot vf_0x04 of CatalogBase (deleting dtor)
+    virtual void vf_0x0C(); // 0x0022344C slot 0x0C | virtual slot, introduced by CatalogBase
+    virtual void vf_0x10(); // 0x00222E74 slot 0x10 | virtual slot, introduced by CatalogBase
+    virtual void vf_0x14(); // 0x00222B20 slot 0x14 | virtual slot, introduced by CatalogBase
+    virtual void vf_0x20(); // 0x0071CA24 slot 0x20 | virtual slot, introduced by CatalogBase
+    virtual void vf_0x28(); // 0x0071CA1C slot 0x28 | virtual slot, introduced by CatalogBase
+    virtual void vf_0x2C(); // 0x0071CA40 slot 0x2C | virtual slot, introduced by CatalogBase
+    virtual void vf_0x34(); // 0x0029EA84 slot 0x34 | virtual slot, introduced by CatalogBase
+    virtual void vf_0x3C(); // 0x0029E7D0 slot 0x3C | virtual slot, introduced by CatalogBase
+    virtual void vf_0x40(); // 0x0029E754 slot 0x40 | virtual slot, introduced by CatalogBase
+    virtual void vf_0x4C(); // 0x0029E918 slot 0x4C | virtual slot, introduced by CatalogBase
+    virtual void vf_0x50(); // 0x0029E864 slot 0x50 | virtual slot, introduced by CatalogBase
+    virtual void vf_0x54(); // 0x0029EA28 slot 0x54 | virtual slot, introduced by CatalogBase
+    virtual void vf_0x58(); // 0x0029E96C slot 0x58 | virtual slot, introduced by CatalogBase
+    virtual void vf_0x60(); // 0x0029EDFC slot 0x60 | virtual slot, introduced by CatalogBase
+};

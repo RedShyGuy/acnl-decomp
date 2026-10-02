@@ -1,0 +1,3 @@
+# ELF functions only referenced by CRO vtables (TSV for analyze.py --ref)
+0x24F6C4	AcFtrMannequin::vf_0xC4	cro-vtable ModuleFtr.cro	0x0	
+0x24F734	AcFtrMannequin::vf_0xB0	cro-vtable ModuleFtr.cro	0x0	

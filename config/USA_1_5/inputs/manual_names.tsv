@@ -1,0 +1,32 @@
+# target_addr	name	source	ref_addr	info
+# manual:heapinit / manual:ours = descriptive names, manual:ref-verified = names checked against reference game code
+0x100048	HeapInit::CreateDLLHeap	manual:heapinit	0x0	creates ExpHeap "DLLHeap" (size 0x1b8000), stores it at 0x953cb8
+0x10018C	HeapInit::CreateWorkHeap	manual:heapinit	0x0	creates ExpHeap "WorkHeap" (size 0x19000), stores it at 0x953cbc
+0x1002E8	HeapInit::CreateStageHeap	manual:heapinit	0x0	creates ExpHeap "StageHeap" (size 0xeb8000), stores it at 0x953c4c
+0x100214	HeapInit::CreateFieldHeap	manual:heapinit	0x0	creates ExpHeap "FieldHeap" (size 0x133000), stores it at 0x953c5c
+0x100448	HeapInit::CreateRealEstateHeap	manual:heapinit	0x0	creates ExpHeap "RealEstateHeap" (size 0xa5000), stores it at 0x953c64
+0x100528	HeapInit::CreateHumanAnimBankHeap	manual:heapinit	0x0	creates ExpHeap "HumanAnimBankHeap" (size 0x238333), stores it at 0x953c74
+0x1003BC	HeapInit::CreateWeatherHeap	manual:heapinit	0x0	creates ExpHeap "WeatherHeap" (size 0x7600), stores it at 0x953c58
+0x1004DC	HeapInit::CreateSeadParticleHeap	manual:heapinit	0x0	creates ExpHeap "SeadParticleHeap" (size 0x23fc00), stores it at 0x953c78
+0x1005C0	HeapInit::CreateParticleHandleHeap	manual:heapinit	0x0	creates UnitHeap "ParticleHandleHeap" (block size 0x18), stores it at 0x953c7c
+0x100490	HeapInit::CreateModelEffectUnitHeap	manual:heapinit	0x0	creates UnitHeap "ModelEffectUnitHeap" (block size 0x2710), stores it at 0x953c80
+0x100574	HeapInit::CreateModelEffectResHeap	manual:heapinit	0x0	creates ExpHeap "ModelEffectResHeap" (size 0x3c000), stores it at 0x953c84
+0x1001D0	HeapInit::CreateFaderHeap	manual:heapinit	0x0	creates ExpHeap "FaderHeap" (size 0x400), stores it at 0x953c8c
+0x1000C4	HeapInit::CreateUgcHeap	manual:heapinit	0x0	creates ExpHeap "UgcHeap" (size runtime), stores it at 0x953c90
+0x10032C	HeapInit::CreateScriptHeap	manual:heapinit	0x0	creates ExpHeap "ScriptHeap" (size runtime), stores it at 0x953c94
+0x100104	HeapInit::CreateFontHeap	manual:heapinit	0x0	creates ExpHeap "FontHeap" (size runtime), stores it at 0x953c98
+0x1002A4	HeapInit::CreateSoundHeap	manual:heapinit	0x0	creates ExpHeap "SoundHeap" (size 0x580000), stores it at 0x953ca4
+0x100148	HeapInit::CreateSaveHeap	manual:heapinit	0x0	creates ExpHeap "SaveHeap" (size 0x8000), stores it at 0x953ca0
+0x100088	HeapInit::CreateNetHeap	manual:heapinit	0x0	creates ExpHeap "NetHeap" (size 0x215800), stores it at 0x953cac
+0x100378	HeapInit::CreateNetGameHeap	manual:heapinit	0x0	creates ExpHeap "NetGameHeap" (size 0xd4800), stores it at 0x953cb0
+0x100260	HeapInit::CreatePhotoHeap	manual:heapinit	0x0	creates ExpHeap "PhotoHeap" (size runtime), stores it at 0x953c9c
+0x100400	HeapInit::CreateNoDeviceRootHeap	manual:heapinit	0x0	creates ExpHeap (root) "NoDevice" (size runtime), stores it at 0x953c48
+0x11D5C0	HeapInit::CreateAllHeaps	manual:heapinit	0x0	boot heap setup: memory block, NoDevice root heap, all named game heaps
+0x11EEC8	HeapInit::CreateSaveAllocator	manual:heapinit	0x0	ExpHeap "SaveAllocator" (0xBB800) wrapped in a ssys::ma::Allocator
+0x11EE4C	HeapUtil::CreateExpHeapWithCName	manual:heapinit	0x0	ACNL helper, 9 callers: (size, parent, const char* name) -> builds a SafeString and calls sead::ExpHeap::create
+0x12CC60	sead::ExpHeap::tryCreate	manual:ref-verified	0x0	same callee sequence as Nintendogs sead::ExpHeap::tryCreate(u32, const SafeString&, Heap*, HeapDirection, bool): getCurrentHeap -> ExpHeap ctor (stores sead::ExpHeap vtable) -> createMaxSizeFreeMemBlock_ -> IDisposer; newer code (opcode similarity 0.67)
+0x2F6FC0	sead::UnitHeap::tryCreateWithBlockNum	manual:ref-verified	0x0	identical to Nintendogs sead::UnitHeap::tryCreateWithBlockNum (first 20 instructions equal, similarity 0.92, same callees)
+0x2F6D8C	sead::ExpHeap::create	manual:inferred	0x0	61 callers; forwards all 5 arguments unchanged to tryCreate = sead create() in a release build (debug assert removed); not present in any reference game
+0x11DE60	nn::os::MemoryBlock::AllocateBlock	manual:ours	0x0	page aligns the size and allocates the block from the memory block space (result 0xD8601837 when there is no space)
+0x34C4AC	nn::os::detail::StartAlarmThreadPool	manual:ours	0x0	creates the thread pool of the alarms once: 2 x 4096 byte stacks, a 0x1E0 byte memory block for the pool, then ThreadPool::Setup
+0x34B84C	nn::os::ThreadPool::Setup	manual:ours	0x0	(work buffer, wait tasks, threads, stacks, priority, priority); called from the inlined ThreadPool constructor in StartAlarmThreadPool

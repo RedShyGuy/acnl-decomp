@@ -1,0 +1,32 @@
+#include "nw/snd/internal/snd_WaveSoundFile_NoteInfo.h"
+
+// 0x0013D238 | nintendogs:callgraph [tier A]
+void nw::snd::internal::WaveSoundFile::NoteInfo::GetAdshrCurve() const
+{
+}
+
+// 0x0013D274 | nintendogs:bytes [tier A]
+void nw::snd::internal::WaveSoundFile::NoteInfo::GetOriginalKey() const
+{
+}
+
+// 0x0013D29C | nintendogs:bytes [tier A]
+void nw::snd::internal::WaveSoundFile::NoteInfo::GetSurroundPan() const
+{
+}
+
+// 0x0013D2C8 | nintendogs:callgraph [tier A]
+void nw::snd::internal::WaveSoundFile::NoteInfo::GetPan() const
+{
+}
+
+// 0x0013D2F0 | nintendogs:callgraph [tier A]
+void nw::snd::internal::WaveSoundFile::NoteInfo::GetPitch() const
+{
+}
+
+// 0x0013D364 | nintendogs:bytes [tier A]
+void nw::snd::internal::WaveSoundFile::NoteInfo::GetVolume() const
+{
+}
+

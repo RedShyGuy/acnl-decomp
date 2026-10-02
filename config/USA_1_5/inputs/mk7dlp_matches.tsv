@@ -1,0 +1,1746 @@
+# target_addr	name	source	ref_addr	alternative names
+0x11CC84	nninitCallStaticInitializers	mk7dlp:bytes	0x100114	
+0x11D544	nn::cfg::CTR::Initialize()	mk7dlp:callseq-callee	0x10198C	
+0x11D56C	nn::init::InitializeAllocator(unsigned)	mk7dlp:bytes	0x1002F8	
+0x11D6F0	sead::AnyFileDevice::pushBack(sead::FileDevice*)	mk7dlp:bytes	0x2DB3F4	
+0x11DC50	nn::svc::ControlMemory(unsigned*, unsigned, unsigned, unsigned, unsigned, unsigned)	mk7dlp:bytes	0x101520	
+0x11DC74	nn::svc::GetResourceLimit(nn::Handle*, nn::Handle)	mk7dlp:bytes	0x102E3C	
+0x11E4DC	nn::init::InitializeAllocator(unsigned, unsigned)	mk7dlp:callgraph	0x100C64	
+0x11E9F4	sead::GameFrameworkCtrNw4c::createCmdlist_(unsigned, unsigned)	mk7dlp:bytes	0x107D54	
+0x11EA28	sead::GameFrameworkCtrNw4c::createFramebuffer_(nn::gr::CTR::FrameBuffer*, int, int, unsigned, PicaDataColor, unsigned, PicaDataDepth)	mk7dlp:bytes-fuzzy	0x107D88	
+0x11EB10	sead::GameFrameworkCtrNw4c::createDisplaybuffers_(unsigned*, unsigned, unsigned, unsigned, int, int, unsigned)	mk7dlp:bytes	0x1096D8	
+0x11EB7C	sead::GameFrameworkCtrNw4c::initNngx_(sead::GfxMemoryMgrCtr*)	mk7dlp:bytes	0x107E70	
+0x11EC38	sead::UlcdDoubleCmdGameFrameworkCtrNw4c::setUlcdEnable(bool)	mk7dlp:bytes	0x107EBC	
+0x11F3B0	nnosMemoryBlockAllocate	mk7dlp:callgraph	0x1014C4	
+0x11F428	nn::svc::CreateAddressArbiter(nn::Handle*)	mk7dlp:bytes	0x101544	
+0x11FF0C	nn::fnd::ExpHeapBase::Initialize(unsigned, unsigned, unsigned)	mk7dlp:bytes	0x101A60	
+0x120A2C	sead::GameFrameworkCtrNw4c::deallocate(unsigned, unsigned, unsigned, void*)	mk7dlp:bytes	0x1096A0	
+0x121664	sead::GraphicsContext::apply() const	mk7dlp:bytes	0x109A6C	
+0x1216A0	nngxActiveDisplay	mk7dlp:callgraph	0x109B3C	
+0x1216D0	nngxBindCmdlist	mk7dlp:callgraph	0x109BB4	
+0x121838	sead::GameFrameworkCtrNw4c::presentTop_()	mk7dlp:callseq	0x109D28	
+0x121894	nngxBindDisplaybuffer	mk7dlp:callgraph	0x109D9C	
+0x12199C	nngxCmdlistStorage	mk7dlp:callgraph	0x109EA4	
+0x121A84	nngxDisplaybufferStorage	mk7dlp:callgraph	0x10D46C	
+0x121B48	nngxGenCmdlists	mk7dlp:callgraph	0x109F7C	
+0x121C7C	nngxGenDisplaybuffers	mk7dlp:callgraph	0x10D554	
+0x121DB4	nngxGetVramEndAddr	mk7dlp:callseq-callee	0x10D890	
+0x121DF0	nngxGetVramStartAddr	mk7dlp:callgraph	0x5213F4	
+0x121E40	nngxInitialize	mk7dlp:callgraph	0x10A148	
+0x122AE4	nngxSetDisplayMode	mk7dlp:callgraph	0x10AD5C	
+0x122BD4	nn::svc::CreateThread(nn::Handle*, void(*)(unsigned), unsigned, unsigned, int, int)	mk7dlp:bytes	0x102E00	
+0x1245F8	nn::fnd::detail::CreateHeap(nn::fnd::detail::ExpHeapImpl*, void*, unsigned, unsigned short)	mk7dlp:callgraph	0x103524	
+0x1247D8	nn::gxlow::CTR::StartLcdDisplay()	mk7dlp:bytes	0x1037C4	
+0x125C20	sead::AudioSettingParameter::appendSubset(sead::AudioSubsetBase*)	mk7dlp:bytes	0x2E3234	
+0x1269F0	nn::gr::CTR::RenderState::MakeCommand(unsigned*, bool) const	mk7dlp:callgraph	0x10C2C0	
+0x126DFC	__shm_initializeShaderManager	mk7dlp:callseq	0x10C590	
+0x127D04	__vldtr_initializeStateValidator	mk7dlp:bytes	0x10D284	
+0x127D44	CFL_DrawOpa	mk7dlp:bytes	0x10D2C4	
+0x127D94	glGetError	mk7dlp:bytes	0x10D314	
+0x127EF0	nngxGetCmdlistParameteri	mk7dlp:callgraph	0x10D6BC	
+0x1280C8	nngxMoveCommandbufferPointer	mk7dlp:bytes	0x10D8D0	
+0x1283F4	nn::svc::ConnectToPort(nn::Handle*, const char*)	mk7dlp:bytes	0x102DE8	
+0x12840C	nn::svc::CreateEvent(nn::Handle*, nn::os::ResetType)	mk7dlp:bytes	0x108A6C	
+0x128444	nn::svc::WaitSynchronizationN(int*, const nn::Handle*, int, bool, long long)	mk7dlp:bytes	0x106CB8	
+0x1296A8	nn::os::LightEvent::Signal()	mk7dlp:callgraph	0x10B22C	
+0x129818	nn::os::AddressSpaceManager::Allocate(nn::os::MemoryBlockBase*, unsigned, unsigned)	mk7dlp:callgraph	0x10B3D4	
+0x1299D4	nn::os::Thread::TryInitializeAndStartImpl(const nn::os::Thread::TypeInfo&, void(*)(unsigned), const void*, unsigned, int, int, bool)	mk7dlp:callgraph	0x106F88	
+0x12A800	nn::srv::Initialize()	mk7dlp:callgraph	0x103630	
+0x12A924	nn::srv::GetServiceHandle(nn::Handle*, const char*, int, unsigned)	mk7dlp:callgraph	0x105A58	
+0x12A9DC	nn::gxlow::CTR::Initialize()	mk7dlp:callseq	0x10EA38	
+0x12BA28	nn::applet::CTR::detail::Send(unsigned, unsigned, const unsigned char*, unsigned, nn::Handle, nn::fnd::TimeSpan)	mk7dlp:callseq-callee	0x106168	
+0x12C964	sead::MethodTreeNode::lock_()	mk7dlp:callgraph	0x10BED0	
+0x12C9E0	sead::MethodTreeNode::unlock_()	mk7dlp:callgraph	0x10BF4C	
+0x12C9F4	sead::MethodTreeNode::MethodTreeNode(sead::CriticalSection*)	mk7dlp:bytes	0x10BF60	
+0x12CAA4	sead::AudioResetterCtr::AudioResetterCtr()	mk7dlp:bytes	0x2E0EC0	
+0x12CB74	sead::AudioSoundDataMgrCtr::loadData(unsigned, unsigned, unsigned, nw::snd::SoundHeap*)	mk7dlp:bytes	0x2E2AA4	
+0x12CBD0	sead::AudioSettingParameter::AudioSettingParameter()	mk7dlp:bytes	0x2E325C	
+0x12CD58	sead::HeapMgr::setCurrentHeap_(sead::Heap*)	mk7dlp:callseq-callee	0x106548	
+0x12CD84	sead::ListImpl::popFront()	mk7dlp:bytes	0x2F8D24	
+0x12CDD8	sead::TaskBase::TaskBase__sub_object(const sead::TaskConstructArg&, const char*)	mk7dlp:bytes	0x2F90A4	
+0x12CE74	sead::TreeNode::TreeNode()	mk7dlp:bytes	0x10C244	
+0x12E3AC	sead::AllocatorNw4c::Alloc(unsigned, unsigned char)	mk7dlp:bytes	0x10F9CC	
+0x12E3D4	__fbv_initializeFBValidator	mk7dlp:callgraph	0x10FA28	
+0x12E3E0	__shv_initializeShaderValidator	mk7dlp:callgraph	0x10FA3C	
+0x12E4BC	__txv_initializeTextureValidator	mk7dlp:callgraph	0x110320	
+0x12EC68	nnnstdMemCpy	mk7dlp:bytes	0x10DB44	
+0x12EFF0	nnnstdMemMove	mk7dlp:bytes	0x10DECC	
+0x12F3D8	nn::svc::GetProcessId(unsigned*, nn::Handle)	mk7dlp:bytes	0x102E24	
+0x12F3F0	_ll_udiv	mk7dlp:bytes	0x11513C	
+0x12F6E0	_ll_sdiv	mk7dlp:bytes	0x115454	
+0x13057C	nn::nex::GlobalVariables::GetInstance()	mk7dlp:bytes	0x1994A8	
+0x130820	nn::snd::CTR::VoiceManager::Initialize()	mk7dlp:callseq-callee	0x1FC568	
+0x13085C	nn::os::TransferMemoryBlock::Initialize(void*, unsigned, unsigned, unsigned)	mk7dlp:callseq	0x168D38	
+0x1308F0	nn::err::CTR::ThrowFatalErr(nn::Result)	mk7dlp:callgraph	0x1071F0	
+0x130A5C	nn::cfg::CTR::GetLocalFriendCode()	mk7dlp:callseq-callee	0x169884	
+0x13123C	nn::gxlow::CTR::InterruptReceiver::Initialize()	mk7dlp:callseq	0x1112D0	
+0x1314F8	nn::gxlow::CTR::Gpu::AcquireRight(nn::Handle, bool)	mk7dlp:callseq-callee	0x10B86C	
+0x131564	nn::gxlow::CTR::Gpu::SetLcdForceBlack(bool)	mk7dlp:callgraph	0x105B7C	
+0x131624	nngxlowLock	mk7dlp:callgraph	0x10B8B0	
+0x131634	nngxlowUnlock	mk7dlp:callgraph	0x10B92C	
+0x131E5C	nw::gfx::res::ResGraphicsFile::Cleanup()	mk7dlp:bytes	0x22BAFC	
+0x1322C8	nw::lyt::Layout::Layout()	mk7dlp:bytes	0x23DEB4	
+0x132564	nw::snd::internal::SoundArchiveLoader::LoadData(unsigned, nw::snd::SoundMemoryAllocatable*, unsigned, unsigned)	mk7dlp:callgraph	0x2496A8	
+0x1327AC	nw::snd::internal::FrameHeap::SaveState()	mk7dlp:bytes	0x252C4C	
+0x132D10	sead::FileDevice::tryLoad(sead::FileDevice::LoadArg&)	mk7dlp:callgraph	0x2D9200	
+0x132F80	sead::AudioResetter::AudioResetter__sub_object()	mk7dlp:callgraph	0x2DB7DC	
+0x133148	sead::Graphics::lockDrawContext()	mk7dlp:callseq	0x2F89E0	
+0x1331B8	sead::Graphics::unlockDrawContext()	mk7dlp:callseq	0x2F8A44	
+0x1332A0	sead::AudioSoundDataMgrCtr::AudioSoundDataMgrCtr()	mk7dlp:bytes	0x2E2B00	
+0x13374C	sead::Framework::Framework__sub_object()	mk7dlp:bytes	0x112CA4	
+0x1347B8	nw::snd::internal::SoundArchiveLoader::IsAvailable() const	mk7dlp:callgraph	0x4A0F0C	
+0x1356E0	__vbv_initializeVBValidator	mk7dlp:callgraph	0x112008	
+0x13590C	nn::dbg::Panic()	mk7dlp:callgraph	0x108FE8	
+0x135C3C	nn::math::ARMv6::MTX34CopyAsm(nn::math::MTX34*, const nn::math::MTX34*)	mk7dlp:bytes	0x11328C	
+0x135C8C	nn::svc::CreateMemoryBlock(nn::Handle*, unsigned, unsigned, unsigned, unsigned)	mk7dlp:bytes	0x1150D0	
+0x135CD0	CFL_FreeCachedResource	mk7dlp:callseq	0x11C120	
+0x135D24	CFL_IsResourceCached	mk7dlp:callseq	0x11CAAC	
+0x135D58	CFLi_FinalizeDatabase	mk7dlp:callseq	0x11DEBC	
+0x135EF8	CFLi_FinalizeResourceDevice	mk7dlp:bytes	0x11E090	
+0x135F18	CFLi_UnmountNandContent	mk7dlp:bytes	0x120F78	
+0x136254	nn::fs::Unmount(const char*)	mk7dlp:callgraph	0x166024	
+0x136474	sead::CriticalSection::lock()	mk7dlp:callseq-callee	0x11184C	
+0x1367C0	nn::nex::ProductInfo::~ProductInfo__sub_object()	mk7dlp:bytes	0x175518	nn::nex::AnyDataAdapter::~AnyDataAdapter()
+0x1368EC	nn::fnd::ExpHeapBase::Invalidate()	mk7dlp:bytes	0x16A49C	
+0x13697C	nn::fnd::ExpHeapBase::Finalize()	mk7dlp:bytes	0x16A50C	
+0x137580	nw::ut::internal::LinkListImpl::erase(nw::ut::internal::LinkListImpl::iterator)	mk7dlp:bytes	0x2105E4	
+0x1375CC	nw::gfx::res::ResTexture::Cleanup()	mk7dlp:bytes-fuzzy	0x22A3E8	
+0x137638	nw::gfx::res::ResLookupTableSet::Cleanup()	mk7dlp:bytes	0x22CD68	
+0x1376C8	nw::gfx::res::ResFog::Cleanup()	mk7dlp:bytes	0x22F108	
+0x1376F4	nw::gfx::res::ResLight::Cleanup()	mk7dlp:bytes	0x22F77C	
+0x137780	nw::gfx::res::ResModel::Cleanup()	mk7dlp:bytes	0x22FA84	
+0x1378BC	nw::gfx::res::ResShader::Cleanup()	mk7dlp:callgraph	0x22FD44	
+0x137B04	nn::nex::Credentials::MarkInvalid()	mk7dlp:bytes	0x171ED0	
+0x137B28	nw::snd::internal::BasicSound::DetachGeneralHandle()	mk7dlp:callgraph	0x240BA4	
+0x137B30	nw::snd::SoundHandle::DetachSound()	mk7dlp:bytes	0x240BAC	
+0x137C74	nw::snd::SoundDataManager::SoundDataManager()	mk7dlp:bytes	0x242A38	
+0x137D94	nw::snd::internal::SoundArchiveLoader::LoadSoundGroup(unsigned, nw::snd::SoundMemoryAllocatable*, unsigned, unsigned)	mk7dlp:bytes	0x24863C	
+0x137F44	nw::snd::internal::SoundArchiveLoader::LoadSequenceSound(unsigned, nw::snd::SoundMemoryAllocatable*, unsigned, unsigned)	mk7dlp:bytes	0x248844	
+0x138028	nw::snd::internal::SoundArchiveLoader::PostProcessForLoadedGroupFile(const void*, nw::snd::SoundMemoryAllocatable*, unsigned)	mk7dlp:callseq	0x248CC8	
+0x138540	nw::snd::internal::FrameHeap::Create(void*, unsigned)	mk7dlp:bytes	0x252AD4	
+0x1385C4	nw::snd::internal::FrameHeap::FrameHeap()	mk7dlp:bytes	0x252C94	
+0x1385DC	nw::anim::res::ResAnim::Cleanup()	mk7dlp:callgraph	0x253E98	
+0x138BF0	sead::MessageQueue::allocate(int, sead::Heap*)	mk7dlp:bytes	0x10EDC8	
+0x138D44	sead::CriticalSection::unlock()	mk7dlp:callseq-callee	0x1119D0	
+0x139110	sead::Arena::initialize(unsigned)	mk7dlp:bytes	0x10F1E0	
+0x1393A4	sead::ListNode::insertFront_(sead::ListNode*)	mk7dlp:callseq-callee	0x111BC0	
+0x139ABC	nn::os::ThreadLocalStorage::GetValue() const	mk7dlp:callgraph	0x10C4C0	
+0x139D4C	nw::snd::SoundArchive::GetSoundType(unsigned) const	mk7dlp:callgraph	0x4A154C	
+0x139D54	nw::snd::internal::SoundArchiveFileReader::GetSoundType(unsigned) const	mk7dlp:bytes	0x4A1554	nw::snd::internal::SoundArchiveFileReader::GetSoundUserParam(unsigned) const
+0x13A354	nn::svc::GetThreadId(unsigned*, nn::Handle)	mk7dlp:bytes	0x110A18	
+0x13A36C	__rt_memmove_w	mk7dlp:bytes-fuzzy	0x112390	
+0x13A3EC	CFLi_FileExists	mk7dlp:callseq-callee	0x11DDCC	
+0x13A4C4	CFLi_GetFileBroken	mk7dlp:callseq-callee	0x11E984	
+0x13A4F4	CFLi_GetWorking	mk7dlp:bytes	0x11F210	
+0x13A8E0	CFL_WaitAsync()	mk7dlp:callgraph	0x1228B8	
+0x13AA00	CFLi_PutCRC16(int, void*, unsigned)	mk7dlp:callseq-callee	0x122A3C	
+0x13AA80	CFL_GetAsyncStatus()	mk7dlp:callseq-callee	0x126450	
+0x13B0D8	nn::os::ThreadLocalStorage::SetValue(unsigned)	mk7dlp:callgraph	0x11120C	
+0x13B0E8	nn::os::ThreadLocalStorage::ThreadLocalStorage()	mk7dlp:callgraph	0x11121C	
+0x13B398	nn::nex::ProductInfo::Unregister(nn::nex::ProductInfo*)	mk7dlp:callgraph	0x17515C	
+0x13B76C	nw::ut::FrameHeap::Create(void*, unsigned, unsigned short)	mk7dlp:bytes	0x210908	
+0x13B800	nw::gfx::res::ResMaterial::Cleanup()	mk7dlp:bytes	0x22B04C	
+0x13B920	nw::gfx::res::ResMesh::Cleanup()	mk7dlp:bytes	0x22F5D4	
+0x13BB1C	nw::lyt::Layout::FreeMemory(void*)	mk7dlp:bytes	0x23D7D0	
+0x13BB38	nw::snd::internal::BankFileReader::BankFileReader(const void*)	mk7dlp:callseq-callee	0x248320	
+0x13BB9C	nw::snd::internal::GroupFileReader::GroupFileReader(const void*)	mk7dlp:bytes	0x248414	
+0x13BC2C	nw::snd::internal::SoundArchiveLoader::LoadWaveSound(unsigned, nw::snd::SoundMemoryAllocatable*, unsigned, unsigned, unsigned)	mk7dlp:bytes	0x2484A8	
+0x13BDC0	nw::snd::internal::SoundArchiveLoader::LoadWaveArchiveImpl(unsigned, unsigned, nw::snd::SoundMemoryAllocatable*, unsigned, unsigned)	mk7dlp:bytes	0x248A84	
+0x13BE80	nw::snd::internal::SoundArchiveLoader::SetWaveArchiveTableInEmbeddedGroupImpl(unsigned, nw::snd::SoundMemoryAllocatable*)	mk7dlp:callseq	0x249370	
+0x13BFB8	nw::snd::internal::SoundArchiveLoader::LoadBank(unsigned, nw::snd::SoundMemoryAllocatable*, unsigned, unsigned)	mk7dlp:callgraph	0x2494A8	
+0x13C1C4	nw::snd::internal::SoundArchiveLoader::LoadImpl(unsigned, nw::snd::SoundMemoryAllocatable*, unsigned, bool)	mk7dlp:callgraph	0x2498B4	
+0x13C2EC	nw::snd::internal::SoundArchiveLoader::SoundArchiveLoader__sub_object()	mk7dlp:bytes	0x249B34	
+0x13C310	nw::snd::internal::WaveSoundFileReader::WaveSoundFileReader(const void*)	mk7dlp:callgraph	0x249E84	
+0x13C52C	nw::font::ResFont::SetDrawBuffer(void*)	mk7dlp:bytes	0x2568B4	
+0x13C908	sead::ListNode::erase_()	mk7dlp:callseq-callee	0x10F35C	
+0x13CF84	nw::snd::SoundArchive::ReadBankInfo(unsigned, nw::snd::SoundArchive::BankInfo*) const	mk7dlp:callseq-callee	0x4A1574	
+0x13CFF0	nw::snd::SoundArchive::ReadSoundInfo(unsigned, nw::snd::SoundArchive::SoundInfo*) const	mk7dlp:callseq-callee	0x4A1660	
+0x13D048	nw::snd::SoundArchive::ReadSequenceSoundInfo(unsigned, nw::snd::SoundArchive::SequenceSoundInfo*) const	mk7dlp:callgraph	0x4A19F4	
+0x13D0A0	nw::snd::SoundArchive::detail_ReadWaveSoundInfo(unsigned, nw::snd::SoundArchive::WaveSoundInfo*) const	mk7dlp:callgraph	0x4A17AC	
+0x13D0F8	nw::snd::SoundArchive::detail_ReadSoundGroupInfo(unsigned, nw::snd::SoundArchive::SoundGroupInfo*) const	mk7dlp:callgraph	0x4A1820	
+0x13D150	nw::snd::internal::WaveSoundFile::FileHeader::GetInfoBlock() const	mk7dlp:bytes	0x49FB1C	
+0x13D1BC	nw::snd::internal::WaveSoundFile::InfoBlockBody::GetWaveIdTable() const	mk7dlp:callgraph	0x49FB88	
+0x13D1C8	nw::snd::internal::WaveSoundFile::InfoBlockBody::GetWaveSoundData(unsigned) const	mk7dlp:bytes	0x49FB94	
+0x13D1FC	nw::snd::internal::WaveSoundFile::WaveSoundData::GetNoteInfo(unsigned) const	mk7dlp:bytes	0x49FBC8	
+0x13D238	nw::snd::internal::WaveSoundFile::NoteInfo::GetAdshrCurve() const	mk7dlp:callgraph	0x49FDF0	
+0x13D274	nw::snd::internal::WaveSoundFile::NoteInfo::GetOriginalKey() const	mk7dlp:bytes	0x49FE2C	
+0x13D29C	nw::snd::internal::WaveSoundFile::NoteInfo::GetSurroundPan() const	mk7dlp:bytes	0x49FE54	
+0x13D2C8	nw::snd::internal::WaveSoundFile::NoteInfo::GetPan() const	mk7dlp:callgraph	0x49FE80	
+0x13D2F0	nw::snd::internal::WaveSoundFile::NoteInfo::GetPitch() const	mk7dlp:callgraph	0x49FEA8	
+0x13D364	nw::snd::internal::WaveSoundFile::NoteInfo::GetVolume() const	mk7dlp:bytes	0x49FF1C	
+0x13D38C	nw::snd::internal::BankFileReader::GetWaveIdTable() const	mk7dlp:callseq-callee	0x4A3190	
+0x13D3A8	nw::snd::internal::GroupFileReader::GetGroupItemExCount() const	mk7dlp:callseq-callee	0x4A0258	
+0x13D3B8	nw::snd::internal::GroupFileReader::ReadGroupItemInfoEx(nw::snd::internal::GroupFile::GroupItemInfoEx*, unsigned) const	mk7dlp:bytes	0x4A0268	
+0x13D3F8	nw::snd::internal::GroupFileReader::ReadGroupItemLocationInfo(nw::snd::internal::GroupItemLocationInfo*, unsigned) const	mk7dlp:bytes	0x4A02A8	
+0x13D44C	nw::snd::internal::WaveSoundFileReader::ReadNoteInfo(nw::snd::internal::WaveSoundNoteInfo*, unsigned, unsigned) const	mk7dlp:bytes	0x4A10F4	
+0x13D520	nw::snd::SoundArchive::GetItemFileId(unsigned) const	mk7dlp:callgraph	0x4A1620	
+0x13D530	nw::snd::internal::SoundArchiveFileReader::ReadWaveSoundInfo(unsigned, nw::snd::SoundArchive::WaveSoundInfo*) const	mk7dlp:bytes	0x4A17B4	
+0x13D59C	nw::snd::internal::SoundArchiveFileReader::ReadSoundGroupInfo(unsigned, nw::snd::SoundArchive::SoundGroupInfo*) const	mk7dlp:bytes	0x4A1828	
+0x13D5E8	nw::snd::internal::SoundArchiveFileReader::ReadSequenceSoundInfo(unsigned, nw::snd::SoundArchive::SequenceSoundInfo*) const	mk7dlp:bytes	0x4A19FC	
+0x13D658	nw::snd::internal::BankFile::FileHeader::GetInfoBlock() const	mk7dlp:bytes	0x4A302C	
+0x13D6C4	nw::snd::internal::BankFile::InfoBlockBody::GetWaveIdTable() const	mk7dlp:callseq-callee	0x4A3198	
+0x13D834	__ARM_common_memcpy4_5	mk7dlp:bytes	0x4CC48C	
+0x13D9E4	nn::os::detail::BlockingQueueBase<nn::os::CriticalSection>::Initialize(unsigned*, unsigned)	mk7dlp:callgraph	0x11230C	
+0x13DDB0	nn::svc::GetThreadPriority(int*, nn::Handle)	mk7dlp:bytes	0x110A30	
+0x13DDCC	CFL_IsAvailable	mk7dlp:bytes	0x11CA48	
+0x13DEDC	CFLi_GetManager()	mk7dlp:callgraph	0x123248	
+0x13E878	nn::os::GetDeviceMemorySize()	mk7dlp:callseq-callee	0x1017C0	
+0x13EE80	nw::ut::HeapBase::Initialize(unsigned, void*, void*, unsigned short)	mk7dlp:bytes	0x210304	
+0x13EEEC	nw::lyt::GroupContainer::AppendGroup(nw::lyt::Group*)	mk7dlp:callgraph	0x2106B4	
+0x13EEFC	nw::ut::internal::LinkListImpl::insert(nw::ut::internal::LinkListImpl::iterator, nw::ut::LinkListNode*)	mk7dlp:bytes	0x2106C4	
+0x13EF20	nw::ut::FrameHeap::FreeByState(unsigned)	mk7dlp:bytes	0x210720	
+0x13EFC4	nw::ut::FrameHeap::RecordState(unsigned)	mk7dlp:bytes	0x2107C4	
+0x13F050	nw::ut::FrameHeap::Alloc(unsigned, int)	mk7dlp:bytes	0x210850	
+0x13F108	nw::gfx::res::ResLookupTable::Cleanup()	mk7dlp:callgraph	0x22B560	
+0x13F13C	nw::gfx::res::ResTextureMapper::Cleanup()	mk7dlp:callgraph	0x22C648	
+0x13F170	nw::gfx::res::ResFragmentShader::Cleanup()	mk7dlp:bytes-fuzzy	0x22CB70	
+0x13F19C	nw::snd::internal::SoundArchiveLoader::LoadIndividualWave(unsigned, unsigned, nw::snd::SoundMemoryAllocatable*, unsigned)	mk7dlp:callgraph	0x248928	
+0x13F310	nw::snd::internal::WaveArchiveFileReader::SetWaveFile(unsigned, const void*)	mk7dlp:callseq-callee	0x24A720	
+0x13F4D8	nw::snd::internal::FrameHeap::NewSection()	mk7dlp:callgraph	0x25299C	
+0x13F5DC	nw::font::ResFontBase::DeleteTextureNames()	mk7dlp:bytes	0x255C54	
+0x13F6E0	sead::IDisposer::~IDisposer()	mk7dlp:callseq-callee	0x2F9E6C	
+0x13FA10	nw::snd::SoundArchive::ReadWaveArchiveInfo(unsigned, nw::snd::SoundArchive::WaveArchiveInfo*) const	mk7dlp:callgraph	0x4A18B4	
+0x13FAC4	nw::snd::internal::WaveArchiveFile::FileHeader::GetFileBlock() const	mk7dlp:bytes	0x4A04BC	
+0x13FAF8	nw::snd::internal::WaveArchiveFile::FileHeader::GetInfoBlock() const	mk7dlp:bytes	0x4A04F0	
+0x13FD14	nw::snd::internal::SoundArchiveFile::WaveSoundInfo::GetChannelPriority() const	mk7dlp:bytes	0x4A0A14	
+0x13FD3C	nw::snd::internal::SoundArchiveFile::WaveSoundInfo::GetIsReleasePriorityFix() const	mk7dlp:bytes	0x4A0A3C	
+0x13FD68	nw::snd::internal::SoundArchiveFile::SequenceSoundInfo::GetBankIds(unsigned*) const	mk7dlp:bytes	0x4A0A88	
+0x13FDC8	nw::snd::internal::SoundArchiveFile::SequenceSoundInfo::GetStartOffset() const	mk7dlp:bytes	0x4A0AE8	
+0x13FDE8	nw::snd::internal::SoundArchiveFile::SequenceSoundInfo::GetChannelPriority() const	mk7dlp:bytes	0x4A0B08	
+0x13FE10	nw::snd::internal::SoundArchiveFile::SequenceSoundInfo::IsReleasePriorityFix() const	mk7dlp:bytes	0x4A0B30	
+0x13FE44	nw::snd::internal::SoundArchiveFile::SoundInfo::GetSoundType() const	mk7dlp:bytes	0x4A0C2C	
+0x13FE74	nw::snd::internal::SoundArchiveFile::SoundInfo::GetWaveSoundInfo() const	mk7dlp:callgraph	0x4A0CF8	
+0x13FE8C	nw::snd::internal::WaveArchiveFileReader::GetWaveFile(unsigned) const	mk7dlp:callseq-callee	0x4A1470	
+0x13FF20	nw::snd::internal::SoundArchiveFileReader::ReadBankInfo(unsigned, nw::snd::SoundArchive::BankInfo*) const	mk7dlp:bytes	0x4A157C	nw::snd::internal::SoundArchiveFileReader::ReadGroupInfo(unsigned, nw::snd::SoundArchive::GroupInfo*) const
+0x13FF48	nw::snd::internal::SoundArchiveFileReader::ReadSoundInfo(unsigned, nw::snd::SoundArchive::SoundInfo*) const	mk7dlp:bytes	0x4A1668	
+0x13FFBC	nw::snd::internal::SoundArchiveFileReader::ReadWaveArchiveInfo(unsigned, nw::snd::SoundArchive::WaveArchiveInfo*) const	mk7dlp:bytes	0x4A18BC	
+0x13FFF8	nw::snd::internal::GroupFile::FileHeader::GetFileBlock() const	mk7dlp:callgraph	0x4A3610	
+0x140060	nw::snd::internal::GroupFile::FileHeader::GetInfoBlock() const	mk7dlp:bytes	0x4A3678	
+0x1400CC	nw::snd::internal::GroupFile::FileHeader::GetInfoExBlock() const	mk7dlp:callgraph	0x4A36E4	
+0x140134	__aeabi_ldiv0	mk7dlp:callgraph	0x1169F0	
+0x1401F0	__aeabi_memset	mk7dlp:callgraph	0x10E2B4	
+0x140200	__aeabi_idiv0	mk7dlp:callgraph	0x10FA34	
+0x140634	nn::os::TransferMemoryBlock::Finalize()	mk7dlp:callseq-callee	0x168E38	
+0x140690	nn::os::GetDeviceMemoryAddress()	mk7dlp:callgraph	0x111264	
+0x1409EC	nn::dsp::CTR::FlushDataCache(unsigned, unsigned)	mk7dlp:bytes	0x169CFC	nn::dsp::CTR::InvalidateDataCache(unsigned, unsigned)
+0x140DE8	nw::ut::FrameHeap::Free(int)	mk7dlp:bytes	0x210370	
+0x140E78	nw::ut::HeapBase::FillFreeMemory(void*, unsigned)	mk7dlp:bytes	0x210400	
+0x140EA4	nw::ut::HeapBase::FillAllocMemory(void*, unsigned)	mk7dlp:bytes	0x21042C	
+0x140EE8	nw::ut::internal::LinkListImpl::erase(nw::ut::internal::LinkListImpl::iterator, nw::ut::internal::LinkListImpl::iterator)	mk7dlp:bytes	0x210630	
+0x140F40	nw::ut::internal::LinkListImpl::erase(nw::ut::LinkListNode*)	mk7dlp:bytes	0x210688	
+0x140F6C	nw::ut::FrameHeap::Destroy()	mk7dlp:callgraph	0x21099C	
+0x140F80	nw::gfx::res::ResFragmentLightingTable::Cleanup()	mk7dlp:bytes-fuzzy	0x22DD18	
+0x14123C	nw::snd::internal::SoundArchiveLoader::LoadWaveArchiveTable(unsigned, nw::snd::SoundMemoryAllocatable*, unsigned)	mk7dlp:callseq	0x248B44	
+0x1413C4	nw::snd::internal::SoundArchiveLoader::ReadFile(unsigned, void*, unsigned, int, unsigned)	mk7dlp:callseq-callee	0x2499D8	
+0x1415C0	nw::snd::internal::DriverCommandManager::GetInstance()	mk7dlp:callseq-callee	0x24A060	
+0x1418BC	nw::snd::internal::DriverCommandManager::DriverCommandManager()	mk7dlp:bytes-fuzzy	0x24A404	
+0x141914	nw::snd::internal::WaveArchiveFileReader::InitializeFileTable()	mk7dlp:callseq-callee	0x24A74C	
+0x141964	nw::snd::internal::FrameHeap::ClearSection()	mk7dlp:callgraph	0x2529F0	
+0x141AFC	nw::snd::internal::FrameHeap::Clear()	mk7dlp:bytes-fuzzy	0x252978	
+0x141B20	nw::snd::internal::FrameHeap::Destroy()	mk7dlp:bytes	0x252B58	
+0x141B5C	nw::font::internal::TextureObject::Set(unsigned, const nw::font::Font*, const void*, unsigned short, unsigned short, unsigned short)	mk7dlp:bytes	0x256B38	
+0x141D28	nw::snd::internal::WaveArchiveFile::FileHeader::GetFileBlockOffset() const	mk7dlp:bytes	0x4A051C	
+0x141D58	nw::snd::internal::SoundArchiveFile::InfoBlockBody::GetBankInfo(unsigned) const	mk7dlp:bytes	0x4A06C4	
+0x141D94	nw::snd::internal::SoundArchiveFile::InfoBlockBody::GetSoundInfo(unsigned) const	mk7dlp:bytes	0x4A0768	
+0x141DD0	nw::snd::internal::SoundArchiveFile::InfoBlockBody::GetSoundGroupInfo(unsigned) const	mk7dlp:bytes	0x4A096C	
+0x141E0C	nw::snd::internal::SoundArchiveFile::InfoBlockBody::GetWaveArchiveInfo(unsigned) const	mk7dlp:bytes	0x4A09A8	
+0x141E48	nw::snd::internal::SoundArchiveFile::WaveArchiveInfo::GetWaveCount() const	mk7dlp:bytes	0x4A0A68	
+0x141E68	nw::snd::internal::SoundArchiveFile::SoundInfo::GetPanMode() const	mk7dlp:bytes	0x4A0BDC	
+0x141E8C	nw::snd::internal::SoundArchiveFile::SoundInfo::GetPanCurve() const	mk7dlp:bytes	0x4A0C00	
+0x141EB8	nw::snd::internal::SoundArchiveFile::SoundInfo::IsFrontBypass() const	mk7dlp:bytes	0x4A0C80	
+0x141EDC	nw::snd::internal::SoundArchiveFile::SoundInfo::GetActorPlayerId() const	mk7dlp:bytes	0x4A0CCC	
+0x141F08	nw::snd::internal::SoundArchiveFile::SoundInfo::GetPlayerPriority() const	mk7dlp:bytes	0x4A0D04	
+0x141F40	nw::snd::internal::WaveArchiveFileReader::GetWaveFileSize(unsigned) const	mk7dlp:bytes	0x4A14B8	
+0x141F98	nw::snd::internal::SoundArchiveFileReader::ReadFileInfo(unsigned, nw::snd::SoundArchive::FileInfo*, int) const	mk7dlp:callseq	0x4A15B0	
+0x14200C	nw::snd::SoundArchive::detail_GetWaveArchiveIdTable(unsigned) const	mk7dlp:callgraph	0x4A18F8	
+0x142014	nw::snd::internal::SoundArchiveFileReader::GetWaveArchiveIdTable(unsigned) const	mk7dlp:bytes	0x4A1900	
+0x142108	nw::snd::internal::Util::BitFlag::GetValue(unsigned*, unsigned) const	mk7dlp:bytes	0x4A1ACC	
+0x142184	glDeleteTextures	mk7dlp:callgraph	0x51BE0C	
+0x1426DC	nw::font::ResFontBase::GenTextureNames()	mk7dlp:bytes	0x52197C	
+0x1428C4	sead::MessageQueue::pop(sead::MessageQueue::BlockType)	mk7dlp:bytes	0x534478	
+0x1428F4	nn::os::detail::BlockingQueueBase<nn::os::CriticalSection>::Dequeue()	mk7dlp:callgraph	0x5344A8	
+0x1429BC	nw::snd::internal::TaskManager::CancelWaitTask()	mk7dlp:bytes	0x534570	
+0x1429D0	nn::os::detail::InterCoreBlockingQueueBase<nn::os::InterCoreCriticalSection>::Enqueue(unsigned)	mk7dlp:callgraph	0x534974	
+0x14316C	nn::ac::CTR::IsInitialized()	mk7dlp:bytes	0x163818	nn::friends::CTR::detail::IsInitialized()
+0x1436D0	nn::dsp::CTR::DSP::FlushDataCache(nn::Handle, unsigned, unsigned)	mk7dlp:callgraph	0x16A170	
+0x14375C	nn::crypto::ShaBlock512BitContext::AddPadding()	mk7dlp:bytes-fuzzy	0x208B5C	
+0x14387C	nw::ut::HeapBase::FindContainHeap(nw::ut::LinkList<nw::ut::HeapBase, (long)4>*, const void*)	mk7dlp:bytes	0x210470	
+0x1438D4	nw::ut::HeapBase::Finalize()	mk7dlp:bytes	0x2104C8	
+0x143A90	nw::snd::internal::WaveArchiveFile::FileHeader::GetInfoBlockOffset() const	mk7dlp:bytes	0x4A054C	
+0x143AB8	nw::snd::internal::SoundArchiveFile::InfoBlockBody::GetFileInfo(unsigned) const	mk7dlp:bytes	0x4A0700	
+0x143AE4	nw::snd::internal::SoundArchiveFile::InfoBlockBody::GetSoundGroupInfoReferenceTable() const	mk7dlp:callgraph	0x4A0A08	
+0x143AF0	nw::snd::internal::SoundArchiveFile::FileInfo::GetExternalFileInfo() const	mk7dlp:bytes	0x4A0B64	
+0x143B1C	nw::snd::internal::SoundArchiveFile::FileInfo::GetFileLocationType() const	mk7dlp:bytes	0x4A0B90	
+0x143B40	nw::snd::internal::SoundArchiveFile::FileInfo::GetInternalFileInfo() const	mk7dlp:bytes	0x4A0BB4	
+0x143B68	nngxGetPhysicalAddr	mk7dlp:callgraph	0x5213F0	
+0x143B6C	nw::snd::internal::TaskManager::Finalize()	mk7dlp:callseq-callee	0x534648	
+0x143B88	nw::snd::internal::DriverCommandManager::~DriverCommandManager()	mk7dlp:bytes	0x534A68	
+0x14892C	nn::math::ARMv6::VEC3TransformAsm(nn::math::VEC3*, const nn::math::MTX33*, const nn::math::VEC3*)	mk7dlp:callgraph	0x1130FC	
+0x148960	nn::math::ARMv6::MTX34MultAsm(nn::math::MTX34*, const nn::math::MTX34*, const nn::math::MTX34*)	mk7dlp:callgraph	0x113130	
+0x148A44	nn::math::ARMv6::MTX34MultScaleAsm(nn::math::MTX34*, const nn::math::MTX34*, const nn::math::VEC3*)	mk7dlp:bytes	0x113214	
+0x148A78	nn::math::ARMv6::MTX34InverseAsm(nn::math::MTX34*, const nn::math::MTX34*)	mk7dlp:bytes	0x1132AC	
+0x148B94	nn::math::ARMv6::MTX34InvTransposeAsm(nn::math::MTX34*, const nn::math::MTX34*)	mk7dlp:bytes	0x1133C8	
+0x148C90	nn::math::ARMv6::MTX34MultTranslateAsm(nn::math::MTX34*, const nn::math::MTX34*, const nn::math::VEC3*)	mk7dlp:bytes	0x1134C4	
+0x148CC4	nn::math::ARMv6::VEC3TransformAsm(nn::math::VEC3*, const nn::math::MTX34*, const nn::math::VEC3*)	mk7dlp:callgraph	0x1134F8	
+0x148D00	nn::math::ARMv6::MTX34TransposeAsm(nn::math::MTX34*, const nn::math::MTX34*)	mk7dlp:bytes	0x113534	
+0x148D44	nn::math::ARMv6::MTX44CopyAsm(nn::math::MTX44*, const nn::math::MTX44*)	mk7dlp:bytes	0x113578	
+0x148D58	nn::math::ARMv6::MTX34ToMTX33Asm(nn::math::MTX33*, const nn::math::MTX34*)	mk7dlp:bytes	0x11358C	
+0x148EA8	nn::gr::CTR::CopyMtx34WithHeader(float*, const nn::math::MTX34*, unsigned)	mk7dlp:callgraph	0x1135DC	
+0x148EE4	nn::gr::CTR::CopyMtx44WithHeader(float*, const nn::math::MTX44*, unsigned)	mk7dlp:callgraph	0x113618	
+0x14E1C0	nn::os::<unnamed>::WaitMultipleImplWithAlloca(nn::os::<unnamed>::WaitMultipleObjectsArgs*, int, nn::Result(*)(nn::os::<unnamed>::WaitMultipleObjectsArgs*, nn::Handle*))	mk7dlp:bytes	0x113664	
+0x14E1F0	nw::gfx::internal::NWCopyVec4Reverse(float*, const float*)	mk7dlp:bytes	0x113690	
+0x14E208	nw::gfx::internal::NWCopyVec4WithHeader(float*, const float*, unsigned)	mk7dlp:bytes	0x1136A8	
+0x14E224	nw::gfx::internal::NWCopyMtx24Reverse(float*, const float*)	mk7dlp:bytes	0x1136C4	
+0x14E24C	nw::gfx::internal::NWCopyMtx24WithHeader(float*, const float*, unsigned)	mk7dlp:bytes	0x1136EC	
+0x14E278	nw::gfx::internal::NWCopyMtx34Reverse(float*, const float*)	mk7dlp:bytes	0x113718	
+0x14E2B0	nw::gfx::internal::NWCopyMtx34WithHeader(float*, const float*, unsigned)	mk7dlp:callgraph	0x113750	
+0x14E2EC	nw::gfx::internal::NWCopyMtx44Reverse(float*, const float*)	mk7dlp:bytes	0x11378C	
+0x14E334	nw::gfx::internal::NWCopyMtx44WithHeader(float*, const float*, unsigned)	mk7dlp:callgraph	0x1137D4	
+0x14E380	nw::gfx::internal::NWCopyVec3Reverse(float*, const float*)	mk7dlp:bytes	0x113820	
+0x14E39C	nw::gfx::internal::NWCopyVec3WithHeader(float*, const float*, unsigned)	mk7dlp:bytes	0x11383C	
+0x14E3BC	nw::gfx::internal::NWCopyMtx23Reverse(float*, const float*)	mk7dlp:bytes	0x11385C	
+0x14E3E8	nw::gfx::internal::NWCopyMtx23WithHeader(float*, const float*, unsigned)	mk7dlp:bytes	0x113888	
+0x14E418	nw::gfx::internal::NWCopyMtx33Reverse(float*, const float*)	mk7dlp:bytes	0x1138B8	
+0x14E454	nw::gfx::internal::NWCopyMtx33WithHeader(float*, const float*, unsigned)	mk7dlp:bytes	0x1138F4	
+0x14E494	nw::gfx::internal::NWCopyMtx43Reverse(float*, const float*)	mk7dlp:bytes	0x113934	
+0x14E4E0	nw::gfx::internal::NWCopyMtx43WithHeader(float*, const float*, unsigned)	mk7dlp:bytes	0x113980	
+0x14E530	nw::gfx::internal::NWCopyVec2Reverse(float*, const float*)	mk7dlp:bytes	0x1139D0	
+0x14E54C	nw::gfx::internal::NWCopyVec2WithHeader(float*, const float*, unsigned)	mk7dlp:bytes	0x1139EC	
+0x14E56C	nw::gfx::internal::NWCopyMtx22Reverse(float*, const float*)	mk7dlp:bytes	0x113A0C	
+0x14E598	nw::gfx::internal::NWCopyMtx22WithHeader(float*, const float*, unsigned)	mk7dlp:bytes	0x113A38	
+0x14E5C8	nw::gfx::internal::NWCopyMtx32Reverse(float*, const float*)	mk7dlp:bytes	0x113A68	
+0x14E604	nw::gfx::internal::NWCopyMtx32WithHeader(float*, const float*, unsigned)	mk7dlp:bytes	0x113AA4	
+0x14E644	nw::gfx::internal::NWCopyMtx42Reverse(float*, const float*)	mk7dlp:bytes	0x113AE4	
+0x14E690	nw::gfx::internal::NWCopyMtx42WithHeader(float*, const float*, unsigned)	mk7dlp:bytes	0x113B30	
+0x14E6E0	nw::gfx::internal::NWCopyVec1Reverse(float*, const float*)	mk7dlp:bytes	0x113B80	
+0x14E6FC	nw::gfx::internal::NWCopyVec1WithHeader(float*, const float*, unsigned)	mk7dlp:bytes	0x113B9C	
+0x14E71C	nw::gfx::internal::NWCopyMtx21Reverse(float*, const float*)	mk7dlp:bytes	0x113BBC	
+0x14E748	nw::gfx::internal::NWCopyMtx21WithHeader(float*, const float*, unsigned)	mk7dlp:bytes	0x113BE8	
+0x14E778	nw::gfx::internal::NWCopyMtx31Reverse(float*, const float*)	mk7dlp:bytes	0x113C18	
+0x14E7B4	nw::gfx::internal::NWCopyMtx31WithHeader(float*, const float*, unsigned)	mk7dlp:bytes	0x113C54	
+0x14E7F4	nw::gfx::internal::NWCopyMtx41Reverse(float*, const float*)	mk7dlp:bytes	0x113C94	
+0x14E840	nw::gfx::internal::NWCopyMtx41WithHeader(float*, const float*, unsigned)	mk7dlp:bytes	0x113CE0	
+0x14E890	nw::gfx::internal::FastWordCopyAsm_2(unsigned*, unsigned*)	mk7dlp:bytes	0x113D30	
+0x14E8AC	nw::gfx::internal::FastWordCopyAsm_4(unsigned*, unsigned*)	mk7dlp:bytes	0x113D4C	
+0x14E8C8	nw::gfx::internal::FastWordCopyAsm_6(unsigned*, unsigned*)	mk7dlp:bytes	0x113D68	
+0x14E8E4	nw::gfx::internal::FastWordCopyAsm_8(unsigned*, unsigned*)	mk7dlp:bytes	0x113D84	
+0x14E904	nw::gfx::internal::FastWordCopyAsm_10(unsigned*, unsigned*)	mk7dlp:bytes	0x113DA4	
+0x14E934	nw::gfx::internal::FastWordCopyAsm_12(unsigned*, unsigned*)	mk7dlp:bytes	0x113DD4	
+0x14E964	nw::gfx::internal::FastWordCopyAsm_14(unsigned*, unsigned*)	mk7dlp:bytes	0x113E04	
+0x14E994	nw::gfx::internal::FastWordCopyAsm_16(unsigned*, unsigned*)	mk7dlp:bytes	0x113E34	
+0x14E9C8	nw::gfx::internal::FastWordCopyAsm_18(unsigned*, unsigned*)	mk7dlp:bytes	0x113E68	
+0x14EA0C	nw::gfx::internal::FastWordCopyAsm_20(unsigned*, unsigned*)	mk7dlp:bytes	0x113EAC	
+0x14EA50	nw::gfx::internal::FastWordCopyAsm_22(unsigned*, unsigned*)	mk7dlp:bytes	0x113EF0	
+0x14EA94	nw::gfx::internal::FastWordCopyAsm_24(unsigned*, unsigned*)	mk7dlp:bytes	0x113F34	
+0x14EADC	nw::gfx::internal::FastWordCopyAsm_26(unsigned*, unsigned*)	mk7dlp:bytes	0x113F7C	
+0x14EB34	nw::gfx::internal::FastWordCopyAsm_28(unsigned*, unsigned*)	mk7dlp:bytes	0x113FD4	
+0x14EB8C	nw::gfx::internal::FastWordCopyAsm_30(unsigned*, unsigned*)	mk7dlp:bytes	0x11402C	
+0x14EBE4	nw::gfx::internal::FastWordCopyAsm_32(unsigned*, unsigned*)	mk7dlp:bytes	0x114084	
+0x14EC40	nw::gfx::internal::FastWordCopyAsm_34(unsigned*, unsigned*)	mk7dlp:bytes	0x1140E0	
+0x14ECAC	nw::gfx::internal::FastWordCopyAsm_36(unsigned*, unsigned*)	mk7dlp:bytes	0x11414C	
+0x14ED18	nw::gfx::internal::FastWordCopyAsm_38(unsigned*, unsigned*)	mk7dlp:bytes	0x1141B8	
+0x14ED84	nw::gfx::internal::FastWordCopyAsm_78(unsigned*, unsigned*)	mk7dlp:bytes	0x114224	
+0x14EE54	_ZN2nw3lyt5local36_GLOBAL__N__12_lyt_Pane_cpp_9cfdc53416MultMatrixSRTxSTEPU11__writeonlyN2nn4math5MTX34EPKS5_PKNS4_4VEC2EPKNS4_4VEC3E	mk7dlp:bytes	0x1142F4	
+0x14EEB0	sead::Matrix33CalcCtr<float>::copy(nn::math::MTX33&, const nn::math::MTX34&)	mk7dlp:bytes	0x1143C8	
+0x14EEC4	sead::Matrix34CalcCtr<float>::copy(nn::math::MTX34&, const nn::math::MTX34&)	mk7dlp:callgraph	0x1143DC	
+0x14EED0	sead::Matrix34CalcCtr<float>::copy(nn::math::MTX34&, const nn::math::MTX33&, const nn::math::VEC3&)	mk7dlp:bytes	0x1143E8	
+0x14EF1C	sead::Matrix44CalcCtr<float>::copy(nn::math::MTX44&, const nn::math::MTX33&, const nn::math::VEC3&, const nn::math::VEC4&)	mk7dlp:bytes	0x114434	
+0x14EF40	sead::Matrix22CalcCtr<float>::multiply(nn::math::MTX22&, const nn::math::MTX22&, const nn::math::MTX22&)	mk7dlp:bytes	0x114458	
+0x14EF74	sead::Matrix33CalcCtr<float>::inverse(nn::math::MTX33&, const nn::math::MTX33&)	mk7dlp:bytes	0x11448C	
+0x14F078	sead::Matrix33CalcCtr<float>::inverseTranspose(nn::math::MTX33&, const nn::math::MTX33&)	mk7dlp:bytes	0x114590	
+0x14F21C	sead::Matrix33CalcCtr<float>::transposeTo(nn::math::MTX33&, const nn::math::MTX33&)	mk7dlp:bytes	0x114734	
+0x14F248	sead::Matrix33CalcCtr<float>::makeZero(nn::math::MTX33&)	mk7dlp:bytes	0x114760	
+0x14F264	sead::Matrix34CalcCtr<float>::inverse(nn::math::MTX34&, const nn::math::MTX34&)	mk7dlp:bytes	0x11477C	
+0x14F3AC	sead::Matrix34CalcCtr<float>::inverseTranspose(nn::math::MTX34&, const nn::math::MTX34&)	mk7dlp:bytes	0x1148C4	
+0x14F4D4	sead::Matrix34CalcCtr<float>::multiply(nn::math::MTX34&, const nn::math::MTX34&, const nn::math::MTX34&)	mk7dlp:callseq-callee	0x1149EC	
+0x14F5B8	sead::Matrix34CalcCtr<float>::transposeTo(nn::math::MTX34&, const nn::math::MTX34&)	mk7dlp:bytes	0x114AD0	
+0x14F5F4	sead::Matrix34CalcCtr<float>::makeZero(nn::math::MTX34&)	mk7dlp:bytes	0x114B0C	
+0x14F614	sead::Matrix34CalcCtr<float>::makeIdentity(nn::math::MTX34&)	mk7dlp:bytes	0x114B2C	
+0x14F638	sead::Matrix44CalcCtr<float>::multiply(nn::math::MTX44&, const nn::math::MTX44&, const nn::math::MTX44&)	mk7dlp:bytes	0x114B50	
+0x14F768	sead::Matrix44CalcCtr<float>::transpose(nn::math::MTX44&)	mk7dlp:bytes	0x114C80	
+0x14F7A0	sead::Matrix44CalcCtr<float>::transposeTo(nn::math::MTX44&, const nn::math::MTX44&)	mk7dlp:bytes	0x114CB8	
+0x14F7EC	sead::Matrix44CalcCtr<float>::makeZero(nn::math::MTX44&)	mk7dlp:bytes	0x114D04	
+0x14F814	sead::Matrix44CalcCtr<float>::makeIdentity(nn::math::MTX44&)	mk7dlp:bytes	0x114D2C	
+0x14F840	sead::QuatCalcCtr<float>::makeVectorRotation(nn::math::QUAT&, const nn::math::VEC3&, const nn::math::VEC3&)	mk7dlp:bytes	0x114D58	
+0x14F8EC	sead::Vector2CalcCtr<float>::normalize(nn::math::VEC2&)	mk7dlp:bytes	0x114E04	
+0x14F92C	sead::Vector3CalcCtr<float>::add(nn::math::VEC3&, const nn::math::VEC3&, const nn::math::VEC3&)	mk7dlp:bytes	0x114E44	
+0x14F948	sead::Vector3CalcCtr<float>::sub(nn::math::VEC3&, const nn::math::VEC3&, const nn::math::VEC3&)	mk7dlp:bytes	0x114E60	
+0x14F964	sead::Vector3CalcCtr<float>::mul(nn::math::VEC3&, const nn::math::VEC3&, const nn::math::VEC3&)	mk7dlp:bytes	0x114E7C	
+0x14F980	sead::Vector3CalcCtr<float>::mul(nn::math::VEC3&, const nn::math::MTX34&, const nn::math::VEC3&)	mk7dlp:callgraph	0x114E98	
+0x14F9F0	sead::Vector3CalcCtr<float>::rotate(nn::math::VEC3&, const nn::math::MTX34&, const nn::math::VEC3&)	mk7dlp:bytes	0x114F08	
+0x14FA2C	sead::Vector3CalcCtr<float>::div(nn::math::VEC3&, const nn::math::VEC3&, const nn::math::VEC3&)	mk7dlp:bytes	0x114F44	
+0x14FA48	sead::Vector3CalcCtr<float>::multScalar(nn::math::VEC3&, const nn::math::VEC3&, float)	mk7dlp:bytes	0x114F60	
+0x14FA60	sead::Vector3CalcCtr<float>::divScalar(nn::math::VEC3&, const nn::math::VEC3&, float)	mk7dlp:bytes	0x114F78	
+0x14FA84	sead::Vector3CalcCtr<float>::multScalarAdd(nn::math::VEC3&, float, const nn::math::VEC3&, const nn::math::VEC3&)	mk7dlp:bytes	0x114F9C	
+0x14FAA0	sead::Vector3CalcCtr<float>::normalize(nn::math::VEC3&)	mk7dlp:bytes	0x114FB8	
+0x14FAE8	sead::Vector3CalcCtr<float>::cross(nn::math::VEC3&, const nn::math::VEC3&, const nn::math::VEC3&)	mk7dlp:bytes	0x115000	
+0x14FB10	sead::MathCtr<float>::sinCosIdx(float*, float*, unsigned)	mk7dlp:bytes	0x114344	
+0x14FB50	sead::MathCtr<float>::tanIdx(unsigned)	mk7dlp:bytes	0x114384	
+0x14FB90	nn::svc::CreateMutex(nn::Handle*, bool)	mk7dlp:bytes	0x1150EC	
+0x14FBA8	nn::svc::DuplicateHandle(nn::Handle*, nn::Handle)	mk7dlp:bytes	0x115104	
+0x1503B0	sead::ptcl::PtclEditor::calc()	mk7dlp:callgraph	0x2E6238	
+0x1509E0	nn::nex::Gathering::Gathering()	mk7dlp:callgraph	0x1F7A38	
+0x150E98	sead::GraphicsFileResNw4c::GraphicsFileResNw4c()	mk7dlp:callgraph	0x2E2428	
+0x150F90	strncmp	mk7dlp:callgraph	0x116854	
+0x151080	strlcpy	mk7dlp:callgraph	0x1164FC	
+0x151174	strncpy	mk7dlp:bytes	0x116934	
+0x1512E0	__btod_div_common	mk7dlp:bytes-fuzzy	0x11AE5C	
+0x151628	_e2d	mk7dlp:bytes	0x11B1A4	
+0x151684	_e2e	mk7dlp:bytes-fuzzy	0x11B200	
+0x1517C0	__btod_mult_common	mk7dlp:bytes-fuzzy	0x11B39C	
+0x152F74	CFL_DrawXlu	mk7dlp:bytes	0x11C0B0	
+0x152FC4	CFL_GetAdditionalInfo	mk7dlp:bytes	0x11C178	
+0x1535D0	CFL_InitNetPacket	mk7dlp:callseq	0x11C90C	
+0x153658	CFL_InitRes	mk7dlp:callseq	0x11C988	
+0x15376C	CFL_IsAvailableOfficialData	mk7dlp:bytes	0x11CA84	
+0x153D0C	CFL_NetInfo2StoreData	mk7dlp:callseq	0x11CCB4	
+0x15401C	CFL_SetReceivedPacket	mk7dlp:bytes	0x11D218	
+0x1540B0	CFL_SetToNetPacket	mk7dlp:callseq	0x11D2C0	
+0x1541F0	CFLi_AddRecentDBCharInfo	mk7dlp:callseq	0x11D428	
+0x15421C	CFLi_AddRecentDBData	mk7dlp:callseq	0x11D454	
+0x1544AC	CFLi_BootLoadDatabaseAsync	mk7dlp:callseq	0x11D80C	
+0x1548FC	CFLi_GetAdditionalInfo	mk7dlp:callgraph	0x11E490	
+0x154D0C	CFLi_GetDefaultMiiDataCore	mk7dlp:bytes	0x11E898	
+0x154D78	CFLi_GetDeviceInterfaceFile	mk7dlp:callgraph	0x11E904	
+0x154DB8	CFLi_GetFacelineRGBA8	mk7dlp:bytes	0x11E96C	
+0x154DD0	CFLi_GetIconMtx	mk7dlp:callseq	0x11E9B8	
+0x1554C0	CFLi_InitializeDevice	mk7dlp:bytes	0x11F5F8	
+0x155564	CFLi_InitializeResourceDevice	mk7dlp:bytes	0x11F698	
+0x155850	CFLi_IsValidStoreDataInner	mk7dlp:bytes-fuzzy	0x11F988	
+0x1558CC	CFLi_LoadBackupedDatabase	mk7dlp:callseq	0x11FA04	
+0x155CBC	CFLi_PackMiiDataCore	mk7dlp:callgraph	0x11FDB8	
+0x156438	CFLi_PickupCharInfo	mk7dlp:callgraph	0x120444	
+0x1567B0	CFLi_ReplaceProhibitedCharInfo	mk7dlp:callgraph	0x120764	
+0x1569B0	CFLi_SetIconDrawDoneCallback	mk7dlp:bytes	0x120AF4	
+0x1569D0	CFLi_SetModelDrawDoneCallback	mk7dlp:bytes	0x120B14	
+0x1569E4	CFLi_SetReceivedPacketAsync	mk7dlp:callgraph	0x120B28	
+0x156D70	CFLi_SetWorking	mk7dlp:bytes	0x120ED4	
+0x156D84	CFLi_SwapRFLMiiDataEndian	mk7dlp:callgraph	0x120EE8	
+0x15723C	CFLi_UnpackRFLMiiDataCore	mk7dlp:callgraph	0x121394	
+0x158E20	std::ctype_byname<char>::_C_get_mask_table(const char*)	mk7dlp:callseq	0x4C4990	
+0x159D9C	LMS_GetText	mk7dlp:bytes	0x121E34	
+0x175AD8	CFLi_GetStringLength8(const char*)	mk7dlp:bytes-fuzzy	0x128A60	
+0x1C9E14	nn::nex::DataStoreKeyValue::~DataStoreKeyValue()	mk7dlp:bytes	0x1B0918	
+0x24F380	nn::nex::UdsSetting::~UdsSetting__deallocating()	mk7dlp:bytes	0x1708D8	
+0x256678	nn::nex::ChangeDupSetOperation::~ChangeDupSetOperation()	mk7dlp:bytes	0x1C9884	nn::nex::CreateMasterOperation::~CreateMasterOperation() | nn::nex::FaultRecoveryOperation::~FaultRecoveryOperation()
+0x2E98F0	nn::nex::DORef::~DORef()	mk7dlp:callgraph	0x1E69F0	
+0x2F7E98	_ll_udiv10	mk7dlp:bytes	0x116A00	
+0x2F83C4	__rt_memclr_w	mk7dlp:bytes-fuzzy	0x10E7A8	
+0x2F85E4	__rt_memcpy	mk7dlp:bytes	0x108A94	
+0x2F88A8	__aeabi_uidivmod	mk7dlp:bytes	0x110A88	
+0x2F8CE0	__ARM_fpclassify	mk7dlp:bytes	0x4CC514	
+0x2F9FD0	__aeabi_idivmod	mk7dlp:bytes	0x108B1C	
+0x2FA8D4	strcmp	mk7dlp:bytes-fuzzy	0x100490	
+0x2FA998	strlen	mk7dlp:callgraph	0x105570	
+0x2FBC00	__rt_memcpy_w	mk7dlp:bytes	0x10AE6C	
+0x301278	__rt_memclr	mk7dlp:bytes-fuzzy	0x110A48	
+0x307F20	__ARM_common_memcpy4_8	mk7dlp:bytes	0x4CC4B4	
+0x30F5FC	sead::BufferedSafeStringBase<char>::format(const char*, ...)	mk7dlp:callgraph	0x2E3698	
+0x31C4E0	__rt_memmove	mk7dlp:bytes	0x11816C	
+0x349A80	nn::gr::CTR::FragmentLight::Source::Source()	mk7dlp:bytes	0x166D98	
+0x349BE8	nn::gr::CTR::BindSymbolVSBool::BindSymbolVSBool()	mk7dlp:bytes	0x166F6C	
+0x349C0C	nn::gr::CTR::BindSymbolVSFloat::BindSymbolVSFloat()	mk7dlp:bytes	0x166F90	
+0x349E64	nn::gr::CTR::Shader::SetupBinary(const void*, int, int)	mk7dlp:callgraph	0x16714C	
+0x34AD70	nn::gr::CTR::Vertex::EnableAttrAsArray(const nn::gr::CTR::BindSymbolVSInput&, unsigned, PicaDataVertexAttrType)	mk7dlp:callgraph	0x168050	
+0x34B0AC	nn::gr::CTR::Vertex::LoadArray::DisableAll()	mk7dlp:callgraph	0x1682E4	
+0x34BF00	nn::os::WaitObject::WaitMultiple(int*, nn::os::WaitObject**, int, bool, long long)	mk7dlp:callseq	0x16884C	
+0x34C024	sead::CriticalSection::tryLock()	mk7dlp:callseq-callee	0x2DEAE0	
+0x34C228	nn::os::ThreadLocalStorage::~ThreadLocalStorage()	mk7dlp:callgraph	0x168B5C	
+0x34C904	nn::os::detail::FreeToMemoryBlockSpace(nn::os::MemoryBlockBase*)	mk7dlp:callgraph	0x1694D4	
+0x34C914	nn::os::detail::ConvertLibraryToSvcPriority(int)	mk7dlp:callgraph	0x1694F4	
+0x34C950	nn::os::detail::AllocateFromMemoryBlockSpace(nn::os::MemoryBlockBase*, unsigned)	mk7dlp:bytes	0x169538	
+0x34C96C	nn::os::detail::AllocateFromSharedMemorySpace(nn::os::MemoryBlockBase*, unsigned)	mk7dlp:bytes	0x169554	
+0x34F778	nn::cec::CTR::detail::InitializeCecControl()	mk7dlp:bytes	0x101904	
+0x350B70	nn::os::CriticalSection::ScopedLock::~ScopedLock()	mk7dlp:callseq-callee	0x105798	
+0x350CDC	nn::cfg::CTR::GetUserName(nn::cfg::CTR::UserName*)	mk7dlp:callseq-callee	0x169620	
+0x351654	nn::dsp::CTR::ClearSleepWakeUpCallback(void(*)(), void(*)(), void(*)())	mk7dlp:bytes	0x169FE8	
+0x3516A4	nn::dsp::CTR::RegisterSleepWakeUpCallback(void(*)(), void(*)(), void(*)())	mk7dlp:callseq-callee	0x16A038	
+0x3523E0	nn::fnd::UnitHeapBase::FreeV(void*)	mk7dlp:bytes	0x16A55C	nn::fnd::UnitHeapTemplate<nn::os::LockPolicy::NoLock>::FreeV(void*)
+0x3537EC	nn::hid::CTR::GyroscopeReader::~GyroscopeReader()	mk7dlp:bytes	0x16C3F0	
+0x3538B8	nn::hid::CTR::AnalogStickClamper::ClampValueOfClamp()	mk7dlp:bytes	0x16C4B8	
+0x3542A8	nn::hid::CTR::AccelerometerReader::~AccelerometerReader()	mk7dlp:callgraph	0x16CED4	
+0x3545F0	nn::hid::CTR::detail::Ipc::DisableGyroscopeLow()	mk7dlp:callgraph	0x16D204	
+0x354E58	nn::nex::ByteStream::operator <<(const bool&)	mk7dlp:bytes	0x16DEC4	
+0x355224	nn::nex::StationURL::SetURLType(nn::nex::StationURL::URLType)	mk7dlp:bytes	0x16ECEC	
+0x3557A4	nn::nex::StationURL::SetInetAddress(const nn::nex::InetAddress*)	mk7dlp:callseq-callee	0x16F230	
+0x355C54	nn::nex::StationURL::Parse()	mk7dlp:callgraph	0x16F700	
+0x355E38	nn::nex::StationURL::Format()	mk7dlp:callgraph	0x16F8E8	
+0x356344	nn::nex::StationURL::SetURL(const wchar_t*)	mk7dlp:callgraph	0x16FCEC	
+0x35649C	nn::nex::StationURL::StationURL(const nn::nex::StationURL&)	mk7dlp:callseq-callee	0x16FEB0	
+0x356524	nn::nex::StationURL::StationURL()	mk7dlp:callseq-callee	0x16FF1C	
+0x3565E8	nn::nex::StationURL::~StationURL()	mk7dlp:callseq-callee	0x16FF94	
+0x35684C	nn::nex::StationURL::operator =(const nn::nex::String&)	mk7dlp:bytes	0x170158	
+0x357284	nn::nex::CallContext::CallContext()	mk7dlp:callseq-callee	0x171BC8	
+0x3576F8	nn::nex::InetAddress::SetAddress(const wchar_t*)	mk7dlp:callgraph	0x172AF0	
+0x35787C	nn::nex::InetAddress::InetAddress(const nn::nex::InetAddress&)	mk7dlp:bytes	0x172C70	
+0x35789C	nn::nex::InetAddress::InetAddress(unsigned, unsigned short)	mk7dlp:bytes	0x172C90	
+0x3578CC	nn::nex::InetAddress::InetAddress()	mk7dlp:bytes	0x172CC0	
+0x35790C	nn::nex::InetAddress::operator =(const nn::nex::InetAddress&)	mk7dlp:bytes	0x172CEC	
+0x35896C	nn::nex::PRUDPStream::GetURLType()	mk7dlp:bytes	0x172F8C	
+0x35B408	nn::nex::PacketQueue::Purge()	mk7dlp:bytes	0x174C0C	
+0x35BA80	nn::nex::StreamTable::FindStream(wchar_t*)	mk7dlp:bytes-fuzzy	0x1758BC	
+0x35BAE0	nn::nex::StreamTable::StreamTable()	mk7dlp:bytes	0x17591C	nn::nex::ParticipationManager::ParticipationManager()
+0x35BF84	nn::nex::Time::GetTime()	mk7dlp:callgraph	0x1E62C8	
+0x35CDB8	nn::nex::HMACChecksum::HMACChecksum()	mk7dlp:callseq-callee	0x17BE44	
+0x35CE48	nn::nex::HMACChecksum::~HMACChecksum()	mk7dlp:callseq-callee	0x1D4700	
+0x35D0C8	nn::nex::JobDeriveKey::~JobDeriveKey__deallocating()	mk7dlp:callseq	0x17C144	
+0x3608D8	nn::nex::SecureStream::GetURLType()	mk7dlp:bytes	0x17D01C	
+0x360A78	nn::nex::SecureStream::ResponsibleForURL(const nn::nex::StationURL*)	mk7dlp:bytes	0x17D090	
+0x360AA4	nn::nex::SecureStream::FilterIncomingConnection(nn::nex::Buffer*, nn::nex::Buffer*, nn::nex::EndPoint*)	mk7dlp:callseq	0x17D0BC	
+0x360E98	nn::nex::SecureStream::~SecureStream__deallocating()	mk7dlp:bytes	0x17D314	
+0x361314	nn::nex::StringStream::TestFreeRoom(unsigned)	mk7dlp:bytes-fuzzy	0x17F4D8	
+0x361408	nn::nex::StringStream::StringStream()	mk7dlp:bytes	0x17F59C	
+0x3614C4	nn::nex::StringStream::operator <<(const void*)	mk7dlp:bytes-fuzzy	0x17F60C	
+0x36153C	nn::nex::operator <<(nn::nex::StringStream&, const nn::nex::StationURL&)	mk7dlp:bytes	0x17F68C	
+0x3618AC	nn::nex::_Type_string::Add(nn::nex::Message*, const nn::nex::String&)	mk7dlp:bytes	0x180B1C	
+0x3619AC	nn::nex::_Type_string::Extract(nn::nex::Message*, nn::nex::String*)	mk7dlp:callgraph	0x180CC4	
+0x361DDC	nn::nex::InterfaceInfo::Trace(unsigned long long)	mk7dlp:bytes-fuzzy	0x1821F8	
+0x361FA0	nn::nex::MemoryManager::Allocate(unsigned)	mk7dlp:callgraph	0x1823A4	
+0x36208C	nn::nex::NATProperties::~NATProperties()	mk7dlp:bytes	0x182560	
+0x369094	nn::nex::ProfilingUnit::Log()	mk7dlp:bytes-fuzzy	0x185A08	
+0x36ACD8	nn::nex::RC4Encryption::Decrypt(const nn::nex::Buffer&, nn::nex::Buffer*)	mk7dlp:bytes	0x1872F4	
+0x36AD28	nn::nex::RC4Encryption::Encrypt(const nn::nex::Buffer&, nn::nex::Buffer*)	mk7dlp:bytes	0x18733C	
+0x36AD58	nn::nex::RC4Encryption::RC4Encryption()	mk7dlp:callseq-callee	0x18736C	
+0x36AE8C	nn::nex::RC4Encryption::~RC4Encryption()	mk7dlp:callseq-callee	0x18744C	
+0x36B24C	nn::nex::RootTransport::GetNextPortNumber()	mk7dlp:bytes	0x187918	
+0x36EA74	nn::nex::SystemSetting::GetList()	mk7dlp:callgraph	0x18AC30	
+0x36EAE8	nn::nex::SystemSetting::SystemSetting(const wchar_t*, unsigned)	mk7dlp:bytes	0x18ACA0	
+0x36EB88	nn::nex::SystemSetting::~SystemSetting()	mk7dlp:bytes	0x18AD10	
+0x36EC1C	nn::nex::TicketManager::InsertTicket(unsigned, nn::nex::Ticket*)	mk7dlp:bytes	0x18AE04	
+0x36F244	nn::nex::TicketManager::TicketManager(nn::nex::AuthenticationClient*)	mk7dlp:bytes	0x18B5D8	
+0x373F1C	nn::nex::SecureEndPoint::RegisterEventHandler(nn::nex::EndPointEventHandler*)	mk7dlp:callseq	0x192C68	
+0x374230	nn::nex::ServerProtocol::SetCallError(nn::nex::qResult)	mk7dlp:callseq-callee	0x1931CC	
+0x375FEC	nn::nex::qReservedQueue<unsigned char>::push(const unsigned char*, unsigned)	mk7dlp:bytes	0x197220	
+0x376C00	nn::nex::BackEndServices::RegisterPreTerminateCallback(void(*)(nn::nex::CallContext*, const nn::nex::UserContext*), const nn::nex::UserContext&)	mk7dlp:bytes	0x1979DC	
+0x377620	nn::nex::DDLDeclarations::DDLDeclarations__sub_object(bool)	mk7dlp:bytes	0x1982A4	
+0x37AD74	nn::nex::NetworkEmulator::NetworkEmulator(nn::nex::EmulationDevice*)	mk7dlp:callseq	0x19BDDC	
+0x37C724	nn::nex::SocketTransport::FillPacketQueueFromBuffer(nn::nex::QueuingSocket*, nn::nex::Buffer*, const nn::nex::InetAddress*)	mk7dlp:callgraph	0x19DED4	
+0x37CF98	nn::nex::SocketTransport::Receive(unsigned short, nn::nex::Buffer*, const nn::nex::InetAddress*)	mk7dlp:bytes	0x19E2B4	
+0x37CFE4	nn::nex::SocketTransport::GetSocket(unsigned short)	mk7dlp:callgraph	0x19E2F8	
+0x37DC94	nn::nex::StringConverter::Encode(const wchar_t*, bool)	mk7dlp:callgraph	0x19ECE0	
+0x37DD58	nn::nex::StringConverter::StringConverter(int)	mk7dlp:bytes	0x19ED4C	
+0x37DD90	nn::nex::StringConverter::~StringConverter()	mk7dlp:callgraph	0x19ED84	
+0x37E16C	nn::nex::SystemComponent::Use::~Use()	mk7dlp:bytes-fuzzy	0x19F1E0	
+0x37F05C	nn::nex::BandwidthCounter::operator +=(unsigned)	mk7dlp:bytes	0x1A04E0	
+0x380920	nn::nex::CTRHttpConnection::Initialize(const char*, nn::nex::HttpConnection::Method)	mk7dlp:callseq	0x1AE320	
+0x3824C0	nn::nex::MD5KeyDerivation::CreateKey(unsigned, const char*)	mk7dlp:bytes-fuzzy	0x1A916C	
+0x382F20	nn::nex::OperationManager::OperationEnds(nn::nex::Operation*)	mk7dlp:bytes	0x1AAB00	
+0x382FB4	nn::nex::OperationManager::OperationBegins(nn::nex::Operation*)	mk7dlp:bytes	0x1AABF0	
+0x3838F8	nn::nex::RVConnectionData::RVConnectionData()	mk7dlp:callseq	0x1AC0C0	
+0x383DE0	nn::nex::TransportAdapter::SetLocalAddress(const nn::nex::String&)	mk7dlp:bytes	0x1ACB94	
+0x3846C8	nn::nex::TicketGrantingProtocolClient::ProtoReturn_RequestTicket(nn::nex::Message*, nn::nex::ProtocolCallContext*)	mk7dlp:callseq	0x1DFB44	
+0x3847DC	nn::nex::_Type_stationurl::Extract(nn::nex::Message*, nn::nex::StationURL*)	mk7dlp:bytes	0x1AE2C0	
+0x3849C0	nn::nex::UdsNodeBase::Initialize(unsigned, unsigned, void*)	mk7dlp:callseq	0x176688	
+0x385894	nn::nex::CTRHttpConnection::AddRootCa(const unsigned char*, int)	mk7dlp:bytes	0x1AF5E8	
+0x385BB8	nn::nex::ChecksumAlgorithm::AppendChecksum(nn::nex::Buffer*)	mk7dlp:callseq	0x1AF808	
+0x385CE8	nn::nex::ChecksumAlgorithm::RemoveChecksum(nn::nex::Buffer*)	mk7dlp:callseq	0x1AF930	
+0x385ED4	nn::nex::ChecksumAlgorithm::DeriveKey(const char*, unsigned)	mk7dlp:callseq	0x1AFAEC	
+0x3865A4	nn::nex::ConnectionManager::FilterConnectionRequest(nn::nex::ConnectionOrientedStream*, const nn::nex::StationURL*, nn::nex::Buffer*, nn::nex::EndPoint*)	mk7dlp:callseq	0x1B0364	
+0x386F54	nn::fnd::ExpHeapTemplate<nn::os::LockPolicy::NoLock>::~ExpHeapTemplate()	mk7dlp:bytes	0x534AA4	nn::fnd::ExpHeapTemplate<nn::os::LockPolicy::Object<nn::os::CriticalSection>>::~ExpHeapTemplate()
+0x386FD4	nn::nex::MatchMakingClient::EndParticipation(nn::nex::ProtocolCallContext*, unsigned, const nn::nex::String&)	mk7dlp:bytes-fuzzy	0x1B2FB8	
+0x38C014	nn::nex::KerberosEncryption::Decrypt(const nn::nex::Buffer&, nn::nex::Buffer*)	mk7dlp:callseq	0x1BA5AC	
+0x38C084	nn::nex::KerberosEncryption::Decrypt(const nn::nex::Buffer&, nn::nex::Buffer*, const nn::nex::Key&)	mk7dlp:callseq	0x1BA61C	
+0x38C16C	nn::nex::KerberosEncryption::Encrypt(const nn::nex::Buffer&, nn::nex::Buffer*, const nn::nex::Key&)	mk7dlp:callseq	0x1BA704	
+0x38C350	nn::nex::KerberosEncryption::KerberosEncryption()	mk7dlp:callseq	0x1BA8E8	
+0x38C374	nn::nex::KerberosEncryption::~KerberosEncryption()	mk7dlp:callseq	0x1BA904	
+0x38D998	nn::nex::RefCountedObject::ReleaseRef()	mk7dlp:callseq-callee	0x1AC24C	
+0x390170	nn::nex::HighLevelStream::ReceiveIncomingPacket(unsigned short, unsigned char, nn::nex::Packet*)	mk7dlp:callseq	0x199B84	
+0x39333C	nn::nex::HighResolutionClock::GetHighResolutionTime()	mk7dlp:bytes	0x1C26D0	
+0x394534	nn::nex::PacketDispatchQueue::PacketDispatchQueue()	mk7dlp:bytes	0x1C38BC	
+0x394888	nn::nex::Protocol::FlagIsSet(unsigned) const	mk7dlp:callseq-callee	0x49786C	
+0x394A28	nn::nex::ProtocolCallContext::ProtocolCallContext()	mk7dlp:callseq-callee	0x1C3C40	
+0x39A320	nn::nex::JobTicketManagerLogin::JobTicketManagerLogin(unsigned, nn::nex::TicketManager*, nn::nex::qResult*, const nn::nex::String&, const char*, unsigned*, nn::nex::RVConnectionData*, nn::nex::String*, nn::nex::AnyObjectHolder<nn::nex::Data, nn::nex::String>*)	mk7dlp:callseq	0x1CD5F4	
+0x39A7E4	nn::nex::RandomNumberGenerator::GetRandomNumber(unsigned)	mk7dlp:bytes-fuzzy	0x1CF190	
+0x39DEC4	nn::nex::SecurityContextManager::Pop()	mk7dlp:bytes	0x1D52E0	
+0x39DF20	nn::nex::SecurityContextManager::Push(unsigned, unsigned)	mk7dlp:callseq	0x1D533C	
+0x39E200	nn::nex::SingleThreadCallPolicy::EndCallImpl()	mk7dlp:bytes	0x1D55AC	
+0x39E264	nn::nex::SingleThreadCallPolicy::SingleThreadCallPolicy()	mk7dlp:bytes	0x1D55F4	
+0x39F2EC	nn::nex::_DDL_NotificationEvent::Extract(nn::nex::Message*, nn::nex::_DDL_NotificationEvent*)	mk7dlp:callseq-callee	0x1D6440	
+0x39FC54	nn::nex::MatchmakeExtensionProtocolClient::CallFindOfficialCommunity(nn::nex::ProtocolCallContext*, nn::nex::qList<nn::nex::Community>*, const bool&, const nn::nex::ResultRange&)	mk7dlp:callseq	0x1E2BB0	
+0x3A02D0	nn::nex::RankingProtocolClient::CallUploadSpecificPeriodScore(nn::nex::ProtocolCallContext*, short*, const unsigned&, const unsigned&, const unsigned&, const unsigned char&, const unsigned&, const unsigned short&)	mk7dlp:callseq	0x1CFAE4	
+0x3B1310	nn::nex::NATTraversalClient::ConnectionStateHasChanged()	mk7dlp:callseq	0x1C2304	
+0x3B1E9C	nn::nex::ConnectionOrientedStream::~ConnectionOrientedStream__sub_object()	mk7dlp:callgraph	0x1D8890	
+0x3B2A8C	nn::nex::JobConnectSecureEndPoint::BuildListURLs(nn::nex::qList<nn::nex::StationURL>*)	mk7dlp:callseq	0x1D9398	
+0x3B33A0	nn::nex::JobConnectSecureEndPoint::ParseURL()	mk7dlp:callseq	0x1D9C44	
+0x3B35FC	nn::nex::JobConnectSecureEndPoint::JobConnectSecureEndPoint(nn::nex::SecureEndPoint*, const nn::nex::StationURL*, nn::nex::Buffer*, nn::nex::Buffer*, void(*)(nn::nex::EndPoint*, nn::nex::qResult, const nn::nex::UserContext*), const nn::nex::UserContext&, unsigned)	mk7dlp:callseq	0x1D9E74	
+0x3B4204	nn::nex::JobDataStoreUpdateObject::JobDataStoreUpdateObject()	mk7dlp:callseq	0x1DAB44	
+0x3B9A9C	nn::nex::InvokeCallbackOnCompletion(nn::nex::CallContext*, const nn::nex::UserContext*)	mk7dlp:bytes	0x1DD8E8	
+0x3BC298	nn::nex::CallProtocolMethodOperation::InitializeForNewCallAttempt()	mk7dlp:bytes	0x1DDE70	
+0x3C1A94	nn::nex::_DDL_ResultRange::Add(nn::nex::Message*, const nn::nex::_DDL_ResultRange&)	mk7dlp:callseq-callee	0x1AD7E0	
+0x3C23CC	nn::nex::DataStorePostHttpEventListener::DataStorePostHttpEventListener(unsigned, const nn::nex::qVector<nn::nex::DataStoreKeyValue>&, const nn::nex::qVector<nn::nex::DataStoreKeyValue>&, const nn::nex::qVector<unsigned char>&, unsigned, unsigned, const unsigned char*, unsigned, nn::nex::DataStorePostObjectEventListener*)	mk7dlp:bytes	0x1E0F8C	
+0x3C2420	nn::nex::DataStorePostHttpEventListener::~DataStorePostHttpEventListener__deallocating()	mk7dlp:bytes	0x1E0FE0	
+0x3C247C	nn::nex::_Proto_NotificationProtocolServer::DispatchProtocolMessage(nn::nex::Message*, nn::nex::Message*, bool*, nn::nex::EndPoint*)	mk7dlp:callseq	0x1E4D24	
+0x3CC248	nn::nex::_Proto_NintendoNotificationEventProtocolServer::DispatchProtocolMessage(nn::nex::Message*, nn::nex::Message*, bool*, nn::nex::EndPoint*)	mk7dlp:callseq	0x1E58C4	
+0x3CC630	nn::nex::Job::SetToComplete()	mk7dlp:callseq-callee	0x1E4F40	
+0x3CC840	nn::nex::Key::Key(const unsigned char*, unsigned)	mk7dlp:callseq-callee	0x1E5164	
+0x3CCFD4	nn::nex::Log::~Log()	mk7dlp:bytes	0x1E5580	
+0x3CD054	nn::nex::hex(nn::nex::StringStream&)	mk7dlp:bytes	0x1E569C	
+0x3CE0B8	nn::nex::Time::ConvertTimeoutToDeadline(unsigned)	mk7dlp:callseq-callee	0x1E6224	
+0x3CF340	nn::nex::qList<nn::nex::StationURL>::qList()	mk7dlp:bytes	0x1E6EA0	nn::nex::qList<nn::nex::Community>::qList()
+0x3CF8EC	nn::nex::ByteStream::AppendRaw(const unsigned char*, unsigned)	mk7dlp:callgraph	0x16DBC8	
+0x3CF8F8	nn::nex::Buffer::AppendData(const void*, unsigned, unsigned)	mk7dlp:callgraph	0x1E7664	
+0x3CFF38	nn::nex::Buffer::Buffer(const nn::nex::Buffer&)	mk7dlp:callseq-callee	0x1E7960	
+0x3D0010	nn::nex::Buffer::Buffer()	mk7dlp:callseq-callee	0x1E7A80	
+0x3D0078	nn::nex::Buffer::~Buffer()	mk7dlp:callseq-callee	0x1E7AFC	
+0x3D00D0	nn::nex::Buffer::operator =(const nn::nex::Buffer&)	mk7dlp:callgraph	0x1E7B24	
+0x3D016C	nn::nex::Buffer::operator [](unsigned)	mk7dlp:callseq-callee	0x1E7BB0	
+0x3D0254	nn::nex::Chrono::Check()	mk7dlp:bytes	0x1E7CD4	
+0x3D0C8C	nn::nex::Socket::Open(bool)	mk7dlp:bytes	0x1E975C	
+0x3D1250	nn::nex::String::String(const char*)	mk7dlp:bytes-fuzzy	0x1E9CE0	
+0x3D12AC	nn::nex::String::String(const wchar_t*)	mk7dlp:callgraph	0x1E9D3C	
+0x3D1300	nn::nex::String::String()	mk7dlp:callgraph	0x1E9E00	
+0x3D13A4	nn::nex::String::operator =(const char*)	mk7dlp:callseq	0x1E9E80	
+0x3D2490	nn::nex::ScopedCS::ScopedCS(nn::nex::CriticalSection&)	mk7dlp:callseq-callee	0x1F64C8	
+0x3D3794	nn::nex::Timeout::SetRelativeExpirationTime(int)	mk7dlp:bytes	0x1F254C	
+0x3D4010	nn::nex::qResult::qResult(const int&)	mk7dlp:callgraph	0x1F3934	
+0x3D4030	nn::nex::qResult::qResult()	mk7dlp:callseq-callee	0x1F3968	
+0x3D4054	nn::nex::qResult::operator =(const nn::nex::qResult&)	mk7dlp:callgraph	0x1F39A8	
+0x3D4798	nn::nex::qVector<unsigned char>::~qVector()	mk7dlp:bytes	0x1F3A80	__rw::__rw_locale_vector<__rw::__rw_facet_base*>::~__rw_locale_vector() | __rw::__rw_locale_vector<__rw::__rw_cat*>::~__rw_locale_vector()
+0x3D4B4C	nn::nex::DateTime::DateTime(unsigned short, unsigned char, unsigned char, unsigned char, unsigned char, unsigned char)	mk7dlp:bytes-fuzzy	0x1F40D8	
+0x3D4C70	nn::nex::EndPoint::SetPrincipalID(unsigned)	mk7dlp:bytes-fuzzy	0x1F41E4	
+0x3D4CCC	nn::nex::EndPoint::SetConnectionID(unsigned)	mk7dlp:bytes-fuzzy	0x1F4240	
+0x3D4D48	nn::nex::EndPoint::RegisterEventHandler(nn::nex::EndPointEventHandler*)	mk7dlp:callseq-callee	0x1F42B0	
+0x3D4D84	nn::nex::EndPoint::Open()	mk7dlp:bytes	0x1F42F0	
+0x3D4E24	nn::nex::EndPoint::~EndPoint__sub_object()	mk7dlp:bytes-fuzzy	0x1F43DC	
+0x3D5064	nn::nex::JobLogin::Complete(const nn::nex::qResult&)	mk7dlp:callseq	0x1F52F8	
+0x3D5338	nn::nex::KeyCache::AddKey(unsigned, const char*, const nn::nex::Key&)	mk7dlp:callseq	0x1F56CC	
+0x3D5398	nn::nex::KeyCache::AddKey(unsigned, const nn::nex::Buffer&, const nn::nex::Key&)	mk7dlp:callseq	0x1F572C	
+0x3D59A8	nn::nex::Platform::GetRandomNumber(unsigned)	mk7dlp:callgraph	0x1F5FB4	
+0x3D5A30	nn::nex::Protocol::AddMethodID(nn::nex::Message*, unsigned)	mk7dlp:bytes	0x1F60D8	
+0x3D5A4C	nn::nex::ProtocolRequestBroker::InitMessage(nn::nex::Message*, unsigned char, nn::nex::Protocol::_Type)	mk7dlp:callseq-callee	0x1CDE0C	
+0x3D5BBC	nn::nex::Protocol::ExtractMethodID(nn::nex::Message*)	mk7dlp:callseq-callee	0x1F61E0	
+0x3D5DBC	nn::nex::Protocol::RegisterCallContext(nn::nex::Message*, nn::nex::ProtocolCallContext*)	mk7dlp:callseq-callee	0x1F62E8	
+0x3D6110	nn::nex::URLProbe::URLProbe(const nn::nex::StationURL&, int, int, unsigned)	mk7dlp:bytes-fuzzy	0x1F67C0	
+0x3D641C	nn::nex::BitStream::AppendRaw(const unsigned char*, unsigned)	mk7dlp:callseq	0x1F6CF4	
+0x3D679C	nn::nex::BitStream::operator <<(const nn::nex::Buffer&)	mk7dlp:callseq	0x1F71A8	
+0x3D6A90	sead::DirectResource::DirectResource()	mk7dlp:callgraph	0x2DDD08	
+0x3D753C	nn::nex::Operation::Operation__sub_object(unsigned)	mk7dlp:bytes	0x1F8318	
+0x3E227C	nn::nwm::ScanResultReaderBase::ProcessBssPointer()	mk7dlp:bytes	0x1FBD70	
+0x425F64	nn::nex::UdsHandle::UdsHandle()	mk7dlp:bytes	0x1FB898	
+0x428DC4	sead::TickTime::setNow()	mk7dlp:bytes	0x2F91D0	
+0x454524	nn::nex::DOClassesTable::TearDownDOClassesTable()	mk7dlp:bytes	0x18D308	
+0x454D3C	nn::nex::DOClassesTable::~DOClassesTable()	mk7dlp:callgraph	0x18D468	
+0x460C44	nn::snd::CTR::Initialize()	mk7dlp:callseq	0x1FC160	
+0x46143C	nn::snd::CTR::DspFxManager::GetInstance()	mk7dlp:callseq-callee	0x1FC254	
+0x461980	nn::snd::CTR::VoiceManager::Finalize()	mk7dlp:callseq-callee	0x1FC9BC	
+0x461A48	nn::snd::CTR::MasterManager::Initialize()	mk7dlp:callseq-callee	0x1FCB34	
+0x461C94	nn::snd::CTR::MasterManager::AuxUserCallback(nn::snd::CTR::AuxBusId, unsigned)	mk7dlp:bytes	0x1FCEFC	
+0x461CB0	nn::snd::CTR::MasterManager::SetMasterVolume(float)	mk7dlp:bytes	0x1FCF18	nn::snd::CTR::MasterManagerImpl::SetMasterVolume(float)
+0x461D64	nn::snd::CTR::MasterManager::SetIsHeadsetConnected(bool)	mk7dlp:callgraph	0x1FCFA8	
+0x461DA0	nn::snd::CTR::MasterManager::Finalize()	mk7dlp:callseq-callee	0x1FCFE0	
+0x4628D8	nn::snd::CTR::DecodeAdpcmData(unsigned char*, short*, nn::snd::CTR::AdpcmParam&, nn::snd::CTR::AdpcmContext&, int)	mk7dlp:callgraph	0x1FDC50	
+0x462A2C	nn::snd::CTR::DspFxManager::Initialize()	mk7dlp:callseq-callee	0x1FDD80	
+0x462DE8	nn::snd::CTR::DspFxManager::Finalize()	mk7dlp:callseq-callee	0x1FDFA8	
+0x462E64	nn::snd::CTR::MasterManagerImpl::AuxUserCallback(nn::snd::CTR::AuxBusId, unsigned)	mk7dlp:callgraph	0x1FE048	
+0x4630CC	nn::snd::CTR::MasterManagerImpl::SetMasterVolume(float)	mk7dlp:callgraph	0x1FE2B4	
+0x463470	nn::snd::CTR::SetAuxReturnVolume(nn::snd::CTR::AuxBusId, float)	mk7dlp:callseq-callee	0x1FE704	
+0x463490	nn::snd::CTR::UserSoundThreadFunc(unsigned)	mk7dlp:callseq	0x1FE730	
+0x463560	nn::snd::CTR::InitializeWaveBuffer(nn::snd::CTR::WaveBuffer*)	mk7dlp:callseq-callee	0x1FE7D4	
+0x463710	nn::snd::CTR::Voice::SetPriority(int)	mk7dlp:callgraph	0x1FE980	
+0x463850	nn::snd::CTR::Dspsnd::Initialize(bool)	mk7dlp:callgraph	0x1FEAD0	
+0x464F6C	nn::snd::CTR::Dspsnd::Finalize(bool)	mk7dlp:callseq-callee	0x1FFD38	
+0x46538C	nn::snd::CTR::WakeUp()	mk7dlp:bytes	0x20030C	
+0x4658E4	nn::snd::CTR::Finalize()	mk7dlp:callseq	0x200584	
+0x46633C	nn::snd::CTR::FreeVoice(nn::snd::CTR::Voice*)	mk7dlp:callgraph	0x200CA4	
+0x46647C	nn::snd::CTR::Voice::SetMixParam(const nn::snd::CTR::MixParam&)	mk7dlp:callgraph	0x200E1C	
+0x466ACC	nn::snd::CTR::VoiceImpl::SendWaveBuffer()	mk7dlp:callgraph	0x20137C	
+0x466CD4	nn::snd::CTR::VoiceImpl::SetChannelCount(int)	mk7dlp:bytes	0x201558	
+0x466D10	nn::snd::CTR::Voice::AppendWaveBuffer(nn::snd::CTR::WaveBuffer*)	mk7dlp:callgraph	0x201594	
+0x466E90	nn::snd::CTR::VoiceImpl::SetFrontBypassFlag(bool)	mk7dlp:bytes	0x2017F0	
+0x466EA4	nn::snd::CTR::Voice::SetInterpolationType(nn::snd::CTR::InterpolationType)	mk7dlp:callgraph	0x201804	
+0x466EC4	nn::snd::CTR::VoiceImpl::UpdateWaveBufferList()	mk7dlp:bytes	0x201824	
+0x466FAC	nn::snd::CTR::Voice::SetState(nn::snd::CTR::Voice::State)	mk7dlp:callgraph	0x201A9C	
+0x4670E0	nn::srv::GetServiceHandle(nn::os::ipc::Session*, const char*)	mk7dlp:callseq-callee	0x201BE8	
+0x467168	nn::srv::Finalize()	mk7dlp:callseq-callee	0x201CE8	
+0x4693F0	nn::uds::CTR::detail::InitializeCore(nn::os::Event*, void*, unsigned, nn::cfg::CTR::UserName*)	mk7dlp:callseq	0x2033F4	
+0x469B6C	nn::cfg::CTR::Finalize()	mk7dlp:callseq-callee	0x1031FC	
+0x46F1A8	nn::http::Connection::Initialize(const char*, nn::http::RequestMethod, bool)	mk7dlp:callseq	0x203E88	
+0x46F5EC	nn::http::Connection::SetRootCa(const unsigned char*, unsigned)	mk7dlp:callgraph	0x2042EC	
+0x46F63C	nn::http::Connection::Connection()	mk7dlp:bytes	0x204360	
+0x46F89C	nn::http::ConnectionIpc::SetProxyDefault(int)	mk7dlp:callseq-callee	0x204538	
+0x46F95C	nn::http::ConnectionIpc::CreateConnection(const char*, unsigned, nn::http::RequestMethod, int*)	mk7dlp:callseq-callee	0x204598	
+0x46FC10	nn::http::ConnectionIpc::InitializeConnectionSession(int)	mk7dlp:callseq-callee	0x20480C	
+0x47DC98	nn::math::SinCosFIdx(float*, float*, float)	mk7dlp:callgraph	0x204A8C	
+0x47DEF0	nn::math::ARMv6::HermiteC_FAST(float, float, float, float, float, float)	mk7dlp:bytes	0x204CDC	
+0x47DFCC	nn::math::ARMv6::MTX44PivotC_FAST(nn::math::MTX44*, nn::math::PivotDirection)	mk7dlp:bytes	0x204D28	
+0x47E180	nn::math::ARMv6::MTX34ToQUATC_FAST(nn::math::QUAT*, const nn::math::MTX34*)	mk7dlp:bytes	0x204DE4	
+0x47E49C	nn::math::MTX34::Identity()	mk7dlp:callgraph	0x205054	
+0x47E51C	nn::math::MTX44::Identity()	mk7dlp:callgraph	0x2050D4	
+0x47F7D8	nn::gxlow::CTR::ImportDisplayCaptureInfo(nn::gxlow::CTR::DisplayCaptureInfo*)	mk7dlp:callgraph	0x205D24	
+0x47FEA0	nn::applet::CTR::detail::CaptureScreen(unsigned)	mk7dlp:callseq	0x206904	
+0x47FFD4	nn::applet::CTR::detail::GetDisplayInfo(nn::applet::CTR::AppletDisplayInfo*)	mk7dlp:bytes	0x206A28	
+0x4802E8	nn::applet::CTR::detail::WaitForRegister(unsigned, nn::fnd::TimeSpan)	mk7dlp:callseq-callee	0x206E28	
+0x48089C	nn::applet::CTR::detail::WaitToCaptureScreen(unsigned, nn::Handle*)	mk7dlp:callseq-callee	0x207440	
+0x480998	nn::applet::CTR::detail::CalcCaptureBufferInfo(nn::applet::CTR::CaptureBufferInfo*)	mk7dlp:callseq-callee	0x207540	
+0x480ACC	nn::applet::CTR::detail::SendCaptureBufferInfo(const unsigned char*, unsigned)	mk7dlp:callseq-callee	0x207710	
+0x480B84	nn::applet::CTR::detail::CaptureDisplayBuffer(unsigned, const nn::applet::CTR::AppletDisplayInfo*, const nn::applet::CTR::CaptureBufferInfo*)	mk7dlp:callseq-callee	0x2077D4	
+0x480DE0	nn::applet::CTR::detail::AttachTransferMemoryHandle(nn::os::TransferMemoryBlock*, nn::Handle, unsigned, unsigned)	mk7dlp:callseq-callee	0x207A10	
+0x480FEC	nn::applet::CTR::detail::CaptureScreenForSystemApplet(unsigned)	mk7dlp:callseq	0x207B60	
+0x484A18	nn::socket::Initialize(unsigned, unsigned, int, int)	mk7dlp:callseq	0x209778	
+0x484CA0	nn::socket::GetRequiredMemorySize(unsigned, int)	mk7dlp:bytes	0x209A0C	
+0x485874	nn::socket::detail::SessionItem::SessionItem()	mk7dlp:bytes	0x20A0C4	
+0x487A78	nn::socket::detail::GetRequiredMemorySizeForSessionPool(int)	mk7dlp:callgraph	0x20C22C	
+0x48B81C	nw::io::FileStream::FilePosition::Seek(int, unsigned)	mk7dlp:bytes	0x20FACC	
+0x48B87C	nw::io::FileStream::FilePosition::Skip(int)	mk7dlp:bytes	0x20FB2C	
+0x48B900	nw::ut::IsValidBinaryFile(const nw::ut::BinaryFileHeader*, unsigned, unsigned, unsigned short)	mk7dlp:bytes	0x20FE34	
+0x48B980	nw::ut::GetNextBinaryBlockHeader(nw::ut::BinaryFileHeader*, nw::ut::BinaryBlockHeader*)	mk7dlp:bytes	0x210218	
+0x48BAA0	nw::ut::CmdCacheWithCmdJump::Add(const unsigned*, unsigned)	mk7dlp:bytes	0x2100DC	
+0x48BACC	nw::ut::CmdCacheWithCmdJump::Init(void*, unsigned, bool)	mk7dlp:bytes	0x210184	
+0x48BAF8	nw::ut::CmdCacheWithCmdJump::RoundUp(unsigned char)	mk7dlp:bytes	0x2101CC	
+0x48C42C	nw::gfx::AnimBinding::~AnimBinding()	mk7dlp:bytes	0x210FD0	
+0x48C498	nw::gfx::AnimBlender::UpdateCache()	mk7dlp:bytes	0x21103C	
+0x48C4F0	nw::gfx::AnimBlender::UpdateFrame()	mk7dlp:bytes	0x211094	
+0x48C59C	nw::gfx::AnimBlender::~AnimBlender__sub_object()	mk7dlp:bytes	0x2110F8	
+0x48C5E0	nw::gfx::ParticleSet::GetMemorySizeInternal(nw::os::MemorySizeCalculator*, nw::gfx::res::ResParticleSet, const nw::gfx::ParticleSet::Description&)	mk7dlp:bytes-fuzzy	0x21113C	
+0x48C914	nw::gfx::ParticleSet::Accept(nw::gfx::ISceneVisitor*)	mk7dlp:bytes	0x211470	
+0x48C968	nw::gfx::ParticleSet::Create(nw::gfx::SceneNode*, nw::gfx::res::ResSceneObject, const nw::gfx::ParticleSet::Description&, nw::os::IAllocator*, nw::os::IAllocator*, nw::gfx::ParticleShape*)	mk7dlp:callseq	0x2114C4	
+0x48D57C	nw::gfx::ParticleSet::ParticleSet(nw::os::IAllocator*, nw::gfx::res::ResParticleSet, const nw::gfx::ParticleSet::Description&)	mk7dlp:callseq-callee	0x211FDC	
+0x48D65C	nw::gfx::ParticleSet::~ParticleSet()	mk7dlp:bytes	0x2120D4	
+0x48DB08	nw::gfx::AmbientLight::Initialize(nw::os::IAllocator*)	mk7dlp:callseq	0x2124D4	
+0x48DB5C	nw::gfx::AmbientLight::DynamicBuilder::Create(nw::os::IAllocator*)	mk7dlp:callseq	0x212528	
+0x48DC34	nw::gfx::AmbientLight::CreateOriginalValue(nw::os::IAllocator*)	mk7dlp:bytes	0x212600	
+0x48DD1C	nw::gfx::AmbientLight::CreateResAmbientLight(nw::os::IAllocator*, const char*)	mk7dlp:bytes-fuzzy	0x2126E8	
+0x48DEDC	nw::gfx::AmbientLight::GetMemorySizeInternal(nw::os::MemorySizeCalculator*, nw::gfx::res::ResAmbientLight, nw::gfx::AmbientLight::Description)	mk7dlp:bytes	0x2128A8	
+0x48DFD4	nw::gfx::AmbientLight::Accept(nw::gfx::ISceneVisitor*)	mk7dlp:bytes	0x2129A0	
+0x48E58C	nw::gfx::MeshRenderer::RenderMesh(nw::gfx::res::ResMesh, nw::gfx::Model*)	mk7dlp:bytes	0x212F44	
+0x48E83C	nw::gfx::MeshRenderer::RenderSeparateDataShape(nw::gfx::Model*, nw::gfx::res::ResSeparateDataShape, int)	mk7dlp:callgraph	0x21311C	
+0x48E9F0	nw::gfx::MeshRenderer::Create(nw::os::IAllocator*)	mk7dlp:bytes	0x2132CC	
+0x48EA38	nw::gfx::ParticleUtil::DuplicateResParticleUpdater(const nw::gfx::res::ResParticleUpdater*, nw::os::IAllocator*)	mk7dlp:callseq	0x213310	
+0x48EFC0	nw::gfx::ParticleUtil::DuplicateResParticleInitializer(const nw::gfx::res::ResParticleInitializer*, nw::os::IAllocator*)	mk7dlp:bytes	0x213880	
+0x48F574	nw::gfx::ParticleUtil::GetMemorySizeForDuplicateResParticleInitializerInternal(nw::os::MemorySizeCalculator*, const nw::gfx::res::ResParticleInitializer*)	mk7dlp:bytes	0x213E0C	
+0x491864	nw::gfx::SceneUpdater::Builder::Create(nw::os::IAllocator*)	mk7dlp:bytes	0x215EE8	
+0x491DBC	nw::gfx::SceneUpdater::~SceneUpdater()	mk7dlp:bytes	0x2161BC	
+0x49250C	nw::gfx::AnimEvaluator::UpdateCacheNonVirtual()	mk7dlp:bytes	0x216904	
+0x492654	nw::gfx::AnimEvaluator::SetCacheBufferPointers()	mk7dlp:bytes	0x216A4C	
+0x4926E8	nw::gfx::AnimEvaluator::GetCacheBufferSizeNeeded(const nw::anim::res::ResAnim&)	mk7dlp:bytes	0x216AE0	
+0x492918	nw::gfx::AnimEvaluator::~AnimEvaluator()	mk7dlp:bytes	0x216C58	
+0x492A84	nw::gfx::FragmentLight::Initialize(nw::os::IAllocator*)	mk7dlp:callseq	0x216F24	
+0x492AD8	nw::gfx::FragmentLight::DynamicBuilder::Create(nw::os::IAllocator*)	mk7dlp:bytes	0x216F78	
+0x492BA0	nw::gfx::FragmentLight::UpdateDirection()	mk7dlp:bytes	0x217040	
+0x492C78	nw::gfx::FragmentLight::CreateOriginalValue(nw::os::IAllocator*)	mk7dlp:bytes	0x217118	
+0x492E04	nw::gfx::FragmentLight::GetMemorySizeInternal(nw::os::MemorySizeCalculator*, nw::gfx::res::ResFragmentLight, nw::gfx::FragmentLight::Description)	mk7dlp:bytes	0x2172A4	
+0x492EFC	nw::gfx::FragmentLight::CreateResFragmentLight(nw::os::IAllocator*, const char*)	mk7dlp:bytes-fuzzy	0x21739C	
+0x49319C	nw::gfx::FragmentLight::DestroyResFragmentLight(nw::os::IAllocator*, nw::gfx::res::ResFragmentLightData*)	mk7dlp:bytes	0x21763C	
+0x49324C	nw::gfx::FragmentLight::Accept(nw::gfx::ISceneVisitor*)	mk7dlp:bytes	0x2176EC	
+0x4932A0	nw::gfx::FragmentLight::Create(nw::gfx::SceneNode*, nw::gfx::res::ResSceneObject, const nw::gfx::FragmentLight::Description&, nw::os::IAllocator*)	mk7dlp:bytes	0x217740	
+0x493374	nw::gfx::FragmentLight::~FragmentLight()	mk7dlp:bytes	0x217808	
+0x493AE0	nw::gfx::ParticleModel::GetMemorySizeInternal(nw::os::MemorySizeCalculator*, nw::gfx::res::ResParticleModel, const nw::gfx::ParticleModel::Description&)	mk7dlp:bytes	0x217F7C	
+0x493BD0	nw::gfx::ParticleModel::GetMemorySizeForInitialize(nw::os::MemorySizeCalculator*, nw::gfx::res::ResParticleModel, const nw::gfx::ParticleModel::Description&)	mk7dlp:callgraph	0x21806C	
+0x4940AC	nw::gfx::ParticleModel::GetDeviceMemorySizeInternal(nw::os::MemorySizeCalculator*, nw::gfx::res::ResParticleModel, const nw::gfx::ParticleModel::Description&)	mk7dlp:bytes	0x218544	
+0x494148	nw::gfx::ParticleModel::Accept(nw::gfx::ISceneVisitor*)	mk7dlp:bytes	0x2185E0	
+0x49419C	nw::gfx::ParticleModel::Create(nw::gfx::SceneNode*, nw::gfx::res::ResSceneObject, const nw::gfx::ParticleModel::Description&, nw::os::IAllocator*, nw::os::IAllocator*)	mk7dlp:callseq	0x218634	
+0x4947E4	nw::gfx::ParticleModel::~ParticleModel()	mk7dlp:bytes	0x218CB8	
+0x494EC8	nw::gfx::ParticleShape::AddVertexParam(int, unsigned, int, float*, unsigned char**)	mk7dlp:bytes	0x21939C	
+0x494FB8	nw::gfx::ParticleShape::AddVertexStream(int, unsigned, int, int, unsigned char**)	mk7dlp:bytes	0x21948C	
+0x4950C4	nw::gfx::ParticleShape::AddVertexParamSize(unsigned, int, int)	mk7dlp:bytes	0x219598	
+0x4950E8	nw::gfx::ParticleShape::CreateCommandCache(nw::gfx::ParticleSet*)	mk7dlp:callseq	0x2195BC	
+0x495768	nw::gfx::ParticleShape::AddVertexStreamSize(unsigned, int, int, int)	mk7dlp:bytes	0x219C38	
+0x4957A4	nw::gfx::ParticleShape::GetMemorySizeInternal(nw::os::MemorySizeCalculator*, int)	mk7dlp:bytes	0x219C74	
+0x4957EC	nw::gfx::ParticleShape::GetDeviceMemorySizeInternal(nw::os::MemorySizeCalculator*, int)	mk7dlp:bytes	0x219CBC	
+0x495860	nw::gfx::ParticleShape::Create(nw::gfx::res::ResSceneObject, int, nw::os::IAllocator*, nw::os::IAllocator*)	mk7dlp:bytes	0x219D30	
+0x495A88	nw::gfx::ParticleShape::~ParticleShape()	mk7dlp:bytes	0x219EE4	
+0x495C10	nw::gfx::RenderContext::ActivateFog()	mk7dlp:bytes	0x21A078	
+0x495DB0	nw::gfx::RenderContext::MaterialHash::ResetMaterialHash(int)	mk7dlp:bytes	0x21A218	
+0x495E6C	nw::gfx::RenderContext::ActivateContext(nw::gfx::IMaterialActivator*)	mk7dlp:callgraph	0x21A2A4	
+0x49605C	nw::gfx::RenderContext::SetCameraMatrix(nw::gfx::Camera*, bool)	mk7dlp:bytes	0x21A450	
+0x496140	nw::gfx::RenderContext::ActivateFragmentLight(int, const nw::gfx::FragmentLight*)	mk7dlp:callseq	0x21A534	
+0x496858	nw::gfx::RenderContext::SetModelMatrixForModel(nw::gfx::Model*)	mk7dlp:bytes-fuzzy	0x21AC8C	
+0x496AE4	nw::gfx::RenderContext::ActivateVertexAttribute(nw::gfx::res::ResMesh)	mk7dlp:bytes	0x21AD78	
+0x496B8C	nw::gfx::RenderContext::ActivateSceneEnvironment()	mk7dlp:callseq	0x21AE20	
+0x496CB4	nw::gfx::RenderContext::TransformToViewCoordinate(nn::math::VEC4*, const nn::math::MTX34*, const nn::math::VEC4*)	mk7dlp:bytes	0x21AF34	
+0x496D30	nw::gfx::RenderContext::SetModelMatrixForSkeletalModel(nw::gfx::SkeletalModel*)	mk7dlp:bytes-fuzzy	0x21AFB0	
+0x496E6C	nw::gfx::RenderContext::Builder::Create(nw::os::IAllocator*)	mk7dlp:callseq	0x21B0EC	
+0x497454	nw::gfx::RenderContext::~RenderContext()	mk7dlp:bytes	0x21B730	
+0x49777C	nw::gfx::ShaderProgram::ShaderProgram(nw::os::IAllocator*)	mk7dlp:bytes	0x21BA38	
+0x497808	nw::gfx::SkeletalModel::Initialize(nw::os::IAllocator*)	mk7dlp:bytes	0x21BAC0	
+0x49785C	nw::gfx::SkeletalModel::CreateSkeletalAnimGroup(nw::os::IAllocator*)	mk7dlp:bytes-fuzzy	0x21BB14	
+0x497C08	nw::gfx::SkeletalModel::Accept(nw::gfx::ISceneVisitor*)	mk7dlp:bytes	0x21BEC0	
+0x497C5C	nw::gfx::SkeletalModel::Builder::Create(nw::gfx::SceneNode*, nw::gfx::res::ResSceneObject, nw::os::IAllocator*)	mk7dlp:callseq	0x21BF14	
+0x498360	nw::gfx::SkeletalModel::~SkeletalModel()	mk7dlp:bytes	0x21C614	
+0x4989E4	nw::gfx::TransformNode::Initialize(nw::os::IAllocator*)	mk7dlp:bytes	0x21CC98	
+0x498A1C	nw::gfx::TransformNode::CreateCallbacks(nw::os::IAllocator*)	mk7dlp:callgraph	0x21CD30	
+0x498E98	nw::gfx::TransformNode::GetMemorySizeForInitialize(nw::os::MemorySizeCalculator*, nw::gfx::res::ResTransformNode, nw::gfx::TransformNode::Description)	mk7dlp:bytes	0x21CE80	
+0x499048	nw::gfx::TransformNode::Accept(nw::gfx::ISceneVisitor*)	mk7dlp:bytes	0x21D024	
+0x49926C	nw::gfx::TransformNode::TransformNode(nw::os::IAllocator*, nw::gfx::res::ResTransformNode, const nw::gfx::TransformNode::Description&)	mk7dlp:callgraph	0x21D23C	
+0x4995F8	nw::gfx::TransformNode::~TransformNode()	mk7dlp:bytes	0x21D5C8	
+0x4998A4	nw::gfx::GraphicsDevice::ActivateLookupTable(nw::gfx::res::ResImageLookupTable, nw::gfx::GraphicsDevice::LutTarget)	mk7dlp:callgraph	0x21D874	
+0x49993C	nw::gfx::GraphicsDevice::InvalidateLookupTable(nw::gfx::res::ResImageLookupTable)	mk7dlp:bytes	0x21D93C	
+0x49996C	nw::gfx::GraphicsDevice::InvalidateAllLookupTables()	mk7dlp:bytes	0x21D96C	
+0x499994	nw::gfx::GraphicsDevice::ActivateFragmentLightPosition(int, const nn::math::VEC4&)	mk7dlp:bytes	0x21D994	
+0x49A7F8	nw::gfx::SceneTraverser::Builder::Create(nw::os::IAllocator*)	mk7dlp:bytes	0x21E6EC	
+0x49A98C	nw::gfx::HemiSphereLight::Initialize(nw::os::IAllocator*)	mk7dlp:callseq	0x21E874	
+0x49A9E0	nw::gfx::HemiSphereLight::DynamicBuilder::Create(nw::os::IAllocator*)	mk7dlp:callseq	0x21E8C8	
+0x49AAB8	nw::gfx::HemiSphereLight::CreateOriginalValue(nw::os::IAllocator*)	mk7dlp:bytes	0x21E9A0	
+0x49ABA8	nw::gfx::HemiSphereLight::GetMemorySizeInternal(nw::os::MemorySizeCalculator*, nw::gfx::res::ResHemiSphereLight, nw::gfx::HemiSphereLight::Description)	mk7dlp:bytes	0x21EA90	
+0x49ACA0	nw::gfx::HemiSphereLight::CreateResHemiSphereLight(nw::os::IAllocator*, const char*)	mk7dlp:bytes-fuzzy	0x21EB88	
+0x49AE60	nw::gfx::HemiSphereLight::Accept(nw::gfx::ISceneVisitor*)	mk7dlp:bytes	0x21ED48	
+0x49B6FC	nw::gfx::ParticleEmitter::Accept(nw::gfx::ISceneVisitor*)	mk7dlp:bytes	0x21F5CC	
+0x49B750	nw::gfx::ParticleEmitter::Create(nw::gfx::SceneNode*, nw::gfx::res::ResSceneObject, const nw::gfx::ParticleEmitter::Description&, nw::os::IAllocator*)	mk7dlp:bytes-fuzzy	0x21F620	
+0x49BBFC	nw::gfx::ParticleEmitter::~ParticleEmitter()	mk7dlp:bytes	0x21FAC0	
+0x49BEFC	nw::gfx::SkeletonUpdater::Builder::Create(nw::os::IAllocator*)	mk7dlp:callgraph	0x21FDC0	
+0x49BF3C	nw::gfx::BillboardUpdater::Create(nw::os::IAllocator*)	mk7dlp:callgraph	0x21FEA4	
+0x49C3F8	nw::gfx::ShaderBinaryInfo::SafeBuffer::Write(const unsigned*, int)	mk7dlp:bytes	0x2203CC	
+0x49C448	nw::gfx::ShaderBinaryInfo::AnalyzeBinary()	mk7dlp:bytes	0x22041C	
+0x49C520	nw::gfx::StandardSkeleton::Create(nw::gfx::res::ResSkeleton, int, bool, nw::ut::MoveArray<nw::gfx::CalculatedTransform>, nw::os::IAllocator*)	mk7dlp:callseq	0x2204EC	
+0x49CE2C	nw::gfx::BaseAnimEvaluator::UpdateFrame()	mk7dlp:bytes	0x220C64	
+0x49CE90	nw::gfx::BaseAnimEvaluator::TryBind(nw::gfx::AnimGroup*)	mk7dlp:callgraph	0x220CC4	
+0x49D324	nw::gfx::BaseAnimEvaluator::~BaseAnimEvaluator__sub_object()	mk7dlp:bytes	0x22113C	
+0x49D3AC	nw::gfx::MaterialActivator::Create(nw::os::IAllocator*)	mk7dlp:callgraph	0x2211C4	
+0x49E138	nw::gfx::RotateViewUpdater::Create(nw::os::IAllocator*, nw::gfx::res::ResRotateViewUpdater)	mk7dlp:callseq-callee	0x221EE4	
+0x49E184	nw::gfx::RotateViewUpdater::Update(nn::math::MTX34*, const nn::math::MTX34&, const nn::math::VEC3&)	mk7dlp:callseq	0x221F30	
+0x49EC90	nw::gfx::ParticleSet::GetDeviceMemorySizeInternal(nw::os::MemorySizeCalculator*, nw::gfx::res::ResParticleSet)	mk7dlp:bytes	0x222A0C	
+0x49EDE4	nw::gfx::ParticleCollection::Clear()	mk7dlp:bytes	0x222B60	
+0x49EED4	nw::gfx::ParticleCollection::Create(nw::gfx::ParticleSet*, nw::gfx::res::ResParticleCollection, nw::os::IAllocator*, nw::os::IAllocator*, nw::gfx::ParticleShape*)	mk7dlp:callseq	0x222C50	
+0x49FA00	nw::gfx::ParticleCollection::~ParticleCollection()	mk7dlp:bytes	0x2236FC	
+0x49FA6C	nw::gfx::WorldMatrixUpdater::Builder::Create(nw::os::IAllocator*)	mk7dlp:callgraph	0x223768	
+0x49FDE8	nw::gfx::CalculatedTransform::SetTransform(const nn::math::Transform3&)	mk7dlp:callseq-callee	0x2239D4	
+0x4A0020	nw::gfx::CalculatedTransform::UpdateRotateFlags()	mk7dlp:bytes	0x223C04	
+0x4A0058	nw::gfx::TransformAnimEvaluator::UpdateFlags(nw::gfx::CalculatedTransform*) const	mk7dlp:callgraph	0x223C3C	
+0x4A0120	nw::gfx::CalculatedTransform::UpdateCompositeFlags()	mk7dlp:bytes	0x223D0C	
+0x4A0154	nw::gfx::CalculatedTransform::UpdateTranslateFlags()	mk7dlp:bytes	0x223D40	
+0x4A01B0	nw::gfx::CalculatedTransform::NormalizeRotateMatrix()	mk7dlp:bytes-fuzzy	0x223D9C	
+0x4A02E8	nw::gfx::CalculatedTransform::SetRotateAndTranslate(const nn::math::VEC3&, const nn::math::VEC3&)	mk7dlp:callgraph	0x223ED4	
+0x4A0A50	nw::gfx::AimTargetViewUpdater::Create(nw::os::IAllocator*, nw::gfx::res::ResAimTargetViewUpdater)	mk7dlp:callseq-callee	0x2247F8	
+0x4A0A9C	nw::gfx::AimTargetViewUpdater::Update(nn::math::MTX34*, const nn::math::MTX34&, const nn::math::VEC3&)	mk7dlp:bytes	0x224844	
+0x4A0F24	nw::gfx::OrthoProjectionUpdater::Create(nw::os::IAllocator*, nw::gfx::res::ResOrthoProjectionUpdater)	mk7dlp:callseq-callee	0x224B6C	
+0x4A0F8C	nw::gfx::OrthoProjectionUpdater::Update(nn::math::MTX44*, nn::math::MTX34*)	mk7dlp:bytes	0x224BD4	
+0x4A11FC	nw::gfx::TransformAnimEvaluator::ChangeAnim(nw::anim::res::ResAnim)	mk7dlp:bytes	0x224E10	
+0x4A15D8	nw::gfx::TransformAnimEvaluator::UpdateCache()	mk7dlp:bytes	0x224EC8	
+0x4A1814	nw::gfx::TransformAnimEvaluator::ResetNoAnimMember(nw::gfx::AnimGroup*, nw::anim::res::ResAnim)	mk7dlp:callgraph	0x224F54	
+0x4A1A28	nw::gfx::TransformAnimEvaluator::TryBind(nw::gfx::AnimGroup*)	mk7dlp:bytes	0x22577C	
+0x4A1D30	nw::gfx::LookAtTargetViewUpdater::Create(nw::os::IAllocator*)	mk7dlp:bytes	0x226498	
+0x4A1E08	nw::gfx::LookAtTargetViewUpdater::Create(nw::os::IAllocator*, nw::gfx::res::ResLookAtTargetViewUpdater)	mk7dlp:callseq-callee	0x226570	
+0x4A1E54	nw::gfx::LookAtTargetViewUpdater::Update(nn::math::MTX34*, const nn::math::MTX34&, const nn::math::VEC3&)	mk7dlp:bytes	0x2265BC	
+0x4A208C	nw::gfx::SceneEnvironmentSetting::GetMemorySizeInternal(nw::os::MemorySizeCalculator*, nw::gfx::res::ResSceneEnvironmentSetting, nw::gfx::SceneEnvironmentSetting::Description)	mk7dlp:bytes	0x2267C0	
+0x4A2AA0	nw::gfx::SimpleMaterialActivator::Create(nw::os::IAllocator*)	mk7dlp:callgraph	0x227184	
+0x4A384C	nw::gfx::FrustumProjectionUpdater::Create(nw::os::IAllocator*, nw::gfx::res::ResFrustumProjectionUpdater)	mk7dlp:callseq-callee	0x227FDC	
+0x4A38B4	nw::gfx::FrustumProjectionUpdater::Update(nn::math::MTX44*, nn::math::MTX34*)	mk7dlp:bytes	0x228044	
+0x4A3B58	nw::gfx::ParticleMaterialActivator::Activate(nw::gfx::RenderContext*, const nw::gfx::Material*)	mk7dlp:callseq	0x2282B0	
+0x4A43A4	nw::gfx::PerspectiveProjectionUpdater::Create(nw::os::IAllocator*)	mk7dlp:bytes	0x228BF0	
+0x4A44A0	nw::gfx::PerspectiveProjectionUpdater::Create(nw::os::IAllocator*, nw::gfx::res::ResPerspectiveProjectionUpdater)	mk7dlp:callseq-callee	0x228CEC	
+0x4A4788	nw::gfx::Fog::Initialize(nw::os::IAllocator*)	mk7dlp:bytes	0x228F80	
+0x4A4880	nw::gfx::Fog::CreateResFog(nw::os::IAllocator*, const char*)	mk7dlp:bytes-fuzzy	0x229078	
+0x4A4B1C	nw::gfx::Fog::DestroyResFog(nw::os::IAllocator*, nw::gfx::res::ResFogData*)	mk7dlp:bytes	0x229314	
+0x4A4BE4	nw::gfx::Fog::DynamicBuilder::Create(nw::os::IAllocator*)	mk7dlp:bytes	0x2293DC	
+0x4A4CB0	nw::gfx::Fog::CreateAnimGroup(nw::os::IAllocator*)	mk7dlp:bytes	0x2294A8	
+0x4A4E4C	nw::gfx::Fog::SetupFogSampler(nw::gfx::res::ResImageLookupTable, nw::gfx::res::ResFogUpdater, const nn::math::MTX44&)	mk7dlp:callgraph	0x229644	
+0x4A50E4	nw::gfx::Fog::CreateOriginalValue(nw::os::IAllocator*)	mk7dlp:bytes	0x2298E4	
+0x4A5188	nw::gfx::Fog::GetMemorySizeInternal(nw::os::MemorySizeCalculator*, nw::gfx::res::ResFog, nw::gfx::Fog::Description)	mk7dlp:bytes	0x229988	
+0x4A5298	nw::gfx::Fog::Accept(nw::gfx::ISceneVisitor*)	mk7dlp:bytes	0x229A98	
+0x4A550C	nw::gfx::Fog::Update(const nw::gfx::Camera*)	mk7dlp:bytes	0x229D04	
+0x4A5650	nw::gfx::Fog::~Fog()	mk7dlp:bytes-fuzzy	0x229E3C	
+0x4A5AB8	nw::gfx::res::ResTexture::Setup(nw::os::IAllocator*, nw::gfx::res::ResGraphicsFile)	mk7dlp:bytes	0x22A340	
+0x4A5CA0	nw::gfx::res::ResMaterial::SetupShader(nw::os::IAllocator*, nw::gfx::res::ResShader, nw::gfx::res::ResGraphicsFile)	mk7dlp:callseq	0x22A588	
+0x4A5DF4	nw::gfx::res::ResMaterial::SetupTextures(nw::os::IAllocator*, nw::gfx::res::ResMaterial, nw::gfx::res::ResGraphicsFile)	mk7dlp:callseq	0x22A6E0	
+0x4A62B0	nw::gfx::res::ResMaterial::CacheUserUniformIndex(nw::ut::internal::ResArray<nw::gfx::res::ResShaderSymbol, nw::ut::internal::ResArrayClassTraits>)	mk7dlp:bytes	0x22ABAC	
+0x4A6380	nw::gfx::res::ResMaterial::CalcFragmentLightingTableHash()	mk7dlp:bytes-fuzzy	0x22AC7C	
+0x4A662C	nw::gfx::res::ResMaterial::Setup(nw::os::IAllocator*, nw::gfx::res::ResGraphicsFile)	mk7dlp:callgraph	0x22AF4C	
+0x4A67E8	nw::gfx::res::ResPrimitive::SetupDrawCommand(bool)	mk7dlp:bytes	0x22B16C	
+0x4A6880	nw::gfx::res::ResPrimitive::Setup(nw::os::IAllocator*)	mk7dlp:callgraph	0x22B204	
+0x4A6B98	nw::gfx::res::ResLookupTable::Setup(nw::os::IAllocator*)	mk7dlp:callseq-callee	0x22B510	
+0x4A6D94	nw::gfx::res::ResGraphicsFile::Setup(nw::os::IAllocator*, nw::gfx::res::ResGraphicsFile)	mk7dlp:callseq	0x22B660	
+0x4A7240	nw::gfx::res::ResGraphicsFile::GetModels(const char*)	mk7dlp:bytes	0x22BF58	
+0x4A75CC	nw::gfx::res::ResPrimitiveSet::Cleanup()	mk7dlp:bytes	0x22BFFC	
+0x4A77D0	nw::gfx::res::ResTextureMapper::SetTexture(nw::gfx::res::ResTexture)	mk7dlp:bytes	0x22C494	
+0x4A7894	nw::gfx::res::ResTextureMapper::CloneDynamic(nw::os::IAllocator*)	mk7dlp:bytes	0x22C558	
+0x4A78F4	nw::gfx::res::ResTextureMapper::DestroyDynamic()	mk7dlp:bytes	0x22C5B8	
+0x4A7934	nw::gfx::res::ResTextureMapper::Setup(nw::os::IAllocator*, nw::gfx::res::ResGraphicsFile)	mk7dlp:bytes	0x22C5F8	
+0x4A7C5C	nw::gfx::res::ResLookupTableSet::Setup(nw::os::IAllocator*, nw::gfx::res::ResGraphicsFile)	mk7dlp:callseq-callee	0x22CCB4	
+0x4A7D9C	nw::gfx::res::SetupReferenceLut(nw::gfx::res::ResReferenceLookupTable, nw::gfx::res::ResGraphicsFile)	mk7dlp:bytes	0x22CDF8	
+0x4A7E20	nw::gfx::res::ResVertexAttribute::Setup()	mk7dlp:bytes	0x22CE7C	
+0x4A811C	nw::gfx::res::GetReferenceLutTarget(nw::gfx::res::ResReferenceLookupTable, nw::gfx::res::ResGraphicsFile)	mk7dlp:bytes-fuzzy	0x22D170	
+0x4A874C	nw::gfx::res::GetReferenceShaderTarget(nw::gfx::res::ResReferenceShader, nw::gfx::res::ResGraphicsFile)	mk7dlp:bytes	0x22D800	
+0x4A8874	nw::gfx::res::ResFragmentLightingTable::Setup(nw::os::IAllocator*, nw::gfx::res::ResGraphicsFile)	mk7dlp:callseq	0x22D928	
+0x4A8D28	nw::gfx::res::GetReferenceTextureTarget(nw::gfx::res::ResReferenceTexture, nw::gfx::res::ResGraphicsFile)	mk7dlp:bytes	0x22DF68	
+0x4A8FCC	nw::gfx::res::ResTextureCoordinatorData::ResTextureCoordinatorData(const nw::gfx::res::ResTextureCoordinatorData&)	mk7dlp:bytes	0x22E20C	
+0x4A9630	nw::gfx::res::ResPixelBasedTextureMapper::ForceSetupTexture(nw::gfx::res::ResTexture)	mk7dlp:bytes	0x22E7B0	
+0x4A9DEC	nw::gfx::res::ResFog::Setup(nw::os::IAllocator*, nw::gfx::res::ResGraphicsFile)	mk7dlp:bytes-fuzzy	0x22F08C	
+0x4A9E64	nw::gfx::res::ResMesh::Setup(nw::gfx::res::ResModel, nw::os::IAllocator*, nw::gfx::res::ResGraphicsFile)	mk7dlp:callgraph	0x22F134	
+0x4AA2E8	nw::gfx::res::ResLight::Setup(nw::os::IAllocator*, nw::gfx::res::ResGraphicsFile)	mk7dlp:callseq	0x22F640	
+0x4AA4C4	nw::gfx::res::ResModel::Setup(nw::os::IAllocator*, nw::gfx::res::ResGraphicsFile)	mk7dlp:bytes	0x22F8C0	
+0x4AA688	nw::gfx::res::ResShape::Setup(nw::os::IAllocator*)	mk7dlp:callgraph	0x22FBC0	
+0x4AA6C8	nw::gfx::res::ResShader::Dereference()	mk7dlp:bytes	0x22FCA8	
+0x4AA760	nw::gfx::Light::CreateAnimGroup(nw::os::IAllocator*)	mk7dlp:bytes-fuzzy	0x22FED4	
+0x4AA9B0	nw::gfx::Light::DestroyOriginalValue()	mk7dlp:bytes	0x230124	
+0x4AA9D8	nw::gfx::Light::Accept(nw::gfx::ISceneVisitor*)	mk7dlp:bytes	0x23014C	
+0x4AAA38	nw::gfx::Light::~Light__sub_object()	mk7dlp:bytes	0x2301A0	
+0x4AAD24	nw::gfx::Model::Initialize(nw::os::IAllocator*)	mk7dlp:bytes	0x23048C	
+0x4AAF70	nw::gfx::Model::CreateCallbacks(nw::os::IAllocator*)	mk7dlp:callgraph	0x230614	
+0x4AB1CC	nw::gfx::Model::CreateMaterials(nw::os::IAllocator*)	mk7dlp:bytes	0x2308A0	
+0x4AB3DC	nw::gfx::Model::CreateResMeshes(nw::os::IAllocator*)	mk7dlp:callgraph	0x230AB0	
+0x4AB6E0	nw::gfx::Model::BindMaterialAnim(nw::gfx::AnimGroup*)	mk7dlp:bytes-fuzzy	0x230D28	
+0x4AB964	nw::gfx::Model::CreateAnimGroups(nw::os::IAllocator*)	mk7dlp:bytes	0x230FAC	
+0x4ABB04	nw::gfx::Model::DestroyResMeshes(nw::os::IAllocator*, nw::ut::internal::ResArray<nw::gfx::res::ResMesh, nw::ut::internal::ResArrayClassTraits>)	mk7dlp:bytes	0x23114C	
+0x4ABB4C	nw::gfx::Model::BindVisibilityAnim(nw::gfx::AnimGroup*)	mk7dlp:bytes	0x231194	
+0x4ABDB0	nw::gfx::Model::GetAnimTargetObject(const nw::anim::res::ResAnimGroupMember&)	mk7dlp:bytes	0x2313F8	
+0x4ABED8	nw::gfx::Model::GetMemorySizeForInitialize(nw::os::MemorySizeCalculator*, nw::gfx::res::ResModel, nw::gfx::Model::Description)	mk7dlp:callseq	0x231520	
+0x4AC1D8	nw::gfx::Model::CreateResMeshNodeVisibilities(nw::os::IAllocator*)	mk7dlp:callgraph	0x231824	
+0x4AC53C	nw::gfx::Model::Accept(nw::gfx::ISceneVisitor*)	mk7dlp:bytes	0x231B3C	
+0x4AC590	nw::gfx::Model::Create(nw::gfx::SceneNode*, nw::gfx::res::ResSceneObject, const nw::gfx::Model::Description&, nw::os::IAllocator*)	mk7dlp:callseq	0x231B90	
+0x4AC958	nw::gfx::Model::~Model()	mk7dlp:bytes	0x231F70	
+0x4ACF98	nw::gfx::Camera::Initialize(nw::os::IAllocator*)	mk7dlp:bytes	0x2325B0	
+0x4ACFE0	nw::gfx::Camera::StoreOriginal(nw::os::IAllocator*)	mk7dlp:bytes	0x2325F8	
+0x4AD2A4	nw::gfx::Camera::DynamicBuilder::Create(nw::os::IAllocator*)	mk7dlp:bytes	0x2328BC	
+0x4AD684	nw::gfx::Camera::CreateAnimGroup(nw::os::IAllocator*)	mk7dlp:bytes	0x232C9C	
+0x4AD944	nw::gfx::Camera::DestroyResCamera(nw::os::IAllocator*, nw::gfx::res::ResCamera)	mk7dlp:callgraph	0x232F20	
+0x4ADA80	nw::gfx::Camera::UpdateCameraMatrix()	mk7dlp:bytes	0x232FD0	
+0x4ADEEC	nw::gfx::Camera::GetMemorySizeInternal(nw::os::MemorySizeCalculator*, nw::gfx::res::ResCamera, nw::gfx::Camera::Description)	mk7dlp:bytes	0x23343C	
+0x4AE144	nw::gfx::Camera::Accept(nw::gfx::ISceneVisitor*)	mk7dlp:bytes	0x233694	
+0x4AE198	nw::gfx::Camera::Create(nw::gfx::SceneNode*, nw::gfx::res::ResSceneObject, const nw::gfx::Camera::Description&, nw::os::IAllocator*)	mk7dlp:callseq	0x2336E8	
+0x4AE5B0	nw::gfx::Camera::Camera(nw::os::IAllocator*, nw::gfx::res::ResTransformNode, const nw::gfx::Camera::Description&, nw::gfx::GfxPtr<nw::gfx::CameraViewUpdater>, nw::gfx::GfxPtr<nw::gfx::CameraProjectionUpdater>, float, bool)	mk7dlp:bytes	0x233B48	
+0x4AE688	nw::gfx::Camera::~Camera()	mk7dlp:bytes	0x233C1C	
+0x4AEE60	nw::gfx::LightSet::~LightSet()	mk7dlp:bytes	0x2343B8	
+0x4AEECC	nw::gfx::Material::CreateBuffers(nw::os::IAllocator*)	mk7dlp:callseq	0x234484	
+0x4AF064	nw::gfx::Material::CopyResMaterial(nw::os::IAllocator*, unsigned)	mk7dlp:callseq	0x234630	
+0x4AF5C4	nw::gfx::Material::DestroyResMaterial(nw::os::IAllocator*, nw::gfx::res::ResMaterial)	mk7dlp:bytes	0x234C98	
+0x4AF818	nw::gfx::Material::GetMemorySizeInternal(nw::os::MemorySizeCalculator*, nw::gfx::res::ResMaterial, int, unsigned)	mk7dlp:bytes-fuzzy	0x234F3C	
+0x4AFC78	nw::gfx::Material::DestroyResFragmentShader(nw::os::IAllocator*, nw::gfx::res::ResFragmentShader)	mk7dlp:callgraph	0x23539C	
+0x4AFF70	nw::gfx::Material::CopyResLightingLookupTable(nw::os::IAllocator*, nw::gfx::res::ResLightingLookupTable)	mk7dlp:bytes	0x235694	
+0x4B00B4	nw::gfx::Material::CopyResFragmentLightingTable(nw::os::IAllocator*, nw::gfx::res::ResFragmentLightingTable)	mk7dlp:bytes	0x2357D8	
+0x4B0388	nw::gfx::Material::Create(nw::gfx::res::ResMaterial, int, nw::gfx::Model*, nw::os::IAllocator*)	mk7dlp:bytes-fuzzy	0x235AAC	
+0x4B0658	nw::gfx::Material::~Material()	mk7dlp:bytes	0x235CEC	
+0x4B0944	nw::gfx::Skeleton::~Skeleton__sub_object()	mk7dlp:bytes	0x235FF8	
+0x4B0A94	nw::gfx::internal::MaterialState::SetupTextureMatrix(nn::math::MTX44*, nw::gfx::res::ResTextureCoordinator::MappingMatrixMode, float, float, float, float, float)	mk7dlp:bytes-fuzzy	0x236148	
+0x4B0D2C	nw::gfx::internal::MaterialState::ActivateMaterialColor(const nw::gfx::SceneEnvironment&, const nw::gfx::ShaderProgram*, nw::gfx::res::ResMaterialColor, bool)	mk7dlp:callseq	0x2363E0	
+0x4B1D14	nw::gfx::internal::MaterialState::ActivateFragmentLightingTable(nw::gfx::res::ResFragmentLighting, nw::gfx::res::ResFragmentLightingTable)	mk7dlp:callseq	0x237340	
+0x4B2134	nw::gfx::internal::MaterialState::ActivateParticleTextureCoordinators(nw::gfx::RenderContext*, const nw::gfx::ShaderProgram*, nw::gfx::res::ResMaterial)	mk7dlp:bytes	0x237818	
+0x4B22E4	nw::gfx::internal::ClearVertexAttribute()	mk7dlp:bytes	0x2379C8	
+0x4B2314	nw::gfx::internal::SetupShaderProgramMode(bool)	mk7dlp:bytes	0x2379F8	
+0x4B23D8	nw::gfx::internal::SetupDrawIndexStreamCommand(nw::gfx::internal::CommandBufferInfo&, nw::gfx::res::ResIndexStream, bool)	mk7dlp:bytes	0x237A30	
+0x4B25E0	nw::gfx::internal::SetupDeactivateVertexAttributeCommand(nw::gfx::internal::CommandBufferInfo&, nw::gfx::res::ResSeparateDataShape, nw::gfx::res::ResShaderProgramDescription)	mk7dlp:bytes-fuzzy	0x237C38	
+0x4B2900	nw::gfx::AnimGroup::Initialize(bool)	mk7dlp:callgraph	0x237F5C	
+0x4B36E0	nw::gfx::AnimGroup::GetMemorySizeForInitialize(nw::os::MemorySizeCalculator*, nw::anim::res::ResAnimGroup, bool)	mk7dlp:bytes	0x238D3C	
+0x4B3784	nw::gfx::AnimGroup::AnimGroup(nw::anim::res::ResAnimGroup, nw::gfx::SceneNode*, nw::os::IAllocator*)	mk7dlp:callgraph	0x238DE0	
+0x4B38EC	nw::gfx::AnimGroup::~AnimGroup()	mk7dlp:bytes	0x238E8C	
+0x4B39D0	nw::gfx::SceneNode::Initialize(nw::os::IAllocator*)	mk7dlp:bytes	0x238F70	
+0x4B3A28	nw::gfx::SceneNode::AttachChild(nw::gfx::SceneNode*)	mk7dlp:callgraph	0x238FC8	
+0x4B3B94	nw::gfx::SceneNode::UpdateFrame()	mk7dlp:bytes	0x239128	
+0x4B3BF4	nw::gfx::SceneNode::CreateChildren(nw::os::IAllocator*)	mk7dlp:callgraph	0x239188	
+0x4B4018	nw::gfx::SceneNode::CreateCallbacks(nw::os::IAllocator*)	mk7dlp:callgraph	0x239590	
+0x4B4154	nw::gfx::SceneNode::CreateAnimBinding(nw::os::IAllocator*)	mk7dlp:callgraph	0x2396DC	
+0x4B4578	nw::gfx::SceneNode::Accept(nw::gfx::ISceneVisitor*)	mk7dlp:bytes	0x239AD4	
+0x4B47FC	nw::gfx::SceneNode::~SceneNode()	mk7dlp:bytes	0x239D48	
+0x4B510C	nw::lyt::AnimResource::Set(const void*)	mk7dlp:bytes	0x239F70	
+0x4B5650	nw::lyt::GroupContainer::FindGroupByName(const char*)	mk7dlp:bytes	0x23A018	
+0x4B56A0	nw::lyt::GroupContainer::~GroupContainer()	mk7dlp:bytes-fuzzy	0x23A068	
+0x4B5708	nw::lyt::GraphicsResource::FinishSetup()	mk7dlp:callseq	0x23A0E0	
+0x4B57E8	nw::lyt::GraphicsResource::SetResource(int, void*, unsigned, bool)	mk7dlp:bytes-fuzzy	0x23A1C0	
+0x4B5A28	nw::lyt::GraphicsResource::GetResourcePath(int)	mk7dlp:bytes	0x23A3F4	
+0x4B5B9C	nw::lyt::GraphicsResource::InitVBO()	mk7dlp:bytes	0x23A4DC	
+0x4B61E4	nw::lyt::AnimTransformBasic::Bind(nw::lyt::Pane*, bool, bool)	mk7dlp:bytes	0x23A808	
+0x4B673C	nw::lyt::AnimTransformBasic::Animate(unsigned, nw::lyt::Material*)	mk7dlp:bytes	0x23AC24	
+0x4B6AC0	nw::lyt::AnimTransformBasic::AnimTransformBasic()	mk7dlp:bytes	0x23AFA8	
+0x4B6B30	nw::lyt::AnimTransformBasic::~AnimTransformBasic()	mk7dlp:bytes-fuzzy	0x23AFE0	
+0x4B7334	nw::lyt::Pane::AnimateSelf(unsigned)	mk7dlp:bytes	0x23B188	
+0x4B73FC	nw::lyt::Pane::AppendChild(nw::lyt::Pane*)	mk7dlp:bytes	0x23B240	
+0x4B7420	nw::lyt::Pane::InsertChild(nw::lyt::Pane*, nw::lyt::Pane*)	mk7dlp:bytes	0x23B264	
+0x4B7450	nw::lyt::Pane::RemoveChild(nw::lyt::Pane*)	mk7dlp:bytes	0x23B288	
+0x4B7474	nw::lyt::Pane::CalculateMtx(const nw::lyt::DrawInfo&)	mk7dlp:bytes	0x23B2A8	
+0x4B7870	nw::lyt::Pane::BindAnimation(nw::lyt::AnimTransform*, bool, bool)	mk7dlp:bytes	0x23B65C	
+0x4B7890	nw::lyt::Pane::FindPaneByName(const char*, bool)	mk7dlp:bytes	0x23B67C	
+0x4B7904	nw::lyt::Pane::SetColorElement(unsigned, unsigned char)	mk7dlp:bytes	0x23B6F0	
+0x4B7920	nw::lyt::Pane::UnbindAnimation(nw::lyt::AnimTransform*, bool)	mk7dlp:bytes	0x23B70C	
+0x4B7984	nw::lyt::Pane::AddAnimationLink(nw::lyt::AnimationLink*)	mk7dlp:callgraph	0x23B770	
+0x4B7994	nw::lyt::Pane::FindMaterialByName(const char*, bool)	mk7dlp:bytes	0x23B780	
+0x4B7C78	nw::lyt::Pane::Init()	mk7dlp:bytes-fuzzy	0x23B848	
+0x4B7D84	nw::lyt::Pane::Animate(unsigned)	mk7dlp:bytes	0x23B954	
+0x4B7E78	nw::lyt::Pane::Pane(const nw::lyt::res::Pane*)	mk7dlp:callseq-callee	0x23BA08	
+0x4B8550	nw::lyt::Group::Group(const nw::lyt::res::Group*, nw::lyt::Pane*)	mk7dlp:callgraph	0x23BD14	
+0x4B8AEC	nw::lyt::Drawer::Initialize(nw::lyt::GraphicsResource&, void*)	mk7dlp:callseq	0x254558	
+0x4B8B84	nw::lyt::Drawer::SetUpTexEnv(const nw::lyt::Material*)	mk7dlp:callseq	0x23C270	
+0x4B9000	nw::lyt::Drawer::SetUpTextBox(const nw::lyt::TextBox*, const nw::lyt::Material*, const nw::lyt::DrawInfo&, nw::font::FontCombinerType)	mk7dlp:callseq	0x23C6F4	
+0x4B910C	nw::lyt::Drawer::SetUpTextures(const nw::lyt::Material*, bool)	mk7dlp:callseq-callee	0x23C7EC	
+0x4B92A0	nw::lyt::Drawer::SetUpBlendMode(const nw::lyt::Material*)	mk7dlp:callseq	0x23C998	
+0x4B93B0	nw::lyt::Drawer::SetUpVtxColors(const nw::ut::Color8*, unsigned char)	mk7dlp:bytes	0x23CABC	
+0x4B9680	nw::lyt::Drawer::UniformAndDraw()	mk7dlp:callseq	0x23CD8C	
+0x4B97E0	nw::lyt::Drawer::SetUpTexEnvType3(const nw::lyt::Material*)	mk7dlp:callseq	0x23D058	
+0x4B98F8	nw::lyt::Drawer::SetUpTexEnvType2(const nw::lyt::Material*)	mk7dlp:callseq-callee	0x23CF24	
+0x4B9AB0	nw::lyt::Drawer::SetUpGLTexEnvUser(const nw::lyt::Material*)	mk7dlp:callseq-callee	0x23D23C	
+0x4B9E74	nw::lyt::Drawer::SetUpTextureCoords(const nn::math::VEC4*, int)	mk7dlp:callseq	0x23D63C	
+0x4B9F1C	nw::lyt::Drawer::SetUpMtx(const nn::math::MTX34&)	mk7dlp:bytes	0x23D704	
+0x4B9FA8	nw::lyt::Drawer::SetUpQuad(const nw::lyt::Size&, const nn::math::VEC2&)	mk7dlp:bytes	0x23D73C	
+0x4BA010	nw::lyt::Layout::AllocMemory(unsigned, unsigned char)	mk7dlp:bytes	0x23D7EC	
+0x4BA034	nw::lyt::Layout::BuildPaneObj(int, const void*, const nw::lyt::ResBlockSet&)	mk7dlp:callseq	0x23D810	
+0x4BA200	nw::lyt::Layout::BindAnimation(nw::lyt::AnimTransform*)	mk7dlp:bytes	0x23DA90	
+0x4BA224	nw::lyt::Layout::UnbindAnimation(nw::lyt::AnimTransform*)	mk7dlp:bytes	0x23DAB4	
+0x4BA278	nw::lyt::Layout::AllocDeviceMemory(unsigned, unsigned char)	mk7dlp:bytes	0x23DAD4	
+0x4BA5F0	nw::lyt::Layout::CreateAnimTransform(const void*, nw::lyt::ResourceAccessor*)	mk7dlp:bytes	0x23DB08	
+0x4BA62C	nw::lyt::Layout::CreateAnimTransform(const nw::lyt::AnimResource&, nw::lyt::ResourceAccessor*)	mk7dlp:bytes	0x23DB44	
+0x4BA678	nw::lyt::Layout::CreateAnimTransform()	mk7dlp:bytes	0x23DB90	
+0x4BA794	nw::lyt::Layout::Build(const void*, nw::lyt::ResourceAccessor*)	mk7dlp:bytes	0x23DC10	
+0x4BAB50	nw::lyt::TexMap::ResetU32Info()	mk7dlp:bytes-fuzzy	0x23E0D8	
+0x4BACDC	nw::lyt::TexMap::TexMap(const nw::lyt::TextureInfo&)	mk7dlp:bytes	0x23E264	
+0x4BAD50	nw::lyt::TexMap::TexMap()	mk7dlp:bytes	0x23E2D8	
+0x4BB314	nw::lyt::Window::SetVtxColorElement(unsigned, unsigned char)	mk7dlp:bytes	0x23E3F8	
+0x4BB690	nw::lyt::Window::Window(const nw::lyt::res::Window*, const nw::lyt::ResBlockSet&)	mk7dlp:callseq	0x23E410	
+0x4BBBC8	nw::lyt::Picture::Append(const nw::lyt::TexMap&)	mk7dlp:callseq	0x23E84C	
+0x4BBD88	nw::lyt::Picture::Picture(const nw::lyt::res::Picture*, const nw::lyt::ResBlockSet&)	mk7dlp:bytes-fuzzy	0x23E98C	
+0x4BC098	nw::lyt::TextBox::SetupTextWriter(nw::font::TextWriterBase<wchar_t>*)	mk7dlp:callseq	0x23EC3C	
+0x4BC2D0	nw::lyt::TextBox::SetupDrawCharData(nw::lyt::Drawer*)	mk7dlp:callseq-callee	0x23EEC8	
+0x4BC38C	nw::lyt::TextBox::SetVtxColorElement(unsigned, unsigned char)	mk7dlp:bytes	0x23EF64	
+0x4BC5C4	nw::lyt::TextBox::TextBox(const nw::lyt::res::TextBox*, const nw::lyt::ResBlockSet&)	mk7dlp:callseq-callee	0x23F134	
+0x4BC8D0	nw::lyt::Bounding::Bounding(const nw::lyt::res::Bounding*, const nw::lyt::ResBlockSet&)	mk7dlp:callseq-callee	0x23F458	
+0x4BC900	nw::lyt::Material::ReserveMem(unsigned char, unsigned char, unsigned char, unsigned char, bool, bool)	mk7dlp:callseq	0x23F540	
+0x4BCBA8	nw::lyt::Material::GetTexSRTAry()	mk7dlp:callgraph	0x23F7C8	
+0x4BCBBC	nw::lyt::Material::SetTexMapNum(unsigned char)	mk7dlp:bytes	0x23F7DC	
+0x4BDE54	nw::lyt::Material::SetTevStageNum(unsigned char)	mk7dlp:bytes	0x23F838	
+0x4BDF9C	nw::lyt::Material::SetColorElement(unsigned, unsigned char)	mk7dlp:bytes	0x23F980	
+0x4BDFE4	nw::lyt::Material::AddAnimationLink(nw::lyt::AnimationLink*)	mk7dlp:callgraph	0x23F9C8	
+0x4BE004	nw::lyt::Material::GetTexCoordGenAry()	mk7dlp:callseq-callee	0x23F9D8	
+0x4BE02C	nw::lyt::Material::SetTexCoordGenNum(unsigned char)	mk7dlp:bytes	0x23FA00	
+0x4BE114	nw::lyt::Material::Init()	mk7dlp:bytes	0x23FA90	
+0x4BE14C	nw::lyt::Material::Animate()	mk7dlp:bytes	0x23FAC8	
+0x4BE1C8	nw::lyt::Material::Material(const nw::lyt::res::Material*, const nw::lyt::ResBlockSet&)	mk7dlp:bytes-fuzzy	0x23FB54	
+0x4BE8E8	nw::lyt::internal::TexCoordAry::Copy(const void*, unsigned char)	mk7dlp:bytes	0x24029C	
+0x4BE988	nw::lyt::internal::TexCoordAry::Free()	mk7dlp:bytes	0x24033C	
+0x4BE9B4	nw::lyt::internal::TexCoordAry::Reserve(unsigned char)	mk7dlp:bytes	0x240368	
+0x4BEA34	nw::lyt::internal::TexCoordAry::SetSize(unsigned char)	mk7dlp:bytes-fuzzy	0x2403E8	
+0x4BEB80	nw::lyt::internal::TexCoordAry::SetCoord(unsigned, const nn::math::VEC2*)	mk7dlp:bytes	0x240534	
+0x4BEBF8	nw::lyt::internal::TexCoordAry::TexCoordAry()	mk7dlp:bytes	0x2405AC	
+0x4BEE20	nw::lyt::internal::EqualsResName(const char*, const char*)	mk7dlp:bytes	0x2405C0	
+0x4BEF48	nw::lyt::internal::EqualsMaterialName(const char*, const char*)	mk7dlp:bytes	0x2405DC	
+0x4BEF64	nw::lyt::Pane::UnbindAnimationSelf(nw::lyt::AnimTransform*)	mk7dlp:bytes	0x2405F8	
+0x4BEFD4	nw::lyt::internal::UnbindAnimationLink(nw::ut::LinkList<nw::lyt::AnimationLink, (long)0>*, nw::lyt::AnimTransform*)	mk7dlp:bytes	0x240668	
+0x4BF5C4	nw::lyt::IsContain(nw::lyt::Pane*, const nn::math::VEC2&)	mk7dlp:bytes	0x240824	
+0x4BF660	nw::snd::SoundHandle::detail_AttachSound(nw::snd::internal::BasicSound*)	mk7dlp:bytes	0x240BE8	
+0x4BF68C	nw::snd::SoundHandle::detail_AttachSoundAsTempHandle(nw::snd::internal::BasicSound*)	mk7dlp:bytes	0x240C14	
+0x4BF6F4	nw::snd::internal::ExternalSoundPlayer::PauseAllSound(bool, int)	mk7dlp:bytes-fuzzy	0x249C6C	
+0x4BFBEC	nw::snd::SoundSystem::Initialize(const nw::snd::SoundSystem::SoundSystemParam&, unsigned, unsigned)	mk7dlp:callseq	0x2410FC	
+0x4C0034	nw::snd::SoundSystem::GetRequiredMemSize(const nw::snd::SoundSystem::SoundSystemParam&)	mk7dlp:bytes-fuzzy	0x241348	
+0x4C0128	nw::snd::SoundSystem::Finalize()	mk7dlp:callseq	0x2413B4	
+0x4C03F8	nw::snd::SoundStartable::StartSound(nw::snd::SoundHandle*, unsigned, const nw::snd::SoundStartable::StartInfo*)	mk7dlp:bytes	0x242080	
+0x4C0438	nw::snd::SoundStartable::PrepareSound(nw::snd::SoundHandle*, unsigned, const nw::snd::SoundStartable::StartInfo*)	mk7dlp:bytes	0x2420C0	
+0x4C05AC	nw::snd::SoundDataManager::Initialize(const nw::snd::SoundArchive*, void*, unsigned)	mk7dlp:bytes-fuzzy	0x2427DC	
+0x4C0800	nw::snd::SoundDataManager::SetFileAddressToTable(unsigned, const void*)	mk7dlp:bytes	0x2429B4	
+0x4C0988	nw::snd::MemorySoundArchive::Initialize(const void*)	mk7dlp:callgraph	0x24306C	
+0x4C1038	nw::snd::SoundArchivePlayer::detail_SetupSound(nw::snd::SoundHandle*, unsigned, bool, const nw::snd::SoundStartable::StartInfo*)	mk7dlp:bytes	0x2434A4	
+0x4C14F8	nw::snd::SoundArchivePlayer::detail_SetupSoundImpl(nw::snd::SoundHandle*, unsigned, nw::snd::internal::BasicSound::AmbientInfo*, nw::snd::SoundActor*, bool, const nw::snd::SoundStartable::StartInfo*)	mk7dlp:callgraph	0x2437B4	
+0x4C2B80	nw::snd::SoundArchivePlayer::PrepareSequenceSoundImpl(nw::snd::internal::SequenceSound*, const nw::snd::SoundArchive::SoundInfo*, const nw::snd::SoundArchive::SequenceSoundInfo*, nw::snd::SoundStartable::StartInfo::StartOffsetType, int, const nw::snd::SoundStartable::StartInfo::SeqSoundInfo*)	mk7dlp:callseq	0x2441A0	
+0x4C31C4	nw::snd::SoundArchivePlayer::Update()	mk7dlp:callseq	0x2444E0	
+0x4C39A4	nw::snd::SequenceSoundHandle::SequenceSoundHandle(nw::snd::SoundHandle*)	mk7dlp:bytes-fuzzy	0x244C98	
+0x4C4D74	nw::snd::internal::BasicSound::StartPrepared()	mk7dlp:callgraph	0x245130	
+0x4C4D80	nw::snd::internal::BasicSound::SetAmbientInfo(const nw::snd::internal::BasicSound::AmbientInfo&)	mk7dlp:bytes	0x24513C	
+0x4C4E98	nw::snd::SoundPlayer::detail_RemoveSound(nw::snd::internal::BasicSound*)	mk7dlp:callseq	0x245250	
+0x4C4F08	nw::snd::internal::BasicSound::GetAmbientPriority(const nw::snd::internal::BasicSound::AmbientInfo&, unsigned)	mk7dlp:bytes	0x2452C0	
+0x4C4F4C	nw::snd::internal::BasicSound::DetachTempGeneralHandle()	mk7dlp:callgraph	0x245304	
+0x4C4F54	nw::snd::internal::BasicSound::IsAttachedGeneralHandle()	mk7dlp:callgraph	0x24530C	
+0x4C4F94	nw::snd::internal::BasicSound::IsAttachedTempGeneralHandle()	mk7dlp:callgraph	0x24534C	
+0x4C4FA4	nw::snd::internal::BasicSound::Pause(bool, int)	mk7dlp:callgraph	0x245560	
+0x4C58E0	nw::snd::internal::CurveAdshr::Initialize(float)	mk7dlp:bytes	0x245E20	
+0x4C5928	nw::snd::internal::CurveAdshr::SetRelease(int)	mk7dlp:bytes	0x245E68	
+0x4C59A0	nw::snd::internal::CurveAdshr::Reset(float)	mk7dlp:bytes	0x245EE0	
+0x4C59BC	nw::snd::internal::CurveAdshr::Update(int)	mk7dlp:callseq-callee	0x245EFC	
+0x4C5ACC	nw::snd::internal::CurveAdshr::SetHold(int)	mk7dlp:bytes	0x24600C	
+0x4C5AEC	nw::snd::internal::CurveAdshr::SetDecay(int)	mk7dlp:bytes	0x24602C	
+0x4C5B78	nw::snd::internal::CurveAdshr::CurveAdshr()	mk7dlp:bytes	0x2460B8	
+0x4C5D5C	nn::fs::detail::FileBase::TrySeek(long long, nn::fs::PositionBase)	mk7dlp:callseq-callee	0x165F74	
+0x4C5E0C	nw::snd::internal::PlayerHeap::Alloc(unsigned)	mk7dlp:bytes	0x2460E4	
+0x4C5E44	nw::snd::internal::PlayerHeap::Create(void*, unsigned)	mk7dlp:bytes	0x246168	
+0x4C5EC4	nw::snd::internal::TaskThread::ThreadProc()	mk7dlp:callseq	0x2461C8	
+0x4C5F70	nw::snd::internal::TaskThread::GetInstance()	mk7dlp:callseq-callee	0x2462E8	
+0x4C60B8	nw::snd::internal::TaskThread::Destroy()	mk7dlp:callseq-callee	0x2464AC	
+0x4C6278	nw::snd::internal::StreamSound::UpdateParam()	mk7dlp:bytes-fuzzy	0x24668C	
+0x4C6340	nw::snd::internal::StreamSound::SetTrackVolume(unsigned long, float, int)	mk7dlp:bytes-fuzzy	0x246754	
+0x4C698C	nw::snd::internal::TaskManager::GetInstance()	mk7dlp:callseq-callee	0x246D44	
+0x4C6A3C	nw::snd::internal::TaskManager::GetNextTask(nw::snd::internal::TaskManager::TaskPriority, bool)	mk7dlp:callgraph	0x246DF4	
+0x4C6B2C	nw::snd::internal::TaskManager::WaitTask()	mk7dlp:bytes	0x246EE0	
+0x4C6BD0	nw::snd::internal::ThreadStack::Finalize()	mk7dlp:callseq-callee	0x246FA0	
+0x4C7300	nw::snd::internal::DriverCommand::ProcessCommandList(nw::snd::internal::DriverCommand*)	mk7dlp:callgraph	0x247000	
+0x4C7B38	nw::snd::internal::SequenceSound::SetTempoRatio(float)	mk7dlp:bytes-fuzzy	0x247B68	
+0x4C7B88	nw::snd::internal::SequenceSound::WriteVariable(int, short)	mk7dlp:bytes-fuzzy	0x247C10	
+0x4C81EC	nw::snd::internal::WaveFileReader::GetSampleFormat(unsigned char)	mk7dlp:bytes	0x24837C	
+0x4C8558	nw::snd::MemorySoundArchive::MemoryFileStream::Seek(int, unsigned)	mk7dlp:bytes	0x243174	
+0x4C8588	nw::snd::MemorySoundArchive::MemoryFileStream::Close()	mk7dlp:bytes	0x2431A4	
+0x4C85D4	nw::snd::RomSoundArchive::LoadHeader(void*, unsigned long)	mk7dlp:callseq	0x242154	
+0x4C86E4	nw::snd::RomSoundArchive::LoadLabelStringData(void*, unsigned long)	mk7dlp:callseq	0x2422C0	
+0x4C8ADC	nw::snd::internal::PlayerHeapDataManager::Initialize(const nw::snd::SoundArchive*)	mk7dlp:bytes	0x2487EC	
+0x4C8B2C	nw::snd::internal::SoundArchiveLoader::SetSoundArchive(const nw::snd::SoundArchive*)	mk7dlp:callgraph	0x24883C	
+0x4C8B34	nw::snd::internal::SoundArchiveLoader::detail_LoadWaveArchiveByBankFile(const void*, nw::snd::SoundMemoryAllocatable*)	mk7dlp:callseq	0x2491CC	
+0x4C8C54	nw::snd::internal::SoundArchiveLoader::detail_LoadWaveArchiveByWaveSoundFile(const void*, int, nw::snd::SoundMemoryAllocatable*)	mk7dlp:bytes	0x2492E8	
+0x4C8DE8	nw::snd::internal::ExternalSoundPlayer::detail_CanPlaySound(int)	mk7dlp:bytes-fuzzy	0x249CB0	
+0x4C8E3C	nw::snd::internal::ExternalSoundPlayer::GetLowestPrioritySound()	mk7dlp:bytes-fuzzy	0x249D74	
+0x4C91D0	nw::snd::internal::DriverCommandManager::ProcessCommand()	mk7dlp:bytes	0x24A1F4	
+0x4C9288	nw::snd::internal::DriverCommandManager::GetInstanceForTaskThread()	mk7dlp:callseq-callee	0x24A3A8	
+0x4C92E4	nw::snd::internal::DriverCommandManager::Finalize()	mk7dlp:callseq-callee	0x534A44	
+0x4C9378	nw::snd::internal::PlayerHeapDataManager::InvalidateData(const void*, const void*)	mk7dlp:bytes	0x24A458	
+0x4C9418	nw::snd::internal::PlayerHeapDataManager::Finalize()	mk7dlp:bytes	0x24A48C	
+0x4C9444	nw::snd::internal::PlayerHeapDataManager::PlayerHeapDataManager()	mk7dlp:bytes	0x24A4B8	
+0x4C9BCC	nw::snd::internal::Util::CalcRandom()	mk7dlp:bytes	0x24A954	
+0x4C9BF8	nw::snd::internal::Util::CalcLpfFreq(float)	mk7dlp:bytes	0x24A980	
+0x4C9D98	nw::snd::internal::Util::CalcPitchRatio(int)	mk7dlp:bytes	0x24AC60	
+0x4C9EC4	nw::snd::internal::Util::CalcVolumeRatio(float)	mk7dlp:bytes	0x24AD8C	
+0x4C9F1C	nw::snd::internal::Util::GetByteBySample(unsigned long, nw::snd::SampleFormat)	mk7dlp:bytes	0x24ADE4	
+0x4C9F8C	nw::snd::internal::Util::CalcSurroundPanRatio(float, const nw::snd::internal::Util::PanInfo&)	mk7dlp:bytes	0x24B034	
+0x4CA014	nw::snd::internal::Util::IsLoadedWaveArchive(const void*, const nw::snd::SoundArchive&, const nw::snd::internal::SoundArchiveLoader&)	mk7dlp:callseq	0x24AE9C	
+0x4CA13C	nw::snd::internal::Util::IsLoadedWaveArchive(const void*, unsigned, const nw::snd::SoundArchive&, const nw::snd::internal::SoundArchiveLoader&)	mk7dlp:callseq	0x24AF78	
+0x4CA2B4	nw::snd::internal::driver::Voice::SetLpfFreq(float)	mk7dlp:bytes	0x250AB4	
+0x4CA2D8	nw::snd::internal::driver::Voice::SetPanMode(nw::snd::PanMode)	mk7dlp:bytes	0x250AD8	
+0x4CA2F8	nw::snd::internal::driver::Voice::FrameToByte(unsigned, nw::snd::SampleFormat)	mk7dlp:bytes	0x250AF8	
+0x4CA364	nw::snd::internal::driver::Voice::SetMainSend(float)	mk7dlp:bytes	0x250B64	
+0x4CA3A8	nw::snd::internal::driver::Voice::SetPanCurve(nw::snd::PanCurve)	mk7dlp:bytes	0x250BA8	
+0x4CA3C8	nw::snd::internal::driver::Voice::SetPriority(int)	mk7dlp:bytes	0x250BC8	
+0x4CA420	nw::snd::internal::driver::Voice::CalcMixParam(int, nn::snd::CTR::MixParam*)	mk7dlp:callgraph	0x250C20	
+0x4CA730	nw::snd::internal::driver::Voice::StopFinished()	mk7dlp:callgraph	0x250F74	
+0x4CA79C	nw::snd::internal::driver::Voice::SetAdpcmParam(int, const nn::snd::CTR::AdpcmParam&)	mk7dlp:callseq-callee	0x250FDC	
+0x4CA7EC	nw::snd::internal::driver::Voice::SetSurroundPan(float)	mk7dlp:bytes	0x251028	
+0x4CA810	nw::snd::internal::driver::Voice::SetBiquadFilter(int, float)	mk7dlp:bytes	0x25104C	
+0x4CA878	nw::snd::internal::driver::Voice::AppendWaveBuffer(int, nn::snd::CTR::WaveBuffer*, bool)	mk7dlp:bytes	0x2510B4	
+0x4CA8AC	nw::snd::internal::driver::Voice::CalcOffsetAdpcmParam(nn::snd::CTR::AdpcmContext*, const nn::snd::CTR::AdpcmParam&, unsigned, const void*)	mk7dlp:bytes	0x2510DC	
+0x4CA900	nw::snd::internal::driver::Voice::SetInterpolationType(unsigned char)	mk7dlp:bytes	0x251130	
+0x4CA964	nw::snd::internal::driver::Voice::UpdateVoicesPriority()	mk7dlp:bytes	0x251194	
+0x4CA9AC	nw::snd::internal::driver::Voice::SetFrontBypass(bool)	mk7dlp:bytes	0x250FE8	
+0x4CA9EC	nw::snd::internal::driver::Voice::SdkVoiceDropCallbackFunc(nn::snd::CTR::Voice*, unsigned)	mk7dlp:bytes	0x2511DC	
+0x4CAA3C	nw::snd::internal::driver::Voice::SdkVoiceDropCallbackFuncMulti(nn::snd::CTR::Voice*, unsigned)	mk7dlp:bytes	0x25122C	
+0x4CAB24	nw::snd::internal::driver::Voice::Calc()	mk7dlp:callgraph	0x251314	
+0x4CAD70	nw::snd::internal::driver::Voice::Free()	mk7dlp:bytes	0x2515D8	
+0x4CADD8	nw::snd::internal::driver::Voice::Stop()	mk7dlp:bytes	0x251640	
+0x4CAE34	nw::snd::internal::driver::Voice::Alloc(int, int, void(*)(nw::snd::internal::driver::Voice*, nw::snd::internal::driver::Voice::VoiceCallbackStatus, void*), void*)	mk7dlp:bytes	0x25169C	
+0x4CAFCC	nw::snd::internal::driver::Voice::Pause(bool)	mk7dlp:bytes	0x251834	
+0x4CAFEC	nw::snd::internal::driver::Voice::Start()	mk7dlp:bytes	0x251854	
+0x4CB00C	nw::snd::internal::driver::Voice::SetPan(float)	mk7dlp:bytes	0x251874	
+0x4CB030	nw::snd::internal::driver::Voice::Update()	mk7dlp:callgraph	0x251898	
+0x4CB220	nw::snd::internal::driver::Voice::CalcMix()	mk7dlp:bytes	0x251AC0	
+0x4CB2E8	nw::snd::internal::driver::Voice::SetPitch(float)	mk7dlp:bytes	0x251B88	
+0x4CB30C	nw::snd::internal::driver::Voice::SetFxSend(nw::snd::AuxBus, float)	mk7dlp:bytes	0x251BAC	
+0x4CB348	nw::snd::internal::driver::Voice::SetVolume(float)	mk7dlp:bytes	0x251BE8	
+0x4CB380	nw::snd::internal::driver::Voice::Voice()	mk7dlp:bytes	0x251C20	
+0x4CB3B0	nw::snd::internal::driver::Voice::~Voice()	mk7dlp:bytes	0x251C50	
+0x4CB3E4	nw::snd::internal::driver::SoundThread::FrameProcess()	mk7dlp:callseq	0x24B18C	
+0x4CBAB0	nw::snd::internal::driver::SoundThread::Destroy()	mk7dlp:callseq-callee	0x24B6C0	
+0x4CBADC	nw::snd::internal::driver::SoundThread::Finalize()	mk7dlp:callseq-callee	0x24B6EC	
+0x4CBBF0	nw::snd::internal::driver::SequenceTrack::SetSeqData(const void*, int)	mk7dlp:callseq-callee	0x24BD24	
+0x4CBDDC	nw::snd::internal::driver::SequenceTrack::FreeAllChannel()	mk7dlp:callseq-callee	0x24BEF0	
+0x4CBE10	nw::snd::internal::driver::SequenceTrack::GetVariablePtr(int)	mk7dlp:callseq-callee	0x24BF24	
+0x4CBEA4	nw::snd::internal::driver::SequenceTrack::ReleaseAllChannel(int)	mk7dlp:callseq-callee	0x24BFBC	
+0x4CC388	nw::snd::internal::driver::SequenceTrack::Open()	mk7dlp:callseq-callee	0x24C400	
+0x4CC3A4	nw::snd::internal::driver::SequenceTrack::Close()	mk7dlp:callseq-callee	0x24C41C	
+0x4CC408	nw::snd::internal::driver::SequenceTrack::NoteOn(int, int, int, bool)	mk7dlp:callgraph	0x24C480	
+0x4CC720	nw::snd::internal::driver::SequenceTrack::SetMute(nw::snd::SeqMute)	mk7dlp:callseq-callee	0x24C7A8	
+0x4CCB48	nw::snd::internal::driver::ChannelManager::Initialize(void*, unsigned long)	mk7dlp:bytes-fuzzy	0x24CB0C	
+0x4CCCB4	nw::snd::internal::driver::ChannelManager::Free(nw::snd::internal::driver::Channel*)	mk7dlp:callseq-callee	0x24CC8C	
+0x4CCCF0	nw::snd::internal::driver::ChannelManager::Alloc()	mk7dlp:bytes-fuzzy	0x24CCC8	
+0x4CCD28	nw::snd::internal::driver::ChannelManager::Finalize()	mk7dlp:bytes-fuzzy	0x24CD00	
+0x4CCE78	nw::snd::internal::driver::HardwareManager::ClearEffect(nw::snd::AuxBus, int)	mk7dlp:bytes-fuzzy	0x24CE68	
+0x4CD154	nw::snd::internal::driver::HardwareManager::AppendEffect(nw::snd::AuxBus, nw::snd::FxBase*)	mk7dlp:callseq	0x24CFA4	
+0x4CD2D0	nw::snd::internal::driver::HardwareManager::FinalizeEffect(nw::snd::AuxBus)	mk7dlp:callseq-callee	0x24D044	
+0x4CD710	nw::snd::internal::driver::HardwareManager::Finalize()	mk7dlp:bytes-fuzzy	0x24D518	
+0x4CDEA4	nw::snd::internal::driver::WaveSoundPlayer::ChannelCallbackFunc(nw::snd::internal::driver::Channel*, nw::snd::internal::driver::Channel::ChannelCallbackStatus, unsigned)	mk7dlp:bytes	0x24DA7C	
+0x4CE634	nw::snd::internal::driver::StreamBufferPool::Initialize(void*, unsigned, int)	mk7dlp:bytes	0x24DDC4	
+0x4CE678	nw::snd::internal::driver::StreamBufferPool::Free(void*)	mk7dlp:bytes	0x24DE08	
+0x4CE6B8	nw::snd::internal::driver::StreamBufferPool::Alloc()	mk7dlp:bytes	0x24DE48	
+0x4CE784	nw::snd::internal::driver::VoiceManager::AllocVoice(int, int, void(*)(nw::snd::internal::driver::Voice*, nw::snd::internal::driver::Voice::VoiceCallbackStatus, void*), void*)	mk7dlp:callseq	0x24B824	
+0x4CE878	nw::snd::internal::driver::VoiceManager::Initialize(void*, unsigned)	mk7dlp:callseq	0x24B90C	
+0x4CE8F0	nw::snd::internal::driver::VoiceManager::GetInstance()	mk7dlp:callgraph	0x24B97C	
+0x4CE958	nw::snd::internal::driver::VoiceManager::AppendVoiceList(nw::snd::internal::driver::Voice*)	mk7dlp:bytes	0x24B9FC	
+0x4CE9B4	nw::snd::internal::driver::VoiceManager::UpdateAllVoices()	mk7dlp:bytes	0x24BA58	
+0x4CEA4C	nw::snd::internal::driver::VoiceManager::ChangeVoicePriority(nw::snd::internal::driver::Voice*)	mk7dlp:bytes	0x24BAF0	
+0x4CEAC0	nw::snd::internal::driver::VoiceManager::UpdateAllVoicesSync(unsigned)	mk7dlp:bytes	0x24BB64	
+0x4CEB0C	nw::snd::internal::driver::VoiceManager::DropLowestPriorityVoice(int)	mk7dlp:bytes	0x24BBB0	
+0x4CEB7C	nw::snd::internal::driver::VoiceManager::Finalize()	mk7dlp:bytes	0x24BC20	
+0x4CEC1C	nw::snd::internal::driver::VoiceManager::FreeVoice(nw::snd::internal::driver::Voice*)	mk7dlp:bytes	0x24BCC0	
+0x4D279C	nw::snd::internal::driver::SequenceSoundPlayer::UpdateTick()	mk7dlp:callseq	0x24FB4C	
+0x4D29C8	nw::snd::internal::driver::SequenceSoundPlayer::SetTrackPan(unsigned, float)	mk7dlp:bytes	0x24FDA8	
+0x4D2A60	nw::snd::internal::driver::SequenceSoundPlayer::SetTrackMute(unsigned, nw::snd::SeqMute)	mk7dlp:bytes-fuzzy	0x24FE34	
+0x4D2AE4	nw::snd::internal::driver::SequenceSoundPlayer::SetTrackPitch(unsigned, float)	mk7dlp:bytes	0x24FEB8	
+0x4D2AFC	nw::snd::internal::driver::SequenceSoundPlayer::GetPlayerTrack(int)	mk7dlp:callseq-callee	0x24FED0	
+0x4D2B10	nw::snd::internal::driver::SequenceSoundPlayer::GetVariablePtr(int)	mk7dlp:callseq-callee	0x24FEE4	
+0x4D2BDC	nw::snd::internal::driver::SequenceSoundPlayer::SetTrackVolume(unsigned, float)	mk7dlp:bytes	0x24FF10	
+0x4D2BF8	nw::snd::internal::driver::SequenceSoundPlayer::SetTrackLpfFreq(unsigned, float)	mk7dlp:bytes	0x24FF2C	
+0x4D2C10	nw::snd::internal::driver::SequenceSoundPlayer::SetTrackSilence(unsigned long, bool, int)	mk7dlp:bytes-fuzzy	0x24FF44	
+0x4D2CA4	nw::snd::internal::driver::SequenceSoundPlayer::SetTrackPanRange(unsigned, float)	mk7dlp:bytes	0x250008	
+0x4D2E18	nw::snd::internal::driver::SequenceSoundPlayer::SetTrackSurroundPan(unsigned, float)	mk7dlp:bytes	0x25014C	
+0x4D2E30	nw::snd::internal::driver::SequenceSoundPlayer::SetTrackBiquadFilter(unsigned, int, float)	mk7dlp:bytes-fuzzy	0x250164	
+0x4D2F50	nw::snd::internal::driver::SequenceSoundPlayer::InitSequenceSoundPlayer()	mk7dlp:bytes	0x25020C	
+0x4D3BDC	nw::snd::internal::driver::MmlSequenceTrackAllocator::AllocTrack(nw::snd::internal::driver::SequenceSoundPlayer*)	mk7dlp:bytes-fuzzy	0x25091C	
+0x4D3C70	nw::snd::internal::driver::Channel::FreeChannel(nw::snd::internal::driver::Channel*)	mk7dlp:callgraph	0x251C7C	
+0x4D3D04	nw::snd::internal::driver::Channel::AllocChannel(int, int, void(*)(nw::snd::internal::driver::Channel*, nw::snd::internal::driver::Channel::ChannelCallbackStatus, unsigned), unsigned)	mk7dlp:bytes-fuzzy	0x251CB4	
+0x4D3DB0	nw::snd::internal::driver::Channel::AppendWaveBuffer(const nw::snd::internal::WaveInfo&, unsigned)	mk7dlp:callseq	0x251D60	
+0x4D4018	nw::snd::internal::driver::Channel::Stop()	mk7dlp:callseq	0x251FB8	
+0x4D4118	nw::snd::internal::driver::Channel::Update(bool)	mk7dlp:callseq	0x2520B8	
+0x4D4558	nw::snd::internal::driver::Channel::Disposer::InvalidateData(const void*, const void*)	mk7dlp:callseq	0x252484	
+0x4D48B8	nw::snd::internal::driver::MmlParser::ParseAllocTrack(const void*, unsigned, unsigned*)	mk7dlp:bytes-fuzzy	0x252804	
+0x4D497C	nw::snd::internal::CurveLfo::Update(int)	mk7dlp:callseq-callee	0x252850	
+0x4D4A80	nw::snd::internal::PoolImpl::CreateImpl(void*, unsigned, unsigned)	mk7dlp:bytes	0x2528BC	
+0x4D4AE0	nw::snd::internal::PoolImpl::DestroyImpl(void*, unsigned long)	mk7dlp:bytes	0x25291C	
+0x4D4B24	nw::snd::internal::PoolImpl::AllocImpl()	mk7dlp:bytes	0x252960	
+0x4D4B3C	nw::snd::internal::FrameHeap::Alloc(unsigned, void(*)(void*, unsigned long, void*), void*)	mk7dlp:bytes	0x252A64	
+0x4D5190	nw::anim::PlayPolicy_Loop(float, float, float, void*)	mk7dlp:bytes	0x25348C	
+0x4D521C	nw::anim::PlayPolicy_Onetime(float, float, float, void*)	mk7dlp:bytes	0x253508	
+0x4D526C	nw::anim::res::CalcIntCurve(const nw::anim::res::ResIntCurveData*, float)	mk7dlp:bytes	0x253534	
+0x4D52AC	nw::anim::res::CalcBoolCurve(const nw::anim::res::ResBoolCurveData*, float)	mk7dlp:bytes-fuzzy	0x253574	
+0x4D5334	nw::anim::res::CalcFloatCurve(const nw::anim::res::ResFloatCurveData*, float)	mk7dlp:bytes	0x253600	
+0x4D547C	nw::anim::res::ResTextureAnim::Setup(nw::os::IAllocator*, nw::gfx::res::ResGraphicsFile)	mk7dlp:bytes	0x253748	
+0x4D5724	nw::anim::res::CalcVector3Curve(nn::math::VEC3*, unsigned*, const nw::anim::res::ResBakedCurveData<nn::math::VEC3_>*, float)	mk7dlp:bytes	0x2539E4	
+0x4D5CA0	nw::anim::res::CalcTransformCurve(nn::math::MTX34*, const nw::anim::res::ResFullBakedCurveData*, float)	mk7dlp:bytes-fuzzy	0x113248	
+0x4D5CE4	nw::anim::res::CalcTranslateCurve(nn::math::MTX34*, unsigned*, const nw::anim::res::ResBakedCurveData<nn::math::VEC3_>*, float)	mk7dlp:bytes	0x253B10	
+0x4D5E2C	nw::anim::res::ResBakedTransformAnim::ApplyBakedFlags(nw::gfx::CalculatedTransform*, unsigned)	mk7dlp:bytes-fuzzy	0x253C58	
+0x4D6124	nw::anim::res::ResAnim::Setup(nw::os::IAllocator*, nw::gfx::res::ResGraphicsFile)	mk7dlp:bytes	0x253DF8	
+0x4D61CC	nw::font::CharWriter::PrintGlyph(float, const nw::font::Glyph&)	mk7dlp:bytes-fuzzy	0x253ECC	
+0x4D64D0	nw::font::CharWriter::SetFontSize(float, float)	mk7dlp:bytes	0x2541CC	
+0x4D652C	nw::font::CharWriter::UseCommandBuffer(nw::font::FontCombinerType)	mk7dlp:callseq-callee	0x254228	
+0x4D6738	nw::font::CharWriter::UpdateVertexColor()	mk7dlp:bytes	0x254334	
+0x4D6AA8	nw::font::CharWriter::Print(unsigned short)	mk7dlp:bytes	0x2543CC	
+0x4D6E38	nw::font::CharWriter::CharWriter()	mk7dlp:callgraph	0x25449C	
+0x4D6F9C	nw::font::RectDrawer::Initialize(void*, void*, const void*, unsigned)	mk7dlp:bytes	0x254670	
+0x4D6FD0	nw::font::RectDrawer::AddUniformMtx()	mk7dlp:callseq-callee	0x254690	
+0x4D703C	nw::font::RectDrawer::InitializeCMD(void*, void*, const void*, unsigned, bool)	mk7dlp:callgraph	0x2546FC	
+0x4D7FB0	nw::font::RectDrawer::SetProjectionMtx(const nn::math::MTX44&)	mk7dlp:callseq	0x25568C	
+0x4D8330	nw::font::RectDrawer::GetVertexBufferData()	mk7dlp:bytes	0x255940	
+0x4D8738	nw::font::RectDrawer::~RectDrawer()	mk7dlp:bytes	0x255C2C	
+0x4D88FC	nw::font::CharStrmReader::ReadNextCharSJIS()	mk7dlp:bytes	0x255CE0	
+0x4D8934	nw::font::CharStrmReader::ReadNextCharUTF8()	mk7dlp:bytes	0x255D18	
+0x4D89A0	nw::font::CharStrmReader::ReadNextCharUTF16()	mk7dlp:bytes	0x255D84	
+0x4D89B4	nw::font::CharStrmReader::ReadNextCharCP1252()	mk7dlp:bytes	0x255D98	
+0x4D935C	nw::font::Glyph::Glyph()	mk7dlp:callgraph	0x2566D0	
+0x4D9540	nw::font::ResFont::GetDrawBufferSize(const void*)	mk7dlp:bytes	0x2568F0	
+0x4D97A4	nw::font::internal::LoadTexture(unsigned short, unsigned short, unsigned short, const void*, bool, bool)	mk7dlp:bytes-fuzzy	0x2569A0	
+0x4D9948	nw::math::MTX34LookAtFIdx(nn::math::MTX34*, const nn::math::VEC3*, float, const nn::math::VEC3*)	mk7dlp:bytes-fuzzy	0x256B80	
+0x52218C	nn::nex::DOOperation::~DOOperation__sub_object()	mk7dlp:callgraph	0x1723CC	
+0x528FD0	nn::nex::StringConversion::Char8_2T(const char*, wchar_t*, unsigned)	mk7dlp:callseq-callee	0x1AC77C	
+0x52DC5C	nn::nex::UdsNode::ParseUpdateMigrationNodeInfoMessage(nn::nex::UdsMessage*)	mk7dlp:callseq	0x1F31B4	
+0x538014	sead::MainThread::~MainThread()	mk7dlp:bytes	0x2D96DC	
+0x53825C	sead::BitFlagUtil::findOnBitFromRight(unsigned, int)	mk7dlp:bytes	0x2D9CC4	
+0x5383C4	sead::Thread::sendMessage(int, sead::MessageQueue::BlockType)	mk7dlp:bytes	0x2DABFC	
+0x53883C	sead::ExpHeap::free(void*)	mk7dlp:callseq	0x2F6430	
+0x538928	sead::CriticalSection::CriticalSection()	mk7dlp:callgraph	0x10EE38	
+0x538970	sead::CriticalSection::~CriticalSection()	mk7dlp:callgraph	0x2DEB38	
+0x53B33C	operator new(unsigned, sead::Heap*, int)	mk7dlp:bytes-fuzzy	0x109AA8	operator new[] (unsigned, sead::Heap*, int)
+0x53B3D0	sead::Heap::appendDisposer_(sead::IDisposer*)	mk7dlp:bytes	0x111A24	
+0x53B440	sead::Heap::removeDisposer_(sead::IDisposer*)	mk7dlp:bytes	0x2E527C	
+0x53B59C	sead::Heap::dispose_(const void*, const void*)	mk7dlp:bytes	0x2E52DC	
+0x53B63C	sead::Heap::destruct_()	mk7dlp:bytes	0x2E537C	
+0x53B6EC	sead::Heap::Heap__sub_object(const sead::SafeStringBase<char>&, sead::Heap*, void*, unsigned, sead::Heap::HeapDirection, bool)	mk7dlp:bytes	0x10F094	
+0x53B85C	sead::Heap::~Heap__sub_object()	mk7dlp:bytes	0x2E542C	
+0x53BEF0	sead::Random::init()	mk7dlp:bytes	0x10F208	
+0x53BFBC	sead::Thread::setPriority(int)	mk7dlp:bytes	0x2F5850	
+0x53C04C	sead::Thread::ctrThreadFunc_(unsigned)	mk7dlp:bytes	0x2F58E0	
+0x53C0C4	sead::Thread::quitAndWaitDoneSingleThread(bool)	mk7dlp:bytes	0x2F594C	
+0x53C138	sead::Thread::run_()	mk7dlp:bytes	0x2F59D0	
+0x53C1C0	sead::Thread::start()	mk7dlp:bytes	0x2F5AA4	
+0x53C574	sead::Thread::~Thread__sub_object()	mk7dlp:callgraph	0x2F5C10	
+0x53C9AC	sead::ExpHeap::allocFromHead_(unsigned, int)	mk7dlp:bytes	0x2F60AC	
+0x53CAAC	sead::ExpHeap::allocFromTail_(unsigned)	mk7dlp:bytes	0x2F61AC	
+0x53CD1C	sead::ExpHeap::pushToFreeList_(sead::MemBlock*)	mk7dlp:bytes	0x111A8C	
+0x53CDA4	sead::ExpHeap::mergeFreeList_()	mk7dlp:bytes	0x111B14	
+0x53CE64	sead::ExpHeap::createMaxSizeFreeMemBlock_(sead::ExpHeap*)	mk7dlp:bytes	0x10C030	
+0x53CEF8	sead::ExpHeap::adjust()	mk7dlp:bytes-fuzzy	0x2F6514	
+0x53D13C	sead::ExpHeap::freeAll()	mk7dlp:callseq	0x2F673C	
+0x53D1B8	sead::ExpHeap::tryAlloc(unsigned, int)	mk7dlp:bytes-fuzzy	0x2F67E4	
+0x53D400	sead::ExpHeap::tryCreate(void*, unsigned, const sead::SafeStringBase<char>&, bool)	mk7dlp:callseq	0x109844	
+0x53D490	sead::ExpHeap::tryCreate(unsigned, const sead::SafeStringBase<char>&, sead::Heap*, sead::Heap::HeapDirection, bool)	mk7dlp:callseq	0x1098A0	
+0x53D59C	sead::ExpHeap::ExpHeap(const sead::SafeStringBase<char>&, sead::Heap*, void*, unsigned, sead::Heap::HeapDirection, bool)	mk7dlp:bytes	0x10C0C4	
+0x53D8DC	sead::ListImpl::clear()	mk7dlp:callseq-callee	0x10457C	
+0x53D960	sead::TickTime::TickTime()	mk7dlp:bytes	0x112C8C	
+0x53DE74	sead::ThreadMgr::ThreadMgr()	mk7dlp:bytes	0x10F50C	
+0x53DEBC	sead::ThreadMgr::~ThreadMgr()	mk7dlp:bytes	0x2F9F34	
+0x53E214	nn::nex::NotDOFilter::~NotDOFilter__deallocating()	mk7dlp:bytes-fuzzy	0x172F40	
+0x53E5D0	sead::Controller::Controller__sub_object(sead::ControllerMgr*)	mk7dlp:callgraph	0x2D8EAC	
+0x53E684	sead::FileDevice::tryGetFileSize(unsigned*, const sead::SafeStringBase<char>&)	mk7dlp:callgraph	0x2D8F58	
+0x53EDD8	sead::FileDevice::tryRead(unsigned*, sead::FileHandle*, unsigned char*, unsigned)	mk7dlp:bytes-fuzzy	0x2D925C	
+0x53EF58	sead::FileDevice::tryWrite(unsigned*, sead::FileHandle*, const unsigned char*, unsigned)	mk7dlp:bytes-fuzzy	0x2D9364	
+0x53EFDC	sead::FileDevice::~FileDevice__deallocating()	mk7dlp:bytes	0x2D93E8	sead::ResourceFactory::~ResourceFactory__deallocating()
+0x53F01C	sead::FileDevice::~FileDevice__sub_object()	mk7dlp:bytes	0x2D9428	sead::Decompressor::~Decompressor__sub_object() | sead::ResourceFactory::~ResourceFactory__sub_object() | sead::SZSDecompressor::~SZSDecompressor()
+0x53FD6C	sead::TextureCtr::TextureCtr__sub_object()	mk7dlp:callgraph	0x2D9C70	
+0x53FE20	sead::GraphicsCtr::setScissorImpl(float, float, float, float)	mk7dlp:bytes-fuzzy	0x2D9D40	
+0x540680	sead::QuatCalcCtr<float>::slerpToIdx(nn::math::QUAT&, const nn::math::QUAT&, const nn::math::QUAT&, float)	mk7dlp:bytes	0x2D9E9C	
+0x5408CC	sead::QuatCalcCtr<float>::setAxisRotation(nn::math::QUAT&, const nn::math::VEC3&, float)	mk7dlp:bytes	0x2DA0E8	
+0x540924	sead::QuatCalcCtr<float>::mul(nn::math::QUAT&, const nn::math::QUAT&, const nn::math::QUAT&)	mk7dlp:bytes	0x2DA18C	
+0x540984	sead::QuatCalcCtr<float>::setRPY(nn::math::QUAT&, float, float, float)	mk7dlp:bytes	0x2DA1EC	
+0x540A8C	sead::ResourceMgr::unregisterFactory(sead::ResourceFactory*)	mk7dlp:bytes	0x2DA418	
+0x540BA8	sead::SoundHandle::pause(int)	mk7dlp:bytes	0x2DA7B0	
+0x540BD8	sead::SoundHandle::unpause(int)	mk7dlp:bytes	0x2DA7E8	
+0x540F60	sead::MessageQueue::free()	mk7dlp:bytes	0x2DABD0	
+0x540FE4	sead::MessageQueue::~MessageQueue()	mk7dlp:bytes	0x2DAC54	
+0x541110	sead::PtrArrayImpl::freeBuffer()	mk7dlp:bytes	0x2DAD5C	
+0x541268	sead::PtrArrayImpl::shuffle(sead::Random*)	mk7dlp:bytes	0x2DB024	
+0x5412D4	sead::TextureCtrGR::TextureCtrGR()	mk7dlp:bytes	0x2DB254	
+0x54133C	sead::AnyFileDevice::doGetFileSize_(unsigned*, const sead::SafeStringBase<char>&)	mk7dlp:bytes	0x2DB2A4	
+0x54167C	sead::AnyFileDevice::doLoad_(sead::FileDevice::LoadArg&)	mk7dlp:bytes	0x2DB384	
+0x5416A8	sead::AnyFileDevice::doOpen_(sead::FileHandle*, const sead::SafeStringBase<char>&, sead::FileDevice::FileOpenFlag)	mk7dlp:bytes-fuzzy	0x2DB3B0	
+0x54172C	sead::AnyFileDevice::~AnyFileDevice__deallocating()	mk7dlp:bytes	0x2DB5D0	
+0x541754	sead::AnyFileDevice::~AnyFileDevice()	mk7dlp:bytes	0x2DB5F8	
+0x5419B8	sead::CalculateTask::CalculateTask(const sead::TaskConstructArg&, const char*)	mk7dlp:bytes	0x2DB8A0	
+0x541B18	sead::CalculateTask::~CalculateTask()	mk7dlp:bytes	0x2DB9C4	
+0x541B54	sead::ControllerMgr::setInstance_(sead::TaskBase*)	mk7dlp:bytes	0x2DBA00	
+0x541E54	sead::ControllerMgr::~ControllerMgr()	mk7dlp:bytes	0x2DBCA8	
+0x542208	sead::CtrController::CtrController(sead::ControllerMgr*)	mk7dlp:bytes	0x2DBF78	
+0x5422E8	sead::FaderTaskBase::attachCalcImpl()	mk7dlp:callseq	0x2DC164	
+0x54260C	sead::FaderTaskBase::calcCore_()	mk7dlp:callseq	0x2DC418	
+0x542A1C	sead::FaderTaskBase::FaderTaskBase__sub_object(const sead::TaskConstructArg&, const char*)	mk7dlp:bytes-fuzzy	0x2DC818	
+0x542C84	sead::FaderTaskBase::~FaderTaskBase__sub_object()	mk7dlp:callseq	0x2DCA70	
+0x542DA8	sead::FileDeviceMgr::SingletonDisposer_::~SingletonDisposer_()	mk7dlp:bytes	0x2DCBB8	
+0x542E80	sead::FileDeviceMgr::unmount(sead::FileDevice*)	mk7dlp:bytes	0x2DCE38	
+0x542F78	sead::GameFramework::createControllerMgr(sead::TaskBase*)	mk7dlp:callseq	0x2DCEE4	
+0x543048	sead::GameFramework::waitStartDisplayLoop_()	mk7dlp:bytes-fuzzy	0x2DCFBC	
+0x5431C4	sead::MethodTreeMgr::MethodTreeMgr__sub_object()	mk7dlp:callgraph	0x2DD084	
+0x544264	sead::ControllerBase::getStickHold_(unsigned, const sead::Vector2<float>&, float, float, int)	mk7dlp:bytes	0x2DD6A4	
+0x544554	sead::ControllerBase::updateDerivativeParams_(unsigned, bool)	mk7dlp:callseq	0x2DD9F4	
+0x54471C	sead::ControllerBase::ControllerBase(int, int, int, int)	mk7dlp:callseq	0x2DDBBC	
+0x544B00	sead::DualScreenTask::attachDrawImpl()	mk7dlp:bytes-fuzzy	0x2DDEAC	
+0x544BD8	sead::DualScreenTask::detachDrawImpl()	mk7dlp:bytes	0x2DDF84	
+0x544E18	sead::DualScreenTask::pauseDraw(bool)	mk7dlp:bytes	0x2DE1E4	
+0x544F68	sead::DualScreenTask::~DualScreenTask()	mk7dlp:bytes	0x2DE2C8	
+0x545080	sead::MainFileDevice::~MainFileDevice__deallocating()	mk7dlp:bytes	0x2DE37C	
+0x5450CC	sead::MainFileDevice::~MainFileDevice()	mk7dlp:bytes	0x2DE3C8	
+0x54510C	sead::MathCommon<float>::atanIdx_(float)	mk7dlp:bytes	0x2D9798	
+0x545154	sead::MethodTreeNode::pushBackChild(sead::MethodTreeNode*)	mk7dlp:callgraph	0x2DE408	
+0x5451F4	sead::MethodTreeNode::pushFrontChild(sead::MethodTreeNode*)	mk7dlp:callseq	0x2DE4A8	
+0x54529C	sead::MethodTreeNode::call()	mk7dlp:bytes	0x2DE550	
+0x545314	sead::MethodTreeNode::callRec_()	mk7dlp:bytes	0x2DE5C8	
+0x545374	sead::MethodTreeNode::detachAll()	mk7dlp:bytes	0x2DE628	
+0x545D48	sead::Matrix34CalcCtr<float>::makeSRTIdx(nn::math::MTX34&, const nn::math::VEC3&, const sead::Vector3<unsigned>&, const nn::math::VEC3&)	mk7dlp:bytes	0x2DEFF4	
+0x545E78	sead::Matrix34CalcCtr<float>::scaleBases(nn::math::MTX34&, float, float, float)	mk7dlp:bytes	0x2DF100	
+0x545EE4	sead::Matrix34CalcCtr<float>::makeQ(nn::math::MTX34&, const nn::math::QUAT&)	mk7dlp:bytes	0x2DF16C	
+0x545FB0	sead::Matrix34CalcCtr<float>::makeR(nn::math::MTX34&, const nn::math::VEC3&)	mk7dlp:bytes	0x2DF238	
+0x546080	sead::Matrix34CalcCtr<float>::makeSRT(nn::math::MTX34&, const nn::math::VEC3&, const nn::math::VEC3&, const nn::math::VEC3&)	mk7dlp:bytes	0x2DF54C	
+0x548B58	sead::AudioSoundHeapCtr::setSoundDataManagement(nw::snd::SoundDataManager&, nw::snd::SoundArchive&)	mk7dlp:callgraph	0x2E1FD4	
+0x548F8C	sead::UlcdMethodTreeMgr::pauseAll(bool)	mk7dlp:bytes	0x2E20BC	
+0x549018	sead::UlcdMethodTreeMgr::UlcdMethodTreeMgr()	mk7dlp:bytes	0x2E2130	
+0x54A24C	sead::AudioSoundDataMgrCtr::connectSoundHeap(sead::AudioSoundHeapCtr*)	mk7dlp:bytes	0x2E27E0	
+0x54AB48	sead::GameFrameworkCtrNw4c::presentBtm_()	mk7dlp:callseq	0x2E2C18	
+0x54ABAC	sead::GameFrameworkCtrNw4c::swapBuffer_()	mk7dlp:callseq	0x2E2C94	
+0x54AD5C	sead::GameFrameworkCtrNw4c::requestTransferRenderImage_(unsigned, const nn::gr::CTR::FrameBuffer&, int, int, unsigned, bool)	mk7dlp:callseq	0x2E2E90	
+0x54B400	sead::CtrAccelerometerAddon::CtrAccelerometerAddon(sead::Controller*)	mk7dlp:bytes	0x2E3388	
+0x54B97C	sead::BufferedSafeStringBase<char>::appendWithFormat(const char*, ...)	mk7dlp:bytes-fuzzy	0x2E35F4	
+0x54BE40	sead::CtrFileStreamFileDevice::doGetFileSize_(unsigned*, const sead::SafeStringBase<char>&)	mk7dlp:bytes-fuzzy	0x2E38E8	
+0x54BF40	sead::CtrFileStreamFileDevice::doIsExistFile_(bool*, const sead::SafeStringBase<char>&)	mk7dlp:bytes-fuzzy	0x2E39E8	
+0x54C83C	sead::CtrFileStreamFileDevice::doOpen_(sead::FileHandle*, const sead::SafeStringBase<char>&, sead::FileDevice::FileOpenFlag)	mk7dlp:bytes-fuzzy	0x2E3CD4	
+0x54CB44	sead::UlcdMethodTreeMgr::attachMethod(int, sead::MethodTreeNode*)	mk7dlp:callseq	0x2E3F4C	
+0x54CBB8	sead::DualScreenMethodTreeMgr::attachMethod(int, sead::MethodTreeNode*)	mk7dlp:callseq	0x2E3FC0	
+0x54CE84	sead::DualScreenMethodTreeMgr::pauseAll(bool)	mk7dlp:bytes	0x2E40F8	
+0x54CFF8	sead::DualScreenMethodTreeMgr::DualScreenMethodTreeMgr()	mk7dlp:bytes	0x2E4254	
+0x54D970	sead::AudioMemorySoundArchiveCtr::open(const void*)	mk7dlp:bytes	0x2E4A70	
+0x54DCA4	sead::DoubleCmdGameFrameworkCtrNw4c::swapBuffer_()	mk7dlp:callseq	0x2E4D28	
+0x54DF94	sead::UlcdDoubleCmdGameFrameworkCtrNw4c::swapBuffer_()	mk7dlp:callseq	0x2E4FD8	
+0x54E44C	sead::ptcl::EmitterSet::emitParticle(const sead::Vector3<float>&)	mk7dlp:bytes	0x2E580C	
+0x54E4FC	sead::ptcl::EmitterSet::kill()	mk7dlp:bytes	0x2E58BC	
+0x54E544	sead::ptcl::EmitterSet::setMtx(const sead::Matrix34<float>&)	mk7dlp:bytes	0x2E5904	
+0x54E734	sead::ptcl::EmitterSet::EmitterSet()	mk7dlp:bytes	0x2E5A68	
+0x54E778	sead::ptcl::PtclEditor::stopPreview(bool)	mk7dlp:bytes	0x2E5BD0	
+0x54E80C	sead::ptcl::PtclEditor::clearResource(sead::ptcl::PtclResource*)	mk7dlp:bytes	0x2E5C64	
+0x54EF78	sead::ptcl::PtclRandom::CreateRandomTbl(sead::Heap*)	mk7dlp:callseq	0x2E6A1C	
+0x54F118	sead::ptcl::PtclRandom::PtclRandom()	mk7dlp:bytes	0x2E6BD0	
+0x54F690	sead::ptcl::PtclSystem::beginRender(unsigned*, const sead::Matrix44<float>&, const sead::Matrix34<float>&, const sead::Matrix34<float>&)	mk7dlp:bytes-fuzzy	0x2E719C	
+0x54F6EC	sead::ptcl::PtclSystem::killEmitter(sead::ptcl::EmitterInstance*)	mk7dlp:bytes-fuzzy	0x2E71F8	
+0x54F8A8	sead::ptcl::PtclSystem::removeStripe(sead::ptcl::PtclStripe*)	mk7dlp:bytes-fuzzy	0x2E7358	
+0x54FCC0	sead::ptcl::PtclSystem::reCreateEmitter(sead::ptcl::EmitterSet*, int, int, unsigned char)	mk7dlp:callseq	0x2E77BC	
+0x5502EC	sead::ptcl::PtclSystem::reCreateEmitter(void**, int, int, int, bool)	mk7dlp:callgraph	0x2E7DE0	
+0x550490	sead::ptcl::PtclSystem::killEmitterGroup(unsigned char)	mk7dlp:callgraph	0x2E7F70	
+0x550698	sead::ptcl::PtclSystem::createEmitterSetID(sead::ptcl::Handle*, const sead::Matrix34<float>&, int, int, unsigned char, unsigned)	mk7dlp:callseq	0x2E8178	
+0x550B88	sead::ptcl::PtclSystem::allocAndConnectStripe(sead::ptcl::EmitterInstance*, sead::ptcl::PtclInstance*)	mk7dlp:callseq-callee	0x2E8660	
+0x550DF4	sead::ptcl::PtclSystem::warn_(const char*)	mk7dlp:callseq-callee	0x2E8878	
+0x550EAC	sead::ptcl::PtclSystem::initIBO(void*, int)	mk7dlp:bytes	0x2E8948	
+0x550F20	sead::ptcl::PtclSystem::allocPtcl()	mk7dlp:callgraph	0x2E89BC	
+0x5515D4	sead::ptcl::EmitterCalc::_emitPoint(sead::ptcl::EmitterInstance*)	mk7dlp:bytes	0x2E9050	
+0x55287C	sead::ptcl::EmitterCalc::_ptclField_Spin(sead::ptcl::EmitterInstance*, sead::ptcl::PtclInstance*, const void*)	mk7dlp:callgraph	0x2EA458	
+0x552940	sead::ptcl::EmitterCalc::calcFluctuation(sead::ptcl::EmitterInstance*, sead::ptcl::PtclInstance*)	mk7dlp:callgraph	0x2EA528	
+0x552C78	sead::ptcl::EmitterCalc::_ptclField_Magnet(sead::ptcl::EmitterInstance*, sead::ptcl::PtclInstance*, const void*)	mk7dlp:callgraph	0x2EA8D0	
+0x552CFC	sead::ptcl::EmitterCalc::_ptclField_PosAdd(sead::ptcl::EmitterInstance*, sead::ptcl::PtclInstance*, const void*)	mk7dlp:bytes	0x2EA95C	
+0x552D34	sead::ptcl::EmitterCalc::_ptclField_Random(sead::ptcl::EmitterInstance*, sead::ptcl::PtclInstance*, const void*)	mk7dlp:bytes	0x2EA994	
+0x552DB8	sead::ptcl::EmitterCalc::setupFluctuation_(sead::Heap*)	mk7dlp:bytes	0x2EAA18	
+0x552E40	sead::ptcl::EmitterCalc::_childCalc_RotNone(unsigned*, sead::ptcl::EmitterInstance*, sead::ptcl::PtclInstance*)	mk7dlp:bytes	0x2EAAA0	
+0x552EA4	sead::ptcl::EmitterCalc::_emitLineSameDivide(sead::ptcl::EmitterInstance*)	mk7dlp:bytes	0x2EAB04	
+0x552F98	sead::ptcl::EmitterCalc::_ptclField_Collision(sead::ptcl::EmitterInstance*, sead::ptcl::PtclInstance*, const void*)	mk7dlp:bytes	0x2EABF8	
+0x553204	sead::ptcl::EmitterCalc::_emitSphereSameDivide(sead::ptcl::EmitterInstance*)	mk7dlp:bytes	0x2EAE80	
+0x5532F8	sead::ptcl::EmitterCalc::_ptclField_Convergence(sead::ptcl::EmitterInstance*, sead::ptcl::PtclInstance*, const void*)	mk7dlp:callgraph	0x2EAF74	
+0x553330	sead::ptcl::EmitterCalc::_ptclCalc_RotNone_PassColor1(unsigned*, sead::ptcl::EmitterInstance*, sead::ptcl::PtclInstance*)	mk7dlp:bytes	0x2EAFB0	
+0x553398	sead::ptcl::EmitterCalc::_ptclCalc_RotXYZ__PassColor1(unsigned*, sead::ptcl::EmitterInstance*, sead::ptcl::PtclInstance*)	mk7dlp:bytes	0x2EB018	
+0x553708	sead::ptcl::EmitterCalc::_ptclCalc_RotNone_ColorNoWork(unsigned*, sead::ptcl::EmitterInstance*, sead::ptcl::PtclInstance*)	mk7dlp:bytes	0x2EB3CC	
+0x553748	sead::ptcl::EmitterCalc::_ptclCalc_RotXYZ__ColorNoWork(unsigned*, sead::ptcl::EmitterInstance*, sead::ptcl::PtclInstance*)	mk7dlp:bytes	0x2EB40C	
+0x5539FC	sead::ptcl::EmitterCalc::_ptclPreCalc_FollowAll_____Simple(unsigned*, sead::ptcl::EmitterInstance*, sead::ptcl::PtclInstance*)	mk7dlp:bytes	0x2EB708	
+0x553C08	sead::ptcl::EmitterCalc::_ptclPreCalc_FollowNone____Simple(unsigned*, sead::ptcl::EmitterInstance*, sead::ptcl::PtclInstance*)	mk7dlp:bytes	0x2EB914	
+0x553E98	sead::ptcl::EmitterCalc::_ptclPreCalc_FollowPosOnly_Simple(unsigned*, sead::ptcl::EmitterInstance*, sead::ptcl::PtclInstance*)	mk7dlp:bytes	0x2EBBA4	
+0x554160	sead::ptcl::EmitterCalc::_ptclPreCalc_FollowAll_____Complex(unsigned*, sead::ptcl::EmitterInstance*, sead::ptcl::PtclInstance*)	mk7dlp:bytes	0x2EBE6C	
+0x554470	sead::ptcl::EmitterCalc::_ptclPreCalc_FollowNone____Complex(unsigned*, sead::ptcl::EmitterInstance*, sead::ptcl::PtclInstance*)	mk7dlp:bytes	0x2EC17C	
+0x5547EC	sead::ptcl::EmitterCalc::_ptclPreCalc_FollowPosOnly_Complex(unsigned*, sead::ptcl::EmitterInstance*, sead::ptcl::PtclInstance*)	mk7dlp:bytes	0x2EC4F8	
+0x554BA0	sead::ptcl::EmitterCalc::_ptclCalc_RotNone_Interpolate3Colors(unsigned*, sead::ptcl::EmitterInstance*, sead::ptcl::PtclInstance*)	mk7dlp:bytes	0x2EC8AC	
+0x554C18	sead::ptcl::EmitterCalc::_ptclCalc_RotXYZ__Interpolate3Colors(unsigned*, sead::ptcl::EmitterInstance*, sead::ptcl::PtclInstance*)	mk7dlp:bytes	0x2EC924	
+0x5552E0	sead::ptcl::PtclPreview::resetAutoMove_(bool)	mk7dlp:bytes	0x2ED04C	
+0x555390	sead::ptcl::PtclPreview::applyToEmitterSet(sead::ptcl::PtclProjectEmitterSet*, sead::ptcl::Handle*)	mk7dlp:bytes-fuzzy	0x2ED0FC	
+0x555518	sead::ptcl::PtclPreview::start()	mk7dlp:bytes	0x2ED5B0	
+0x555AA4	sead::ptcl::TextureData::TextureData()	mk7dlp:bytes	0x2EDA88	
+0x555B48	sead::ptcl::PtclInstance::PtclInstance()	mk7dlp:bytes	0x2EDAB0	
+0x555CDC	sead::ptcl::PtclModelMgr::start()	mk7dlp:callgraph	0x2EDF10	
+0x55630C	sead::ptcl::PtclRenderer::beginRender(unsigned*, const sead::Matrix44<float>&, const sead::Matrix34<float>&, const sead::Matrix34<float>&)	mk7dlp:bytes	0x2EE1EC	
+0x55642C	sead::ptcl::PtclRenderer::renderStripe(unsigned*, sead::ptcl::PtclStripe*, int)	mk7dlp:callseq	0x2EE30C	
+0x556884	sead::ptcl::PtclRenderer::beginStripeCalc(unsigned*)	mk7dlp:bytes	0x2EE75C	
+0x556B40	sead::ptcl::PtclRenderer::endCalc(unsigned*)	mk7dlp:bytes	0x2EE958	
+0x556B7C	sead::ptcl::PtclRenderer::beginCalc(unsigned*)	mk7dlp:bytes	0x2EE994	
+0x556C18	sead::ptcl::PtclRenderer::endRender(unsigned*)	mk7dlp:bytes	0x2EEA30	
+0x557578	sead::ptcl::PtclResource::bindTarget(int, sead::ptcl::ResourceBind*, sead::ptcl::EmitterTblData*, int, const sead::SafeStringBase<char>&, unsigned)	mk7dlp:bytes	0x2EF398	
+0x557698	sead::ptcl::PtclResource::createEmtpryData(sead::Heap*, int)	mk7dlp:callseq	0x2EF4B8	
+0x557868	sead::ptcl::PtclResource::createTextureHandle(sead::Heap*, void*, const sead::ptcl::TextureRes&)	mk7dlp:callseq-callee	0x2EF66C	
+0x557988	sead::ptcl::PtclResource::unbind(sead::ptcl::ResourceBind*, bool, bool)	mk7dlp:bytes	0x2EF790	
+0x557AA0	sead::ptcl::PtclResource::PtclResource(sead::Heap*, void*, int, sead::ptcl::PtclSystem*, sead::ptcl::BufferLocation)	mk7dlp:callseq	0x2EF8A8	
+0x557D7C	sead::ptcl::PtclResource::~PtclResource()	mk7dlp:callseq	0x2EFB68	
+0x557F40	sead::ptcl::EmitterInstance::EmitterInstance()	mk7dlp:bytes	0x2EFEA8	
+0x557F54	sead::ptcl::_calcTexPatAnim(const sead::ptcl::SimpleEmitterData*, sead::ptcl::PtclInstance*)	mk7dlp:bytes	0x2EFEBC	
+0x557FD8	sead::ptcl::PtclEditorCamera::reset()	mk7dlp:bytes	0x2F03D4	
+0x55805C	sead::ptcl::EmitterSimpleCalc::emitterDrawSetting_(unsigned*, sead::ptcl::EmitterInstance*)	mk7dlp:callseq-callee	0x2F0458	
+0x558990	sead::ptcl::EmitterComplexCalc::calcChild_(unsigned*, sead::ptcl::EmitterInstance*, int*)	mk7dlp:bytes-fuzzy	0x2F0D94	
+0x558F84	sead::ptcl::EmitterComplexCalc::calcComplex_(sead::ptcl::EmitterInstance*, sead::ptcl::PtclInstance*)	mk7dlp:callseq	0x2F1388	
+0x559850	sead::ptcl::EmitterComplexCalc::calcEmitter_(unsigned*, sead::ptcl::EmitterInstance*, int*)	mk7dlp:callseq	0x2F1C28	
+0x55A3A8	sead::ptcl::PtclGameProgrammer::updateHandle(sead::ptcl::Handle*, const sead::Matrix34<float>&, const sead::Matrix34<float>&)	mk7dlp:callseq	0x2F279C	
+0x55B308	sead::ptcl::_interpolate3Colors(const sead::ptcl::SimpleEmitterData*, sead::ptcl::PtclInstance*)	mk7dlp:bytes	0x2F32B0	
+0x55B480	sead::ptcl::EmitterSimpleGPUCalc::emitterDrawSetting_(unsigned*, sead::ptcl::EmitterInstance*)	mk7dlp:callseq-callee	0x2F3428	
+0x55B76C	sead::ptcl::EmitterSimpleGPUCalc::calcCTR(unsigned*, sead::ptcl::EmitterInstance*, int*)	mk7dlp:callseq	0x2F3720	
+0x55C1C8	sead::ptcl::PtclProjectEmitterSet::bindTarget(int, sead::ptcl::PtclResource*, int)	mk7dlp:bytes	0x2F4178	
+0x55C244	sead::ptcl::PtclProjectEmitterSet::unbindResource(sead::ptcl::PtclResource*)	mk7dlp:bytes-fuzzy	0x2F41F4	
+0x55C30C	sead::ptcl::PtclProjectEmitterSet::setOrder(int)	mk7dlp:bytes	0x2F42BC	
+0x55C380	sead::ptcl::sGpuParticlePrimitive::SetupVtxStream()	mk7dlp:bytes	0x2F4330	
+0x55C5C4	sead::ptcl::GpuPtcle::InitShader(const unsigned char*, int, int)	mk7dlp:bytes	0x2F4574	
+0x55C778	sead::ptcl::GpuPtcle::InitPrimitive()	mk7dlp:bytes	0x2F4728	
+0x55C8CC	sead::ptcl::GpuPtcle::Draw(unsigned*, nn::math::MTX34&, nn::math::VEC4&, nn::math::VEC4&, nn::math::VEC4&, nn::math::VEC4&, nn::math::VEC4&, nn::math::VEC4&, nn::math::VEC4&, nn::math::VEC4&, nn::math::VEC4&, nn::math::VEC4&, nn::math::VEC4&, nn::math::VEC4&, int, int, int)	mk7dlp:bytes	0x2F487C	
+0x55CBB0	sead::ptcl::GpuPtcle::Init(sead::ptcl::PtclRenderer*, const unsigned char*, int, int)	mk7dlp:bytes	0x2F4B60	
+0x55CCA0	sead::ptcl::GpuPtcle::PreDraw(unsigned*)	mk7dlp:bytes	0x2F4C50	
+0x55CD64	sead::ptcl::GpuPtcle::PostDraw(unsigned*)	mk7dlp:bytes	0x2F4D14	
+0x55CD98	sead::ptcl::GpuPtcle::GpuPtcle()	mk7dlp:bytes-fuzzy	0x2F4D48	
+0x55D5A4	sead::Random::init(unsigned)	mk7dlp:bytes	0x2F5790	
+0x55D640	sead::Random::getU32()	mk7dlp:callgraph	0x2F57E8	
+0x55DFF8	sead::Color4f::adjustOverflow_()	mk7dlp:bytes	0x109794	
+0x55E11C	sead::Color4f::setLerp(const sead::Color4f&, const sead::Color4f&, float)	mk7dlp:bytes	0x2F5D78	
+0x55F31C	sead::TaskMgr::createHeap_(sead::HeapArray*, const sead::TaskBase::CreateArg&)	mk7dlp:callseq-callee	0x2F6B80	
+0x55F530	sead::TaskMgr::appendToList_(sead::TList<sead::TaskBase*>&, sead::TaskBase*)	mk7dlp:callseq	0x2F6D64	
+0x55F640	sead::TaskMgr::calcCreation_()	mk7dlp:callseq	0x2F6E70	
+0x55F830	sead::TaskMgr::doCreateTask_(const sead::TaskBase::CreateArg&, sead::HeapArray*)	mk7dlp:callseq	0x2F7058	
+0x55F900	sead::TaskMgr::createTaskSync(const sead::TaskBase::CreateArg&)	mk7dlp:callseq	0x2F7118	
+0x55FBCC	sead::TaskMgr::doDestroyTask_(sead::TaskBase*)	mk7dlp:callseq	0x2F73D0	
+0x55FC94	sead::TaskMgr::destroyTaskSync(sead::TaskBase*)	mk7dlp:callgraph	0x2F7490	
+0x55FE00	sead::TaskMgr::changeTaskState_(sead::TaskBase*, sead::TaskBase::State)	mk7dlp:callseq-callee	0x2F75F8	
+0x55FFC4	sead::TaskMgr::doRequestCreateTask_(const sead::TaskBase::CreateArg&, sead::DelegateEvent<sead::TaskBase*>::Slot*)	mk7dlp:callseq	0x2F77C8	
+0x5601B8	sead::TaskMgr::destroyAllAndCreateRoot()	mk7dlp:callgraph	0x2F79B0	
+0x5605C0	sead::TaskMgr::prepare_(sead::Thread*, int)	mk7dlp:callseq	0x2F7D08	
+0x560F34	sead::Geometry::calcSquaredDistancePointToSegment(const sead::Vector3<float>&, const sead::Segment<sead::Vector3<float>>&, float*)	mk7dlp:bytes	0x2F88D0	
+0x561350	sead::TaskBase::attachMethodWithCheck(int, sead::MethodTreeNode*)	mk7dlp:callseq-callee	0x2F8F5C	
+0x561368	sead::TaskBase::adjustHeapWithSlackWithoutLock_(int, unsigned)	mk7dlp:bytes-fuzzy	0x2F8F74	
+0x561418	sead::TaskBase::CreateArg::CreateArg()	mk7dlp:callseq-callee	0x2F9044	
+0x561508	sead::TaskBase::~TaskBase__sub_object()	mk7dlp:bytes	0x2F9140	
+0x561590	sead::TreeNode::detachSubTree()	mk7dlp:bytes	0x2F91E4	
+0x5615F4	sead::TreeNode::pushBackChild(sead::TreeNode*)	mk7dlp:bytes	0x2F9248	
+0x561654	sead::TreeNode::pushFrontChild(sead::TreeNode*)	mk7dlp:bytes	0x2F92A8	
+0x561694	sead::TreeNode::clearChildLinksRecursively_()	mk7dlp:bytes	0x2F92E8	
+0x5616D4	sead::TreeNode::detachAll()	mk7dlp:bytes	0x2F9328	
+0x5617A0	sead::UlcdTask::attachDrawImpl()	mk7dlp:bytes-fuzzy	0x2F9380	
+0x561834	sead::UlcdTask::detachDrawImpl()	mk7dlp:bytes	0x2F9414	
+0x561860	sead::UlcdTask::pauseDraw(bool)	mk7dlp:bytes	0x2F9440	
+0x561968	sead::UlcdTask::~UlcdTask()	mk7dlp:bytes	0x2F94B4	
+0x562600	sead::Framework::procReset_()	mk7dlp:bytes	0x2F9BD8	
+0x590934	Mii::MiiEngine::draw(nw::gfx::RenderContext*)	mk7dlp:callseq	0x25C074	
+0x6D272C	sead::ptcl::PtclSystem::calcEditor()	mk7dlp:bytes	0x2E6C6C	
+0x6F899C	nn::nex::Event::Event(nn::nex::EventHandler*, unsigned, unsigned)	mk7dlp:bytes	0x1E6D2C	
+0x712A0C	CFLiResShape::DirectDraw(const CFLProgramContext*) const	mk7dlp:callseq	0x486128	
+0x726A44	nn::gr::CTR::FrameBuffer::MakeCommand(unsigned*, unsigned, bool) const	mk7dlp:callseq-callee	0x48FE38	
+0x72770C	nn::gr::CTR::Shader::MakeFullCommand(unsigned*) const	mk7dlp:callgraph	0x490680	
+0x7279E4	nn::gr::CTR::Shader::SearchBindSymbol(nn::gr::CTR::BindSymbol*, const char*) const	mk7dlp:callgraph	0x49096C	
+0x727B4C	nn::gr::CTR::Vertex::MakeDrawCommand(unsigned*, const nn::gr::CTR::Vertex::IndexStream&) const	mk7dlp:callgraph	0x490CE0	
+0x727BEC	nn::gr::CTR::Vertex::MakeEnableAttrCommand_(unsigned*) const	mk7dlp:callgraph	0x490DA0	
+0x7281E0	nn::gr::CTR::Texture::MakeCommand(unsigned*, bool) const	mk7dlp:bytes-fuzzy	0x4917E8	
+0x729A88	nn::nex::StationURL::GetAddress() const	mk7dlp:callseq-callee	0x492290	
+0x729C20	nn::nex::StationURL::GetURLType() const	mk7dlp:bytes	0x49244C	
+0x729C3C	nn::nex::StationURL::GetStreamID() const	mk7dlp:callseq-callee	0x492468	
+0x729C58	nn::nex::StationURL::ValidateData() const	mk7dlp:bytes	0x49248C	
+0x729C88	nn::nex::StationURL::GetParamValue(const nn::nex::String&, unsigned) const	mk7dlp:callseq	0x4924E4	
+0x729DF0	nn::nex::StationURL::GetPortNumber() const	mk7dlp:callseq-callee	0x492994	
+0x729E30	nn::nex::StationURL::GetInetAddress() const	mk7dlp:bytes	0x492630	
+0x729E4C	nn::nex::StationURL::GetPrincipalID() const	mk7dlp:callseq-callee	0x4924C4	
+0x729E5C	nn::nex::StationURL::GetConnectionID() const	mk7dlp:callseq-callee	0x492674	
+0x72A060	nn::nex::StationURL::GetURL() const	mk7dlp:bytes	0x492728	
+0x72A390	nn::nex::EventHandler::WaitForBoolEvent(unsigned, nn::nex::Event**, bool) const	mk7dlp:callseq	0x492D2C	
+0x72B3EC	nn::nex::_DDL_Gathering::GetGatheringType() const	mk7dlp:bytes	0x493B7C	
+0x72B42C	sead::DirectResourceFactory<sead::DirectResource>::newResource_(sead::Heap*, int)	mk7dlp:bytes	0x55FAF8	
+0x72B75C	nn::nex::OperationManager::GetCurrentOperation() const	mk7dlp:bytes	0x49434C	
+0x72B7CC	nn::nex::_DDL_GameSession::GetGatheringType() const	mk7dlp:bytes	0x4947D8	
+0x72CE6C	nn::nex::_DDL_DynamicGathering::GetGatheringType() const	mk7dlp:bytes	0x496038	
+0x72CFA8	nn::nex::_DDL_MatchmakeSession::GetGatheringType() const	mk7dlp:bytes	0x4960D0	
+0x72D2B4	nn::nex::_DDL_AuthenticationInfo::GetDataType() const	mk7dlp:bytes	0x496380	
+0x72E360	nn::nex::String::GetLength() const	mk7dlp:callgraph	0x496CBC	
+0x72E374	nn::nex::String::operator <(const nn::nex::String&) const	mk7dlp:callgraph	0x496CD0	
+0x72E5FC	nn::nex::qResult::Equals(const bool&) const	mk7dlp:bytes	0x49775C	
+0x72EB4C	nn::nex::_DDL_Data::GetDataType() const	mk7dlp:bytes	0x497E80	
+0x7375CC	nw::ut::FloatColor::ToPicaU32() const	mk7dlp:bytes	0x498290	
+0x7376D4	nw::ut::ResDicPatricia::Get(const char*, unsigned) const	mk7dlp:bytes	0x498398	
+0x7377D0	nw::ut::Color8::ToU32() const	mk7dlp:bytes	0x498440	
+0x7377F8	nw::gfx::AnimBlender::HasMemberAnim(int) const	mk7dlp:bytes	0x498468	
+0x73789C	nw::gfx::SceneBuilder::BuildChildren(nw::os::MemorySizeCalculator*, nw::os::MemorySizeCalculator*, nw::gfx::SceneNode*, nw::gfx::res::ResSceneObject, nw::os::IAllocator*, nw::os::IAllocator*, bool) const	mk7dlp:bytes	0x4984FC	
+0x7379B8	nw::gfx::SceneBuilder::BuildSceneObject(nw::os::MemorySizeCalculator*, nw::os::MemorySizeCalculator*, nw::gfx::SceneNode*, nw::gfx::res::ResSceneObject, nw::os::IAllocator*, nw::os::IAllocator*, bool, bool) const	mk7dlp:callgraph	0x498618	
+0x7386D8	nw::gfx::AnimEvaluator::HasMemberAnim(int) const	mk7dlp:bytes	0x499400	
+0x738710	nw::gfx::AnimEvaluator::GetResult(void*, int) const	mk7dlp:bytes	0x499430	
+0x738A3C	nw::gfx::SkeletalModel::SetupAnimGroup(nw::gfx::AnimGroup*, bool) const	mk7dlp:bytes	0x49960C	
+0x738E08	nw::gfx::SkeletonUpdater::UpdateWorld(nw::gfx::Skeleton*, const nw::gfx::WorldMatrixUpdater&) const	mk7dlp:callseq	0x49978C	
+0x739BC8	nw::gfx::ShaderBinaryInfo::PutLoadCommand(nw::gfx::ShaderBinaryInfo::SafeBuffer&, unsigned, const unsigned*, unsigned) const	mk7dlp:bytes-fuzzy	0x49A448	
+0x739DD8	nw::gfx::ShaderBinaryInfo::SearchUniformIndex(int, const char*) const	mk7dlp:bytes	0x49A6FC	
+0x739ECC	nw::gfx::ShaderBinaryInfo::BuildOutAttrCommand(nw::gfx::ShaderBinaryInfo::SafeBuffer&, int, int) const	mk7dlp:bytes-fuzzy	0x49A7F0	
+0x73A2E8	nw::gfx::ShaderBinaryInfo::BuildProgramCommand(nw::gfx::ShaderBinaryInfo::SafeBuffer&) const	mk7dlp:bytes-fuzzy	0x49AC0C	
+0x73A3E4	nw::gfx::ShaderBinaryInfo::BuildConstRegCommand(nw::gfx::ShaderBinaryInfo::SafeBuffer&, int) const	mk7dlp:bytes	0x49AD08	
+0x73A684	nw::gfx::ShaderBinaryInfo::BuildShaderProgramCommand(int, int, unsigned*, unsigned) const	mk7dlp:bytes	0x49AFE8	
+0x73A730	nw::gfx::ShaderBinaryInfo::GetShaderProgramCommandSize(int, int) const	mk7dlp:bytes	0x49B094	
+0x73A8AC	nw::gfx::WorldMatrixUpdater::CalculateWorldXsi(nn::math::MTX34*, nn::math::VEC3*, const nw::gfx::CalculatedTransform&, const nw::gfx::CalculatedTransform&, const nw::gfx::CalculatedTransform&) const	mk7dlp:bytes-fuzzy	0x49B1BC	
+0x73AA44	nw::gfx::WorldMatrixUpdater::CalculateWorldBasic(nn::math::MTX34*, nn::math::VEC3*, const nw::gfx::CalculatedTransform&, const nw::gfx::CalculatedTransform&, const nw::gfx::CalculatedTransform&) const	mk7dlp:bytes	0x49B354	
+0x73ADC0	nw::gfx::WorldMatrixUpdater::CalculateWorldMayaSsc(nn::math::MTX34*, nn::math::VEC3*, const nw::gfx::CalculatedTransform&, const nw::gfx::CalculatedTransform&, const nw::gfx::CalculatedTransform&) const	mk7dlp:bytes	0x49B6D0	
+0x73B0D4	nw::gfx::AnimBlendOpTransform::Blend(nw::anim::AnimResult*, float*, const nw::anim::AnimResult*, const float*) const	mk7dlp:bytes	0x49B9D4	
+0x73B234	nw::gfx::AnimBlendOpTransform::PostBlend(nw::anim::AnimResult*, const float*) const	mk7dlp:callseq	0x49BA60	
+0x73B2D8	nw::gfx::TransformAnimBlendOp::BlendTranslate(nw::gfx::CalculatedTransform*, const nw::gfx::CalculatedTransform*, float) const	mk7dlp:bytes	0x49BB08	
+0x73B364	nw::gfx::TransformAnimBlendOp::BlendRotateMatrix(nw::gfx::CalculatedTransform*, const nw::gfx::CalculatedTransform*, float) const	mk7dlp:bytes	0x49BB94	
+0x73B668	nw::gfx::TransformAnimBlendOp::BlendScaleAccurate(nw::gfx::CalculatedTransform*, const nw::gfx::CalculatedTransform*, float) const	mk7dlp:bytes	0x49BC70	
+0x73B71C	nw::gfx::TransformAnimBlendOp::BlendScaleStandard(nw::gfx::CalculatedTransform*, const nw::gfx::CalculatedTransform*, float) const	mk7dlp:bytes	0x49BD24	
+0x73B7B4	nw::gfx::TransformAnimBlendOp::ConvertToAnimResult(nw::anim::AnimResult*, const void*) const	mk7dlp:bytes	0x49BDBC	
+0x73B7D4	nw::gfx::TransformAnimBlendOp::BlendRotateQuaternion(nw::gfx::CalculatedTransform*, const nw::gfx::CalculatedTransform*, float) const	mk7dlp:bytes	0x49BDDC	
+0x73B970	nw::gfx::TransformAnimBlendOp::PostBlendAccurateScale(nw::gfx::CalculatedTransform*) const	mk7dlp:bytes	0x49BF78	
+0x73B9B4	nw::gfx::TransformAnimBlendOp::Apply(void*, const nw::anim::AnimResult*) const	mk7dlp:bytes	0x49BFBC	
+0x73B9F0	nw::gfx::TransformAnimEvaluator::HasMemberAnim(int) const	mk7dlp:bytes	0x49BFEC	
+0x73BA54	nw::gfx::TransformAnimEvaluator::GetResultCommon(void*, int, bool) const	mk7dlp:bytes	0x49C048	
+0x73BBE4	nw::gfx::TransformAnimEvaluator::EvaluateMemberAnim(nw::gfx::CalculatedTransform*, nw::anim::res::ResTransformAnim, float, const nn::math::Transform3*, bool) const	mk7dlp:bytes-fuzzy	0x49C1D8	
+0x73C19C	nw::gfx::TransformAnimEvaluator::EvaluateMemberBakedAnim(nw::gfx::CalculatedTransform*, nw::anim::res::ResBakedTransformAnim, float, const nn::math::Transform3*, bool) const	mk7dlp:bytes-fuzzy	0x49C790	
+0x73C4CC	nw::gfx::TransformAnimBlendOpQuat::Blend(nw::anim::AnimResult*, float*, const nw::anim::AnimResult*, const float*) const	mk7dlp:callseq	0x49CAA0	
+0x73C554	nw::gfx::TransformAnimBlendOpAccScale::Blend(nw::anim::AnimResult*, float*, const nw::anim::AnimResult*, const float*) const	mk7dlp:callseq	0x49D7CC	
+0x73C5AC	nw::gfx::TransformAnimBlendOpAccScale::PostBlend(nw::anim::AnimResult*, const float*) const	mk7dlp:callseq	0x49D81C	
+0x73C5CC	nw::gfx::TransformAnimBlendOpStandard::Blend(nw::anim::AnimResult*, float*, const nw::anim::AnimResult*, const float*) const	mk7dlp:callseq	0x49D83C	
+0x73C634	nw::gfx::TransformAnimBlendOpAccScaleQuat::Blend(nw::anim::AnimResult*, float*, const nw::anim::AnimResult*, const float*) const	mk7dlp:callseq	0x49D89C	
+0x73C724	nw::gfx::res::ResTextureMapper::GetMemorySizeForCloneInternal(nw::os::MemorySizeCalculator*) const	mk7dlp:bytes	0x49D984	
+0x73C788	nw::gfx::res::ResTextureSampler::GetOwnerCommand() const	mk7dlp:bytes	0x49D9E8	
+0x73C844	nw::gfx::Camera::GetFar() const	mk7dlp:bytes	0x49DA34	
+0x73C860	nw::gfx::Camera::GetNear() const	mk7dlp:bytes	0x49DA50	
+0x73C888	nw::gfx::Material::CanUseBuffer(unsigned) const	mk7dlp:bytes-fuzzy	0x49DA6C	
+0x73C978	nw::gfx::SceneNode::IsCircularReference(const nw::gfx::SceneNode*) const	mk7dlp:bytes	0x49DB20	
+0x73C998	nw::gfx::SceneNode::TrackbackWorldMatrix() const	mk7dlp:bytes	0x49DB40	
+0x73CC38	nw::lyt::AnimTransform::IsLoopData() const	mk7dlp:bytes	0x49DB74	
+0x73CC60	nw::lyt::Pane::GetMaterial() const	mk7dlp:bytes	0x49DB9C	
+0x73CC9C	nw::lyt::Pane::GetPaneRect() const	mk7dlp:callgraph	0x49DBD8	
+0x73CD68	nw::lyt::Pane::GetColorElement(unsigned) const	mk7dlp:bytes	0x49DCA0	
+0x73CE24	nw::lyt::Pane::GetVtxPos() const	mk7dlp:callgraph	0x49DD34	
+0x73CEB0	nw::lyt::Drawer::CalcTextureCoords(const nw::lyt::Material*, const nn::math::VEC2(*)[4], nn::math::VEC4*) const	mk7dlp:bytes-fuzzy	0x49DDBC	
+0x73D504	nw::lyt::Window::GetVtxColorElement(unsigned) const	mk7dlp:bytes	0x49E3D4	
+0x73E3B8	nw::lyt::Picture::MakeUniformDataSelf(nw::lyt::DrawInfo*, nw::lyt::Drawer*) const	mk7dlp:callseq	0x49F1B0	
+0x73E5E0	nw::lyt::TextBox::GetVtxColor(unsigned) const	mk7dlp:bytes	0x49F3A0	
+0x73E5F4	nw::lyt::TextBox::AdjustTextPos(const nw::lyt::Size&, bool) const	mk7dlp:bytes	0x49F3B4	
+0x73E6C4	nw::lyt::TextBox::GetTextGlobalMtx(nn::math::MTX34*) const	mk7dlp:bytes	0x49F484	
+0x73E790	nw::lyt::TextBox::GetVtxColorElement(unsigned) const	mk7dlp:bytes	0x49F550	
+0x73E7A8	nw::lyt::TextBox::MakeUniformDataSelf(nw::lyt::DrawInfo*, nw::lyt::Drawer*) const	mk7dlp:callseq	0x49F568	
+0x73E874	nw::lyt::Material::GetTevStageAry() const	mk7dlp:bytes	0x49F61C	
+0x73E8C0	nw::lyt::Material::GetBlendModePtr() const	mk7dlp:bytes	0x49F668	
+0x73E928	nw::lyt::Material::GetAlphaComparePtr() const	mk7dlp:bytes	0x49F6D0	
+0x73ECFC	nw::snd::SoundArchive::ReadSoundArchivePlayerInfo(nw::snd::SoundArchive::SoundArchivePlayerInfo*) const	mk7dlp:callgraph	0x4A1A6C	
+0x73EE58	nw::snd::SoundDataManager::GetRequiredMemSize(const nw::snd::SoundArchive*) const	mk7dlp:bytes	0x49F874	
+0x73EE84	nw::snd::SoundDataManager::GetFileAddressFromTable(unsigned) const	mk7dlp:bytes	0x49F8A0	
+0x73F2B8	nw::snd::SoundArchivePlayer::GetRequiredStreamBufferSize(const nw::snd::SoundArchive*)	mk7dlp:bytes	0x2444B0	
+0x73F30C	nw::snd::internal::CurveAdshr::GetValue() const	mk7dlp:bytes	0x49FA5C	
+0x73F4B0	nw::snd::internal::WaveSoundFile::WaveSoundInfo::GetSendValue(unsigned char*, unsigned char*, unsigned char) const	mk7dlp:bytes	0x49FC10	
+0x73F59C	nw::snd::internal::WaveSoundFile::WaveSoundInfo::GetAdshrCurve() const	mk7dlp:bytes	0x49FCFC	
+0x73F624	nw::snd::internal::WaveSoundFile::WaveSoundInfo::GetSurroundPan() const	mk7dlp:bytes	0x49FD34	
+0x73F64C	nw::snd::internal::WaveSoundFile::WaveSoundInfo::GetPan() const	mk7dlp:bytes	0x49FD5C	
+0x73F670	nw::snd::internal::WaveSoundFile::WaveSoundInfo::GetPitch() const	mk7dlp:bytes	0x49FD80	
+0x73F6E0	nw::snd::internal::BankFileReader::ReadVelocityRegionInfo(nw::snd::internal::VelocityRegionInfo*, int, int, int) const	mk7dlp:callseq	0x49FF44	
+0x73F86C	nw::snd::internal::WaveFileReader::ReadWaveInfo(nw::snd::internal::WaveInfo*, const void*) const	mk7dlp:callseq	0x4A00C0	
+0x73F990	nw::snd::internal::BiquadFilterHpf::GetCoefficients(int, float, nn::snd::CTR::BiquadFilterCoefficients*) const	mk7dlp:bytes	0x4A01B0	
+0x73F9E4	nw::snd::internal::BiquadFilterLpf::GetCoefficients(int, float, nn::snd::CTR::BiquadFilterCoefficients*) const	mk7dlp:bytes	0x4A0204	
+0x73FBA0	nw::snd::internal::StreamSoundFile::ChannelInfo::GetDspAdpcmChannelInfo() const	mk7dlp:bytes	0x4A03EC	
+0x73FBB8	nw::snd::internal::StreamSoundFile::InfoBlockBody::GetTrackInfoTable() const	mk7dlp:bytes	0x4A0404	
+0x73FBD4	nw::snd::internal::StreamSoundFile::InfoBlockBody::GetStreamSoundInfo() const	mk7dlp:bytes	0x4A0420	
+0x73FBEC	nw::snd::internal::StreamSoundFile::InfoBlockBody::GetChannelInfoTable() const	mk7dlp:bytes	0x4A0438	
+0x73FD34	nw::snd::internal::SoundArchiveFile::FileHeader::GetInfoBlockSize() const	mk7dlp:bytes	0x4A0574	
+0x73FDF4	nw::snd::internal::SoundArchiveFile::FileHeader::GetStringBlockSize() const	mk7dlp:bytes	0x4A0634	
+0x73FE2C	nw::snd::internal::SoundArchiveFile::FileHeader::GetStringBlockOffset() const	mk7dlp:bytes	0x4A066C	
+0x73FE64	nw::snd::internal::SoundArchiveFile::PlayerInfo::GetPlayerHeapSize() const	mk7dlp:bytes	0x4A06A4	
+0x73FE84	nw::snd::internal::SoundArchiveFile::InfoBlockBody::GetGroupInfo(unsigned) const	mk7dlp:bytes	0x4A072C	
+0x73FEC0	nw::snd::internal::SoundArchiveFile::InfoBlockBody::GetPlayerInfo(unsigned) const	mk7dlp:bytes	0x4A0930	
+0x7403C4	nw::snd::internal::SoundArchiveFile::SoundInfo::GetSound3DInfo() const	mk7dlp:bytes	0x4A0CA4	
+0x740404	nw::snd::internal::SequenceSoundFile::FileHeader::GetDataBlock() const	mk7dlp:bytes	0x4A0D44	
+0x7404E0	nw::snd::internal::SequenceSoundFile::LabelBlockBody::GetOffsetByLabel(const char*, unsigned*) const	mk7dlp:bytes	0x4A0E20	
+0x740568	nw::snd::internal::BiquadFilterBpf512::GetCoefficients(int, float, nn::snd::CTR::BiquadFilterCoefficients*) const	mk7dlp:bytes	0x4A0EA8	
+0x7406F8	nw::snd::internal::SoundArchiveLoader::detail_GetFileAddressByItemId(unsigned) const	mk7dlp:callseq-callee	0x4A0F2C	
+0x7407DC	nw::snd::internal::SoundArchiveLoader::GetFileAddressFromSoundArchive(unsigned) const	mk7dlp:bytes	0x4A1010	
+0x7408C0	nw::snd::internal::WaveSoundFileReader::ReadWaveSoundInfo(nw::snd::internal::WaveSoundInfo*, unsigned) const	mk7dlp:callseq	0x4A11B0	
+0x740C94	nw::snd::SoundArchive::detail_GetFileCount() const	mk7dlp:callgraph	0x4A1530	
+0x740DCC	nw::snd::internal::SoundArchiveFileReader::ReadPlayerInfo(unsigned, nw::snd::SoundArchive::PlayerInfo*) const	mk7dlp:bytes	0x4A1700	
+0x740DFC	nw::snd::internal::SoundArchiveFileReader::ReadSound3DInfo(unsigned, nw::snd::SoundArchive::Sound3DInfo*) const	mk7dlp:bytes	0x4A1738	
+0x741424	nw::snd::internal::driver::Voice::IsRun() const	mk7dlp:bytes	0x4A20A0	
+0x741444	nw::snd::internal::driver::Voice::GetFormat() const	mk7dlp:bytes	0x4A20C0	
+0x74168C	nw::snd::internal::driver::Bank::NoteOn(const void*, const nw::snd::internal::driver::NoteOnInfo&, const nw::snd::SoundArchive&, const nw::snd::SoundArchivePlayer&, const nw::snd::internal::PlayerHeapDataManager*) const	mk7dlp:callseq	0x4A1EC0	
+0x741818	nw::snd::internal::driver::MmlParser::CommandProc(nw::snd::internal::driver::MmlSequenceTrack*, unsigned, int, int) const	mk7dlp:callseq	0x4A20D4	
+0x74257C	nw::snd::internal::driver::MmlParser::NoteOnCommandProc(nw::snd::internal::driver::MmlSequenceTrack*, int, int, int, bool) const	mk7dlp:bytes	0x4A2944	
+0x742B34	nw::snd::internal::driver::MmlParser::ReadArg(const unsigned char**, nw::snd::internal::driver::SequenceSoundPlayer*, nw::snd::internal::driver::SequenceTrack*, nw::snd::internal::driver::MmlParser::SeqArgType) const	mk7dlp:callseq	0x4A2EDC	
+0x742C84	nw::snd::internal::BankFile::Instrument::GetKeyRegion(unsigned) const	mk7dlp:callseq-callee	0x4A3098	
+0x742D38	nw::snd::internal::BankFile::InfoBlockBody::GetInstrument(int) const	mk7dlp:bytes	0x4A314C	
+0x742D7C	nw::snd::internal::BankFile::InfoBlockBody::GetInstrumentReferenceTable() const	mk7dlp:callseq-callee	0x4A31A4	
+0x742D88	nw::snd::internal::BankFile::VelocityRegion::GetKeyGroup() const	mk7dlp:bytes	0x4A31B0	
+0x742DB4	nw::snd::internal::BankFile::VelocityRegion::GetAdshrCurve() const	mk7dlp:callseq-callee	0x4A31DC	
+0x742DF0	nw::snd::internal::BankFile::VelocityRegion::GetOriginalKey() const	mk7dlp:bytes	0x4A3218	
+0x742E18	nw::snd::internal::BankFile::VelocityRegion::IsIgnoreNoteOff() const	mk7dlp:bytes	0x4A3240	
+0x742E44	nw::snd::internal::BankFile::VelocityRegion::GetRegionParameter() const	mk7dlp:bytes	0x4A326C	
+0x742E5C	nw::snd::internal::BankFile::VelocityRegion::GetInterpolationType() const	mk7dlp:bytes	0x4A3284	
+0x742E88	nw::snd::internal::BankFile::VelocityRegion::GetPan() const	mk7dlp:callseq-callee	0x4A32B0	
+0x742EB0	nw::snd::internal::BankFile::VelocityRegion::GetPitch() const	mk7dlp:callseq-callee	0x4A32D8	
+0x742F24	nw::snd::internal::BankFile::VelocityRegion::GetVolume() const	mk7dlp:bytes	0x4A334C	
+0x742F4C	nw::snd::internal::BankFile::KeyRegion::GetVelocityRegion(unsigned) const	mk7dlp:callseq-callee	0x4A3374	
+0x743000	nw::snd::internal::CurveLfo::GetValue() const	mk7dlp:callseq-callee	0x4A3428	
+0x7430A4	nw::snd::internal::PoolImpl::CountImpl() const	mk7dlp:bytes	0x4A34DC	
+0x743134	nw::snd::internal::WaveFile::FileHeader::GetInfoBlock() const	mk7dlp:bytes	0x4A356C	
+0x7431A0	nw::snd::internal::WaveFile::ChannelInfo::GetDspAdpcmInfo() const	mk7dlp:callseq-callee	0x4A35D8	
+0x7431AC	nw::snd::internal::WaveFile::ChannelInfo::GetSamplesAddress(const void*) const	mk7dlp:callseq-callee	0x4A35E4	
+0x7431B8	nw::snd::internal::WaveFile::InfoBlockBody::GetChannelInfo(int) const	mk7dlp:bytes	0x4A35F0	
+0x743220	nw::anim::AnimBlendOp::ApplyFloatVector(void*, const nw::anim::AnimResult*, int) const	mk7dlp:bytes	0x4A376C	
+0x743260	nw::anim::AnimBlendOpVector2::Blend(nw::anim::AnimResult*, float*, const nw::anim::AnimResult*, const float*) const	mk7dlp:bytes	0x4A37AC	
+0x743274	nw::anim::AnimBlendOp::BlendFloatVector(nw::anim::AnimResult*, const nw::anim::AnimResult*, float, int) const	mk7dlp:bytes	0x4A37C0	
+0x7433C0	nw::anim::AnimBlendOp::ConvertFloatVectorToAnimResult(nw::anim::AnimResult*, const void*, int) const	mk7dlp:bytes	0x4A384C	
+0x743460	nw::anim::AnimBlendOpBool::ConvertToAnimResult(nw::anim::AnimResult*, const void*) const	mk7dlp:bytes	0x4A38D8	
+0x743480	nw::anim::AnimBlendOpBool::Blend(nw::anim::AnimResult*, float*, const nw::anim::AnimResult*, const float*) const	mk7dlp:bytes	0x4A38F8	
+0x743504	nw::anim::AnimBlendOpFloat::Blend(nw::anim::AnimResult*, float*, const nw::anim::AnimResult*, const float*) const	mk7dlp:bytes	0x4A3968	
+0x743564	nw::anim::AnimBlendOpTexture::ConvertToAnimResult(nw::anim::AnimResult*, const void*) const	mk7dlp:bytes	0x4A39B4	
+0x743590	nw::anim::AnimBlendOpTexture::Apply(void*, const nw::anim::AnimResult*) const	mk7dlp:bytes	0x4A39E0	
+0x743604	nw::anim::AnimBlendOpVector3::Blend(nw::anim::AnimResult*, float*, const nw::anim::AnimResult*, const float*) const	mk7dlp:bytes	0x4A3A10	
+0x743630	nw::anim::AnimBlendOpRgbaColor::ConvertToAnimResult(nw::anim::AnimResult*, const void*) const	mk7dlp:bytes	0x4A3A24	
+0x74368C	nw::anim::AnimBlendOpRgbaColor::Apply(void*, const nw::anim::AnimResult*) const	mk7dlp:bytes	0x4A3A80	
+0x7436E4	nw::anim::AnimBlendOpRgbaColor::Blend(nw::anim::AnimResult*, float*, const nw::anim::AnimResult*, const float*) const	mk7dlp:bytes	0x4A3AD8	
+0x7437F8	nw::anim::res::ResVec3Anim::EvaluateResult(void*, unsigned, float) const	mk7dlp:bytes	0x4A3B5C	
+0x7438D4	nw::anim::res::ResMemberAnim::GetPrimitiveSize() const	mk7dlp:callgraph	0x4A3C38	
+0x743940	nw::anim::res::ResMemberAnim::ApplyCacheForType(void*, const void*) const	mk7dlp:callgraph	0x4A3CA4	
+0x743A4C	nw::anim::res::ResMemberAnim::EvaluateResultForType(void*, unsigned, float, const void*) const	mk7dlp:bytes-fuzzy	0x4A3DB0	
+0x743C6C	nw::anim::res::ResRgbaColorAnim::EvaluateResult(void*, unsigned, float) const	mk7dlp:bytes	0x4A3FD0	
+0x743D84	nw::anim::res::ResTransformAnim::EvaluateResult(void*, unsigned, float, const void*) const	mk7dlp:callseq	0x4A40E8	
+0x7442FC	nw::anim::res::ResAnimGroupMember::SetValueForType(void*, const void*) const	mk7dlp:callseq	0x4A4668	
+0x7446B0	nw::anim::res::ResVertexLightMember::SetValue(void*, const void*) const	mk7dlp:bytes-fuzzy	0x4A4A24	
+0x744780	nw::anim::res::ResFragmentLightMember::SetValue(void*, const void*) const	mk7dlp:callseq	0x4A4AF4	
+0x744A1C	nw::anim::res::ResMaterialColorMember::SetValue(void*, const void*) const	mk7dlp:callseq	0x4A4D80	
+0x744BE0	nw::anim::res::ResHemiSphereLightMember::SetValue(void*, const void*) const	mk7dlp:bytes	0x4A4F44	
+0x744C6C	nw::anim::res::ResProjectionUpdaterMember::SetValue(void*, const void*) const	mk7dlp:bytes-fuzzy	0x4A4FD0	
+0x744D5C	nw::anim::res::ResTextureCoordinatorMember::SetValue(void*, const void*) const	mk7dlp:bytes	0x4A50C0	
+0x744E34	nw::font::CharWriter::GetFontWidth() const	mk7dlp:bytes	0x4A51EC	
+0x744E60	nw::font::CharWriter::GetFontAscent() const	mk7dlp:bytes	0x4A5218	
+0x744E8C	nw::font::CharWriter::GetFontHeight() const	mk7dlp:bytes	0x4A5244	
+0x744EB8	nw::font::RectDrawer::GetDrawCommands() const	mk7dlp:callseq-callee	0x4A5270	
+0x744EC4	nw::font::RectDrawer::GetVertexIndexAddressOffset(unsigned) const	mk7dlp:bytes	0x4A527C	
+0x744F24	nw::font::ResFontBase::GetCharWidth(unsigned short) const	mk7dlp:bytes	0x4A52B8	
+0x744F50	nw::font::ResFontBase::GetCharWidths(unsigned short) const	mk7dlp:bytes	0x4A52D4	
+0x744FC8	nw::font::ResFontBase::FindGlyphIndex(unsigned short) const	mk7dlp:bytes	0x4A534C	
+0x745114	nw::font::ResFontBase::GetGlyph(nw::font::Glyph*, unsigned short) const	mk7dlp:bytes	0x4A5488	
+0x74514C	nw::font::ResFontBase::GetGlyphFromIndex(nw::font::Glyph*, unsigned short) const	mk7dlp:bytes	0x4A54C0	
+0x7452F0	nw::font::Font::GetCharStrmReader(wchar_t) const	mk7dlp:bytes	0x4A5624	
+0x7493EC	sead::PtrArrayImpl::binarySearch(const void*, int(*)(const void*, const void*)) const	mk7dlp:bytes	0x4AB608	
+0x7495CC	sead::ExpHeap::dumpUseList() const	mk7dlp:bytes	0x4AC4C0	
+0x749638	sead::ExpHeap::getFreeSize() const	mk7dlp:bytes	0x4AC52C	
+0x7496B8	sead::ExpHeap::dumpFreeList() const	mk7dlp:bytes	0x4AC5A4	
+0x749798	sead::ExpHeap::getMaxAllocatableSize(int) const	mk7dlp:callseq	0x4AC618	
+0x749928	sead::ExpHeap::findFreeMemBlockFromHead_(unsigned, sead::ExpHeap::FindMode) const	mk7dlp:bytes	0x4AC7A8	
+0x7499C4	sead::ExpHeap::findFreeMemBlockFromHead_(unsigned, int, sead::ExpHeap::FindMode) const	mk7dlp:bytes	0x4AC844	
+0x749A90	sead::ExpHeap::findFreeMemBlockFromTail_(unsigned, int, sead::ExpHeap::FindMode) const	mk7dlp:bytes	0x4AC910	
+0x749C88	sead::ExpHeap::isInclude(const void*) const	mk7dlp:bytes	0x4AC9F8	
+0x749CC8	sead::HeapMgr::getCurrentHeap() const	mk7dlp:bytes	0x10C4D0	
+0x749FD8	sead::FileDevice::isAvailable() const	mk7dlp:callgraph	0x4AB3A4	
+0x74A120	sead::FileDevice::getLastRawError() const	mk7dlp:callgraph	0x4AB3E0	
+0x74A86C	sead::TaskClassID::create(const sead::TaskConstructArg&) const	mk7dlp:bytes	0x4AB3FC	
+0x74A9DC	sead::LookAtCamera::doUpdateMatrix(sead::Matrix34<float>*) const	mk7dlp:bytes	0x4AB4C8	
+0x74ADC0	sead::AnyFileDevice::doIsAvailable_() const	mk7dlp:bytes	0x4AB694	
+0x74AE04	sead::AnyFileDevice::isMatchDevice_(const sead::HandleBase*) const	mk7dlp:bytes-fuzzy	0x4AB6D8	
+0x74AE90	sead::AnyFileDevice::doGetLastRawError_() const	mk7dlp:bytes	0x4AB72C	
+0x74AF54	sead::AnyFileDevice::findFileDeviceByFile_(const sead::SafeStringBase<char>&)	mk7dlp:callgraph	0x2DB30C	
+0x74B164	sead::AudioResetter::isResetting() const	mk7dlp:callgraph	0x4AB78C	
+0x74B404	sead::ControllerMgr::getControlDevice(sead::ControllerDefine::DeviceId) const	mk7dlp:bytes	0x4AB84C	
+0x74C014	sead::FrameBufferCtr::bindImpl_() const	mk7dlp:callseq	0x4ABA24	
+0x74C2D8	sead::MethodTreeNode::attachMutexRec_(sead::CriticalSection*) const	mk7dlp:bytes	0x4ABBA8	
+0x74C7AC	sead::AudioResetterCtr::isResetting() const	mk7dlp:bytes	0x4ABC58	
+0x74CF8C	sead::AudioSoundDataMgrCtr::getSoundArchive() const	mk7dlp:callgraph	0x4ABE04	
+0x74DF48	sead::CtrFileStreamFileDevice::doIsAvailable_() const	mk7dlp:bytes-fuzzy	0x4AC118	
+0x74ECC8	sead::ptcl::PtclModelMgr::isValidModel() const	mk7dlp:callgraph	0x4AC2A8	
+0x74F944	sead::ListImpl::indexOf(const sead::ListNode*) const	mk7dlp:bytes	0x4ACC94	
+0x774334	thunk{-12} to nw::snd::SoundDataManager::SetFileAddressToTable(unsigned, const void*)	mk7dlp:bytes	0x4C54E8	
+0x77437C	thunk{-12} to nw::snd::internal::PlayerHeapDataManager::SetFileAddressToTable(unsigned, const void*)	mk7dlp:bytes	0x4C550C	
+0x7745F8	thunk{-12} to nw::snd::SoundDataManager::GetFileAddressFromTable(unsigned) const	mk7dlp:bytes	0x4C55EC	
+0x774630	thunk{-12} to nw::snd::internal::PlayerHeapDataManager::GetFileAddressFromTable(unsigned) const	mk7dlp:bytes	0x4C5624	
+0x7782E8	thunk{-4} to sead::AudioPlayerCtr::detail_SetupSound(nw::snd::SoundHandle*, unsigned, bool, const nw::snd::SoundStartable::StartInfo*)	mk7dlp:bytes	0x4CB5D8	
+0x77A564	__ARM_common_memclr4_10	mk7dlp:bytes	0x4CC368	
+0x77A608	__ARM_common_memcpy4_6	mk7dlp:bytes	0x4CC4A0	
+0x77A668	__ARM_common_memset4_5	mk7dlp:bytes	0x4CC4E4	
+0x77A6F4	__ARM_fpclassifyf	mk7dlp:bytes	0x4CC554	
+0x77A864	__fb_getCurrentFBColorSurface	mk7dlp:bytes	0x4CC794	
+0x77A87C	__fb_getCurrentFBDepthSurface	mk7dlp:bytes	0x4CC7AC	
+0x77AD5C	__hardfp_acosf	mk7dlp:bytes-fuzzy	0x4CCC3C	
+0x77AE88	__hardfp_asinf	mk7dlp:bytes-fuzzy	0x4CCD68	
+0x77AFC0	__hardfp_atan2f	mk7dlp:bytes	0x4CCEA0	
+0x77B230	__hardfp_ceilf	mk7dlp:bytes	0x4CD110	
+0x77B2C0	__hardfp_cosf	mk7dlp:bytes-fuzzy	0x4CD1A0	
+0x77B43C	__hardfp_expf	mk7dlp:bytes-fuzzy	0x4CD31C	
+0x77B66C	__hardfp_floorf	mk7dlp:bytes	0x4CD54C	
+0x77B708	__hardfp_fmodf	mk7dlp:bytes-fuzzy	0x4CD5E8	
+0x77B9B8	__hardfp_logf	mk7dlp:callgraph	0x4CD898	
+0x77BC18	__hardfp_powf	mk7dlp:bytes-fuzzy	0x4CDA58	
+0x77C38C	__hardfp_sinf	mk7dlp:bytes-fuzzy	0x4CE1CC	
+0x77C554	__hardfp_tanf	mk7dlp:bytes-fuzzy	0x4CE394	
+0x77C708	__mathlib_dbl_underflow	mk7dlp:bytes	0x4CE548	
+0x77C720	__mathlib_flt_underflow	mk7dlp:callgraph	0x4CE560	
+0x77C874	__mem_readMemory	mk7dlp:bytes	0x4CE78C	
+0x7A1038	__vldtr_validateAllState	mk7dlp:bytes-fuzzy	0x51736C	
+0x7A7974	glBindBuffer	mk7dlp:callgraph	0x51A7A0	
+0x7A7DB8	glBindTexture	mk7dlp:callseq	0x51ABC8	
+0x7A8C1C	glBufferData	mk7dlp:callgraph	0x51B43C	
+0x7A94DC	glDeleteProgram	mk7dlp:bytes	0x51BCB4	
+0x7AA238	glGenBuffers	mk7dlp:callgraph	0x51C958	
+0x7AA83C	glLinkProgram	mk7dlp:callseq	0x51CF88	
+0x7AD7DC	glTexParameterf	mk7dlp:bytes	0x51FC4C	
+0x7AD7F4	glTexParameterfv	mk7dlp:callgraph	0x51FC64	
+0x7ADB28	glTexParameteri	mk7dlp:bytes	0x51FF9C	
+0x7ADB3C	glTexParameteriv	mk7dlp:callgraph	0x51FFB0	
+0x7ADE54	glUniform1i	mk7dlp:bytes	0x520294	
+0x7B1710	nngxAddB2LTransferCommand	mk7dlp:callseq-callee	0x520C30	
+0x7B18A4	nngxAddVramDmaCommand	mk7dlp:callseq-callee	0x5210A0	
+0x7B1A2C	nngxClearCmdlist	mk7dlp:callseq-callee	0x52118C	
+0x7B1ABC	nngxFlush3DCommand	mk7dlp:callseq-callee	0x521210	
+0x7B1C64	nngxGetAllocator	mk7dlp:bytes	0x5213A4	
+0x7B1C88	nngxGetCommandGenerationMode	mk7dlp:bytes	0x5213C8	
+0x7B1CB0	nngxGetDisplaybufferParameteri	mk7dlp:bytes-fuzzy	0x1088A4	
+0x7B1D40	nngxRunCmdlist	mk7dlp:bytes	0x521448	
+0x7B1E9C	nngxStopCmdlist	mk7dlp:callseq-callee	0x5215AC	
+0x7B2134	nngxUpdateBuffer	mk7dlp:callgraph	0x521A0C	
+0x7B2288	nngxUseSavedCmdlist	mk7dlp:callgraph	0x521B4C	
+0x7B2998	nngxWaitCmdlistDone	mk7dlp:callseq-callee	0x5221C4	
+0x7B2BDC	nnosStackMemoryBlockFree	mk7dlp:bytes	0x522318	
+0x7B2C00	nnosStackMemoryBlockInitialize	mk7dlp:bytes	0x52233C	
+0x7B2C34	nnosTickGetSystemCurrent	mk7dlp:callgraph	0x5223E8	
+0x7D41F4	nn::nex::_Type_qlist<nn::nex::_Type_uint32>::Add(nn::nex::Message*, const nn::nex::qList<unsigned>&)	mk7dlp:bytes	0x5351E0	
+0x7D5FD8	nn::nex::ThreadVariable<nn::nex::qList<nn::nex::SecurityContext>>::GetRef()	mk7dlp:callgraph	0x53667C	
+0x7E4CE4	nn::nex::Callback<nn::nex::StepSequenceJob, nn::nex::StepSequenceJob::Step*>::CallObjectMethod()	mk7dlp:bytes	0x539F38	
+0x7E53F4	nn::math::ARMv6::MTX33MultAsm<nn::math::MTX34>(T1*, const T1*, const T1*)	mk7dlp:bytes	0x539F68	
+0x7E5D64	nw::ut::FloatEqualsWeak<float>(T1, T1)	mk7dlp:bytes	0x53A0F0	
+0x7E5E58	nw::ut::MoveArray<nn::math::MTX34>::~MoveArray()	mk7dlp:bytes	0x53A320	
+0x7E5ED0	nw::ut::MoveArray<nw::gfx::CalculatedTransform>::Resize(int)	mk7dlp:callgraph	0x53A398	
+0x7E6F70	nw::gfx::internal::SetupVertexAttributeCommand(nw::gfx::internal::CommandBufferInfo&, nw::gfx::res::ResSeparateDataShape, nw::gfx::res::ResShaderProgramDescription)	mk7dlp:bytes	0x53AD18	
+0x7E792C	nw::snd::internal::driver::SequenceSoundPlayer::SetTrackParam<float>(unsigned, void(nw::snd::internal::driver::SequenceTrack::*)(T1), T1)	mk7dlp:bytes-fuzzy	0x53B514	
+0x7E79A8	nw::snd::internal::MoveValue<float, int>::SetTarget(float, int)	mk7dlp:bytes	0x53B590	
+0x7E908C	nw::font::TextWriterBase<wchar_t>::AdjustCursor(float*, float*, const wchar_t*, int)	mk7dlp:bytes	0x53CC64	
+0x7E925C	nw::font::TextWriterBase<wchar_t>::CalcLineWidth(const wchar_t*, int)	mk7dlp:bytes	0x53CE34	
+0x7E92D8	nw::font::TextWriterBase<wchar_t>::CalcLineRectImpl(nw::ut::Rect*, const wchar_t**, int)	mk7dlp:callgraph	0x53CEB0	
+0x7E96C0	nw::font::TextWriterBase<wchar_t>::CalcStringRectImpl(nw::ut::Rect*, const wchar_t*, int)	mk7dlp:bytes	0x53D2A4	
+0x7E97A8	nw::font::TextWriterBase<wchar_t>::Print(const wchar_t*, int)	mk7dlp:bytes	0x53D38C	
+0x7E9804	nw::font::TextWriterBase<wchar_t>::PrintImpl(const wchar_t*, int)	mk7dlp:callgraph	0x53D3E8	
+0x7E9CE8	nw::font::TextWriterBase<wchar_t>::TextWriterBase()	mk7dlp:bytes	0x53D8CC	
+0x7F00B4	nn::nex::_DDL_Gathering::Clone() const	mk7dlp:bytes	0x493B98	
+0x7F3E0C	sead::DirectResourceFactory<sead::GraphicsFileResNw4c>::newResource_(sead::Heap*, int)	mk7dlp:bytes	0x55FB2C	
+0x7F7858	__rw::__rb_tree<nn::nex::InetAddress, nn::nex::InetAddress, __rw::__ident<nn::nex::InetAddress, nn::nex::InetAddress>, std::less<nn::nex::InetAddress>, nn::nex::MemAllocator<nn::nex::InetAddress>>::_C_erase(__rw::__rw_rb_tree_node<nn::nex::MemAllocator<nn::nex::InetAddress>, nn::nex::InetAddress, nn::nex::InetAddress, __rw::__ident<nn::nex::InetAddress, nn::nex::InetAddress>>*)	mk7dlp:bytes-fuzzy	0x5449A4	
+0x7FE8D8	__rw::__rb_tree<nn::nex::String, std::pair<const nn::nex::String, nn::nex::String>, __rw::__select1st<std::pair<const nn::nex::String, nn::nex::String>, nn::nex::String>, std::less<nn::nex::String>, nn::nex::MemAllocator<std::pair<const nn::nex::String, nn::nex::String>>>::erase(__rw::__rw_tree_iter<std::pair<const nn::nex::String, nn::nex::String>, int, std::pair<const nn::nex::String, nn::nex::String>*, std::pair<const nn::nex::String, nn::nex::String>&, __rw::__rw_rb_tree_node<nn::nex::MemAllocator<std::pair<const nn::nex::String, nn::nex::String>>, std::pair<const nn::nex::String, nn::nex::String>, nn::nex::String, __rw::__select1st<std::pair<const nn::nex::String, nn::nex::String>, nn::nex::String>>>, __rw::__rw_tree_iter<std::pair<const nn::nex::String, nn::nex::String>, int, std::pair<const nn::nex::String, nn::nex::String>*, std::pair<const nn::nex::String, nn::nex::String>&, __rw::__rw_rb_tree_node<nn::nex::MemAllocator<std::pair<const nn::nex::String, nn::nex::String>>, std::pair<const nn::nex::String, nn::nex::String>, nn::nex::String, __rw::__select1st<std::pair<const nn::nex::String, nn::nex::String>, nn::nex::String>>>)	mk7dlp:callgraph	0x54AC10	
+0x7FF59C	__rw::__rb_tree<nn::nex::DOHandle, std::pair<const nn::nex::DOHandle, nn::nex::qList<nn::nex::StationURL>>, __rw::__select1st<std::pair<const nn::nex::DOHandle, nn::nex::qList<nn::nex::StationURL>>, nn::nex::DOHandle>, std::less<nn::nex::DOHandle>, nn::nex::MemAllocator<std::pair<const nn::nex::DOHandle, nn::nex::qList<nn::nex::StationURL>>>>::erase(__rw::__rw_tree_iter<std::pair<const nn::nex::DOHandle, nn::nex::qList<nn::nex::StationURL>>, int, std::pair<const nn::nex::DOHandle, nn::nex::qList<nn::nex::StationURL>>*, std::pair<const nn::nex::DOHandle, nn::nex::qList<nn::nex::StationURL>>&, __rw::__rw_rb_tree_node<nn::nex::MemAllocator<std::pair<const nn::nex::DOHandle, nn::nex::qList<nn::nex::StationURL>>>, std::pair<const nn::nex::DOHandle, nn::nex::qList<nn::nex::StationURL>>, nn::nex::DOHandle, __rw::__select1st<std::pair<const nn::nex::DOHandle, nn::nex::qList<nn::nex::StationURL>>, nn::nex::DOHandle>>>, __rw::__rw_tree_iter<std::pair<const nn::nex::DOHandle, nn::nex::qList<nn::nex::StationURL>>, int, std::pair<const nn::nex::DOHandle, nn::nex::qList<nn::nex::StationURL>>*, std::pair<const nn::nex::DOHandle, nn::nex::qList<nn::nex::StationURL>>&, __rw::__rw_rb_tree_node<nn::nex::MemAllocator<std::pair<const nn::nex::DOHandle, nn::nex::qList<nn::nex::StationURL>>>, std::pair<const nn::nex::DOHandle, nn::nex::qList<nn::nex::StationURL>>, nn::nex::DOHandle, __rw::__select1st<std::pair<const nn::nex::DOHandle, nn::nex::qList<nn::nex::StationURL>>, nn::nex::DOHandle>>>)	mk7dlp:bytes-fuzzy	0x54D08C	
+0x805D40	__rw::__rb_tree<unsigned, std::pair<const unsigned, nn::nex::Buffer>, __rw::__select1st<std::pair<const unsigned, nn::nex::Buffer>, unsigned>, std::less<unsigned>, nn::nex::MemAllocator<std::pair<const unsigned, nn::nex::Buffer>>>::_C_insert(__rw::__rw_rb_tree_node<nn::nex::MemAllocator<std::pair<const unsigned, nn::nex::Buffer>>, std::pair<const unsigned, nn::nex::Buffer>, unsigned, __rw::__select1st<std::pair<const unsigned, nn::nex::Buffer>, unsigned>>*, __rw::__rw_rb_tree_node<nn::nex::MemAllocator<std::pair<const unsigned, nn::nex::Buffer>>, std::pair<const unsigned, nn::nex::Buffer>, unsigned, __rw::__select1st<std::pair<const unsigned, nn::nex::Buffer>, unsigned>>*, const std::pair<const unsigned, nn::nex::Buffer>&)	mk7dlp:callseq	0x556730	
+0x810060	sead::FixedSafeString<(int)32>::FixedSafeString()	mk7dlp:bytes	0x55F4F8	
+0x811980	sead::DelegateEvent<const char*>::Slot::~Slot()	mk7dlp:bytes	0x55F06C	sead::DelegateEvent<sead::TaskBase*>::Slot::~Slot()
+0x8134B8	sead::hostio::curveStep_<float>(float, const sead::hostio::CurveDataInfo*, const T1*)	mk7dlp:bytes	0x5603CC	
+0x81350C	sead::hostio::curveHermit_<float>(float, const sead::hostio::CurveDataInfo*, const T1*)	mk7dlp:bytes	0x560420	
+0x8135FC	sead::hostio::curveLinear_<float>(float, const sead::hostio::CurveDataInfo*, const T1*)	mk7dlp:bytes	0x560510	
+0x81366C	sead::hostio::curveStep2D_<float>(float, const sead::hostio::CurveDataInfo*, const T1*)	mk7dlp:bytes	0x560580	
+0x81372C	sead::hostio::curveSinPow2_<float>(float, const sead::hostio::CurveDataInfo*, const T1*)	mk7dlp:bytes	0x560604	
+0x813798	sead::hostio::curveHermit2D_<float>(float, const sead::hostio::CurveDataInfo*, const T1*)	mk7dlp:bytes	0x560634	
+0x8138B4	sead::hostio::curveLinear2D_<float>(float, const sead::hostio::CurveDataInfo*, const T1*)	mk7dlp:bytes	0x560750	
+0x828328	sead::BufferedSafeStringBase<char>::assureTerminationImpl_() const	mk7dlp:bytes	0x572054	
+0x82E288	std::map<nn::nex::EndPointUniqueID, nn::nex::PRUDPEndPoint*, std::less<nn::nex::EndPointUniqueID>, nn::nex::MemAllocator<std::pair<const nn::nex::EndPointUniqueID, nn::nex::PRUDPEndPoint*>>>::find(const nn::nex::EndPointUniqueID&)	mk7dlp:bytes	0x579AF4	
+0x82E4D4	std::map<nn::nex::String, nn::nex::String, std::less<nn::nex::String>, nn::nex::MemAllocator<std::pair<const nn::nex::String, nn::nex::String>>>::erase(const nn::nex::String&)	mk7dlp:bytes	0x579C74	
+0x82EEB8	std::list<nn::nex::StationURL, nn::nex::MemAllocator<nn::nex::StationURL>>::_C_add_buffer(bool)	mk7dlp:bytes	0x57A458	std::list<nn::nex::Community, nn::nex::MemAllocator<nn::nex::Community>>::_C_add_buffer(bool)
+0x82F020	nn::nex::qList<nn::nex::StationURL>::~qList()	mk7dlp:bytes	0x1E6EF4	std::list<nn::nex::StationURL, nn::nex::MemAllocator<nn::nex::StationURL>>::~list() | std::list<nn::nex::SimpleCommunity, nn::nex::MemAllocator<nn::nex::SimpleCommunity>>::~list() | std::list<nn::nex::Community, nn::nex::MemAllocator<nn::nex::Community>>::~list()
+0x82F21C	std::list<nn::nex::InetAddress, nn::nex::MemAllocator<nn::nex::InetAddress>>::remove(const nn::nex::InetAddress&)	mk7dlp:bytes	0x57A7FC	
+0x835548	std::vector<unsigned char, nn::nex::MemAllocator<unsigned char>>::_C_insert_aux(unsigned char*, unsigned, const unsigned char&)	mk7dlp:bytes	0x57B460	
+0x835CFC	std::vector<unsigned char, nn::nex::MemAllocator<unsigned char>>::insert<char*>(unsigned char*, T1, T1)	mk7dlp:bytes	0x57B6CC	
+0x83766C	std::multimap<unsigned, nn::nex::EndPoint*, std::less<unsigned>, nn::nex::MemAllocator<std::pair<const unsigned, nn::nex::EndPoint*>>>::insert(const std::pair<const unsigned, nn::nex::EndPoint*>&)	mk7dlp:bytes	0x57BDC0	
+0x8394C0	__fpl_dcheck_NaN1	mk7dlp:callgraph	0x57C7FC	
+0x8394E8	_ll_sto_f	mk7dlp:bytes	0x57C824	
+0x839540	__fpl_fnaninf	mk7dlp:bytes	0x57C87C	
+0x8395E0	_frem	mk7dlp:bytes	0x57C91C	
+0x839708	_ll_ufrom_f	mk7dlp:bytes	0x57CACC	
+0x83977C	__fpl_return_NaN	mk7dlp:bytes	0x57CB3C	
+0x8397F0	__ARM_scalbn	mk7dlp:bytes	0x57CBB0	
+0x839864	__fpl_cmpreturn	mk7dlp:bytes	0x57CC24	

@@ -1,0 +1,246 @@
+#include "imgdb/util/util_Api.h"
+
+namespace imgdb {
+namespace util {
+// 0x005AC08C | nintendogs:bytes [tier B]
+void IsExistDir(imgdb::StorageType, const wchar_t*)
+{
+}
+
+// 0x005AC0F4 | nintendogs:bytes [tier B]
+void DeleteImage(imgdb::StorageType, const imgdb::ImageInfo&, bool)
+{
+}
+
+// 0x005AC378 | nintendogs:bytes [tier B]
+void SaveImageMp(imgdb::StorageType, const imgdb::ImageInfo&, const void*, unsigned, const void*, unsigned)
+{
+}
+
+// 0x005AC654 | nintendogs:bytes [tier B]
+void GetOwnBodyId()
+{
+}
+
+// 0x005AC688 | nintendogs:bytes-fuzzy [tier B]
+void EnumImageFile(imgdb::DynamicArray<imgdb::util::FileIndexInfo, imgdb::XAllocator<imgdb::util::FileIndexInfo>>&, imgdb::StorageType, const wchar_t*, imgdb::ImageKindBit, bool)
+{
+}
+
+// 0x005ACB34 | nintendogs:bytes [tier B]
+void EnumImageFile(imgdb::DynamicArray<imgdb::util::FileIndexInfo, imgdb::XAllocator<imgdb::util::FileIndexInfo>>&, imgdb::StorageType, const wchar_t*, imgdb::ImageKind, bool)
+{
+}
+
+// 0x005ACB54 | nintendogs:bytes [tier B]
+void SaveImageJpeg(imgdb::StorageType, const imgdb::ImageInfo&, const void*, unsigned)
+{
+}
+
+// 0x005ACFDC | nintendogs:bytes-fuzzy [tier B]
+void CreateImagePath(wchar_t*, int, imgdb::StorageType, imgdb::ImageKind, const imgdb::IndexInfo&, bool)
+{
+}
+
+// 0x005AD0C4 | nintendogs:bytes-fuzzy [tier B]
+void CreateImagePath(wchar_t*, int, imgdb::StorageType, const imgdb::ImageInfo&, bool)
+{
+}
+
+// 0x005AD164 | nintendogs:bytes-fuzzy [tier B]
+void IsDbFileReadOnly(imgdb::StorageType)
+{
+}
+
+// 0x005AD2B4 | nintendogs:bytes-fuzzy [tier B]
+void EnumImageDirectory(imgdb::DynamicArray<int, imgdb::XAllocator<int>>&, imgdb::StorageType, const wchar_t*, bool)
+{
+}
+
+// 0x005AD684 | nintendogs:bytes [tier B]
+void GetStorageFreeSize(imgdb::StorageType, bool)
+{
+}
+
+// 0x005AD7B8 | nintendogs:bytes-fuzzy [tier B]
+void GetPictureDbFileDir(imgdb::StorageType)
+{
+}
+
+// 0x005AD8D0 | nintendogs:bytes-fuzzy [tier B]
+void GetPictureDbFilePath(imgdb::StorageType)
+{
+}
+
+// 0x005AD980 | nintendogs:bytes-fuzzy [tier B]
+void GetSdDriveNameLength()
+{
+}
+
+// 0x005AD9EC | nintendogs:bytes [tier B]
+void IsAvailableIndexInfo(imgdb::StorageType, const imgdb::IndexInfo&, bool)
+{
+}
+
+// 0x005ADB50 | nintendogs:bytes [tier B]
+void CreateTwlJpegFromJpeg(void*&, unsigned&, const void*, unsigned)
+{
+}
+
+// 0x005ADB9C | nintendogs:bytes [tier B]
+void CreateTwlJpegFromJpeg(void*&, unsigned&, const void*, unsigned, const imgdb::DateTimeSeconds&)
+{
+}
+
+// 0x005AE140 | nintendogs:bytes-fuzzy [tier B]
+void CreateImageDirectoryName(wchar_t*, int, const imgdb::IndexInfo&, bool)
+{
+}
+
+// 0x005AE178 | nintendogs:bytes-fuzzy [tier B]
+void CreateImageDirectoryPath(wchar_t*, int, imgdb::StorageType, const imgdb::ImageInfo&, bool)
+{
+}
+
+// 0x005AE1C0 | nintendogs:bytes-fuzzy [tier B]
+void CreateImageDirectoryPath(wchar_t*, int, imgdb::StorageType, const imgdb::IndexInfo&, bool)
+{
+}
+
+// 0x005AE450 | nintendogs:bytes [tier B]
+void EstimateRemainPictureNum(imgdb::StorageType, unsigned, bool)
+{
+}
+
+// 0x005AE488 | nintendogs:bytes [tier B]
+void GetFileNoFromDcfFileName(const char*)
+{
+}
+
+// 0x005AE53C | nintendogs:bytes [tier B]
+void GetFileNoFromDcfFileName(const wchar_t*)
+{
+}
+
+// 0x005AE778 | nintendogs:bytes [tier B]
+void IsExistImageDataEvidence(imgdb::StorageType)
+{
+}
+
+// 0x005AE864 | nintendogs:bytes-fuzzy [tier B]
+void GetCtrNandDriveNameLength()
+{
+}
+
+// 0x005AE8D0 | nintendogs:bytes-fuzzy [tier B]
+void GetLegacyPictureDbFileDir(imgdb::StorageType)
+{
+}
+
+// 0x005AEA04 | nintendogs:bytes-fuzzy [tier B]
+void GetTwlNandDriveNameLength()
+{
+}
+
+// 0x005AEA70 | nintendogs:bytes [tier B]
+void ExtractPictureInfoFromExif(imgdb::PictureTableRecord&, const imgdb::JpegMpBaseDecoder&)
+{
+}
+
+// 0x005AEDA0 | nintendogs:bytes [tier B]
+void ExtractPictureInfoFromFile(imgdb::PictureTableRecord&, imgdb::StorageType, const imgdb::ImageInfo&, bool)
+{
+}
+
+// 0x005AEF54 | nintendogs:bytes-fuzzy [tier B]
+void GetLegacyPictureDbFilePath(imgdb::StorageType)
+{
+}
+
+// 0x005AF004 | nintendogs:bytes-fuzzy [tier B]
+void CreateImageRootDirectoryPath(wchar_t*, int, imgdb::StorageType, bool)
+{
+}
+
+// 0x005AF5C0 | nintendogs:bytes-fuzzy [tier B]
+void ThrowFatalErrByNandOperation(nn::Result)
+{
+}
+
+// 0x005AF82C | nintendogs:bytes [tier B]
+void ValidateDcfFileNameWithoutLength(const char*, int*)
+{
+}
+
+// 0x005AF94C | nintendogs:bytes [tier B]
+void ValidateDcfFileNameWithoutLength(const wchar_t*, int*)
+{
+}
+
+// 0x005AFA28 | nintendogs:bytes [tier B]
+void StoreImageDbRecordParam2ImageInfo(imgdb::ImageInfo&, const imgdb::ImageDbRecordParam&)
+{
+}
+
+// 0x005AFAD8 | nintendogs:bytes [tier B]
+void GetDirectoryNoFromDcfDirectoryName(const char*)
+{
+}
+
+// 0x005AFB34 | nintendogs:bytes [tier B]
+void EstimateRemainPictureNumWithFreeSize(imgdb::StorageType, long long, unsigned, bool)
+{
+}
+
+// 0x005AFC24 | nintendogs:bytes [tier B]
+void ValidateDcfDirectoryNameWithoutLength(const char*, int*)
+{
+}
+
+// 0x005AFD70 | nintendogs:bytes [tier B]
+void ValidateDcfDirectoryNameWithoutLength(const wchar_t*, int*)
+{
+}
+
+// 0x005AFEBC | nintendogs:bytes [tier B]
+void DeleteImageCtr(imgdb::StorageType, const imgdb::ImageInfo&, bool)
+{
+}
+
+// 0x005B01C4 | nintendogs:bytes [tier B]
+void AToI(int&, const char*, int)
+{
+}
+
+// 0x005B0230 | nintendogs:bytes [tier B]
+void AToI(int&, const wchar_t*, int)
+{
+}
+
+// 0x005B029C | nintendogs:bytes [tier B]
+void WStricmp(const wchar_t*, const wchar_t*)
+{
+}
+
+// 0x005B0310 | nintendogs:bytes [tier B]
+void SaveImage(imgdb::StorageType, const imgdb::ImageInfo&, const void*, unsigned, const void*, unsigned)
+{
+}
+
+// 0x005B0E8C | nintendogs:bytes [tier B]
+void GenerateImageInfoFromImageInfo(imgdb::ImageInfo&, const imgdb::ImageInfo&, bool)
+{
+}
+
+// 0x005B1008 | nintendogs:bytes [tier B]
+void GenerateImageInfoFromImageInfo(imgdb::ImageInfo&, const imgdb::ImageInfo&, imgdb::ImageKind, bool)
+{
+}
+
+// 0x0075650C | nintendogs:bytes [tier B]
+void CreateImageDirectoryName(wchar_t*, int, const imgdb::ImageInfo&)
+{
+}
+
+} // namespace util
+} // namespace imgdb

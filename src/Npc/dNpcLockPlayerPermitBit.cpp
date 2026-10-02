@@ -1,0 +1,2 @@
+#include "Npc/dNpcLockPlayerPermitBit.h"
+

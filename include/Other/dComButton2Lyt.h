@@ -1,0 +1,14 @@
+#pragma once
+
+#include "decomp.h"
+#include "Other/dComButtonLytBase.h"
+
+// RTTI 13ComButton2Lyt @ 0x008CB9C4
+// vtable 0x008EF250 (vptr 0x008EF258), offset_to_top 0, 2 entries
+class ComButton2Lyt : public ::ComButtonLytBase
+{
+public:
+    ComButton2Lyt(); // ctor candidate(s) 0x001FE0BC, 0x0021D160, 0x00289F3C, 0x0028D358, 0x002B13FC, 0x002B1FF4, 0x002B4B94, 0x0031B2FC, 0x00334DAC, 0x003424B4, 0x007EF6C4, 0x007EF978, 0x007F09CC, 0x007F1EB0, 0x007F37D4 (unverified)
+    virtual void vf_0x00(); // 0x0022C58C slot 0x00 | virtual slot, introduced by ComButtonLytBase
+    virtual void vf_0x04(); // 0x0022C518 slot 0x04 | virtual slot, introduced by ComButtonLytBase
+};

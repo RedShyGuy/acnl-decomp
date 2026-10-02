@@ -1,0 +1,567 @@
+wcslen = 0x10082c;
+wcsncpy = 0x1017f4;
+wcscpy = 0x1017d8;
+swprintf = 0x100f5c;
+vswprintf = 0x100e91;
+_ZnwjPN4sead4HeapEj = 0x1328d8;
+_ZnajPN4sead4HeapEj = 0x1328d8;
+
+glGetError = 0x127d94;
+nngxGetCmdlistParameteri = 0x127ef0;
+nngxSetCommandGenerationMode = 0x7b1de0;
+nngxUpdateState = 0x7b2138;
+nngxValidateState = 0x7b27b4;
+
+_ZN2nn2os15CriticalSection5EnterEv = 0x13647c;
+_ZN2nn2os15CriticalSection4ExitEv = 0x136520;
+
+__cb_current_command_buffer = 0x975a9c;
+
+_ZTVN2nn3pia6common14StationAddressE = 0x90152c;
+
+_ZN2nn3pia9transport14StationManager11s_pInstanceE = 0x975a8c;
+_ZNK2nn3pia9transport14StationManager17GetStationAddressEPNS0_6common14StationAddressENS0_9StationIdE = 0x735194;
+
+_ZN2nn3pia4inet24NexSessionSearchCriteriaC2Ev = 0x40bc10;
+_ZN2nn3pia4inet24NexSessionSearchCriteria11SetGameModeEm = 0x40b298;
+_ZN2nn3pia4inet24NexSessionSearchCriteria18SetMinParticipantsEt = 0x40b378;
+_ZN2nn3pia4inet24NexSessionSearchCriteria18SetMaxParticipantsEt = 0x40b358;
+_ZN2nn3pia4inet24NexSessionSearchCriteria13SetOpenedOnlyEb = 0x40b304;
+
+_ZN4sead15CriticalSection4ExitEv = 0x138d44;
+
+_ZN10Controller6IsHoldEm = 0x304a14;
+_ZN10Controller6IsTrigEm = 0x5223e8;
+_ZN10Controller12GetCirclePadEv = 0x522520;
+
+_ZN4math7Angle165Atan2Eff = 0x5667a8;
+
+_ZN8DLLRoMgr11s_pInstanceE = 0x95269c;
+
+_ZN3net3Net10s_InstanceE = 0xa23020;
+_ZNK3net3Net7IsErrorEv = 0x747c44;
+_ZN3net3nex9Framework14ProcessCommandENS0_7Command2IDEPKv = 0x132ac8;
+
+_ZNK3net3nex4Impl29IsConnectedToMatchmakeServiceEv = 0x747d1c;
+_ZN3net3nex4Impl14SearchSessionsERKN2nn3pia7session21SessionSearchCriteriaEPPNS4_12ISessionInfoEj = 0x51173c;
+
+_ZN3net3nex5Error3SetENS0_7Command2IDEh = 0x51b740;
+
+_ZN7netgame13IsMultiPlayerEv = 0x300838;
+_ZN7netgame16IsMultiplePlayerEv = 0x2fc990;
+_ZN7netgame14GetNetgameTypeEv = 0x305ed8;
+_ZN7netgame14SetNetGameTypeENS_4TypeE = 0x625b88;
+_ZN7netgame9GetAvatarENS_8PlayerNoE = 0x626150;
+_ZN7netgame12ExistsPlayerENS_8PlayerNoE = 0x6259d8;
+_ZN7netgame6IsHostEv = 0x30b824;
+_ZN7netgame7GetMaskENS_8PlayerNoE = 0x625750;
+_ZN7netgame14IsStageControlEv = 0x61b278;
+_ZN7netgame14GetPlayerCountEv = 0x626168;
+_ZN7netgame13EnqueuePacketEhhPKvj = 0x625488;
+_ZN7netgame13EnqueuePacketEhNS_8PlayerNoEPKvj = 0x625488;
+
+_Z14PlayerGetStateN7netgame8PlayerNoE = 0x5c3ddc;
+_Z14PlayerGetActorN7netgame8PlayerNoEb = 0x5c3ea0;
+_Z17PlayerGetPositionRlS_N7netgame8PlayerNoEb = 0x5c13ac;
+_Z26PlayerGetPositionForCamerav = 0x5c3238;
+
+_ZN7netgame7InitNetEv = 0x617be8;
+_ZN7netgame7StopNetEv = 0x627368;
+_ZN7netgame22StartConnectBestFriendEv = 0x62739c;
+_ZN7netgame21IsConnectedBestFriendEv = 0x626218;
+_ZN7netgame26RequestOpenGateRandomMatchENS_7GateMgr4FlagE = 0x61b2e8;
+_ZN7netgame27RequestCloseGateRandomMatchENS_7GateMgr4FlagE = 0x620840;
+
+_ZN7netgame15MachineBitTable3AddENS_8PlayerNoE = 0x62557c;
+_ZN7netgame15MachineBitTable6RemoveENS_8PlayerNoE = 0x6255fc;
+_ZN7netgame15MachineBitTable5ResetEv = 0x625740;
+
+_ZN7netgame11s_GateParamE = 0x95461c;
+
+_ZN7netgame10NetGameMgr11s_pInstanceE = 0x954648;
+
+_ZN7netgame11PacketQueue11BeginPacketEv = 0x628a4c;
+_ZN7netgame11PacketQueue13AddPacketDataEPKvj = 0x62881c;
+_ZN7netgame11PacketQueue9EndPacketEhNS_8PlayerNoE = 0x628af4;
+
+_ZNK7netgame9AvatarMgr13GetAvatarInfoENS_8PlayerNoE = 0x7604f0;
+_ZNK7netgame9AvatarMgr11GetPlayerNoERKN2nn3pia9StationIdE = 0x7603e8;
+
+_ZNK7netgame10NetGameMgr11IsInSessionENS_8PlayerNoEb = 0x760658;
+_ZNK7netgame10NetGameMgr13IsMultiPlayerEv = 0x75f064;
+_ZN7netgame10NetGameMgr4Mgr812FUN_00617b70Ev = 0x617b70;
+_ZN7netgame10NetGameMgr18ConnectRandomMatchEv = 0x61937c;
+_ZN7netgame10NetGameMgr8Receiver9GetBufferEh = 0x75fa00;
+_ZN7netgame10NetGameMgr8Receiver9GetPacketEh = 0x75fa28;
+_ZN7netgame10NetGameMgr8Receiver12SetIsEnabledEhb = 0x625a9c;
+_ZN7netgame10NetGameMgr8Receiver13SetWasHandledEhb = 0x625a8c;
+_ZN7netgame10NetGameMgr7FiniNetEv = 0x617fd4;
+_ZNK7netgame10NetGameMgr13GetMyPlayerNoEv = 0x75f004;
+_ZNK7netgame10NetGameMgr14GetPlayerCountEv = 0x75eff8;
+_ZN7netgame10NetGameMgr8Unknown15CheckEh = 0x76003c;
+_ZNK7netgame10NetGameMgr10IsAdmittedENS_8PlayerNoE = 0x75f02c;
+_ZN7netgame10NetGameMgr15SendPacketBatchENS_8PlayerNoEPKPKvPKjjhmmm = 0x618318;
+
+_ZN7netgame8StageMgr8SetStageENS_8PlayerNoEN5stage4NameE = 0x6229e4;
+_ZN7netgame8StageMgr18UpdateStageControlENS_8PlayerNoEb = 0x62287c;
+_ZN7netgame8StageMgr23PlayerStageUpdatePacket3SetENS_8PlayerNoEbN5stage4NameEbbS2_ = 0x626348;
+_ZNK7netgame8StageMgr22GetTransitioningPlayerEv = 0x75f318;
+_ZNK7netgame8StageMgr12PlayerStages8GetStageENS_8PlayerNoE = 0x75f84c;
+_ZNK7netgame8StageMgr12PlayerStages14GetPlayerCountEN5stage4NameE = 0x75f874;
+_ZNK7netgame8StageMgr12FUN_0075f464Ev = 0x75f464;
+
+_ZN7netgame10NetGameMgr11SaveDemoMgr11OnStartSaveEb = 0x6252ec;
+
+_ZN7netgame7JoinMgr10StartEntryEv = 0x6218f0;
+
+_ZN7netgame8LeaveMgr10StartLeaveEb = 0x624544;
+
+_ZNK7netgame10ConnectMgr27IsConnectingOrDisconnectingENS0_10ConnectionE = 0x76003c;
+
+_ZN7netgame9IslandMgr10ChooseTourE8TourName = 0x61fdc0;
+_ZN7netgame9IslandMgr10CancelTripEv = 0x61f8e8;
+_ZN7netgame9IslandMgr21UpdatePlayerTourSplitEhh = 0x61ea30;
+_ZN7netgame9IslandMgr15DepartForIslandEv = 0x61e8bc;
+_ZN7netgame9IslandMgr20StartFindRandomMatchEv = 0x61e3b0;
+_ZN7netgame9IslandMgr16RetireFromIslandEv = 0x61e954;
+_ZN7netgame9IslandMgr20CanRetireRandomMatchEv = 0x75f1c4;
+_ZN7netgame9IslandMgr24RequestRandomMatchSeeOffEv = 0x61fd78;
+_ZN7netgame9IslandMgr16ConfirmLeaveSelfEv = 0x61f018;
+_ZN7netgame9IslandMgr21IsRetiringRandomMatchEv = 0x75f140;
+_ZN7netgame9IslandMgr23GetRandomMatchingResultEv = 0x75f09c;
+_ZN7netgame9IslandMgr19EndSeaDepartureDemoEb = 0x61e3e8;
+_ZN7netgame9IslandMgr29StartTourDeskArrivalAfterTourEv = 0x61e568;
+_ZN7netgame9IslandMgr20StartTourRandomMatchEv = 0x61f760;
+_ZN7netgame9IslandMgr16LeaveRandomMatchENS0_20LeaveRandomMatchModeE = 0x61ebf4;
+
+_ZN7netgame12GetIslandMapEv = 0x6a7988;
+
+_ZN10IslandData11s_pInstanceE = 0x954238;
+
+_ZN7netgame13FriendListMgr14FindBestFriendERKmRKNS_8AvatarIdE = 0x75f598;
+
+_ZN7netgame25StageTransitionTourResultEv = 0x61f204;
+
+_ZN7netgame7LockMgr19HandleRequestResultENS_8PlayerNoEb = 0x61afa8;
+
+_ZNK5fgobj17DirectPlacePacket5PlaceEv = 0x594d88;
+_ZNK5fgobj17DirectPlacePacket4SendEv = 0x594e04;
+
+# _ZN8SvFgName7GetNameEPN6script7WordPtrERKS0_Pv = 0x56e93c;
+
+_ZN8SvFgNameC1ENS_2IDE = 0x2fcc14;
+_ZNK8SvFgName7IsUsualEv = 0x2fcba0;
+_ZNK8SvFgName7IsEmptyEv = 0x2fcb84;
+_ZNK8SvFgName9GetFgKindEv = 0x2fccd0;
+_ZNK8SvFgName7GetNameEPv = 0x2fea78;
+_ZN8SvFgName7s_EmptyE = 0x95cffc;
+
+_ZNK8SvFgName8GetIndexEv = 0x769dbc;
+_ZNK8SvFgName11GetIconNameEv = 0x5367dc;
+_ZN4item14ToInsectFishIDERK8SvFgName = 0x6d9ba8;
+
+_ZN5Field5GetFgEllh = 0x2fef9c;
+_ZNK5Field5GetFgEllh = 0x2fef9c;
+_ZN5stage5Field9PlaceItemERK8SvFgNameEN4math6VectorIiLj2EEEh = 0x2fca24;
+
+_ZN5stage10GetCurrentEv = 0x2f7384;
+_ZN5stage7GetNextEv = 0x5b4c08;
+_ZN5stage7GetNameENS_4NameE = 0x5b4be4;
+_ZN5stage9s_CurrentE = 0x958342;
+_ZN5stage6IsKindENS_4KindENS_4NameE = 0x2f7414;
+_ZN5stage8GetFieldENS_9FieldNameE = 0x2fe95c;
+_ZN6FdInfo15GetCurrentFieldEv = 0x6a690c;
+_ZNK9FieldRect5beginEv = 0x748f3c;
+_ZNK9FieldRect3endEv = 0x748f04;
+_ZneRKN9FieldRect8iteratorES2_ = 0x748ea4;
+_ZN9FieldRect8iteratorppEv = 0x52f7f0;
+_ZN6FdInfo9GetHeightERKN2nn4math6VectorIfLj3EEE9FieldName = 0x6c67b0;
+_ZN6FdInfo16GetHeightDefaultERKN2nn4math6VectorIfLj3EEE9FieldName = 0x6c6e28;
+
+_ZN6FdInfo6ToUnitERlS0_RKN2nn4math6VectorIfLj3EEE = 0x316fac;
+
+_ZN5stage16GetTransitionMgrEv = 0x308154;
+_ZN5stage13TransitionMgr14SetReturnParamEv = 0x5b64ac;
+_ZN5stage10TransitionENS_4NameEhhhh = 0x304a60;
+_ZN5stage13TransitionMgr10TransitionENS_4NameEhhhh = 0x5b5864;
+
+_ZN11StageCommon12s_pStageHeapE = 0x953c4c;
+
+_ZN7ScStage21CreateIslandFieldHeapEPN4sead4HeapE = 0x10c404;
+_ZN7ScStage18s_pIslandFieldHeapE = 0x953c60;
+
+_ZN10TourResult11ChangeScoreEN7netgame8PlayerNoElRK8SvFgName = 0x1b82a4;
+_ZN10TourResult11s_pInstanceE = 0x95d73c;
+
+_ZN3oml9framework7ProcessnwEj = 0x52a488;
+_ZN3oml9framework7ProcessdlEPv = 0x313b24;
+_ZN3oml9framework7ProcessC2Ev = 0x522138;
+_ZN3oml9framework7ProcessD1Ev = 0x52218c;
+_ZN3oml9framework7Process4StopEv = 0x521754;
+_ZN3oml9framework7Process7DestroyEPS1_ = 0x5251f0;
+_ZN3oml9framework7Process17ProcessDrawResultENS0_6ResultE = 0x5220e8;
+_ZN3oml9framework7Process8OnNotifyEv = 0x521710;
+_ZN3oml9framework7Process8StopSelfEv = 0x520b5c;
+
+_ZN3oml9framework14ProcessManager8s_pInfosE = 0x9762b4;
+_ZN3oml9framework14ProcessManager12s_pFactoriesE = 0x9762b8;
+_ZN3oml9framework14ProcessManager10CallCreateEt = 0x5213c8;
+_ZN3oml9framework14ProcessManager11CallDestroyEtPNS0_7ProcessE = 0x5213dc;
+_ZN3oml9framework14ProcessManager7GetInfoEt = 0x521394;
+
+_ZN3oml9framework14ProcessManager3GetEv = 0x5204dc;
+_ZN7ProcMgr6CreateE8ProcNamem8ProcType = 0x52a3b4;
+_ZN3oml9framework14ProcessManager13CreateProcessEtmh = 0x5202c0;
+
+_ZN6script7WordPtrD1Ev = 0x308368;
+_ZTVN6script7WordPtrE = 0x90b65c;
+_ZN6script7WordPtrD2Ev = 0x308368;
+_ZN6script7WordPtr7GetWordEv = 0x5fda64;
+_ZNK6script7WordPtr7GetWordEv = 0x75dc78;
+_ZNK6script7WordPtr7GetSizeEv = 0x75dc60;
+
+_ZTVN6script7WordFixILj33EEE = 0x90b03c;
+
+_ZN6script11RenderTrace7SetTextEPKPKDsS4_ = 0x602480;
+_ZN6script11RenderTrace8SetText2EPKPKDs = 0x60231c;
+
+_ZN6script10RenderMainC1Ejjj = 0x5d7338;
+_ZN6script10RenderMainD1Ev = 0x5d7434;
+
+_ZN6script10RenderRuby12SetTextBoxesEPKN2nw3lyt7TextBoxES5_S5_S5_ = 0x5d748c;
+_ZN6script10RenderRuby10CommitTextEv = 0x5d77f8;
+_ZN6script10RenderRuby5ClearEv = 0x5d76cc;
+_ZN6script10RenderRubyC1Ejj = 0x5d7a7c;
+_ZN6script10RenderRubyD1Ev = 0x5d7fc4;
+
+_ZN6script12RenderGarden12SetTextBoxesEPN2nw3lyt7TextBoxES4_ = 0x5e3768;
+_ZN6script12RenderGarden10CommitTextEv = 0x5e3a64;
+_ZN6script12RenderGarden5ClearEv = 0x5e38d4;
+_ZN6script12RenderGardenC1Ej = 0x5e3bf8;
+_ZN6script12RenderGardenD1Ev = 0x5e3c64;
+
+_ZN4font3Mgr11s_pInstanceE = 0x9539cc;
+_ZNK4font3Mgr11GetFontNameENS_6FontIDE = 0x748d88;
+_ZNK4font3Mgr7GetFontENS_6FontIDE = 0x52ed74;
+
+_ZN2nw3lyt6Layout11AllocMemoryEjh = 0x4ba010;
+_ZN2nw3lyt6Layout10FreeMemoryEPv = 0x13bb1c;
+_ZN2nw3lyt6Layout19CreateAnimTransformERKNS0_12AnimResourceEPNS0_16ResourceAccessorE = 0x4ba62c;
+
+_ZN2nw3lyt14GroupContainer11AppendGroupEPNS0_5GroupE = 0x13eeec;
+
+_ZTVN2nw3lyt4PaneE = 0x902b98;
+
+_ZTVN2nw3lyt8BoundingE = 0x902e20;
+
+_ZTVN2nw3lyt5GroupE = 0x902c10;
+
+_ZN2nw3lyt8internal11TexCoordAry7ReserveEh = 0x4be9b4;
+
+_ZN2nw3lyt16GraphicsResource16FinalizeGraphicsEv = 0x4bee70;
+_ZN2nw3lyt16GraphicsResource12ResetGlStateEv = 0x4b5a1c;
+_ZN2nw3lyt16GraphicsResource19ResetGlProgramStateEv = 0x4b5b84;
+_ZN2nw3lyt16GraphicsResource16SetProjectionMtxERKN2nn4math5MTX44E = 0x4b5b10;
+
+_ZN2nw4font14TextWriterBaseIDsEC1Ev = 0x7e9ce8;
+_ZN2nw4font10CharWriter23GetDispStringBufferSizeEm = 0x4d67a0;
+_ZN2nw4font10CharWriter20InitDispStringBufferEPvm = 0x4d6790;
+_ZN2nw4font10CharWriter18UpdateVertexColorsEv = 0x4d6738;
+_ZN2nw4font10CharWriter11SetFontSizeEff = 0x4d64d0;
+_ZN2nw4font10CharWriter10StartPrintEv = 0x4d64b4;
+_ZN2nw4font10CharWriter16UseCommandBufferEPmPNS0_10RectDrawerE = 0x4d652c;
+_ZNK2nw4font14TextWriterBaseIDsE5PrintEPKDsl = 0x7e97a8;
+
+_ZN2nw4font18TextWriterResource10SetViewMtxERKN2nn4math5MTX34E = 0x7adec8;
+
+_ZN2nw4font10RectDrawer16SetProjectionMtxEPmRKN2nn4math5MTX44E = 0x4d7fb0;
+_ZN2nw4font10RectDrawer16BuildTextCommandEPNS0_10CharWriterE = 0x4d7890;
+_ZN2nw4font10RectDrawer13AddUniformMtxEPm = 0x4d6fd0;
+
+_ZN2nw3lyt19ArcResourceAccessor10GetTextureEPKc = 0x4b6b64;
+_ZN2nw3lyt19ArcResourceAccessor10RegistFontEPKcPKNS_4font4FontE = 0x4b52f4;
+
+_ZN2nw3lyt4Pane11AppendChildEPS1_ = 0x4b73fc;
+_ZN2nw3lyt4Pane11RemoveChildEPS1_ = 0x4b7450;
+_ZN2nw3lyt4Pane12CalculateMtxERKNS0_8DrawInfoE = 0x4b7474;
+
+_ZTVN2nw3lyt7PictureE = 0x902d18;
+_ZN2nw3lyt7Picture6AppendERKNS0_6TexMapE = 0x4bbbc8;
+
+_ZN2nw3lyt7Picture11GetMaterialEj = 0x73e364;
+
+_ZN2nw3lyt6TexMapC1ERKNS0_11TextureInfoE = 0x4bacdc;
+
+_ZN2nw2ut8internal12LinkListImpl5eraseEPNS0_12LinkListNodeE = 0x137580;
+_ZN2nw2ut8internal12LinkListImpl6insertENS2_8iteratorEPNS0_12LinkListNodeE = 0x13eefc;
+
+_ZN2nw3lyt7TextBoxD1Ev = 0x4bc824;
+_ZN2nw3lyt7TextBox19MakeUniformDataSelfEPmRNS0_8DrawInfoERNS0_6DrawerE = 0x73e7a8;
+_ZN2nw3lyt7TextBox17AllocStringBufferEtm = 0x13b9bc;
+_ZN2nw3lyt7TextBox9SetStringEPKDstt = 0x4bc5c0;
+_ZTVN2nw3lyt7TextBoxE = 0x902d98;
+
+_ZN2nw3lyt8MaterialD1Ev = 0x4be8a8;
+_ZTVN2nw3lyt8MaterialE = 0x902ea8;
+_ZN2nw3lyt8Material10ReserveMemEhhhhbb = 0x4bc900;
+_ZN2nw3lyt8Material12GetTexSRTAryEv = 0x4bcba8;
+
+_ZN2nw3lyt6TexMap6UpdateEv = 0x4bab50;
+_ZN2nw3lyt6TexMap12ResetU32InfoEv = 0x4bab50;
+
+_ZN2nw3gfx8GetModelEPKPKvPKc = 0x4a7240;
+
+_ZTVN4ssys2ma9AllocatorE = 0x9073ac;
+_ZN4ssys2ma9AllocatorD1Ev = 0x56b23c;
+
+_ZN4ssys2ma3lyt12GetAllocatorEv = 0x56a838;
+
+_ZN4ssys2ma3lyt9FrameCtrl16SetAnimTransformEPN2nw3lyt13AnimTransformE = 0x56a25c;
+
+_ZN4ssys2ma3lyt9AnimationC1Ev = 0x126200;
+_ZN4ssys2ma3lyt9AnimationD1Ev = 0x56a374;
+_ZN4ssys2ma3lyt9Animation10InitializeEPKcPKNS1_15ResAccInterfaceE = 0x56a0cc;
+_ZN4ssys2ma3lyt9Animation13IncreaseFrameEv = 0x56a02c;
+_ZNK4ssys2ma3lyt9Animation6IsDoneEv = 0x750dec;
+
+_ZN4ssys2ma3lyt15ArcResAccReaderC1Ev = 0x120d68;
+_ZN4ssys2ma3lyt15ArcResAccReaderD1Ev = 0x5689d8;
+_ZN4ssys2ma3lyt15ArcResAccReader7ReadArcEPKc = 0x56890c;
+_ZN4ssys2ma3lyt15ArcResAccReader5ClearEv = 0x133a20;
+
+_ZN4ssys2ma3lyt9ArcResAcc7SetDataEPKvPKc = 0x56a580;
+
+_ZN4ssys2ma9LoadSplit4ReadERKN4sead14SafeStringBaseIKcEEPNS2_4HeapEmm = 0x56b484;
+_ZN4ssys2ma9LoadSplit12LoadBufferedERKN4sead14SafeStringBaseIcEEPNS2_4HeapEj = 0x56b240;
+
+_ZN4sead7HeapMgr8AllocateEjPNS_4HeapEj = 0x1328d8;
+_ZN4sead7HeapMgr14GetCurrentHeapEv = 0x3047c8;
+_ZN4sead7ExpHeap10CreateRootEPvjPKNS_14SafeStringBaseIcEEb = 0x13351c;
+_ZN4sead7HeapMgr13s_pSystemHeapE = 0x95d3f8;
+_ZN10SystemTask16s_pDebugRootHeapE = 0x95d3fc;
+_ZN4sead7HeapMgr13s_ppRootHeapsE = 0xae65cc;
+_ZN4sead14SafeStringBaseIKcED1Ev = 0x2f6da0;
+_ZN4sead14SafeStringBaseIKcED0Ev = 0x811da0;
+_ZN4sead14SafeStringBaseIKcE5SetNTEv = 0x8283d8;
+_ZTVN4sead14SafeStringBaseIcEE = 0x90591c;
+_ZN4sead14SafeStringBaseIcE5SetNTEv = 0x8283d8;
+
+_ZN4ssys2ma3lyt6Layout5BuildEPKcPKNS1_15ArcResAccReaderEm = 0x569c6c;
+_ZN4ssys2ma3lyt6Layout8FindPaneEPKc = 0x569274;
+_ZN4ssys2ma3lyt6Layout11FindPictureEPKc = 0x56950c;
+_ZN4ssys2ma3lyt6Layout11FindTextBoxEPKc = 0x569568;
+_ZN4ssys2ma3lyt6Layout7AnimateEv = 0x5696f8;
+_ZN4ssys2ma3lyt6Layout18UnbindAllAnimationEv = 0x133a70;
+_ZN4ssys2ma3lyt6Layout9FindGroupEPKc = 0x4b5648;
+_ZN4ssys2ma3lyt6Layout13BindAnimationEPNS1_9AnimationEPKN2nw3lyt5GroupEb = 0x569118;
+_ZN4ssys2ma3lyt6Layout15UnbindAnimationEPNS1_9AnimationEPKN2nw3lyt5GroupEb = 0x56946c;
+
+_ZN4ssys2ma3lyt11dummyLayoutE = 0xae67b4;
+
+_ZN4ssys2ma3lyt9LayoutMgr3GetEv = 0x133a78;
+_ZN4ssys2ma3lyt9LayoutMgr8RegisterEPNS1_6Base2DEb = 0x56a954;
+_ZN4ssys2ma3lyt9LayoutMgr9DrawBeginEmm = 0x56a9a4;
+_ZN4ssys2ma3lyt9LayoutMgr11s_pInstanceE = 0x976c40;
+
+_ZN3g3d14ResourceLoaderC1Ev = 0x4eec1c;
+_ZN3g3d14ResourceLoader4LoadERKN4sead14SafeStringBaseIcEEPNS1_4HeapEj = 0x4eebe4;
+_ZN3g3d14ResourceLoader9LoadAsyncERKN4sead14SafeStringBaseIcEEPNS1_4HeapEj = 0x317c38;
+_ZN3g3d14ResourceLoader4ReadEmmm = 0x4eb42c;
+_ZN3g3d14ResourceLoader14InitializeCgfxEPN2nw2os10IAllocatorEPS0_b = 0x317c70;
+
+_ZN5fgobj8GetFgLutEv = 0x595874;
+_ZN5fgobj12s_ModelInfosE = 0x8791a0;
+
+_ZN5fgobj6PacketC1Ev = 0x5a1134;
+_ZN5fgobj6Packet7ProcessEv = 0x59ffc0;
+
+_ZN5fgobj17GetUnitLockHandleEhhN5stage4NameE = 0x5a11bc;
+_ZN5fgobj8LockUnitENS_9PlaceTypeEhhN5stage4NameEb = 0x5a13c4;
+_ZN5fgobj10UnlockUnitEhhN5stage4NameE12PlayerNumber = 0x5a1278;
+_ZN5fgobj11s_UnitLocksE = 0x9b51c4;
+
+_ZN5fgobj29FindPlaceableUnitAroundPlayerERlS0_RhNS_22FindUnitForPlayerCheckEb = 0x5990ac;
+
+_ZN6camera16RevertUpwardTiltEv = 0x68f680;
+
+_ZN6LayoutC1Ev = 0x126550;
+_ZN6LayoutD1Ev = 0x5c0214;
+
+_ZN18ButtonActionNodeExC1Ev = 0x2e059c;
+_ZN18ButtonActionNodeExD1Ev = 0x2e06ac;
+_ZN18ButtonActionNodeEx11ResetSelectEv = 0x2e01bc;
+
+_ZN16ButtonActionNodeC1Ev = 0x2b73ac;
+_ZN16ButtonActionNode10InitializeERKNS_4InfoE = 0x2b6fcc;
+_ZN16ButtonActionNodeD1Ev = 0x2b74c4;
+
+_ZN19ButtonActionControlC1Ev = 0x2f7fd0;
+_ZN19ButtonActionControlD1Ev = 0x2f8188;
+_ZNK19ButtonActionControl14IsSelectOkDoneEv = 0x724498;
+_ZNK19ButtonActionControl16GetSelectedIndexEv = 0x724214;
+_ZNK19ButtonActionControl15GetPressedIndexEv = 0x7241b0;
+_ZN19ButtonActionControl5ResetEv = 0x2f779c;
+_ZN19ButtonActionControl15State_SelectingEv = 0x2f6928;
+_ZN19ButtonActionControl10InitializeERKNS_11DescriptionEPKc = 0x2f7810;
+_ZN19ButtonActionControl7AddNodeEP16ButtonActionNodeb = 0x2f7f30;
+_ZN19ButtonActionControl6UpdateEv = 0x2f7ba8;
+_ZN19ButtonActionControl14UnselectActiveEv = 0x2f7394;
+_ZN19ButtonActionControl15UnselectCurrentEv = 0x2f6da4;
+
+_ZN21ButtonActionControlEx10InitializeERKNS_11DescriptionE = 0x3281d8;
+_ZN21ButtonActionControlEx7AddNodeEP18ButtonActionNodeExb = 0x3282d4;
+
+_ZN15CommonScrollBarC1EPv = 0x29a0ec;
+_ZN15CommonScrollBar10InitializeEO20ScrollBarDescription = 0x299a14;
+_ZN15CommonScrollBar9SetParentEPN2nw3lyt4PaneE = 0x29811c;
+_ZN15CommonScrollBar7ProcessEv = 0x299d38;
+_ZN15CommonScrollBar8FinalizeEv = 0x133acc;
+_ZN15CommonScrollBarD1Ev = 0x29a2c4;
+
+_ZN4BaseD2Ev = 0x316fa8;
+_ZNK4Base13CanInitializeEv = 0x52a438;
+_ZN4Base26HandleInitializationResultEN3oml9framework6ResultE = 0x521610;
+_ZNK4Base11CanFinalizeEv = 0x52a44c;
+_ZN4Base24HandleFinalizationResultEN3oml9framework6ResultE = 0x521618;
+_ZNK4Base7CanCalcEv = 0x52a3a0;
+_ZN4Base16HandleCalcResultEN3oml9framework6ResultE = 0x521714;
+_ZNK4Base7CanDrawEv = 0x52a424;
+_ZN3oml9framework7Process16HandleDrawResultENS0_6ResultE = 0x5220e8;
+_ZN3oml9framework7Process6OnStopEv = 0x521710;
+_ZN4Base4Unk0Ev = 0x748d08;
+
+_ZN8MenuBaseC2Ev = 0x6ab4a8;
+_ZN8MenuBaseD2Ev = 0x6ab508;
+_ZNK8MenuBase13CanInitializeEv = 0x6ab460;
+_ZNK8MenuBase11CanFinalizeEv = 0x6ab494;
+_ZN8MenuBase25HandleFinalizationResultEN3oml9framework6ResultE = 0x6ab3a0;
+_ZNK8MenuBase10CanProcessEv = 0x6ab3c4;
+_ZN8MenuBase12FUN_006ab3d8Ev = 0x6ab3d8;
+_ZN8MenuBase7OnCloseEv = 0x19968c;
+_ZN8MenuBase12FUN_006ab3f4Ev = 0x6ab3f4;
+_ZN8MenuBase12FUN_006ab450Ev = 0x6ab450;
+_ZN8MenuBase12FUN_006ab3e0Ev = 0x6ab3e0;
+_ZN8MenuBase12FUN_006ab440Ev = 0x6ab440;
+_ZN8MenuBase12FUN_006ab3fcEv = 0x6ab3fc;
+_ZN8MenuBase12FUN_006ab3ecEv = 0x6ab3ec;
+_ZN8MenuBase12FUN_00767b30Ev = 0x767b30;
+
+_ZN5state4ModeI9BsMenuTabE6ChangeEMS1_FvvE = 0x81cc74;
+_ZN3oml9framework7Process6CreateI9BsMenuTabEEPS1_v = 0x7f3b04;
+_ZN9BsMenuTabC2Ev = 0x6d98e0;
+_ZN9BsMenuTabD2Ev = 0x6d9ab8;
+_ZN9BsMenuTab8FinalizeEv = 0x6d98c0;
+_ZN9BsMenuTab10InitializeEv = 0x6d968c;
+_ZN9BsMenuTab4CalcEv = 0x6d978c;
+_ZN9BsMenuTab4DrawEv = 0x6d939c;
+_ZN9BsMenuTab8UpdateInEv = 0x6d59e4;
+_ZN9BsMenuTab6BindInEv = 0x6d7050;
+_ZN9BsMenuTab7BindOutEv = 0x6d75dc;
+_ZN9BsMenuTab9AnimateInEv = 0x6d7380;
+_ZN9BsMenuTab10AnimateOutEv = 0x6d7d5c;
+_ZN9BsMenuTab24UpdateUpperTabAppearanceEv = 0x6d6f54;
+_ZN9BsMenuTab24UpdateLowerTabAppearanceEv = 0x6d74a4;
+_ZN9BsMenuTab10CheckInputEv = 0x6d5ef0;
+_ZN9BsMenuTab13Trans_MenuOutEv = 0x6d671c;
+_ZN9BsMenuTab13State_MenuOutEv = 0x6d6690;
+_ZN9BsMenuTab13State_ImageUpEv = 0x6d80d4;
+_ZN9BsMenuTab23State_ExitIslandPressedEv = 0x6d8480;
+_ZN9BsMenuTab10State_WaitEv = 0x6d8f5c;
+_ZN9BsMenuTab12State_MenuInEv = 0x6d5f34;
+_ZN9BsMenuTab15State_TopTabOutEv = 0x6d6e20;
+_ZN9BsMenuTab18State_TabSelectionEv = 0x6d5f80;
+_ZN9BsMenuTab17State_TabChatExitEv = 0x6d7a48;
+_ZN9BsMenuTab16Trans_SwitchMenuEv = 0x6d7ae0;
+_ZN9BsMenuTab16State_SwitchMenuEv = 0x6d7894;
+_ZN9BsMenuTab17State_WaitMenuEndEv = 0x6d89c8;
+_ZN9BsMenuTab17CheckFriendOnlineEv = 0x6d8d38;
+_ZN9BsMenuTab7s_FlagsE = 0x950d68;
+_ZN9BsMenuTab16s_WasBackPressedE = 0x950d88;
+_ZN9BsMenuTab10s_TabMenusE = 0x854774;
+
+_ZN7BsTelop9ShowTelopENS_9TelopNameE = 0x60c900;
+_ZN7BsTelop13ShowTourTelopENS_9TelopNameE8TourName = 0x60bbc8;
+
+_ZN9BsMenuMgr9IsPressedEm = 0x6d4c24;
+_ZN9BsMenuMgr16CanOpenMenuThinkEv = 0x5c4b04;
+_ZN9BsMenuMgr17CreateMenuProcessENS_4MenuEh = 0x6d2b4c;
+_ZN9BsMenuMgr11s_pInstanceE = 0x950d4c;
+
+_ZN12BsHandCursor7DisableEv = 0x1fa910;
+
+_ZN9BsMenuMap14s_IsMapVillageE = 0x950c30;
+
+_ZN8BsMenuBg8ChangeBgEl = 0x6953f0;
+_ZN8BsMenuBg11s_pInstanceE = 0x950718;
+
+_ZN15BsDemoCancelMgr11s_pInstanceE = 0x94fe54;
+
+_ZN9BsTourMgr8SetStateENS_5StateE = 0x6e1404;
+
+_ZN8BsNpcMgr11s_pInstanceE = 0x951158;
+
+_ZN7BsSvMgr11s_pInstanceE = 0x9516e0;
+
+_ZN7BsSvMgr31SetSaveConnectRandomMatchNetHstEv = 0x608df4;
+_ZN7BsSvMgr31SetSaveConnectRandomMatchNetVstEv = 0x608e10;
+_ZN7BsSvMgr30SetSaveSeeOffRandomMatchNetHstEv = 0x608cbc;
+_ZN7BsSvMgr37SetSaveSeeOffNetHostRandomMatchNetVstEv = 0x6091b4;
+_ZN7BsSvMgr30SetSaveSeeOffRandomMatchNetVstEv = 0x608cd8;
+_ZN7BsSvMgr20SetSaveConnectNetHstEv = 0x60867c;
+_ZN7BsSvMgr20SetSaveConnectNetVstEv = 0x608698;
+_ZN7BsSvMgr21SetSaveContinueNetVstEv = 0x608894;
+_ZN7BsSvMgr22SetSaveInterruptNetVstEv = 0x608a74;
+_ZN7BsSvMgr33SetSaveStartTourRandomMatchNetHstEv = 0x608f7c;
+_ZN7BsSvMgr33SetSaveStartTourRandomMatchNetVstEv = 0x608f98;
+
+_ZN12RandomPlacer8DoRandomEPFvR17RandomPlacerUsualRS_RKNS_4InfoEEPS0_j = 0x2fdbd8;
+
+_ZN8BsGrowUp14s_CurrentStageE = 0x953bad;
+
+_ZN8BsFtrMgr14CreateFtrActorERKNS_12CreateFtrArgE = 0x690f8c;
+
+_ZN16BsInsectFieldMgr12CreateInsectEN4item8InsectIDERKN2nn4math6VectorIfLj3EEERKNS4_ItLj3EEE = 0x2ac924;
+_ZN16BsInsectFieldMgr11s_pInstanceE = 0x950534;
+
+_ZN14BsFishFieldMgr10CreateFishEN4item6FishIDERKN2nn4math6VectorIfLj3EEERKNS4_ItLj3EEE = 0x25450c;
+_ZN14BsFishFieldMgr11s_pInstanceE = 0x950278;
+
+_ZN9BsShowMgr4ShowERK8SvFgNameRKN2nn4math6VectorIfLj3EEE = 0x6da7fc;
+_ZN9BsShowMgr20InitializeFromPacketEN7netgame8PlayerNoERKNS_10ShowPacketE = 0x6da6e0;
+
+_Z18SvGetCurrentPlayerv = 0x2fba40;
+_Z11SvGetPlayer16PlayerSaveNumber = 0x2fba60;
+_Z14SvGetNetPlayerN7netgame8PlayerNoE = 0x2feb2c;
+
+_ZNK17SvPlayerInventory7GetItemEjPNS_14ItemAppearanceE = 0x7250dc;
+_ZN17SvPlayerInventory7AddItemERK8SvFgNameENS_14ItemAppearanceEPS1_ = 0x3233a4;
+_ZN17SvPlayerInventory7SetItemEjRK8SvFgNameENS_14ItemAppearanceEPS1_ = 0x323484;
+
+_Z19SvGetBestFriendListv = 0x1df8b4;
+_ZNK16SvBestFriendList9HasFriendEv = 0x71e09c;
+
+_ZN4demo10CheckOrderENS_7OrderIDEb = 0x316da4;
+_ZN4demo30MakeOrderIslandForceLeaveThinkEv = 0x52d020;
+_ZN4demo20MakeOrderPlayerThinkEh = 0x52c6c8;
+
+_ZN4demo20MakeOrderNetgameLockEv = 0x52cd74;
+_ZN4demo22RevokeNetgameLockOrderEv = 0x52cc00;
+
+_ZN8SoundMgr9PlaySoundE4SeIDf = 0x58de9c;
+
+_ZNK5Actor13GetPositionToERN2nn4math6VectorIfLj3EEEtfb = 0x76330c;
+
+_ZN15AcNpcSpTourDesk16SendAssistPacketEN7netgame8PlayerNoERKNS_16AssistPacketDataE = 0x7d1f24;
+_ZN15AcNpcSpTourDesk13s_RequestInfoE = 0x94ee08;
+
+_ZN15AcNpcSpResetsan15s_pMenuDelegateE = 0x950d98;
+
+_ZNK8AcPlayer15GetScratchStateEv = 0x6576f8;
+_ZN8AcPlayer14ActionPosition3SetERKN4math6VectorIfLj3EEE = 0x5d4c88;
+_ZN8AcPlayer8DoActionEN12PlayerAction4NameEPK11PlayerStateb = 0x64db90;
+
+_ZN8gardenex6detail7Context10s_InstanceE = 0x946000;
+
+_ZN8gardenex6detail18systemTaskCalcHookE = 0x1b6d74;
+_ZN8gardenex6detail19systemTaskDrawAHookE = 0x1b7354;
+_ZN8gardenex6detail19systemTaskDrawBHookE = 0x1b71a4;

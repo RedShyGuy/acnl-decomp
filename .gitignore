@@ -1,0 +1,15 @@
+# game data - never commit
+orig/USA_1_5/*
+!orig/USA_1_5/.gitkeep
+
+# build output
+build/
+cmake-build-*/
+__pycache__/
+*.pyc
+
+# IDE
+.idea/
+.vscode/
+*.gpr
+*.rep/

@@ -1,0 +1,10 @@
+memcpy = 0x2f85e4;
+memset = 0x151148;
+malloc = 0x77a51c;
+_Znwj = 0x13a008;
+_Znaj = 0x13a008;
+_ZdlPvj = 0x2f8958;
+_ZdaPv = 0x2f8958;
+GSPGPU_WriteHWRegs = 0x12aae4;
+GSPGPU_FlushDataCache = 0x136ef0;
+svcSleepThread = 0x12843c;
