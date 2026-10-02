@@ -2,7 +2,7 @@
 
 Decompilation of **Animal Crossing: New Leaf - Welcome amiibo** (3DS, USA, version 1.5). The game's code name is *garden*. The goal is C++ source that does what the original `code.bin` and CRO modules do, function by function. It is built with GCC (devkitARM); Nintendo's compiler (ARMCC 4.1) is not used, so functions are compared with the original by structure instead of byte for byte (see "Checking").
 
-Every known class, method and data structure is declared; most methods still have an empty body that waits to be decompiled. The first parts of the nn library (os, y2r, ulcd, util, uds) are done. `progress` shows the current numbers.
+Every known class, method and data structure is declared; most methods still have an empty body that waits to be decompiled. The first parts of the nn library (os, y2r, ulcd, util, uds) are done. For the current numbers run the `check` target and then the `progress` target (see "Building"): it lists the finished functions and bytes per library and for the game.
 
 | | |
 |---|---|
