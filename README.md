@@ -10,7 +10,7 @@ Every known class, method and data structure is declared; most methods still hav
 | virtual methods | ~12 400 (incl. 1 265 in CROs) |
 | named non-virtual methods / free functions | ~3 500 / ~800 |
 | CRO modules | 38 |
-| save structures (`garden_plus.dat`) | complete layout, size-checked |
+| save structures | `garden_plus.dat`: complete layout, size-checked; other save file structures need to be added (friendX.dat, exhibition.dat, mailX.dat) |
 | system calls (`nn::svc`) | 92 (+ the C wrapper `svcSleepThread`), the 18 wrappers ACNL contains copied 1:1 |
 
 ## Roadmap
