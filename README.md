@@ -13,6 +13,12 @@ Every known class, method and data structure is declared; most methods still hav
 | save structures (`garden_plus.dat`) | complete layout, size-checked |
 | system calls (`nn::svc`) | 92 (+ the C wrapper `svcSleepThread`), the 18 wrappers ACNL contains copied 1:1 |
 
+## Roadmap
+
+The first step is to fully decompile any standard libraries used in ACNL.
+This includes nn, nw, pead, sead, mw, libms, imgdb and cfl.
+Beginning with nn.
+
 ## Setup
 
 You need your own dump of the game. Nothing from the game is in this repository.
@@ -73,8 +79,8 @@ config/USA_1_5/
   inputs/           raw inputs of the analysis (libgarden symbols, reference matches, ...)
 orig/USA_1_5/       your dump: code.elf, cro/*.cro  (ignored by git)
 ghidra/             symbols, data types and scripts for Ghidra (ghidra/README.md)
-tools/analysis/     binary analysis: RTTI, vtables, xrefs, CRO parsing, hand named symbols
-tools/decomp/       check, progress, syntax check, linker script, Ghidra export
+tools/analysis/     binary analysis: RTTI, vtables, xrefs, CRO parsing, hand named symbols, disassembly
+tools/decomp/       check, score diff, progress, syntax check, linker script, Ghidra export
 cmake/              toolchain (devkitarm) and build helpers
 docs/               naming.md, cro.md, save_format.md
 ```
@@ -82,9 +88,10 @@ docs/               naming.md, cro.md, save_format.md
 ## Workflow
 
 1. Pick a function. `python tools/decomp/progress.py --functions-csv build/functions.csv` lists them all with size and status.
-2. Open it in Ghidra (names and types: [ghidra/README.md](ghidra/README.md)) and write the C++ in the existing empty body.
+2. Read the original: in Ghidra (names and types: [ghidra/README.md](ghidra/README.md)) or with `python tools/analysis/disasm.py <start> <end>` (named calls and literals); `python tools/analysis/find_refs.py <address>` finds callers and users. Write the C++ in the existing empty body.
 3. Fix the return type: the stub declarations use `void` because mangled names don't contain it.
 4. Build and run `check`. A function is done when it is `equivalent`; `check --function "<name>"` shows what still differs.
+5. `python tools/decomp/score_diff.py` runs `check` and lists the scores that changed since its last run.
 
 The class headers and stubs were generated once from symbols.json. They are normal source files now: new classes and functions are written by hand.
 
