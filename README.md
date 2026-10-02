@@ -95,14 +95,6 @@ docs/               naming.md, cro.md, save_format.md
 
 The class headers and stubs were generated once from symbols.json. They are normal source files now: new classes and functions are written by hand.
 
-## Regenerating
-
-```sh
-python tools/decomp/export_ghidra.py           # ghidra/symbols, ghidra/types
-```
-
-`config/USA_1_5/symbols.json` is the result of the one-time binary analysis ([tools/analysis/analyze.py](tools/analysis/analyze.py) with the inputs in `config/USA_1_5/inputs`). It is maintained by hand now: running the analysis again would drop the names that came from the vtable alignment with the reference games, which is no longer part of the project.
-
 ## Naming
 
 Names only go in when they are certain (details in [docs/naming.md](docs/naming.md)). Unknown things stay `vf_0x24`, `unk_0x10`, `SvPlayerUnk8D4C`. Every declaration says where its name comes from, for example `// 0x0064DB90 | libgarden [tier A]`.
