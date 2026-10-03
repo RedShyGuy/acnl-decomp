@@ -284,7 +284,8 @@ def source_variables():
                     continue
                 st, decl = decl, ''
                 address, pending = pending, None
-                if '{' in st or st.startswith('extern'):
+                # a brace before "=" is a function body, after it an initializer list
+                if '{' in st.split('=')[0] or st.startswith('extern'):
                     continue
                 # "u8 s_Stacks[2][0x1000] DECOMP_ALIGN(8);" - the attribute is no name
                 st = re.sub(r'\s*(DECOMP_ALIGN\s*\([^)]*\)|__attribute__\s*\(\(.*?\)\))', '', st)

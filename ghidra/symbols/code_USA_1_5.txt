@@ -257,6 +257,7 @@ nn::gr::CTR::RenderState::RenderState 0x00123C08 f
 nn::os::ThreadLocalStorage::ClearAllSlots 0x00123D18 f
 nn::os::CTR::SetupThreadCppExceptionEnvironment 0x00123D64 f
 nn::os::CTR::anonymous_namespace::DefaultTerminateHandler 0x00123DC4 f
+nn::pl::CTR::GetStepHistory 0x00123DC8 f
 nn::pl::CTR::GetTotalStepCount 0x00123DE4 f
 nn::ro::detail::LdrRoClient::LoadCRR 0x00124238 f
 nn::cfg::CTR::detail::FinalizeSys 0x001242E0 f
@@ -342,6 +343,7 @@ nn::mic::CTR::Initialize 0x0012A348 f
 nn::mic::CTR::GetSamplingBufferSize 0x0012A3F4 f
 nn::mic::CTR::SetBuffer 0x0012A41C f
 nn::ptm::CTR::detail::GetSwcMilliSeconds 0x0012A4AC f
+nn::ptm::CTR::detail::PtmIpc::GetStepHistory 0x0012A768 f
 nn::ptm::CTR::detail::PtmIpc::GetTotalStepCount 0x0012A7B4 f
 nn::srv::Initialize 0x0012A800 f
 nn::srv::GetServiceHandle 0x0012A924 f
@@ -23513,6 +23515,8 @@ HeapInit::g_pNoDeviceRootHeap 0x00953C48 l
 HeapInit::g_NoDeviceMemoryBlock 0x00A1967C l
 nn::os::detail::s_AlarmThreadPool 0x0097F014 l
 nn::os::detail::s_AlarmThreadPoolMemory 0x00AEB600 l
+nn::ptm::CTR::anonymous_namespace::INVALID_HANDLE 0x008A3758 l
+nn::ptm::CTR::anonymous_namespace::SERVICE_NAMES 0x008A375C l
 nn::ubl::anonymous_namespace::s_FilePath 0x008A3830 l
 nn::fs::CTR::MPCore::detail::anonymous_namespace::s_ArchiveHeapBuffer 0x0094B6C0 l
 nn::fs::CTR::MPCore::detail::anonymous_namespace::s_FileHeapBuffer 0x0094B7C0 l
@@ -23520,6 +23524,7 @@ nn::fs::CTR::MPCore::detail::anonymous_namespace::s_DirectoryHeapBuffer 0x0094B8
 nn::fs::CTR::MPCore::detail::anonymous_namespace::s_ContentRomFsArchiveHeapBuffer 0x0094B940 l
 nn::applet::CTR::INVALID_HANDLE 0x00975ADC l
 nn::applet::CTR::WAIT_INFINITE 0x00975AE8 l
+nn::fnd::DateTime::MIN_DATE_TIME 0x00975EF8 l
 nn::fs::anonymous_namespace::s_UserFileSystem 0x00975F15 l
 nn::fs::anonymous_namespace::s_Session 0x00975F18 l
 nn::fs::anonymous_namespace::s_FileSystemBase 0x00975F1C l
@@ -23554,6 +23559,7 @@ nn::y2r::CTR::detail::s_Session 0x00975FD4 l
 nn::os::CTR::s_WramAddress 0x0097F00C l
 nn::os::CTR::s_WramSize 0x0097F010 l
 nn::os::WaitableCounter::s_ArbitrationObject 0x0097F018 l
+nn::ptm::CTR::detail::s_Session 0x0097F024 l
 nn::socket::detail::s_pDnsClient 0x0097F070 l
 nn::socket::detail::s_IsControlSessionInitialized 0x0097F074 l
 nn::socket::detail::s_ControlSession 0x0097F078 l
@@ -23570,6 +23576,7 @@ nn::uds::CTR::detail::s_Session 0x0097F09C l
 nn::uds::CTR::detail::s_pStatusEvent 0x0097F0A0 l
 nn::os::CTR::MPCore::s_WramAddressOffset 0x00982628 l
 nn::os::CTR::MPCore::s_DeviceAddressOffset 0x0098262C l
+nn::pl::CTR::s_pSharedFont 0x00982638 l
 nn::fs::anonymous_namespace::s_EventHandler0 0x00AE1B68 l
 nn::fs::anonymous_namespace::s_EventHandler1 0x00AE1B7C l
 nn::fs::anonymous_namespace::s_EventHandler2 0x00AE1B90 l
