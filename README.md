@@ -36,10 +36,10 @@ Beginning with nn:
 | nn::socket | ✅ 100% decompiled |
 | nn::nfc | ✅ 100% decompiled |
 | nn::nfp | ✅ 100% decompiled |
+| nn::ptm | ✅ 100% decompiled |
+| nn::pl | ✅ 100% decompiled |
 | nn::snd | ❌ |
 | nn::ro | ❌ |
-| nn::ptm | ❌ |
-| nn::pl | ❌ |
 | nn::pia | ❌ |
 | nn::nwm | ❌ |
 | nn::ngc | ❌ |
