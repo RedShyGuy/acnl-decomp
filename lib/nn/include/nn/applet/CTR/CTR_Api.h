@@ -1,6 +1,9 @@
 #pragma once
 
 #include "decomp.h"
+#include "nn/Handle.h"
+#include "nn/Result.h"
+#include "nn/fnd/fnd_TimeSpan.h"
 
 namespace nn {
 namespace applet {
@@ -27,10 +30,14 @@ void IsSystemApplet(); // 0x001372F8 | nintendogs:bytes [tier A]
 void DisableSleep(bool); // 0x0047F8C4 | nintendogs:bytes [tier A]
 void JumpToManual(); // 0x0047F8FC | fefates:bytes [tier B]
 void IsEnableSleep(); // 0x0047F9B0 | nintendogs:callgraph [tier A]
-void GetAppletVersion(unsigned int, unsigned short*); // 0x0047F9C0 | fefates:bytes [tier B]
+nn::Result GetAppletVersion(unsigned int, unsigned short*); // 0x0047F9C0 | fefates:bytes [tier B]
 void IsHomeMenuResident(); // 0x0047F9F8 | fefates:bytes [tier B]
 void IsExpectedToJumpToHomeMenu(); // 0x0047FD04 | nintendogs:callgraph [tier A]
 void IsExpectedToProcessHomeButton(); // 0x0047FE7C | nintendogs:bytes [tier A]
+
+// constants of applet_API.cpp, made by its static initializer (names are ours)
+extern const nn::Handle INVALID_HANDLE;           // 0 (no handle)
+extern const nn::fnd::TimeSpan WAIT_INFINITE;     // -1 ns (no timeout)
 } // namespace CTR
 } // namespace applet
 } // namespace nn

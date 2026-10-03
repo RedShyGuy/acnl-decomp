@@ -3,6 +3,11 @@
 namespace nn {
 namespace applet {
 namespace CTR {
+// 0x00975ADC (name is ours)
+const nn::Handle INVALID_HANDLE;
+// 0x00975AE8 (name is ours)
+const nn::fnd::TimeSpan WAIT_INFINITE = nn::fnd::TimeSpan::FromNanoSeconds(-1);
+
 // 0x0012010C | nintendogs:bytes [tier A]
 void EnableSleep(bool)
 {
@@ -104,7 +109,7 @@ void IsEnableSleep()
 }
 
 // 0x0047F9C0 | fefates:bytes [tier B]
-void GetAppletVersion(unsigned int, unsigned short*)
+nn::Result GetAppletVersion(unsigned int, unsigned short*)
 {
 }
 

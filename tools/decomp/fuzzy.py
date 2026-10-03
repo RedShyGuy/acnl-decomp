@@ -410,10 +410,11 @@ def extract(words, base, resolve_call, resolve_word, returns_this=lambda key: Fa
                         continue
                     # "ldr r1, =0x04xxxxxx ; mov r0, #0 ; nop": a debug log call that armlink
                     # removed (the sources leave it out), its message id is no constant; the
-                    # compiler may put an instruction in between ("sub sp, sp, #n")
+                    # compiler may put an instruction in between ("sub sp, sp, #n", also between
+                    # the mov and the nop: "push {r4, lr}")
                     nxt = [words[k] for k in range(i + 1, min(n, i + 8)) if k not in pool][:4]
                     removed_log = rd == 1 and key[0] == 'k' and 0x04000000 <= key[1] < 0x05000000 \
-                        and any(nxt[k] == 0xE3A00000 and nxt[k + 1] == NOP for k in range(min(2, len(nxt) - 1)))
+                        and any(nxt[k] == 0xE3A00000 and NOP in nxt[k + 1:k + 3] for k in range(min(2, len(nxt) - 1)))
                     if j not in seen_literals and not removed_log:   # reloading a literal is the compiler's choice
                         consts[key] += 1
                     seen_literals.add(j)

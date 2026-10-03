@@ -32,6 +32,21 @@ public:
     bool operator==(const Result& rhs) const { return mValue == rhs.mValue; }
     bool operator!=(const Result& rhs) const { return mValue != rhs.mValue; }
 
+    // A group of results: one module and a range of descriptions (level and summary are not
+    // compared). The template is from the symbols ("ConstRange<-5,6,97,600,600,600>::Includes");
+    // the parameter names are ours, the meaning of the last one is not known.
+    template <int Level, int Summary, int Module, int DescriptionBegin, int DescriptionEnd, int Description>
+    class ConstRange
+    {
+    public:
+        static __attribute__((noinline)) bool Includes(Result result)
+        {
+            return result.GetModule() == static_cast<bit32>(Module) &&
+                   DescriptionBegin <= static_cast<int>(result.GetDescription()) &&
+                   static_cast<int>(result.GetDescription()) <= DescriptionEnd;
+        }
+    };
+
 private:
     bit32 mValue;
 };

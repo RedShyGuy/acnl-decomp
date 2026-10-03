@@ -224,6 +224,11 @@ void GetAppletManInfo(nn::applet::CTR::AppletPos, nn::applet::CTR::AppletPos*, u
 {
 }
 
+// 0x004804F0 | tier C (confirmed by the code)
+nn::Result StartSystemApplet(unsigned int, const unsigned char*, unsigned int, nn::Handle)
+{
+}
+
 // 0x00480710 | nintendogs:callgraph [tier A]
 void StartLibraryApplet(unsigned, const unsigned char*, unsigned, nn::Handle)
 {
@@ -265,7 +270,7 @@ void AttachTransferMemoryHandle(nn::os::TransferMemoryBlock*, nn::Handle, unsign
 }
 
 // 0x00480DF4 | nintendogs:bytes [tier A]
-void PrepareToStartSystemApplet(unsigned)
+nn::Result PrepareToStartSystemApplet(unsigned)
 {
 }
 

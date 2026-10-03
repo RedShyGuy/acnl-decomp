@@ -57,6 +57,7 @@ void ConvertL16ToB16(unsigned*, const unsigned*, unsigned, const nn::applet::CTR
 void ConvertL24ToB24(unsigned*, const unsigned*, unsigned, const nn::applet::CTR::detail::OffsetTable&); // 0x00480208 | nintendogs:bytes [tier A]
 void WaitForRegister(unsigned, nn::fnd::TimeSpan); // 0x004802E8 | nintendogs:callseq-callee [tier A]
 void GetAppletManInfo(nn::applet::CTR::AppletPos, nn::applet::CTR::AppletPos*, unsigned*, unsigned*, unsigned*); // 0x0048046C | nintendogs:bytes [tier A]
+nn::Result StartSystemApplet(unsigned int, const unsigned char*, unsigned int, nn::Handle); // 0x004804F0 | tier C (confirmed by the code)
 void StartLibraryApplet(unsigned, const unsigned char*, unsigned, nn::Handle); // 0x00480710 | nintendogs:callgraph [tier A]
 void WaitToCaptureScreen(unsigned, nn::Handle*); // 0x0048089C | nintendogs:callseq-callee [tier A]
 void CalcCaptureBufferInfo(nn::applet::CTR::CaptureBufferInfo*); // 0x00480998 | nintendogs:callseq-callee [tier A]
@@ -65,7 +66,7 @@ void PrepareToJumpToHomeMenu(); // 0x00480AF8 | nintendogs:bytes [tier A]
 void CaptureDisplayBuffer(unsigned, const nn::applet::CTR::AppletDisplayInfo*, const nn::applet::CTR::CaptureBufferInfo*); // 0x00480B84 | nintendogs:bytes [tier A]
 void CaptureDisplayBufferCore(unsigned, const nn::applet::CTR::AppletDisplayInfo*, bool, bool); // 0x00480C18 | nintendogs:callgraph [tier A]
 void AttachTransferMemoryHandle(nn::os::TransferMemoryBlock*, nn::Handle, unsigned, unsigned); // 0x00480DE0 | nintendogs:bytes [tier A]
-void PrepareToStartSystemApplet(unsigned); // 0x00480DF4 | nintendogs:bytes [tier A]
+nn::Result PrepareToStartSystemApplet(unsigned); // 0x00480DF4 | nintendogs:bytes [tier A]
 void PrepareToStartLibraryApplet(unsigned); // 0x00480F00 | nintendogs:bytes [tier A]
 void CaptureScreenForSystemApplet(unsigned); // 0x00480FEC | nintendogs:callseq [tier A]
 } // namespace detail

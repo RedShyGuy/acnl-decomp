@@ -27,4 +27,6 @@
 #define DECOMP_ALIGN(n) __attribute__((aligned(n)))
 #define DECOMP_NORETURN __attribute__((noreturn))
 #define DECOMP_NOINLINE __attribute__((noinline))   // the original calls it, GCC would inline it
+// the original calls it with the arguments of its only caller; GCC would also specialize it for them
+#define DECOMP_NOIPA __attribute__((noipa))
 #define DECOMP_ALWAYS_INLINE inline __attribute__((always_inline))   // the original inlines it, GCC would call it

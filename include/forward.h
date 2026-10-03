@@ -2900,11 +2900,12 @@ namespace nn { namespace nfc { namespace CTR {
 namespace nn { namespace nfp { 
     // defined in nn/nfp/nfp_Types.h
     struct RomInfo;
-    struct TargetConnectionStatus { u32 _unknown; }; // placeholder, real type unknown
+    enum TargetConnectionStatus : u8;
 }}
 
 namespace nn { namespace nfp { namespace CTR { 
-    struct Parameter { u32 _unknown; }; // placeholder, real type unknown
+    // defined in nn/nfp/nfp_Types.h
+    struct Parameter;
 }}}
 
 namespace nn { namespace ngc { 
