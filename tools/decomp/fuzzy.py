@@ -30,8 +30,8 @@ RUNTIME_FAMILIES = {
     'memcpy': ('memcpy', 'memmove'),
     'sdiv': ('idiv', 'sdiv', 'idivmod'),
     'udiv': ('uidiv', 'udiv', 'uidivmod'),
-    'ldiv': ('ldivmod', 'sdiv64', 'divdi3'),
-    'uldiv': ('uldivmod', 'udiv64', 'udivdi3'),
+    'ldiv': ('ldivmod', 'sdiv64', 'divdi3', 'll_sdiv'),
+    'uldiv': ('uldivmod', 'udiv64', 'udivdi3', 'll_udiv'),
     'strcmp': ('strcmp',),
     'strlen': ('strlen',),
     # ARMCC constructs an array of class objects with this helper (array, ctor, size, count);
@@ -51,7 +51,7 @@ def runtime_family(name):
     if '::' in base or ' ' in base:
         return None                                   # methods, never runtime helpers
     core = base
-    for p in ('__aeabi_', '__rt_', '__'):
+    for p in ('__aeabi_', '__rt_', '__', '_'):        # '_ll_sdiv': ARM's 64 bit division
         if core.startswith(p):
             core = core[len(p):]
             break

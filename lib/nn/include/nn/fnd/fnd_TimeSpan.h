@@ -7,9 +7,12 @@ namespace fnd {
 class TimeSpan
 {
 public:
-    void DivideNanoSeconds(long long, int) const; // 0x00134718 | fefates:bytes [tier B]
+    // the nanoseconds divided by a constant: multiplied by its reciprocal (2^(64 + shift) / divisor)
+    s64 DivideNanoSeconds(long long reciprocal, int shift) const; // 0x00134718 | fefates:bytes [tier B]
 
     s64 GetNanoSeconds() const { return mNanoSeconds; }
+    // inline (name is ours): nanoseconds / 1000000
+    s64 GetMilliSeconds() const { return DivideNanoSeconds(0x431BDE82D7B634DBLL, 18); }
 
     // inline (names are ours)
     static TimeSpan FromNanoSeconds(s64 nanoSeconds)

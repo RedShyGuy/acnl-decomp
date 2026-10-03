@@ -419,6 +419,7 @@ def make_fuzzy_pair(mem, db, starts, names, by_source, by_name, variables=None):
         return ('svc', n) if n is not None else ('fn', target)
 
     variables = variables or {}
+    variable_addresses = set(variables.values())
     section_names = {}
 
     def global_address(name, typ, secname, value, addend):
@@ -568,6 +569,11 @@ def make_fuzzy_pair(mem, db, starts, names, by_source, by_name, variables=None):
                 return orig_fn(w & ~1)
             if w in vptr_set:
                 return ('addr', w)
+            if (mem.ro[0] <= w < mem.ro[1] and w in variable_addresses
+                    and not mem.ro[0] <= mem.u32(w) < mem.ro[1]):
+                # a constant object of the sources (not a constant pointer to a string: GCC puts
+                # the string itself where ARMCC loads the pointer)
+                return ('gaddr', w)
             if mem.ro[0] <= w < mem.ro[1]:
                 s = mem.cstr(w)
                 if not s and mem.mem[w - mem.base] == 0:

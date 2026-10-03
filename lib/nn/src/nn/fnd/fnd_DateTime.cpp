@@ -2,6 +2,9 @@
 
 namespace nn {
 namespace fnd {
+// 0x00975EF8
+const nn::fnd::DateTime nn::fnd::DateTime::MIN_DATE_TIME(0);
+
 // TODO: default ctor added so derived stubs compile - may not exist
 nn::fnd::DateTime::DateTime()
 {

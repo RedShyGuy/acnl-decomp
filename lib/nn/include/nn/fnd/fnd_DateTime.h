@@ -1,6 +1,7 @@
 #pragma once
 
 #include "decomp.h"
+#include "nn/fnd/fnd_TimeSpan.h"
 
 namespace nn {
 namespace fnd {
@@ -25,6 +26,21 @@ public:
     s32 GetMonth() const; // 0x00729958 | nintendogs:bytes [tier A]
     s32 GetMinute() const; // 0x007299B0 | nintendogs:bytes [tier A]
     s32 GetSecond() const; // 0x00729A1C | nintendogs:bytes [tier A]
+
+    // the earliest date: the origin of mMilliSeconds (name is ours)
+    static const DateTime MIN_DATE_TIME;
+
+    // inline (name is ours)
+    friend TimeSpan operator-(const DateTime& lhs, const DateTime& rhs)
+    {
+        return TimeSpan::FromMilliSeconds(lhs.mMilliSeconds - rhs.mMilliSeconds);
+    }
+
+private:
+    explicit DateTime(s64 milliSeconds) : mMilliSeconds(milliSeconds) {}
+
+    s64 mMilliSeconds;      // 0x0 (the member name is ours)
 };
+ASSERT_SIZE(DateTime, 8);
 } // namespace fnd
 } // namespace nn
