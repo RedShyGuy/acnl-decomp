@@ -59,6 +59,7 @@ def norm(name):
 def split_signature(sig):
     """'void A::B::f(int, X<a, b>) const' -> ('A::B::f', ['int', 'X<a, b>'], True)"""
     sig = sig.strip().replace('(anonymous namespace)', '@anon')
+    sig = re.sub(r'(?<=>)\s+(?=>)', '', sig)          # "X<Y<Z> >" (demangler) == "X<Y<Z>>"
     const = sig.endswith(' const') or sig.endswith(')const')
     if const:
         sig = sig[:sig.rindex('const')].rstrip()
@@ -101,7 +102,12 @@ def source_addresses():
     for d in ('src', 'lib', 'modules'):
         for path in glob.glob(os.path.join(ROOT, d, '**', '*.cpp'), recursive=True):
             ns, pending, sig, body_of, pending_del = [], None, None, None, None
-            for line in open(path, encoding='utf-8', errors='replace'):
+            text = open(path, encoding='utf-8', errors='replace').read()
+            # explicit instantiations ("template class X<arg>;"): a member defined as X<T>::f under
+            # "template <typename T>" is compared as X<arg>::f
+            instances = [(m.group(1).split('::')[-1], m.group(2).strip())
+                         for m in re.finditer(r'template\s+class\s+([\w:]+?)\s*<(.*)>\s*;', text)]
+            for line in text.splitlines():
                 st = line.strip()
                 if body_of is not None and st:
                     if st == '}':
@@ -132,6 +138,7 @@ def source_addresses():
                 sig += ' ' + st
                 if '{' in st or st.endswith(';'):
                     parsed = split_signature(sig.split('{')[0].rstrip().rstrip(';'))   # also declarations
+                    sig_text = sig
                     pending_addr, pending, sig = pending, None, None
                     del_addr, pending_del = pending_del, None
                     if not parsed:
@@ -139,6 +146,11 @@ def source_addresses():
                     name, params, const = parsed
                     # definitions inside "namespace a {" may or may not repeat "a::"
                     full = name if not ns or name.startswith(ns[0] + '::') else '::'.join(ns + [name])
+                    m = re.match(r'\s*template\s*<([^>]*)>', sig_text)
+                    if m:
+                        for p in re.findall(r'(?:typename|class)\s+(\w+)', m.group(1)):
+                            for short, arg in instances:
+                                full = full.replace(f'{short}<{p}>', f'{short}<{arg}>')
                     key = sig_key(full, params, const)
                     if del_addr is not None:
                         deleting[key] = del_addr
@@ -178,6 +190,9 @@ def header_addresses():
                     pending_scope = m.group(1) or '@anon'
                 if st and not st.startswith('#'):
                     stmt += ' ' + st
+                # an inline function defined on one line: "int f() const { return x; } // 0x..."
+                one_line = stmt.split('{')[0].strip() if '{' in st and st.endswith('}') and \
+                    code.count('{') == code.count('}') else None
                 for ch in code:
                     if ch == '{':
                         depth += 1
@@ -189,8 +204,8 @@ def header_addresses():
                             scopes.pop()
                         depth -= 1
                         stmt = ''
-                if st.endswith(';') or st.endswith(':'):
-                    decl, stmt = stmt.strip().rstrip(';'), ''
+                if st.endswith(';') or st.endswith(':') or one_line:
+                    decl, stmt = (one_line or stmt.strip().rstrip(';')), ''
                     m = re.match(r'\s*0x([0-9A-Fa-f]{8})(?![0-9A-Fa-f])', comment)
                     if not m or '(' not in decl or decl.startswith(('typedef', 'using', 'return')):
                         continue
@@ -213,6 +228,9 @@ def header_addresses():
 
 
 VARIABLE_RE = re.compile(r'([A-Za-z_]\w*(?:::[A-Za-z_]\w*)*)\s*(?:\[[^\]]*\])?\s*(?:\)\s*\(.*\))?\s*(?:=.*)?;\s*(?://.*)?$')
+# a variable with constructor arguments ("Heap s_Heap(16, buffer, size);"), tried when VARIABLE_RE
+# does not match (a function pointer declarator would match this, too)
+VARIABLE_INIT_RE = re.compile(r'([A-Za-z_]\w*(?:::[A-Za-z_]\w*)*)\s*\(.*\);\s*(?://.*)?$')
 
 
 def source_variables():
@@ -240,7 +258,7 @@ def source_variables():
                 address, pending = pending, None
                 if '{' in st or st.startswith('extern'):
                     continue
-                m = VARIABLE_RE.search(st)
+                m = VARIABLE_RE.search(st) or VARIABLE_INIT_RE.search(st)
                 if not m or '(' in st.split(m.group(1))[0].replace('(*', ''):
                     continue
                 name = m.group(1)
@@ -345,6 +363,9 @@ def make_fuzzy_pair(mem, db, starts, names, by_source, by_name, variables=None):
             addr = next((a for k, a in by_source.items() if k[0] == re.sub(r'\s+', '', dn)), None)
         if addr is None:
             addr = by_name.get(norm(dn))
+        if addr is None and parsed:
+            # a function template: the demangled name starts with the return type
+            addr = by_name.get(norm(f"{parsed[0]}({', '.join(parsed[1])})" + (' const' if parsed[2] else '')))
         if addr is None and '(' in dn:
             addr = by_name.get(norm(dn.split('(')[0]))     # symbols.json name without parameters
         fam = fuzzy.runtime_family(dn) or (fuzzy.runtime_family(addr_name.get(addr & ~1)) if addr is not None else None)
@@ -357,6 +378,8 @@ def make_fuzzy_pair(mem, db, starts, names, by_source, by_name, variables=None):
         return ('name', norm(dn))
 
     def orig_fn(target):
+        if mem.in_text(target) and mem.u32(target) == 0xE28FC001 and mem.u32(target + 4) == 0xE12FFF1C:
+            target += 8                 # ARM to Thumb veneer ("add ip, pc, #1 ; bx ip"): the function behind it
         fam = fuzzy.runtime_family(addr_name.get(target))
         if fam:
             return ('rt', fam)
@@ -429,6 +452,8 @@ def make_fuzzy_pair(mem, db, starts, names, by_source, by_name, variables=None):
                 off = (value if typ != 3 else 0) + w
                 end = secdata.find(b'\0', off)
                 text = secdata[off:end] if end >= 0 else b''
+                if end == off:
+                    return ('str', '')                     # "" (a string literal of its own)
                 if text and all(0x20 <= c < 0x7F or c in (9, 10, 13) for c in text):
                     return ('str', text.decode('ascii'))
                 return ('rodata',)
@@ -464,6 +489,8 @@ def make_fuzzy_pair(mem, db, starts, names, by_source, by_name, variables=None):
                 return ('addr', w)
             if mem.ro[0] <= w < mem.ro[1]:
                 s = mem.cstr(w)
+                if not s and mem.mem[w - mem.base] == 0:
+                    return ('str', '')                     # ""
                 return ('str', s) if s else ('rconst', w)
             if mem.data[0] <= w < data_end + 0x100000:
                 return ('gaddr', w)
@@ -494,7 +521,9 @@ def make_fuzzy_pair(mem, db, starts, names, by_source, by_name, variables=None):
                     moved = moved - callee['mem_this']
                     for (sign, width, off), n in callee['mem_this'].items():
                         moved[(sign, width, off + this_off if isinstance(off, int) else off)] += n
-                f['mem'].update(moved)
+                # mem is a set (see fuzzy._mem_features): an access the callee repeats is no new one
+                for k in moved:
+                    f['mem'][k] = 1
                 for cat in ('consts', 'flow'):
                     f[cat].update(callee[cat])
                 f.setdefault(label, []).append(addr_name.get(key[1], f'0x{key[1]:X}'))

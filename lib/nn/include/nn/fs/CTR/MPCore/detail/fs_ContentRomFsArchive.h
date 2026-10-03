@@ -13,10 +13,9 @@ namespace detail {
 class ContentRomFsArchive : public ::nn::fs::CTR::MPCore::detail::RomFsArchive
 {
 public:
-    virtual void DeleteObject(); // 0x003489DC slot 0x30 | nintendogs:bytes
-    virtual ~ContentRomFsArchive(); // 0x00348AB8 slot 0x34 | nintendogs:bytes-fuzzy
-    virtual void vf_0x38(); // 0x00348A30 slot 0x38 | virtual slot, introduced by nn::fs::CTR::MPCore::detail::RomFsArchive
-    virtual void OpenDirect(nn::fs::CTR::MPCore::detail::IFile**, nn::Handle); // 0x00348990 slot 0x3C | nintendogs:bytes
+    virtual void DeleteObject(); // 0x003489DC slot 0x30
+    virtual ~ContentRomFsArchive(); // 0x00348AB8 slot 0x34, 0x00348A30 slot 0x38 (deleting)
+    virtual nn::Result OpenDirect(nn::fs::CTR::MPCore::detail::IFile** file, nn::Handle handle); // 0x00348990 slot 0x3C
     void AllocateBuffer(); // 0x00130280 | nintendogs:bytes-fuzzy [tier A]
     ContentRomFsArchive(); // 0x00130368 | nintendogs:bytes [tier A]
 };

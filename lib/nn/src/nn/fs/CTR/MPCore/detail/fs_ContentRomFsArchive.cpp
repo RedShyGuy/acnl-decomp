@@ -6,23 +6,19 @@ namespace fs {
 namespace CTR {
 namespace MPCore {
 namespace detail {
-// 0x003489DC slot 0x30 | nintendogs:bytes
+// 0x003489DC slot 0x30
 void nn::fs::CTR::MPCore::detail::ContentRomFsArchive::DeleteObject()
 {
 }
 
-// 0x00348AB8 slot 0x34 | nintendogs:bytes-fuzzy
+// 0x00348AB8 slot 0x34
+// 0x00348A30 slot 0x38 (deleting dtor)
 nn::fs::CTR::MPCore::detail::ContentRomFsArchive::~ContentRomFsArchive()
 {
 }
 
-// 0x00348A30 slot 0x38 | virtual slot, introduced by nn::fs::CTR::MPCore::detail::RomFsArchive
-void nn::fs::CTR::MPCore::detail::ContentRomFsArchive::vf_0x38()
-{
-}
-
-// 0x00348990 slot 0x3C | nintendogs:bytes
-void nn::fs::CTR::MPCore::detail::ContentRomFsArchive::OpenDirect(nn::fs::CTR::MPCore::detail::IFile**, nn::Handle)
+// 0x00348990 slot 0x3C
+nn::Result nn::fs::CTR::MPCore::detail::ContentRomFsArchive::OpenDirect(nn::fs::CTR::MPCore::detail::IFile** file, nn::Handle handle)
 {
 }
 

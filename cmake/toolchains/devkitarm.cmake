@@ -44,8 +44,9 @@ set(CMAKE_TRY_COMPILE_TARGET_TYPE STATIC_LIBRARY)
 #   -fno-lifetime-dse: stores to members in a destructor stay (e.g. "mHandle = 0" after closing it)
 #   -fno-tree-switch-conversion: a switch stays compares (GCC would make a lookup table in .rodata)
 #   -fno-math-errno: sqrtf is a bare vsqrt (ARMCC does not set errno; GCC would add a call to sqrtf for NaN)
+#   -fshort-wchar: wchar_t is 16 bit as with ARMCC on the 3DS (UTF-16 paths of nn::fs, L"..." literals)
 set(DECOMP_GCC_FLAGS
-    "-march=armv6k -mtune=mpcore -mfloat-abi=hard -mfpu=vfp -marm -mtp=soft -O2 -ffunction-sections -fdata-sections -fno-optimize-strlen -fno-tree-loop-distribute-patterns -fno-reorder-blocks -fno-store-merging -fno-lifetime-dse -fno-tree-switch-conversion -fno-math-errno -w"
+    "-march=armv6k -mtune=mpcore -mfloat-abi=hard -mfpu=vfp -marm -mtp=soft -O2 -ffunction-sections -fdata-sections -fno-optimize-strlen -fno-tree-loop-distribute-patterns -fno-reorder-blocks -fno-store-merging -fno-lifetime-dse -fno-tree-switch-conversion -fno-math-errno -fshort-wchar -w"
     CACHE STRING "GCC options used for every source file")
 
 set(CMAKE_C_FLAGS_INIT "${DECOMP_GCC_FLAGS}")
@@ -53,5 +54,8 @@ set(CMAKE_C_FLAGS_INIT "${DECOMP_GCC_FLAGS}")
 #   sized deallocation; GCC would call operator delete(void*, unsigned) with the object size)
 # -fcheck-new: the constructor only runs if new returned non-null; ARMCC tests the result of every
 #   new, placement new included (e.g. ThreadPool::Setup, detail::StartAlarmThreadPool)
-set(CMAKE_CXX_FLAGS_INIT "${DECOMP_GCC_FLAGS} -std=gnu++17 -fno-exceptions -fno-sized-deallocation -fcheck-new")
+# -fno-devirtualize-speculatively: a virtual call stays an indirect call (GCC would compare the
+#   vptr, inline the expected target and keep the indirect call as the other branch; e.g. the
+#   "this->~File()" in nn::fs::CTR::MPCore::detail::FileServerArchive::File::Close)
+set(CMAKE_CXX_FLAGS_INIT "${DECOMP_GCC_FLAGS} -std=gnu++17 -fno-exceptions -fno-sized-deallocation -fcheck-new -fno-devirtualize-speculatively")
 

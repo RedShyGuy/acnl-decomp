@@ -19,7 +19,7 @@ bool IsDebugMode()
 }
 
 // 0x0011E244 | fefates:bytes [tier B]
-void GetFsLatencyEmulationParam()
+u8 GetFsLatencyEmulationParam()
 {
 }
 

@@ -228,6 +228,7 @@ def extract(words, base, resolve_call, resolve_word, returns_this=lambda key: Fa
         regs[0] = keep if keep else (new(), 0)
 
     dropped = Counter()                   # constants that were only arguments of the array helper
+    ors = Counter()                       # immediates of orr (not compared, see _orr_consts)
 
     def call_key(i, w):
         key = resolve_call(i, w)
@@ -327,7 +328,13 @@ def extract(words, base, resolve_call, resolve_word, returns_this=lambda key: Fa
                 shape.append('bl')
                 lr_literal = None
             else:
-                flow['jump_reg'] += 1
+                # "bx rN": a tail call through a register (a virtual function); the other compiler
+                # may call it and return
+                call_this.append(None)
+                calls.append(('indirect',))
+                shape.append('bl')
+                shape.append('ret')
+                flow['return'] += 1
             continue
         if (w & 0x0F000000) == 0x0F000000:                                # svc
             call_this.append(None)
@@ -449,6 +456,8 @@ def extract(words, base, resolve_call, resolve_word, returns_this=lambda key: Fa
                     consts[('cmp', val if opc != 11 else (-val) & 0xFFFFFFFF)] += 1
                 continue
             shape.append('dp')
+            if opc == 12 and imm:
+                ors[val] += 1                                             # orr rd, rn, #imm (see _orr_consts)
             if w & (1 << 20):                                             # movs / subs ...
                 flags_set = True
             if rd == PC:                                                  # addls pc,pc,r0,lsl #2 / mov pc,lr
@@ -531,7 +540,7 @@ def extract(words, base, resolve_call, resolve_word, returns_this=lambda key: Fa
             consts[k] = 1
     return {'calls': calls, 'call_this': call_this, 'mem': _mem_features(mem),
             'mem_this': _mem_features([m for m in mem if m[0] == 'arg0']),
-            'consts': consts, 'flow': flow, 'shape': shape}
+            'consts': consts, 'flow': flow, 'shape': shape, 'orr': ors}
 
 
 def _mem_features(raw):
@@ -745,7 +754,30 @@ def _halfword_consts(a, b):
     return +a, +b
 
 
-def _consts(a, b):
+def _orr_consts(a, b, ors_a, ors_b):
+    """How a compiler makes a constant it ORs in (IPC descriptors like (size << 14) | 0x402):
+    ARMCC loads 0xC with mov and ORs the register, GCC ORs the immediate; ARMCC loads 0x400 and
+    ORs #2, GCC loads 0x402. A constant left over on one side counts as the same if the other side
+    ORs it as an immediate, or has a constant that with one of its orr immediates makes it."""
+    a, b = Counter(a), Counter(b)
+    for x, y, ors_y in ((a, b, ors_b), (b, a, ors_a)):
+        for f in list(x - y):
+            if f[0] != 'k':
+                continue
+            if ors_y[f[1]]:
+                y[f] += 1
+                continue
+            for g in list(y - x):
+                if g[0] == 'k' and any(g[1] | o == f[1] and not g[1] & o for o in ors_y):
+                    y[g] -= 1
+                    y[f] += 1
+                    break
+    return +a, +b
+
+
+def _consts(a, b, ors_a=None, ors_b=None):
+    if ors_a is not None and ors_b is not None:
+        a, b = _orr_consts(a, b, ors_a, ors_b)
     a, b = _range_checks(*_cmp_literal(*_data_literals(*_halfword_consts(a, b))))
     pairs = _near_cmp(a, b)
     # compares with 0 only count when they stand in for another compare
@@ -861,7 +893,7 @@ def compare(mine, theirs):
     else:
         cats['calls'] = None
     cats['mem'] = _multiset(*_split_wide(mine['mem'], theirs['mem']))
-    cats['consts'] = _consts(mine['consts'], theirs['consts'])
+    cats['consts'] = _consts(mine['consts'], theirs['consts'], mine.get('orr'), theirs.get('orr'))
     cats['flow'] = _multiset(mine['flow'], theirs['flow'])
     if mine['shape'] or theirs['shape']:
         cats['shape'] = difflib.SequenceMatcher(None, mine['shape'], theirs['shape'], autojunk=False).ratio()
@@ -909,7 +941,9 @@ def explain(mine, theirs):
         missing = b - a
         extra = a - b
         if cat == 'consts':
-            a, b = _range_checks(*_cmp_literal(*_data_literals(a, b)))
+            # the same steps as _consts
+            a, b = _orr_consts(a, b, mine.get('orr') or Counter(), theirs.get('orr') or Counter())
+            a, b = _range_checks(*_cmp_literal(*_data_literals(*_halfword_consts(a, b))))
             missing, extra = b - a, a - b
             for fa, fb in _near_cmp(a, b):
                 extra[fa] -= 1

@@ -1,6 +1,7 @@
 #pragma once
 
 #include "decomp.h"
+#include "nn/Result.h"
 
 namespace nn {
 namespace fs {
@@ -10,7 +11,7 @@ void Initialize(); // 0x0012FDA0 | nintendogs:bytes-fuzzy [tier A]
 void GetRomRequiredMemorySize(unsigned int, unsigned int, bool); // 0x0012FE60 | fefates:bytes [tier B]
 void MountRom(unsigned int, unsigned int, void*, unsigned int, bool); // 0x0013059C | fefates:bytes [tier B]
 void GetPriority(int*); // 0x0013614C | nintendogs:bytes [tier A]
-void Unmount(const char*); // 0x00136254 | nintendogs:callgraph [tier A]
+nn::Result Unmount(const char* path); // 0x00136254 | nintendogs:callgraph [tier A]
 void MountRom(const char*, unsigned int, unsigned int, void*, unsigned int, bool); // 0x001363B4 | fefates:bytes [tier B]
 void MountContent(const char*, nn::fs::MediaType, unsigned long long, unsigned int, unsigned int, unsigned int, void*, unsigned int, bool); // 0x0034601C | fefates:bytes [tier B]
 void MountSaveData(const char*); // 0x003460E4 | nintendogs:callseq [tier A]

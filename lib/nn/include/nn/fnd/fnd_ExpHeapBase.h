@@ -12,13 +12,12 @@ class ExpHeapBase : public ::nn::fnd::HeapBase
 public:
     struct AllocationMode { u32 _unknown; }; // TODO: real type unknown (placeholder)
     ExpHeapBase(); // ctor address unknown
-    virtual void vf_0x00(); // 0x003523A4 slot 0x00 | virtual slot, introduced by nn::fnd::HeapBase
-    virtual void vf_0x04(); // 0x00352360 slot 0x04 | virtual slot, introduced by nn::fnd::HeapBase
-    virtual void FreeV(void*); // 0x00352340 slot 0x08 | slot vf_0x08 of nn::fnd::HeapBase
-    virtual void vf_0x0C(); // 0x00729710 slot 0x0C | virtual slot, introduced by nn::fnd::HeapBase
-    virtual void vf_0x10(); // 0x00729700 slot 0x10 | virtual slot, introduced by nn::fnd::HeapBase
-    virtual void vf_0x14(); // 0x0072971C slot 0x14 | virtual slot, introduced by nn::fnd::HeapBase
-    virtual void HasAddress(const void*) const; // 0x007296E0 slot 0x18 | fefates:bytes
+    virtual ~ExpHeapBase(); // 0x003523A4 slot 0x00, 0x00352360 slot 0x04 (deleting)
+    virtual void FreeV(void* p); // 0x00352340 slot 0x08
+    virtual void* GetHeapStart() const; // 0x00729710 slot 0x0C (name is ours)
+    virtual size_t GetHeapSize() const; // 0x00729700 slot 0x10 (name is ours)
+    virtual void PrintState(); // 0x0072971C slot 0x14 (name is ours)
+    virtual bool HasAddress(const void* p) const; // 0x007296E0 slot 0x18 | fefates:bytes
     void Initialize(unsigned, unsigned, unsigned); // 0x0011FF0C | nintendogs:bytes [tier A]
     void Invalidate(); // 0x001368EC | nintendogs:bytes [tier A]
     void Allocate(unsigned, int, unsigned char, nn::fnd::ExpHeapBase::AllocationMode, bool); // 0x00136918 | nintendogs:bytes [tier A]

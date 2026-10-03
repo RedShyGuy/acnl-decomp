@@ -1,18 +1,29 @@
 #pragma once
 
 #include "decomp.h"
+#include "nn/Result.h"
+#include "nn/fs/fs_ExtSaveDataSpecifier.h"
 
 namespace nn {
 namespace fs {
 namespace CTR {
 namespace MPCore {
 namespace detail {
-void RegisterArchive(const char*, nn::fs::CTR::MPCore::detail::IArchive*, bool); // 0x001292C8 | nintendogs:callseq-callee [tier A]
-void OpenSharedExtSaveData(nn::fs::CTR::MPCore::detail::IArchive**, const nn::fs::ExtSaveDataSpecifier&); // 0x00129584 | nintendogs:bytes [tier B]
-void LatencyEmulation(bool); // 0x00142FB0 | nintendogs:bytes [tier A]
+class IArchive;
+
+// the archive table of fs_UserFileSystem.cpp: the archive of "name:" (0 if there is none)
+template <typename CharT>
+IArchive* FindArchive(const CharT* path); // 0x007D35B8 (char), 0x001359D4 (wchar_t) | tier A
+
+// enters archive under the mount name of name ("name" or "name:..."); the binary takes 4
+// arguments (symbols.json, from nintendogs: 3)
+nn::Result RegisterArchive(const char* name, nn::fs::CTR::MPCore::detail::IArchive* archive, bool unknown, bool isNotOwned); // 0x001292C8 | nintendogs:callseq-callee [tier A]
+nn::Result OpenSharedExtSaveData(nn::fs::CTR::MPCore::detail::IArchive** archive, const nn::fs::ExtSaveDataSpecifier& specifier); // 0x00129584 | nintendogs:bytes [tier B]
+// waits for the emulated latency of a read or a write (a debug setting of the system)
+void LatencyEmulation(bool isRead); // 0x00142FB0 | nintendogs:bytes [tier A]
 void OpenDataContent(nn::fs::CTR::MPCore::detail::IArchive**, const nn::fs::CTR::DataContentArchivePath&, unsigned int, unsigned int, void*, unsigned int, bool); // 0x00347CD8 | fefates:bytes [tier B]
-void OpenExtSaveData(nn::fs::CTR::MPCore::detail::IArchive**, const nn::fs::ExtSaveDataSpecifier&, bool); // 0x00347E94 | nintendogs:bytes [tier A]
-void OpenSpecialArchiveRaw(nn::fs::CTR::MPCore::detail::IArchive**, unsigned); // 0x00348B4C | nintendogs:callseq [tier A]
+nn::Result OpenExtSaveData(nn::fs::CTR::MPCore::detail::IArchive** archive, const nn::fs::ExtSaveDataSpecifier& specifier, bool isBoss); // 0x00347E94 | nintendogs:bytes [tier A]
+nn::Result OpenSpecialArchiveRaw(nn::fs::CTR::MPCore::detail::IArchive** archive, u32 archiveId); // 0x00348B4C | nintendogs:callseq [tier A]
 } // namespace detail
 } // namespace MPCore
 } // namespace CTR

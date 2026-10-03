@@ -11,6 +11,15 @@ public:
 
     s64 GetNanoSeconds() const { return mNanoSeconds; }
 
+    // inline (names are ours)
+    static TimeSpan FromNanoSeconds(s64 nanoSeconds)
+    {
+        TimeSpan span;
+        span.mNanoSeconds = nanoSeconds;
+        return span;
+    }
+    static TimeSpan FromMilliSeconds(s64 milliSeconds) { return FromNanoSeconds(milliSeconds * 1000000); }
+
 private:
     s64 mNanoSeconds;
 };

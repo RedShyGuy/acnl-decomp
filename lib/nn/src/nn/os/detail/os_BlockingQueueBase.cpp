@@ -1,8 +1,8 @@
 #include "nn/os/detail/os_BlockingQueueBase.h"
 #include "nn/os/os_Atomic.h"
 
-// The functions are the instantiation for CriticalSection (explicit, at the end of the file).
-// check.py finds them by the names in symbols.json.
+// The functions are the instantiation for CriticalSection (explicit, at the end of the file);
+// check.py puts the argument of that instantiation in for LockT.
 
 namespace nn {
 namespace os {
@@ -131,7 +131,7 @@ uptr BlockingQueueBase<LockT>::Dequeue()
     return value;
 }
 
-template class BlockingQueueBase<CriticalSection>;
+template class BlockingQueueBase<nn::os::CriticalSection>;
 ASSERT_SIZE(BlockingQueueBase<CriticalSection>, 0x34);
 
 } // namespace detail

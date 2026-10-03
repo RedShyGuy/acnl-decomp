@@ -14,7 +14,7 @@ void GetUserName(nn::cfg::CTR::UserName* userName); // 0x00350B70
 u64 GetLocalFriendCodeSeed(); // 0x00350CDC
 void GetLanguage(); // 0x0011E0A4 | fefates:bytes-fuzzy [tier B]
 bool IsDebugMode(); // 0x0011E1CC | nintendogs:bytes [tier A]
-void GetFsLatencyEmulationParam(); // 0x0011E244 | fefates:bytes [tier B]
+u8 GetFsLatencyEmulationParam(); // 0x0011E244 | fefates:bytes [tier B]
 void GetCountry(); // 0x00350AE8 | nintendogs:bytes [tier A]
 void IsAgreedEula(); // 0x00350BAC | nintendogs:bytes [tier A]
 void GetRegionCodeA3(nn::cfg::CTR::CfgRegionCode); // 0x00350C2C | fefates:bytes [tier B]

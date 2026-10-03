@@ -11,83 +11,69 @@ nn::fs::CTR::MPCore::detail::RomFsArchive::RomFsArchive()
 {
 }
 
-// 0x003472E8 slot 0x00 | nintendogs:callseq
-void nn::fs::CTR::MPCore::detail::RomFsArchive::OpenFile(nn::fs::CTR::MPCore::detail::IFile**, const nn::fslow::LowPath<const char*, const wchar_t*>&, unsigned)
+// 0x003472E8 slot 0x00
+nn::Result nn::fs::CTR::MPCore::detail::RomFsArchive::OpenFile(nn::fs::CTR::MPCore::detail::IFile** file, const ArchivePath& path, u32 mode)
 {
 }
 
-// 0x00346DC0 slot 0x04 | nintendogs:callseq
-void nn::fs::CTR::MPCore::detail::RomFsArchive::OpenDirectory(nn::fs::CTR::MPCore::detail::IDirectory**, const nn::fslow::LowPath<const char*, const wchar_t*>&)
+// 0x00346DC0 slot 0x04
+nn::Result nn::fs::CTR::MPCore::detail::RomFsArchive::OpenDirectory(nn::fs::CTR::MPCore::detail::IDirectory** directory, const ArchivePath& path)
 {
 }
 
-// 0x00346CF4 slot 0x08 | virtual slot, introduced by nn::fs::CTR::MPCore::detail::RomFsArchive
-void nn::fs::CTR::MPCore::detail::RomFsArchive::vf_0x08()
+// 0x00346CF4 slot 0x08
+nn::Result nn::fs::CTR::MPCore::detail::RomFsArchive::DeleteFile(const ArchivePath& path)
 {
 }
 
-// 0x00346D00 slot 0x0C | slot vf_0x0C of nn::fs::CTR::MPCore::detail::RomFsArchive
-void nn::fs::CTR::MPCore::detail::RomFsArchive::RenameFile(const nn::fslow::LowPath<const char*,const wchar_t*>&, const nn::fslow::LowPath<const char*,const wchar_t*>&)
+// 0x00346D00 slot 0x0C
+nn::Result nn::fs::CTR::MPCore::detail::RomFsArchive::RenameFile(const ArchivePath& path, const ArchivePath& newPath)
 {
 }
 
-// 0x00346EA4 slot 0x10 | slot vf_0x10 of nn::fs::CTR::MPCore::detail::RomFsArchive
-void nn::fs::CTR::MPCore::detail::RomFsArchive::DeleteDirectory(const nn::fslow::LowPath<const char*, const wchar_t*>&)
+// 0x00346EA4 slot 0x10
+nn::Result nn::fs::CTR::MPCore::detail::RomFsArchive::DeleteDirectory(const ArchivePath& path)
 {
 }
 
-// 0x00347058 slot 0x14 | virtual slot, introduced by nn::fs::CTR::MPCore::detail::RomFsArchive
-void nn::fs::CTR::MPCore::detail::RomFsArchive::vf_0x14()
+// 0x00347058 slot 0x14
+nn::Result nn::fs::CTR::MPCore::detail::RomFsArchive::DeleteDirectoryRecursively(const ArchivePath& path)
 {
 }
 
-// 0x00346CE8 slot 0x18 | virtual slot, introduced by nn::fs::CTR::MPCore::detail::RomFsArchive
-void nn::fs::CTR::MPCore::detail::RomFsArchive::vf_0x18()
+// 0x00346CE8 slot 0x18
+nn::Result nn::fs::CTR::MPCore::detail::RomFsArchive::CreateFile(const ArchivePath& path, s64 size)
 {
 }
 
-// 0x00346E98 slot 0x1C | slot vf_0x1C of nn::fs::CTR::MPCore::detail::RomFsArchive
-void nn::fs::CTR::MPCore::detail::RomFsArchive::CreateDirectory(const nn::fslow::LowPath<const char*, const wchar_t*>&)
+// 0x00346E98 slot 0x1C
+nn::Result nn::fs::CTR::MPCore::detail::RomFsArchive::CreateDirectory(const ArchivePath& path)
 {
 }
 
-// 0x00346F18 slot 0x20 | virtual slot, introduced by nn::fs::CTR::MPCore::detail::RomFsArchive
-void nn::fs::CTR::MPCore::detail::RomFsArchive::vf_0x20()
+// 0x00346F18 slot 0x20
+nn::Result nn::fs::CTR::MPCore::detail::RomFsArchive::RenameDirectory(const ArchivePath& path, const ArchivePath& newPath)
 {
 }
 
-// 0x00346F34 slot 0x24 | virtual slot, introduced by nn::fs::CTR::MPCore::detail::RomFsArchive
-void nn::fs::CTR::MPCore::detail::RomFsArchive::vf_0x24()
+// 0x00346F34 slot 0x24
+nn::Result nn::fs::CTR::MPCore::detail::RomFsArchive::SetPriority(s32 priority)
 {
 }
 
-// 0x00346F24 slot 0x28 | virtual slot, introduced by nn::fs::CTR::MPCore::detail::RomFsArchive
-void nn::fs::CTR::MPCore::detail::RomFsArchive::vf_0x28()
+// 0x00346F24 slot 0x28
+nn::Result nn::fs::CTR::MPCore::detail::RomFsArchive::GetPriority(s32* priority)
 {
 }
 
-// 0x00348C24 slot 0x2C | virtual slot, introduced by nn::fs::CTR::MPCore::detail::RomFsArchive
-void nn::fs::CTR::MPCore::detail::RomFsArchive::vf_0x2C()
+// 0x00348C24 slot 0x2C
+nn::Result nn::fs::CTR::MPCore::detail::RomFsArchive::GetFreeBytes(s64* freeBytes)
 {
 }
 
-// 0x0011C12F slot 0x30 | slot vf_0x00 of ChangeRentalBase
-void nn::fs::CTR::MPCore::detail::RomFsArchive::DeleteObject()
-{
-}
-
-// 0x003479BC slot 0x34 | slot vf_0x34 of nn::fs::CTR::MPCore::detail::RomFsArchive
+// 0x003479BC slot 0x34
+// 0x00347934 slot 0x38 (deleting dtor)
 nn::fs::CTR::MPCore::detail::RomFsArchive::~RomFsArchive()
-{
-}
-
-// 0x00347934 slot 0x38 | virtual slot, introduced by nn::fs::CTR::MPCore::detail::RomFsArchive
-void nn::fs::CTR::MPCore::detail::RomFsArchive::vf_0x38()
-{
-}
-
-// 0x0011C12F slot 0x3C | slot vf_0x00 of ChangeRentalBase
-void nn::fs::CTR::MPCore::detail::RomFsArchive::OpenDirect(nn::fs::CTR::MPCore::detail::IFile**, nn::Handle)
 {
 }
 
@@ -96,8 +82,8 @@ void nn::fs::CTR::MPCore::detail::RomFsArchive::vf_0x40()
 {
 }
 
-// 0x00346E88 slot 0x44 | slot vf_0x44 of nn::fs::CTR::MPCore::detail::RomFsArchive
-void nn::fs::CTR::MPCore::detail::RomFsArchive::OpenLinkHandle(nn::Handle*)
+// 0x00346E88 slot 0x44
+nn::Result nn::fs::CTR::MPCore::detail::RomFsArchive::OpenLinkHandle(nn::Handle* handle)
 {
 }
 

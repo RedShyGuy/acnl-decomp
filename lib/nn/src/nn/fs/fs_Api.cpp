@@ -2,11 +2,6 @@
 
 namespace nn {
 namespace fs {
-// 0x0011D228 | fefates:bytes [tier B]
-void InitializeLatencyEmulation()
-{
-}
-
 // 0x001290D8 | fefates:bytes [tier B]
 void GetRomRequiredMemorySizeImpl(unsigned int, unsigned int, bool, const nn::fs::CTR::ProgramDataPath&)
 {
@@ -29,11 +24,6 @@ void MountRom(unsigned int, unsigned int, void*, unsigned int, bool)
 
 // 0x0013614C | nintendogs:bytes [tier A]
 void GetPriority(int*)
-{
-}
-
-// 0x00136254 | nintendogs:callgraph [tier A]
-void Unmount(const char*)
 {
 }
 

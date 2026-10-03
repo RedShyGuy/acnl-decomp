@@ -10,19 +10,18 @@ class nn::fs::CTR::MPCore::detail::RomFsArchive::File : public ::nn::fs::CTR::MP
 {
 public:
     File(); // ctor address unknown
-    virtual void TryRead(int*, long long, void*, unsigned int); // 0x00347230 slot 0x00 | fefates:bytes
-    virtual void TryWrite(int*, long long, const void*, unsigned int, bool); // 0x003472D4 slot 0x04 | slot vf_0x04 of nn::fs::CTR::MPCore::detail::RomFsArchive::File
-    virtual void vf_0x08(); // 0x00348C18 slot 0x08 | virtual slot, introduced by nn::fs::CTR::MPCore::detail::RomFsArchive::File
-    virtual void TryGetSize(long long*) const; // 0x00726930 slot 0x0C | fefates:bytes
-    virtual void TrySetSize(long long); // 0x00347064 slot 0x10 | slot vf_0x10 of nn::fs::CTR::MPCore::detail::RomFsArchive::File
-    virtual void vf_0x14(); // 0x003472C8 slot 0x14 | virtual slot, introduced by nn::fs::CTR::MPCore::detail::RomFsArchive::File
-    virtual void TrySetPriority(int); // 0x00347080 slot 0x18 | fefates:bytes
-    virtual void vf_0x1C(); // 0x00726958 slot 0x1C | virtual slot, introduced by nn::fs::CTR::MPCore::detail::RomFsArchive::File
-    virtual void vf_0x20(); // 0x003471A8 slot 0x20 | virtual slot, introduced by nn::fs::CTR::MPCore::detail::RomFsArchive::File
-    virtual void OpenLinkHandle(nn::Handle*); // 0x00347070 slot 0x24 | slot vf_0x24 of nn::fs::CTR::MPCore::detail::RomFsArchive::File
-    virtual void GetFileHandle(); // 0x00348C0C slot 0x28 | slot vf_0x28 of nn::fs::CTR::MPCore::detail::RomFsArchive::File
-    virtual void vf_0x2C(); // 0x00348C14 slot 0x2C | virtual slot, introduced by nn::fs::CTR::MPCore::detail::RomFsArchive::File
-    virtual void Close(); // 0x003471E0 slot 0x30 | fefates:bytes
-    virtual ~File(); // 0x003472E4 slot 0x34 | slot vf_0x34 of nn::fs::CTR::MPCore::detail::RomFsArchive::File
-    virtual void vf_0x38(); // 0x003472E0 slot 0x38 | virtual slot, introduced by nn::fs::CTR::MPCore::detail::RomFsArchive::File
+    virtual nn::Result TryRead(s32* readSize, s64 offset, void* buffer, size_t size); // 0x00347230 slot 0x00
+    virtual nn::Result TryWrite(s32* writtenSize, s64 offset, const void* buffer, size_t size, bool flush); // 0x003472D4 slot 0x04
+    virtual nn::Result TryGetAvailable(s64* available, s64 offset, s64 size); // 0x00348C18 slot 0x08
+    virtual nn::Result TryGetSize(s64* size) const; // 0x00726930 slot 0x0C
+    virtual nn::Result TrySetSize(s64 size); // 0x00347064 slot 0x10
+    virtual nn::Result TryFlush(); // 0x003472C8 slot 0x14
+    virtual nn::Result TrySetPriority(s32 priority); // 0x00347080 slot 0x18
+    virtual nn::Result TryGetPriority(s32* priority) const; // 0x00726958 slot 0x1C
+    virtual nn::Result OpenSubFile(nn::Handle* file, s64 offset, s64 size); // 0x003471A8 slot 0x20
+    virtual nn::Result OpenLinkHandle(nn::Handle* handle); // 0x00347070 slot 0x24
+    virtual nn::Handle GetFileHandle(); // 0x00348C0C slot 0x28
+    virtual void DetachFileHandle(); // 0x00348C14 slot 0x2C
+    virtual void Close(); // 0x003471E0 slot 0x30
+    virtual ~File(); // 0x003472E4 slot 0x34, 0x003472E0 slot 0x38 (deleting)
 };

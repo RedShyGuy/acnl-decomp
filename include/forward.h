@@ -2249,14 +2249,15 @@ namespace nn { namespace fs {
     class IOutputStream;
     class IPositionable;
     class IStream;
-    struct ArchiveResource { u32 _unknown; }; // placeholder, real type unknown
-    struct Attributes { u32 _unknown; }; // placeholder, real type unknown
-    struct DirectoryEntry { u32 _unknown; }; // placeholder, real type unknown
-    struct MediaType { u32 _unknown; }; // placeholder, real type unknown
-    struct PositionBase { u32 _unknown; }; // placeholder, real type unknown
-    struct SystemMediaType { u32 _unknown; }; // placeholder, real type unknown
-    struct Transaction { u32 _unknown; }; // placeholder, real type unknown
-    struct WriteOption { u32 _unknown; }; // placeholder, real type unknown
+    // defined in nn/fs/fs_Types.h
+    struct ArchiveResource;
+    struct Attributes;
+    struct DirectoryEntry;
+    enum MediaType : u8;
+    enum PositionBase : u8;
+    enum SystemMediaType : u8;
+    enum Transaction : u8;
+    struct WriteOption;
 }}
 
 namespace nn { namespace fs { namespace CTR { 
@@ -2289,7 +2290,7 @@ namespace nn { namespace fs { namespace ipc {
 }}}
 
 namespace nn { namespace fslow { 
-    template <typename T0, typename T1> struct LowPath { u32 _unknown; }; // placeholder
+    template <typename T0, typename T1> struct LowPath; // nn/fslow/fslow_LowPath.h
 }}
 
 namespace nn { namespace gr { namespace CTR { 

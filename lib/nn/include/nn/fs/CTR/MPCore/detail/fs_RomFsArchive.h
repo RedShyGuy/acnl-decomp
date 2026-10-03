@@ -17,24 +17,23 @@ public:
     class File;
     class RomFsStorage;
     RomFsArchive(); // ctor address unknown
-    virtual void OpenFile(nn::fs::CTR::MPCore::detail::IFile**, const nn::fslow::LowPath<const char*, const wchar_t*>&, unsigned); // 0x003472E8 slot 0x00 | nintendogs:callseq
-    virtual void OpenDirectory(nn::fs::CTR::MPCore::detail::IDirectory**, const nn::fslow::LowPath<const char*, const wchar_t*>&); // 0x00346DC0 slot 0x04 | nintendogs:callseq
-    virtual void vf_0x08(); // 0x00346CF4 slot 0x08 | virtual slot, introduced by nn::fs::CTR::MPCore::detail::RomFsArchive
-    virtual void RenameFile(const nn::fslow::LowPath<const char*,const wchar_t*>&, const nn::fslow::LowPath<const char*,const wchar_t*>&); // 0x00346D00 slot 0x0C | slot vf_0x0C of nn::fs::CTR::MPCore::detail::RomFsArchive
-    virtual void DeleteDirectory(const nn::fslow::LowPath<const char*, const wchar_t*>&); // 0x00346EA4 slot 0x10 | slot vf_0x10 of nn::fs::CTR::MPCore::detail::RomFsArchive
-    virtual void vf_0x14(); // 0x00347058 slot 0x14 | virtual slot, introduced by nn::fs::CTR::MPCore::detail::RomFsArchive
-    virtual void vf_0x18(); // 0x00346CE8 slot 0x18 | virtual slot, introduced by nn::fs::CTR::MPCore::detail::RomFsArchive
-    virtual void CreateDirectory(const nn::fslow::LowPath<const char*, const wchar_t*>&); // 0x00346E98 slot 0x1C | slot vf_0x1C of nn::fs::CTR::MPCore::detail::RomFsArchive
-    virtual void vf_0x20(); // 0x00346F18 slot 0x20 | virtual slot, introduced by nn::fs::CTR::MPCore::detail::RomFsArchive
-    virtual void vf_0x24(); // 0x00346F34 slot 0x24 | virtual slot, introduced by nn::fs::CTR::MPCore::detail::RomFsArchive
-    virtual void vf_0x28(); // 0x00346F24 slot 0x28 | virtual slot, introduced by nn::fs::CTR::MPCore::detail::RomFsArchive
-    virtual void vf_0x2C(); // 0x00348C24 slot 0x2C | virtual slot, introduced by nn::fs::CTR::MPCore::detail::RomFsArchive
-    virtual void DeleteObject(); // 0x0011C12F slot 0x30 | slot vf_0x00 of ChangeRentalBase
-    virtual ~RomFsArchive(); // 0x003479BC slot 0x34 | slot vf_0x34 of nn::fs::CTR::MPCore::detail::RomFsArchive
-    virtual void vf_0x38(); // 0x00347934 slot 0x38 | virtual slot, introduced by nn::fs::CTR::MPCore::detail::RomFsArchive
-    virtual void OpenDirect(nn::fs::CTR::MPCore::detail::IFile**, nn::Handle); // 0x0011C12F slot 0x3C | slot vf_0x00 of ChangeRentalBase
+    virtual nn::Result OpenFile(nn::fs::CTR::MPCore::detail::IFile** file, const ArchivePath& path, u32 mode); // 0x003472E8 slot 0x00
+    virtual nn::Result OpenDirectory(nn::fs::CTR::MPCore::detail::IDirectory** directory, const ArchivePath& path); // 0x00346DC0 slot 0x04
+    virtual nn::Result DeleteFile(const ArchivePath& path); // 0x00346CF4 slot 0x08
+    virtual nn::Result RenameFile(const ArchivePath& path, const ArchivePath& newPath); // 0x00346D00 slot 0x0C
+    virtual nn::Result DeleteDirectory(const ArchivePath& path); // 0x00346EA4 slot 0x10
+    virtual nn::Result DeleteDirectoryRecursively(const ArchivePath& path); // 0x00347058 slot 0x14
+    virtual nn::Result CreateFile(const ArchivePath& path, s64 size); // 0x00346CE8 slot 0x18
+    virtual nn::Result CreateDirectory(const ArchivePath& path); // 0x00346E98 slot 0x1C
+    virtual nn::Result RenameDirectory(const ArchivePath& path, const ArchivePath& newPath); // 0x00346F18 slot 0x20
+    virtual nn::Result SetPriority(s32 priority); // 0x00346F34 slot 0x24
+    virtual nn::Result GetPriority(s32* priority); // 0x00346F24 slot 0x28
+    virtual nn::Result GetFreeBytes(s64* freeBytes); // 0x00348C24 slot 0x2C
+    virtual void DeleteObject() = 0;
+    virtual ~RomFsArchive(); // 0x003479BC slot 0x34, 0x00347934 slot 0x38 (deleting)
+    virtual nn::Result OpenDirect(nn::fs::CTR::MPCore::detail::IFile** file, nn::Handle handle) = 0;
     virtual void vf_0x40(); // 0x00346EB0 slot 0x40 | virtual slot, introduced by nn::fs::CTR::MPCore::detail::RomFsArchive
-    virtual void OpenLinkHandle(nn::Handle*); // 0x00346E88 slot 0x44 | slot vf_0x44 of nn::fs::CTR::MPCore::detail::RomFsArchive
+    virtual nn::Result OpenLinkHandle(nn::Handle* handle); // 0x00346E88 slot 0x44
     void Initialize(nn::fs::CTR::MPCore::detail::IFile*, unsigned, unsigned, void*, unsigned, bool); // 0x0012FE88 | nintendogs:callseq [tier A]
 };
 } // namespace detail
