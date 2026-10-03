@@ -12,6 +12,9 @@ namespace ipc {
 
 class Session : public nn::os::HandleObject
 {
+public:
+    // takes over a session handle (inline, in nn::srv::GetServiceHandle; name is ours)
+    void Attach(nn::Handle handle) { mHandle = handle; }
 };
 ASSERT_SIZE(Session, 0x4);
 

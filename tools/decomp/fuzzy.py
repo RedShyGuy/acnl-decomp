@@ -793,6 +793,13 @@ def _result_checks(a, b):
             if f[0] not in ('k', 'cmp') or not isinstance(f[1], int):
                 continue
             v = f[1]
+            if f[0] == 'cmp' and v and not v & ~0x07E00000:
+                # the summary (bits 21-26) compared in place
+                want = ('cmp', v >> 21)
+                if (y - x)[want] > 0:
+                    x[f] -= 1
+                    x[want] += 1
+                continue
             if v & 0x7FFC0000:
                 continue
             module, desc = (v >> 10) & 0xFF, v & 0x3FF

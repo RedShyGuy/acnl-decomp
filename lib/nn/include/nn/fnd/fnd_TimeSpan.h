@@ -18,6 +18,7 @@ public:
         span.mNanoSeconds = nanoSeconds;
         return span;
     }
+    static TimeSpan FromMicroSeconds(s64 microSeconds) { return FromNanoSeconds(microSeconds * 1000); }
     static TimeSpan FromMilliSeconds(s64 milliSeconds) { return FromNanoSeconds(milliSeconds * 1000000); }
 
 private:
