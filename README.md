@@ -27,8 +27,9 @@ Beginning with nn:
 | nn::ulcd | ✅ 100% decompiled |
 | nn::uds | ✅ 100% decompiled |
 | nn::svc | ✅ 100% decompiled |
-| nn::fslow | 🟨 WIP |
-| nn::fs | 🟨 WIP |
+| nn::fslow | ✅ 100% decompiled |
+| nn::fs | ✅ 100% decompiled |
+| nn::dbm | ✅ 100% decompiled |
 | nn::ubl | ❌ |
 | nn::ssl | ❌ |
 | nn::srv | ❌ |
@@ -60,7 +61,6 @@ Beginning with nn:
 | nn::err | ❌ |
 | nn::enc | ❌ |
 | nn::dsp | ❌ |
-| nn::dbm | ❌ |
 | nn::crypto | ❌ |
 | nn::cfg | ❌ |
 | nn::cec | ❌ |
