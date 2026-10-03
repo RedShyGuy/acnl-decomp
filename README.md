@@ -25,7 +25,7 @@ You need your own dump of the game. Nothing from the game is in this repository.
 
 1. Dump the game with GodMode9 and extract the decrypted ExeFS / RomFS (for example with GodMode9 itself or ctrtool).
 2. Turn `.code` into an ELF:
-   - use any code.bin-to-ELF tool (text at 0x00100000, rodata at 0x0083A000, data at 0x00946000);
+   - use any code.bin-to-ELF tool (like [CTR-elf2](https://github.com/NWPlayer123/ctr-elf2)) (text at 0x00100000, rodata at 0x0083A000, data at 0x00946000);
    - if the tool kept `.code` BLZ-compressed, run [tools/analysis/blz_fix_elf.py](tools/analysis/blz_fix_elf.py) `<in.elf> <out.elf>` to decompress it;
    - save the result as `orig/USA_1_5/code.elf`.
 3. Copy `romfs:/cro/*.cro` (plus `static.crs` / `static.crr`) to `orig/USA_1_5/cro/`.
@@ -94,14 +94,6 @@ docs/               naming.md, cro.md, save_format.md
 5. `python tools/decomp/score_diff.py` runs `check` and lists the scores that changed since its last run.
 
 The class headers and stubs were generated once from symbols.json. They are normal source files now: new classes and functions are written by hand.
-
-## Regenerating
-
-```sh
-python tools/decomp/export_ghidra.py           # ghidra/symbols, ghidra/types
-```
-
-`config/USA_1_5/symbols.json` is the result of the one-time binary analysis ([tools/analysis/analyze.py](tools/analysis/analyze.py) with the inputs in `config/USA_1_5/inputs`). It is maintained by hand now: running the analysis again would drop the names that came from the vtable alignment with the reference games, which is no longer part of the project.
 
 ## Naming
 
