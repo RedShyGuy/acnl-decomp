@@ -56,6 +56,9 @@ const size_t MAX_PATH_SIZE = 512;   // bytes of an ArchivePath
 
 class IArchive;
 
+// the FS:USER session (out of line at 0x00348B3C; name is ours)
+nn::Handle GetSession();
+
 // the globals of fs_UserFileSystem.cpp at 0x00975F20 (names are ours)
 extern bool s_IsLatencyEmulationEnabled;    // 0x00975F20
 extern bool s_IsLatencyRandomized;          // 0x00975F21, debug mode: a random extra latency
@@ -68,6 +71,8 @@ typedef nn::fnd::UnitHeapTemplate<nn::os::LockPolicy::Object<nn::os::CriticalSec
 extern ObjectHeap s_ArchiveHeap;    // 0x00AE1C04, 16 archives of up to 16 bytes
 extern ObjectHeap s_FileHeap;       // 0x00AE1C40, 32 files of up to 8 bytes
 extern ObjectHeap s_DirectoryHeap;  // 0x00AE1C7C, 16 directories of up to 8 bytes
+extern ObjectHeap* s_pContentRomFsArchiveHeap;      // 0x00975F24, set by ContentRomFsArchive::AllocateBuffer
+extern nn::os::CriticalSection s_RomFsArchiveLock;  // 0x00AE1CB8, guards ContentRomFsArchive::AllocateBuffer
 } // namespace detail
 } // namespace MPCore
 } // namespace CTR

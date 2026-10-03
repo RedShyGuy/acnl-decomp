@@ -31,3 +31,7 @@
 0x34C4AC	nn::os::detail::StartAlarmThreadPool	manual:ours	0x0	creates the thread pool of the alarms once: 2 x 4096 byte stacks, a 0x1E0 byte memory block for the pool, then ThreadPool::Setup
 0x34B84C	nn::os::ThreadPool::Setup	manual:ours	0x0	(work buffer, wait tasks, threads, stacks, priority, priority); called from the inlined ThreadPool constructor in StartAlarmThreadPool
 0x301B3C	__aeabi_vec_ctor_nocookie_nodtor	manual:abi	0x0	Thumb; (array, ctor, element size, count): calls ctor on each element, returns array (ARM C++ ABI helper, recognized by its code)
+0x100CF8	mbsinit	manual:abi	0x0	Thumb; C library mbsinit, recognized by its code
+0x100D0A	mbrlen	manual:abi	0x0	Thumb; C library mbrlen = mbrtowc(0, s, n, ps), recognized by its code
+0x2F7994	mbrtowc	manual:abi	0x0	Thumb; C library mbrtowc for 16 bit wchar_t, recognized by its code
+0x101864	wcsncmp	manual:abi	0x0	Thumb; C library wcsncmp for 16 bit wchar_t, recognized by its code

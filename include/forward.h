@@ -2261,8 +2261,9 @@ namespace nn { namespace fs {
 }}
 
 namespace nn { namespace fs { namespace CTR { 
-    struct DataContentArchivePath { u32 _unknown; }; // placeholder, real type unknown
-    struct ProgramDataPath { u32 _unknown; }; // placeholder, real type unknown
+    // defined in nn/fs/CTR/fs_ArchivePaths.h
+    struct DataContentArchivePath;
+    struct ProgramDataPath;
 }}}
 
 namespace nn { namespace fs { namespace CTR { namespace MPCore { namespace detail { 

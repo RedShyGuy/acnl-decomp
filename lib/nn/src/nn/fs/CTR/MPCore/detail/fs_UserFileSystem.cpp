@@ -33,6 +33,7 @@ const u32 PATH_TYPE_UTF16 = 4;
 const u32 ARCHIVE_ID_EXT_SAVE_DATA = 0x00000006;
 const u32 ARCHIVE_ID_SHARED_EXT_SAVE_DATA = 0x00000007;
 const u32 ARCHIVE_ID_BOSS_EXT_SAVE_DATA = 0x12345678;
+const u32 ARCHIVE_ID_ACCESSIBLE_SAVE_DATA = 0x567890B4;   // save data the exheader allows access to
 
 // the SDK version this library reports to the FS service
 const u32 SDK_VERSION = 0x0B0500C8;
@@ -119,12 +120,17 @@ DECOMP_ALWAYS_INLINE nn::Result OpenFileServerArchive(IArchive** archive, u32 ar
 bool s_IsLatencyEmulationEnabled;
 // 0x00975F21
 bool s_IsLatencyRandomized;
+// 0x00975F24
+ObjectHeap* s_pContentRomFsArchiveHeap;
 // 0x00975F28
 IArchive* s_pSaveDataArchive;
 // 0x00975F30
 nn::Handle s_Session;
 // 0x00975F38
 s64 s_LatencyMilliSeconds;
+
+// 0x00AE1CB8
+nn::os::CriticalSection s_RomFsArchiveLock((nn::os::CriticalSection::InitializeTag()));
 
 // 0x00AE1C04
 ObjectHeap s_ArchiveHeap(16, reinterpret_cast<uptr>(s_ArchiveHeapBuffer), sizeof(s_ArchiveHeapBuffer));
@@ -229,6 +235,12 @@ nn::Result OpenSpecialArchiveRaw(IArchive** archive, u32 archiveId)
     path.data = &empty;
     path.size = sizeof(empty);
     return OpenFileServerArchive(archive, archiveId, path);
+}
+
+// 0x00348B3C (name is ours)
+nn::Handle GetSession()
+{
+    return s_Session;
 }
 
 // 0x0013616C | nintendogs:bytes [tier A]
@@ -419,6 +431,35 @@ void InitializeLatencyEmulation()
     if (s_IsLatencyRandomized || s_LatencyMilliSeconds != 0) {
         s_IsLatencyEmulationEnabled = true;
     }
+}
+
+// 0x003467C0 (name is ours)
+nn::Result MountAccessibleSaveData(const char* name, nn::fs::MediaType mediaType, u32 saveId, u8 unknown)
+{
+    using namespace CTR::MPCore::detail;
+    // the path of archive 0x567890B4 (3dbrew): media type, save id, a byte
+    struct {
+        u32 mediaType;
+        u32 saveId;
+        u8 unknown;
+    } binary;
+    binary.mediaType = mediaType;
+    binary.saveId = saveId;
+    binary.unknown = unknown;
+    ArchivePath path;
+    path.type = PATH_TYPE_BINARY;
+    path.data = reinterpret_cast<const u8*>(&binary);
+    path.size = sizeof(binary);
+    IArchive* archive;
+    nn::Result result = OpenFileServerArchive(&archive, ARCHIVE_ID_ACCESSIBLE_SAVE_DATA, path);
+    if (result.IsFailure()) {
+        return result;
+    }
+    result = RegisterArchive(name, archive, false, false);
+    if (result.IsFailure()) {
+        archive->DeleteObject();
+    }
+    return result;
 }
 
 // 0x00136254 | nintendogs:callgraph [tier A]

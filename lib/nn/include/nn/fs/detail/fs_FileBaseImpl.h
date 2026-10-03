@@ -10,7 +10,7 @@ namespace detail {
 class FileBaseImpl : public ::nn::util::ADLFireWall::NonCopyable<nn::fs::detail::FileBaseImpl>
 {
 public:
-    FileBaseImpl(); // ctor address unknown
+    FileBaseImpl() {}
 };
 } // namespace detail
 } // namespace fs

@@ -12,9 +12,7 @@ namespace fs {
 class IStream : public ::nn::fs::IInputStream, public ::nn::fs::IOutputStream
 {
 public:
-    IStream(); // ctor address unknown
-    virtual void vf_0x00(); // 0x003498DC slot 0x00 | virtual slot, introduced by nn::fs::IInputStream
-    virtual void vf_0x04(); // 0x003498D8 slot 0x04 | virtual slot, introduced by nn::fs::IInputStream
+    virtual ~IStream(); // 0x003498DC slot 0x00, 0x003498D8 slot 0x04 (deleting)
 };
 } // namespace fs
 } // namespace nn

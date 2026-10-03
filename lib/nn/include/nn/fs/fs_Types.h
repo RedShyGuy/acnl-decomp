@@ -52,7 +52,7 @@ struct DirectoryEntry {
     wchar_t name[0x106];        // 0x000, UTF-16 (wchar_t is 16 bit, -fshort-wchar)
     char shortName[0xA];        // 0x20C, 8.3 name
     char shortExtension[0x4];   // 0x216
-    u8 unknown21A;              // 0x21A, always 1
+    u8 unknown21A;              // 0x21A, 1 from the FS service, 0 from RomFsArchive
     u8 reserved21B;             // 0x21B
     Attributes attributes;      // 0x21C
     s64 size;                   // 0x220
@@ -67,9 +67,20 @@ struct ArchiveResource {
 };
 ASSERT_SIZE(ArchiveResource, 0x10);
 
-// what nn::fs::Seek-like functions count from (values unknown yet; see FileBase::TrySeek)
+// what a seek counts from (FileBase::TrySeek; the names are ours)
 enum PositionBase : u8 {
+    POSITION_BASE_BEGIN = 0,
+    POSITION_BASE_CURRENT = 1,
+    POSITION_BASE_END = 2,
 };
+
+// how a file is opened (bits; the names are ours)
+const u32 OPEN_MODE_READ = 1 << 0;
+const u32 OPEN_MODE_WRITE = 1 << 1;
+
+// ARMCC lays out some s64 members on 4 bytes (detail::FileBase: +0x04, +0x0C); a typedef may
+// lower the alignment with GCC (name is ours)
+typedef s64 s64_align4 __attribute__((aligned(4)));
 
 } // namespace fs
 } // namespace nn

@@ -156,7 +156,7 @@ def _arg_feature(words, pool, i, reg, resolve_word):
 
 
 def extract(words, base, resolve_call, resolve_word, returns_this=lambda key: False, structor=False,
-            next_key=None, resolve_target=lambda value: ('?',), read_const=None):
+            next_key=None, resolve_target=lambda value: ('?',), read_const=None, resolve_address=None):
     """Features of one ARM function.
 
     words           list of 32 bit words of the function (code + literal pool)
@@ -173,6 +173,8 @@ def extract(words, base, resolve_call, resolve_word, returns_this=lambda key: Fa
     read_const      address -> word, for literals that point to read-only data (resolve_word gives
                     ('rconst', address)): a word loaded from there is a constant (ARMCC does not
                     fold const objects of class type, e.g. a const nn::Handle)
+    resolve_address address -> feature tuple or None, for "add rX, pc, #imm" (ARMCC puts short
+                    strings into the code behind the function)
     """
     n = len(words)
     pool = set()
@@ -390,10 +392,11 @@ def extract(words, base, resolve_call, resolve_word, returns_this=lambda key: Fa
                         shape.append('lit')
                         continue
                     # "ldr r1, =0x04xxxxxx ; mov r0, #0 ; nop": a debug log call that armlink
-                    # removed (the sources leave it out), its message id is no constant
-                    nxt = [words[k] for k in range(i + 1, min(n, i + 6)) if k not in pool][:2]
+                    # removed (the sources leave it out), its message id is no constant; the
+                    # compiler may put an instruction in between ("sub sp, sp, #n")
+                    nxt = [words[k] for k in range(i + 1, min(n, i + 8)) if k not in pool][:4]
                     removed_log = rd == 1 and key[0] == 'k' and 0x04000000 <= key[1] < 0x05000000 \
-                        and nxt == [0xE3A00000, NOP]
+                        and any(nxt[k] == 0xE3A00000 and nxt[k + 1] == NOP for k in range(min(2, len(nxt) - 1)))
                     if j not in seen_literals and not removed_log:   # reloading a literal is the compiler's choice
                         consts[key] += 1
                     seen_literals.add(j)
@@ -444,6 +447,21 @@ def extract(words, base, resolve_call, resolve_word, returns_this=lambda key: Fa
                     regs[rn] = (org, base_off + (4 * count if up else -4 * count))
             shape.append('ldm' if load else 'stm')
             continue
+        if (w & 0x0FFF0FF0) == 0x016F0F10 and any(
+                (words[k] & 0x0FFF0FF0) == 0x01A002A0 and (words[k] >> 12) & 0xF == rd and words[k] & 0xF == rd
+                for k in range(i + 1, min(n, i + 4))):
+            # "clz rX, rY ; lsr rX, rX, #5" (other instructions may come between): GCC's (y == 0)
+            # as a value, after "sub rY, rZ, #K" or "eor rY, rZ, #K" it is (z == K); ARMCC
+            # compares and moves 0 / 1
+            prev_w = words[i - 1] if i > 0 and i - 1 not in pool else 0
+            k = 0
+            if (prev_w & 0x0FE00000) in (0x02400000, 0x02200000) and (prev_w >> 12) & 0xF == w & 0xF:
+                k = _ror(prev_w & 0xFF, ((prev_w >> 8) & 0xF) * 2)
+            consts[('cmp', k)] += 1
+            flow['decision'] += 1
+            shape.append('cmp')
+            regs[rd] = (new(), 0)
+            continue
         if op3 in (0b000, 0b001) and not (op3 == 0b000 and (w & 0x90) == 0x90):  # data processing
             opc = (w >> 21) & 0xF
             imm = op3 == 0b001
@@ -455,6 +473,13 @@ def extract(words, base, resolve_call, resolve_word, returns_this=lambda key: Fa
                 if imm:
                     consts[('cmp', val if opc != 11 else (-val) & 0xFFFFFFFF)] += 1
                 continue
+            if resolve_address is not None and imm and rn == PC and opc in (2, 4):   # sub / add rX, pc, #imm
+                key = resolve_address(base + i * 4 + 8 + (val if opc == 4 else -val))
+                if key is not None:
+                    consts[key] += 1
+                    regs[rd] = (new(), 0)
+                    shape.append('lit')
+                    continue
             shape.append('dp')
             if opc == 12 and imm:
                 ors[val] += 1                                             # orr rd, rn, #imm (see _orr_consts)
@@ -669,19 +694,27 @@ def ignore_dtor_vptr(mine, theirs):
     leaves that out when nothing virtual is called. Such a store (+0 with a vtable address) is
     dropped when only one side has it. The same for the store of a base class's vptr when the
     base destructor is inlined (GCC keeps it after the body, ARMCC leaves it out): when both
-    sides store the same vptr and one side has another vtable as well, that one is dropped."""
+    sides store the same vptr and one side has another vtable as well, that one is dropped.
+    With virtual bases GCC stores several vptrs (+0, +4, ...) taken from the VTT (the VTT and
+    construction vtables count as vtables, see check.py): the stores of the first words that
+    only one side has are dropped, at most one per vtable literal."""
     def is_vtable(k):
         return k[0] == 'addr' or k[0] == 'name' and k[1].endswith('::vtable')
 
     for x, y in ((mine, theirs), (theirs, mine)):
         vptrs = [k for k in x['consts'] if is_vtable(k) and not y['consts'][k]]
-        if not vptrs or not x['mem'][('S', 'w', 0)]:
+        if not vptrs:
             continue
-        if not y['mem'][('S', 'w', 0)]:
-            del x['mem'][('S', 'w', 0)]
+        stores = sorted((k for k in x['mem'] if k[0] == 'S' and k[1] == 'w' and isinstance(k[2], int)
+                         and 0 <= k[2] < 0x10 and k[2] % 4 == 0 and not y['mem'][k]), key=lambda k: k[2])
+        if ('S', 'w', 0) in stores:
+            for k in stores[:sum(x['consts'][k] for k in vptrs)]:
+                del x['mem'][k]
             for k in vptrs:
                 del x['consts'][k]
-        elif any(is_vtable(k) and x['consts'][k] for k in y['consts']):
+        elif x['mem'][('S', 'w', 0)] and any(is_vtable(k) and x['consts'][k] for k in y['consts']):
+            for k in stores[:sum(x['consts'][k] for k in vptrs)]:
+                del x['mem'][k]
             for k in vptrs:
                 del x['consts'][k]
 
@@ -740,6 +773,97 @@ def _range_checks(a, b):
     return +a, +b
 
 
+def _result_checks(a, b):
+    """Checks of an nn::Result's module and description (bits 10-17 and 0-9): ARMCC extracts and
+    compares them one by one ('cmp 17', 'cmp 111'), GCC masks the value and compares it with the
+    module and description in place, the failure bit included (literal 0x8000446F or 0x446F), or
+    the module alone (cmp 0x4400). Such a constant counts as the separate compares."""
+    a, b = Counter(a), Counter(b)
+    for x, y in ((a, b), (b, a)):
+        for f in list(x - y):
+            if f[0] not in ('k', 'cmp') or not isinstance(f[1], int):
+                continue
+            v = f[1]
+            if v & 0x7FFC0000:
+                continue
+            module, desc = (v >> 10) & 0xFF, v & 0x3FF
+            if not module:
+                continue
+            want = [('cmp', module)] + ([('cmp', desc)] if desc else [])
+            have = y - x
+            if all(have[w] > 0 for w in want) and (desc or f[0] == 'cmp'):
+                for _ in range(x[f] - y[f]):
+                    if not all((y - x)[w] > 0 for w in want):
+                        break
+                    x[f] -= 1
+                    for w in want:
+                        x[w] += 1
+    return +a, +b
+
+
+def _division_kind(v):
+    """the divisor d (3 to 255) whose constant division v belongs to, and what it is:
+    'magic' (rounded up 2^(32+s) / d, the multiply-high of x / d), 'inverse' (d * v = 1 modulo
+    2^32, GCC's test of x % d == 0), 'limit' (0xFFFFFFFF / d, the bound of that test), 'neg'
+    (-d, ARMCC's x - (x / d) * d with mla); None for other values"""
+    out = []
+    for d in range(3, 256):
+        if d & (d - 1) == 0:
+            continue                                  # powers of two are shifts
+        if d & 1 and (d * v) & 0xFFFFFFFF == 1:
+            out.append((d, 'inverse'))
+        if v == 0xFFFFFFFF // d:
+            out.append((d, 'limit'))
+        if v == (-d) & 0xFFFFFFFF:
+            out.append((d, 'neg'))
+        for sh in range(0, 9):
+            # rounded up, or rounded down with "umlal" adding the multiplier once more (with a
+            # shift: without, that is the bound 0xFFFFFFFF / d)
+            if (v == -(-(1 << (32 + sh)) // d) or sh and v == (1 << (32 + sh)) // d) and v < (1 << 32):
+                out.append((d, 'magic'))
+                break
+    return out
+
+
+def _division_consts(a, b):
+    """A division or remainder by a constant: ARMCC multiplies with the rounded reciprocal (and
+    -d for the remainder), GCC tests x % d == 0 with the modular inverse and the bound
+    0xFFFFFFFF / d (for some d the inverse and the reciprocal are the same value). The helper
+    constants (-d, the bound) of a divisor that the side divides by are dropped; a reciprocal or
+    inverse left over on one side counts as the same as one of the same divisor on the other."""
+    a, b = Counter(a), Counter(b)
+
+    def mains(x):
+        out = set()
+        for f in x:
+            if f[0] == 'k':
+                out.update(d for d, kind in _division_kind(f[1]) if kind in ('magic', 'inverse'))
+        return out
+
+    ma, mb = mains(a), mains(b)
+    for x, y, mx in ((a, b, ma), (b, a, mb)):
+        for f in list(x - y):
+            if f[0] == 'k' and any(kind in ('limit', 'neg') and d in mx for d, kind in _division_kind(f[1])):
+                x[f] -= x[f] - y[f]
+    # GCC may build the inverse with shifts and adds: then only its bound 0xFFFFFFFF / d is left
+    left_a = {f: [d for d, kind in _division_kind(f[1]) if kind in ('magic', 'inverse', 'limit')]
+              for f in a - b if f[0] == 'k'}
+    left_b = {f: [d for d, kind in _division_kind(f[1]) if kind in ('magic', 'inverse', 'limit')]
+              for f in b - a if f[0] == 'k'}
+    for fa, das in left_a.items():
+        for fb, dbs in list(left_b.items()):
+            common = set(das) & set(dbs)
+            if common:
+                d = min(common)
+                a[fa] -= 1
+                b[fb] -= 1
+                a[('div', d)] += 1
+                b[('div', d)] += 1
+                del left_b[fb]
+                break
+    return +a, +b
+
+
 def _halfword_consts(a, b):
     """A value for a 16 bit store only needs its low half: GCC makes 0x7FFF as mvn #0x8000
     (0xFFFF7FFF) where ARMCC loads 0x7FFF. Such a pair counts as the same constant."""
@@ -778,7 +902,7 @@ def _orr_consts(a, b, ors_a, ors_b):
 def _consts(a, b, ors_a=None, ors_b=None):
     if ors_a is not None and ors_b is not None:
         a, b = _orr_consts(a, b, ors_a, ors_b)
-    a, b = _range_checks(*_cmp_literal(*_data_literals(*_halfword_consts(a, b))))
+    a, b = _range_checks(*_result_checks(*_cmp_literal(*_data_literals(*_division_consts(*_halfword_consts(a, b))))))
     pairs = _near_cmp(a, b)
     # compares with 0 only count when they stand in for another compare
     a.pop(('cmp0',), None)
@@ -904,7 +1028,9 @@ def compare(mine, theirs):
     if total:
         score = sum(WEIGHTS[k] * v for k, v in scored.items()) / total
     else:
-        score = cats['shape'] if cats['shape'] is not None else 1.0
+        # nothing but the instruction shape (an empty function: "bx lr" against the ARMCC
+        # padding or a nop): no calls, accesses, constants or branches on either side
+        score = 1.0
     return score, cats
 
 
@@ -943,7 +1069,7 @@ def explain(mine, theirs):
         if cat == 'consts':
             # the same steps as _consts
             a, b = _orr_consts(a, b, mine.get('orr') or Counter(), theirs.get('orr') or Counter())
-            a, b = _range_checks(*_cmp_literal(*_data_literals(*_halfword_consts(a, b))))
+            a, b = _range_checks(*_result_checks(*_cmp_literal(*_data_literals(*_division_consts(*_halfword_consts(a, b))))))
             missing, extra = b - a, a - b
             for fa, fb in _near_cmp(a, b):
                 extra[fa] -= 1

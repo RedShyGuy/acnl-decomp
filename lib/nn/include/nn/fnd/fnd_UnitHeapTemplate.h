@@ -20,6 +20,9 @@ class UnitHeapTemplate : public UnitHeapBase, private LockPolicyT::LockObject
     typedef typename LockObject::ScopedLock ScopedLock;
 
 public:
+    // inline (members of RomFsArchive, initialized later)
+    UnitHeapTemplate() {}
+
     // inline (e.g. in __sti___21_fs_UserFileSystem_cpp)
     UnitHeapTemplate(size_t unitSize, uptr address, size_t size, s32 alignment = 4, bit32 option = 0)
     {

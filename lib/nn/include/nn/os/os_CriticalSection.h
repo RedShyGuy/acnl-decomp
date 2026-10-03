@@ -13,6 +13,14 @@ class CriticalSection
 public:
     CriticalSection() : mOwner(0), mLockCount(-1) {}
 
+    // constructs an initialized critical section (inline, in the static initializers of global
+    // ones, e.g. __sti___21_fs_UserFileSystem_cpp; the tag type is ours)
+    struct InitializeTag {};
+    explicit CriticalSection(InitializeTag) { Initialize(); }
+
+    // empty; the static initializers register it with __aeabi_atexit
+    ~CriticalSection() {} // 0x0034C070
+
     void Initialize(); // 0x00130840 | nintendogs:bytes [tier A]
     void Enter(); // 0x0013647C | libgarden [tier A]
     void Exit(); // 0x00136520 | libgarden [tier A]

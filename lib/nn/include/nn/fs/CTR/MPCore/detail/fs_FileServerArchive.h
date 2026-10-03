@@ -40,6 +40,9 @@ public:
     virtual void DeleteObject(); // 0x00348098 slot 0x30 | nintendogs:bytes
     virtual ~FileServerArchive(); // 0x00348938 slot 0x34 | nintendogs:bytes
 
+    // the archive handle of the FS service (inline; name is ours)
+    u64 GetArchiveHandle() const { return mArchive; }
+
 private:
     // the FS:USER session; a fatal error if there is none (inline, out of line at 0x00726978)
     nn::fs::ipc::FileSystem GetIpcFileSystem() const;

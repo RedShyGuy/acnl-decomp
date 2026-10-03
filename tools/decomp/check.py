@@ -74,6 +74,22 @@ def split_signature(sig):
     m = re.search(r'([\w:~@<>]+|operator\s*\S+)\s*$', head)
     if not m:
         return None
+    if not m.group(1).startswith('operator'):
+        # the name may have template arguments with spaces and commas ("X<a, b>::f"): take
+        # everything back to the first blank outside of <>
+        head = head.rstrip()
+        j, depth = len(head), 0
+        while j > 0:
+            ch = head[j - 1]
+            if ch == '>':
+                depth += 1
+            elif ch == '<':
+                depth -= 1
+            elif depth == 0 and not (ch.isalnum() or ch in '_:~@'):
+                break
+            j -= 1
+        if depth == 0 and j < len(head):
+            m = re.match(r'(.*)', head[j:])
     params, depth, cur = [], 0, ''
     for ch in inner:
         if ch in '<(':
@@ -239,7 +255,7 @@ def source_variables():
     out = {}
     for d in ('src', 'lib', 'modules'):
         for path in glob.glob(os.path.join(ROOT, d, '**', '*.cpp'), recursive=True):
-            ns, pending = [], None
+            ns, pending, guard, decl = [], None, None, ''
             for line in open(path, encoding='utf-8', errors='replace'):
                 st = line.strip()
                 m = re.match(r'namespace\s*(\w*)\s*\{', st)
@@ -249,12 +265,20 @@ def source_variables():
                 if re.match(r'\}\s*//\s*namespace', st) and ns:
                     ns.pop()
                     continue
-                m = re.match(r'//\s*0x([0-9A-Fa-f]{6,8})\s*(?:\(.*\))?\s*$', st)
+                m = re.match(r'//\s*0x([0-9A-Fa-f]{6,8})\s*(\(.*\))?\s*$', st)
                 if m:
-                    pending = int(m.group(1), 16)
+                    pending, decl = int(m.group(1), 16), ''
+                    # a function's static whose guard ARMCC put elsewhere: "(guard 0x...)"
+                    g = re.search(r'guard\s+0x([0-9A-Fa-f]{6,8})', m.group(2) or '')
+                    guard = int(g.group(1), 16) if g else None
                     continue
                 if pending is None or not st or st.startswith('//'):
                     continue
+                # a declaration over several lines (constructor arguments)
+                decl = (decl + ' ' + st).strip()
+                if not decl.endswith(';') and '{' not in decl and decl.count('(') > decl.count(')'):
+                    continue
+                st, decl = decl, ''
                 address, pending = pending, None
                 if '{' in st or st.startswith('extern'):
                     continue
@@ -264,6 +288,8 @@ def source_variables():
                 name = m.group(1)
                 full = name if not ns or name.startswith(ns[0] + '::') else '::'.join(ns + [name])
                 out[norm(full)] = address
+                if guard is not None:
+                    out['guard variable for ' + norm(full)] = guard
     return out
 
 
@@ -411,13 +437,23 @@ def make_fuzzy_pair(mem, db, starts, names, by_source, by_name, variables=None):
         # "(anonymous namespace)" is not a parameter list
         dn = dn.replace('(anonymous namespace)', '@anon')
         # a function's static: "a::f()::s_x" -> "a::s_x" (the comment is inside the function)
+        local = re.search(r'::[^:()]*\([^()]*\)(?: const)?::', dn) is not None
         dn = re.sub(r'::[^:()]*\([^()]*\)(?: const)?::', '::', dn)
         if '(' in dn:
             return None
-        a = variables.get(norm(dn))
-        if a is None:
-            return None
-        return a + addend + (4 if guard else 0)          # ARMCC puts the guard after the static
+        candidates = [dn]
+        if local:
+            # the static of a member function defined inside the namespace: without the classes
+            parts = dn.split('::')
+            for k in range(len(parts) - 2, 0, -1):
+                candidates.append('::'.join(parts[:k] + parts[-1:]))
+        for c in candidates:
+            if guard and variables.get('guard variable for ' + norm(c)) is not None:
+                return variables['guard variable for ' + norm(c)] + addend
+            a = variables.get(norm(c))
+            if a is not None:
+                return a + addend + (4 if guard else 0)  # ARMCC puts the guard after the static
+        return None
 
     def returns_this(key):
         n = addr_name.get(key[1]) if key[0] == 'fn' else key[1] if key[0] == 'name' else None
@@ -442,6 +478,13 @@ def make_fuzzy_pair(mem, db, starts, names, by_source, by_name, variables=None):
                 return ('gaddr', g)
             if typ == 3 and secname.startswith('.rodata._ZTV'):
                 name = secname[len('.rodata.'):]            # section symbol of a local vtable
+            if typ == 3 and secname.startswith(('.rodata._ZTT', '.rodata._ZTC')):
+                name = secname[len('.rodata.'):]
+            if name.startswith(('_ZTT', '_ZTC')):
+                # a VTT or construction vtable (virtual bases): GCC passes it to the base
+                # destructors, ARMCC inlined them; it counts as a vtable of the class
+                cls = names.get(name, name).replace('VTT for ', '').split('construction vtable for ')[-1]
+                return ('name', norm(cls) + '::vtable')
             if name.startswith('_ZTV'):
                 cls = names.get(name, name).replace('vtable for ', '')
                 vt = vptrs.get(cls)
@@ -466,7 +509,36 @@ def make_fuzzy_pair(mem, db, starts, names, by_source, by_name, variables=None):
         inline_expand(f_mine, f_orig)
         if name and '::~' in name:
             fuzzy.ignore_dtor_vptr(f_mine, f_orig)
+        ignore_static_init(f_mine, f_orig)
         return f_mine, f_orig
+
+    def ignore_static_init(f_mine, f_orig):
+        """a function's static object: armlink replaced the calls of __cxa_guard_release and
+        __aeabi_atexit by nops (their arguments stay: the destructor and __dso_handle), GCC calls
+        them (atexit with a __tcf_ helper). Such calls that only GCC has are dropped."""
+        removable = ('__cxa_guard_release', 'atexit', '__aeabi_atexit', '__cxa_atexit')
+        extra = Counter(k for k in f_mine['calls'] if k[0] == 'name' and k[1] in removable) - \
+            Counter(k for k in f_orig['calls'] if k[0] == 'name' and k[1] in removable)
+        if not extra:
+            return
+        atexits = sum(n for k, n in extra.items() if k[1] != '__cxa_guard_release')
+        calls, call_this = [], []
+        for key, this_off in zip(f_mine['calls'], f_mine.get('call_this') or [None] * len(f_mine['calls'])):
+            if extra[key] > 0:
+                extra[key] -= 1
+                continue
+            calls.append(key)
+            call_this.append(this_off)
+        f_mine['calls'], f_mine['call_this'] = calls, call_this
+        if atexits:
+            for k in [k for k in f_mine['consts'] if k[0] == 'name' and k[1].startswith('__tcf_')]:
+                del f_mine['consts'][k]
+            if f_orig['consts'][('k', 0x100000)] and not f_mine['consts'][('k', 0x100000)]:
+                del f_orig['consts'][('k', 0x100000)]          # __dso_handle
+            dtors = [k for k in f_orig['consts'] if k[0] == 'fn' and not f_mine['consts'][k]
+                     and k not in f_orig['calls']]
+            for k in dtors[:atexits]:
+                del f_orig['consts'][k]
 
     def orig_features(addr, osize, structor=False):
         n_orig = osize // 4
@@ -500,7 +572,15 @@ def make_fuzzy_pair(mem, db, starts, names, by_source, by_name, variables=None):
         return fuzzy.extract(orig_words, addr, orig_call, orig_word, returns_this, structor,
                              next_key=orig_fn(addr + n_orig * 4),
                              resolve_target=lambda v: orig_fn(v & ~1),
-                             read_const=lambda a: mem.u32(a) if mem.ro[0] <= a < mem.ro[1] - 3 else 0)
+                             read_const=lambda a: mem.u32(a) if mem.ro[0] <= a < mem.ro[1] - 3 else 0,
+                             resolve_address=orig_text_string)
+
+    def orig_text_string(a):
+        """a string ARMCC put into the code (addressed with add rX, pc, #imm)"""
+        if not mem.in_text(a):
+            return None
+        s = mem.cstr(a)
+        return ('str', s) if s and all(0x20 <= ord(c) < 0x7F for c in s) else None
 
     def expand(f, surplus, label):
         """replace calls in f (as many as surplus says) by the original body of the callee; its
@@ -533,7 +613,8 @@ def make_fuzzy_pair(mem, db, starts, names, by_source, by_name, variables=None):
         f['calls'], f['call_this'] = calls, call_this
 
     def call_similarity(f_mine, f_orig):
-        return fuzzy.compare(f_mine, f_orig)[1]['calls'] or 0
+        sim = fuzzy.compare(f_mine, f_orig)[1]['calls']
+        return 1.0 if sim is None else sim        # no calls on either side
 
     def inline_expand(f_mine, f_orig):
         """Inlining differs between the compilers (ARMCC inlined across files, GCC within a file):
@@ -542,13 +623,21 @@ def make_fuzzy_pair(mem, db, starts, names, by_source, by_name, variables=None):
         for _ in range(8):
             best = None
             for side, other, label in ((f_mine, f_orig, 'inlined'), (f_orig, f_mine, 'inlined_by_you')):
-                for key in Counter(side['calls']) - Counter(other['calls']):
-                    if key[0] != 'fn' or not mem.in_text(key[1]):
-                        continue
+                surplus = Counter({k: n for k, n in (Counter(side['calls']) - Counter(other['calls'])).items()
+                                   if k[0] == 'fn' and mem.in_text(k[1])})
+                # one call at a time, or all of them at once (several callees that only
+                # together make the calls alike, e.g. two empty base destructors)
+                trials = [Counter({key: 1}) for key in surplus]
+                if len(surplus) > 1:
+                    trials.append(surplus)
+                for todo in trials:
                     trial = copy.deepcopy(side)
-                    expand(trial, Counter({key: 1}), label)
+                    expand(trial, Counter(todo), label)
                     pair_ = (trial, other) if side is f_mine else (other, trial)
-                    gain = call_similarity(*pair_) - call_similarity(f_mine, f_orig)
+                    sim = call_similarity(*pair_)
+                    if len(todo) > 1 and sim < 1.0:
+                        continue                        # all at once only when that makes them equal
+                    gain = sim - call_similarity(f_mine, f_orig)
                     if gain > 1e-9 and (best is None or gain > best[0]):
                         best = (gain, side, trial)
             if best is None:
@@ -628,6 +717,8 @@ def main():
     for obj, mangled, data, size, rel, syminfo in funcs:
         if re.search(r'(C2|D2)E', mangled):
             continue                              # GCC's base-object variants
+        if mangled.startswith(('_ZTh', '_ZTv', '_ZTc')):
+            continue                              # thunks: made by the compiler, the function is compared
         is_deleting = re.search(r'D0E', mangled) is not None
         name = names.get(mangled, mangled)
         parsed = split_signature(name)
