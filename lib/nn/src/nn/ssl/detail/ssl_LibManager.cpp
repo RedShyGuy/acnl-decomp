@@ -3,19 +3,16 @@
 namespace nn {
 namespace ssl {
 namespace detail {
-// ctor candidate(s) 0x00798F54 (unverified)
-nn::ssl::detail::LibManager::LibManager()
-{
-}
+
+// the object of ssl_CommonImpl.cpp
+// 0x00AEEA58
+LibManager s_LibManager;
 
 // 0x00467384 slot 0x00 | fefates:bytes
+// 0x00467348 slot 0x04 (deleting dtor)
 nn::ssl::detail::LibManager::~LibManager()
 {
-}
-
-// 0x00467348 slot 0x04 | virtual slot, introduced by nn::ssl::detail::LibManager
-void nn::ssl::detail::LibManager::vf_0x04()
-{
+    // nothing to do (the session closes its handle)
 }
 
 } // namespace detail
