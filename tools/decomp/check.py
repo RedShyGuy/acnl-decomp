@@ -243,7 +243,7 @@ def header_addresses():
     return out
 
 
-VARIABLE_RE = re.compile(r'([A-Za-z_]\w*(?:::[A-Za-z_]\w*)*)\s*(?:\[[^\]]*\])?\s*(?:\)\s*\(.*\))?\s*(?:=.*)?;\s*(?://.*)?$')
+VARIABLE_RE = re.compile(r'([A-Za-z_]\w*(?:::[A-Za-z_]\w*)*)\s*(?:\[[^\]]*\]\s*)*\s*(?:\)\s*\(.*\))?\s*(?:=.*)?;\s*(?://.*)?$')
 # a variable with constructor arguments ("Heap s_Heap(16, buffer, size);"), tried when VARIABLE_RE
 # does not match (a function pointer declarator would match this, too)
 VARIABLE_INIT_RE = re.compile(r'([A-Za-z_]\w*(?:::[A-Za-z_]\w*)*)\s*\(.*\);\s*(?://.*)?$')
@@ -286,6 +286,8 @@ def source_variables():
                 address, pending = pending, None
                 if '{' in st or st.startswith('extern'):
                     continue
+                # "u8 s_Stacks[2][0x1000] DECOMP_ALIGN(8);" - the attribute is no name
+                st = re.sub(r'\s*(DECOMP_ALIGN\s*\([^)]*\)|__attribute__\s*\(\(.*?\)\))', '', st)
                 m = VARIABLE_RE.search(st) or VARIABLE_INIT_RE.search(st)
                 if not m or '(' in st.split(m.group(1))[0].replace('(*', ''):
                     continue

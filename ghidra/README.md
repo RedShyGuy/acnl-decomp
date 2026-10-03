@@ -4,7 +4,7 @@ Everything needed to get a fully named Ghidra project of ACNL USA 1.5.
 
 | path | contents |
 |---|---|
-| `symbols/code_USA_1_5.txt` | function and data names for code.elf (`<name> <address> <f\|l>`, tier A/B only, plus the hand-named symbols of `config/USA_1_5/inputs/manual_names.tsv`) |
+| `symbols/code_USA_1_5.txt` | function and data names for code.elf (`<name> <address> <f\|l>`): tier A/B names of `config/USA_1_5/symbols.json` (including the hand-named ones), the names of every decompiled function and global from our sources, typeinfo/vtable labels |
 | `symbols/cro/<Module>.txt` | names inside each CRO (offset relative to the .cro file) |
 | `types/acnl_save.h` | the save structures (`SvGardenPlus`, `SvPlayer`, ...) as plain C |
 | `scripts/ACNLSyncSymbols.py` | compares / applies a symbol file (Jython) |
@@ -12,7 +12,16 @@ Everything needed to get a fully named Ghidra project of ACNL USA 1.5.
 | `scripts/ACNLSvcNames.py` | names every `svc` instruction (equate + comment), optionally renames `nn::svc` wrappers |
 | `create_project.py` | creates a project headless: import + analysis + both scripts |
 
-Regenerate the files with `python tools/decomp/export_ghidra.py --analysis-dir <analyze.py output>`.
+Regenerate the files after a build:
+
+```
+python tools/decomp/check.py                                         # names of the decompiled code
+python tools/analysis/manual_names.py orig/USA_1_5/code.elf build/analysis   # hand-named globals
+python tools/decomp/export_ghidra.py                                 # --analysis-dir build/analysis
+```
+
+`build/analysis/ghidra_symbols.txt` (typeinfo/vtable labels) comes from `tools/analysis/analyze.py`;
+it only changes with the binary. Never pass `--json` to analyze.py: `symbols.json` is maintained by hand.
 
 ## New project (headless)
 

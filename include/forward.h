@@ -2892,11 +2892,14 @@ namespace nn { namespace nex { namespace DataStoreConstants {
 namespace nn { namespace nfc { namespace CTR { 
     class NfcIpc;
     class NfcIpcMaster;
-    struct NfcState { u32 _unknown; }; // placeholder, real type unknown
+    // defined in nn/nfc/CTR/nfc_Types.h
+    enum Mode : u8;
+    enum NfcState : u8;
 }}}
 
 namespace nn { namespace nfp { 
-    struct RomInfo { u32 _unknown; }; // placeholder, real type unknown
+    // defined in nn/nfp/nfp_Types.h
+    struct RomInfo;
     struct TargetConnectionStatus { u32 _unknown; }; // placeholder, real type unknown
 }}
 

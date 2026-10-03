@@ -10,9 +10,11 @@
   ghidra/types/acnl_save.h                   save data structures as plain C for
                                              File > Parse C Source
 
---analysis-dir: directory with ghidra_symbols.txt (tools/analysis/analyze.py) and
-manual_ghidra_symbols.txt (tools/analysis/manual_names.py), default build/analysis. Both are merged
-into one file; without them the code symbols are kept.
+Function names come from config/<version>/symbols.json; the functions we decompiled take the name
+of our source (check results in --build-dir, default build/gcc, so run check.py first).
+--analysis-dir: directory with ghidra_symbols.txt (tools/analysis/analyze.py, for the typeinfo /
+vtable labels) and manual_ghidra_symbols.txt (tools/analysis/manual_names.py, hand named globals),
+default build/analysis. The globals of our sources ("// 0x..." comments) are added as well.
 """
 import argparse, glob, json, os, re, shutil
 
@@ -89,29 +91,129 @@ def export_types():
     print('types:', os.path.relpath(path, ROOT))
 
 
+OPS = {'()': 'call', '[]': 'index', '==': 'eq', '!=': 'ne', '=': 'assign',
+       '<': 'lt', '>': 'gt', '<=': 'le', '>=': 'ge', '+': 'add', '-': 'sub',
+       '*': 'mul', '/': 'div', '+=': 'add_assign', '-=': 'sub_assign',
+       '++': 'inc', '--': 'dec', '!': 'not', '->': 'arrow', '<<': 'shl', '>>': 'shr'}
+
+
+def sanitize(s):
+    s = re.sub(r'\s*\[.*?\]', '', s)
+    return re.sub(r'[^\w:~<>,*&]', '_', s.replace(' ', ''))
+
+
+def split_qual(d):
+    """'a::B<x::y>::f(int) const' -> ('a::B<x::y>', 'f')"""
+    depth, i = 0, 0
+    while i < len(d):
+        if d[i] == '<':
+            depth += 1
+        elif d[i] == '>':
+            depth -= 1
+        elif d[i] == '(' and depth == 0 and not d[:i].endswith('operator'):
+            break
+        i += 1
+    q = d[:i]
+    parts, depth, last, j = [], 0, 0, 0
+    while j < len(q):
+        if q[j] == '<':
+            depth += 1
+        elif q[j] == '>':
+            depth -= 1
+        elif q.startswith('::', j) and depth == 0:
+            parts.append(q[last:j])
+            last = j + 2
+            j += 1
+        j += 1
+    parts.append(q[last:])
+    return '::'.join(parts[:-1]), parts[-1]
+
+
+def func_name(label):
+    """'ns::Cls::Meth(int, char) const [deleting]' -> 'ns::Cls::Meth_deleting' (same rules as
+    tools/analysis/analyze.py, so names stay stable between exports)"""
+    deleting = '[deleting' in label
+    base = re.sub(r'\s*\[.*?\]', '', label).strip()
+    # "(anonymous namespace)" would otherwise be taken for a parameter list
+    base = base.replace('(anonymous namespace)', 'anonymous_namespace')
+    if '(' in base:
+        cls, meth = split_qual(base)
+        if meth.startswith('operator'):
+            op = meth[len('operator'):].strip()
+            meth = 'operator_' + OPS.get(op, op.replace(' ', '_'))
+        base = f'{cls}::{meth}' if cls else meth
+    return sanitize(base) + ('_deleting' if deleting else '')
+
+
+def code_symbols(version, analysis_dir, build_dir):
+    """function names: symbols.json (the same filter as analyze.py: no weak single-source names, no
+    conflicts, no constructor guesses, no ICF stubs), replaced by the names of our decompiled
+    functions (check results). Data: the RTTI labels of analyze.py, the hand named globals and the
+    globals of our sources."""
+    db = json.load(open(os.path.join(ROOT, 'config', version, 'symbols.json'), encoding='utf-8'))
+    funcs = {}
+    for f in db['functions']:
+        note = f.get('note') or ''
+        if (f['prio'] > 3 or f.get('tier') in ('C', 'X') or '[ctor?]' in f['name']
+                or 'shared by' in note):
+            continue
+        # Thumb functions carry bit 0 in pointers; Ghidra places them at the even address
+        funcs[f['addr'] & ~1] = func_name(f['name'])
+    decompiled = 0
+    res_path = os.path.join(build_dir, 'check', 'results.json')
+    if os.path.exists(res_path):
+        for k, r in json.load(open(res_path, encoding='utf-8'))['functions'].items():
+            # stubs keep the symbols.json name; vf_0x.. placeholders are no better than it
+            if not k.startswith('0x') or r['status'] == 'stub' or 'vf_0x' in r['name']:
+                continue
+            funcs[int(k, 16) & ~1] = func_name(r['name'])
+            decompiled += 1
+    else:
+        print(f'note: {res_path} not found - run check.py first for the names of the decompiled code')
+    lines = [f'{n} 0x{a:08X} f' for a, n in sorted(funcs.items())]
+
+    data, seen = [], set(funcs)
+
+    def add(name, addr):
+        if addr not in seen:
+            seen.add(addr)
+            data.append(f'{name} 0x{addr:08X} l')
+    for src in ('ghidra_symbols.txt', 'manual_ghidra_symbols.txt'):
+        p = os.path.join(analysis_dir, src)
+        if not os.path.exists(p):
+            print(f'note: {p} not found')
+            continue
+        for line in open(p, encoding='utf-8'):
+            parts = line.split()
+            if len(parts) != 3:
+                continue
+            if parts[2] == 'l':
+                add(parts[0], int(parts[1], 16))
+            elif int(parts[1], 16) not in funcs:      # hand named functions symbols.json lacks
+                funcs[int(parts[1], 16)] = parts[0]
+                lines.append(line.strip())
+    import check
+    variables = sorted((a, n) for n, a in check.source_variables().items() if not n.startswith('guard '))
+    for addr, name in variables:
+        add(sanitize(name.replace('@anon', 'anonymous_namespace')), addr)
+    print(f'code symbols: {len(funcs)} functions ({decompiled} from the decompiled sources), '
+          f'{len(data)} data labels ({len(variables)} source globals)')
+    return lines + data
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument('--version', default='USA_1_5')
     ap.add_argument('--analysis-dir', default=os.path.join(ROOT, 'build', 'analysis'))
+    ap.add_argument('--build-dir', default=os.path.join(ROOT, 'build', 'gcc'))
     a = ap.parse_args()
     sym_dir = os.path.join(GHIDRA, 'symbols')
     os.makedirs(sym_dir, exist_ok=True)
-    # one file: the analysis names, then the hand named ones it does not have
-    lines, seen = [], set()
-    for src in ('ghidra_symbols.txt', 'manual_ghidra_symbols.txt'):
-        p = os.path.join(a.analysis_dir, src)
-        if not os.path.exists(p):
-            continue
-        for line in open(p, encoding='utf-8'):
-            parts = line.split()
-            if len(parts) == 3 and parts[1] not in seen:
-                seen.add(parts[1])
-                lines.append(line.rstrip('\n'))
-    if lines:
-        dst = f'code_{a.version}.txt'
-        with open(os.path.join(sym_dir, dst), 'w', encoding='utf-8', newline='\n') as fp:
-            fp.write('\n'.join(lines) + '\n')
-        print('symbols:', dst)
+    lines = code_symbols(a.version, a.analysis_dir, a.build_dir)
+    dst = f'code_{a.version}.txt'
+    with open(os.path.join(sym_dir, dst), 'w', encoding='utf-8', newline='\n') as fp:
+        fp.write('\n'.join(lines) + '\n')
+    print('symbols:', dst)
     export_cro(a.version)
     export_types()
 
