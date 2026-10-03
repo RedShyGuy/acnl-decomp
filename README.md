@@ -34,6 +34,7 @@ Beginning with nn:
 | nn::ssl | ✅ 100% decompiled |
 | nn::srv | ✅ 100% decompiled |
 | nn::socket | ✅ 100% decompiled |
+| nn::nfc | ✅ 100% decompiled |
 | nn::snd | ❌ |
 | nn::ro | ❌ |
 | nn::ptm | ❌ |
@@ -42,7 +43,6 @@ Beginning with nn:
 | nn::nwm | ❌ |
 | nn::ngc | ❌ |
 | nn::nfp | ❌ |
-| nn::nfc | ❌ |
 | nn::nex | ❌ |
 | nn::ndm | ❌ |
 | nn::mic | ❌ |
