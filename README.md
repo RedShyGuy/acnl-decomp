@@ -2,7 +2,8 @@
 
 Decompilation of **Animal Crossing: New Leaf - Welcome amiibo** (3DS, USA, version 1.5). The game's code name is *garden*. The goal is C++ source that does what the original `code.bin` and CRO modules do, function by function. It is built with GCC (devkitARM); Nintendo's compiler (ARMCC 4.1) is not used, so functions are compared with the original by structure instead of byte for byte (see "Checking").
 
-Every known class, method and data structure is declared; most methods still have an empty body that waits to be decompiled. The first parts of the nn library (os, y2r, ulcd, util, uds) are done. For the current numbers run the `check` target and then the `progress` target (see "Building"): it lists the finished functions and bytes per library and for the game.
+Every known class, method and data structure is declared; most methods still have an empty body that waits to be decompiled. 
+For the current numbers run the `check` target and then the `progress` target (see "Building"): it lists the finished functions and bytes per library and for the game.
 
 | | |
 |---|---|
@@ -17,7 +18,56 @@ Every known class, method and data structure is declared; most methods still hav
 
 The first step is to fully decompile any standard libraries used in ACNL.
 This includes nn, nw, pead, sead, mw, libms, imgdb and cfl.
-Beginning with nn.
+Beginning with nn:
+| | |
+|---|---|
+| nn::os | ✅ 100% decompiled |
+| nn::y2r | ✅ 100% decompiled |
+| nn::util | ✅ 100% decompiled |
+| nn::ulcd | ✅ 100% decompiled |
+| nn::uds | ✅ 100% decompiled |
+| nn::svc | ✅ 100% decompiled |
+| nn::ubl | ❌ |
+| nn::ssl | ❌ |
+| nn::srv | ❌ |
+| nn::socket | ❌ |
+| nn::snd | ❌ |
+| nn::ro | ❌ |
+| nn::ptm | ❌ |
+| nn::pl | ❌ |
+| nn::pia | ❌ |
+| nn::nwm | ❌ |
+| nn::ngc | ❌ |
+| nn::nfp | ❌ |
+| nn::nfc | ❌ |
+| nn::nex | ❌ |
+| nn::ndm | ❌ |
+| nn::mic | ❌ |
+| nn::math | ❌ |
+| nn::jpeg | ❌ |
+| nn::ir | ❌ |
+| nn::init | ❌ |
+| nn::http | ❌ |
+| nn::hidlow | ❌ |
+| nn::hid | ❌ |
+| nn::gxlow | ❌ |
+| nn::gr | ❌ |
+| nn::fslow | ❌ WIP |
+| nn::fs | ❌ WIP |
+| nn::friends | ❌ |
+| nn::fnd | ❌ |
+| nn::erreula | ❌ |
+| nn::err | ❌ |
+| nn::enc | ❌ |
+| nn::dsp | ❌ |
+| nn::dbm | ❌ |
+| nn::crypto | ❌ |
+| nn::cfg | ❌ |
+| nn::cec | ❌ |
+| nn::camera | ❌ |
+| nn::boss | ❌ |
+| nn::applet | ❌ |
+| nn::ac | ❌ |
 
 ## Setup
 
