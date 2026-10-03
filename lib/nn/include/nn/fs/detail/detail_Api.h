@@ -1,6 +1,7 @@
 #pragma once
 
 #include "decomp.h"
+#include "nn/fs/CTR/MPCore/detail/fs_UserFileSystem.h"
 #include "nn/fs/ipc/ipc_FileSystem.h"
 
 namespace nn {
@@ -22,6 +23,16 @@ public:
     FileSystemBase() : mFileSystem(0) {}
 
     void Initialize(nn::fs::CTR::MPCore::detail::UserFileSystem* fileSystem) { mFileSystem = fileSystem; }
+
+    // inline (e.g. in nn::ubl; names are ours): the UserFileSystem functions are static
+    nn::Result TryDeleteFile(const wchar_t* path)
+    {
+        return nn::fs::CTR::MPCore::detail::UserFileSystem::TryDeleteFile(path);
+    }
+    nn::Result TryCreateFile(const wchar_t* path, s64 size)
+    {
+        return nn::fs::CTR::MPCore::detail::UserFileSystem::TryCreateFile(path, size);
+    }
 
 private:
     nn::fs::CTR::MPCore::detail::UserFileSystem* mFileSystem;

@@ -249,6 +249,10 @@ VARIABLE_RE = re.compile(r'([A-Za-z_]\w*(?:::[A-Za-z_]\w*)*)\s*(?:\[[^\]]*\])?\s
 VARIABLE_INIT_RE = re.compile(r'([A-Za-z_]\w*(?:::[A-Za-z_]\w*)*)\s*\(.*\);\s*(?://.*)?$')
 
 
+# GCC's vtable address points by vtable symbol (filled by main)
+VTABLE_ADDRESS_POINTS = {}
+
+
 def source_variables():
     """normalized qualified name -> address of the global variables defined in the sources under a
     '// 0x...' comment (e.g. "// 0x00975F84" above "AutoStackManager* Thread::s_pAutoStackManager;")"""
@@ -484,11 +488,14 @@ def make_fuzzy_pair(mem, db, starts, names, by_source, by_name, variables=None):
                 # a VTT or construction vtable (virtual bases): GCC passes it to the base
                 # destructors, ARMCC inlined them; it counts as a vtable of the class
                 cls = names.get(name, name).replace('VTT for ', '').split('construction vtable for ')[-1]
+                if name.startswith('_ZTT') and vptrs.get(cls) is not None:
+                    return ('addr', vptrs[cls] + 8)     # ARMCC loads the vptr from VTT[0]
                 return ('name', norm(cls) + '::vtable')
             if name.startswith('_ZTV'):
                 cls = names.get(name, name).replace('vtable for ', '')
                 vt = vptrs.get(cls)
-                return ('addr', vt + w) if vt is not None else ('name', norm(cls) + '::vtable')
+                ap = VTABLE_ADDRESS_POINTS.get(name, 8)
+                return ('addr', vt + 8 + w - ap) if vt is not None else ('name', norm(cls) + '::vtable')
             if typ == 2:
                 return mine_key(info) or ('rodata',)
             if secname.startswith('.rodata'):
@@ -572,7 +579,7 @@ def make_fuzzy_pair(mem, db, starts, names, by_source, by_name, variables=None):
         return fuzzy.extract(orig_words, addr, orig_call, orig_word, returns_this, structor,
                              next_key=orig_fn(addr + n_orig * 4),
                              resolve_target=lambda v: orig_fn(v & ~1),
-                             read_const=lambda a: mem.u32(a) if mem.ro[0] <= a < mem.ro[1] - 3 else 0,
+                             read_const=lambda a: orig_word(None, mem.u32(a)) if mem.ro[0] <= a < mem.ro[1] - 3 else 0,
                              resolve_address=orig_text_string)
 
     def orig_text_string(a):
@@ -616,6 +623,11 @@ def make_fuzzy_pair(mem, db, starts, names, by_source, by_name, variables=None):
         sim = fuzzy.compare(f_mine, f_orig)[1]['calls']
         return 1.0 if sim is None else sim        # no calls on either side
 
+    def call_overlap(f_mine, f_orig):
+        if not f_mine['calls'] and not f_orig['calls']:
+            return 1.0
+        return fuzzy._multiset(*fuzzy._merge_repeated_calls(f_mine['calls'], f_orig['calls']))
+
     def inline_expand(f_mine, f_orig):
         """Inlining differs between the compilers (ARMCC inlined across files, GCC within a file):
         a call that only one side has is replaced by the original body of the callee (one level),
@@ -637,8 +649,13 @@ def make_fuzzy_pair(mem, db, starts, names, by_source, by_name, variables=None):
                     sim = call_similarity(*pair_)
                     if len(todo) > 1 and sim < 1.0:
                         continue                        # all at once only when that makes them equal
-                    gain = sim - call_similarity(f_mine, f_orig)
-                    if gain > 1e-9 and (best is None or gain > best[0]):
+                    # the similarity of the calls first; when only their order limits it, the
+                    # overlap of the call multisets (a forwarder whose callee the other side calls)
+                    gain = (sim - call_similarity(f_mine, f_orig),
+                            call_overlap(*pair_) - call_overlap(f_mine, f_orig))
+                    if gain[0] < -1e-9 or (gain[0] <= 1e-9 and gain[1] <= 1e-9):
+                        continue
+                    if best is None or gain > best[0]:
                         best = (gain, side, trial)
             if best is None:
                 break
@@ -678,11 +695,20 @@ def main():
         raise SystemExit(f'no objects in {a.build_dir} - build first')
 
     funcs = []                                    # (obj, mangled, section, value, size, relocs)
+    # GCC's address point of each vtable (offset of the first function pointer): behind the
+    # typeinfo pointer; with virtual bases there are more entries before it than ARMCC's 8 bytes
+    VTABLE_ADDRESS_POINTS.clear()
     for path in objs:
         try:
             e = elf32.Elf(path)
         except ValueError:
             continue
+        for sec in e.sections:
+            if sec.name.startswith('.rodata._ZTV'):
+                ti = [o for o, t, x in e.relocations(sec)
+                      if x < len(e.symbols) and e.symbols[x].name.startswith('_ZTI')]
+                if ti:
+                    VTABLE_ADDRESS_POINTS[sec.name[len('.rodata.'):]] = min(ti) + 4
         per_section = {}
         for s in e.symbols:
             if s.type == elf32.STT_FUNC and 0 < s.shndx < len(e.sections):
@@ -709,6 +735,8 @@ def main():
     # symbol of '.rodata._ZTV...', so demangle the section names, too
     vtable_sections = {i[2][len('.rodata.'):] for f in funcs for i in f[5].values() if i[2].startswith('.rodata._ZTV')}
     names = demangle(sorted({f[1] for f in funcs} | {i[0] for f in funcs for i in f[5].values()} | vtable_sections))
+    # GCC's clones of a function (".constprop.0", ".isra.0", ".part.0") stand for the function
+    names = {k: re.sub(r' \[clone [^\]]*\]', '', v) for k, v in names.items()}
     by_source, empty_bodies, by_source_deleting = source_addresses()
     thumb = {s & ~1 for s in db['function_starts'] if s & 1}
     fuzzy_pair = make_fuzzy_pair(mem, db, starts, names, by_source, by_name, source_variables())

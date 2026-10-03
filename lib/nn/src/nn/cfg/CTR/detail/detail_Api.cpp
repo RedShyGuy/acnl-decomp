@@ -70,7 +70,7 @@ void Finalize()
 }
 
 // 0x00350F48 | nintendogs:callgraph [tier A]
-void GetTransferableId(unsigned, unsigned long long*)
+nn::Result GetTransferableId(u32 unknown, u64* id)
 {
 }
 

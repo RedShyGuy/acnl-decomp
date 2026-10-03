@@ -202,6 +202,7 @@ def extract(words, base, resolve_call, resolve_word, returns_this=lambda key: Fa
     calls, mem, consts, flow, shape = [], [], Counter(), Counter(), []     # mem: (origin, L/S, width, offset)
     call_this = []                        # per call: offset of r0 from this (arg0), 'sp', or None
     lr_literal = None                     # value of a literal loaded into lr (return address trick)
+    seen_rconst = set()                   # read-only words already counted (see _access)
     # register tracking: reg -> (origin, offset); origins are arg0..3, or a fresh id
     fresh = [0]
 
@@ -410,7 +411,8 @@ def extract(words, base, resolve_call, resolve_word, returns_this=lambda key: Fa
                 else:
                     flow['jump_table'] += 1
                 continue
-            _access(w, op3 == 0b010, rn, rd, load, width, False, regs, get, new, mem, shape, read_const, consts)
+            _access(w, op3 == 0b010, rn, rd, load, width, False, regs, get, new, mem, shape, read_const, consts,
+                    seen_rconst)
             continue
         if op3 == 0b000 and (w & 0x90) == 0x90 and (w >> 5) & 3:          # ldrh / ldrsb / ldrd ...
             load = bool(w & (1 << 20))
@@ -596,7 +598,8 @@ def _mem_features(raw):
     return out
 
 
-def _access(w, is_imm, rn, rd, load, width, misc, regs, get, new, mem, shape, read_const=None, consts=None):
+def _access(w, is_imm, rn, rd, load, width, misc, regs, get, new, mem, shape, read_const=None, consts=None,
+            seen_consts=None):
     """record one ldr/str style access"""
     if misc:
         imm = ((w >> 8) & 0xF) << 4 | (w & 0xF) if is_imm else None
@@ -614,9 +617,15 @@ def _access(w, is_imm, rn, rd, load, width, misc, regs, get, new, mem, shape, re
         return
     org, base_off = get(rn)
     if isinstance(org, tuple) and org[0] == 'r' and load and imm is not None and width == 'w' and pre:
-        value = read_const(org[1] + base_off + imm)
-        if value:
-            consts[('k', value)] += 1
+        address = org[1] + base_off + imm
+        value = read_const(address)
+        # a feature tuple (e.g. a pointer to a string), or the plain word; like a literal, a
+        # word loaded again from the same place counts once
+        key = value if isinstance(value, tuple) else ('k', value)
+        if key != ('k', 0) and (seen_consts is None or address not in seen_consts):
+            consts[key] += 1
+        if seen_consts is not None:
+            seen_consts.add(address)
         regs[rd] = (new(), 0)
         shape.append('ld')
         return

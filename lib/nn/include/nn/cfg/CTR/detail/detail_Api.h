@@ -20,7 +20,7 @@ void FinalizeBase(nn::Handle*); // 0x00129BA4 | nintendogs:bytes [tier A]
 void InitializeBase(nn::Handle*, const char*); // 0x00129BE8 | nintendogs:bytes [tier A]
 void GetCriticalSectionForInitializeFinalize(); // 0x00129C44 | fefates:bytes [tier B]
 void Finalize(); // 0x001367E4 | fefates:bytes [tier B]
-void GetTransferableId(unsigned, unsigned long long*); // 0x00350F48 | nintendogs:callgraph [tier A]
+nn::Result GetTransferableId(u32 unknown, u64* id); // 0x00350F48 | nintendogs:callgraph [tier A]
 } // namespace detail
 } // namespace CTR
 } // namespace cfg

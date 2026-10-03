@@ -21,7 +21,8 @@ void GetRegionCodeA3(nn::cfg::CTR::CfgRegionCode); // 0x00350C2C | fefates:bytes
 void GetCountryCodeA2(nn::cfg::CTR::CfgCountryCode); // 0x00350C44 | fefates:bytes [tier B]
 void IsRestrictP2pCec(); // 0x00350C5C | nintendogs:bytes [tier A]
 void GetLanguageCodeA2(nn::cfg::CTR::CfgLanguageCode); // 0x00350C94 | fefates:bytes [tier B]
-void GetTransferableId(unsigned); // 0x00350CB4 | nintendogs:bytes [tier A]
+// an id of this console (the meaning of the argument is not known; ubl passes 0); errors are fatal
+u64 GetTransferableId(u32 unknown); // 0x00350CB4 | nintendogs:bytes [tier A]
 void GetSimpleAddressId(nn::cfg::CTR::SimpleAddressId*); // 0x00350D18 | fefates:bytes [tier B]
 void IsRestrictP2pInternet(); // 0x00350E38 | fefates:bytes [tier B]
 void IsRestrictPhotoExchange(); // 0x00350E98 | nintendogs:bytes [tier B]

@@ -58,37 +58,37 @@ void nn::fnd::DateTime::IsValidParameters(int, int, int, int, int, int, int)
 }
 
 // 0x0072975C | fefates:bytes [tier B]
-void nn::fnd::DateTime::GetMilliSecond() const
+s32 nn::fnd::DateTime::GetMilliSecond() const
 {
 }
 
 // 0x007297B0 | nintendogs:bytes [tier A]
-void nn::fnd::DateTime::GetDay() const
+s32 nn::fnd::DateTime::GetDay() const
 {
 }
 
 // 0x00729808 | nintendogs:bytes [tier A]
-void nn::fnd::DateTime::GetHour() const
+s32 nn::fnd::DateTime::GetHour() const
 {
 }
 
 // 0x00729900 | nintendogs:bytes [tier A]
-void nn::fnd::DateTime::GetYear() const
+s32 nn::fnd::DateTime::GetYear() const
 {
 }
 
 // 0x00729958 | nintendogs:bytes [tier A]
-void nn::fnd::DateTime::GetMonth() const
+s32 nn::fnd::DateTime::GetMonth() const
 {
 }
 
 // 0x007299B0 | nintendogs:bytes [tier A]
-void nn::fnd::DateTime::GetMinute() const
+s32 nn::fnd::DateTime::GetMinute() const
 {
 }
 
 // 0x00729A1C | nintendogs:bytes [tier A]
-void nn::fnd::DateTime::GetSecond() const
+s32 nn::fnd::DateTime::GetSecond() const
 {
 }
 

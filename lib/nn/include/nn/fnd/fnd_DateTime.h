@@ -18,13 +18,13 @@ public:
     DateTime(int, int, int, int, int, int, int); // 0x00130FCC | nintendogs:bytes [tier A]
     void IsValidDate(int, int, int); // 0x00352450 | nintendogs:bytes [tier B]
     void IsValidParameters(int, int, int, int, int, int, int); // 0x00352584 | nintendogs:bytes [tier B]
-    void GetMilliSecond() const; // 0x0072975C | fefates:bytes [tier B]
-    void GetDay() const; // 0x007297B0 | nintendogs:bytes [tier A]
-    void GetHour() const; // 0x00729808 | nintendogs:bytes [tier A]
-    void GetYear() const; // 0x00729900 | nintendogs:bytes [tier A]
-    void GetMonth() const; // 0x00729958 | nintendogs:bytes [tier A]
-    void GetMinute() const; // 0x007299B0 | nintendogs:bytes [tier A]
-    void GetSecond() const; // 0x00729A1C | nintendogs:bytes [tier A]
+    s32 GetMilliSecond() const; // 0x0072975C | fefates:bytes [tier B]
+    s32 GetDay() const; // 0x007297B0 | nintendogs:bytes [tier A]
+    s32 GetHour() const; // 0x00729808 | nintendogs:bytes [tier A]
+    s32 GetYear() const; // 0x00729900 | nintendogs:bytes [tier A]
+    s32 GetMonth() const; // 0x00729958 | nintendogs:bytes [tier A]
+    s32 GetMinute() const; // 0x007299B0 | nintendogs:bytes [tier A]
+    s32 GetSecond() const; // 0x00729A1C | nintendogs:bytes [tier A]
 };
 } // namespace fnd
 } // namespace nn

@@ -1,4 +1,6 @@
 #include "nn/cfg/CTR/CTR_Api.h"
+#include "nn/cfg/CTR/detail/detail_Api.h"
+#include "nn/err/CTR/CTR_Api.h"
 
 namespace nn {
 namespace cfg {
@@ -54,8 +56,11 @@ void GetLanguageCodeA2(nn::cfg::CTR::CfgLanguageCode)
 }
 
 // 0x00350CB4 | nintendogs:bytes [tier A]
-void GetTransferableId(unsigned)
+u64 GetTransferableId(u32 unknown)
 {
+    u64 id;
+    nn::err::CTR::ThrowFatalErrAllIfFailure(detail::GetTransferableId(unknown, &id));
+    return id;
 }
 
 // 0x00350D18 | fefates:bytes [tier B]
