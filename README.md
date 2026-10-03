@@ -27,6 +27,8 @@ Beginning with nn:
 | nn::ulcd | ✅ 100% decompiled |
 | nn::uds | ✅ 100% decompiled |
 | nn::svc | ✅ 100% decompiled |
+| nn::fslow | 🟨 WIP |
+| nn::fs | 🟨 WIP |
 | nn::ubl | ❌ |
 | nn::ssl | ❌ |
 | nn::srv | ❌ |
@@ -52,8 +54,6 @@ Beginning with nn:
 | nn::hid | ❌ |
 | nn::gxlow | ❌ |
 | nn::gr | ❌ |
-| nn::fslow | ❌ WIP |
-| nn::fs | ❌ WIP |
 | nn::friends | ❌ |
 | nn::fnd | ❌ |
 | nn::erreula | ❌ |
