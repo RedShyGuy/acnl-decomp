@@ -9,10 +9,9 @@ namespace {
 class CecAllocator : public nn::fnd::IAllocator
 {
 public:
-    virtual void vf_0x00() {} // 0x004DC280 slot 0x00 | virtual slot, introduced by (anonymous namespace)::CecAllocator
-    virtual void vf_0x04() {} // 0x004DC25C slot 0x04 | virtual slot, introduced by (anonymous namespace)::CecAllocator
-    virtual void vf_0x08() {} // 0x004DC2A8 slot 0x08 | virtual slot, introduced by (anonymous namespace)::CecAllocator
-    virtual void vf_0x0C() {} // 0x004DC2A4 slot 0x0C | virtual slot, introduced by (anonymous namespace)::CecAllocator
+    virtual void* Allocate(size_t size, s32 alignment) {} // 0x004DC280 slot 0x00
+    virtual void Free(void* p) {} // 0x004DC25C slot 0x04
+    virtual ~CecAllocator() {} // 0x004DC2A8 slot 0x08, 0x004DC2A4 slot 0x0C (deleting)
 };
 
 } // namespace

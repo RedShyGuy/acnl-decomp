@@ -15,6 +15,7 @@ public:
     {
     public:
         void Initialize() { mLock.Initialize(); }
+        void Finalize() { mLock.Finalize(); }
         void Lock() { mLock.Enter(); }
         void Unlock() { mLock.Exit(); }
 

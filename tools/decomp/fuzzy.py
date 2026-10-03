@@ -37,6 +37,9 @@ RUNTIME_FAMILIES = {
     # ARMCC constructs an array of class objects with this helper (array, ctor, size, count);
     # GCC writes the loop or the stores itself (see extract)
     'vec_ctor': ('vec_ctor_nocookie_nodtor',),
+    # ARMCC's ctype macros read the table of __rt_ctype_table, GCC (newlib) calls the functions
+    'ctype': ('ctype_table', 'isalnum', 'isalpha', 'isdigit', 'isxdigit', 'islower', 'isupper',
+              'isspace', 'ispunct', 'iscntrl', 'isprint', 'isgraph', 'tolower', 'toupper'),
 }
 
 
@@ -53,7 +56,8 @@ def runtime_family(name):
             core = core[len(p):]
             break
     core = core.rstrip('0123456789').removesuffix('_w')
-    if base == core and base not in ('memset', 'memcpy', 'memmove', 'strcmp', 'strlen'):
+    if base == core and base not in ('memset', 'memcpy', 'memmove', 'strcmp', 'strlen') \
+            and base not in RUNTIME_FAMILIES['ctype']:
         return None                                   # plain names other than the C library ones
     for fam, members in RUNTIME_FAMILIES.items():
         if core in members:
@@ -187,6 +191,18 @@ def extract(words, base, resolve_call, resolve_word, returns_this=lambda key: Fa
             j = i + 2 + off // 4
             if 0 <= j < n and off % 4 == 0:
                 pool.add(j)
+        elif (w & 0x0FFF0000) == 0x028F0000:                              # add rX, pc, #imm
+            # the address of data in the code that the next instructions load from (GCC: a 64
+            # bit constant read with ldrd); not "add rX, pc, #imm" as the current address
+            rx = (w >> 12) & 0xF
+            loads = any(((u & 0x0E1000F0) == 0x000000D0 or (u & 0x0C100000) == 0x04100000)
+                        and (u >> 16) & 0xF == rx
+                        for u in words[i + 1:i + 4])
+            if loads:
+                j = i + 2 + _ror(w & 0xFF, ((w >> 8) & 0xF) * 2) // 4
+                for k in (j, j + 1):
+                    if i < k < n:
+                        pool.add(k)
         elif (w & 0x0E000000) == 0x0C000000 and (w >> 16) & 0xF == PC and w & (1 << 20) \
                 and (w >> 8) & 0xE == 0xA:                                # vldr from pool
             off = (w & 0xFF) * 4 * (1 if w & (1 << 23) else -1)

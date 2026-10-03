@@ -1,13 +1,9 @@
 #include "nn/fnd/fnd_HeapBase.h"
 #include "nn/fnd/fnd_ExpHeapBase.h"
+#include "nn/fnd/detail/detail_Api.h"
 
 namespace nn {
 namespace fnd {
-// ctor address unknown
-nn::fnd::ExpHeapBase::ExpHeapBase()
-{
-}
-
 // 0x003523A4 slot 0x00
 // 0x00352360 slot 0x04 (deleting dtor)
 nn::fnd::ExpHeapBase::~ExpHeapBase()
@@ -15,32 +11,14 @@ nn::fnd::ExpHeapBase::~ExpHeapBase()
 }
 
 // 0x00352340 slot 0x08
-void nn::fnd::ExpHeapBase::FreeV(void*)
+void nn::fnd::ExpHeapBase::FreeV(void* p)
 {
-}
-
-// 0x00729710 slot 0x0C (name is ours)
-void* nn::fnd::ExpHeapBase::GetHeapStart() const
-{
-}
-
-// 0x00729700 slot 0x10 (name is ours)
-size_t nn::fnd::ExpHeapBase::GetHeapSize() const
-{
-}
-
-// 0x0072971C slot 0x14 (name is ours)
-void nn::fnd::ExpHeapBase::PrintState()
-{
-}
-
-// 0x007296E0 slot 0x18 | fefates:bytes
-bool nn::fnd::ExpHeapBase::HasAddress(const void*) const
-{
+    detail::FreeToHeap(reinterpret_cast<detail::ExpHeapImpl*>(&mImplHead), p);
+    mAllocationCount--;
 }
 
 // 0x0011FF0C | nintendogs:bytes [tier A]
-void nn::fnd::ExpHeapBase::Initialize(unsigned, unsigned, unsigned)
+void nn::fnd::ExpHeapBase::Initialize(uptr address, size_t size, bit32 option)
 {
 }
 
@@ -50,7 +28,7 @@ void nn::fnd::ExpHeapBase::Invalidate()
 }
 
 // 0x00136918 | nintendogs:bytes [tier A]
-void nn::fnd::ExpHeapBase::Allocate(unsigned, int, unsigned char, nn::fnd::ExpHeapBase::AllocationMode, bool)
+void* nn::fnd::ExpHeapBase::Allocate(size_t size, s32 alignment, u8 groupId, AllocationMode mode, bool useMargin)
 {
 }
 
@@ -60,7 +38,7 @@ void nn::fnd::ExpHeapBase::Finalize()
 }
 
 // 0x0013EC84 | nintendogs:callgraph [tier A]
-void nn::fnd::ExpHeapBase::Free(void*)
+void nn::fnd::ExpHeapBase::Free(void* p)
 {
 }
 

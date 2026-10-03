@@ -11,7 +11,7 @@ namespace fnd {
 //
 // A circular doubly linked list of objects that derive from Item; the list holds the first item
 // (whose prev is the last one). The class and Item are from RTTI; the members and functions are
-// ours, all inline (seen in nn::srv).
+// ours, all inline (seen in nn::srv and nn::socket).
 template <typename T, typename Tag>
 class IntrusiveLinkedList
 {
@@ -29,6 +29,9 @@ public:
     };
 
     IntrusiveLinkedList() : mFirst(0) {}
+    ~IntrusiveLinkedList() { Clear(); }
+
+    bool IsEmpty() const { return mFirst == 0; }
 
     T* GetFront() const { return static_cast<T*>(mFirst); }
     T* GetBack() const { return mFirst != 0 ? static_cast<T*>(mFirst->mPrev) : 0; }
@@ -54,6 +57,56 @@ public:
             mFirst->mPrev->mNext = item;
             item->mPrev = mFirst->mPrev;
             mFirst->mPrev = item;
+        }
+    }
+
+    // takes the first item off the list, 0 if it is empty
+    T* PopFront()
+    {
+        Item* item = mFirst;
+        if (item == 0) {
+            return 0;
+        }
+        if (item->mPrev == item) {
+            mFirst = 0;
+        } else {
+            mFirst = item->mNext;
+            item->mNext->mPrev = item->mPrev;
+            item->mPrev->mNext = item->mNext;
+        }
+        item->mNext = 0;
+        item->mPrev = 0;
+        return static_cast<T*>(item);
+    }
+
+    void Erase(T* p)
+    {
+        Item* item = static_cast<Item*>(p);
+        if (item->mPrev == item) {
+            mFirst = 0;
+        } else {
+            if (mFirst == item) {
+                mFirst = item->mNext;
+            }
+            item->mNext->mPrev = item->mPrev;
+            item->mPrev->mNext = item->mNext;
+        }
+        item->mNext = 0;
+        item->mPrev = 0;
+    }
+
+    // unlinks every item
+    void Clear()
+    {
+        Item* item = mFirst;
+        if (item != 0) {
+            do {
+                Item* next = item->mNext;
+                item->mNext = 0;
+                item->mPrev = 0;
+                item = next;
+            } while (item != 0);
+            mFirst = 0;
         }
     }
 

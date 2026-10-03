@@ -3311,8 +3311,9 @@ namespace nn { namespace snd { namespace CTR {
 
 namespace nn { namespace socket { 
     class Privileged;
-    struct AddrInfo { u32 _unknown; }; // placeholder, real type unknown
-    struct PollFd { u32 _unknown; }; // placeholder, real type unknown
+    // defined in nn/socket/socket_Types.h
+    struct AddrInfo;
+    struct PollFd;
 }}
 
 namespace nn { namespace socket { namespace detail { 
