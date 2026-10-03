@@ -31,9 +31,9 @@ Beginning with nn:
 | nn::fs | ✅ 100% decompiled |
 | nn::dbm | ✅ 100% decompiled |
 | nn::ubl | ✅ 100% decompiled |
-| nn::ssl | ❌ |
-| nn::srv | ❌ |
-| nn::socket | ❌ |
+| nn::ssl | ✅ 100% decompiled |
+| nn::srv | ✅ 100% decompiled |
+| nn::socket | ✅ 100% decompiled |
 | nn::snd | ❌ |
 | nn::ro | ❌ |
 | nn::ptm | ❌ |
