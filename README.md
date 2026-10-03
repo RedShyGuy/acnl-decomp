@@ -25,7 +25,7 @@ You need your own dump of the game. Nothing from the game is in this repository.
 
 1. Dump the game with GodMode9 and extract the decrypted ExeFS / RomFS (for example with GodMode9 itself or ctrtool).
 2. Turn `.code` into an ELF:
-   - use any code.bin-to-ELF tool (text at 0x00100000, rodata at 0x0083A000, data at 0x00946000);
+   - use any code.bin-to-ELF tool (like [CTR-elf2](https://github.com/NWPlayer123/ctr-elf2)) (text at 0x00100000, rodata at 0x0083A000, data at 0x00946000);
    - if the tool kept `.code` BLZ-compressed, run [tools/analysis/blz_fix_elf.py](tools/analysis/blz_fix_elf.py) `<in.elf> <out.elf>` to decompress it;
    - save the result as `orig/USA_1_5/code.elf`.
 3. Copy `romfs:/cro/*.cro` (plus `static.crs` / `static.crr`) to `orig/USA_1_5/cro/`.
