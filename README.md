@@ -30,7 +30,7 @@ Beginning with nn:
 | nn::fslow | ✅ 100% decompiled |
 | nn::fs | ✅ 100% decompiled |
 | nn::dbm | ✅ 100% decompiled |
-| nn::ubl | ❌ |
+| nn::ubl | ✅ 100% decompiled |
 | nn::ssl | ❌ |
 | nn::srv | ❌ |
 | nn::socket | ❌ |
