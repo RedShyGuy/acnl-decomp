@@ -155,6 +155,7 @@ Names only go in when they are certain (details in [docs/naming.md](docs/naming.
 - [libgarden](https://github.com/Pienco/libgarden) symbols (CC0).
 - [3dbrew](https://www.3dbrew.org/wiki/Main_Page) (SVC table, IPC command names, CRO format, result codes) and [libctru](https://github.com/devkitPro/libctru) (system call register usage).
 - [Reference symbols](https://www.3dbrew.org/wiki/Titles_With_Code_Symbols): Nintendogs + Cats, Fire Emblem Fates, Mario Kart 7 (Download Play).
+- [ac-decomp](https://github.com/ACreTeam/ac-decomp) project structure inspiration
 
 ## License
 
