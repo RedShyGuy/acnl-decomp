@@ -21,7 +21,7 @@ void nn::pia::local::LocalInputStream::vf_0x08()
 }
 
 // 0x00416A50 slot 0x0C | fefates:bytes-fuzzy
-void nn::pia::local::LocalInputStream::Read(nn::pia::common::Packet*)
+nn::Result nn::pia::local::LocalInputStream::Read(nn::pia::common::Packet*)
 {
 }
 

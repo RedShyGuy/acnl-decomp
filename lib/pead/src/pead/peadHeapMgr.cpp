@@ -2,6 +2,9 @@
 #include "pead/peadHeapMgr.h"
 
 namespace pead {
+// 0x00AE82B4
+PtrArray<Heap> HeapMgr::sRootHeaps;
+
 // ctor candidate(s) 0x00793140 (unverified)
 pead::HeapMgr::HeapMgr()
 {

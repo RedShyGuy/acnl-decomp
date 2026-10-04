@@ -1,27 +1,33 @@
-#include "nn/pia/common/common_RootObject.h"
 #include "nn/pia/common/common_WatermarkManager.h"
 
 namespace nn {
 namespace pia {
 namespace common {
-// ctor candidate(s) 0x00427F84 (unverified)
-nn::pia::common::WatermarkManager::WatermarkManager()
-{
-}
-
-// 0x00731AFC slot 0x00 | virtual slot, introduced by nn::pia::common::WatermarkManager
-void nn::pia::common::WatermarkManager::vf_0x00()
-{
-}
+// 0x0097E404
+WatermarkManager* WatermarkManager::s_pInstance;
 
 // 0x00427F64 | fefates:bytes [tier B]
-void nn::pia::common::WatermarkManager::GetWatermark(int)
+Watermark* nn::pia::common::WatermarkManager::GetWatermark(int index)
 {
+    if (static_cast<u32>(index) >= WATERMARK_NUM) {
+        return nullptr;
+    }
+    return &m_Watermarks[index];
 }
 
 // 0x00427F84 | fefates:bytes [tier B]
 void nn::pia::common::WatermarkManager::DestroyInstance()
 {
+    if (s_pInstance != nullptr) {
+        delete s_pInstance;
+        s_pInstance = nullptr;
+    }
+}
+
+// 0x00731AFC (name after StepSequenceJob::Trace)
+void nn::pia::common::WatermarkManager::Trace(u64) const
+{
+    // empty (in the original too)
 }
 
 } // namespace common

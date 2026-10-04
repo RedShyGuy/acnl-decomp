@@ -8,7 +8,8 @@ namespace common {
 class ByteOrder
 {
 public:
-    void Swap64(unsigned long long); // 0x00429870 | fefates:bytes [tier B]
+    // reverses the byte order
+    static u64 Swap64(unsigned long long value); // 0x00429870 | fefates:bytes [tier B]
 };
 } // namespace common
 } // namespace pia

@@ -16,6 +16,14 @@ struct UserName
 };
 ASSERT_SIZE(UserName, 0x18);
 
+// the region of the system settings (config block 0xB0000 after 3dbrew: bits 24-31 country code,
+// bits 16-23 region / province code)
+struct SimpleAddressId
+{
+    u32 id; // 0x0
+};
+ASSERT_SIZE(SimpleAddressId, 0x4);
+
 } // namespace CTR
 } // namespace cfg
 } // namespace nn

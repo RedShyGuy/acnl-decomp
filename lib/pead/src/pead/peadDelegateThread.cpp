@@ -2,8 +2,8 @@
 #include "pead/peadDelegateThread.h"
 
 namespace pead {
-// ctor candidate(s) 0x00538788 (unverified)
-pead::DelegateThread::DelegateThread()
+// 0x00538788 (name is ours)
+pead::DelegateThread::DelegateThread(const SafeStringBase<char>&, IDelegate2<Thread*, int>*, Heap*, int, int, int, int, int)
 {
 }
 

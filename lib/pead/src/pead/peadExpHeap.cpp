@@ -23,7 +23,7 @@ void pead::ExpHeap::vf_0x0C()
 }
 
 // 0x0053D0CC slot 0x10 | virtual slot, introduced by pead::Heap
-void pead::ExpHeap::vf_0x10()
+void pead::ExpHeap::destroy()
 {
 }
 
@@ -33,7 +33,7 @@ void pead::ExpHeap::adjust()
 }
 
 // 0x0053D1B8 slot 0x18 | nintendogs:bytes-fuzzy
-void pead::ExpHeap::tryAlloc(unsigned, int)
+void* pead::ExpHeap::tryAlloc(unsigned, int)
 {
 }
 
@@ -103,7 +103,7 @@ void pead::ExpHeap::vf_0x4C()
 }
 
 // 0x00749C24 slot 0x50 | virtual slot, introduced by pead::Heap
-void pead::ExpHeap::vf_0x50()
+void pead::ExpHeap::dump() const
 {
 }
 

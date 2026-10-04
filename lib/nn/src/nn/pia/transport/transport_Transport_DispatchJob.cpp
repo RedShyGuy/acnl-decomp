@@ -12,7 +12,7 @@ nn::pia::transport::Transport::DispatchJob::~DispatchJob()
 }
 
 // 0x0045FD6C slot 0x0C | fefates:bytes
-void nn::pia::transport::Transport::DispatchJob::ExecuteCore()
+nn::pia::common::ExecuteResult nn::pia::transport::Transport::DispatchJob::ExecuteCore()
 {
 }
 

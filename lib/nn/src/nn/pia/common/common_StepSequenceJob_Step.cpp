@@ -1,23 +1,21 @@
-#include "nn/pia/common/common_RootObject.h"
 #include "nn/pia/common/common_StepSequenceJob_Step.h"
 
-// ctor address unknown
-nn::pia::common::StepSequenceJob::Step::Step()
+namespace nn {
+namespace pia {
+namespace common {
+// 0x00427510
+// 0x0042750C (deleting dtor)
+nn::pia::common::StepSequenceJob::Step::~Step()
 {
+    // nothing to do: the members and bases are destroyed / constructed by the compiler
 }
 
-// 0x00427510 slot 0x00 | virtual slot, introduced by nn::pia::common::StepSequenceJob::Step
-void nn::pia::common::StepSequenceJob::Step::vf_0x00()
+// 0x00731AF0 (name after StepSequenceJob::Trace)
+void nn::pia::common::StepSequenceJob::Step::Trace(u64) const
 {
+    // empty (in the original too)
 }
 
-// 0x0042750C slot 0x04 | virtual slot, introduced by nn::pia::common::StepSequenceJob::Step
-void nn::pia::common::StepSequenceJob::Step::vf_0x04()
-{
-}
-
-// 0x00731AF0 slot 0x08 | virtual slot, introduced by nn::pia::common::StepSequenceJob::Step
-void nn::pia::common::StepSequenceJob::Step::vf_0x08()
-{
-}
-
+} // namespace common
+} // namespace pia
+} // namespace nn

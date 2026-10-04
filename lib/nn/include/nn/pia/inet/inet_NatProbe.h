@@ -2,6 +2,7 @@
 
 #include "decomp.h"
 #include "nn/pia/common/common_RootObject.h"
+#include "nn/pia/common/common_Time.h"
 
 namespace nn {
 namespace pia {

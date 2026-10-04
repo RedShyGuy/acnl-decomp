@@ -2,6 +2,7 @@
 
 #include "decomp.h"
 #include "pead/peadHeap.h"
+#include "pead/peadSafeStringBase.h"
 
 namespace pead {
 // RTTI N4pead7ExpHeapE @ 0x008D12EC
@@ -14,9 +15,9 @@ public:
     // 0x0053D640 slot 0x04 | slot vf_0x04 of pead::IDisposer (deleting dtor)
     virtual void vf_0x08(); // 0x00749B70 slot 0x08 | virtual slot, introduced by pead::Heap
     virtual void vf_0x0C(); // 0x0074974C slot 0x0C | virtual slot, introduced by pead::Heap
-    virtual void vf_0x10(); // 0x0053D0CC slot 0x10 | virtual slot, introduced by pead::Heap
+    virtual void destroy(); // 0x0053D0CC slot 0x10 (name is ours) | virtual slot, introduced by pead::Heap
     virtual void adjust(); // 0x0053CEF8 slot 0x14 | nintendogs:bytes-fuzzy
-    virtual void tryAlloc(unsigned, int); // 0x0053D1B8 slot 0x18 | nintendogs:bytes-fuzzy
+    virtual void* tryAlloc(unsigned, int); // 0x0053D1B8 slot 0x18 | nintendogs:bytes-fuzzy
     virtual void free(void*); // 0x0053883C slot 0x1C | nintendogs:callseq
     virtual void vf_0x20(); // 0x0053C81C slot 0x20 | virtual slot, introduced by pead::Heap
     virtual void vf_0x24(); // 0x0053C6F0 slot 0x24 | virtual slot, introduced by pead::Heap
@@ -30,9 +31,27 @@ public:
     virtual void vf_0x44(); // 0x007495C4 slot 0x44 | virtual slot, introduced by pead::Heap
     virtual void vf_0x48(); // 0x007496B0 slot 0x48 | virtual slot, introduced by pead::Heap
     virtual void vf_0x4C(); // 0x0074972C slot 0x4C | virtual slot, introduced by pead::Heap
-    virtual void vf_0x50(); // 0x00749C24 slot 0x50 | virtual slot, introduced by pead::Heap
+    virtual void dump() const; // 0x00749C24 slot 0x50 (name is ours) | virtual slot, introduced by pead::Heap
     virtual void vf_0x54(); // 0x0053B438 slot 0x54 | virtual slot, introduced by pead::Heap
     virtual void vf_0x58(); // 0x0053C9A4 slot 0x58 | virtual slot, introduced by pead::ExpHeap
     virtual void vf_0x5C(); // 0x00749724 slot 0x5C | virtual slot, introduced by pead::ExpHeap
+
+    static ExpHeap* tryCreate(unsigned size, const SafeStringBase<char>& name, Heap* parent, HeapDirection direction, bool enableLock); // 0x0053D490 | nintendogs:callseq (parameter names are ours)
+
+    // number of allocated blocks (inline in pia's common::HeapManager::Cleanup; name is ours)
+    s32 getUseCount() const { return mUseList.mCount; }
+
+    // the block lists of the heap (constructor 0x0053D59C; the names are ours)
+    struct BlockList
+    {
+        void* mStartEnd[2]; // 0x0
+        s32 mCount;         // 0x8
+        s32 mOffset;        // 0xC
+    };
+
+    u8 mAllocMode;       // 0x70
+    BlockList mFreeList; // 0x74
+    BlockList mUseList;  // 0x84
 };
+ASSERT_SIZE(ExpHeap, 0x94);
 } // namespace pead

@@ -25,7 +25,7 @@ void pead::Heap::vf_0x0C()
 }
 
 // 0x0011C12F slot 0x10 | slot vf_0x00 of ChangeRentalBase
-void pead::Heap::vf_0x10()
+void pead::Heap::destroy()
 {
 }
 
@@ -35,7 +35,7 @@ void pead::Heap::adjust()
 }
 
 // 0x0011C12F slot 0x18 | slot vf_0x00 of ChangeRentalBase
-void pead::Heap::tryAlloc(unsigned, int)
+void* pead::Heap::tryAlloc(unsigned, int)
 {
 }
 
@@ -105,7 +105,7 @@ void pead::Heap::vf_0x4C()
 }
 
 // 0x00749530 slot 0x50 | virtual slot, introduced by pead::Heap
-void pead::Heap::vf_0x50()
+void pead::Heap::dump() const
 {
 }
 

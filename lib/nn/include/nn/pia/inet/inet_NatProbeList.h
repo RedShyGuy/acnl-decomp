@@ -2,6 +2,7 @@
 
 #include "decomp.h"
 #include "nn/pia/common/common_ObjList.h"
+#include "nn/pia/common/common_Time.h"
 #include "nn/pia/inet/inet_NatProbe.h"
 
 namespace nn {

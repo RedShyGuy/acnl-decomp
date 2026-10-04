@@ -26,7 +26,7 @@ void nn::pia::local::LocalOutputStream::vf_0x0C()
 }
 
 // 0x00416BF4 slot 0x10 | fefates:bytes
-void nn::pia::local::LocalOutputStream::Write(const nn::pia::common::Packet&)
+nn::Result nn::pia::local::LocalOutputStream::Write(const nn::pia::common::Packet&)
 {
 }
 

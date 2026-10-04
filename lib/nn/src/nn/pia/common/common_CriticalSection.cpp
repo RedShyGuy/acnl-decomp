@@ -3,14 +3,22 @@
 namespace nn {
 namespace pia {
 namespace common {
-// TODO: default ctor added so derived stubs compile - may not exist
-nn::pia::common::CriticalSection::CriticalSection()
+// 0x004273A4 | fefates:bytes [tier B]
+nn::pia::common::CriticalSection::CriticalSection(int)
+    : m_CriticalSection(nn::os::CriticalSection::InitializeTag())
 {
 }
 
-// 0x004273A4 | fefates:bytes [tier B]
-nn::pia::common::CriticalSection::CriticalSection(int)
+// 0x00427364 (name is ours)
+void nn::pia::common::CriticalSection::Lock()
 {
+    m_CriticalSection.Enter();
+}
+
+// 0x004273A0 | fefates:callgraph [tier C]
+void nn::pia::common::CriticalSection::Unlock()
+{
+    m_CriticalSection.Exit();
 }
 
 } // namespace common

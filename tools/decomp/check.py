@@ -74,7 +74,23 @@ def split_signature(sig):
     m = re.search(r'([\w:~@<>]+|operator\s*\S+)\s*$', head)
     if not m:
         return None
-    if not m.group(1).startswith('operator'):
+    if m.group(1).startswith('operator'):
+        # an operator keeps its scope ("A::operator delete", not just "operator delete"); the
+        # scope may have template arguments with blanks
+        scope = head[:m.start(1)]
+        if scope.endswith('::'):
+            j, depth = len(scope), 0
+            while j > 0:
+                ch = scope[j - 1]
+                if ch == '>':
+                    depth += 1
+                elif ch == '<':
+                    depth -= 1
+                elif depth == 0 and not (ch.isalnum() or ch in '_:~@'):
+                    break
+                j -= 1
+            m = re.match(r'(.*)', scope[j:] + m.group(1))
+    else:
         # the name may have template arguments with spaces and commas ("X<a, b>::f"): take
         # everything back to the first blank outside of <>
         head = head.rstrip()
@@ -775,7 +791,10 @@ def main():
             status, osize = 'unknown', None
         else:
             osize = orig_size(starts, addr, mem.text[1])
-            if tuple(mine) in STUB_WORDS or skey in empty_bodies:
+            # an empty body in the source is a (generated) stub; "bx lr" from a body that says it is
+            # empty on purpose is only a stub if the original is more than that
+            if skey in empty_bodies or (tuple(mine) in STUB_WORDS and not (
+                    osize == size and [mem.u32(addr + o) for o in range(0, size, 4)] == mine)):
                 status = 'stub'
             elif osize != size:
                 status = 'size'

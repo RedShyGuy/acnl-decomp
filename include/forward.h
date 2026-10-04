@@ -2166,7 +2166,7 @@ namespace nn { namespace cfg { namespace CTR {
     struct CfgCountryCode { u32 _unknown; }; // placeholder, real type unknown
     struct CfgLanguageCode { u32 _unknown; }; // placeholder, real type unknown
     struct CfgRegionCode { u32 _unknown; }; // placeholder, real type unknown
-    struct SimpleAddressId { u32 _unknown; }; // placeholder, real type unknown
+    struct SimpleAddressId; // nn/cfg/CTR/cfg_Types.h
     struct UserName; // nn/cfg/CTR/cfg_Types.h
 }}}
 
@@ -2187,7 +2187,7 @@ namespace nn { namespace crypto {
     class Sha1Context;
     class Sha256Context;
     class ShaBlock512BitContext;
-    template <auto T0> class Aes;
+    template <size_t T0> class Aes; // nn/crypto/crypto_Aes.h
 }}
 
 namespace nn { namespace crypto { namespace detail { 
@@ -2980,9 +2980,9 @@ namespace nn { namespace os { namespace ipc {
 }}}
 
 namespace nn { namespace pia { 
-    struct ModuleType { u32 _unknown; }; // placeholder, real type unknown
+    enum ModuleType : u8; // nn/pia/pia_Types.h
     struct StationId { u32 _unknown; }; // placeholder, real type unknown
-    struct StationIndex { u32 _unknown; }; // placeholder, real type unknown
+    enum StationIndex : u8; // nn/pia/pia_Types.h
 }}
 
 namespace nn { namespace pia { namespace common { 
@@ -3021,8 +3021,8 @@ namespace nn { namespace pia { namespace common {
     class Watermark;
     class WatermarkManager;
     class ZlibCompressor;
-    struct ListNode { u32 _unknown; }; // placeholder, real type unknown
-    struct Time { u32 _unknown; }; // placeholder, real type unknown
+    class ListNode; // nn/pia/common/common_ListBase.h
+    class Time; // nn/pia/common/common_Time.h
     template <auto T0> class SignatureSettingWithKeyBuffer;
     template <typename T0, auto T1> class FixedObjList;
     template <typename T0, auto T1> class SimpleContainer;
@@ -3030,7 +3030,8 @@ namespace nn { namespace pia { namespace common {
 }}}
 
 namespace nn { namespace pia { namespace common { namespace Crypto { 
-    struct Setting { u32 _unknown; }; // placeholder, real type unknown
+    enum Mode : u8; // nn/pia/common/common_Crypto.h
+    struct Setting; // nn/pia/common/common_Crypto.h
 }}}}
 
 namespace nn { namespace pia { namespace inet { 
@@ -3884,8 +3885,8 @@ namespace pead {
     template <typename T0> class SafeStringBase;
 }
 
-namespace pead { namespace PrintConfig { 
-    struct PrintEventArg { u32 _unknown; }; // placeholder, real type unknown
+namespace pead { namespace PrintConfig {
+    struct PrintEventArg; // pead/peadPrintConfig.h
 }}
 
 namespace pead { namespace RuntimeTypeInfo { 

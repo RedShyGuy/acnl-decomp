@@ -18,12 +18,12 @@ void pead::MainThread::vf_0x08()
 }
 
 // 0x00537FDC slot 0x18 | virtual slot, introduced by pead::Thread
-void pead::MainThread::vf_0x18()
+void pead::MainThread::quit(bool)
 {
 }
 
 // 0x00537FE8 slot 0x1C | virtual slot, introduced by pead::Thread
-void pead::MainThread::vf_0x1C()
+void pead::MainThread::waitDone()
 {
 }
 

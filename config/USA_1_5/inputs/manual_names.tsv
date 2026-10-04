@@ -36,3 +36,5 @@
 0x2F7994	mbrtowc	manual:abi	0x0	Thumb; C library mbrtowc for 16 bit wchar_t, recognized by its code
 0x101864	wcsncmp	manual:abi	0x0	Thumb; C library wcsncmp for 16 bit wchar_t, recognized by its code
 0x2F7A54	__rt_ctype_table	manual:abi	0x0	ARM C library: the address of the ctype table pointer (the ctype macros read it), recognized by its use
+0x100D28	memcmp	manual:ours	0x0	Thumb; pia SignatureManager compares the HMAC with it (a, b, size; result against 0)
+0x100E58	vsnprintf	manual:ours	0x0	Thumb; pia String::Format calls it with (buffer, 128, format, va_list)

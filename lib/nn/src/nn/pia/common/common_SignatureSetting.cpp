@@ -1,21 +1,45 @@
 #include "nn/pia/common/common_SignatureSetting.h"
+#include "nn/pia/common/common_Result.h"
 
 namespace nn {
 namespace pia {
 namespace common {
-// ctor candidate(s) 0x00427F28, 0x00439D28, 0x0079F0D0 (unverified)
-nn::pia::common::SignatureSetting::SignatureSetting()
-{
-}
-
-// 0x00731AF8 slot 0x00 | virtual slot, introduced by nn::pia::common::SignatureSetting
-void nn::pia::common::SignatureSetting::vf_0x00()
-{
-}
-
 // 0x00427EB0 | fefates:bytes-fuzzy [tier B]
-void nn::pia::common::SignatureSetting::Set(nn::pia::common::SignatureSetting::Mode, const void*, unsigned int)
+nn::Result nn::pia::common::SignatureSetting::Set(nn::pia::common::SignatureSetting::Mode mode, const void* pKey, unsigned int keySize)
 {
+    switch (mode) {
+    case MODE_NONE:
+        m_Mode = mode;
+        m_pKey = nullptr;
+        m_KeySize = 0;
+        return nn::Result();
+    case MODE_HMAC_MD5:
+        if (!IsValidPointer(pKey) || keySize == 0) {
+            return RESULT_INVALID_ARGUMENT;
+        }
+        m_Mode = mode;
+        m_pKey = pKey;
+        m_KeySize = keySize;
+        return nn::Result();
+    default:
+        return RESULT_INVALID_ARGUMENT;
+    }
+}
+
+// 0x00427F28 (name after C++)
+nn::pia::common::SignatureSetting::SignatureSetting(Mode mode, const void* pKey, unsigned int keySize)
+{
+    if (Set(mode, pKey, keySize).IsFailure()) {
+        m_Mode = MODE_NONE;
+        m_pKey = nullptr;
+        m_KeySize = 0;
+    }
+}
+
+// 0x00731AF8 (name after StepSequenceJob::Trace)
+void nn::pia::common::SignatureSetting::Trace(u64) const
+{
+    // empty (in the original too)
 }
 
 } // namespace common

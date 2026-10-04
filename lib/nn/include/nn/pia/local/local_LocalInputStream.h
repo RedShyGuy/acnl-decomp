@@ -16,7 +16,7 @@ public:
     virtual void vf_0x00(); // 0x00416A40 slot 0x00 | virtual slot, introduced by nn::pia::local::LocalStreamBase
     virtual void vf_0x04(); // 0x00416B88 slot 0x04 | virtual slot, introduced by nn::pia::local::LocalStreamBase
     virtual void vf_0x08(); // 0x00730248 slot 0x08 | virtual slot, introduced by nn::pia::local::LocalStreamBase
-    virtual void Read(nn::pia::common::Packet*); // 0x00416A50 slot 0x0C | fefates:bytes-fuzzy
+    virtual nn::Result Read(nn::pia::common::Packet*); // 0x00416A50 slot 0x0C | fefates:bytes-fuzzy
     LocalInputStream(); // 0x00416B68 | fefates:bytes [tier B]
 };
 } // namespace local

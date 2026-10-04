@@ -19,8 +19,8 @@ public:
     virtual void sendMessage(int, sead::MessageQueue::BlockType); // 0x005383C4 slot 0x0C | nintendogs:bytes
     virtual void vf_0x10(); // 0x0053BFA0 slot 0x10 | virtual slot, introduced by pead::Thread
     virtual void start(); // 0x0053C1C0 slot 0x14 | nintendogs:bytes
-    virtual void vf_0x18(); // 0x0053C0F0 slot 0x18 | virtual slot, introduced by pead::Thread
-    virtual void vf_0x1C(); // 0x0053C2DC slot 0x1C | virtual slot, introduced by pead::Thread
+    virtual void quit(bool isJam); // 0x0053C0F0 slot 0x18 (name is ours) | virtual slot, introduced by pead::Thread
+    virtual void waitDone(); // 0x0053C2DC slot 0x1C (name is ours) | virtual slot, introduced by pead::Thread
     virtual void vf_0x20(); // 0x0053C0B8 slot 0x20 | virtual slot, introduced by pead::Thread
     virtual void quitAndWaitDoneSingleThread(bool); // 0x0053C0C4 slot 0x24 | nintendogs:bytes
     virtual void setPriority(int); // 0x0053BFBC slot 0x28 | nintendogs:bytes
@@ -30,5 +30,10 @@ public:
     virtual void vf_0x38(); // 0x0074954C slot 0x38 | virtual slot, introduced by pead::Thread
     virtual void vf_0x3C(); // 0x0011C12F slot 0x3C | slot vf_0x00 of ChangeRentalBase
     virtual void vf_0x40(); // 0x007495BC slot 0x40 | virtual slot, introduced by pead::Thread
+
+    // 0x10, members of INamable / hostio::Reflexible and of the thread, not decompiled yet
+    // (DelegateThread adds its delegate at 0x88: constructor 0x00538788)
+    u8 mThreadData[0x78];
 };
+ASSERT_SIZE(Thread, 0x88);
 } // namespace pead

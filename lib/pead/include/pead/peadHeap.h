@@ -16,9 +16,9 @@ public:
     // 0x0053B838 slot 0x04 | slot vf_0x04 of pead::IDisposer (deleting dtor)
     virtual void vf_0x08(); // 0x007494D4 slot 0x08 | virtual slot, introduced by pead::Heap
     virtual void vf_0x0C(); // 0x00749488 slot 0x0C | virtual slot, introduced by pead::Heap
-    virtual void vf_0x10(); // 0x0011C12F slot 0x10 | slot vf_0x00 of ChangeRentalBase
+    virtual void destroy(); // 0x0011C12F slot 0x10 (name is ours) | slot vf_0x00 of ChangeRentalBase
     virtual void adjust(); // 0x0011C12F slot 0x14 | slot vf_0x00 of ChangeRentalBase
-    virtual void tryAlloc(unsigned, int); // 0x0011C12F slot 0x18 | slot vf_0x00 of ChangeRentalBase
+    virtual void* tryAlloc(unsigned, int); // 0x0011C12F slot 0x18 | slot vf_0x00 of ChangeRentalBase
     virtual void free(void*); // 0x0011C12F slot 0x1C | slot vf_0x00 of ChangeRentalBase
     virtual void vf_0x20(); // 0x0011C12F slot 0x20 | slot vf_0x00 of ChangeRentalBase
     virtual void vf_0x24(); // 0x0011C12F slot 0x24 | slot vf_0x00 of ChangeRentalBase
@@ -32,7 +32,18 @@ public:
     virtual void vf_0x44(); // 0x0011C12F slot 0x44 | slot vf_0x00 of ChangeRentalBase
     virtual void vf_0x48(); // 0x0011C12F slot 0x48 | slot vf_0x00 of ChangeRentalBase
     virtual void vf_0x4C(); // 0x0011C12F slot 0x4C | slot vf_0x00 of ChangeRentalBase
-    virtual void vf_0x50(); // 0x00749530 slot 0x50 | virtual slot, introduced by pead::Heap
+    virtual void dump() const; // 0x00749530 slot 0x50 (name is ours) | virtual slot, introduced by pead::Heap
     virtual void vf_0x54(); // 0x0053B43C slot 0x54 | virtual slot, introduced by pead::Heap
+
+    // ExpHeap::tryCreate (pia's common::HeapManager::Setup passes 1)
+    enum HeapDirection
+    {
+        HEAP_DIRECTION_FORWARD = 1, // (name is ours)
+    };
+
+    // 0x10, members of INamable / hostio::Reflexible and of the heap itself, not decompiled yet
+    // (the derived ExpHeap starts at 0x70: its constructor 0x0053D59C)
+    u8 mHeapData[0x60];
 };
+ASSERT_SIZE(Heap, 0x70);
 } // namespace pead
