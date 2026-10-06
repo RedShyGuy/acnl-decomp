@@ -157,6 +157,8 @@ Names only go in when they are certain (details in [docs/naming.md](docs/naming.
 - [Reference symbols](https://www.3dbrew.org/wiki/Titles_With_Code_Symbols): Nintendogs + Cats, Fire Emblem Fates, Mario Kart 7 (Download Play).
 - [ac-decomp](https://github.com/ACreTeam/ac-decomp) project structure inspiration
 
+AI-assisted development was used during the reconstruction of parts of the project. AI-generated code is reviewed, tested against the original binary where possible, and validated against the project's build and behavioral requirements. Reverse-engineering decisions, structure definitions, constraints, and validation methodology are maintained by the project author.
+
 ## License
 
 The project's own files are released under CC0 1.0, see [LICENSE](LICENSE).
