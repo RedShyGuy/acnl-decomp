@@ -48,6 +48,7 @@ This creates `build/ghidra/ACNL_0004000000086300.gpr`. Auto analysis of code.elf
 
 ## Notes
 
+- Beware that not every name is at the proper offset! Slowly all of them get checked and properly seated.
 - Names never contain parameters (Ghidra keeps the signature separately).
 - Thumb functions are listed at their even address.
 - If Ghidra cannot compile the `.java` script (this happens when the JDK it runs on does not fit the Ghidra release), use the `.py` version.
