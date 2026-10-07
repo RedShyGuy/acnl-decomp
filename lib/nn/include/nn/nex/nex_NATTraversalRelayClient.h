@@ -18,6 +18,14 @@ public:
     virtual void CreateNATTraversalRelayProtocol(); // 0x003B13C0 slot 0x28 | fefates:bytes
     void Init(); // 0x003B14A8 | fefates:bytes-fuzzy [tier B]
     NATTraversalRelayClient(); // 0x003B1580 | fefates:bytes [tier B]
+    // (return types are ours)
+    bool CallReportNATProperties(nn::nex::ProtocolCallContext* pContext, const unsigned int& mapping, const unsigned int& filtering, const unsigned int& rtt); // 0x003B12F4 | fefates:callgraph [tier C]
+    bool CallReportNATTraversalResult(nn::nex::ProtocolCallContext* pContext, const unsigned int& cid, const bool& isSucceeded, const unsigned int& rtt); // 0x003B13A4 | fefates:callgraph [tier C]
+    bool CallRequestProbeInitiationExt(nn::nex::ProtocolCallContext* pContext, const nn::nex::qList<nn::nex::StationURL>& targets, const nn::nex::StationURL& source); // 0x003BA4F0 | fefates:callgraph [tier C]
+
+    // (only the member pia uses; the name is ours)
+    u32 m_Unknown0xC;                          // 0x0C
+    NATRelayInterface* m_pRelayInterface;      // 0x10
 };
 } // namespace nex
 } // namespace nn

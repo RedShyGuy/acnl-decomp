@@ -44,15 +44,20 @@ public:
     u8 m_Unknown0xF;         // 0x00F
     u16 m_Unknown0x10;       // 0x010
     u16 m_Unknown0x12;       // 0x012
-    u8 m_Payload[0x5B0];     // 0x014
+    u8 m_Payload[0x5A4];     // 0x014
+    InetAddress m_DestinationAddress;      // 0x5B8, where it goes (inet::SocketOutputStream)
+    u32 m_Unknown0x5C0;                    // 0x5C0
     StationAddress m_SourceStationAddress; // 0x5C4
+    u8 m_Ttl;                              // 0x5D4 (inet::SocketInputStream / SocketOutputStream)
 
     static u16 s_DefaultPayloadSize; // 0x0097F9F0
     static unsigned int s_SignatureSize; // 0x0097F9F4
     static u32 s_SerializeCount; // 0x0097FA00
     static u32 s_DeserializeCount; // 0x0097FA04
 };
+ASSERT_OFFSET(PacketOld, m_DestinationAddress, 0x5B8);
 ASSERT_OFFSET(PacketOld, m_SourceStationAddress, 0x5C4);
+ASSERT_OFFSET(PacketOld, m_Ttl, 0x5D4);
 } // namespace common
 } // namespace pia
 } // namespace nn

@@ -1,7 +1,7 @@
 #include "sead/seadBitFlagUtil.h"
 
 namespace sead {
-// 0x0053825C | nintendogs:bytes [tier A]
+// the function of the binary is pead::BitFlagUtil::findOnBitFromRight
 void sead::BitFlagUtil::findOnBitFromRight(unsigned, int)
 {
 }

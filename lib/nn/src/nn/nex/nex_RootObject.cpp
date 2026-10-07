@@ -2,10 +2,5 @@
 
 namespace nn {
 namespace nex {
-// ctor address unknown
-nn::nex::RootObject::RootObject()
-{
-}
-
 } // namespace nex
 } // namespace nn

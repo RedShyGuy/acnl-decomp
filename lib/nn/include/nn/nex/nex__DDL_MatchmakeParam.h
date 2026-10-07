@@ -2,6 +2,9 @@
 
 #include "decomp.h"
 #include "nn/nex/nex_RootObject.h"
+#include "nn/nex/nex_String.h"
+#include "nn/nex/nex_Variant.h"
+#include "nn/nex/nex_qMap.h"
 
 namespace nn {
 namespace nex {
@@ -16,6 +19,11 @@ public:
     void Add(nn::nex::Message*, const nn::nex::_DDL_MatchmakeParam&); // 0x00394D18 | fefates:bytes [tier B]
     void Extract(nn::nex::Message*, nn::nex::_DDL_MatchmakeParam*); // 0x00394E64 | fefates:bytes [tier B]
     void operator=(const nn::nex::_DDL_MatchmakeParam&); // 0x00395248 | fefates:bytes [tier B]
+
+    // (the layout is from MatchmakeParam::MatchmakeParam; the names are ours)
+    u8 m_Unknown0x4;                          // 0x04
+    qMap<String, Variant> m_Params;           // 0x08, the parameters by their keys (@SI, @DR, ...)
 };
+ASSERT_SIZE(_DDL_MatchmakeParam, 0x24);
 } // namespace nex
 } // namespace nn

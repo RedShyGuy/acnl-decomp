@@ -1,27 +1,41 @@
-#include "nn/pia/common/common_StepSequenceJob.h"
 #include "nn/pia/local/local_LocalParseSystemMessageJob.h"
+#include "nn/pia/local/local_LocalNetwork.h"
+#include "nn/pia/local/local_LocalNetworkManager.h"
 
 namespace nn {
 namespace pia {
 namespace local {
-// ctor candidate(s) 0x004213C8 (unverified)
+// 0x0042134C
+nn::pia::common::ExecuteResult nn::pia::local::LocalParseSystemMessageJob::ParseSystemMessage()
+{
+    LocalNetwork::s_pInstance->m_pNetworkManager->ParseSystemMessages();
+    return common::ExecuteResult(common::ExecuteResult::STATE_NEXT_DISPATCH);
+}
+
+// 0x00421378 (name is ours)
+nn::Result nn::pia::local::LocalParseSystemMessageJob::Startup()
+{
+    SetStep(&LocalParseSystemMessageJob::ParseSystemMessage, "LocalParseSystemMessageJob::ParseSystemMessage");
+    return nn::Result();
+}
+
+// 0x004213C8
 nn::pia::local::LocalParseSystemMessageJob::LocalParseSystemMessageJob()
 {
+    // only the base and the vptr (in the original too)
 }
 
-// 0x004213F0 slot 0x00 | slot vf_0x00 of nn::pia::common::Job
+// 0x004213F0
+// 0x004213E0 (deleting dtor)
 nn::pia::local::LocalParseSystemMessageJob::~LocalParseSystemMessageJob()
 {
+    // empty (in the original too)
 }
 
-// 0x007316B0 slot 0x14 | slot vf_0x14 of nn::pia::common::StepSequenceJob
-void nn::pia::local::LocalParseSystemMessageJob::Trace(unsigned long long) const
+// 0x007316B0
+void nn::pia::local::LocalParseSystemMessageJob::Trace(u64) const
 {
-}
-
-// 0x00421378 slot 0x18 | virtual slot, introduced by nn::pia::local::LocalParseSystemMessageJob
-void nn::pia::local::LocalParseSystemMessageJob::vf_0x18()
-{
+    // empty (in the original too)
 }
 
 } // namespace local

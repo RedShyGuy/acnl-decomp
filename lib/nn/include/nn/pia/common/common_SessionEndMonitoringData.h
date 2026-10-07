@@ -22,6 +22,9 @@ public:
     SessionStateMonitoringContent m_StateContent; // 0x4C0
 };
 ASSERT_SIZE(SessionEndMonitoringData, 0x8B0);
+
+// the block inet::NexMonitoringDataSender sends (name is ours)
+extern SessionEndMonitoringData g_SessionEndMonitoringData;
 } // namespace common
 } // namespace pia
 } // namespace nn

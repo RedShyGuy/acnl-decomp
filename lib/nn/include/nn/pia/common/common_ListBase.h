@@ -95,6 +95,11 @@ public:
         ListNode* node = PopFrontNode();
         return node != nullptr ? ToObj(node) : nullptr;
     }
+    T* PopBack()
+    {
+        ListNode* node = PopBackNode();
+        return node != nullptr ? ToObj(node) : nullptr;
+    }
     bool IsInclude(T* obj) const { return IsIncludeNode(ToNode(obj)); }
     void Erase(T* obj) { EraseNode(ToNode(obj)); }
 

@@ -23,13 +23,13 @@ void nn::nex::_DDL_Gathering::GetGatheringType() const
 {
 }
 
-// 0x0072B408 slot 0x10 | virtual slot, introduced by nn::nex::_DDL_Gathering
-void nn::nex::_DDL_Gathering::vf_0x10()
+// 0x0072B408 slot 0x10
+bool nn::nex::_DDL_Gathering::IsA(const String&) const
 {
 }
 
-// 0x0072B44C slot 0x14 | virtual slot, introduced by nn::nex::_DDL_Gathering
-void nn::nex::_DDL_Gathering::vf_0x14()
+// 0x0072B44C slot 0x14
+bool nn::nex::_DDL_Gathering::IsAKindOf(const String&) const
 {
 }
 

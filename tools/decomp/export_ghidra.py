@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Export symbols and data types for Ghidra into ghidra/.
 
-    python tools/decomp/export_ghidra.py [--version USA_1_5] [--analysis-dir DIR]
+    python tools/decomp/export_ghidra.py [--version 0004000000086300] [--analysis-dir DIR]
 
   ghidra/symbols/code_<version>.txt          names for code.elf     ("<name> <address> <f|l>"),
                                              including the hand named heap setup
@@ -131,18 +131,29 @@ def split_qual(d):
 
 def func_name(label):
     """'ns::Cls::Meth(int, char) const [deleting]' -> 'ns::Cls::Meth_deleting' (same rules as
-    tools/analysis/analyze.py, so names stay stable between exports)"""
+    tools/analysis/analyze.py, so names stay stable between exports); the this-adjusting thunks
+    ('[thunk]', '[deleting thunk]') get '_thunk'"""
     deleting = '[deleting' in label
+    thunk = 'thunk]' in label
     base = re.sub(r'\s*\[.*?\]', '', label).strip()
     # "(anonymous namespace)" would otherwise be taken for a parameter list
     base = base.replace('(anonymous namespace)', 'anonymous_namespace')
+    # function templates demangle with their return type in front ("T* ns::f<T>(...)")
+    head, depth, cut = base.split('(')[0], 0, -1
+    for i, ch in enumerate(head):
+        depth += ch == '<'
+        depth -= ch == '>'
+        if ch == ' ' and depth == 0 and not head.startswith('operator') and 'operator' not in head[:i]:
+            cut = i
+    if cut >= 0 and not base.startswith('thunk'):
+        base = base[cut + 1:]
     if '(' in base:
         cls, meth = split_qual(base)
         if meth.startswith('operator'):
             op = meth[len('operator'):].strip()
             meth = 'operator_' + OPS.get(op, op.replace(' ', '_'))
         base = f'{cls}::{meth}' if cls else meth
-    return sanitize(base) + ('_deleting' if deleting else '')
+    return sanitize(base) + ('_deleting' if deleting else '') + ('_thunk' if thunk else '')
 
 
 def code_symbols(version, analysis_dir, build_dir):
@@ -203,7 +214,7 @@ def code_symbols(version, analysis_dir, build_dir):
 
 def main():
     ap = argparse.ArgumentParser()
-    ap.add_argument('--version', default='USA_1_5')
+    ap.add_argument('--version', default='0004000000086300')
     ap.add_argument('--analysis-dir', default=os.path.join(ROOT, 'build', 'analysis'))
     ap.add_argument('--build-dir', default=os.path.join(ROOT, 'build', 'gcc'))
     a = ap.parse_args()

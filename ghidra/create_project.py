@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Create a Ghidra project for ACNL with all names applied (headless).
 
-    python ghidra/create_project.py --ghidra <Ghidra install dir> [--version USA_1_5] [--out build/ghidra]
+    python ghidra/create_project.py --ghidra <Ghidra install dir> [--version 0004000000086300] [--out build/ghidra]
 
 Steps (analyzeHeadless):
   1. import orig/<version>/code.elf (ARM:LE:32:v6, image base 0x00100000) and auto-analyse it
@@ -19,7 +19,7 @@ ROOT = os.path.normpath(os.path.join(os.path.dirname(__file__), '..'))
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument('--ghidra', required=True, help='Ghidra installation directory')
-    ap.add_argument('--version', default='USA_1_5')
+    ap.add_argument('--version', default='0004000000086300')
     ap.add_argument('--out', default=os.path.join(ROOT, 'build', 'ghidra'))
     a = ap.parse_args()
 

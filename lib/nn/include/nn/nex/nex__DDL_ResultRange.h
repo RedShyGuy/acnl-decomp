@@ -10,11 +10,17 @@ namespace nex {
 class _DDL_ResultRange : public ::nn::nex::RootObject
 {
 public:
-    _DDL_ResultRange(); // ctor address unknown
+    // (inline)
+    _DDL_ResultRange() : m_Unknown0x4(0) {}
     virtual void vf_0x00(); // 0x00384100 slot 0x00 | virtual slot, introduced by nn::nex::_DDL_ResultRange
     virtual void vf_0x04(); // 0x003840FC slot 0x04 | virtual slot, introduced by nn::nex::_DDL_ResultRange
     void Add(nn::nex::Message*, const nn::nex::_DDL_ResultRange&); // 0x00384024 | fefates:bytes [tier B]
     void operator=(const nn::nex::_DDL_ResultRange&); // 0x00384104 | fefates:bytes [tier B]
+
+    // (from operator=; the names are ours)
+    u8 m_Unknown0x4; // 0x4
+    u32 m_Offset;    // 0x8
+    u32 m_Size;      // 0xC
 };
 } // namespace nex
 } // namespace nn

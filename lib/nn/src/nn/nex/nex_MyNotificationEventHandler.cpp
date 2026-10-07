@@ -9,18 +9,8 @@ nn::nex::MyNotificationEventHandler::MyNotificationEventHandler()
 {
 }
 
-// 0x003BA150 slot 0x00 | virtual slot, introduced by nn::nex::MyNotificationEventHandler
-void nn::nex::MyNotificationEventHandler::vf_0x00()
-{
-}
-
-// 0x003BA0FC slot 0x04 | virtual slot, introduced by nn::nex::MyNotificationEventHandler
-void nn::nex::MyNotificationEventHandler::vf_0x04()
-{
-}
-
-// 0x003B9C3C slot 0x08 | virtual slot, introduced by nn::nex::MyNotificationEventHandler
-void nn::nex::MyNotificationEventHandler::vf_0x08()
+// 0x003B9C3C
+void nn::nex::MyNotificationEventHandler::ProcessNotificationEvent(const nn::nex::NotificationEvent&)
 {
 }
 

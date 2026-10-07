@@ -96,22 +96,22 @@ nn::Result Initialize(void* pMemory, unsigned int size)
     } else {
         // these values survive a new initialization
         u8 value0x16E = beginContent.m_Unknown0x16E;
-        u8 value0x2C = beginContent.m_Unknown0x2C;
-        u8 value0x38 = beginContent.m_Unknown0x38;
-        u8 value0x39 = beginContent.m_Unknown0x39;
+        u8 value0x2C = beginContent.m_NodeCountMax;
+        u8 value0x38 = beginContent.m_SendOption;
+        u8 value0x39 = beginContent.m_ReceiveOption;
         u8 value0x16C = beginContent.m_Unknown0x16C;
-        u32 value0x28 = beginContent.m_Unknown0x28;
-        u32 value0x30 = beginContent.m_Unknown0x30;
-        u32 value0x34 = beginContent.m_Unknown0x34;
+        u32 value0x28 = beginContent.m_LocalCommunicationId;
+        u32 value0x30 = beginContent.m_ReceiveBufferSize;
+        u32 value0x34 = beginContent.m_ScanBufferSize;
         u8 value0x16D = beginContent.m_Unknown0x16D;
         beginContent.Initialize();
         g_SessionStateMonitoringContent.Initialize();
-        beginContent.m_Unknown0x28 = value0x28;
-        beginContent.m_Unknown0x2C = value0x2C;
-        beginContent.m_Unknown0x30 = value0x30;
-        beginContent.m_Unknown0x34 = value0x34;
-        beginContent.m_Unknown0x38 = value0x38;
-        beginContent.m_Unknown0x39 = value0x39;
+        beginContent.m_LocalCommunicationId = value0x28;
+        beginContent.m_NodeCountMax = value0x2C;
+        beginContent.m_ReceiveBufferSize = value0x30;
+        beginContent.m_ScanBufferSize = value0x34;
+        beginContent.m_SendOption = value0x38;
+        beginContent.m_ReceiveOption = value0x39;
         beginContent.m_Unknown0x16C = value0x16C;
         beginContent.m_Unknown0x16D = value0x16D;
         beginContent.m_Unknown0x16E = value0x16E;

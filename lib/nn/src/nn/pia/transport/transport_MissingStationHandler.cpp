@@ -4,11 +4,7 @@
 namespace nn {
 namespace pia {
 namespace transport {
-// ctor address unknown
-nn::pia::transport::MissingStationHandler::MissingStationHandler()
-{
-}
-
+// (the constructor is inline)
 } // namespace transport
 } // namespace pia
 } // namespace nn

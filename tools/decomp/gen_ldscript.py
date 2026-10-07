@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Generate the linker script for code.elf.
 
-    python tools/decomp/gen_ldscript.py --version USA_1_5 -o build/code.ld
+    python tools/decomp/gen_ldscript.py --version 0004000000086300 -o build/code.ld
 
 The memory layout (.text / .rodata / .data / .bss addresses) is taken from the original
 orig/<version>/code.elf. Every known mangled symbol (config/<version>/inputs/symbols_us*.txt)
@@ -28,7 +28,7 @@ def segments(elf):
 # ARMCC C++ runtime objects inside code.bin that compiled code refers to.
 # vtables of the RTTI classes: vptr - 8 (vptrs found by tools/analysis/rtti.py, USA 1.5)
 RUNTIME_SYMBOLS = {
-    'USA_1_5': {
+    '0004000000086300': {
         '_ZTVN10__cxxabiv117__class_type_infoE': 0x008FAADC,
         '_ZTVN10__cxxabiv120__si_class_type_infoE': 0x008FAAEC,
         '_ZTVN10__cxxabiv121__vmi_class_type_infoE': 0x008FAAFC,
@@ -48,7 +48,7 @@ def known_symbols(version):
 
 def main():
     ap = argparse.ArgumentParser()
-    ap.add_argument('--version', default='USA_1_5')
+    ap.add_argument('--version', default='0004000000086300')
     ap.add_argument('-o', '--output', required=True)
     a = ap.parse_args()
     segs = segments(os.path.join(ROOT, 'orig', a.version, 'code.elf'))

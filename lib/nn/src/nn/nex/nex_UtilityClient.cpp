@@ -14,7 +14,7 @@ nn::nex::UtilityClient::~UtilityClient()
 }
 
 // 0x0036F2FC slot 0x0C | slot vf_0x0C of nn::nex::ServiceClient
-void nn::nex::UtilityClient::Bind(nn::nex::Credentials*)
+bool nn::nex::UtilityClient::Bind(nn::nex::Credentials*)
 {
 }
 

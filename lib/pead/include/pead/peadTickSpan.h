@@ -12,6 +12,8 @@ public:
     explicit TickSpan(s64 tick) : mSpan(tick) {}
 
     static TickSpan fromMilliSeconds(u32 msec) { return TickSpan(static_cast<s64>(msec) * sFrequency / 1000); }
+    // (name is ours; divided by 1000 twice)
+    static TickSpan fromMicroSeconds(s32 usec) { return TickSpan(static_cast<s64>(usec) * sFrequency / 1000 / 1000); }
 
     // system ticks per second (268111856; a static initializer at 0x007967EC sets it)
     static const s64 sFrequency;

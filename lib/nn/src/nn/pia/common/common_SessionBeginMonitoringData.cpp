@@ -5,6 +5,9 @@
 namespace nn {
 namespace pia {
 namespace common {
+// 0x00AE7528
+SessionBeginMonitoringData g_SessionBeginMonitoringData;
+
 // 0x004283F8 (name is ours)
 void nn::pia::common::SessionBeginMonitoringData::Initialize()
 {

@@ -38,9 +38,9 @@ Beginning with nn:
 | nn::nfp | ✅ 100% decompiled |
 | nn::ptm | ✅ 100% decompiled |
 | nn::pl | ✅ 100% decompiled |
+| nn::pia | ✅ 100% decompiled |
 | nn::snd | ❌ |
 | nn::ro | ❌ |
-| nn::pia | ❌ |
 | nn::nwm | ❌ |
 | nn::ngc | ❌ |
 | nn::nex | ❌ |
@@ -77,8 +77,8 @@ You need your own dump of the game. Nothing from the game is in this repository.
 2. Turn `.code` into an ELF:
    - use any code.bin-to-ELF tool (like [CTR-elf2](https://github.com/NWPlayer123/ctr-elf2)) (text at 0x00100000, rodata at 0x0083A000, data at 0x00946000);
    - if the tool kept `.code` BLZ-compressed, run [tools/analysis/blz_fix_elf.py](tools/analysis/blz_fix_elf.py) `<in.elf> <out.elf>` to decompress it;
-   - save the result as `orig/USA_1_5/code.elf`.
-3. Copy `romfs:/cro/*.cro` (plus `static.crs` / `static.crr`) to `orig/USA_1_5/cro/`.
+   - save the result as `orig/0004000000086300/code.elf`.
+3. Copy `romfs:/cro/*.cro` (plus `static.crs` / `static.crr`) to `orig/0004000000086300/cro/`.
 4. Install:
    - Python 3.10+;
    - CMake 3.20+ and Ninja (both ship with CLion);
@@ -123,11 +123,11 @@ src/                game sources (src/<prefix>/d<Class>.cpp, src/anonymous/<orig
 lib/<library>/      nn (CTR-SDK), nw (NintendoWare), sead, pead, cfl, imgdb, libms, mw
   include/ src/
 modules/<Module>/   CRO modules (docs/cro.md); modules/_shared = classes used by several modules
-config/USA_1_5/
+config/0004000000086300/
   symbols.json      every class (RTTI, vtables) and named function with source + tier
   modules/*.json    the same per CRO module
   inputs/           raw inputs of the analysis (libgarden symbols, reference matches, ...)
-orig/USA_1_5/       your dump: code.elf, cro/*.cro  (ignored by git)
+orig/0004000000086300/       your dump: code.elf, cro/*.cro  (ignored by git)
 ghidra/             symbols, data types and scripts for Ghidra (ghidra/README.md)
 tools/analysis/     binary analysis: RTTI, vtables, xrefs, CRO parsing, hand named symbols, disassembly
 tools/decomp/       check, score diff, progress, syntax check, linker script, Ghidra export

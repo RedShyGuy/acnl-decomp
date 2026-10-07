@@ -26,8 +26,8 @@ The thunk word is filled in on load. [tools/analysis/crothunks.py](../tools/anal
 
 | what | where |
 |---|---|
-| original modules | `orig/USA_1_5/cro/<Module>.cro` (not distributed) |
-| classes, vtables, functions, imports per module | `config/USA_1_5/modules/<Module>.json` (from [tools/analysis/crortti.py](../tools/analysis/crortti.py)) |
+| original modules | `orig/0004000000086300/cro/<Module>.cro` (not distributed) |
+| classes, vtables, functions, imports per module | `config/0004000000086300/modules/<Module>.json` (from [tools/analysis/crortti.py](../tools/analysis/crortti.py)) |
 | headers / sources | `modules/<Module>/include`, `modules/<Module>/src` |
 | classes used by several modules | `modules/_shared/` |
 | Ghidra names inside each module | `ghidra/symbols/cro/<Module>.txt` (offsets relative to the file) |
@@ -48,8 +48,8 @@ Every module is a CMake object library `module_<Module>`, compiled like the rest
 Neither is part of this project. To build `.cro` files, point `DECOMP_MAKECRO` at a script that takes:
 
 ```
---module <Module> --objects <.o files> --symbols config/USA_1_5/modules/<Module>.json
---original orig/USA_1_5/cro/<Module>.cro --output build/.../cro/<Module>.cro
+--module <Module> --objects <.o files> --symbols config/0004000000086300/modules/<Module>.json
+--original orig/0004000000086300/cro/<Module>.cro --output build/.../cro/<Module>.cro
 ```
 
 That enables a `<Module>_cro` target per module. `check.py` compares only code.bin functions so far; module functions are not compared yet.

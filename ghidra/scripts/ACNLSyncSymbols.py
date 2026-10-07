@@ -107,7 +107,7 @@ def main():
         for f in args[2:]:
             load_file(File(f), entries)
     else:
-        load_file(askFile("Choose a symbol file (e.g. code_USA_1_5.txt)", "Load"), entries)
+        load_file(askFile("Choose a symbol file (e.g. code_0004000000086300.txt)", "Load"), entries)
         while askYesNo("Another file?", "Load another symbol file (e.g. one of symbols/cro)?"):
             load_file(askFile("Choose another symbol file", "Load"), entries)
         mode = askChoice("Mode", "What should happen?", [MODE_REPORT, MODE_APPLY, MODE_CLEAN], MODE_REPORT)

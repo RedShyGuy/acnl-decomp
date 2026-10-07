@@ -1,6 +1,7 @@
 #pragma once
 
 #include "decomp.h"
+#include "nn/nex/nex_NATProperties.h"
 #include "nn/nex/nex_RootObject.h"
 
 namespace nn {
@@ -29,6 +30,11 @@ public:
     virtual void vf_0x3C(); // 0x0036B59C slot 0x3C | virtual slot, introduced by nn::nex::RootTransport
     virtual void vf_0x40(); // 0x0011C12F slot 0x40 | slot vf_0x00 of ChangeRentalBase
     void GetNextPortNumber(); // 0x0036B24C | mk7dlp:bytes [tier A]
+    static RootTransport* GetInstance(); // 0x0036AEF0 | fefates:callgraph [tier C]
+    // the port of the transport of the calling thread (name is ours)
+    static u16 GetCurrentPortNumber(); // 0x0036B278
+    void SetNATProperties(const nn::nex::NATProperties& properties); // 0x0036B148 | fefates:callgraph [tier C]
+    nn::nex::NATProperties GetNATProperties() const; // 0x0072A99C | fefates:callgraph [tier C]
 };
 } // namespace nex
 } // namespace nn

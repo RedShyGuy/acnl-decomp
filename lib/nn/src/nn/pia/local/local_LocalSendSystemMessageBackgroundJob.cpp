@@ -1,27 +1,46 @@
-#include "nn/pia/common/common_StepSequenceJob.h"
 #include "nn/pia/local/local_LocalSendSystemMessageBackgroundJob.h"
+#include "nn/pia/local/local_LocalNetwork.h"
+#include "nn/pia/local/local_LocalNetworkManager.h"
 
 namespace nn {
 namespace pia {
 namespace local {
-// ctor candidate(s) 0x0042589C (unverified)
+namespace {
+const u16 SEND_INTERVAL_MSEC = 15;
+} // namespace
+
+// 0x004257F4
+nn::pia::common::ExecuteResult nn::pia::local::LocalSendSystemMessageBackgroundJob::SendSystemMessage()
+{
+    LocalNetwork::s_pInstance->m_pNetworkManager->SendSystemMessages();
+    return common::ExecuteResult(common::ExecuteResult::STATE_WAIT, SEND_INTERVAL_MSEC);
+}
+
+// 0x00425820 (name is ours)
+nn::Result nn::pia::local::LocalSendSystemMessageBackgroundJob::Startup()
+{
+    Reset(false);
+    SetStep(&LocalSendSystemMessageBackgroundJob::SendSystemMessage, "LocalSendSystemMessageBackgroundJob::SendSystemMessage");
+    return nn::Result();
+}
+
+// 0x0042589C
 nn::pia::local::LocalSendSystemMessageBackgroundJob::LocalSendSystemMessageBackgroundJob()
 {
+    // only the base and the vptr (in the original too)
 }
 
-// 0x004258C4 slot 0x00 | slot vf_0x00 of nn::pia::common::Job
+// 0x004258C4
+// 0x004258B4 (deleting dtor)
 nn::pia::local::LocalSendSystemMessageBackgroundJob::~LocalSendSystemMessageBackgroundJob()
 {
+    // empty (in the original too)
 }
 
-// 0x00731800 slot 0x14 | slot vf_0x14 of nn::pia::common::StepSequenceJob
-void nn::pia::local::LocalSendSystemMessageBackgroundJob::Trace(unsigned long long) const
+// 0x00731800
+void nn::pia::local::LocalSendSystemMessageBackgroundJob::Trace(u64) const
 {
-}
-
-// 0x00425820 slot 0x18 | virtual slot, introduced by nn::pia::local::LocalSendSystemMessageBackgroundJob
-void nn::pia::local::LocalSendSystemMessageBackgroundJob::vf_0x18()
-{
+    // empty (in the original too)
 }
 
 } // namespace local

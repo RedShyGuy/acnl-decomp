@@ -1,7 +1,7 @@
 #include "sead/seadRandom.h"
 
 namespace sead {
-// 0x0053BEF0 | nintendogs:bytes [tier A]
+// the function of the binary is pead::Random::init
 void sead::Random::init()
 {
 }

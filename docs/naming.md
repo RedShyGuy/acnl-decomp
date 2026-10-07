@@ -13,7 +13,7 @@
 | IPC command headers + [3dbrew](https://www.3dbrew.org/wiki/Services) command names | `nn::y2r::CTR::detail::Y2r::SetRotation` | IPC wrappers (`manual:3dbrew`); the class is the one of the same IPC session that other sources confirm |
 | hand analysis | `HeapInit::CreateDLLHeap` | marked `manual:*` |
 
-## Tiers (config/USA_1_5/symbols.json)
+## Tiers (config/0004000000086300/symbols.json)
 
 | tier | meaning | in the sources |
 |---|---|---|

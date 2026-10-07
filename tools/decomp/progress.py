@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Decompilation progress: done functions / bytes per unit.
 
-    python tools/decomp/progress.py [--build-dir build/gcc] [--version USA_1_5]
+    python tools/decomp/progress.py [--build-dir build/gcc] [--version 0004000000086300]
                                     [--json out.json] [--functions-csv out.csv]
 
 Reads <build dir>/check/results.json (written by check.py). A function is done when check.py
@@ -29,7 +29,7 @@ def unit_of(name):
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument('--build-dir', default=os.path.join(ROOT, 'build', 'gcc'))
-    ap.add_argument('--version', default='USA_1_5')
+    ap.add_argument('--version', default='0004000000086300')
     ap.add_argument('--json')
     ap.add_argument('--functions-csv')
     a = ap.parse_args()

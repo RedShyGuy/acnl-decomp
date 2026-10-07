@@ -8,7 +8,11 @@ namespace nex {
 class RootObject
 {
 public:
-    RootObject(); // ctor address unknown
+    RootObject() {} // (inline, empty)
+
+    // (nex allocates through its MemoryManager)
+    static void* operator new(unsigned int size); // 0x003551B4 | fefates:callgraph [tier C]
+    static void operator delete(void* p); // 0x00355190 | fefates:callgraph [tier C]
 };
 } // namespace nex
 } // namespace nn

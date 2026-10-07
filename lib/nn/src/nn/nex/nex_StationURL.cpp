@@ -89,12 +89,12 @@ void nn::nex::StationURL::GetAddress() const
 }
 
 // 0x00729C20 | mk7dlp:bytes [tier A]
-void nn::nex::StationURL::GetURLType() const
+u8 nn::nex::StationURL::GetURLType() const
 {
 }
 
 // 0x00729C3C | mk7dlp:callseq-callee [tier A]
-void nn::nex::StationURL::GetStreamID() const
+u8 nn::nex::StationURL::GetStreamID() const
 {
 }
 
@@ -114,22 +114,22 @@ void nn::nex::StationURL::GetPortNumber() const
 }
 
 // 0x00729E30 | mk7dlp:bytes [tier A]
-void nn::nex::StationURL::GetInetAddress() const
+const nn::nex::InetAddress* nn::nex::StationURL::GetInetAddress() const
 {
 }
 
 // 0x00729E4C | mk7dlp:callseq-callee [tier A]
-void nn::nex::StationURL::GetPrincipalID() const
+u32 nn::nex::StationURL::GetPrincipalID() const
 {
 }
 
 // 0x00729E5C | mk7dlp:callseq-callee [tier A]
-void nn::nex::StationURL::GetConnectionID() const
+u32 nn::nex::StationURL::GetConnectionID() const
 {
 }
 
 // 0x0072A040 | fefates:bytes [tier B]
-void nn::nex::StationURL::GetProbeRequestInitiation() const
+u8 nn::nex::StationURL::GetProbeRequestInitiation() const
 {
 }
 

@@ -13,13 +13,48 @@ void nn::nex::MatchmakeSessionSearchCriteria::vf_0x04()
 {
 }
 
-// 0x003C2B90 | fefates:bytes [tier B]
-void nn::nex::MatchmakeSessionSearchCriteria::SetMaxParticipants(unsigned short)
+// 0x003C2B8C | fefates:bytes [tier B]
+void nn::nex::MatchmakeSessionSearchCriteria::SetMaxParticipants(u16, u16)
 {
 }
 
-// 0x003C2BB0 | fefates:bytes [tier B]
-void nn::nex::MatchmakeSessionSearchCriteria::SetMinParticipants(unsigned short)
+// 0x003C2BAC | fefates:bytes [tier B]
+void nn::nex::MatchmakeSessionSearchCriteria::SetMinParticipants(u16, u16)
+{
+}
+
+// 0x003C2A58 (name is ours)
+void nn::nex::MatchmakeSessionSearchCriteria::SetGameMode(u32)
+{
+}
+
+// 0x003C2A6C (name is ours)
+bool nn::nex::MatchmakeSessionSearchCriteria::SetAttribute(u32, const qVector<u32>&)
+{
+}
+
+// 0x003C2B34 (name is ours)
+void nn::nex::MatchmakeSessionSearchCriteria::SetAttribute(u32, u32)
+{
+}
+
+// 0x003C2B4C (name is ours)
+void nn::nex::MatchmakeSessionSearchCriteria::SetVacantOnly(bool)
+{
+}
+
+// 0x003C2B5C (name is ours)
+void nn::nex::MatchmakeSessionSearchCriteria::SetAttributeRange(u32, u32, u32)
+{
+}
+
+// 0x003C2B78 (name is ours)
+void nn::nex::MatchmakeSessionSearchCriteria::SetMatchmakeSystemType(u32)
+{
+}
+
+// 0x00395238 (name is ours)
+void nn::nex::MatchmakeSessionSearchCriteria::SetMatchmakeParam(u32, const MatchmakeParam&)
 {
 }
 

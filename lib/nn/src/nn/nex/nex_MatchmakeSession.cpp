@@ -23,5 +23,27 @@ void nn::nex::MatchmakeSession::SetMatchmakeSystemType(nn::nex::MatchmakeSystemT
 {
 }
 
+// 0x0038251C (name is ours)
+void nn::nex::MatchmakeSession::SetAttribute(u32 index, u32 value)
+{
+    m_Attributes[index] = value;
+}
+
+// 0x00382528 (name is ours)
+bool nn::nex::MatchmakeSession::SetProgressScore(u8 score)
+{
+    if (score > 100) {
+        return false;
+    }
+    m_ProgressScore = score;
+    return true;
+}
+
+// 0x0038253C (name is ours)
+void nn::nex::MatchmakeSession::SetApplicationBuffer(const qVector<u8>& buffer)
+{
+    m_ApplicationBuffer = buffer;
+}
+
 } // namespace nex
 } // namespace nn

@@ -15,6 +15,8 @@ public:
     // 0x003D6AEC slot 0x04 | slot vf_0x04 of nn::nex::_DDL_Gathering (deleting dtor)
     virtual void vf_0x20(); // 0x0072EA04 slot 0x20 | virtual slot, introduced by nn::nex::Gathering
     void Reset(); // 0x003D6A5C | fefates:bytes [tier B]
+    // (name is ours)
+    void SetDescription(const String& description); // 0x003D6A14
 };
 } // namespace nex
 } // namespace nn

@@ -13,7 +13,7 @@ public:
     UtilityClient(); // ctor candidate(s) 0x0036F368 (unverified)
     virtual ~UtilityClient(); // 0x0036F41C slot 0x00 | slot vf_0x00 of nn::nex::ServiceClient
     // 0x0036F3B8 slot 0x04 | slot vf_0x04 of nn::nex::ServiceClient (deleting dtor)
-    virtual void Bind(nn::nex::Credentials*); // 0x0036F2FC slot 0x0C | slot vf_0x0C of nn::nex::ServiceClient
+    virtual bool Bind(nn::nex::Credentials*); // 0x0036F2FC slot 0x0C | slot vf_0x0C of nn::nex::ServiceClient
     virtual void Unbind(); // 0x0036F330 slot 0x10 | slot vf_0x10 of nn::nex::ServiceClient
     virtual void UpdateProtocolsDefaultCredentials(nn::nex::Credentials*); // 0x00370DCC slot 0x20 | slot vf_0x20 of nn::nex::ServiceClient
 };

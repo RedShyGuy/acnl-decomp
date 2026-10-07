@@ -23,6 +23,14 @@ public:
     void GetAuthenticationClient() const; // 0x0072B614 | fefates:bytes [tier B]
     void TerminateJobIsInProgress() const; // 0x0072B660 | fefates:bytes [tier B]
     void GetSecureConnectionClient() const; // 0x0072B67C | fefates:bytes [tier B]
+
+    // (only the members pia uses; the names are ours)
+    u8 m_Unknown0x4[0x74];                 // 0x004
+    // the credentials of the game (GetSecureConnectionClient; pia::inet::NexFacade::Bind)
+    Credentials* m_pCredentials;           // 0x078
+    u8 m_Unknown0x7C[0xA8];                // 0x07C
+    NgsBridgeInterface* m_pNgsBridge;      // 0x124
 };
+ASSERT_OFFSET(BackEndServices, m_pNgsBridge, 0x124);
 } // namespace nex
 } // namespace nn

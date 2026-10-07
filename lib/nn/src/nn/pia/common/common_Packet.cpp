@@ -26,17 +26,17 @@ void nn::pia::common::Packet::Reset()
     m_Magic = MAGIC;
     m_State = STATE_PLAIN;
     m_Unknown0x5 = 0;
-    m_Unknown0x6 = 0;
-    m_Unknown0x8 = 0;
-    m_Unknown0xA = 0;
+    m_SequenceId = 0;
+    m_RttTimeStamp = 0;
+    m_RttEcho = 0;
     m_Size = HEADER_SIZE;
-    m_SourceStationIndex = STATION_INDEX_UNIDENTIFIED;
+    m_DestinationStationIndex = STATION_INDEX_UNIDENTIFIED;
     m_DestinationBitmap = 0;
-    m_SourceStationAddress.Clear();
-    m_Unknown0x5D4 = 0;
-    m_Unknown0x5D5 = 0;
     m_DestinationStationAddress.Clear();
-    m_Unknown0x5E8 = 0;
+    m_Ttl = 0;
+    m_Unknown0x5D5 = false;
+    m_SourceStationAddress.Clear();
+    m_HasMessages = 0;
 }
 
 // 0x00429098 | fefates:bytes [tier B]

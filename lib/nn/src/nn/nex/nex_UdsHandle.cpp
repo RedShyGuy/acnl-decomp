@@ -2,7 +2,7 @@
 
 namespace nn {
 namespace nex {
-// 0x00425F64 | mk7dlp:bytes [tier A]
+// ctor address unknown (0x00425F64 is pia::local::UdsHandle::UdsHandle)
 nn::nex::UdsHandle::UdsHandle()
 {
 }

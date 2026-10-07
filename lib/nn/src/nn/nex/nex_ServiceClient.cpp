@@ -19,7 +19,7 @@ void nn::nex::ServiceClient::vf_0x08()
 }
 
 // 0x0036D528 slot 0x0C | slot vf_0x0C of nn::nex::ServiceClient
-void nn::nex::ServiceClient::Bind(nn::nex::Credentials*)
+bool nn::nex::ServiceClient::Bind(nn::nex::Credentials*)
 {
 }
 

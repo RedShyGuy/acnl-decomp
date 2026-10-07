@@ -15,7 +15,7 @@ nn::nex::DataStoreLogicServerClient::~DataStoreLogicServerClient()
 }
 
 // 0x003B963C slot 0x0C | fefates:bytes
-void nn::nex::DataStoreLogicServerClient::Bind(nn::nex::Credentials*)
+bool nn::nex::DataStoreLogicServerClient::Bind(nn::nex::Credentials*)
 {
 }
 

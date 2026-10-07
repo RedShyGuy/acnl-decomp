@@ -13,7 +13,8 @@ namespace CTR {
 class ScanResultReader
 {
 public:
-    ScanResultReader(); // ctor candidate(s) 0x0041EAA4, 0x00425994 (unverified)
+    // the results of a scan in the buffer (inline; pia local)
+    explicit ScanResultReader(const void* pBuffer) : m_pBuffer(pBuffer), m_pCurrent(nullptr) {}
     virtual ~ScanResultReader(); // 0x004685D8 slot 0x00
 
     // the next network; its reader has no description at the end

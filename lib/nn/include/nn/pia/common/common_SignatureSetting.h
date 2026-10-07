@@ -20,6 +20,8 @@ public:
         MODE_HMAC_MD5 = 1,
     };
 
+    // off (inline: the static initializer of g_DefaultSignatureSetting)
+    SignatureSetting() : m_Mode(MODE_NONE), m_pKey(nullptr), m_KeySize(0) {}
     // Set, and the off state if the arguments are wrong
     SignatureSetting(Mode mode, const void* pKey, unsigned int keySize); // 0x00427F28
     virtual void Trace(u64 flag) const; // 0x00731AF8 slot 0x00 (name after StepSequenceJob::Trace)
@@ -31,6 +33,9 @@ public:
     unsigned int m_KeySize; // 0x0C
 };
 ASSERT_SIZE(SignatureSetting, 0x10);
+
+// the setting without a signature (session::Mesh::StartupSetting starts from it; name is ours)
+extern const SignatureSetting g_DefaultSignatureSetting;
 } // namespace common
 } // namespace pia
 } // namespace nn

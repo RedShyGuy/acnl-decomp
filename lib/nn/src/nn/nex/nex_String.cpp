@@ -3,7 +3,7 @@
 
 namespace nn {
 namespace nex {
-// ctor candidate(s) 0x0035524C, 0x00355534, 0x003558FC, 0x00361F24, 0x003917F8, 0x003938A4, 0x003D1250, 0x003D12AC, 0x003D12D8, 0x003D1300, 0x003D3AE4, 0x003DA184, 0x003DA284, 0x003DA388, 0x00729A88, 0x00729C88, 0x00729E88, 0x00729F6C, 0x0072A128, 0x0072E040, 0x0072E0A8, 0x0072E1C8, 0x0072E374, 0x0072E560, 0x007FF074, 0x007FF204, 0x007FFD1C, 0x007FFE9C, 0x0082E600 (unverified)
+// 0x003D1300 (symbols.json: nn::boss::TaskIdList::TaskIdList)
 nn::nex::String::String()
 {
 }
@@ -84,7 +84,7 @@ void nn::nex::String::ToUInt64() const
 }
 
 // 0x0072E360 | mk7dlp:callgraph [tier A]
-void nn::nex::String::GetLength() const
+u32 nn::nex::String::GetLength() const
 {
 }
 

@@ -22,7 +22,7 @@ public:
     StationAddress(); // 0x00426EF0 | fefates:bytes [tier B]
     StationAddress(const nn::pia::common::StationAddress& rhs); // 0x00426EC4 | fefates:bytes [tier B]
     // (inline; ARMCC also emitted copies at 0x00426F14 and 0x00427B48)
-    ~StationAddress() {}
+    ~StationAddress() {} // 0x00426F14 (also out of line in the original, unused)
     StationAddress& operator=(const nn::pia::common::StationAddress& rhs); // 0x00426F40 | fefates:bytes [tier B]
 
     virtual void Trace(u64 flag) const; // 0x00731978 slot 0x00 (name after StepSequenceJob::Trace)
@@ -39,6 +39,8 @@ public:
     bool operator==(const nn::pia::common::StationAddress& rhs) const; // 0x00731A1C | fefates:bytes [tier B]
     bool operator<(const nn::pia::common::StationAddress& rhs) const; // 0x00731A70 | fefates:bytes [tier B]
 
+    // (inline; ARMCC kept the this computation of the call)
+    u32 GetSerializedSize() const { return SERIALIZED_SIZE; }
     const InetAddress& GetInetAddress() const { return m_InetAddress; }
     u16 GetExtensionId() const { return m_ExtensionId; }
 

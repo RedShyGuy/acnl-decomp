@@ -42,9 +42,17 @@ struct NodeInformation
 };
 ASSERT_SIZE(NodeInformation, 0x28);
 
+// the reply of GetConnectionStatus (layout after 3dbrew; member names are ours)
 struct ConnectionStatus
 {
-    bit32 data[12];     // the reply of GetConnectionStatus, passed on unchanged
+    u32 status;           // 0x00, 3..11 (6: host, 9: client, ...)
+    u32 reason;           // 0x04, of the last disconnection
+    u16 networkNodeId;    // 0x08, of the local node
+    u16 changedNodes;     // 0x0A, bitmap of the nodes that changed since the last call
+    u16 nodeIds[16];      // 0x0C
+    u8 nodeCount;         // 0x2C
+    u8 nodeCountMax;      // 0x2D
+    u16 nodeBitmap;       // 0x2E
 };
 ASSERT_SIZE(ConnectionStatus, 0x30);
 

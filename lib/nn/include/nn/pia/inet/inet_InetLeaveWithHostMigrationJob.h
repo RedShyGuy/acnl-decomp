@@ -11,11 +11,11 @@ namespace inet {
 class InetLeaveWithHostMigrationJob : public ::nn::pia::session::LeaveWithHostMigrationJob
 {
 public:
-    InetLeaveWithHostMigrationJob(); // ctor candidate(s) 0x00411128 (unverified)
+    InetLeaveWithHostMigrationJob(); // 0x00411128
     virtual ~InetLeaveWithHostMigrationJob(); // 0x004435D8 slot 0x00 | slot vf_0x00 of nn::pia::common::Job
     // 0x00411140 slot 0x04 | slot vf_0x04 of nn::pia::common::Job (deleting dtor)
     virtual void Trace(unsigned long long) const; // 0x0072FA60 slot 0x14 | slot vf_0x14 of nn::pia::common::StepSequenceJob
-    virtual void vf_0x18(); // 0x004110C0 slot 0x18 | virtual slot, introduced by nn::pia::session::LeaveWithHostMigrationJob
+    virtual nn::pia::StationIndex DecideNextHost(); // 0x004110C0 slot 0x18 | slot DecideNextHost of nn::pia::session::LeaveWithHostMigrationJob
 };
 } // namespace inet
 } // namespace pia

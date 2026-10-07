@@ -1,37 +1,42 @@
-#include "nn/pia/session/session_JoinSessionSetting.h"
 #include "nn/pia/local/local_LocalJoinSessionSetting.h"
+#include "nn/pia/common/common_Result.h"
+#include "nn/pia/local/local_LocalSessionInfo.h"
+#include <cstring>
 
 namespace nn {
 namespace pia {
 namespace local {
-// ctor candidate(s) 0x0041E9B0 (unverified)
-nn::pia::local::LocalJoinSessionSetting::LocalJoinSessionSetting()
+// 0x0041E968
+nn::Result nn::pia::local::LocalJoinSessionSetting::SetApplicationData(const void* pData, u32 size)
 {
+    if (!common::IsValidPointer(pData) || size > APPLICATION_DATA_SIZE_MAX) {
+        return common::RESULT_INVALID_ARGUMENT;
+    }
+    std::memcpy(m_ApplicationData, pData, size);
+    m_ApplicationDataSize = size;
+    return nn::Result();
 }
 
-// 0x0041EA08 slot 0x00 | virtual slot, introduced by nn::pia::session::JoinSessionSetting
-void nn::pia::local::LocalJoinSessionSetting::vf_0x00()
+// 0x0041E9B0
+nn::pia::local::LocalJoinSessionSetting::LocalJoinSessionSetting() : m_PassphraseSize(0), m_ApplicationDataSize(0)
 {
+    std::memset(m_ApplicationData, 0, sizeof(m_ApplicationData));
 }
 
-// 0x0041E9F4 slot 0x04 | virtual slot, introduced by nn::pia::session::JoinSessionSetting
-void nn::pia::local::LocalJoinSessionSetting::vf_0x04()
+// 0x0041EA08
+// 0x0041E9F4 (deleting dtor)
+nn::pia::local::LocalJoinSessionSetting::~LocalJoinSessionSetting()
 {
+    // empty (in the original too)
 }
 
-// 0x0011C12F slot 0x14 | slot vf_0x00 of ChangeRentalBase
-void nn::pia::local::LocalJoinSessionSetting::vf_0x14()
+// 0x0073166C
+u32 nn::pia::local::LocalJoinSessionSetting::GetSessionId() const
 {
-}
-
-// 0x0011C12F slot 0x18 | slot vf_0x00 of ChangeRentalBase
-void nn::pia::local::LocalJoinSessionSetting::vf_0x18()
-{
-}
-
-// 0x0073166C slot 0x1C | virtual slot, introduced by nn::pia::local::LocalJoinSessionSetting
-void nn::pia::local::LocalJoinSessionSetting::vf_0x1C()
-{
+    if (m_pSessionInfo == nullptr) {
+        return 0;
+    }
+    return static_cast<const LocalSessionInfo*>(m_pSessionInfo)->GetSessionId();
 }
 
 } // namespace local

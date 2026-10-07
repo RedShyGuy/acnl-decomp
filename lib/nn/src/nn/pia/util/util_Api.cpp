@@ -4,8 +4,9 @@ namespace nn {
 namespace pia {
 namespace util {
 // 0x00413978 | fefates:bytes [tier B]
-void IsPiaResult(const nn::Result&)
+bool IsPiaResult(const nn::Result& result)
 {
+    return result.GetModule() == RESULT_MODULE_PIA;
 }
 
 } // namespace util

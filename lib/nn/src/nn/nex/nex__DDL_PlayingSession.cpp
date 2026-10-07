@@ -18,5 +18,10 @@ void nn::nex::_DDL_PlayingSession::vf_0x04()
 {
 }
 
+// 0x0072B208 (name is ours)
+nn::nex::MatchmakeSession* nn::nex::_DDL_PlayingSession::GetMatchmakeSession() const
+{
+}
+
 } // namespace nex
 } // namespace nn

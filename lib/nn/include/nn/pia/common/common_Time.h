@@ -20,6 +20,7 @@ public:
 
     TimeSpan operator-(const Time& rhs) const { return TimeSpan(m_Tick - rhs.m_Tick); }
     Time operator+(const TimeSpan& rhs) const { return Time(m_Tick + rhs.m_Tick); }
+    Time operator-(const TimeSpan& rhs) const { return Time(m_Tick - rhs.m_Tick); }
     Time& operator+=(const TimeSpan& rhs)
     {
         m_Tick += rhs.m_Tick;

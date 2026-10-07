@@ -18,5 +18,15 @@ void nn::nex::UpdateMatchmakeSessionParam::vf_0x04()
 {
 }
 
+// 0x003BD81C (name is ours)
+void nn::nex::UpdateMatchmakeSessionParam::Reset()
+{
+}
+
+// 0x003BD65C (name is ours)
+void nn::nex::UpdateMatchmakeSessionParam::SetApplicationBuffer(const qVector<u8>&)
+{
+}
+
 } // namespace nex
 } // namespace nn

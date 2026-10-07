@@ -21,6 +21,13 @@ public:
     // returns the size copied, 0 when the buffer is too small
     size_t GetApplicationData(u8* buffer, size_t size) const; // 0x00737134 | fefates:bytes [tier B]
 
+    // the values of the network, 0 before Initialize (inline everywhere; names are ours)
+    u16 GetChannel() const { return m_IsInitialized ? m_Channel : 0; }
+    u8 GetNodeCount() const { return m_IsInitialized ? m_Element.nodeCount : 0; }
+    u8 GetNodeCountMax() const { return m_IsInitialized ? m_Element.nodeCountMax : 0; }
+    u32 GetLocalCommunicationId() const { return m_IsInitialized ? __builtin_bswap32(m_Element.localCommunicationId) : 0; }
+    u8 GetSubId() const { return m_IsInitialized ? m_Element.subId : 0; }
+
     u8 m_Bssid[6];                                          // 0x000
     u16 m_Channel;                                          // 0x006
     bool m_IsInitialized;                                   // 0x008

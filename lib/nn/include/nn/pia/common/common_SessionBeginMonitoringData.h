@@ -20,6 +20,9 @@ public:
     SessionBeginMonitoringContent m_BeginContent; // 0x010
 };
 ASSERT_SIZE(SessionBeginMonitoringData, 0x4C0);
+
+// the block inet::NexMonitoringDataSender sends (name is ours)
+extern SessionBeginMonitoringData g_SessionBeginMonitoringData;
 } // namespace common
 } // namespace pia
 } // namespace nn

@@ -15,6 +15,11 @@ public:
     void Reset(); // 0x0038254C | fefates:bytes [tier B]
     MatchmakeSession(); // 0x0038262C | fefates:bytes [tier B]
     void SetMatchmakeSystemType(nn::nex::MatchmakeSystemType, unsigned int); // 0x003D6A1C | fefates:bytes [tier B]
+    // (names are ours)
+    void SetAttribute(u32 index, u32 value); // 0x0038251C
+    // false if the score is above 100
+    bool SetProgressScore(u8 score); // 0x00382528
+    void SetApplicationBuffer(const qVector<u8>& buffer); // 0x0038253C
 };
 } // namespace nex
 } // namespace nn

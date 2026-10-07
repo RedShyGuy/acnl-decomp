@@ -24,26 +24,36 @@ public:
     u32 m_Unknown0x14;                 // 0x014
     u32 m_Unknown0x18;                 // 0x018
     u32 m_Unknown0x1C;                 // 0x01C
-    u32 m_Unknown0x20[16];             // 0x020
-    u32 m_Unknown0x60[16];             // 0x060
-    u64 m_Unknown0xA0[16];             // 0x0A0
-    u32 m_Unknown0x120[16];            // 0x120
-    u32 m_Unknown0x160[16];            // 0x160
-    u64 m_Unknown0x1A0[16];            // 0x1A0
-    u32 m_Unknown0x220[23];            // 0x220
-    u8 m_Unknown0x27C[23];             // 0x27C
-    u16 m_Unknown0x294[23];            // 0x294
-    u16 m_Unknown0x2C2[23];            // 0x2C2
-    u8 m_Unknown0x2F0;                 // 0x2F0
-    u8 m_Unknown0x2F1;                 // 0x2F1
-    u16 m_Unknown0x2F2;                // 0x2F2
-    u32 m_Unknown0x2F4;                // 0x2F4
-    u16 m_Unknown0x2F8;                // 0x2F8
-    u32 m_Unknown0x2FC;                // 0x2FC
-    u32 m_Unknown0x300;                // 0x300
-    u32 m_Unknown0x304;                // 0x304
-    u32 m_Unknown0x308[4];             // 0x308
-    u32 m_Unknown0x318[4];             // 0x318
+    // the packets of the transport (TransportAnalyzer::SetMonitoringData): [0] all of them
+    // (protocol id 0), then the first 15 protocols
+    u32 m_SendProtocolIds[16];             // 0x020
+    u32 m_SendPacketNums[16];             // 0x060
+    u64 m_SendSizes[16];             // 0x0A0
+    u32 m_ReceiveProtocolIds[16];            // 0x120
+    u32 m_ReceivePacketNums[16];            // 0x160
+    u64 m_ReceiveSizes[16];            // 0x1A0
+    // the stations (TransportAnalyzer::SetMonitoringData): the MD5 hash of the principal id, the
+    // round trip time and the lost packets in 0.01 %
+    u32 m_StationPrincipalIdHashes[23];            // 0x220
+    u8 m_StationIndices[23];             // 0x27C
+    u16 m_StationRtts[23];            // 0x294
+    u16 m_StationPacketLosses[23];            // 0x2C2
+    // the wait of the stream threads when idle (1..254, else 255; transport::ThreadStreamManager)
+    u8 m_SendThreadWaitMSec;                 // 0x2F0
+    u8 m_ReceiveThreadWaitMSec;                 // 0x2F1
+    // as in SessionBeginMonitoringContent (transport::Transport::SetMonitoringNetworkRtt)
+    u16 m_MinRtt;                // 0x2F2
+    u32 m_MinRttPrincipalIdHash;                // 0x2F4
+    u16 m_MaxRtt;                // 0x2F8
+    u32 m_MaxRttPrincipalIdHash;                // 0x2FC
+    // received packets with a wrong signature (transport::ReceiveThreadStream)
+    u32 m_SignatureErrorNum;                // 0x300
+    // the sends of transport::ReliableProtocol that found the window full
+    u32 m_ReliableBufferFullNum;                // 0x304
+    // a large reliable transfer to the stations 0..3: its size and its duration in ms
+    // (transport::ReliableSlidingWindow)
+    u32 m_ReliableTransferSize[4];     // 0x308
+    u32 m_ReliableTransferMSec[4];     // 0x318
     u32 m_Unknown0x328;                // 0x328
     u32 m_Unknown0x32C;                // 0x32C
     u8 m_Unknown0x330;                 // 0x330
@@ -75,7 +85,8 @@ public:
     u8 m_Unknown0x37E;                 // 0x37E
     u32 m_Unknown0x380;                // 0x380
     u32 m_Unknown0x384;                // 0x384
-    u16 m_Unknown0x388;                // 0x388
+    // the most resends of a reliable message (0xFFFF: none yet)
+    u16 m_ReliableResendCountMax;      // 0x388
     u8 m_Unknown0x38A;                 // 0x38A
     u16 m_Unknown0x38C;                // 0x38C
     u16 m_Unknown0x38E;                // 0x38E

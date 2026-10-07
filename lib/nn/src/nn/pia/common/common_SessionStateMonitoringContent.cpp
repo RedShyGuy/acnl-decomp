@@ -46,30 +46,30 @@ void nn::pia::common::SessionStateMonitoringContent::Cleanup()
     m_Unknown0x3CD = INVALID_U8;
     m_Unknown0x3D8 = INVALID_U8;
     for (int i = 0; i < 16; i++) {
-        m_Unknown0x20[i] = INVALID_U32;
-        m_Unknown0x60[i] = INVALID_U32;
-        m_Unknown0xA0[i] = INVALID_U64;
-        m_Unknown0x120[i] = INVALID_U32;
-        m_Unknown0x160[i] = INVALID_U32;
-        m_Unknown0x1A0[i] = INVALID_U64;
+        m_SendProtocolIds[i] = INVALID_U32;
+        m_SendPacketNums[i] = INVALID_U32;
+        m_SendSizes[i] = INVALID_U64;
+        m_ReceiveProtocolIds[i] = INVALID_U32;
+        m_ReceivePacketNums[i] = INVALID_U32;
+        m_ReceiveSizes[i] = INVALID_U64;
     }
     for (int i = 0; i < 23; i++) {
-        m_Unknown0x220[i] = INVALID_U32;
-        m_Unknown0x27C[i] = INVALID_U8;
-        m_Unknown0x294[i] = INVALID_U16;
-        m_Unknown0x2C2[i] = INVALID_U16;
+        m_StationPrincipalIdHashes[i] = INVALID_U32;
+        m_StationIndices[i] = INVALID_U8;
+        m_StationRtts[i] = INVALID_U16;
+        m_StationPacketLosses[i] = INVALID_U16;
     }
-    m_Unknown0x2F0 = INVALID_U8;
-    m_Unknown0x2F1 = INVALID_U8;
-    m_Unknown0x2F2 = INVALID_U16;
-    m_Unknown0x2F4 = INVALID_U32;
-    m_Unknown0x2F8 = INVALID_U16;
-    m_Unknown0x2FC = INVALID_U32;
+    m_SendThreadWaitMSec = INVALID_U8;
+    m_ReceiveThreadWaitMSec = INVALID_U8;
+    m_MinRtt = INVALID_U16;
+    m_MinRttPrincipalIdHash = INVALID_U32;
+    m_MaxRtt = INVALID_U16;
+    m_MaxRttPrincipalIdHash = INVALID_U32;
     for (int i = 0; i < 4; i++) {
-        m_Unknown0x308[i] = INVALID_U32;
+        m_ReliableTransferSize[i] = INVALID_U32;
     }
     for (int i = 0; i < 4; i++) {
-        m_Unknown0x318[i] = INVALID_U32;
+        m_ReliableTransferMSec[i] = INVALID_U32;
     }
     m_Unknown0x328 = INVALID_U32;
     m_Unknown0x32C = INVALID_U32;
@@ -132,67 +132,67 @@ nn::Result nn::pia::common::SessionStateMonitoringContent::Serialize(unsigned ch
     serializeU32(p, m_Unknown0x1C);
     p += 4;
     for (u32 i = 0; i < 16; i++) {
-        serializeU32(p, m_Unknown0x20[i]);
+        serializeU32(p, m_SendProtocolIds[i]);
         p += 4;
     }
     for (u32 i = 0; i < 16; i++) {
-        serializeU32(p, m_Unknown0x60[i]);
+        serializeU32(p, m_SendPacketNums[i]);
         p += 4;
     }
     for (u32 i = 0; i < 16; i++) {
-        serializeU64(p, m_Unknown0xA0[i]);
+        serializeU64(p, m_SendSizes[i]);
         p += 8;
     }
     for (u32 i = 0; i < 16; i++) {
-        serializeU32(p, m_Unknown0x120[i]);
+        serializeU32(p, m_ReceiveProtocolIds[i]);
         p += 4;
     }
     for (u32 i = 0; i < 16; i++) {
-        serializeU32(p, m_Unknown0x160[i]);
+        serializeU32(p, m_ReceivePacketNums[i]);
         p += 4;
     }
     for (u32 i = 0; i < 16; i++) {
-        serializeU64(p, m_Unknown0x1A0[i]);
+        serializeU64(p, m_ReceiveSizes[i]);
         p += 8;
     }
     for (u32 i = 0; i < 23; i++) {
-        serializeU32(p, m_Unknown0x220[i]);
+        serializeU32(p, m_StationPrincipalIdHashes[i]);
         p += 4;
     }
     for (u32 i = 0; i < 23; i++) {
-        serializeU8(p, m_Unknown0x27C[i]);
+        serializeU8(p, m_StationIndices[i]);
         p += 1;
     }
     for (u32 i = 0; i < 23; i++) {
-        serializeU16(p, m_Unknown0x294[i]);
+        serializeU16(p, m_StationRtts[i]);
         p += 2;
     }
     for (u32 i = 0; i < 23; i++) {
-        serializeU16(p, m_Unknown0x2C2[i]);
+        serializeU16(p, m_StationPacketLosses[i]);
         p += 2;
     }
-    serializeU8(p, m_Unknown0x2F0);
+    serializeU8(p, m_SendThreadWaitMSec);
     p += 1;
-    serializeU8(p, m_Unknown0x2F1);
+    serializeU8(p, m_ReceiveThreadWaitMSec);
     p += 1;
-    serializeU16(p, m_Unknown0x2F2);
+    serializeU16(p, m_MinRtt);
     p += 2;
-    serializeU32(p, m_Unknown0x2F4);
+    serializeU32(p, m_MinRttPrincipalIdHash);
     p += 4;
-    serializeU16(p, m_Unknown0x2F8);
+    serializeU16(p, m_MaxRtt);
     p += 2;
-    serializeU32(p, m_Unknown0x2FC);
+    serializeU32(p, m_MaxRttPrincipalIdHash);
     p += 4;
-    serializeU32(p, m_Unknown0x300);
+    serializeU32(p, m_SignatureErrorNum);
     p += 4;
-    serializeU32(p, m_Unknown0x304);
+    serializeU32(p, m_ReliableBufferFullNum);
     p += 4;
     for (u32 i = 0; i < 4; i++) {
-        serializeU32(p, m_Unknown0x308[i]);
+        serializeU32(p, m_ReliableTransferSize[i]);
         p += 4;
     }
     for (u32 i = 0; i < 4; i++) {
-        serializeU32(p, m_Unknown0x318[i]);
+        serializeU32(p, m_ReliableTransferMSec[i]);
         p += 4;
     }
     serializeU32(p, m_Unknown0x328);
@@ -261,7 +261,7 @@ nn::Result nn::pia::common::SessionStateMonitoringContent::Serialize(unsigned ch
     p += 4;
     serializeU32(p, m_Unknown0x384);
     p += 4;
-    serializeU16(p, m_Unknown0x388);
+    serializeU16(p, m_ReliableResendCountMax);
     p += 2;
     serializeU8(p, m_Unknown0x38A);
     p += 1;

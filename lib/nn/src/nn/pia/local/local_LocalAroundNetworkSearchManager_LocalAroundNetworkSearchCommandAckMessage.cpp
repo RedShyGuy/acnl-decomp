@@ -1,28 +1,32 @@
-#include "nn/pia/local/local_LocalMessage.h"
 #include "nn/pia/local/local_LocalAroundNetworkSearchManager_LocalAroundNetworkSearchCommandAckMessage.h"
 
-// ctor candidate(s) 0x004244CC (unverified)
-nn::pia::local::LocalAroundNetworkSearchManager::LocalAroundNetworkSearchCommandAckMessage::LocalAroundNetworkSearchCommandAckMessage()
+namespace nn {
+namespace pia {
+namespace local {
+// 0x00424380
+bool nn::pia::local::LocalAroundNetworkSearchManager::LocalAroundNetworkSearchCommandAckMessage::ParseMessageHeader()
 {
+    if (!LocalMessage::ParseMessageHeader()) {
+        return false;
+    }
+    m_Value = *reinterpret_cast<u32*>(m_pBuffer + HEADER_SIZE);
+    return true;
 }
 
-// 0x004243C8 slot 0x00 | virtual slot, introduced by nn::pia::local::LocalMessage
-void nn::pia::local::LocalAroundNetworkSearchManager::LocalAroundNetworkSearchCommandAckMessage::vf_0x00()
-{
-}
-
-// 0x004243C4 slot 0x04 | virtual slot, introduced by nn::pia::local::LocalMessage
-void nn::pia::local::LocalAroundNetworkSearchManager::LocalAroundNetworkSearchCommandAckMessage::vf_0x04()
-{
-}
-
-// 0x004243A8 slot 0x08 | slot vf_0x08 of nn::pia::local::LocalMessage
+// 0x004243A8
 void nn::pia::local::LocalAroundNetworkSearchManager::LocalAroundNetworkSearchCommandAckMessage::UpdateMessageHeader()
 {
+    LocalMessage::UpdateMessageHeader();
+    *reinterpret_cast<u32*>(m_pBuffer + HEADER_SIZE) = m_Value;
 }
 
-// 0x00424380 slot 0x0C | slot vf_0x0C of nn::pia::local::LocalMessage
-void nn::pia::local::LocalAroundNetworkSearchManager::LocalAroundNetworkSearchCommandAckMessage::ParseMessageHeader()
+// 0x004243C8
+// 0x004243C4 (deleting dtor)
+nn::pia::local::LocalAroundNetworkSearchManager::LocalAroundNetworkSearchCommandAckMessage::~LocalAroundNetworkSearchCommandAckMessage()
 {
+    // empty (in the original too)
 }
 
+} // namespace local
+} // namespace pia
+} // namespace nn

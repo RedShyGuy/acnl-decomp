@@ -48,6 +48,8 @@ def runtime_family(name):
     if not name:
         return None
     base = name.split('(')[0].strip()
+    if base in ('nnnstdMemCpy', 'nnnstdMemMove'):
+        return 'memcpy'                               # the library's wrappers that the code calls
     if '::' in base or ' ' in base:
         return None                                   # methods, never runtime helpers
     core = base
@@ -102,6 +104,9 @@ def function_end(words, pool, resolve_call):
                 external = True
         elif (w & 0x0000F000) == 0x0000F000 and w >> 28 != COND_AL and ((w >> 25) & 7) in (0, 1, 2, 3):
             reach = n                                                     # conditional pc write: jump table
+        elif w >> 28 == COND_AL and (w & 0x0E00F010) == 0x0000F000 and (w >> 16) & 0xF == PC \
+                and (w >> 21) & 0xF == 4:
+            reach = n                                                     # GCC: add pc, pc, rX, lsl #2
         # bx rX: a tail call, or ARMCC's "ldr lr, =f2 ; bx rX" (returns to f2, not here); only
         # "mov lr, pc ; bx rX" comes back
         bx_reg = (w & 0xFFFFFFF0) == 0xE12FFF10 and not (i > 0 and words[i - 1] == 0xE1A0E00F)
@@ -198,11 +203,37 @@ def extract(words, base, resolve_call, resolve_word, returns_this=lambda key: Fa
             loads = any(((u & 0x0E1000F0) == 0x000000D0 or (u & 0x0C100000) == 0x04100000)
                         and (u >> 16) & 0xF == rx
                         for u in words[i + 1:i + 4])
+            imm = _ror(w & 0xFF, ((w >> 8) & 0xF) * 2)
             if loads:
-                j = i + 2 + _ror(w & 0xFF, ((w >> 8) & 0xF) * 2) // 4
+                j = i + 2 + imm // 4
                 for k in (j, j + 1):
                     if i < k < n:
                         pool.add(k)
+            elif resolve_address is not None and imm % 4 == 0:
+                # a string ARMCC put into the code (between the code or after it): its words are
+                # data, not instructions
+                key = resolve_address(base + (i + 2) * 4 + imm)
+                if key is not None and key[0] == 'str':
+                    j = i + 2 + imm // 4
+                    for k in range(j, j + (len(key[1]) + 4) // 4):
+                        if i < k < n:
+                            pool.add(k)
+        elif (w & 0x0FFFFFF0) == 0x079FF100:                              # ldrcc pc, [pc, rX, lsl #2]
+            # a jump table: "b default", then one address per case (ARMCC and GCC); the number
+            # of cases comes from the "cmp rX, #N" before (cc: N cases, ls: N + 1), without it
+            # the words that point into the function
+            rm = w & 0xF
+            count = None
+            for k in range(i - 1, max(-1, i - 4), -1):
+                u = words[k]
+                if (u & 0x0FF0F000) == 0x03500000 and (u >> 16) & 0xF == rm:
+                    count = _ror(u & 0xFF, ((u >> 8) & 0xF) * 2) + (1 if w >> 28 == 0x9 else 0)
+                    break
+            k = i + 2
+            while k < n and (k - i - 2 < count if count is not None
+                             else base <= words[k] < base + 4 * n):
+                pool.add(k)
+                k += 1
         elif (w & 0x0E000000) == 0x0C000000 and (w >> 16) & 0xF == PC and w & (1 << 20) \
                 and (w >> 8) & 0xE == 0xA:                                # vldr from pool
             off = (w & 0xFF) * 4 * (1 if w & (1 << 23) else -1)
@@ -233,6 +264,22 @@ def extract(words, base, resolve_call, resolve_word, returns_this=lambda key: Fa
             regs[r] = (new(), 0)
         return regs[r]
 
+    def rconst_load(org, start, count):
+        """words that ldm / ldrd / vldm read from read-only data (ARMCC loads a member function
+        pointer, its function and the adjustment, from a table in .rodata where GCC puts the
+        function address into the literal pool): constants like a single ldr from there"""
+        for k in range(count):
+            address = org[1] + start + 4 * k
+            value = read_const(address)
+            key = value if isinstance(value, tuple) else ('k', value)
+            if key != ('k', 0) and address not in seen_rconst:
+                consts[key] += 1
+            seen_rconst.add(address)
+
+    def is_rconst(r):
+        org = get(r)[0]
+        return read_const is not None and isinstance(org, tuple) and org[0] == 'r'
+
     def clobber_call(key):
         org0, off0 = regs.get(0, (None, 0))
         # r0 at the call: offset from this, 'sp' for a buffer on the stack, None if unknown
@@ -247,6 +294,7 @@ def extract(words, base, resolve_call, resolve_word, returns_this=lambda key: Fa
         regs[0] = keep if keep else (new(), 0)
 
     dropped = Counter()                   # constants that were only arguments of the array helper
+    offset_consts = {}                    # constants used as the offset of an access (see _access)
     ors = Counter()                       # immediates of orr (not compared, see _orr_consts)
 
     def call_key(i, w):
@@ -371,8 +419,11 @@ def extract(words, base, resolve_call, resolve_word, returns_this=lambda key: Fa
                 count = bin(reglist).count('1')
                 up, pre = bool(w & (1 << 23)), bool(w & (1 << 24))
                 first = (4 if pre else 0) if up else (-4 * count if pre else -4 * count + 4)
-                for k in range(count):
-                    mem.append((org, 'L' if w & (1 << 20) else 'S', 'w', base_off + first + 4 * k))
+                if w & (1 << 20) and is_rconst(rn):
+                    rconst_load(org, base_off + first, count)
+                else:
+                    for k in range(count):
+                        mem.append((org, 'L' if w & (1 << 20) else 'S', 'w', base_off + first + 4 * k))
                 if w & (1 << 21) and not (w & (1 << 20) and reglist & (1 << rn)):
                     regs[rn] = (org, base_off + (4 * count if up else -4 * count))
             if w & (1 << 20) and not reglist & (1 << PC):         # after a return the next code is
@@ -418,6 +469,12 @@ def extract(words, base, resolve_call, resolve_word, returns_this=lambda key: Fa
                     if j not in seen_literals and not removed_log:   # reloading a literal is the compiler's choice
                         consts[key] += 1
                     seen_literals.add(j)
+                    if key[0] == 'k' and not removed_log:
+                        # the value stays known: as the offset of an access it is an offset
+                        # (see _access); counted once like the literal
+                        regs[rd] = (('c', key[1], ('lit', j)), 0)
+                        shape.append('lit')
+                        continue
                 regs[rd] = (new(), 0)
                 shape.append('lit')
                 continue
@@ -429,14 +486,22 @@ def extract(words, base, resolve_call, resolve_word, returns_this=lambda key: Fa
                     flow['jump_table'] += 1
                 continue
             _access(w, op3 == 0b010, rn, rd, load, width, False, regs, get, new, mem, shape, read_const, consts,
-                    seen_rconst)
+                    seen_rconst, offset_consts)
             continue
         if op3 == 0b000 and (w & 0x90) == 0x90 and (w >> 5) & 3:          # ldrh / ldrsb / ldrd ...
             load = bool(w & (1 << 20))
             sh = (w >> 5) & 3
             width = {(1, 1): 'h', (1, 2): 'sb', (1, 3): 'sh', (0, 1): 'h', (0, 2): 'd', (0, 3): 'd'}[(int(load), sh)]
             is_load = load or sh == 2                                     # ldrd has L=0, sh=2
-            _access(w, bool(w & (1 << 22)), rn, rd, is_load, width, True, regs, get, new, mem, shape)
+            if width == 'd' and is_load and w & (1 << 22) and w & (1 << 24) and not w & (1 << 21) and is_rconst(rn):
+                imm = ((w >> 8) & 0xF) << 4 | (w & 0xF)
+                rconst_load(get(rn)[0], get(rn)[1] + (imm if w & (1 << 23) else -imm), 2)
+                regs[rd] = (new(), 0)
+                regs[rd + 1] = (new(), 0)
+                shape.append('ld')
+                continue
+            _access(w, bool(w & (1 << 22)), rn, rd, is_load, width, True, regs, get, new, mem, shape,
+                    offset_consts=offset_consts)
             continue
         if (w & 0x0E000E00) == 0x0C000A00 and (w & 0x01200000) == 0x01000000:  # vldr / vstr
             load = bool(w & (1 << 20))
@@ -450,7 +515,12 @@ def extract(words, base, resolve_call, resolve_word, returns_this=lambda key: Fa
             if rn != SP and get(rn)[0] != 'sp':
                 org, base_off = get(rn)
                 off = (w & 0xFF) * 4 * (1 if w & (1 << 23) else -1)
-                mem.append((org, 'L' if load else 'S', 'v64' if w & 0x100 else 'v32', base_off + off))
+                if load and is_rconst(rn):
+                    # a word of a table in .rodata moved with VFP (ARMCC copies the adjustment
+                    # of a member function pointer with vldr / vstr)
+                    rconst_load(org, base_off + off, 2 if w & 0x100 else 1)
+                else:
+                    mem.append((org, 'L' if load else 'S', 'v64' if w & 0x100 else 'v32', base_off + off))
             shape.append('ld' if load else 'st')
             continue
         if (w & 0x0E000E00) == 0x0C000A00 and (w >> 21) & 0xD in (0x4, 0x5, 0x9):  # vldm / vstm ia, db!
@@ -460,8 +530,11 @@ def extract(words, base, resolve_call, resolve_word, returns_this=lambda key: Fa
             if rn != SP and get(rn)[0] != 'sp':
                 org, base_off = get(rn)
                 first = base_off if up else base_off - 4 * count
-                for k in range(count):
-                    mem.append((org, 'L' if load else 'S', 'w', first + 4 * k))
+                if load and is_rconst(rn):
+                    rconst_load(org, first, count)
+                else:
+                    for k in range(count):
+                        mem.append((org, 'L' if load else 'S', 'w', first + 4 * k))
                 if wb:
                     regs[rn] = (org, base_off + (4 * count if up else -4 * count))
             shape.append('ldm' if load else 'stm')
@@ -521,7 +594,9 @@ def extract(words, base, resolve_call, resolve_word, returns_this=lambda key: Fa
                 if imm:
                     if val:                                               # 0 is everywhere and compiler dependent
                         consts[('k', val)] += 1
-                    regs[rd] = (new(), 0)
+                        regs[rd] = (('c', val, new()), 0)
+                    else:
+                        regs[rd] = (new(), 0)
                 elif (w >> 4) & 0xFF == 0:
                     regs[rd] = ('sp', 0) if rm == SP else get(rm)
                 else:
@@ -531,14 +606,22 @@ def extract(words, base, resolve_call, resolve_word, returns_this=lambda key: Fa
                 regs[rd] = (new(), 0)
             elif opc in (4, 2) and imm:                                   # add / sub imm
                 org, o = get(rn)
+                if opc == 4 and is_rconst(rn):
+                    # ARMCC addresses a string behind a table in .rodata from the table's literal
+                    # (the step name behind the step table: "add r1, r2, #32")
+                    key = resolve_word(None, org[1] + o + val)
+                    if key[0] == 'str' and key[1]:
+                        consts[key] += 1
+                        regs[rd] = (new(), 0)
+                        continue
                 regs[rd] = (org, o + (val if opc == 4 else -val))
             elif opc == 4 and not imm and (w >> 4) & 0x9 != 0x9:            # add rd, rn, rm (lsl #n): &array[i]
-                base = get(rn)
-                if isinstance(base[0], tuple) and base[0][0] == 'g' or \
-                        isinstance(base[0], str) and base[0].startswith('arg'):
+                array = get(rn)
+                if isinstance(array[0], tuple) and array[0][0] == 'g' or \
+                        isinstance(array[0], str) and array[0].startswith('arg'):
                     # an array of a global or behind an argument: compared like its first element
                     # (a loop with a pointer that moves on is seen at its first element, too)
-                    regs[rd] = base
+                    regs[rd] = array
                 else:
                     regs[rd] = (('idx', fresh[0] + 1), 0)
                     fresh[0] += 1
@@ -576,6 +659,7 @@ def extract(words, base, resolve_call, resolve_word, returns_this=lambda key: Fa
     flow.pop('loop', None)
     # how often a constant is materialized, and compares with 0 (cmp / subs / tst / lsrs), too
     consts.subtract(dropped)
+    consts.subtract(Counter(offset_consts.values()))
     consts = +consts
     for k in list(consts):
         if k == ('cmp', 0):
@@ -616,7 +700,7 @@ def _mem_features(raw):
 
 
 def _access(w, is_imm, rn, rd, load, width, misc, regs, get, new, mem, shape, read_const=None, consts=None,
-            seen_consts=None):
+            seen_consts=None, offset_consts=None):
     """record one ldr/str style access"""
     if misc:
         imm = ((w >> 8) & 0xF) << 4 | (w & 0xF) if is_imm else None
@@ -624,6 +708,21 @@ def _access(w, is_imm, rn, rd, load, width, misc, regs, get, new, mem, shape, re
         imm = (w & 0xFFF) if is_imm else None
     if imm is not None and not w & (1 << 23):
         imm = -imm
+    if imm is None and offset_consts is not None and (misc or (w >> 4) & 0xFF == 0) and w & (1 << 24) \
+            and not w & (1 << 21):
+        # "ldr rX, =0x1210 ; ldr r0, [rX, r4]": ARMCC puts a large member offset into a register,
+        # GCC adds it to the pointer; an offset like the immediate one (either register may hold it)
+        rm = w & 0xF
+        for value_reg, base_reg in ((rm, rn), (rn, rm)):
+            vorg = get(value_reg)[0]
+            borg = get(base_reg)[0]
+            if isinstance(vorg, tuple) and vorg[0] == 'c' and vorg[1] < 0x10000 and \
+                    not (isinstance(borg, tuple) and borg[0] == 'c') and borg != 'sp' and base_reg != 15:
+                value = vorg[1] if w & (1 << 23) or value_reg == rn else -vorg[1]
+                offset_consts[vorg[2]] = ('k', vorg[1])
+                rn = base_reg
+                imm = value
+                break
     pre = bool(w & (1 << 24))
     wb = bool(w & (1 << 21)) or not pre
     sign = 'S' if not load else 'L'

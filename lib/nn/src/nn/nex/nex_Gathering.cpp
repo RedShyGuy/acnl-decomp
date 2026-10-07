@@ -23,5 +23,11 @@ void nn::nex::Gathering::Reset()
 {
 }
 
+// 0x003D6A14 (name is ours)
+void nn::nex::Gathering::SetDescription(const String& description)
+{
+    m_Description = description;
+}
+
 } // namespace nex
 } // namespace nn

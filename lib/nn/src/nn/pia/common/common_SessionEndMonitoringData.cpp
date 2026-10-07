@@ -5,6 +5,9 @@
 namespace nn {
 namespace pia {
 namespace common {
+// 0x00AE79E8
+SessionEndMonitoringData g_SessionEndMonitoringData;
+
 // 0x00428680 (name is ours)
 void nn::pia::common::SessionEndMonitoringData::Initialize(u8 type)
 {

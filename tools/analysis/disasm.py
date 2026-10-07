@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Disassemble a range of the original code.elf, with names.
 
-    python tools/analysis/disasm.py <start> <end> [--version USA_1_5]
+    python tools/analysis/disasm.py <start> <end> [--version 0004000000086300]
     python tools/analysis/disasm.py 0x47E788 0x47E8DC
 
 Function starts from config/<version>/symbols.json get a "--- <address> <name>" header, calls
@@ -27,7 +27,7 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument('start')
     ap.add_argument('end')
-    ap.add_argument('--version', default='USA_1_5')
+    ap.add_argument('--version', default='0004000000086300')
     a = ap.parse_args()
     elf = os.path.join(ROOT, 'orig', a.version, 'code.elf')
     db = json.load(open(os.path.join(ROOT, 'config', a.version, 'symbols.json'), encoding='utf-8'))

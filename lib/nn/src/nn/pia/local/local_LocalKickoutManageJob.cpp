@@ -1,32 +1,39 @@
-#include "nn/pia/session/session_KickoutManageJob.h"
 #include "nn/pia/local/local_LocalKickoutManageJob.h"
+#include "nn/pia/local/local_LocalNetwork.h"
 
 namespace nn {
 namespace pia {
 namespace local {
-// ctor candidate(s) 0x0041C388 (unverified)
+// 0x0041C360
+void nn::pia::local::LocalKickoutManageJob::StartupImpl()
+{
+    // a lost connection is not taken for a host that left
+    LocalNetwork::s_pInstance->m_Unknown0x99 = true;
+}
+
+// 0x0041C378
+void nn::pia::local::LocalKickoutManageJob::OnKickout(const nn::pia::common::StationAddress& address)
+{
+    LocalNetwork::s_pInstance->EjectClient(address);
+}
+
+// 0x0041C388
 nn::pia::local::LocalKickoutManageJob::LocalKickoutManageJob()
 {
+    // only the base and the vptr (in the original too)
 }
 
-// 0x004389B0 slot 0x00 | slot vf_0x00 of nn::pia::common::Job
+// 0x004389B0
+// 0x0041C3A0 (deleting dtor)
 nn::pia::local::LocalKickoutManageJob::~LocalKickoutManageJob()
 {
+    // empty (in the original too)
 }
 
-// 0x007311E4 slot 0x14 | slot vf_0x14 of nn::pia::common::StepSequenceJob
-void nn::pia::local::LocalKickoutManageJob::Trace(unsigned long long) const
+// 0x007311E4
+void nn::pia::local::LocalKickoutManageJob::Trace(u64) const
 {
-}
-
-// 0x0041C360 slot 0x18 | virtual slot, introduced by nn::pia::session::KickoutManageJob
-void nn::pia::local::LocalKickoutManageJob::vf_0x18()
-{
-}
-
-// 0x0041C378 slot 0x1C | virtual slot, introduced by nn::pia::session::KickoutManageJob
-void nn::pia::local::LocalKickoutManageJob::vf_0x1C()
-{
+    // empty (in the original too)
 }
 
 } // namespace local

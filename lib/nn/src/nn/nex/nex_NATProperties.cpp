@@ -18,5 +18,17 @@ nn::nex::NATProperties::NATProperties()
 {
 }
 
+// 0x00361FE8 (name is ours)
+void nn::nex::NATProperties::SetPrivateAddress(const nn::nex::String& address)
+{
+    m_PrivateAddress = address;
+}
+
+// 0x003D147C (name is ours)
+void nn::nex::NATProperties::SetPublicAddress(const nn::nex::String& address)
+{
+    m_PublicAddress = address;
+}
+
 } // namespace nex
 } // namespace nn

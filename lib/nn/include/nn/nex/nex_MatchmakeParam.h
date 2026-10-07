@@ -13,6 +13,25 @@ public:
     virtual ~MatchmakeParam(); // 0x003718CC slot 0x00 | slot vf_0x00 of nn::nex::_DDL_MatchmakeParam
     // 0x003718BC slot 0x04 | slot vf_0x04 of nn::nex::_DDL_MatchmakeParam (deleting dtor)
     MatchmakeParam(); // 0x0037181C | fefates:bytes [tier B]
+
+    // the parameter of the key is set (the insert of the RW tree is inline; name is ours)
+    void SetParam(const String& key, const Variant& value); // 0x003D3924
+    // the value of @LGFPC; false if there is none (the lookup is inline; armlink placed it at
+    // the end of the code; name is ours)
+    bool GetParamLGFPC(u32* pValue) const; // 0x0072B124
+    // the value of the key as u32; false if there is none (inline; not decompiled yet)
+    bool GetParam(const String& key, u32* pValue) const;
 };
+
+// the keys of the parameters that pia sets (names are ours)
+extern const wchar_t* g_MatchmakeParamKeySI;   // "@SI"
+extern const wchar_t* g_MatchmakeParamKeyNCC;  // "@NCC"
+extern const wchar_t* g_MatchmakeParamKeyOIA;  // "@OIA"
+extern const wchar_t* g_MatchmakeParamKeyUsGI; // "@UsGI"
+extern const wchar_t* g_MatchmakeParamKeyRV;   // "@RV"
+extern const wchar_t* g_MatchmakeParamKeyDR;   // "@DR"
+extern const wchar_t* g_MatchmakeParamKeyVR;   // "@VR"
+extern const wchar_t* g_MatchmakeParamKeyUpGI; // "@UpGI"
+extern const wchar_t* g_MatchmakeParamKeyLGFPC; // "@LGFPC"
 } // namespace nex
 } // namespace nn

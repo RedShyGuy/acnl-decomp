@@ -46,18 +46,20 @@ public:
     u32 m_Magic;                          // 0x000
     State m_State;                        // 0x004
     u8 m_Unknown0x5;                      // 0x005
-    u16 m_Unknown0x6;                     // 0x006
-    u16 m_Unknown0x8;                     // 0x008
-    u16 m_Unknown0xA;                     // 0x00A
+    u16 m_SequenceId;                     // 0x006
+    u16 m_RttTimeStamp;                   // 0x008, big endian (transport::NetworkRttManager)
+    u16 m_RttEcho;                        // 0x00A, big endian (transport::NetworkRttManager)
     u8 m_Payload[0x5AC];                  // 0x00C
     u32 m_Size;                           // 0x5B8, the used part of the buffer (with the header)
-    u8 m_SourceStationIndex;              // 0x5BC
+    u8 m_DestinationStationIndex;         // 0x5BC (transport::PacketHandler::AssignPacket)
     u32 m_DestinationBitmap;              // 0x5C0
-    StationAddress m_SourceStationAddress; // 0x5C4
-    u8 m_Unknown0x5D4;                    // 0x5D4
-    u8 m_Unknown0x5D5;                    // 0x5D5
-    StationAddress m_DestinationStationAddress; // 0x5D8
-    u8 m_Unknown0x5E8;                    // 0x5E8
+    StationAddress m_DestinationStationAddress; // 0x5C4, where it goes (transport::PacketHandler::AssignPacket)
+    u8 m_Ttl;                             // 0x5D4
+    bool m_Unknown0x5D5;                  // 0x5D5 (the last argument of AssignPacket)
+    StationAddress m_SourceStationAddress; // 0x5D8, where it comes from (set by the input streams)
+    // the received packet is valid and its messages may be read (transport::PacketHandler::
+    // BeginDispatchCore)
+    bool m_HasMessages;                   // 0x5E8
 };
 ASSERT_SIZE(Packet, 0x5EC);
 ASSERT_OFFSET(Packet, m_Size, 0x5B8);

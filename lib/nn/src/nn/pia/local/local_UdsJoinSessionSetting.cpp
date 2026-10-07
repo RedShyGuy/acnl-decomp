@@ -1,32 +1,32 @@
-#include "nn/pia/local/local_LocalJoinSessionSetting.h"
 #include "nn/pia/local/local_UdsJoinSessionSetting.h"
+#include "nn/pia/common/common_Result.h"
+#include <cstring>
 
 namespace nn {
 namespace pia {
 namespace local {
-// ctor candidate(s) 0x005123F8 (unverified)
-nn::pia::local::UdsJoinSessionSetting::UdsJoinSessionSetting()
+// 0x0041D55C
+nn::Result nn::pia::local::UdsJoinSessionSetting::SetPassphrase(const void* pPassphrase, u32 size)
 {
+    if (!common::IsValidPointer(pPassphrase) || size < PASSPHRASE_SIZE_MIN || size > PASSPHRASE_SIZE_MAX) {
+        return common::RESULT_INVALID_ARGUMENT;
+    }
+    std::memcpy(m_Passphrase, pPassphrase, size);
+    m_PassphraseSize = size;
+    return nn::Result();
 }
 
-// 0x0041EA04 slot 0x00 | virtual slot, introduced by nn::pia::session::JoinSessionSetting
-void nn::pia::local::UdsJoinSessionSetting::vf_0x00()
+// 0x0041EA04
+// 0x0041D5A4 (deleting dtor)
+nn::pia::local::UdsJoinSessionSetting::~UdsJoinSessionSetting()
 {
+    // empty (in the original too)
 }
 
-// 0x0041D5A4 slot 0x04 | virtual slot, introduced by nn::pia::session::JoinSessionSetting
-void nn::pia::local::UdsJoinSessionSetting::vf_0x04()
+// 0x00731500
+const char* nn::pia::local::UdsJoinSessionSetting::GetPassphrase() const
 {
-}
-
-// 0x00731500 slot 0x14 | virtual slot, introduced by nn::pia::local::LocalJoinSessionSetting
-void nn::pia::local::UdsJoinSessionSetting::vf_0x14()
-{
-}
-
-// 0x0041D55C slot 0x18 | virtual slot, introduced by nn::pia::local::LocalJoinSessionSetting
-void nn::pia::local::UdsJoinSessionSetting::vf_0x18()
-{
+    return m_Passphrase;
 }
 
 } // namespace local

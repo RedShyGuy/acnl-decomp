@@ -1,37 +1,44 @@
-#include "nn/pia/local/local_LocalCreateSessionSetting.h"
 #include "nn/pia/local/local_UdsCreateSessionSetting.h"
+#include <cstring>
 
 namespace nn {
 namespace pia {
 namespace local {
-// ctor candidate(s) 0x0041F774 (unverified)
-nn::pia::local::UdsCreateSessionSetting::UdsCreateSessionSetting()
+// 0x0041F70C
+void nn::pia::local::UdsCreateSessionSetting::SetCreateNetworkSetting(const nn::pia::local::LocalCreateNetworkSetting& setting)
+{
+    std::memcpy(m_CreateNetworkSetting.m_ApplicationData, setting.m_ApplicationData, setting.m_ApplicationDataSize);
+    m_CreateNetworkSetting.m_ApplicationDataSize = setting.m_ApplicationDataSize;
+    m_CreateNetworkSetting.m_Channel = setting.m_Channel;
+    m_CreateNetworkSetting.m_SubId = setting.m_SubId;
+    m_CreateNetworkSetting.m_LocalCommunicationId = setting.m_LocalCommunicationId;
+    m_CreateNetworkSetting.m_NodeCountMax = setting.m_NodeCountMax;
+    std::memcpy(m_CreateNetworkSetting.m_Passphrase, setting.m_Passphrase, setting.m_PassphraseSize);
+    m_CreateNetworkSetting.m_PassphraseSize = setting.m_PassphraseSize;
+}
+
+// 0x0041F774
+nn::pia::local::UdsCreateSessionSetting::UdsCreateSessionSetting() : m_CreateNetworkSetting()
 {
 }
 
-// 0x004202FC slot 0x00 | virtual slot, introduced by nn::pia::local::LocalCreateSessionSetting
-void nn::pia::local::UdsCreateSessionSetting::vf_0x00()
+// 0x004202FC
+// 0x0041F7D0 (deleting dtor)
+nn::pia::local::UdsCreateSessionSetting::~UdsCreateSessionSetting()
 {
+    // empty (in the original too)
 }
 
-// 0x0041F7D0 slot 0x04 | virtual slot, introduced by nn::pia::local::LocalCreateSessionSetting
-void nn::pia::local::UdsCreateSessionSetting::vf_0x04()
+// 0x0073168C
+nn::pia::local::LocalCreateNetworkSetting* nn::pia::local::UdsCreateSessionSetting::GetCreateNetworkSetting()
 {
+    return &m_CreateNetworkSetting;
 }
 
-// 0x0073168C slot 0x08 | virtual slot, introduced by nn::pia::local::LocalCreateSessionSetting
-void nn::pia::local::UdsCreateSessionSetting::vf_0x08()
+// 0x00731694
+void nn::pia::local::UdsCreateSessionSetting::Trace(u64) const
 {
-}
-
-// 0x0041F70C slot 0x0C | virtual slot, introduced by nn::pia::local::LocalCreateSessionSetting
-void nn::pia::local::UdsCreateSessionSetting::vf_0x0C()
-{
-}
-
-// 0x00731694 slot 0x10 | virtual slot, introduced by nn::pia::local::LocalCreateSessionSetting
-void nn::pia::local::UdsCreateSessionSetting::vf_0x10()
-{
+    // empty (in the original too)
 }
 
 } // namespace local

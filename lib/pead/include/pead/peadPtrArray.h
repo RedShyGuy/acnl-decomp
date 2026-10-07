@@ -6,6 +6,7 @@
 #include "decomp.h"
 
 namespace pead {
+class Heap;
 
 class PtrArrayImpl
 {
@@ -16,6 +17,14 @@ public:
 
     // the memory of the pointers (name is ours)
     void setBuffer(int ptrNumMax, void* buffer); // 0x00538734
+    // the memory of the pointers from the heap (name is ours)
+    void allocBuffer(int ptrNumMax, Heap* heap, int alignment); // 0x00538544
+    // frees the memory of allocBuffer (name after sead in the nintendogs symbols)
+    void freeBuffer(); // 0x0053850C
+    // removes num pointers from index on (name is ours)
+    void erase(int index, int num); // 0x00538678
+    // puts ptr before index (name is ours)
+    void insert(int index, void* ptr); // 0x005386D0
 
     // index of the element that compares equal to ptr, a negative value if there is none
     int binarySearch(const void* ptr, CompareCallback cmp) const; // 0x007493EC | nintendogs:bytes
@@ -48,6 +57,8 @@ public:
             mPtrNum++;
         }
     }
+
+    void insert(s32 index, T* ptr) { PtrArrayImpl::insert(index, ptr); }
 
     void clear() { mPtrNum = 0; }
 };

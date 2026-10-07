@@ -11,9 +11,10 @@ namespace inet {
 class MissingStationHandler : public ::nn::pia::transport::MissingStationHandler
 {
 public:
-    MissingStationHandler(); // ctor address unknown
-    virtual void vf_0x00(); // 0x004015B4 slot 0x00 | virtual slot, introduced by nn::pia::inet::MissingStationHandler
-    virtual void vf_0x04(); // 0x004015B0 slot 0x04 | virtual slot, introduced by nn::pia::inet::MissingStationHandler
+    // (inline in NexNetworkFactory::CreateMissingStationHandler)
+    MissingStationHandler() {}
+    virtual ~MissingStationHandler(); // 0x004015B4 slot 0x00
+    // 0x004015B0 slot 0x04 (deleting dtor)
     virtual void Execute(nn::pia::transport::StationConnectionInfo*); // 0x00401570 slot 0x08 | fefates:bytes
 };
 } // namespace inet

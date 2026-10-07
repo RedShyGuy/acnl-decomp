@@ -4,6 +4,11 @@
 namespace nn {
 namespace pia {
 namespace common {
+// constructed by the static initializer at 0x0079F0D0 (symbols.json calls it a SignatureSetting
+// constructor)
+// 0x00AF5B70
+const SignatureSetting g_DefaultSignatureSetting;
+
 // 0x00427EB0 | fefates:bytes-fuzzy [tier B]
 nn::Result nn::pia::common::SignatureSetting::Set(nn::pia::common::SignatureSetting::Mode mode, const void* pKey, unsigned int keySize)
 {

@@ -43,10 +43,13 @@ set(CMAKE_TRY_COMPILE_TARGET_TYPE STATIC_LIBRARY)
 #   -fno-store-merging: two byte stores stay two stores (GCC would make one strh)
 #   -fno-lifetime-dse: stores to members in a destructor stay (e.g. "mHandle = 0" after closing it)
 #   -fno-tree-switch-conversion: a switch stays compares (GCC would make a lookup table in .rodata)
+#   -fdisable-tree-iftoswitch: an if-chain of comparisons with constants stays comparisons (GCC
+#       would make a switch of it and then a bit test with a mask, e.g. the result codes in
+#       pia::session::JoinMeshJob)
 #   -fno-math-errno: sqrtf is a bare vsqrt (ARMCC does not set errno; GCC would add a call to sqrtf for NaN)
 #   -fshort-wchar: wchar_t is 16 bit as with ARMCC on the 3DS (UTF-16 paths of nn::fs, L"..." literals)
 set(DECOMP_GCC_FLAGS
-    "-march=armv6k -mtune=mpcore -mfloat-abi=hard -mfpu=vfp -marm -mtp=soft -O2 -ffunction-sections -fdata-sections -fno-optimize-strlen -fno-tree-loop-distribute-patterns -fno-reorder-blocks -fno-store-merging -fno-lifetime-dse -fno-tree-switch-conversion -fno-math-errno -fshort-wchar -w"
+    "-march=armv6k -mtune=mpcore -mfloat-abi=hard -mfpu=vfp -marm -mtp=soft -O2 -ffunction-sections -fdata-sections -fno-optimize-strlen -fno-tree-loop-distribute-patterns -fno-reorder-blocks -fno-store-merging -fno-lifetime-dse -fno-tree-switch-conversion -fdisable-tree-iftoswitch -fno-math-errno -fshort-wchar -w"
     CACHE STRING "GCC options used for every source file")
 
 set(CMAKE_C_FLAGS_INIT "${DECOMP_GCC_FLAGS}")

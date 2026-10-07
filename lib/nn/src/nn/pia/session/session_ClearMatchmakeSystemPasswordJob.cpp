@@ -1,32 +1,60 @@
-#include "nn/pia/common/common_StepSequenceJob.h"
 #include "nn/pia/session/session_ClearMatchmakeSystemPasswordJob.h"
+#include "nn/pia/common/common_Result.h"
+#include "nn/pia/session/session_Session.h"
 
 namespace nn {
 namespace pia {
 namespace session {
-// ctor candidate(s) 0x004479D8 (unverified)
-nn::pia::session::ClearMatchmakeSystemPasswordJob::ClearMatchmakeSystemPasswordJob()
+// 0x00447918
+nn::pia::common::ExecuteResult nn::pia::session::ClearMatchmakeSystemPasswordJob::FailureProcess()
+{
+    if (m_pCallContext->m_Result == common::RESULT_SESSION_DISCONNECTED) {
+        Session::s_pInstance->SetDisconnectedByError();
+    }
+    m_pCallContext = nullptr;
+    return common::ExecuteResult(common::ExecuteResult::STATE_SUCCESS);
+}
+
+// 0x00447960
+nn::pia::common::ExecuteResult nn::pia::session::ClearMatchmakeSystemPasswordJob::CompleteProcess()
+{
+    m_pCallContext->SignalSuccess(nn::Result());
+    m_pCallContext = nullptr;
+    return common::ExecuteResult(common::ExecuteResult::STATE_SUCCESS);
+}
+
+// 0x0044798C
+void nn::pia::session::ClearMatchmakeSystemPasswordJob::Cleanup()
+{
+    if (m_pCallContext != nullptr) {
+        if (m_pCallContext->m_State == common::CallContext::STATE_CALL_IN_PROGRESS) {
+            m_pCallContext->SignalCancel();
+        }
+        m_pCallContext = nullptr;
+    }
+    if (m_CallContext.m_State == common::CallContext::STATE_CALL_IN_PROGRESS) {
+        m_CallContext.SignalCancel();
+    }
+    m_CallContext.Reset();
+    m_SessionId = 0;
+}
+
+// 0x004479D8
+nn::pia::session::ClearMatchmakeSystemPasswordJob::ClearMatchmakeSystemPasswordJob() : m_SessionId(0), m_pCallContext(nullptr)
 {
 }
 
-// 0x00447A30 slot 0x00 | slot vf_0x00 of nn::pia::common::Job
+// 0x00447A30
+// 0x00447A08 (deleting dtor)
 nn::pia::session::ClearMatchmakeSystemPasswordJob::~ClearMatchmakeSystemPasswordJob()
 {
+    // empty (in the original too)
 }
 
-// 0x00734210 slot 0x14 | slot vf_0x14 of nn::pia::common::StepSequenceJob
-void nn::pia::session::ClearMatchmakeSystemPasswordJob::Trace(unsigned long long) const
+// 0x00734210
+void nn::pia::session::ClearMatchmakeSystemPasswordJob::Trace(u64) const
 {
-}
-
-// 0x0044798C slot 0x18 | virtual slot, introduced by nn::pia::session::ClearMatchmakeSystemPasswordJob
-void nn::pia::session::ClearMatchmakeSystemPasswordJob::vf_0x18()
-{
-}
-
-// 0x0011C12F slot 0x1C | slot vf_0x00 of ChangeRentalBase
-void nn::pia::session::ClearMatchmakeSystemPasswordJob::vf_0x1C()
-{
+    // empty (in the original too)
 }
 
 } // namespace session

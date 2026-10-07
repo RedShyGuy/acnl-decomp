@@ -1,87 +1,82 @@
-#include "nn/pia/session/session_MeshLayerController.h"
 #include "nn/pia/local/local_LocalMatchMeshLayerController.h"
+#include "nn/pia/common/common_Result.h"
+#include "nn/pia/local/local_LocalFacade.h"
+#include "nn/pia/local/local_LocalNetwork.h"
 
 namespace nn {
 namespace pia {
 namespace local {
-// ctor address unknown
-nn::pia::local::LocalMatchMeshLayerController::LocalMatchMeshLayerController()
-{
-}
-
-// 0x00423438 slot 0x00 | virtual slot, introduced by nn::pia::local::LocalMatchMeshLayerController
-void nn::pia::local::LocalMatchMeshLayerController::vf_0x00()
-{
-}
-
-// 0x00423434 slot 0x04 | virtual slot, introduced by nn::pia::local::LocalMatchMeshLayerController
-void nn::pia::local::LocalMatchMeshLayerController::vf_0x04()
-{
-}
-
-// 0x004233EC slot 0x08 | virtual slot, introduced by nn::pia::local::LocalMatchMeshLayerController
-void nn::pia::local::LocalMatchMeshLayerController::vf_0x08()
-{
-}
-
-// 0x004233B0 slot 0x0C | virtual slot, introduced by nn::pia::local::LocalMatchMeshLayerController
-void nn::pia::local::LocalMatchMeshLayerController::vf_0x0C()
-{
-}
-
-// 0x00439D20 slot 0x10 | virtual slot, introduced by nn::pia::local::LocalMatchMeshLayerController
-void nn::pia::local::LocalMatchMeshLayerController::vf_0x10()
-{
-}
-
-// 0x004232F4 slot 0x14 | virtual slot, introduced by nn::pia::local::LocalMatchMeshLayerController
+// 0x004232F4
 void nn::pia::local::LocalMatchMeshLayerController::vf_0x14()
 {
+    CleanupMesh();
+    LocalFacade::s_pInstance->Cleanup();
 }
 
-// 0x00423318 slot 0x18 | virtual slot, introduced by nn::pia::local::LocalMatchMeshLayerController
-void nn::pia::local::LocalMatchMeshLayerController::vf_0x18()
+// 0x00423318
+u8 nn::pia::local::LocalMatchMeshLayerController::GetNetworkStatus()
 {
+    LocalNetwork* pNetwork = LocalNetwork::s_pInstance;
+    if (!m_IsJoined) {
+        if (pNetwork->IsHost() || pNetwork->IsClient()) {
+            m_IsJoined = true;
+        }
+        return 1;
+    }
+    if (pNetwork->IsHost() || pNetwork->IsClient()) {
+        return 1;
+    }
+    if (!LocalNetwork::s_pInstance->IsDuringHostMigration()) {
+        return 3;
+    }
+    return 1;
 }
 
-// 0x007316E0 slot 0x1C | virtual slot, introduced by nn::pia::local::LocalMatchMeshLayerController
+// 0x004233B0
+void nn::pia::local::LocalMatchMeshLayerController::Cleanup()
+{
+    vf_0x14();
+    LocalNetwork::s_pInstance->Cleanup();
+    ClearUnknown0x69();
+    m_IsJoined = false;
+}
+
+// 0x004233EC
+nn::Result nn::pia::local::LocalMatchMeshLayerController::Startup(bool isHostMigrationEnabled, const u8* pIdentificationData, nn::pia::common::Crypto::Mode cryptoMode,
+                                                                  u32 timeoutMSec, u32 keepAliveIntervalMSec, s32 bandwidthCheckBandwidth, u32 bandwidthCheckPacketSize,
+                                                                  bool isBandwidthCheckOneWay, s32 bandwidthCheckDurationMSec,
+                                                                  const nn::pia::transport::Station::PlayerName* pPlayerName, bool value)
+{
+    // (the result of the base is not used)
+    MeshLayerController::Startup(isHostMigrationEnabled, pIdentificationData, cryptoMode, timeoutMSec, keepAliveIntervalMSec, bandwidthCheckBandwidth,
+                                 bandwidthCheckPacketSize, isBandwidthCheckOneWay, bandwidthCheckDurationMSec, pPlayerName, value);
+    nn::Result result = LocalNetwork::s_pInstance->Startup();
+    if (result.IsFailure()) {
+        if (result == common::RESULT_LOCAL_NETWORK_LOST) {
+            return common::RESULT_NOT_IN_SESSION;
+        }
+        return result;
+    }
+    return result;
+}
+
+// 0x00423438
+// 0x00423434 (deleting dtor)
+nn::pia::local::LocalMatchMeshLayerController::~LocalMatchMeshLayerController()
+{
+    // empty (in the original too)
+}
+
+// 0x007316D0
+u32 nn::pia::local::LocalMatchMeshLayerController::vf_0x28()
+{
+    return LocalNetwork::s_pInstance->GetConnectedNodeNum();
+}
+
+// 0x007316E0
 void nn::pia::local::LocalMatchMeshLayerController::vf_0x1C()
 {
-}
-
-// 0x00439F28 slot 0x20 | virtual slot, introduced by nn::pia::inet::NexMatchMeshLayerController
-void nn::pia::local::LocalMatchMeshLayerController::vf_0x20()
-{
-}
-
-// 0x00439F58 slot 0x24 | virtual slot, introduced by nn::pia::inet::NexMatchMeshLayerController
-void nn::pia::local::LocalMatchMeshLayerController::vf_0x24()
-{
-}
-
-// 0x007316D0 slot 0x28 | virtual slot, introduced by nn::pia::local::LocalMatchMeshLayerController
-void nn::pia::local::LocalMatchMeshLayerController::vf_0x28()
-{
-}
-
-// 0x00439F7C slot 0x2C | virtual slot, introduced by nn::pia::inet::NexMatchMeshLayerController
-void nn::pia::local::LocalMatchMeshLayerController::vf_0x2C()
-{
-}
-
-// 0x00439F94 slot 0x30 | virtual slot, introduced by nn::pia::local::LocalMatchMeshLayerController
-void nn::pia::local::LocalMatchMeshLayerController::vf_0x30()
-{
-}
-
-// 0x00733920 slot 0x34 | virtual slot, introduced by nn::pia::inet::NexMatchMeshLayerController
-void nn::pia::local::LocalMatchMeshLayerController::vf_0x34()
-{
-}
-
-// 0x00439F24 slot 0x38 | virtual slot, introduced by nn::pia::local::LocalMatchMeshLayerController
-void nn::pia::local::LocalMatchMeshLayerController::vf_0x38()
-{
+    // empty (in the original too)
 }
 
 } // namespace local

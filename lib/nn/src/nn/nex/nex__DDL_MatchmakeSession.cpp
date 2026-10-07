@@ -23,13 +23,13 @@ void nn::nex::_DDL_MatchmakeSession::GetGatheringType() const
 {
 }
 
-// 0x0072CFD4 slot 0x10 | virtual slot, introduced by nn::nex::_DDL_Gathering
-void nn::nex::_DDL_MatchmakeSession::vf_0x10()
+// 0x0072CFD4 slot 0x10
+bool nn::nex::_DDL_MatchmakeSession::IsA(const String&) const
 {
 }
 
-// 0x0072D028 slot 0x14 | virtual slot, introduced by nn::nex::_DDL_Gathering
-void nn::nex::_DDL_MatchmakeSession::vf_0x14()
+// 0x0072D028 slot 0x14
+bool nn::nex::_DDL_MatchmakeSession::IsAKindOf(const String&) const
 {
 }
 
@@ -46,6 +46,17 @@ void nn::nex::_DDL_MatchmakeSession::StreamOut(nn::nex::Message*)
 // 0x0039B9C8 | fefates:bytes [tier B]
 void nn::nex::_DDL_MatchmakeSession::Extract(nn::nex::Message*, nn::nex::_DDL_MatchmakeSession*)
 {
+}
+
+// 0x0039BC74 (name is ours)
+void nn::nex::_DDL_MatchmakeSession::operator=(const _DDL_MatchmakeSession&)
+{
+}
+
+// 0x0072B750 (name is ours)
+u32 nn::nex::_DDL_MatchmakeSession::GetAttribute(u32 index) const
+{
+    return m_Attributes[index];
 }
 
 } // namespace nex

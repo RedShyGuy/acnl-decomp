@@ -6,7 +6,7 @@ namespace sead {
 class TickTime
 {
 public:
-    void setNow(); // 0x00428DC4 | nintendogs:bytes [tier A]
-    TickTime(); // 0x0053D960 | nintendogs:bytes [tier A]
+    void setNow(); // the function of the binary is nn::pia::common::Time::SetNow (the same code)
+    TickTime(); // the function of the binary is pead::TickTime::TickTime
 };
 } // namespace sead

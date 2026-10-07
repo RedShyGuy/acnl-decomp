@@ -11,6 +11,12 @@ class ResultRange : public ::nn::nex::_DDL_ResultRange
 {
 public:
     ResultRange(); // ctor candidate(s) 0x0050E8D0 (unverified)
+    // (inline in pia::inet::NexMatchmakeSession)
+    ResultRange(u32 offset, u32 size)
+    {
+        m_Offset = offset;
+        m_Size = size;
+    }
     virtual void vf_0x00(); // 0x0035BA7C slot 0x00 | virtual slot, introduced by nn::nex::_DDL_ResultRange
     virtual void vf_0x04(); // 0x0035BA78 slot 0x04 | virtual slot, introduced by nn::nex::_DDL_ResultRange
     virtual void vf_0x08(); // 0x0072A388 slot 0x08 | virtual slot, introduced by nn::nex::ResultRange

@@ -21,6 +21,12 @@ const bit32 RESULT_OUT_OF_MEMORY = 0xC86113F3;              // status, out of re
 const bit32 RESULT_NOT_AUTHORIZED_STATE = 0xC8A113EA;       // status, invalid state, 1002 (sleep)
 const bit32 RESULT_BEACON_WITHOUT_NETWORK = 0xE1211005;     // usage, canceled, 5
 const bit32 RESULT_BEACON_WITHOUT_NODES = 0xE1211008;       // usage, canceled, 8
+// the results that pia local tells apart (meaning unknown, names after level/summary/description)
+const bit32 RESULT_NOT_FOUND_1018 = 0xC88113FA;             // status, not found, 1018
+const bit32 RESULT_OUT_OF_RESOURCE_1 = 0xC8611001;          // status, out of resource, 1
+const bit32 RESULT_CANCELED_1019 = 0xC92113FB;              // status, canceled, 1019
+const bit32 RESULT_CANCELED_1022 = 0xC92113FE;              // status, canceled, 1022
+const bit32 RESULT_STATUS_CHANGED_2 = 0xC9411002;           // status, status changed, 2
 
 // the kernel's "session closed by the other side" (module os, 26): the uds service is gone
 const bit32 RESULT_SESSION_CLOSED = 0xC920181A;

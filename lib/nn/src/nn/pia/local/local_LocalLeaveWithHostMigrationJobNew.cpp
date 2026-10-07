@@ -1,27 +1,54 @@
-#include "nn/pia/session/session_LeaveWithHostMigrationJob.h"
 #include "nn/pia/local/local_LocalLeaveWithHostMigrationJobNew.h"
+#include "nn/pia/common/common_StationAddress.h"
+#include "nn/pia/local/local_LocalMigrationManager.h"
+#include "nn/pia/local/local_LocalNetwork.h"
+#include "nn/pia/local/local_LocalNetworkManager.h"
+#include "nn/pia/transport/transport_Station.h"
+#include "nn/pia/transport/transport_StationManager.h"
 
 namespace nn {
 namespace pia {
 namespace local {
-// ctor candidate(s) 0x00425628 (unverified)
+// 0x0042554C
+nn::pia::StationIndex nn::pia::local::LocalLeaveWithHostMigrationJobNew::DecideNextHost()
+{
+    transport::Station* pLocalStation = transport::StationManager::s_pInstance->m_pLocalStation;
+    u8 next = LocalNetwork::s_pInstance->m_pMigrationManager->GetNextHostCandidateTransportId();
+    LocalNetworkManager* pManager = LocalNetwork::s_pInstance->m_pNetworkManager;
+    u8 localTransportId = pManager->m_LocalTransportId;
+    if (pLocalStation == nullptr || pManager->m_InvalidNodeId == localTransportId ||
+        pLocalStation->m_StationAddress.GetExtensionId() == pManager->m_InvalidNodeId ||
+        pLocalStation->m_StationAddress.GetExtensionId() != localTransportId || pManager->m_InvalidNodeId == next ||
+        next == localTransportId) {
+        return STATION_INDEX_UNIDENTIFIED;
+    }
+
+    common::StationAddress address;
+    address.SetExtensionId(next);
+    transport::Station* pStation = transport::StationManager::s_pInstance->GetStation(address);
+    if (pStation == nullptr) {
+        return STATION_INDEX_UNIDENTIFIED;
+    }
+    return pStation->m_StationIndex;
+}
+
+// 0x00425628
 nn::pia::local::LocalLeaveWithHostMigrationJobNew::LocalLeaveWithHostMigrationJobNew()
 {
+    // only the base and the vptr (in the original too)
 }
 
-// 0x00425650 slot 0x00 | slot vf_0x00 of nn::pia::common::Job
+// 0x00425650
+// 0x00425640 (deleting dtor)
 nn::pia::local::LocalLeaveWithHostMigrationJobNew::~LocalLeaveWithHostMigrationJobNew()
 {
+    // empty (in the original too)
 }
 
-// 0x007317F8 slot 0x14 | slot vf_0x14 of nn::pia::common::StepSequenceJob
-void nn::pia::local::LocalLeaveWithHostMigrationJobNew::Trace(unsigned long long) const
+// 0x007317F8
+void nn::pia::local::LocalLeaveWithHostMigrationJobNew::Trace(u64) const
 {
-}
-
-// 0x0042554C slot 0x18 | virtual slot, introduced by nn::pia::session::LeaveWithHostMigrationJob
-void nn::pia::local::LocalLeaveWithHostMigrationJobNew::vf_0x18()
-{
+    // empty (in the original too)
 }
 
 } // namespace local

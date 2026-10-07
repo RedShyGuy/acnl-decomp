@@ -10,8 +10,8 @@ namespace RuntimeTypeInfo {
 class Root : public ::pead::RuntimeTypeInfo::Interface
 {
 public:
-    Root(); // ctor candidate(s) 0x0073614C, 0x00749BC0 (unverified)
-    virtual void vf_0x00(); // 0x00749478 slot 0x00 | virtual slot, introduced by pead::RuntimeTypeInfo::Root
+    Root() {}
+    virtual bool isDerived(const Interface* typeInfo) const; // 0x00749478 slot 0x00
 };
 } // namespace RuntimeTypeInfo
 } // namespace pead

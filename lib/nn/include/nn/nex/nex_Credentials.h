@@ -15,6 +15,10 @@ public:
     // 0x003575E0 slot 0x04 | fefates:bytes (deleting dtor)
     void MarkInvalid(); // 0x00137B04 | mk7dlp:bytes [tier B]
     void GetConnection(unsigned short) const; // 0x0072A100 | fefates:bytes [tier B]
+
+    // (only the member pia uses; the name is ours, after pia::inet::NatTraverser)
+    u8 m_Unknown0x9[3];   // 0x9
+    u32 m_PrincipalId;    // 0xC
 };
 } // namespace nex
 } // namespace nn

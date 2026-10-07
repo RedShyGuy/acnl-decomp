@@ -3,11 +3,6 @@
 
 namespace nn {
 namespace nex {
-// ctor address unknown
-nn::nex::_DDL_ResultRange::_DDL_ResultRange()
-{
-}
-
 // 0x00384100 slot 0x00 | virtual slot, introduced by nn::nex::_DDL_ResultRange
 void nn::nex::_DDL_ResultRange::vf_0x00()
 {

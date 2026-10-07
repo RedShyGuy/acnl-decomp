@@ -44,3 +44,9 @@ void FreeMemory(void* ptr); // 0x005387F8
 // buffer and ignores the result; name is ours)
 u32 GetMemoryBlockInfo(const void* ptr); // 0x00538754
 } // namespace pead
+
+// allocation on a heap with an alignment (the name is from the nintendogs symbols, there for sead)
+void* operator new(size_t size, pead::Heap* heap, int alignment); // 0x0053B33C
+
+namespace pead {
+} // namespace pead

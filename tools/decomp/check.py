@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Compare compiled functions with the original code.elf.
 
-    python tools/decomp/check.py [--build-dir build/gcc] [--version USA_1_5] [--show N]
+    python tools/decomp/check.py [--build-dir build/gcc] [--version 0004000000086300] [--show N]
     python tools/decomp/check.py --function "SvFgName::IsEmpty() const"   (can be repeated)
     python tools/decomp/check.py --explain nn::uds   (differences of every not equivalent function
                                                       whose name contains the text)
@@ -126,6 +126,38 @@ def sig_key(qualname, params, const):
     return (re.sub(r'\s+', '', qualname), len(params), const)
 
 
+TYPEDEFS = {'u8': 'unsigned char', 'u16': 'unsigned short', 'u32': 'unsigned int', 'bit32': 'unsigned int',
+            'u64': 'unsigned long long', 's8': 'signed char', 's16': 'short', 's32': 'int',
+            's64': 'long long', 'f32': 'float', 'f64': 'double'}
+TYPE_WORDS = {'int', 'char', 'short', 'long', 'unsigned', 'signed', 'float', 'double', 'bool', 'void', 'const'}
+
+
+def param_type(p):
+    """'const StationId& stationId' and 'nn::pia::StationId const&' -> 'StationIdconst&': the type
+    of a parameter without its name, default value, scopes and typedefs"""
+    p = p.split('=')[0].strip()
+    m = re.match(r'^(.*[\s*&])([A-Za-z_]\w*)$', p)
+    if m and m.group(1).strip() and m.group(2) not in TYPE_WORDS and m.group(2) not in TYPEDEFS:
+        p = m.group(1).strip()
+    p = re.sub(r'\b\w+\b', lambda w: TYPEDEFS.get(w.group(0), w.group(0)), p)
+    p = re.sub(r'\b\w+::', '', p)
+    m = re.match(r'^const\s+(.+?)\s*([*&]+)$', p)          # 'const X<T>&' == 'X<T> const&'
+    if m:
+        p = f'{m.group(1)} const{m.group(2)}'
+    return norm(p)
+
+
+def typed_key(qualname, params, const):
+    """the key of an overload with the same number of parameters as another one"""
+    return (re.sub(r'\s+', '', qualname), tuple(param_type(p) for p in params), const)
+
+
+# typed_key -> address of the definitions in the sources (filled by source_addresses)
+SOURCE_BY_TYPES = {}
+# (key, deleting) -> address of the this-adjusting thunk named in the sources ("(thunk)" lines)
+THUNKS = {}
+
+
 def source_addresses():
     """(name, parameter count, const) -> address, from the '// 0x...' comments in the sources.
     Also returns the keys whose body is still empty (generated stubs), and for destructors the
@@ -134,6 +166,7 @@ def source_addresses():
     for d in ('src', 'lib', 'modules'):
         for path in glob.glob(os.path.join(ROOT, d, '**', '*.cpp'), recursive=True):
             ns, pending, sig, body_of, pending_del = [], None, None, None, None
+            pending_thunks = []
             text = open(path, encoding='utf-8', errors='replace').read()
             # explicit instantiations ("template class X<arg>;"): a member defined as X<T>::f under
             # "template <typename T>" is compared as X<arg>::f
@@ -154,7 +187,13 @@ def source_addresses():
                     continue
                 m = re.match(r'//\s*0x([0-9A-Fa-f]{6,8})(?![0-9A-Fa-f])', st)
                 if m:
-                    if 'deleting' in st:
+                    if 'thunk' in st:
+                        # the this-adjusting thunk of a secondary base ("(thunk)", for a destructor
+                        # also "(deleting thunk)"); like the deleting destructor, before or after
+                        pending_thunks.append(('deleting' in st, int(m.group(1), 16) & ~1))
+                        if pending is None:
+                            pending, sig = -1, ''
+                    elif 'deleting' in st:
                         # GCC's D0 variant; the line of the complete destructor may come before or after
                         pending_del, sig = int(m.group(1), 16) & ~1, ''
                         if pending is None:
@@ -173,6 +212,7 @@ def source_addresses():
                     sig_text = sig
                     pending_addr, pending, sig = pending, None, None
                     del_addr, pending_del = pending_del, None
+                    thunk_addrs, pending_thunks = pending_thunks, []
                     if not parsed:
                         continue
                     name, params, const = parsed
@@ -186,11 +226,18 @@ def source_addresses():
                     key = sig_key(full, params, const)
                     if del_addr is not None:
                         deleting[key] = del_addr
+                    for is_del, t_addr in thunk_addrs:
+                        THUNKS[(key, is_del)] = t_addr
                     if pending_addr >= 0:
                         if key in out and out[key] != pending_addr:
                             dup.add(key)
                         out[key] = pending_addr
-                    if re.search(r'\{\s*\}', st):
+                        SOURCE_BY_TYPES[typed_key(full, params, const)] = pending_addr
+                    # a constructor with an initializer list does something even with an empty body
+                    has_init_list = re.search(r'\)\s*:(?!:)', sig_text.split('{')[0]) is not None
+                    if has_init_list:
+                        pass
+                    elif re.search(r'\{\s*\}', st):
                         empty.add(key)
                     elif st.endswith('{'):
                         body_of = key
@@ -269,12 +316,57 @@ VARIABLE_INIT_RE = re.compile(r'([A-Za-z_]\w*(?:::[A-Za-z_]\w*)*)\s*\(.*\);\s*(?
 VTABLE_ADDRESS_POINTS = {}
 
 
+def header_statics():
+    """the statics of inline functions in the headers: "// 0x... (guard 0x...)" above a line
+    "static ...;" inside a function body. Namespaces and classes are followed by their braces, so
+    the name is the one of the class ("a::B::s_x", see variable_address)"""
+    out = {}
+    paths = []
+    for d in ('lib', 'src', 'modules', 'include'):
+        paths += glob.glob(os.path.join(ROOT, d, '**', '*.h'), recursive=True)
+    for path in paths:
+        scopes, pending_scope, pending, guard = [], None, None, None
+        for line in open(path, encoding='utf-8', errors='replace'):
+            st = line.split('//')[0].strip() if not line.strip().startswith('//') else ''
+            raw = line.strip()
+            m = re.match(r'//\s*0x([0-9A-Fa-f]{6,8})\s*(\(.*\))?\s*$', raw)
+            if m:
+                pending = int(m.group(1), 16)
+                g = re.search(r'guard\s+0x([0-9A-Fa-f]{6,8})', m.group(2) or '')
+                guard = int(g.group(1), 16) if g else None
+                continue
+            if pending is not None and st:
+                if st.startswith('static ') and st.endswith(';'):
+                    vm = VARIABLE_RE.search(st) or VARIABLE_INIT_RE.search(st)
+                    if vm:
+                        names = [s[1] for s in scopes if s[0] in ('ns', 'cls')]
+                        full = '::'.join(names + [vm.group(1)])
+                        out[norm(full)] = pending
+                        if guard is not None:
+                            out['guard variable for ' + norm(full)] = guard
+                pending = None
+            if not st:
+                continue
+            m = re.match(r'(?:namespace\s*(\w*)|(?:class|struct)\s+(\w+)[^;]*)$', st.split('{')[0].strip())
+            if m and not st.endswith(';'):
+                pending_scope = ('ns', m.group(1) or '@anon') if st.startswith('namespace') else ('cls', m.group(2))
+            for c in st:
+                if c == '{':
+                    scopes.append(pending_scope or ('blk', None))
+                    pending_scope = None
+                elif c == '}' and scopes:
+                    scopes.pop()
+    return out
+
+
 def source_variables():
     """normalized qualified name -> address of the global variables defined in the sources under a
     '// 0x...' comment (e.g. "// 0x00975F84" above "AutoStackManager* Thread::s_pAutoStackManager;")"""
-    out = {}
+    out = header_statics()
+    paths = []
     for d in ('src', 'lib', 'modules'):
-        for path in glob.glob(os.path.join(ROOT, d, '**', '*.cpp'), recursive=True):
+        paths += glob.glob(os.path.join(ROOT, d, '**', '*.cpp'), recursive=True)
+    for path in paths:
             ns, pending, guard, decl = [], None, None, ''
             for line in open(path, encoding='utf-8', errors='replace'):
                 st = line.strip()
@@ -407,6 +499,8 @@ def make_fuzzy_pair(mem, db, starts, names, by_source, by_name, variables=None):
             return ('svc', inline_svc[dn.split('(')[0]])
         parsed = split_signature(dn)
         addr = by_source.get(sig_key(*parsed)) if parsed else None
+        if addr is None and parsed:
+            addr = SOURCE_BY_TYPES.get(typed_key(*parsed))   # overloads with as many parameters
         if addr is None and not parsed:
             # a C function (no parameter list in the name): by its name alone
             addr = next((a for k, a in by_source.items() if k[0] == re.sub(r'\s+', '', dn)), None)
@@ -592,6 +686,11 @@ def make_fuzzy_pair(mem, db, starts, names, by_source, by_name, variables=None):
                 # the string itself where ARMCC loads the pointer)
                 return ('gaddr', w)
             if mem.ro[0] <= w < mem.ro[1]:
+                p = mem.u32(w) & ~1 if w % 4 == 0 else None
+                if p is not None and mem.in_text(p) and (p in start_set or p in addr_name):
+                    # a table of function pointers (the step tables of the StepSequenceJobs):
+                    # "2C 30 44 00" is not the string ",0D"
+                    return ('rconst', w)
                 s = mem.cstr(w)
                 if not s and mem.mem[w - mem.base] == 0:
                     return ('str', '')                     # ""
@@ -702,7 +801,7 @@ def make_fuzzy_pair(mem, db, starts, names, by_source, by_name, variables=None):
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument('--build-dir', default=os.path.join(ROOT, 'build', 'gcc'))
-    ap.add_argument('--version', default='USA_1_5')
+    ap.add_argument('--version', default='0004000000086300')
     ap.add_argument('--show', type=int, default=20)
     ap.add_argument('--all', action='store_true', help='list the equivalent functions, too')
     ap.add_argument('--function', action='append', default=[],
@@ -770,13 +869,22 @@ def main():
     for obj, mangled, data, size, rel, syminfo in funcs:
         if re.search(r'(C2|D2)E', mangled):
             continue                              # GCC's base-object variants
-        if mangled.startswith(('_ZTh', '_ZTv', '_ZTc')):
-            continue                              # thunks: made by the compiler, the function is compared
+        is_thunk = mangled.startswith('_ZThn')
+        if mangled.startswith(('_ZTv', '_ZTc')):
+            continue                              # virtual / covariant thunks: not compared
         is_deleting = re.search(r'D0E', mangled) is not None
         name = names.get(mangled, mangled)
+        if is_thunk:
+            name = re.sub(r'^non-virtual thunk to ', '', name)
         parsed = split_signature(name)
         skey = sig_key(*parsed) if parsed else None
-        if is_deleting:
+        if is_thunk:
+            # only compared where the source names the address of the thunk
+            addr = THUNKS.get((skey, is_deleting))
+            if addr is None:
+                continue
+            name += ' [deleting thunk]' if is_deleting else ' [thunk]'
+        elif is_deleting:
             # only compared where the source names the address of the deleting destructor
             addr = by_source_deleting.get(skey)
             if addr is None:
@@ -784,6 +892,8 @@ def main():
             name += ' [deleting]'
         else:
             addr = by_source.get(skey) if parsed else None
+            if addr is None and parsed:
+                addr = SOURCE_BY_TYPES.get(typed_key(*parsed))   # overloads with as many parameters
         if addr is None:
             addr = by_name.get(norm(name))
         mine = masked_words(data, rel, size)
@@ -811,6 +921,11 @@ def main():
                 theirs = [w & ~rmask.get(i * 4, 0) & 0xFFFFFFFF for i, w in enumerate(theirs)]
                 diff = next((i for i, (x, y) in enumerate(zip(mine, theirs)) if x != y), None)
                 status = 'match' if diff is None else 'differs'
+                # ARMCC's thunk falls through (nop) into the function right behind it, GCC's
+                # branches to it: the same code
+                if (is_thunk and status == 'differs' and size == 8 and mine[0] == theirs[0]
+                        and mem.u32(addr + 4) in (0xE320F000, 0xE1A00000) and by_source.get(skey) == addr + 8):
+                    status = 'match'
         counts[status] = counts.get(status, 0) + 1
         key = f'0x{addr:08X}' if addr is not None else f'?{mangled}'
         results[key] = {'name': name, 'mangled': mangled, 'status': status, 'size': size,
@@ -821,6 +936,9 @@ def main():
         if status in ('differs', 'size', 'prefix', 'match'):
             if addr in thumb:
                 results[key]['grade'] = 'thumb'
+            elif is_thunk and status == 'match' and mine != theirs:
+                # the fall-through thunk (see above): nothing left to compare
+                results[key].update(score=1.0, grade='equivalent', categories={})
             else:
                 # prefix: the original range runs into the next (unknown) function
                 fz = fuzzy_pair(data, size, syminfo, addr, size if status == 'prefix' else osize, name)

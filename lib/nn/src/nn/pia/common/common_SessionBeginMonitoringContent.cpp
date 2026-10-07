@@ -50,22 +50,22 @@ unsigned int nn::pia::common::SessionBeginMonitoringContent::GetSerializedSize()
 // 0x004284C4 | fefates:callseq-callee [tier C]
 void nn::pia::common::SessionBeginMonitoringContent::Cleanup()
 {
-    m_Unknown0x88 = INVALID_U16;
-    m_Unknown0x8C = INVALID_U32;
-    m_Unknown0x90 = INVALID_U16;
-    m_Unknown0x94 = INVALID_U32;
+    m_MinRtt = INVALID_U16;
+    m_MinRttPrincipalIdHash = INVALID_U32;
+    m_MaxRtt = INVALID_U16;
+    m_MaxRttPrincipalIdHash = INVALID_U32;
     m_Unknown0xA4 = INVALID_U8;
     m_Unknown0xA5 = INVALID_U8;
-    m_Unknown0xA6 = INVALID_U8;
-    m_Unknown0xA8 = INVALID_U32;
-    m_Unknown0xAC = INVALID_U32;
-    m_Unknown0xB0 = INVALID_U8;
+    m_JoinStationNum = INVALID_U8;
+    m_JoinResult = INVALID_U32;
+    m_JoinElapsedMSec = INVALID_U32;
+    m_RelayedStationNum = INVALID_U8;
     for (int i = 0; i < 23; i++) {
-        m_Unknown0xB4[i] = INVALID_U32;
+        m_RelayedStationPrincipalIdHashes[i] = INVALID_U32;
     }
-    m_Unknown0x110 = INVALID_U8;
+    m_RelayStationNum = INVALID_U8;
     for (int i = 0; i < 12; i++) {
-        m_Unknown0x114[i] = INVALID_U32;
+        m_RelayStationPrincipalIdHashes[i] = INVALID_U32;
     }
     m_Unknown0x144 = INVALID_U16;
     m_Unknown0x180 = INVALID_U32;
@@ -106,7 +106,7 @@ void nn::pia::common::SessionBeginMonitoringContent::Cleanup()
     m_Unknown0x248 = INVALID_U32;
     m_Unknown0x24C = INVALID_U8;
     m_Unknown0x24D = INVALID_U8;
-    m_Unknown0x254 = INVALID_U32;
+    m_HostPrincipalId = INVALID_U32;
     m_Unknown0x258 = INVALID_U32;
     for (int i = 0; i < 23; i++) {
         m_Unknown0x274[i] = INVALID_U32;
@@ -121,10 +121,10 @@ void nn::pia::common::SessionBeginMonitoringContent::Cleanup()
     m_Unknown0x4A2 = INVALID_U16;
     m_Unknown0x49C = INVALID_U8;
     m_Unknown0x49D = INVALID_U8;
-    m_Unknown0x262 = INVALID_U16;
-    m_Unknown0x264 = INVALID_U16;
-    m_Unknown0x268 = INVALID_U32;
-    m_Unknown0x26C = INVALID_U32;
+    m_BandwidthCheckPacketSize = INVALID_U16;
+    m_BandwidthCheckPacketLoss = INVALID_U16;
+    m_BandwidthCheckBandwidth = INVALID_U32;
+    m_BandwidthCheckResult = INVALID_U32;
 }
 
 // 0x00731E44 | fefates:callgraph [tier C]
@@ -155,19 +155,19 @@ nn::Result nn::pia::common::SessionBeginMonitoringContent::Serialize(unsigned ch
     p += 1;
     serializeU32(p, m_CommonHeapSize);
     p += 4;
-    serializeU32(p, m_Unknown0x24);
+    serializeU32(p, m_UnusedProtocolBitmap);
     p += 4;
-    serializeU32(p, m_Unknown0x28);
+    serializeU32(p, m_LocalCommunicationId);
     p += 4;
-    serializeU8(p, m_Unknown0x2C);
+    serializeU8(p, m_NodeCountMax);
     p += 1;
-    serializeU32(p, m_Unknown0x30);
+    serializeU32(p, m_ReceiveBufferSize);
     p += 4;
-    serializeU32(p, m_Unknown0x34);
+    serializeU32(p, m_ScanBufferSize);
     p += 4;
-    serializeU8(p, m_Unknown0x38);
+    serializeU8(p, m_SendOption);
     p += 1;
-    serializeU8(p, m_Unknown0x39);
+    serializeU8(p, m_ReceiveOption);
     p += 1;
     serializeU32(p, m_Unknown0x3C);
     p += 4;
@@ -207,29 +207,29 @@ nn::Result nn::pia::common::SessionBeginMonitoringContent::Serialize(unsigned ch
     p += 1;
     serializeU8(p, m_Unknown0x71);
     p += 1;
-    serializeU16(p, m_Unknown0x72);
+    serializeU16(p, m_StationNumMax);
     p += 2;
-    serializeU32(p, m_Unknown0x74);
+    serializeU32(p, m_SendPacketNum);
     p += 4;
-    serializeU32(p, m_Unknown0x78);
+    serializeU32(p, m_ReceivePacketNum);
     p += 4;
-    serializeU32(p, m_Unknown0x7C);
+    serializeU32(p, m_ReliableSendNum);
     p += 4;
-    serializeU32(p, m_Unknown0x80);
+    serializeU32(p, m_ReliableReceiveNum);
     p += 4;
     serializeU32(p, m_Unknown0x84);
     p += 4;
-    serializeU16(p, m_Unknown0x88);
+    serializeU16(p, m_MinRtt);
     p += 2;
-    serializeU32(p, m_Unknown0x8C);
+    serializeU32(p, m_MinRttPrincipalIdHash);
     p += 4;
-    serializeU16(p, m_Unknown0x90);
+    serializeU16(p, m_MaxRtt);
     p += 2;
-    serializeU32(p, m_Unknown0x94);
+    serializeU32(p, m_MaxRttPrincipalIdHash);
     p += 4;
-    serializeU16(p, m_Unknown0x98);
+    serializeU16(p, m_RelayRttLimit);
     p += 2;
-    serializeU16(p, m_Unknown0x9A);
+    serializeU16(p, m_RelayCountMax);
     p += 2;
     serializeU16(p, m_Unknown0x9C);
     p += 2;
@@ -239,22 +239,22 @@ nn::Result nn::pia::common::SessionBeginMonitoringContent::Serialize(unsigned ch
     p += 1;
     serializeU8(p, m_Unknown0xA5);
     p += 1;
-    serializeU8(p, m_Unknown0xA6);
+    serializeU8(p, m_JoinStationNum);
     p += 1;
-    serializeU32(p, m_Unknown0xA8);
+    serializeU32(p, m_JoinResult);
     p += 4;
-    serializeU32(p, m_Unknown0xAC);
+    serializeU32(p, m_JoinElapsedMSec);
     p += 4;
-    serializeU8(p, m_Unknown0xB0);
+    serializeU8(p, m_RelayedStationNum);
     p += 1;
     for (u32 i = 0; i < 23; i++) {
-        serializeU32(p, m_Unknown0xB4[i]);
+        serializeU32(p, m_RelayedStationPrincipalIdHashes[i]);
         p += 4;
     }
-    serializeU8(p, m_Unknown0x110);
+    serializeU8(p, m_RelayStationNum);
     p += 1;
     for (u32 i = 0; i < 12; i++) {
-        serializeU32(p, m_Unknown0x114[i]);
+        serializeU32(p, m_RelayStationPrincipalIdHashes[i]);
         p += 4;
     }
     serializeU16(p, m_Unknown0x144);
@@ -415,7 +415,7 @@ nn::Result nn::pia::common::SessionBeginMonitoringContent::Serialize(unsigned ch
     p += 1;
     serializeU8(p, m_Unknown0x253);
     p += 1;
-    serializeU32(p, m_Unknown0x254);
+    serializeU32(p, m_HostPrincipalId);
     p += 4;
     serializeU32(p, m_Unknown0x258);
     p += 4;
@@ -427,17 +427,17 @@ nn::Result nn::pia::common::SessionBeginMonitoringContent::Serialize(unsigned ch
     p += 1;
     serializeU8(p, m_Unknown0x25F);
     p += 1;
-    serializeU8(p, m_Unknown0x260);
+    serializeU8(p, m_JoinPhase);
     p += 1;
     serializeU8(p, m_Unknown0x261);
     p += 1;
-    serializeU16(p, m_Unknown0x262);
+    serializeU16(p, m_BandwidthCheckPacketSize);
     p += 2;
-    serializeU16(p, m_Unknown0x264);
+    serializeU16(p, m_BandwidthCheckPacketLoss);
     p += 2;
-    serializeU32(p, m_Unknown0x268);
+    serializeU32(p, m_BandwidthCheckBandwidth);
     p += 4;
-    serializeU32(p, m_Unknown0x26C);
+    serializeU32(p, m_BandwidthCheckResult);
     p += 4;
     serializeU16(p, m_Unknown0x270);
     p += 2;

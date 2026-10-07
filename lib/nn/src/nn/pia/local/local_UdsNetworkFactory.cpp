@@ -1,42 +1,47 @@
-#include "nn/pia/local/local_LocalNetworkFactory.h"
 #include "nn/pia/local/local_UdsNetworkFactory.h"
+#include "nn/pia/common/common_NewArray.h"
+#include "nn/pia/local/local_UdsMatchmakeSession.h"
+#include "nn/pia/local/local_UdsSessionInfo.h"
+#include "nn/pia/session/session_SessionInfoList.h"
 
 namespace nn {
 namespace pia {
 namespace local {
-// ctor candidate(s) 0x00416DA0 (unverified)
+// 0x00416CCC
+nn::pia::session::ISessionInfoList* nn::pia::local::UdsNetworkFactory::CreateSessionInfoList(u32 capacity)
+{
+    return new session::SessionInfoList<UdsSessionInfo>(capacity);
+}
+
+// 0x00416D7C
+nn::pia::session::CommonMatchmakeSession* nn::pia::local::UdsNetworkFactory::CreateMatchmakeSession()
+{
+    return new UdsMatchmakeSession();
+}
+
+// 0x00416DA0
 nn::pia::local::UdsNetworkFactory::UdsNetworkFactory()
 {
+    // only the base and the vptr (in the original too)
 }
 
-// 0x004183AC slot 0x00 | virtual slot, introduced by nn::pia::local::LocalNetworkFactory
-void nn::pia::local::UdsNetworkFactory::vf_0x00()
+// 0x004183AC
+// 0x00416DB8 (deleting dtor)
+nn::pia::local::UdsNetworkFactory::~UdsNetworkFactory()
 {
+    // empty (in the original too)
 }
 
-// 0x00416DB8 slot 0x04 | virtual slot, introduced by nn::pia::local::LocalNetworkFactory
-void nn::pia::local::UdsNetworkFactory::vf_0x04()
+// 0x007302AC
+u32 nn::pia::local::UdsNetworkFactory::GetSessionInfoNumMax()
 {
+    return 16;
 }
 
-// 0x00416CCC slot 0x90 | virtual slot, introduced by nn::pia::local::LocalNetworkFactory
-void nn::pia::local::UdsNetworkFactory::vf_0x90()
-{
-}
-
-// 0x00416D7C slot 0x94 | virtual slot, introduced by nn::pia::local::LocalNetworkFactory
-void nn::pia::local::UdsNetworkFactory::vf_0x94()
-{
-}
-
-// 0x007302AC slot 0xA8 | virtual slot, introduced by nn::pia::local::LocalNetworkFactory
-void nn::pia::local::UdsNetworkFactory::vf_0xA8()
-{
-}
-
-// 0x007302B4 slot 0xAC | virtual slot, introduced by nn::pia::local::LocalNetworkFactory
+// 0x007302B4
 void nn::pia::local::UdsNetworkFactory::vf_0xAC()
 {
+    // empty (in the original too)
 }
 
 } // namespace local

@@ -10,7 +10,9 @@ namespace nex {
 class AutoMatchmakeParam : public ::nn::nex::_DDL_AutoMatchmakeParam
 {
 public:
-    AutoMatchmakeParam(); // ctor candidate(s) 0x00387808 (unverified)
+    AutoMatchmakeParam(); // 0x00387808
+    // (the assignment of the list is inline; name is ours)
+    void SetSearchCriteria(const qList<MatchmakeSessionSearchCriteria>& criteria); // 0x00387440
     virtual ~AutoMatchmakeParam(); // 0x0038795C slot 0x00 | slot vf_0x00 of nn::nex::_DDL_AutoMatchmakeParam
     // 0x0038794C slot 0x04 | slot vf_0x04 of nn::nex::_DDL_AutoMatchmakeParam (deleting dtor)
 };

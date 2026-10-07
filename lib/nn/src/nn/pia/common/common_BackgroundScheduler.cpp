@@ -3,6 +3,9 @@
 #include "nn/pia/common/common_HeapManager.h"
 #include "nn/pia/common/common_Time.h"
 
+// 0x008100C8
+template void pead::Delegate2<nn::pia::common::BackgroundScheduler, pead::Thread*, int>::invoke(pead::Thread*, int);
+
 namespace nn {
 namespace pia {
 namespace common {

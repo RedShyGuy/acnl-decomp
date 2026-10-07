@@ -1,32 +1,52 @@
-#include "nn/pia/common/common_StepSequenceJob.h"
 #include "nn/pia/session/session_UpdateSessionSettingJob.h"
+#include "nn/pia/common/common_SessionStateMonitoringContent.h"
 
 namespace nn {
 namespace pia {
 namespace session {
-// ctor candidate(s) 0x00442B9C (unverified)
-nn::pia::session::UpdateSessionSettingJob::UpdateSessionSettingJob()
+// 0x00442B08
+nn::pia::common::ExecuteResult nn::pia::session::UpdateSessionSettingJob::CompleteProcess()
+{
+    m_pCallContext->SignalSuccess(nn::Result());
+    m_pCallContext = nullptr;
+    // the monitoring data counts the changes
+    u8 count = common::g_SessionStateMonitoringContent.m_Unknown0x3D4;
+    common::g_SessionStateMonitoringContent.m_Unknown0x3D4 = count == 0xFF ? 1 : count + 1;
+    return common::ExecuteResult(common::ExecuteResult::STATE_SUCCESS);
+}
+
+// 0x00442B50
+void nn::pia::session::UpdateSessionSettingJob::Cleanup()
+{
+    if (m_pCallContext != nullptr) {
+        if (m_pCallContext->m_State == common::CallContext::STATE_CALL_IN_PROGRESS) {
+            m_pCallContext->SignalCancel();
+        }
+        m_pCallContext = nullptr;
+    }
+    if (m_CallContext.m_State == common::CallContext::STATE_CALL_IN_PROGRESS) {
+        m_CallContext.SignalCancel();
+    }
+    m_CallContext.Reset();
+    m_SessionId = 0;
+}
+
+// 0x00442B9C
+nn::pia::session::UpdateSessionSettingJob::UpdateSessionSettingJob() : m_pCallContext(nullptr)
 {
 }
 
-// 0x00442BEC slot 0x00 | slot vf_0x00 of nn::pia::common::Job
+// 0x00442BEC
+// 0x00442BC4 (deleting dtor)
 nn::pia::session::UpdateSessionSettingJob::~UpdateSessionSettingJob()
 {
+    // empty (in the original too)
 }
 
-// 0x0073416C slot 0x14 | slot vf_0x14 of nn::pia::common::StepSequenceJob
-void nn::pia::session::UpdateSessionSettingJob::Trace(unsigned long long) const
+// 0x0073416C
+void nn::pia::session::UpdateSessionSettingJob::Trace(u64) const
 {
-}
-
-// 0x00442B50 slot 0x18 | virtual slot, introduced by nn::pia::session::UpdateSessionSettingJob
-void nn::pia::session::UpdateSessionSettingJob::vf_0x18()
-{
-}
-
-// 0x0011C12F slot 0x1C | slot vf_0x00 of ChangeRentalBase
-void nn::pia::session::UpdateSessionSettingJob::vf_0x1C()
-{
+    // empty (in the original too)
 }
 
 } // namespace session

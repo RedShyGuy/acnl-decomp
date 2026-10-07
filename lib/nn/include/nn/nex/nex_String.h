@@ -10,7 +10,7 @@ namespace nex {
 class String : public ::nn::nex::RootObject
 {
 public:
-    String(); // ctor candidate(s) 0x0035524C, 0x00355534, 0x003558FC, 0x00361F24, 0x003917F8, 0x003938A4, 0x003D1250, 0x003D12AC, 0x003D12D8, 0x003D1300, 0x003D3AE4, 0x003DA184, 0x003DA284, 0x003DA388, 0x00729A88, 0x00729C88, 0x00729E88, 0x00729F6C, 0x0072A128, 0x0072E040, 0x0072E0A8, 0x0072E1C8, 0x0072E374, 0x0072E560, 0x007FF074, 0x007FF204, 0x007FFD1C, 0x007FFE9C, 0x0082E600 (unverified)
+    String(); // 0x003D1300 (symbols.json names it nn::boss::TaskIdList::TaskIdList)
     virtual ~String(); // 0x003D135C slot 0x00 | fefates:bytes
     // 0x003D132C slot 0x04 | slot vf_0x04 of nn::nex::String (deleting dtor)
     void ReleaseCopy(char*); // 0x003D1140 | fefates:bytes [tier B]
@@ -27,7 +27,11 @@ public:
     void CreateCopy(char**) const; // 0x0072E178 | fefates:bytes [tier B]
     void FindSubstringNoCase(const wchar_t*) const; // 0x0072E1C8 | fefates:bytes [tier B]
     void ToUInt64() const; // 0x0072E2CC | fefates:bytes [tier B]
-    void GetLength() const; // 0x0072E360 | mk7dlp:callgraph [tier A]
+    u32 GetLength() const; // 0x0072E360 | mk7dlp:callgraph [tier A]
+
+    // (the member name is ours)
+    wchar_t* m_pString; // 0x04 (nex::CopyString)
 };
+ASSERT_SIZE(String, 0x8);
 } // namespace nex
 } // namespace nn

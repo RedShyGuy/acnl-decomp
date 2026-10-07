@@ -1,6 +1,6 @@
 # game data - never commit
-orig/USA_1_5/*
-!orig/USA_1_5/.gitkeep
+orig/0004000000086300/*
+!orig/0004000000086300/.gitkeep
 
 # build output
 build/

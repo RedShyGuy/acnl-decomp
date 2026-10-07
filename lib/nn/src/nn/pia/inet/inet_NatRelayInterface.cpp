@@ -4,11 +4,6 @@
 namespace nn {
 namespace pia {
 namespace inet {
-// ctor address unknown
-nn::pia::inet::NatRelayInterface::NatRelayInterface()
-{
-}
-
 } // namespace inet
 } // namespace pia
 } // namespace nn

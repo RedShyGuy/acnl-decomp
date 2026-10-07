@@ -3,7 +3,7 @@
 
 namespace nn {
 namespace nex {
-// ctor candidate(s) 0x003BCBF0 (unverified)
+// 0x003BCBF0
 nn::nex::CreateMatchmakeSessionParam::CreateMatchmakeSessionParam()
 {
 }

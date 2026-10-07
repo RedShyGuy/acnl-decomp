@@ -1,227 +1,298 @@
-#include "nn/pia/transport/transport_NetworkFactory.h"
 #include "nn/pia/inet/inet_NexNetworkFactory.h"
+#include "nn/pia/common/common_NewArray.h"
+#include "nn/pia/inet/inet_CreateMeshJob.h"
+#include "nn/pia/inet/inet_InetLeaveWithHostMigrationJob.h"
+#include "nn/pia/inet/inet_JoinMeshJob.h"
+#include "nn/pia/inet/inet_MissingStationHandler.h"
+#include "nn/pia/inet/inet_NexConnectStationJob.h"
+#include "nn/pia/inet/inet_NexDisconnectStationJob.h"
+#include "nn/pia/inet/inet_NexFacade.h"
+#include "nn/pia/inet/inet_NexJointSessionJob.h"
+#include "nn/pia/inet/inet_NexMatchAutoMatchmakeJob.h"
+#include "nn/pia/inet/inet_NexMatchBrowseMatchmakeJob.h"
+#include "nn/pia/inet/inet_NexMatchClearSystemPasswordJob.h"
+#include "nn/pia/inet/inet_NexMatchCreateSessionJob.h"
+#include "nn/pia/inet/inet_NexMatchDestroySessionJob.h"
+#include "nn/pia/inet/inet_NexMatchGenerateSystemPasswordJob.h"
+#include "nn/pia/inet/inet_NexMatchJoinSessionJob.h"
+#include "nn/pia/inet/inet_NexMatchLeaveSessionJob.h"
+#include "nn/pia/inet/inet_NexMatchMeshLayerController.h"
+#include "nn/pia/inet/inet_NexMatchModifyAttributeJob.h"
+#include "nn/pia/inet/inet_NexMatchUpdateApplicationDataJob.h"
+#include "nn/pia/inet/inet_NexMatchUpdateSessionSettingJob.h"
+#include "nn/pia/inet/inet_NexMatchmakeSession.h"
+#include "nn/pia/inet/inet_NexMonitoringDataSender.h"
+#include "nn/pia/inet/inet_NexProcessHostMigrationJob.h"
+#include "nn/pia/inet/inet_NexSessionInfo.h"
+#include "nn/pia/inet/inet_SocketInputStream.h"
+#include "nn/pia/inet/inet_SocketOutputStream.h"
+#include "nn/pia/session/session_KickoutManageJob.h"
+#include "nn/pia/session/session_LeaveMeshJob.h"
+#include "nn/pia/session/session_SessionInfoList.h"
+#include "nn/pia/session/session_SignatureSettingStorage.h"
+#include "nn/pia/transport/transport_StationPacketHandler.h"
+#include <string.h>
 
 namespace nn {
 namespace pia {
 namespace inet {
-// ctor candidate(s) 0x00512D54 (unverified)
-nn::pia::inet::NexNetworkFactory::NexNetworkFactory()
+// 0x003E8018 | fefates:bytes
+nn::Result nn::pia::inet::NexNetworkFactory::CreateProtocols()
 {
+    nn::Result result = NexFacade::s_pInstance->CreateProtocols();
+    if (result.IsFailure()) {
+        return result;
+    }
+    return nn::Result();
 }
 
-// 0x003E8564 slot 0x00 | virtual slot, introduced by nn::pia::inet::NexNetworkFactory
-void nn::pia::inet::NexNetworkFactory::vf_0x00()
+// 0x003E803C | fefates:callseq
+nn::pia::common::IPacketInput* nn::pia::inet::NexNetworkFactory::CreateInputStream()
 {
+    return new SocketInputStream();
 }
 
-// 0x003E8560 slot 0x04 | virtual slot, introduced by nn::pia::inet::NexNetworkFactory
-void nn::pia::inet::NexNetworkFactory::vf_0x04()
+// 0x003E806C
+nn::pia::session::JoinMeshJob* nn::pia::inet::NexNetworkFactory::CreateJoinMeshJob()
 {
+    return new JoinMeshJob();
 }
 
-// 0x003E828C slot 0x08 | fefates:bytes
-void nn::pia::inet::NexNetworkFactory::CreateConnectStationJob()
+// 0x003E80B8
+nn::pia::session::LeaveMeshJob* nn::pia::inet::NexNetworkFactory::CreateLeaveMeshJob()
 {
+    return new session::LeaveMeshJob();
 }
 
-// 0x003E82EC slot 0x0C | slot vf_0x0C of nn::pia::inet::NexNetworkFactory
-void nn::pia::inet::NexNetworkFactory::CreateDisconnectStationJob()
+// 0x003E80D8 | fefates:callseq
+nn::pia::common::IPacketOutput* nn::pia::inet::NexNetworkFactory::CreateOutputStream()
 {
+    return new SocketOutputStream();
 }
 
-// 0x003E803C slot 0x10 | fefates:callseq
-void nn::pia::inet::NexNetworkFactory::vf_0x10()
+// 0x003E8108 | fefates:bytes
+nn::pia::session::CreateMeshJob* nn::pia::inet::NexNetworkFactory::CreateCreateMeshJob()
 {
+    return new CreateMeshJob();
 }
 
-// 0x003E8108 slot 0x14 | fefates:bytes
-void nn::pia::inet::NexNetworkFactory::CreateCreateMeshJob()
+// 0x003E8154
+nn::pia::transport::PacketHandler* nn::pia::inet::NexNetworkFactory::CreatePacketHandler()
 {
+    return new transport::StationPacketHandler();
 }
 
-// 0x003E806C slot 0x18 | slot vf_0x18 of nn::pia::inet::NexNetworkFactory
-void nn::pia::inet::NexNetworkFactory::CreateJoinMeshJob()
+// 0x003E8174
+nn::pia::session::JointSessionJob* nn::pia::inet::NexNetworkFactory::CreateJointSessionJob()
 {
+    return new NexJointSessionJob();
 }
 
-// 0x003E80B8 slot 0x1C | slot vf_0x1C of nn::pia::inet::NexNetworkFactory
-void nn::pia::inet::NexNetworkFactory::CreateLeaveMeshJob()
+// 0x003E8194
+nn::pia::session::ISessionInfoList* nn::pia::inet::NexNetworkFactory::CreateSessionInfoList(u32 capacity)
 {
+    return new session::SessionInfoList<NexSessionInfo>(capacity);
 }
 
-// 0x003E80D8 slot 0x20 | fefates:callseq
-void nn::pia::inet::NexNetworkFactory::vf_0x20()
+// 0x003E824C
+nn::pia::session::KickoutManageJob* nn::pia::inet::NexNetworkFactory::CreateKickoutManageJob()
 {
+    return new session::KickoutManageJob();
 }
 
-// 0x003E83B0 slot 0x24 | virtual slot, introduced by nn::pia::inet::NexNetworkFactory
-void nn::pia::inet::NexNetworkFactory::vf_0x24()
+// 0x003E826C
+nn::pia::session::CommonMatchmakeSession* nn::pia::inet::NexNetworkFactory::CreateMatchmakeSession()
 {
+    return new NexMatchmakeSession();
 }
 
-// 0x003E8460 slot 0x28 | virtual slot, introduced by nn::pia::inet::NexNetworkFactory
-void nn::pia::inet::NexNetworkFactory::vf_0x28()
+// 0x003E828C | fefates:bytes
+nn::pia::transport::ConnectStationJob* nn::pia::inet::NexNetworkFactory::CreateConnectStationJob()
 {
+    return new NexConnectStationJob();
 }
 
-// 0x003E824C slot 0x2C | virtual slot, introduced by nn::pia::inet::NexNetworkFactory
-void nn::pia::inet::NexNetworkFactory::vf_0x2C()
+// 0x003E82AC
+nn::pia::session::ModifyAttributeJob* nn::pia::inet::NexNetworkFactory::CreateModifyAttributeJob()
 {
+    return new NexMatchModifyAttributeJob();
 }
 
-// 0x003E8018 slot 0x30 | fefates:bytes
-void nn::pia::inet::NexNetworkFactory::CreateProtocols()
+// 0x003E82CC
+nn::pia::session::JoinSessionJob* nn::pia::inet::NexNetworkFactory::CreateJoinSessionJob()
 {
+    return new NexMatchJoinSessionJob();
 }
 
-// 0x003E8154 slot 0x34 | virtual slot, introduced by nn::pia::inet::NexNetworkFactory
-void nn::pia::inet::NexNetworkFactory::vf_0x34()
+// 0x003E82EC
+nn::pia::transport::DisconnectStationJob* nn::pia::inet::NexNetworkFactory::CreateDisconnectStationJob()
 {
+    return new NexDisconnectStationJob();
 }
 
-// 0x0072F11C slot 0x38 | virtual slot, introduced by nn::pia::inet::NexNetworkFactory
-void nn::pia::inet::NexNetworkFactory::vf_0x38()
+// 0x003E830C
+nn::pia::session::LeaveSessionJob* nn::pia::inet::NexNetworkFactory::CreateLeaveSessionJob()
 {
+    return new NexMatchLeaveSessionJob();
 }
 
-// 0x003E83D0 slot 0x3C | virtual slot, introduced by nn::pia::inet::NexNetworkFactory
-void nn::pia::inet::NexNetworkFactory::vf_0x3C()
+// 0x003E832C
+nn::pia::common::MonitoringDataSender* nn::pia::inet::NexNetworkFactory::CreateMonitoringDataSender()
 {
+    return new NexMonitoringDataSender();
 }
 
-// 0x0072F134 slot 0x40 | virtual slot, introduced by nn::pia::inet::NexNetworkFactory
-void nn::pia::inet::NexNetworkFactory::vf_0x40()
+// 0x003E834C
+nn::pia::session::CreateSessionJob* nn::pia::inet::NexNetworkFactory::CreateCreateSessionJob()
 {
+    return new NexMatchCreateSessionJob();
 }
 
-// 0x0072F13C slot 0x44 | virtual slot, introduced by nn::pia::inet::NexNetworkFactory
-void nn::pia::inet::NexNetworkFactory::vf_0x44()
+// 0x003E836C | fefates:bytes
+nn::pia::transport::MissingStationHandler* nn::pia::inet::NexNetworkFactory::CreateMissingStationHandler()
 {
+    return new MissingStationHandler();
 }
 
-// 0x0072F12C slot 0x48 | virtual slot, introduced by nn::pia::inet::NexNetworkFactory
-void nn::pia::inet::NexNetworkFactory::vf_0x48()
+// 0x003E8390
+nn::pia::session::DestroySessionJob* nn::pia::inet::NexNetworkFactory::CreateDestroySessionJob()
 {
+    return new NexMatchDestroySessionJob();
 }
 
-// 0x003E832C slot 0x4C | virtual slot, introduced by nn::pia::inet::NexNetworkFactory
-void nn::pia::inet::NexNetworkFactory::vf_0x4C()
+// 0x003E83B0
+nn::pia::session::ProcessHostMigrationJob* nn::pia::inet::NexNetworkFactory::CreateProcessHostMigrationJob()
 {
+    return new NexProcessHostMigrationJob();
 }
 
-// 0x0072F104 slot 0x50 | virtual slot, introduced by nn::pia::inet::NexNetworkFactory
-void nn::pia::inet::NexNetworkFactory::vf_0x50()
+// 0x003E83D0
+nn::pia::session::SignatureSettingStorage* nn::pia::inet::NexNetworkFactory::CreateSignatureSettingStorage()
 {
+    return new session::SignatureSettingStorage();
 }
 
-// 0x003E836C slot 0x54 | fefates:bytes
-void nn::pia::inet::NexNetworkFactory::CreateMissingStationHandler()
+// 0x003E8400
+nn::pia::session::UpdateSessionSettingJob* nn::pia::inet::NexNetworkFactory::CreateUpdateSessionSettingJob()
 {
+    return new NexMatchUpdateSessionSettingJob();
 }
 
-// 0x003E834C slot 0x58 | virtual slot, introduced by nn::pia::inet::NexNetworkFactory
-void nn::pia::inet::NexNetworkFactory::vf_0x58()
+// 0x003E8420
+nn::pia::session::MeshLayerController* nn::pia::inet::NexNetworkFactory::CreateMeshLayerController()
 {
+    return new NexMatchMeshLayerController();
 }
 
-// 0x003E8480 slot 0x5C | virtual slot, introduced by nn::pia::inet::NexNetworkFactory
-void nn::pia::inet::NexNetworkFactory::vf_0x5C()
+// 0x003E8440
+nn::pia::session::UpdateApplicationDataJob* nn::pia::inet::NexNetworkFactory::CreateUpdateApplicationDataJob()
 {
+    return new NexMatchUpdateApplicationDataJob();
 }
 
-// 0x003E84A0 slot 0x60 | virtual slot, introduced by nn::pia::inet::NexNetworkFactory
-void nn::pia::inet::NexNetworkFactory::vf_0x60()
+// 0x003E8460
+nn::pia::session::LeaveWithHostMigrationJob* nn::pia::inet::NexNetworkFactory::CreateLeaveWithHostMigrationJob()
 {
+    return new InetLeaveWithHostMigrationJob();
 }
 
-// 0x003E82CC slot 0x64 | virtual slot, introduced by nn::pia::inet::NexNetworkFactory
-void nn::pia::inet::NexNetworkFactory::vf_0x64()
+// 0x003E8480
+nn::pia::session::AutoMatchmakeJob* nn::pia::inet::NexNetworkFactory::CreateAutoMatchmakeJob()
 {
+    return new NexMatchAutoMatchmakeJob();
 }
 
-// 0x003E830C slot 0x68 | virtual slot, introduced by nn::pia::inet::NexNetworkFactory
-void nn::pia::inet::NexNetworkFactory::vf_0x68()
+// 0x003E84A0
+nn::pia::session::BrowseMatchmakeJob* nn::pia::inet::NexNetworkFactory::CreateBrowseMatchmakeJob()
 {
+    return new NexMatchBrowseMatchmakeJob();
 }
 
-// 0x003E8390 slot 0x6C | virtual slot, introduced by nn::pia::inet::NexNetworkFactory
-void nn::pia::inet::NexNetworkFactory::vf_0x6C()
+// 0x003E84C0
+u16* nn::pia::inet::NexNetworkFactory::CreateStringBuffer(u32 length)
 {
+    u16* pBuffer = common::NewArray<u16>(length);
+    memset(pBuffer, 0, length * sizeof(u16));
+    return pBuffer;
 }
 
-// 0x003E8540 slot 0x70 | virtual slot, introduced by nn::pia::inet::NexNetworkFactory
-void nn::pia::inet::NexNetworkFactory::vf_0x70()
+// 0x003E8520
+nn::pia::session::ClearMatchmakeSystemPasswordJob* nn::pia::inet::NexNetworkFactory::CreateClearMatchmakeSystemPasswordJob()
 {
+    return new NexMatchClearSystemPasswordJob();
 }
 
-// 0x003E8520 slot 0x74 | virtual slot, introduced by nn::pia::inet::NexNetworkFactory
-void nn::pia::inet::NexNetworkFactory::vf_0x74()
+// 0x003E8540
+nn::pia::session::GenerateMatchmakeSystemPasswordJob* nn::pia::inet::NexNetworkFactory::CreateGenerateMatchmakeSystemPasswordJob()
 {
+    return new NexMatchGenerateSystemPasswordJob();
 }
 
-// 0x0072F14C slot 0x78 | virtual slot, introduced by nn::pia::inet::NexNetworkFactory
-void nn::pia::inet::NexNetworkFactory::vf_0x78()
+// 0x003E8564
+// 0x003E8560 (deleting dtor)
+nn::pia::inet::NexNetworkFactory::~NexNetworkFactory()
 {
+    // empty (in the original too)
 }
 
-// 0x003E84C0 slot 0x7C | virtual slot, introduced by nn::pia::inet::NexNetworkFactory
-void nn::pia::inet::NexNetworkFactory::vf_0x7C()
+// 0x0072F104
+u32 nn::pia::inet::NexNetworkFactory::GetPacketHeaderSize()
 {
+    return 28;
 }
 
-// 0x003E8174 slot 0x80 | virtual slot, introduced by nn::pia::inet::NexNetworkFactory
-void nn::pia::inet::NexNetworkFactory::vf_0x80()
+// 0x0072F10C
+bool nn::pia::inet::NexNetworkFactory::vf_0x9C()
 {
+    return true;
 }
 
-// 0x003E82AC slot 0x84 | virtual slot, introduced by nn::pia::inet::NexNetworkFactory
-void nn::pia::inet::NexNetworkFactory::vf_0x84()
+// 0x0072F114
+bool nn::pia::inet::NexNetworkFactory::vf_0xA0()
 {
+    return true;
 }
 
-// 0x003E8400 slot 0x88 | virtual slot, introduced by nn::pia::inet::NexNetworkFactory
-void nn::pia::inet::NexNetworkFactory::vf_0x88()
+// 0x0072F11C
+bool nn::pia::inet::NexNetworkFactory::IsSignatureNecessary()
 {
+    return true;
 }
 
-// 0x003E8440 slot 0x8C | virtual slot, introduced by nn::pia::inet::NexNetworkFactory
-void nn::pia::inet::NexNetworkFactory::vf_0x8C()
+// 0x0072F124
+u8 nn::pia::inet::NexNetworkFactory::GetHostMigrationMode()
 {
+    return 2;
 }
 
-// 0x003E8194 slot 0x90 | virtual slot, introduced by nn::pia::inet::NexNetworkFactory
-void nn::pia::inet::NexNetworkFactory::vf_0x90()
+// 0x0072F12C
+bool nn::pia::inet::NexNetworkFactory::IsJointSessionSupported()
 {
+    return true;
 }
 
-// 0x003E826C slot 0x94 | virtual slot, introduced by nn::pia::inet::NexNetworkFactory
-void nn::pia::inet::NexNetworkFactory::vf_0x94()
+// 0x0072F134
+bool nn::pia::inet::NexNetworkFactory::vf_0x40()
 {
+    return true;
 }
 
-// 0x003E8420 slot 0x98 | virtual slot, introduced by nn::pia::inet::NexNetworkFactory
-void nn::pia::inet::NexNetworkFactory::vf_0x98()
+// 0x0072F13C
+bool nn::pia::inet::NexNetworkFactory::IsRelayRouteSupported()
 {
+    return true;
 }
 
-// 0x0072F10C slot 0x9C | virtual slot, introduced by nn::pia::inet::NexNetworkFactory
-void nn::pia::inet::NexNetworkFactory::vf_0x9C()
+// 0x0072F144
+u32 nn::pia::inet::NexNetworkFactory::GetSessionInfoNumMax()
 {
+    return 100;
 }
 
-// 0x0072F114 slot 0xA0 | virtual slot, introduced by nn::pia::inet::NexNetworkFactory
-void nn::pia::inet::NexNetworkFactory::vf_0xA0()
+// 0x0072F14C
+u32 nn::pia::inet::NexNetworkFactory::GetStringBufferLength()
 {
-}
-
-// 0x0072F124 slot 0xA4 | virtual slot, introduced by nn::pia::inet::NexNetworkFactory
-void nn::pia::inet::NexNetworkFactory::vf_0xA4()
-{
-}
-
-// 0x0072F144 slot 0xA8 | virtual slot, introduced by nn::pia::inet::NexNetworkFactory
-void nn::pia::inet::NexNetworkFactory::vf_0xA8()
-{
+    return 17;
 }
 
 } // namespace inet

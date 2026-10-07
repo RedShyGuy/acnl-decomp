@@ -2848,7 +2848,7 @@ namespace nn { namespace nex {
     struct DataStorePostObjectEventListener { u32 _unknown; }; // placeholder, real type unknown
     struct DebugString { u32 _unknown; }; // placeholder, real type unknown
     struct MD5 { u32 _unknown; }; // placeholder, real type unknown
-    struct MatchmakeSystemType { u32 _unknown; }; // placeholder, real type unknown
+    enum MatchmakeSystemType : u32 {}; // (the values are not known; nex::MatchmakeSession stores it as u32)
     struct NATTraversalResult { u32 _unknown; }; // placeholder, real type unknown
     struct PacketType { u32 _unknown; }; // placeholder, real type unknown
     struct RelayType { u32 _unknown; }; // placeholder, real type unknown
@@ -2864,7 +2864,7 @@ namespace nn { namespace nex {
     template <typename T0, typename T1> class LogicalClockTmpl;
     template <typename T0, typename T1> class ObjectThread;
     template <typename T0, typename T1> class qChain;
-    template <typename T0, typename T1> struct qMap { u32 _unknown; }; // placeholder
+    template <typename T0, typename T1> class qMap; // nn/nex/nex_qMap.h
     template <typename T0> class CustomDataHolder;
     template <typename T0> class DataStoreCheckConsistencyEventListenerAdaptor;
     template <typename T0> class DataStoreClientTemplate;
@@ -2882,7 +2882,7 @@ namespace nn { namespace nex {
     template <typename T0> class qList;
     template <typename T0> class qProtectedList;
     template <typename T0> struct ChainPolicyHistoryPacket { u32 _unknown; }; // placeholder
-    template <typename T0> struct qVector { u32 _unknown; }; // placeholder
+    template <typename T0> class qVector; // nn/nex/nex_qVector.h
 }}
 
 namespace nn { namespace nex { namespace DataStoreConstants { 
@@ -2981,7 +2981,7 @@ namespace nn { namespace os { namespace ipc {
 
 namespace nn { namespace pia { 
     enum ModuleType : u8; // nn/pia/pia_Types.h
-    struct StationId { u32 _unknown; }; // placeholder, real type unknown
+    struct StationId; // nn/pia/pia_Types.h
     enum StationIndex : u8; // nn/pia/pia_Types.h
 }}
 
@@ -3023,9 +3023,9 @@ namespace nn { namespace pia { namespace common {
     class ZlibCompressor;
     class ListNode; // nn/pia/common/common_ListBase.h
     class Time; // nn/pia/common/common_Time.h
-    template <auto T0> class SignatureSettingWithKeyBuffer;
-    template <typename T0, auto T1> class FixedObjList;
-    template <typename T0, auto T1> class SimpleContainer;
+    template <u32 N> class SignatureSettingWithKeyBuffer; // nn/pia/common/common_SignatureSettingWithKeyBuffer.h
+    template <typename T, u32 N> class FixedObjList; // nn/pia/common/common_FixedObjList.h
+    template <typename T, u32 N> class SimpleContainer; // nn/pia/common/common_SimpleContainer.h
     template <typename T0> class ObjList;
 }}}
 
@@ -3087,10 +3087,14 @@ namespace nn { namespace pia { namespace inet {
     class SocketInputStream;
     class SocketOutputStream;
     class SocketStreamBase;
-    struct AddrInfo { u32 _unknown; }; // placeholder, real type unknown
-    struct NatTraversalTime { u32 _unknown; }; // placeholder, real type unknown
-    struct Setting { u32 _unknown; }; // placeholder, real type unknown
-    struct SockAddrIn { u32 _unknown; }; // placeholder, real type unknown
+    // defined in nn/pia/inet/inet_SocketAddress.h
+    struct AddrInfo;
+    // defined in nn/pia/inet/inet_NatTraversalTimeList.h
+    struct NatTraversalTime;
+    // defined in nn/pia/inet/inet_Api.h
+    struct Setting;
+    // defined in nn/pia/inet/inet_SocketAddress.h
+    struct SockAddrIn;
 }}}
 
 namespace nn { namespace pia { namespace local { 
@@ -3156,11 +3160,10 @@ namespace nn { namespace pia { namespace local {
     class UdsNetworkManager;
     class UdsNetworkSetting;
     class UdsSessionInfo;
-    struct LocalAroundNetworkSearchSetting { u32 _unknown; }; // placeholder, real type unknown
-    struct LocalConnectNetworkSetting { u32 _unknown; }; // placeholder, real type unknown
-    struct LocalCreateNetworkSetting { u32 _unknown; }; // placeholder, real type unknown
-    struct LocalScanNetworkSetting { u32 _unknown; }; // placeholder, real type unknown
-    struct LocalUpdateEvent { u32 _unknown; }; // placeholder, real type unknown
+    struct LocalAroundNetworkSearchSetting; // nn/pia/local/local_LocalNetworkTypes.h
+    struct LocalConnectNetworkSetting; // nn/pia/local/local_LocalNetworkTypes.h
+    struct LocalCreateNetworkSetting; // nn/pia/local/local_LocalNetworkTypes.h
+    struct LocalScanNetworkSetting; // nn/pia/local/local_LocalNetworkTypes.h
 }}}
 
 namespace nn { namespace pia { namespace session { 
@@ -3262,8 +3265,8 @@ namespace nn { namespace pia { namespace transport {
     class TransportAnalysisData;
     class TransportAnalyzer;
     class TransportThreadStream;
-    struct ProtocolId { u32 _unknown; }; // placeholder, real type unknown
-    struct ReceivedMessageAccessor { u32 _unknown; }; // placeholder, real type unknown
+    class ProtocolId; // nn/pia/transport/transport_ProtocolId.h
+    struct ReceivedMessageAccessor; // nn/pia/transport/transport_ReceivedMessageAccessor.h
 }}}
 
 namespace nn { namespace ptm { namespace CTR { 

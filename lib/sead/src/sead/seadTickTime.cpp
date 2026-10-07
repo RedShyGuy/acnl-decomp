@@ -1,12 +1,12 @@
 #include "sead/seadTickTime.h"
 
 namespace sead {
-// 0x00428DC4 | nintendogs:bytes [tier A]
+// the function of the binary is nn::pia::common::Time::SetNow (the same code)
 void sead::TickTime::setNow()
 {
 }
 
-// 0x0053D960 | nintendogs:bytes [tier A]
+// the function of the binary is pead::TickTime::TickTime
 sead::TickTime::TickTime()
 {
 }

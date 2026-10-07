@@ -14,7 +14,7 @@ public:
     virtual ~ServiceClient(); // 0x0036D6F4 slot 0x00 | fefates:bytes
     // 0x0036D6E4 slot 0x04 | slot vf_0x04 of nn::nex::ServiceClient (deleting dtor)
     virtual void vf_0x08(); // 0x0036D484 slot 0x08 | virtual slot, introduced by nn::nex::ServiceClient
-    virtual void Bind(nn::nex::Credentials*); // 0x0036D528 slot 0x0C | slot vf_0x0C of nn::nex::ServiceClient
+    virtual bool Bind(nn::nex::Credentials*); // 0x0036D528 slot 0x0C | slot vf_0x0C of nn::nex::ServiceClient
     virtual void Unbind(); // 0x0036D5A4 slot 0x10 | slot vf_0x10 of nn::nex::ServiceClient
     virtual void IsConnected() const; // 0x0072AA08 slot 0x14 | slot vf_0x14 of nn::nex::ServiceClient
     virtual void IsFaulty() const; // 0x0072AB28 slot 0x18 | fefates:bytes
@@ -24,6 +24,10 @@ public:
     void SetDefaultCredentials(nn::nex::Credentials*); // 0x0036D488 | fefates:bytes [tier B]
     void RegisterProtocol(nn::nex::Protocol*); // 0x00383520 | fefates:bytes [tier B]
     void GetConnection(unsigned short) const; // 0x0072AAA4 | fefates:bytes [tier B]
+
+    // (only the members pia uses; the names are ours)
+    u32 m_Unknown0x4;                     // 0x4
+    Credentials* m_pDefaultCredentials;   // 0x8
 };
 } // namespace nex
 } // namespace nn

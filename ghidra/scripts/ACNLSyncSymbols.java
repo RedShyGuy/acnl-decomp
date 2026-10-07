@@ -39,7 +39,7 @@ public class ACNLSyncSymbols extends GhidraScript {
     @Override
     protected void run() throws Exception {
         Map<Long, Entry> entries = new LinkedHashMap<>();
-        File first = askFile("Choose a symbol file (e.g. code_USA_1_5.txt)", "Load");
+        File first = askFile("Choose a symbol file (e.g. code_0004000000086300.txt)", "Load");
         loadFile(first, entries);
         while (askYesNo("Another file?", "Load another symbol file (e.g. one of symbols/cro)?")) {
             loadFile(askFile("Choose another symbol file", "Load"), entries);

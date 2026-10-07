@@ -8,7 +8,7 @@ void nn::nex::Time::GetTime()
 }
 
 // 0x003CE0B8 | mk7dlp:callseq-callee [tier A]
-void nn::nex::Time::ConvertTimeoutToDeadline(unsigned)
+nn::nex::Time nn::nex::Time::ConvertTimeoutToDeadline(unsigned)
 {
 }
 

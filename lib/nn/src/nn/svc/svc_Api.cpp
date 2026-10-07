@@ -1,6 +1,6 @@
 // Assembly wrappers of the system calls that need more than "svc N".
 // Instructions marked with an address are copied
-// from ACNL USA 1.5 (orig/USA_1_5/code.elf).
+// from ACNL USA 1.5 (orig/0004000000086300/code.elf).
 
 #include "nn/svc/svc_Api.h"
 

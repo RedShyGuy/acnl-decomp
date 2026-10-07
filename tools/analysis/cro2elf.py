@@ -1,6 +1,6 @@
 """Convert ACNL CRO modules into ELF files that Ghidra imports cleanly.
 
-usage: python cro2elf.py [--elf orig/USA_1_5/code.elf] [--version USA_1_5] <out dir> <cro files...>
+usage: python cro2elf.py [--elf orig/0004000000086300/code.elf] [--version 0004000000086300] <out dir> <cro files...>
 
 Per module <out dir>/<Module>.elf:
   - the image is relocated like ldr:ro does it (internal relocations applied,
@@ -194,7 +194,7 @@ def convert(path, m, names, out_path):
 
 def main():
     ap = argparse.ArgumentParser()
-    ap.add_argument('--version', default='USA_1_5')
+    ap.add_argument('--version', default='0004000000086300')
     ap.add_argument('--elf', help='code.elf (default orig/<version>/code.elf)')
     ap.add_argument('outdir')
     ap.add_argument('cros', nargs='+')

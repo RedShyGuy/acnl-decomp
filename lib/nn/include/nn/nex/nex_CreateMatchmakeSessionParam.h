@@ -10,7 +10,7 @@ namespace nex {
 class CreateMatchmakeSessionParam : public ::nn::nex::_DDL_CreateMatchmakeSessionParam
 {
 public:
-    CreateMatchmakeSessionParam(); // ctor candidate(s) 0x003BCBF0 (unverified)
+    CreateMatchmakeSessionParam(); // 0x003BCBF0
     virtual ~CreateMatchmakeSessionParam(); // 0x003BCD08 slot 0x00 | slot vf_0x00 of nn::nex::_DDL_CreateMatchmakeSessionParam
     // 0x003BCCF8 slot 0x04 | slot vf_0x04 of nn::nex::_DDL_CreateMatchmakeSessionParam (deleting dtor)
 };

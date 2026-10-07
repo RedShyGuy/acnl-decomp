@@ -6,11 +6,12 @@
 namespace nn {
 namespace pia {
 namespace local {
-// RTTI N2nn3pia5local21LocalConnectionStatusE @ 0x008CFBD4
+// The connection status of the local network (LocalNetworkManager keeps the last one).
 class LocalConnectionStatus : public ::nn::pia::common::RootObject
 {
 public:
-    LocalConnectionStatus(); // ctor address unknown
+    // the number of the connected nodes (name is ours)
+    virtual u8 GetNodeCount() const = 0; // slot 0x00
 };
 } // namespace local
 } // namespace pia

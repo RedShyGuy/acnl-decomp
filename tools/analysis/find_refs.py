@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Find references to addresses in the original code.elf: bl / b / blx targets and literal words.
 
-    python tools/analysis/find_refs.py <address> [<address> ...] [--version USA_1_5]
+    python tools/analysis/find_refs.py <address> [<address> ...] [--version 0004000000086300]
     python tools/analysis/find_refs.py 0x469EA0 0x97F090
 
 Useful for callers of an unnamed function, users of a global, or who registers a destructor.
@@ -17,7 +17,7 @@ import elfmem
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument('addresses', nargs='+')
-    ap.add_argument('--version', default='USA_1_5')
+    ap.add_argument('--version', default='0004000000086300')
     a = ap.parse_args()
     m = elfmem.Mem(os.path.join(ROOT, 'orig', a.version, 'code.elf'))
     targets = {int(x, 16) for x in a.addresses}

@@ -15,7 +15,7 @@ public:
     DataStoreLogicServerClient(); // ctor address unknown
     virtual ~DataStoreLogicServerClient(); // 0x003B9798 slot 0x00 | slot vf_0x00 of nn::nex::ServiceClient
     // 0x003B9720 slot 0x04 | slot vf_0x04 of nn::nex::ServiceClient (deleting dtor)
-    virtual void Bind(nn::nex::Credentials*); // 0x003B963C slot 0x0C | fefates:bytes
+    virtual bool Bind(nn::nex::Credentials*); // 0x003B963C slot 0x0C | fefates:bytes
     virtual void Unbind(); // 0x003B9670 slot 0x10 | fefates:bytes
     virtual void UpdateProtocolsDefaultCredentials(nn::nex::Credentials*); // 0x003B9634 slot 0x20 | slot vf_0x20 of nn::nex::ServiceClient
     virtual void vf_0x28(); // 0x003A1AB4 slot 0x28 | virtual slot, introduced by nn::nex::DataStoreLogicServerClient

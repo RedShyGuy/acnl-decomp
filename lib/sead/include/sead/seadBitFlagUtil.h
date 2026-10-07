@@ -6,6 +6,6 @@ namespace sead {
 class BitFlagUtil
 {
 public:
-    void findOnBitFromRight(unsigned, int); // 0x0053825C | nintendogs:bytes [tier A]
+    void findOnBitFromRight(unsigned, int); // the function of the binary is pead::BitFlagUtil::findOnBitFromRight
 };
 } // namespace sead

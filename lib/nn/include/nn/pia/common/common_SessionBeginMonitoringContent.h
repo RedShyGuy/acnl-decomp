@@ -29,13 +29,14 @@ public:
     u8 m_CountryCode;                  // 0x01E
     u8 m_RegionCode;                   // 0x01F
     u32 m_CommonHeapSize;              // 0x020
-    u32 m_Unknown0x24;                 // 0x024
-    u32 m_Unknown0x28;                 // 0x028
-    u8 m_Unknown0x2C;                  // 0x02C
-    u32 m_Unknown0x30;                 // 0x030
-    u32 m_Unknown0x34;                 // 0x034
-    u8 m_Unknown0x38;                  // 0x038
-    u8 m_Unknown0x39;                  // 0x039
+    // a bit per protocol type, cleared when the protocol is created (transport::ProtocolManager)
+    u32 m_UnusedProtocolBitmap;        // 0x024
+    u32 m_LocalCommunicationId;        // 0x028
+    u8 m_NodeCountMax;                 // 0x02C
+    u32 m_ReceiveBufferSize;           // 0x030
+    u32 m_ScanBufferSize;              // 0x034
+    u8 m_SendOption;                   // 0x038, of UdsNetworkSetting
+    u8 m_ReceiveOption;                // 0x039, of UdsNetworkSetting
     u32 m_Unknown0x3C;                 // 0x03C
     u32 m_Unknown0x40;                 // 0x040
     u8 m_Unknown0x44;                  // 0x044
@@ -55,29 +56,35 @@ public:
     u32 m_Unknown0x6C;                 // 0x06C
     u8 m_Unknown0x70;                  // 0x070
     u8 m_Unknown0x71;                  // 0x071
-    u16 m_Unknown0x72;                 // 0x072
-    u32 m_Unknown0x74;                 // 0x074
-    u32 m_Unknown0x78;                 // 0x078
-    u32 m_Unknown0x7C;                 // 0x07C
-    u32 m_Unknown0x80;                 // 0x080
+    // the setting of transport::Transport
+    u16 m_StationNumMax;                 // 0x072
+    u32 m_SendPacketNum;                 // 0x074
+    u32 m_ReceivePacketNum;                 // 0x078
+    // the window sizes of transport::ReliableProtocol (its Initialize)
+    u32 m_ReliableSendNum;                 // 0x07C
+    u32 m_ReliableReceiveNum;                 // 0x080
     u32 m_Unknown0x84;                 // 0x084
-    u16 m_Unknown0x88;                 // 0x088
-    u32 m_Unknown0x8C;                 // 0x08C
-    u16 m_Unknown0x90;                 // 0x090
-    u32 m_Unknown0x94;                 // 0x094
-    u16 m_Unknown0x98;                 // 0x098
-    u16 m_Unknown0x9A;                 // 0x09A
+    // the stations with the least and the most round trip time (transport::Transport::
+    // SetMonitoringNetworkRtt): the time in ms and the MD5 hash of their principal id
+    u16 m_MinRtt;                 // 0x088
+    u32 m_MinRttPrincipalIdHash;                 // 0x08C
+    u16 m_MaxRtt;                 // 0x090
+    u32 m_MaxRttPrincipalIdHash;                 // 0x094
+    u16 m_RelayRttLimit;                 // 0x098
+    u16 m_RelayCountMax;                 // 0x09A
     u16 m_Unknown0x9C;                 // 0x09C
     u32 m_Unknown0xA0;                 // 0x0A0
     u8 m_Unknown0xA4;                  // 0x0A4
     u8 m_Unknown0xA5;                  // 0x0A5
-    u8 m_Unknown0xA6;                  // 0x0A6
-    u32 m_Unknown0xA8;                 // 0x0A8
-    u32 m_Unknown0xAC;                 // 0x0AC
-    u8 m_Unknown0xB0;                  // 0x0B0
-    u32 m_Unknown0xB4[23];             // 0x0B4
-    u8 m_Unknown0x110;                 // 0x110
-    u32 m_Unknown0x114[12];            // 0x114
+    // the join of session::JoinMeshJob: the stations, the result, the time, the stations behind a
+    // relay and the relays (MD5 hashes of the principal ids), then the host and the phase at 0x254
+    u8 m_JoinStationNum;                  // 0x0A6
+    u32 m_JoinResult;                 // 0x0A8
+    u32 m_JoinElapsedMSec;                 // 0x0AC
+    u8 m_RelayedStationNum;                  // 0x0B0
+    u32 m_RelayedStationPrincipalIdHashes[23];             // 0x0B4
+    u8 m_RelayStationNum;                 // 0x110
+    u32 m_RelayStationPrincipalIdHashes[12];            // 0x114
     u16 m_Unknown0x144;                // 0x144
     u8 m_Unknown0x146;                 // 0x146
     u8 m_Unknown0x147;                 // 0x147
@@ -150,18 +157,20 @@ public:
     u8 m_Unknown0x251;                 // 0x251
     u8 m_Unknown0x252;                 // 0x252
     u8 m_Unknown0x253;                 // 0x253
-    u32 m_Unknown0x254;                // 0x254
+    u32 m_HostPrincipalId;                // 0x254
     u32 m_Unknown0x258;                // 0x258
     u8 m_Unknown0x25C;                 // 0x25C
     u8 m_Unknown0x25D;                 // 0x25D
     u8 m_Unknown0x25E;                 // 0x25E
     u8 m_Unknown0x25F;                 // 0x25F
-    u8 m_Unknown0x260;                 // 0x260
+    u8 m_JoinPhase;                 // 0x260
     u8 m_Unknown0x261;                 // 0x261
-    u16 m_Unknown0x262;                // 0x262
-    u16 m_Unknown0x264;                // 0x264
-    u32 m_Unknown0x268;                // 0x268
-    u32 m_Unknown0x26C;                // 0x26C
+    // the bandwidth check (transport::BandwidthCheckerProtocol): its settings, the packet loss in
+    // 0.01 % and the bits per second the receiver got
+    u16 m_BandwidthCheckPacketSize;                // 0x262
+    u16 m_BandwidthCheckPacketLoss;                // 0x264
+    u32 m_BandwidthCheckBandwidth;                // 0x268
+    u32 m_BandwidthCheckResult;                // 0x26C
     u16 m_Unknown0x270;                // 0x270
     u16 m_Unknown0x272;                // 0x272
     u32 m_Unknown0x274[23];            // 0x274
@@ -175,6 +184,8 @@ public:
     u8 m_Unknown0x485[23];             // 0x485
     u8 m_Unknown0x49C;                 // 0x49C
     u8 m_Unknown0x49D;                 // 0x49D
+    // the probes that met a station by its public address while knowing it by its private one,
+    // or the other way round (inet::NatProbe::UpdateTargetAddress)
     u16 m_Unknown0x49E;                // 0x49E
     u16 m_Unknown0x4A0;                // 0x4A0
     u16 m_Unknown0x4A2;                // 0x4A2

@@ -21,7 +21,7 @@ project(acnl_decomp LANGUAGES C CXX)
 # sources exactly like devkitARM's GCC does (asm volatile, __attribute__((naked)), include paths)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
-set(DECOMP_VERSION "USA_1_5" CACHE STRING "Game version to build")
+set(DECOMP_VERSION "0004000000086300" CACHE STRING "Game version to build")
 set(DECOMP_CONFIG "${CMAKE_SOURCE_DIR}/config/${DECOMP_VERSION}")
 set(DECOMP_ORIG "${CMAKE_SOURCE_DIR}/orig/${DECOMP_VERSION}")
 option(DECOMP_LINK "Link code.elf from the compiled objects" OFF)

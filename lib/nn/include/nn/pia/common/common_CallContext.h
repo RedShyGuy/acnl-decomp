@@ -38,6 +38,11 @@ public:
 
     State GetState() const { return m_State; }
     bool IsCancelRequested() const { return m_IsCancelRequested; }
+    // the call has ended (inline in the jobs; name is ours)
+    bool IsFinished() const
+    {
+        return m_State == STATE_CALL_SUCCESS || m_State == STATE_CALL_FAILURE || m_State == STATE_CALL_CANCEL;
+    }
 
     State m_State;              // 0x00
     nn::Result m_Result;        // 0x04

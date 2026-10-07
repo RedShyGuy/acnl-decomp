@@ -16,6 +16,11 @@ public:
     virtual void BeginTransition(nn::nex::CallContext::State, nn::nex::qResult, bool); // 0x003947F4 slot 0x0C | fefates:bytes
     void SetCredentials(nn::nex::Credentials*); // 0x00394768 | fefates:bytes [tier B]
     ProtocolCallContext(); // 0x00394A28 | mk7dlp:callseq-callee [tier A]
+
+    // (the size is from the constructor; the names are ours)
+    u32 m_Unknown0x60[5];          // 0x60
+    Credentials* m_pCredentials;   // 0x74
 };
+ASSERT_SIZE(ProtocolCallContext, 0x78);
 } // namespace nex
 } // namespace nn
