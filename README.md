@@ -19,55 +19,65 @@ For the current numbers run the `check` target and then the `progress` target (s
 The first step is to fully decompile any standard libraries used in ACNL.
 This includes nn, nw, pead, sead, mw, libms, imgdb and cfl.
 Beginning with nn:
+
 | | |
 |---|---|
-| nn::os | ✅ 100% decompiled |
-| nn::y2r | ✅ 100% decompiled |
-| nn::util | ✅ 100% decompiled |
-| nn::ulcd | ✅ 100% decompiled |
-| nn::uds | ✅ 100% decompiled |
-| nn::svc | ✅ 100% decompiled |
-| nn::fslow | ✅ 100% decompiled |
-| nn::fs | ✅ 100% decompiled |
-| nn::dbm | ✅ 100% decompiled |
-| nn::ubl | ✅ 100% decompiled |
-| nn::ssl | ✅ 100% decompiled |
-| nn::srv | ✅ 100% decompiled |
-| nn::socket | ✅ 100% decompiled |
-| nn::nfc | ✅ 100% decompiled |
-| nn::nfp | ✅ 100% decompiled |
-| nn::ptm | ✅ 100% decompiled |
-| nn::pl | ✅ 100% decompiled |
-| nn::pia | ✅ 100% decompiled |
-| nn::snd | ❌ |
-| nn::ro | ❌ |
-| nn::nwm | ❌ |
-| nn::ngc | ❌ |
-| nn::nex | ❌ |
-| nn::ndm | ❌ |
-| nn::mic | ❌ |
-| nn::math | ❌ |
-| nn::jpeg | ❌ |
-| nn::ir | ❌ |
-| nn::init | ❌ |
-| nn::http | ❌ |
-| nn::hidlow | ❌ |
-| nn::hid | ❌ |
-| nn::gxlow | ❌ |
-| nn::gr | ❌ |
-| nn::friends | ❌ |
-| nn::fnd | ❌ |
-| nn::erreula | ❌ |
-| nn::err | ❌ |
-| nn::enc | ❌ |
-| nn::dsp | ❌ |
-| nn::crypto | ❌ |
-| nn::cfg | ❌ |
-| nn::cec | ❌ |
-| nn::camera | ❌ |
-| nn::boss | ❌ |
-| nn::applet | ❌ |
-| nn::ac | ❌ |
+| nn::ac | ✅ written |
+| nn::applet | ✅ written |
+| nn::boss | ✅ written |
+| nn::camera | ✅ written |
+| nn::cec | ✅ written |
+| nn::cfg | ✅ written |
+| nn::crypto | ✅ written |
+| nn::dbm | ✅ written |
+| nn::dsp | ✅ written |
+| nn::enc | ✅ written |
+| nn::err | ✅ written |
+| nn::erreula | ✅ written |
+| nn::fnd | ✅ written |
+| nn::friends | ✅ written |
+| nn::fs | ✅ written |
+| nn::fslow | ✅ written |
+| nn::gr | ✅ written |
+| nn::gxlow | ✅ written |
+| nn::hid | ✅ written |
+| nn::hidlow | ✅ written |
+| nn::http | ✅ written |
+| nn::init | ✅ written |
+| nn::ir | ✅ written |
+| nn::jpeg | ✅ written |
+| nn::math | ✅ written |
+| nn::mic | ✅ written |
+| nn::ndm | ✅ written |
+| nn::nfc | ✅ written |
+| nn::nfp | ✅ written |
+| nn::ngc | ✅ written |
+| nn::nstd | ✅ written |
+| nn::nwm | ✅ written |
+| nn::os | ✅ written |
+| nn::pia | ✅ written |
+| nn::pl | ✅ written |
+| nn::ptm | ✅ written |
+| nn::ro | ✅ written |
+| nn::snd | ✅ written |
+| nn::socket | ✅ written |
+| nn::srv | ✅ written |
+| nn::ssl | ✅ written |
+| nn::svc | ✅ written |
+| nn::ubl | ✅ written |
+| nn::uds | ✅ written |
+| nn::ulcd | ✅ written |
+| nn::util | ✅ written |
+| nn::y2r | ✅ written |
+| nn::nex | ❌ next |
+
+"Written" means every function of the package has its C++ source. A function counts as done when
+`check` rates it `equivalent`; the rest is `close` or `far`, mostly because GCC and ARMCC generate
+different code (unrolled loops, inlining choices, a destructor call per return path in ARMCC, ...).
+The remaining differences are explained in the comments.
+
+State of nn without nex (2026-10-09, `progress`): 4 345 functions, 4 240 of them written (98.7% of
+the bytes); 2 857 `equivalent`, 791 `close`, 592 `far`. Whole project: 3.54% of the bytes done.
 
 ## Setup
 
@@ -126,11 +136,13 @@ modules/<Module>/   CRO modules (docs/cro.md); modules/_shared = classes used by
 config/0004000000086300/
   symbols.json      every class (RTTI, vtables) and named function with source + tier
   modules/*.json    the same per CRO module
-  inputs/           raw inputs of the analysis (libgarden symbols, reference matches, ...)
+  extracted_data.json  data blocks without source (firmware, tables): copied from your code.elf
+                    when code.elf is linked, never stored in the repository
+  inputs/           raw inputs of the analysis (libgarden symbols, reference matches, hand names, ...)
 orig/0004000000086300/       your dump: code.elf, cro/*.cro  (ignored by git)
 ghidra/             symbols, data types and scripts for Ghidra (ghidra/README.md)
 tools/analysis/     binary analysis: RTTI, vtables, xrefs, CRO parsing, hand named symbols, disassembly
-tools/decomp/       check, score diff, progress, syntax check, linker script, Ghidra export
+tools/decomp/       check, score diff, progress, syntax check, linker script, data extraction, Ghidra export
 cmake/              toolchain (devkitarm) and build helpers
 docs/               naming.md, cro.md, save_format.md
 ```
@@ -147,7 +159,7 @@ The class headers and stubs were generated once from symbols.json. They are norm
 
 ## Naming
 
-Names only go in when they are certain (details in [docs/naming.md](docs/naming.md)). Unknown things stay `vf_0x24`, `unk_0x10`, `SvPlayerUnk8D4C`. Every declaration says where its name comes from, for example `// 0x0064DB90 | libgarden [tier A]`.
+Names only go in when they are certain (details in [docs/naming.md](docs/naming.md)). Unknown things stay `vf_0x24`, `unk_0x10`, `SvPlayerUnk8D4C`. Every declaration says where its name comes from, for example `// 0x0064DB90 | libgarden [tier A]`, `// 0x0013098C (name after 3dbrew)` or `// 0x003DADC8 (name is ours)`. Names from Nintendo's SDK (headers, sources, documentation) are never used.
 
 ## Credits
 

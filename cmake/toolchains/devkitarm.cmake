@@ -47,9 +47,15 @@ set(CMAKE_TRY_COMPILE_TARGET_TYPE STATIC_LIBRARY)
 #       would make a switch of it and then a bit test with a mask, e.g. the result codes in
 #       pia::session::JoinMeshJob)
 #   -fno-math-errno: sqrtf is a bare vsqrt (ARMCC does not set errno; GCC would add a call to sqrtf for NaN)
+#   -fno-tree-vectorize: no SLP vectorizing (GCC 14 at -O2 merges neighbouring byte/word stores of
+#     constants into one wide store, e.g. a constructor's member initializers into strd)
 #   -fshort-wchar: wchar_t is 16 bit as with ARMCC on the 3DS (UTF-16 paths of nn::fs, L"..." literals)
+#   -fno-tree-tail-merge, -fno-crossjumping: each return path keeps its own copy of the code before
+#     it, like ARMCC (an unlock / destructor call per return; GCC would merge them into one and
+#     return the value it already has, e.g. "return IsComponentLoaded()" instead of "return true").
+#     Tested on the whole project 2026-10-08: 18 more functions equivalent, few small losses
 set(DECOMP_GCC_FLAGS
-    "-march=armv6k -mtune=mpcore -mfloat-abi=hard -mfpu=vfp -marm -mtp=soft -O2 -ffunction-sections -fdata-sections -fno-optimize-strlen -fno-tree-loop-distribute-patterns -fno-reorder-blocks -fno-store-merging -fno-lifetime-dse -fno-tree-switch-conversion -fdisable-tree-iftoswitch -fno-math-errno -fshort-wchar -w"
+    "-march=armv6k -mtune=mpcore -mfloat-abi=hard -mfpu=vfp -marm -mtp=soft -O2 -ffunction-sections -fdata-sections -fno-optimize-strlen -fno-tree-loop-distribute-patterns -fno-reorder-blocks -fno-store-merging -fno-lifetime-dse -fno-tree-switch-conversion -fdisable-tree-iftoswitch -fno-math-errno -fno-tree-vectorize -fshort-wchar -fno-tree-tail-merge -fno-crossjumping -w"
     CACHE STRING "GCC options used for every source file")
 
 set(CMAKE_C_FLAGS_INIT "${DECOMP_GCC_FLAGS}")

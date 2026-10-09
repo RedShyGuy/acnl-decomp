@@ -27,7 +27,7 @@
 | `manual:inferred` | reasoned by hand, not proven | declared, comment says so |
 | `manual:abi` | runtime helper of the public ARM C++ ABI, recognized by its code (e.g. `__aeabi_vec_ctor_nocookie_nodtor`) | used by the tools |
 
-Every declaration carries its source and tier, for example `// 0x0064DB90 | libgarden [tier A]`.
+Every declaration carries its source and tier, for example `// 0x0064DB90 | libgarden [tier A]`. Names chosen while decompiling are marked `(name is ours)`, IPC commands named after 3dbrew `(name after 3dbrew)`. Member names are almost always ours (the binary has none); a class or file comment says so.
 
 ## Placeholders
 

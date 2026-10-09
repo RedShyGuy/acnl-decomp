@@ -1,4 +1,5 @@
 #include "nn/os/os_MemoryBlock.h"
+#include <new>
 #include "nn/os/CTR/detail/detail_Api.h"
 #include "nn/os/detail/detail_Api.h"
 
@@ -42,3 +43,13 @@ nn::os::MemoryBlock::~MemoryBlock()
 
 } // namespace os
 } // namespace nn
+
+// 0x0011F3B0
+extern "C" void nnosMemoryBlockAllocate(nn::os::MemoryBlock* block, size_t size)
+{
+    if (block == NULL) {
+        return;
+    }
+    new (block) nn::os::MemoryBlock;
+    block->AllocateBlock(size);
+}

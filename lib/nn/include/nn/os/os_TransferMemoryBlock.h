@@ -15,6 +15,7 @@ namespace os {
 class TransferMemoryBlock : public MemoryBlockBase, public HandleObject
 {
 public:
+    TransferMemoryBlock() : mIsMapped(false) {}
     void Initialize(void* address, size_t size, u32 myPermission, u32 otherPermission); // 0x0013085C | nintendogs:bytes [tier A]
     void Finalize(); // 0x00140634 | nintendogs:bytes [tier A]
     nn::Result AttachAndMap(nn::Handle handle, size_t size, u32 otherPermission, u32 myPermission); // 0x0034C364 | nintendogs:callgraph [tier A]

@@ -3,8 +3,8 @@
 namespace nn {
 namespace gr {
 namespace CTR {
-// 0x00349C0C | mk7dlp:bytes [tier A]
-nn::gr::CTR::BindSymbolVSFloat::BindSymbolVSFloat()
+// 0x00349C0C | mk7dlp:bytes [confirmed by fefates] [tier A]
+nn::gr::CTR::BindSymbolVSFloat::BindSymbolVSFloat() : BindSymbol(0, 2)
 {
 }
 

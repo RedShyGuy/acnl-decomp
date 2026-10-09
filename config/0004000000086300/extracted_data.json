@@ -1,0 +1,133 @@
+{
+    "comment": "Data that is not written as source: binary images of the original (firmware, tables of the hardware, ...). The source declares each one as an extern variable with its address comment; tools/decomp/extract_data.py copies the bytes from orig/<version>/code.elf into the build directory when code.elf is linked, and fails if an extern declaration has no entry here. Nothing of the original is in the repository.",
+    "blobs": [
+        {
+            "name": "nn::dsp::CTR::detail::s_DefaultComponent",
+            "symbol": "_ZN2nn3dsp3CTR6detail18s_DefaultComponentE",
+            "address": "0x009391A4",
+            "size": "0x0000C26C",
+            "section": ".rodata",
+            "note": "the default DSP component (a program for the DSP), loaded by nn::dsp::CTR::LoadDefaultComponent"
+        },
+        {
+            "name": "nn::math::s_SinCosTable",
+            "symbol": "_ZN2nn4math13s_SinCosTableE",
+            "address": "0x008A23C0",
+            "size": "0x00001010",
+            "section": ".rodata",
+            "note": "the sin/cos table of nn::math (257 entries of sin, cos and their changes to the next step)"
+        },
+        {
+            "name": "nn::mic::CTR::s_IirFilters",
+            "symbol": "_ZN2nn3mic3CTR12s_IirFiltersE",
+            "address": "0x008A33D6",
+            "size": "0x000000C8",
+            "section": ".rodata",
+            "note": "the IIR filters of mic for the four sample rates (50 bytes each)"
+        },
+        {
+            "name": "nn::jpeg::CTR::detail::s_HuffmanTableSegment",
+            "symbol": "_ZN2nn4jpeg3CTR6detail21s_HuffmanTableSegmentE",
+            "address": "0x008A0AC0",
+            "size": "0x000001A4",
+            "section": ".rodata",
+            "note": "the DHT segment of the jpeg encoder (the standard Huffman tables of JPEG Annex K)"
+        },
+        {
+            "name": "nn::jpeg::CTR::detail::s_LumaDcCodes",
+            "symbol": "_ZN2nn4jpeg3CTR6detail13s_LumaDcCodesE",
+            "address": "0x008A0C64",
+            "size": "0x0000050C",
+            "section": ".rodata",
+            "note": "Huffman codes of the luminance DC coefficients for JpegMpEncoderAsm_ComponentSequential"
+        },
+        {
+            "name": "nn::jpeg::CTR::detail::s_ChromaDcCodes",
+            "symbol": "_ZN2nn4jpeg3CTR6detail15s_ChromaDcCodesE",
+            "address": "0x008A1170",
+            "size": "0x0000050C",
+            "section": ".rodata",
+            "note": "Huffman codes of the chrominance DC coefficients"
+        },
+        {
+            "name": "nn::jpeg::CTR::detail::s_LumaAcCodes",
+            "symbol": "_ZN2nn4jpeg3CTR6detail13s_LumaAcCodesE",
+            "address": "0x008A167C",
+            "size": "0x0000050C",
+            "section": ".rodata",
+            "note": "Huffman codes of the luminance AC coefficients"
+        },
+        {
+            "name": "nn::jpeg::CTR::detail::s_ChromaAcCodes",
+            "symbol": "_ZN2nn4jpeg3CTR6detail15s_ChromaAcCodesE",
+            "address": "0x008A1B88",
+            "size": "0x0000050C",
+            "section": ".rodata",
+            "note": "Huffman codes of the chrominance AC coefficients"
+        },
+        {
+            "name": "nn::jpeg::CTR::detail::s_DefaultHuffmanTables",
+            "symbol": "_ZN2nn4jpeg3CTR6detail22s_DefaultHuffmanTablesE",
+            "address": "0x0089EAC0",
+            "size": "0x00001800",
+            "section": ".rodata",
+            "note": "the decoder's Huffman tables (DHT data and decoding tables) of the standard tables of JPEG Annex K, for files without DHT"
+        },
+        {
+            "name": "nn::ngc::s_CaseFoldingPairs",
+            "symbol": "_ZN2nn3ngc18s_CaseFoldingPairsE",
+            "address": "0x0097FA78",
+            "size": "0x00002BB0",
+            "section": ".data",
+            "note": "ngc: the characters with others of another case (1398 entries of a character and up to three others), sorted"
+        },
+        {
+            "name": "nn::ngc::s_BuiltInCharClasses",
+            "symbol": "_ZN2nn3ngc20s_BuiltInCharClassesE",
+            "address": "0x008C5C28",
+            "size": "0x00000420",
+            "section": ".rodata",
+            "note": "ngc: the first range and the number of ranges in s_CharClassRanges of each built-in character class (132)"
+        },
+        {
+            "name": "nn::ngc::s_CharClassRanges",
+            "symbol": "_ZN2nn3ngc17s_CharClassRangesE",
+            "address": "0x008C33F0",
+            "size": "0x00002838",
+            "section": ".rodata",
+            "note": "ngc: the character ranges of the built-in character classes (2574 pairs of first and last character)"
+        },
+        {
+            "name": "nn::ngc::CTR::s_SmallKanaConversions",
+            "symbol": "_ZN2nn3ngc3CTR22s_SmallKanaConversionsE",
+            "address": "0x008B4346",
+            "size": "0x00000030",
+            "section": ".rodata",
+            "note": "ngc: small katakana to large ones (12 pairs)"
+        },
+        {
+            "name": "nn::ngc::CTR::s_HalfwidthKanaConversions",
+            "symbol": "_ZN2nn3ngc3CTR26s_HalfwidthKanaConversionsE",
+            "address": "0x008B4376",
+            "size": "0x000000E8",
+            "section": ".rodata",
+            "note": "ngc: half width katakana to full width ones (58 pairs)"
+        },
+        {
+            "name": "nn::ngc::CTR::s_HalfwidthVoicedKanaConversions",
+            "symbol": "_ZN2nn3ngc3CTR32s_HalfwidthVoicedKanaConversionsE",
+            "address": "0x008B445E",
+            "size": "0x00000054",
+            "section": ".rodata",
+            "note": "ngc: half width katakana followed by the half width dakuten to full width ones (21 pairs)"
+        },
+        {
+            "name": "nn::ngc::CTR::s_HalfwidthSemiVoicedKanaConversions",
+            "symbol": "_ZN2nn3ngc3CTR36s_HalfwidthSemiVoicedKanaConversionsE",
+            "address": "0x008B44B2",
+            "size": "0x00000014",
+            "section": ".rodata",
+            "note": "ngc: half width katakana followed by the half width handakuten to full width ones (5 pairs)"
+        }
+    ]
+}

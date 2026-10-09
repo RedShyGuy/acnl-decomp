@@ -13,6 +13,8 @@ A CRO is a relocatable module with a fixed header (`CRO0`) and these parts:
 
 `static.crs` describes the static module (`code.bin`) in the same format, so CROs can import from it. `static.crr` lists the SHA-256 hashes of every CRO that may be loaded (`nn::ro` checks them).
 
+The loader side in code.bin is decompiled in [lib/nn/src/nn/ro](../lib/nn/src/nn/ro): `nn::ro::Module` is the CRO image itself (header at 0x80), `RegistrationList` the CRR, `detail::LdrRoClient` the commands of the `ldr:ro` service.
+
 ACNL's modules import from the static module **anonymously**: there are no names, only the static module's segment + offset (seg0 = 0x00100000, seg1 = 0x0083A000, seg2 = 0x00946000). Calls into `code.bin` go through thunks:
 
 ```

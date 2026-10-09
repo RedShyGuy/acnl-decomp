@@ -16,8 +16,15 @@ class ReaderWriterLock
 {
 public:
     ReaderWriterLock(); // 0x0011F690 | fefates:bytes [tier B]
+    ~ReaderWriterLock(); // 0x0034C18C (empty)
     void Initialize(); // 0x0011F678 | tier C
+    void Finalize(); // 0x0034C174 (name is ours)
     void LockForWrite(); // 0x0013AF84 | fefates:bytes [tier B]
+    void UnlockForWrite(); // 0x00136540 (name is ours)
+    // takes it for writing if it is free, without waiting
+    bool TryLockForWrite(); // 0x0013658C (name is ours)
+    void LockForRead(); // 0x0034C0A8 (name is ours)
+    void UnlockForRead(); // 0x0034C114 (name is ours)
 
 private:
     volatile s32 mCounter;

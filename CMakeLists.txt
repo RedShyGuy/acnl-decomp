@@ -71,9 +71,21 @@ if(DECOMP_LINK)
         COMMENT "Generating linker script")
     add_custom_target(ldscript DEPENDS "${ldscript}")
 
+    # data blobs of the original that are not source (config/<version>/extracted_data.json):
+    # copied from the user's orig/<version>/code.elf into the build directory
+    set(extracted_dir "${CMAKE_BINARY_DIR}/extracted")
+    add_custom_command(OUTPUT "${extracted_dir}/extracted_data.c"
+        COMMAND Python3::Interpreter "${CMAKE_SOURCE_DIR}/tools/decomp/extract_data.py"
+                --version ${DECOMP_VERSION} --output-dir "${extracted_dir}"
+        WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}"
+        DEPENDS "${CMAKE_SOURCE_DIR}/tools/decomp/extract_data.py" "${DECOMP_CONFIG}/extracted_data.json"
+                "${DECOMP_ORIG}/code.elf"
+        COMMENT "Extracting data blobs from the original code.elf")
+    add_library(extracted_data OBJECT "${extracted_dir}/extracted_data.c")
+
     set(static_units ${units})
     list(FILTER static_units EXCLUDE REGEX "^module_")
-    set(objects "")
+    set(objects "$<TARGET_OBJECTS:extracted_data>")
     foreach(u ${static_units})
         list(APPEND objects "$<TARGET_OBJECTS:${u}>")
     endforeach()
@@ -85,6 +97,9 @@ endif()
 
 # --------------------------------------------------------------- tools
 add_custom_target(check
+    # every extern data declaration must be listed in extracted_data.json (or code.elf lacks it)
+    COMMAND Python3::Interpreter "${CMAKE_SOURCE_DIR}/tools/decomp/extract_data.py"
+            --version ${DECOMP_VERSION} --check
     COMMAND Python3::Interpreter "${CMAKE_SOURCE_DIR}/tools/decomp/check.py"
             --version ${DECOMP_VERSION} --build-dir "${CMAKE_BINARY_DIR}"
     WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}"

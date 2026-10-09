@@ -14,6 +14,9 @@ namespace os {
 class SharedMemoryBlock : public MemoryBlockBase, public HandleObject
 {
 public:
+    // (inline: e.g. in nn::gxlow::CTR::Initialize)
+    SharedMemoryBlock() : mIsMapped(false) {}
+
     // size is rounded up to whole pages
     nn::Result AttachAndMap(nn::Handle handle, size_t size, bool readOnly); // 0x0013B02C | nintendogs:bytes [tier A]
     nn::Result Map(size_t size, bool readOnly); // 0x0013B054 | nintendogs:bytes [tier A]

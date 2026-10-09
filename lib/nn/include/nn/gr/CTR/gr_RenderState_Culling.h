@@ -1,10 +1,4 @@
 #pragma once
 
-#include "decomp.h"
+// RenderState::Culling is defined in gr_RenderState.h (RenderState holds its parts by value).
 #include "nn/gr/CTR/gr_RenderState.h"
-
-class nn::gr::CTR::RenderState::Culling
-{
-public:
-    void MakeCommand(unsigned int*, bool) const; // 0x00727074 | fefates:bytes [tier B]
-};

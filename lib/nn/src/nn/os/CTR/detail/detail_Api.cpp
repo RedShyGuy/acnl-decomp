@@ -8,8 +8,9 @@ namespace CTR {
 namespace detail {
 namespace {
 
-// the system's shared configuration page: UNITINFO, bit 0 set on development units (3dbrew)
-const uptr CONFIG_UNITINFO = 0x1FF80014;
+// the system's shared configuration page: ENVINFO, bit 0 set on retail units (3dbrew
+// "Configuration Memory")
+const uptr CONFIG_MEMORY_ENVINFO = 0x1FF80014;
 
 // Result levels as signed 5 bit numbers
 const s32 LEVEL_INFO = 1;
@@ -28,22 +29,22 @@ void SetInternalErrorHandlingMode(bool mode)
 }
 
 // 0x001308F0
-// On development units (or with the mode set) everything but info / status results is a fatal
-// error; on retail units only fatal results are reported, then the program stops.
+// On retail units (or with the mode set) everything but info / status results is a fatal error;
+// on development units only fatal results are reported, then the program stops (for the debugger).
 void HandleInternalError(nn::Result result)
 {
     s32 level = static_cast<s32>(result.GetPrintableBits()) >> 27;
-    bool isDevelopmentUnit = *reinterpret_cast<volatile u8*>(CONFIG_UNITINFO) & 1;
+    bool isRetailUnit = *reinterpret_cast<volatile u8*>(CONFIG_MEMORY_ENVINFO) & 1;
     uptr caller = reinterpret_cast<uptr>(__builtin_return_address(0));
-    if (isDevelopmentUnit || s_InternalErrorHandlingMode) {
+    if (isRetailUnit || s_InternalErrorHandlingMode) {
         if (level == LEVEL_STATUS || level == LEVEL_INFO) {
             return;
         }
-        nn::err::CTR::ThrowFatalErr(result, static_cast<nnerrFatalErrType>(0), caller);
+        nn::err::CTR::ThrowFatalErr(result, NN_ERR_FATAL_ERR_TYPE_GENERIC, caller);
         return;
     }
     if (level == LEVEL_FATAL) {
-        nn::err::CTR::ThrowFatalErr(result, static_cast<nnerrFatalErrType>(0), caller);
+        nn::err::CTR::ThrowFatalErr(result, NN_ERR_FATAL_ERR_TYPE_GENERIC, caller);
     }
     nndbgPanic();
 }

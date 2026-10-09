@@ -51,7 +51,7 @@ inline s64 MultiplyShift32(s64 a, s64 b)
 s64 GetSwcMilliSeconds()
 {
     const s64 minimum =
-        (nn::fnd::DateTime(MIN_YEAR, 1, 1, 0, 0, 0, 0) - nn::fnd::DateTime::MIN_DATE_TIME).GetMilliSeconds();
+        (nn::fnd::DateTime(MIN_YEAR, 1, 1, 0, 0, 0, 0) - nn::fnd::DateTime::EPOCH).GetMilliSeconds();
     const s64 range = (nn::fnd::DateTime(MAX_YEAR, 1, 1, 0, 0, 0, 0) - nn::fnd::DateTime(MIN_YEAR, 1, 1, 0, 0, 0, 0))
                           .GetMilliSeconds();
 

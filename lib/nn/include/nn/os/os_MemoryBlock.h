@@ -20,3 +20,7 @@ public:
 
 } // namespace os
 } // namespace nn
+
+// makes a MemoryBlock at block (nothing for NULL) and takes size bytes for it (C interface; the
+// name is from the binary)
+extern "C" void nnosMemoryBlockAllocate(nn::os::MemoryBlock* block, size_t size); // 0x0011F3B0

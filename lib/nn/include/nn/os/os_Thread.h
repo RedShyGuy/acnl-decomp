@@ -56,6 +56,20 @@ public:
         }
     }
 
+    // the same, but a lack of resources is returned instead of being fatal (name is ours)
+    template <typename T>
+    nn::Result TryStart(void (*f)(T), T param, uptr stackBottom, s32 priority, s32 coreNo = CORE_NO_DEFAULT)
+    {
+        const bit32 SUMMARY_OUT_OF_RESOURCE = 3;
+        TypeInfo typeInfo = {sizeof(T), &TypeInfoOf<T>::Copy, &TypeInfoOf<T>::Destroy, &TypeInfoOf<T>::Invoke};
+        nn::Result result = TryInitializeAndStartImpl(typeInfo, reinterpret_cast<void (*)(uptr)>(f), &param,
+                                                      stackBottom, priority, coreNo, false);
+        if (result.GetSummary() != SUMMARY_OUT_OF_RESOURCE && result.IsFailure()) {
+            CTR::detail::HandleInternalError(result);
+        }
+        return result;
+    }
+
     // waits for the end of the thread
     void Join()
     {

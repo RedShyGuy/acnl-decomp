@@ -55,6 +55,24 @@ public:
         }
     }
 
+    // waits without a timeout (inline, e.g. in gxlow's interrupt thread; the name is ours)
+    void Wait()
+    {
+        nn::Result result = nn::svc::WaitSynchronization1(mHandle, -1);
+        if (result.IsFailure()) {
+            CTR::detail::HandleInternalError(result);
+        }
+    }
+
+    // resets the event (inline; the name is ours)
+    void ClearSignal()
+    {
+        nn::Result result = nn::svc::ClearEvent(mHandle);
+        if (result.IsFailure()) {
+            CTR::detail::HandleInternalError(result);
+        }
+    }
+
     // the event already has a handle (level 28, summary invalid state, module os, description 59)
     static const bit32 RESULT_ALREADY_INITIALIZED = 0xE0A0183B;
 };

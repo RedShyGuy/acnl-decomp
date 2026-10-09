@@ -1,10 +1,4 @@
 #pragma once
 
-#include "decomp.h"
+// Texture::Unit0 is defined in gr_Texture.h (Texture holds its units by value).
 #include "nn/gr/CTR/gr_Texture.h"
-
-class nn::gr::CTR::Texture::Unit0
-{
-public:
-    void MakeCommand(unsigned int*, bool) const; // 0x00728314 | fefates:bytes [tier B]
-};

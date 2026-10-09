@@ -7,48 +7,34 @@ imgdb::Crc16Context::Crc16Context()
 {
 }
 
-// 0x005A5718 slot 0x00 | virtual slot, introduced by imgdb::Crc16Context
-void imgdb::Crc16Context::vf_0x00()
+// 0x005A5718 slot 0x00
+void imgdb::Crc16Context::Initialize()
 {
 }
 
-// 0x005A57C8 slot 0x04 | virtual slot, introduced by imgdb::Crc16Context
-void imgdb::Crc16Context::vf_0x04()
+// 0x005A57C8 slot 0x04
+void imgdb::Crc16Context::Finalize()
 {
 }
 
-// 0x005A5734 slot 0x08 | virtual slot, introduced by imgdb::Crc16Context
-void imgdb::Crc16Context::vf_0x08()
+// 0x005A5734 slot 0x08
+void imgdb::Crc16Context::Update(const void*, size_t)
 {
 }
 
-// 0x0048349C slot 0x0C | virtual slot, introduced by imgdb::Crc16Context
-void imgdb::Crc16Context::vf_0x0C()
+// 0x005A57BC slot 0x10
+void imgdb::Crc16Context::GetHash(void*)
 {
 }
 
-// 0x005A57BC slot 0x10 | virtual slot, introduced by imgdb::Crc16Context
-void imgdb::Crc16Context::vf_0x10()
-{
-}
-
-// 0x005A57D8 slot 0x14 | virtual slot, introduced by imgdb::Crc16Context
-void imgdb::Crc16Context::vf_0x14()
-{
-}
-
-// 0x005A57D4 slot 0x18 | virtual slot, introduced by imgdb::Crc16Context
-void imgdb::Crc16Context::vf_0x18()
-{
-}
-
-// 0x004834A4 slot 0x1C | virtual slot, introduced by imgdb::Crc16Context
-void imgdb::Crc16Context::vf_0x1C()
+// 0x005A57D8
+// 0x005A57D4 (deleting dtor)
+imgdb::Crc16Context::~Crc16Context()
 {
 }
 
 // 0x005A572C slot 0x20 | virtual slot, introduced by imgdb::Crc16Context
-void imgdb::Crc16Context::vf_0x20()
+size_t imgdb::Crc16Context::vf_0x20()
 {
 }
 

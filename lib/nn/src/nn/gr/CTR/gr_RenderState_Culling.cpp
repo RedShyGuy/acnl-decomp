@@ -1,7 +1,2 @@
-#include "nn/gr/CTR/gr_RenderState_Culling.h"
-
-// 0x00727074 | fefates:bytes [tier B]
-void nn::gr::CTR::RenderState::Culling::MakeCommand(unsigned int*, bool) const
-{
-}
-
+// RenderState::Culling::MakeCommand is in gr_RenderState.cpp: the original inlines it into
+// RenderState::MakeCommand, which GCC only does within one file.

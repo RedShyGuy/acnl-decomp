@@ -139,7 +139,7 @@ ObjectHeap s_FileHeap(8, reinterpret_cast<uptr>(s_FileHeapBuffer), sizeof(s_File
 // 0x00AE1C7C
 ObjectHeap s_DirectoryHeap(8, reinterpret_cast<uptr>(s_DirectoryHeapBuffer), sizeof(s_DirectoryHeapBuffer));
 
-// 0x007D35B8 (char) and 0x001359D4 (wchar_t), see the instantiations below
+// (the addresses are at the instantiations below)
 template <typename CharT>
 IArchive* FindArchive(const CharT* path)
 {
@@ -157,7 +157,9 @@ IArchive* FindArchive(const CharT* path)
     return entry != 0 ? entry->archive : 0;
 }
 
+// 0x007D35B8 | tier A
 template IArchive* FindArchive<char>(const char* path);
+// 0x001359D4 | tier A
 template IArchive* FindArchive<wchar_t>(const wchar_t* path);
 
 // 0x001292C8 | nintendogs:callseq-callee [tier A] (with 3 parameters; the binary uses 4)

@@ -2,26 +2,36 @@
 
 #include "decomp.h"
 #include "nn/crypto/crypto_AuthenticatedEncryptor.h"
+#include "nn/crypto/detail/crypto_CcmMode.h"
 
 namespace nn {
 namespace crypto {
 // RTTI N2nn6crypto12CcmEncryptorE @ 0x008D04A8
 // vtable 0x00902298 (vptr 0x009022A0), offset_to_top 0, 11 entries
+//
+// The slots forward to the CcmMode (the member name is ours).
 class CcmEncryptor : public ::nn::crypto::AuthenticatedEncryptor
 {
 public:
-    CcmEncryptor(); // ctor address unknown
-    virtual void vf_0x00(); // 0x00483274 slot 0x00 | virtual slot, introduced by nn::crypto::CcmEncryptor
-    virtual void vf_0x04(); // 0x00483270 slot 0x04 | virtual slot, introduced by nn::crypto::CcmEncryptor
-    virtual void vf_0x08(); // 0x00483268 slot 0x08 | virtual slot, introduced by nn::crypto::CcmEncryptor
-    virtual void vf_0x0C(); // 0x00737598 slot 0x0C | virtual slot, introduced by nn::crypto::CcmEncryptor
-    virtual void vf_0x10(); // 0x00737590 slot 0x10 | virtual slot, introduced by nn::crypto::CcmEncryptor
-    virtual void vf_0x14(); // 0x00737588 slot 0x14 | virtual slot, introduced by nn::crypto::CcmEncryptor
-    virtual void vf_0x18(); // 0x00483240 slot 0x18 | virtual slot, introduced by nn::crypto::CcmEncryptor
-    virtual void vf_0x1C(); // 0x00483260 slot 0x1C | virtual slot, introduced by nn::crypto::CcmEncryptor
-    virtual void vf_0x20(); // 0x00483248 slot 0x20 | virtual slot, introduced by nn::crypto::CcmEncryptor
-    virtual void vf_0x24(); // 0x00483E98 slot 0x24 | virtual slot, introduced by nn::crypto::CcmEncryptor
-    virtual void vf_0x28(); // 0x00483238 slot 0x28 | virtual slot, introduced by nn::crypto::CcmEncryptor
+    // (inline: EncryptAndGenerateAes128Ccm calls CcmMode::Initialize; name is ours)
+    void Initialize(const BlockCipher& cipher, const void* pNonce, size_t nonceSize, size_t adataSize, size_t pdataSize, size_t macSize)
+    {
+        m_Mode.Initialize(cipher, pNonce, nonceSize, adataSize, pdataSize, macSize);
+    }
+
+    virtual ~CcmEncryptor();
+    virtual void Finalize() { m_Mode.Finalize(); } // 0x00483268
+    virtual size_t vf_0x0C() const { return 13; } // 0x00737598
+    virtual size_t vf_0x10() const { return 1; } // 0x00737590
+    virtual size_t vf_0x14() const { return 16; } // 0x00737588
+    virtual void UpdateAdata(const void* pData, size_t size) { m_Mode.UpdateAdata(pData, size); } // 0x00483240
+    virtual void UpdateAdataFinal() { m_Mode.UpdateAdataFinal(); } // 0x00483260
+    virtual size_t UpdatePdata(void* pDst, size_t dstSize, const void* pSrc, size_t srcSize) { return m_Mode.UpdatePdata(pDst, dstSize, pSrc, srcSize); } // 0x00483248
+    virtual size_t UpdatePdataFinal(void* pDst, size_t dstSize) { return m_Mode.UpdatePdataFinal(pDst, dstSize); } // 0x00483E98
+    virtual void GenerateMac(void* pMac, size_t macSize) { m_Mode.GenerateMac(pMac, macSize); } // 0x00483238
+
+    detail::CcmMode m_Mode; // 0x04
 };
+ASSERT_SIZE(CcmEncryptor, 0x3C);
 } // namespace crypto
 } // namespace nn

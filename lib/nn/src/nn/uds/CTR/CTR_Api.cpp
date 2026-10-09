@@ -44,8 +44,8 @@ const u16 SCAN_TYPE_ON_CONNECTION = 3;
 const size_t APPLICATION_DATA_SIZE_MAX = 200;
 const u32 ENDPOINT_ID_MAX = 0x0FFFFFFF;
 
-// configuration memory, 3dbrew "Configuration Memory": UNITINFO
-const uptr CONFIG_MEMORY_UNIT_INFO = 0x1FF80014;
+// configuration memory, 3dbrew "Configuration Memory": ENVINFO, bit 0 set on retail units
+const uptr CONFIG_MEMORY_ENVINFO = 0x1FF80014;
 
 // 1 << (channel - 1), the default channels for channel 0
 inline u16 GetChannelMask(u8 channel)
@@ -539,7 +539,7 @@ nn::Result GetApplicationData(u8* buffer, size_t* actualSize, size_t size)
 // 0x00468B10 | fefates:bytes [tier B]
 u32 CreateLocalCommunicationId(u32 uniqueId, bool isDemo)
 {
-    u32 flags = (*reinterpret_cast<const u8*>(CONFIG_MEMORY_UNIT_INFO) & 1) ? 0x10 : 0x90;
+    u32 flags = (*reinterpret_cast<const u8*>(CONFIG_MEMORY_ENVINFO) & 1) ? 0x10 : 0x90;
     if (isDemo) {
         flags |= 1;
     }

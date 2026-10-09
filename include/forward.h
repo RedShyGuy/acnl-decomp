@@ -1135,9 +1135,9 @@ struct CFLTexFmt { u32 _unknown; }; // placeholder, real type unknown
 struct CFLTexWrap { u32 _unknown; }; // placeholder, real type unknown
 struct CFLiTexHeader { u32 _unknown; }; // placeholder, real type unknown
 struct FieldName { u32 _unknown; }; // placeholder, real type unknown
-struct PicaDataColor { u32 _unknown; }; // placeholder, real type unknown
-struct PicaDataDepth { u32 _unknown; }; // placeholder, real type unknown
-struct PicaDataDrawMode { u32 _unknown; }; // placeholder, real type unknown
+enum PicaDataColor : u8; // nn/gr/CTR/gr_Types.h
+enum PicaDataDepth : u8; // nn/gr/CTR/gr_Types.h
+enum PicaDataDrawMode : u8; // nn/gr/CTR/gr_Types.h
 struct PlayerCapBankKeyword { u32 _unknown; }; // placeholder, real type unknown
 struct PlayerHeadBankKeyword { u32 _unknown; }; // placeholder, real type unknown
 struct PlayerNumber { u32 _unknown; }; // placeholder, real type unknown
@@ -1149,13 +1149,13 @@ struct RandomPlacerUsual { u32 _unknown; }; // placeholder, real type unknown
 struct ScrollBarDescription { u32 _unknown; }; // placeholder, real type unknown
 struct SeID { u32 _unknown; }; // placeholder, real type unknown
 struct TourName { u32 _unknown; }; // placeholder, real type unknown
-struct nnacConfig { u32 _unknown; }; // placeholder, real type unknown
+struct nnacConfig; // nn/ac/CTR/CTR_Api.h
 enum nnerrFatalErrType : s32; // nn/err/CTR/CTR_Api.h
-struct nnfriendsFriendKey { u32 _unknown; }; // placeholder, real type unknown
-struct nnfriendsMyPresence { u32 _unknown; }; // placeholder, real type unknown
-struct nnfriesndsGameAuthenticationData { u32 _unknown; }; // placeholder, real type unknown
-struct nnfriesndsServiceLocatorData { u32 _unknown; }; // placeholder, real type unknown
-struct nngxlowInterrupt { u32 _unknown; }; // placeholder, real type unknown
+struct nnfriendsFriendKey; // nn/friends/CTR/friends_Types.h
+struct nnfriendsMyPresence; // nn/friends/CTR/friends_Types.h
+struct nnfriesndsGameAuthenticationData; // nn/friends/CTR/friends_Types.h
+struct nnfriesndsServiceLocatorData; // nn/friends/CTR/friends_Types.h
+enum nngxlowInterrupt : u8; // nn/gxlow/CTR/CTR_Api.h
 struct u { u32 _unknown; }; // placeholder, real type unknown
 template <auto T0, auto T1, auto T2, auto T3, auto T4> struct BankVramConfig { u32 _unknown; }; // placeholder
 template <auto T0, auto T1, auto T2, typename T3> class Bank;
@@ -2075,12 +2075,12 @@ namespace nmlasspacket {
 }
 
 namespace nn { namespace CTR { 
-    struct SystemMenuData { u32 _unknown; }; // placeholder, real type unknown
+    struct SystemMenuData; // nn/CTR/CTR_SystemMenuData.h
 }}
 
 namespace nn { namespace ac { namespace CTR { 
-    struct ApType { u32 _unknown; }; // placeholder, real type unknown
-    struct InfraPriority { u32 _unknown; }; // placeholder, real type unknown
+    enum ApType : u32; // nn/ac/CTR/CTR_Api.h
+    enum InfraPriority : u8; // nn/ac/CTR/CTR_Api.h
 }}}
 
 namespace nn { namespace ac { namespace CTR { namespace detail { 
@@ -2089,21 +2089,23 @@ namespace nn { namespace ac { namespace CTR { namespace detail {
 
 namespace nn { namespace applet { namespace CTR { 
     class SysSleepAcceptedCallbackInfo;
-    struct AppJumpType { u32 _unknown; }; // placeholder, real type unknown
-    struct AppletDisplayInfo { u32 _unknown; }; // placeholder, real type unknown
-    struct AppletPos { u32 _unknown; }; // placeholder, real type unknown
+    enum AppJumpType : u8; // nn/applet/CTR/applet_Types.h
+    struct AppletDisplayInfo; // nn/applet/CTR/applet_Types.h
+    enum AppletPos : u8; // nn/applet/CTR/applet_Types.h
     enum ApplicationRunningMode : u8; // nn/applet/CTR/applet_Types.h
-    struct CaptureBufferInfo { u32 _unknown; }; // placeholder, real type unknown
-    struct HomeButtonState { u32 _unknown; }; // placeholder, real type unknown
-    struct QueryReply { u32 _unknown; }; // placeholder, real type unknown
-    struct SleepNotificationState { u32 _unknown; }; // placeholder, real type unknown
-    struct TransitionType { u32 _unknown; }; // placeholder, real type unknown
-    struct WakeupState { u32 _unknown; }; // placeholder, real type unknown
+    struct CaptureBufferInfo; // nn/applet/CTR/applet_Types.h
+    enum HomeButtonState : u8; // nn/applet/CTR/applet_Types.h
+    enum QueryReply : u8; // nn/applet/CTR/applet_Types.h
+    enum SleepNotificationState : u8; // nn/applet/CTR/applet_Types.h
+    enum TransitionType : u8; // nn/applet/CTR/applet_Types.h
+    enum WakeupState : u8; // nn/applet/CTR/applet_Types.h
+    enum PowerButtonState : u8; // nn/applet/CTR/applet_Types.h
+    enum OrderToCloseState : u8; // nn/applet/CTR/applet_Types.h
 }}}
 
 namespace nn { namespace applet { namespace CTR { namespace detail { 
     class APPLET;
-    struct OffsetTable { u32 _unknown; }; // placeholder, real type unknown
+    struct OffsetTable; // nn/applet/CTR/applet_Types.h
 }}}}
 
 namespace nn { namespace boss { 
@@ -2117,17 +2119,17 @@ namespace nn { namespace boss {
     class TaskActionBase;
     class TaskPolicy;
     class TaskStatus;
-    struct HeaderInfoType { u32 _unknown; }; // placeholder, real type unknown
-    struct PropertyType { u32 _unknown; }; // placeholder, real type unknown
-    struct ResultCode { u32 _unknown; }; // placeholder, real type unknown
-    struct StorageType { u32 _unknown; }; // placeholder, real type unknown
-    struct TaskActionConfig { u32 _unknown; }; // placeholder, real type unknown
-    struct TaskOption { u32 _unknown; }; // placeholder, real type unknown
-    struct TaskOptionConfig { u32 _unknown; }; // placeholder, real type unknown
-    struct TaskPolicyConfig { u32 _unknown; }; // placeholder, real type unknown
-    struct TaskResultCode { u32 _unknown; }; // placeholder, real type unknown
-    struct TaskServiceStatus { u32 _unknown; }; // placeholder, real type unknown
-    struct TaskStatusInfo { u32 _unknown; }; // placeholder, real type unknown
+    enum HeaderInfoType : u8; // nn/boss/boss_Types.h
+    enum PropertyType : u16; // nn/boss/boss_Types.h
+    enum ResultCode : u16; // nn/boss/boss_Types.h
+    enum StorageType : u8; // nn/boss/boss_Types.h
+    struct TaskActionConfig; // nn/boss/boss_Types.h
+    class TaskOption; // nn/boss/boss_TaskPolicy.h
+    struct TaskOptionConfig; // nn/boss/boss_Types.h
+    struct TaskPolicyConfig; // nn/boss/boss_Types.h
+    enum TaskResultCode : u8; // nn/boss/boss_Types.h
+    enum TaskServiceStatus : u8; // nn/boss/boss_Types.h
+    struct TaskStatusInfo; // nn/boss/boss_Types.h
 }}
 
 namespace nn { namespace boss { namespace detail { 
@@ -2137,13 +2139,13 @@ namespace nn { namespace boss { namespace detail {
 }}}
 
 namespace nn { namespace camera { namespace CTR { 
-    struct CameraSelect { u32 _unknown; }; // placeholder, real type unknown
-    struct Context { u32 _unknown; }; // placeholder, real type unknown
-    struct Flip { u32 _unknown; }; // placeholder, real type unknown
+    enum CameraSelect : u8; // nn/camera/CTR/camera_Types.h
+    enum Context : u8; // nn/camera/CTR/camera_Types.h
+    enum Flip : u8; // nn/camera/CTR/camera_Types.h
     struct PackageParameterContextDetail { u32 _unknown; }; // placeholder, real type unknown
-    struct Port { u32 _unknown; }; // placeholder, real type unknown
-    struct ShutterSoundType { u32 _unknown; }; // placeholder, real type unknown
-    struct StereoCameraCalibrationData { u32 _unknown; }; // placeholder, real type unknown
+    enum Port : u8; // nn/camera/CTR/camera_Types.h
+    enum ShutterSoundType : u8; // nn/camera/CTR/camera_Types.h
+    struct StereoCameraCalibrationData; // nn/camera/CTR/camera_Types.h
 }}}
 
 namespace nn { namespace camera { namespace CTR { namespace detail { 
@@ -2156,23 +2158,23 @@ namespace nn { namespace cec { namespace CTR {
     class Message;
     class MessageBox;
     class MessageId;
-    struct CecBoxInfoHeader { u32 _unknown; }; // placeholder, real type unknown
-    struct CecBoxType { u32 _unknown; }; // placeholder, real type unknown
-    struct CecMessageHeader { u32 _unknown; }; // placeholder, real type unknown
-    struct MessageBoxInfo { u32 _unknown; }; // placeholder, real type unknown
+    struct CecBoxInfoHeader; // nn/cec/CTR/cec_Types.h
+    enum CecBoxType : u8; // nn/cec/CTR/cec_Types.h
+    struct CecMessageHeader; // nn/cec/CTR/cec_Types.h
+    struct MessageBoxInfo; // nn/cec/CTR/cec_Types.h
 }}}
 
 namespace nn { namespace cfg { namespace CTR { 
-    struct CfgCountryCode { u32 _unknown; }; // placeholder, real type unknown
-    struct CfgLanguageCode { u32 _unknown; }; // placeholder, real type unknown
-    struct CfgRegionCode { u32 _unknown; }; // placeholder, real type unknown
+    enum CfgCountryCode : u8; // nn/cfg/CTR/cfg_Types.h
+    enum CfgLanguageCode : u8; // nn/cfg/CTR/cfg_Types.h
+    enum CfgRegionCode : u8; // nn/cfg/CTR/cfg_Types.h
     struct SimpleAddressId; // nn/cfg/CTR/cfg_Types.h
     struct UserName; // nn/cfg/CTR/cfg_Types.h
 }}}
 
 namespace nn { namespace cfg { namespace CTR { namespace detail { 
     class IpcUser;
-    struct _IPCPortType { u32 _unknown; }; // placeholder, real type unknown
+    enum _IPCPortType : u8; // nn/cfg/CTR/detail/detail_Api.h
 }}}}
 
 namespace nn { namespace crypto { 
@@ -2203,16 +2205,16 @@ namespace nn { namespace dsp { namespace CTR {
 }}}
 
 namespace nn { namespace enc { 
-    struct BreakType { u32 _unknown; }; // placeholder, real type unknown
+    enum BreakType : u8; // nn/enc/detail/detail_Api.h
 }}
 
 namespace nn { namespace err { namespace CTR { 
     class FatalErr;
-    struct FatalErrInfo { u32 _unknown; }; // placeholder, real type unknown
+    struct FatalErrInfo; // nn/err/CTR/err_FatalErr.h
 }}}
 
 namespace nn { namespace erreula { namespace CTR { 
-    struct Parameter { u32 _unknown; }; // placeholder, real type unknown
+    struct Parameter; // nn/erreula/CTR/CTR_Api.h (0xF80 bytes, layout unknown)
 }}}
 
 namespace nn { namespace fnd { 
@@ -2222,17 +2224,17 @@ namespace nn { namespace fnd {
     class IAllocator;
     class TimeSpan;
     class UnitHeapBase;
-    struct DateTimeParameters { u32 _unknown; }; // placeholder, real type unknown
+    struct DateTimeParameters; // nn/fnd/fnd_DateTime.h
     template <typename T0, typename T1> class IntrusiveLinkedList;
     template <typename T0> class ExpHeapTemplate;
     template <typename T0> class UnitHeapTemplate;
 }}
 
 namespace nn { namespace fnd { namespace detail { 
-    struct ExpHeapImpl { u32 _unknown; }; // placeholder, real type unknown
-    struct NNSFndList { u32 _unknown; }; // placeholder, real type unknown
-    struct NNSiFndExpHeapHead { u32 _unknown; }; // placeholder, real type unknown
-    struct NNSiFndExpHeapMBlockHead { u32 _unknown; }; // placeholder, real type unknown
+    struct ExpHeapImpl; // nn/fnd/detail/detail_Api.h
+    struct NNSFndList; // nn/fnd/detail/detail_Api.h
+    struct NNSiFndExpHeapHead; // nn/fnd/detail/detail_Api.h
+    struct NNSiFndExpHeapMBlockHead; // nn/fnd/detail/detail_Api.h
 }}}
 
 namespace nn { namespace friends { namespace CTR { namespace detail { 
@@ -2307,9 +2309,9 @@ namespace nn { namespace gr { namespace CTR {
     class Texture;
     class Vertex;
     class Viewport;
-    struct BindSymbol { u32 _unknown; }; // placeholder, real type unknown
-    struct BindSymbolVSInput { u32 _unknown; }; // placeholder, real type unknown
-    struct CommandBufferChannel { u32 _unknown; }; // placeholder, real type unknown
+    class BindSymbol; // nn/gr/CTR/gr_BindSymbol.h
+    class BindSymbolVSInput; // nn/gr/CTR/gr_BindSymbol.h
+    enum CommandBufferChannel : u8; // nn/gr/CTR/gr_Types.h
 }}}
 
 namespace nn { namespace gxlow { namespace CTR { 
@@ -2317,11 +2319,11 @@ namespace nn { namespace gxlow { namespace CTR {
     class Gpu;
     class InterruptReceiver;
     class InterruptRelayQueueRx;
-    struct DisplayCaptureInfo { u32 _unknown; }; // placeholder, real type unknown
+    struct DisplayCaptureInfo; // nn/gxlow/CTR/CTR_Api.h
 }}}
 
 namespace nn { namespace gxlow { namespace CTR { namespace detail { 
-    struct CmdReq { u32 _unknown; }; // placeholder, real type unknown
+    struct CmdReq; // nn/gxlow/CTR/detail/detail_Api.h
 }}}}
 
 namespace nn { namespace hid { namespace CTR { 
@@ -2334,14 +2336,14 @@ namespace nn { namespace hid { namespace CTR {
     class HidDevices;
     class PadReader;
     class TouchPanelReader;
-    struct AccelerationFloat { u32 _unknown; }; // placeholder, real type unknown
-    struct Accelerometer { u32 _unknown; }; // placeholder, real type unknown
-    struct AccelerometerStatus { u32 _unknown; }; // placeholder, real type unknown
-    struct GyroscopeLowStatus { u32 _unknown; }; // placeholder, real type unknown
-    struct GyroscopeStatus { u32 _unknown; }; // placeholder, real type unknown
-    struct Pad { u32 _unknown; }; // placeholder, real type unknown
-    struct PadStatus { u32 _unknown; }; // placeholder, real type unknown
-    struct TouchPanelStatus { u32 _unknown; }; // placeholder, real type unknown
+    struct AccelerationFloat; // nn/hid/CTR/hid_Types.h
+    class Accelerometer; // nn/hid/CTR/hid_Devices.h
+    struct AccelerometerStatus; // nn/hid/CTR/hid_Types.h
+    struct GyroscopeLowStatus; // nn/hid/CTR/hid_Types.h
+    struct GyroscopeStatus; // nn/hid/CTR/hid_Types.h
+    class Pad; // nn/hid/CTR/hid_Devices.h
+    struct PadStatus; // nn/hid/CTR/hid_Types.h
+    struct TouchPanelStatus; // nn/hid/CTR/hid_Types.h
 }}}
 
 namespace nn { namespace hid { namespace CTR { namespace detail { 
@@ -2358,8 +2360,8 @@ namespace nn { namespace hidlow { namespace CTR {
 namespace nn { namespace http { 
     class Connection;
     class ConnectionIpc;
-    struct PostDataType { u32 _unknown; }; // placeholder, real type unknown
-    struct RequestMethod { u32 _unknown; }; // placeholder, real type unknown
+    enum PostDataType : u8; // nn/http/http_Types.h
+    enum RequestMethod : u8; // nn/http/http_Types.h
 }}
 
 namespace nn { namespace http { namespace detail { 
@@ -2369,33 +2371,34 @@ namespace nn { namespace http { namespace detail {
 namespace nn { namespace jpeg { namespace CTR { 
     class JpegMpDecoder;
     class JpegMpEncoder;
-    struct GpsData { u32 _unknown; }; // placeholder, real type unknown
-    struct JpegMpDecoderContext { u32 _unknown; }; // placeholder, real type unknown
-    struct JpegMpDecoderExifTagITN { u32 _unknown; }; // placeholder, real type unknown
-    struct JpegMpEncoderComponentStructure { u32 _unknown; }; // placeholder, real type unknown
-    struct JpegMpEncoderContext { u32 _unknown; }; // placeholder, real type unknown
-    struct JpegMpEncoderIfdWorkObj { u32 _unknown; }; // placeholder, real type unknown
-    struct JpegTagWorkObj { u32 _unknown; }; // placeholder, real type unknown
-    struct MpEntry { u32 _unknown; }; // placeholder, real type unknown
-    struct MpIndex { u32 _unknown; }; // placeholder, real type unknown
-    struct MpRegionsToBuildJpegData { u32 _unknown; }; // placeholder, real type unknown
-    struct PixelFormat { u32 _unknown; }; // placeholder, real type unknown
-    struct PixelSampling { u32 _unknown; }; // placeholder, real type unknown
+    enum PixelFormat : u8; // nn/jpeg/CTR/jpeg_Types.h
+    enum PixelSampling : u8; // nn/jpeg/CTR/jpeg_Types.h
+    enum MpTypeCode : u32; // nn/jpeg/CTR/jpeg_Types.h
+    struct GpsData; // nn/jpeg/CTR/jpeg_Types.h
+    struct JpegMpDecoderContext; // nn/jpeg/CTR/jpeg_Types.h
+    struct JpegMpDecoderExifTagITN; // nn/jpeg/CTR/jpeg_Types.h
+    struct JpegMpEncoderComponentStructure; // nn/jpeg/CTR/jpeg_Types.h
+    struct JpegMpEncoderContext; // nn/jpeg/CTR/jpeg_Types.h
+    struct JpegMpEncoderIfdWorkObj; // nn/jpeg/CTR/jpeg_Types.h
+    struct JpegTagWorkObj; // nn/jpeg/CTR/jpeg_Types.h
+    struct MpEntry; // nn/jpeg/CTR/jpeg_Types.h
+    struct MpIndex; // nn/jpeg/CTR/jpeg_Types.h
+    struct MpRegionsToBuildJpegData; // nn/jpeg/CTR/jpeg_Types.h
 }}}
 
 namespace nn { namespace jpeg { namespace CTR { namespace detail { 
-    struct App1PointerAndSize { u32 _unknown; }; // placeholder, real type unknown
-    struct JpegMpDecoderTemporarySettingObj { u32 _unknown; }; // placeholder, real type unknown
-    struct JpegMpEncoderTemporarySettingObj { u32 _unknown; }; // placeholder, real type unknown
-    struct JpegMpEncoderWorkObj { u32 _unknown; }; // placeholder, real type unknown
+    struct App1PointerAndSize; // nn/jpeg/CTR/detail/jpeg_DecoderWork.h
+    struct JpegMpDecoderTemporarySettingObj; // nn/jpeg/CTR/detail/jpeg_DecoderWork.h
+    struct JpegMpEncoderTemporarySettingObj; // nn/jpeg/CTR/detail/jpeg_EncoderWork.h
+    struct JpegMpEncoderWorkObj; // nn/jpeg/CTR/detail/jpeg_EncoderWork.h
 }}}}
 
 namespace nn { namespace math { 
     class MTX34;
     class MTX44;
-    struct MTX33 { u32 _unknown; }; // placeholder, real type unknown
+    struct MTX33; // nn/math/math_MTX33.h
     enum PivotDirection : u8; // nn/math/math_MTX44.h
-    struct QUAT { u32 _unknown; }; // placeholder, real type unknown
+    struct QUAT; // nn/math/math_Quaternion.h
     struct Transform3 { u32 _unknown; }; // placeholder, real type unknown
     struct VEC2 { u32 _unknown; }; // placeholder, real type unknown
     struct VEC3; // nn/math/math_Vector3.h
@@ -2405,8 +2408,8 @@ namespace nn { namespace math {
 }}
 
 namespace nn { namespace mic { namespace CTR { 
-    struct SamplingRate { u32 _unknown; }; // placeholder, real type unknown
-    struct SamplingType { u32 _unknown; }; // placeholder, real type unknown
+    enum SamplingRate : u8; // nn/mic/CTR/mic_Types.h
+    enum SamplingType : u8; // nn/mic/CTR/mic_Types.h
 }}}
 
 namespace nn { namespace mic { namespace CTR { namespace detail { 
@@ -2414,8 +2417,8 @@ namespace nn { namespace mic { namespace CTR { namespace detail {
 }}}}
 
 namespace nn { namespace ndm { namespace CTR { 
-    struct DaemonName { u32 _unknown; }; // placeholder, real type unknown
-    struct ExclusiveMode { u32 _unknown; }; // placeholder, real type unknown
+    enum DaemonName : u8; // nn/ndm/CTR/ndm_Types.h
+    enum ExclusiveMode : u8; // nn/ndm/CTR/ndm_Types.h
 }}}
 
 namespace nn { namespace ndm { namespace CTR { namespace detail { 
@@ -2918,23 +2921,26 @@ namespace nn { namespace ngc {
     class RegexNfaParser;
     class RegexNfaStateCopier;
     class RegexScanner;
-    struct BuiltInCharClassType { u32 _unknown; }; // placeholder, real type unknown
-    struct RegexNfaState { u32 _unknown; }; // placeholder, real type unknown
-    struct RegexToken { u32 _unknown; }; // placeholder, real type unknown
-    template <typename T0> struct UnitList { u32 _unknown; }; // placeholder
+    // defined in nn/ngc/ngc_Api.h
+    enum BuiltInCharClassType : u8;
+    // nn/ngc/ngc_RegexNfaState.h, ngc_RegexToken.h, ngc_UnitList.h
+    class RegexNfaState;
+    struct RegexToken;
+    template <typename T> class UnitList;
 }}
 
-namespace nn { namespace ngc { namespace CTR { 
+namespace nn { namespace ngc { namespace CTR {
     class ProfanityFilter;
     class ProfanityFilterBase;
-    struct ProfanityFilterPatternList { u32 _unknown; }; // placeholder, real type unknown
+    // defined in nn/ngc/CTR/ngc_ProfanityFilterBase.h
+    enum ProfanityFilterPatternList : u8;
 }}}
 
 namespace nn { namespace nwm { 
     class BeaconDescriptionReader;
     class BssDescriptionReaderBase;
     class ScanResultReaderBase;
-    struct BssDescription { u32 _unknown; }; // placeholder, real type unknown
+    struct BssDescription; // nn/nwm/nwm_Types.h
     struct Mac; // nn/nwm/nwm_Types.h
 }}
 
@@ -3296,25 +3302,25 @@ namespace nn { namespace snd { namespace CTR {
     class Voice;
     class VoiceImpl;
     class VoiceManager;
-    struct AdpcmContext { u32 _unknown; }; // placeholder, real type unknown
-    struct AdpcmParam { u32 _unknown; }; // placeholder, real type unknown
-    struct AuxBusData { u32 _unknown; }; // placeholder, real type unknown
-    struct AuxBusId { u32 _unknown; }; // placeholder, real type unknown
-    struct BiquadFilterCoefficients { u32 _unknown; }; // placeholder, real type unknown
-    struct ClippingMode { u32 _unknown; }; // placeholder, real type unknown
-    struct DspFxDelayParams { u32 _unknown; }; // placeholder, real type unknown
-    struct DspFxReverbParams { u32 _unknown; }; // placeholder, real type unknown
-    struct DspsndAudioInfo { u32 _unknown; }; // placeholder, real type unknown
-    struct FilterType { u32 _unknown; }; // placeholder, real type unknown
-    struct InterpolationType { u32 _unknown; }; // placeholder, real type unknown
-    struct MixParam { u32 _unknown; }; // placeholder, real type unknown
-    struct MonoFilterCoefficients { u32 _unknown; }; // placeholder, real type unknown
-    struct OutputMode { u32 _unknown; }; // placeholder, real type unknown
-    struct SampleFormat { u32 _unknown; }; // placeholder, real type unknown
-    struct SurroundSpeakerPosition { u32 _unknown; }; // placeholder, real type unknown
-    struct SyncMode { u32 _unknown; }; // placeholder, real type unknown
-    struct ThreadParameter { u32 _unknown; }; // placeholder, real type unknown
-    struct WaveBuffer { u32 _unknown; }; // placeholder, real type unknown
+    struct AdpcmContext; // nn/snd/CTR/snd_Types.h
+    struct AdpcmParam; // nn/snd/CTR/snd_Types.h
+    struct AuxBusData; // nn/snd/CTR/snd_Types.h
+    enum AuxBusId : s8; // nn/snd/CTR/snd_Types.h
+    struct BiquadFilterCoefficients; // nn/snd/CTR/snd_Types.h
+    enum ClippingMode : u8; // nn/snd/CTR/snd_Types.h
+    struct DspFxDelayParams; // nn/snd/CTR/snd_Types.h
+    struct DspFxReverbParams; // nn/snd/CTR/snd_Types.h
+    struct DspsndAudioInfo; // nn/snd/CTR/snd_Types.h
+    enum FilterType : u8; // nn/snd/CTR/snd_Types.h
+    enum InterpolationType : u8; // nn/snd/CTR/snd_Types.h
+    struct MixParam; // nn/snd/CTR/snd_Types.h
+    struct MonoFilterCoefficients; // nn/snd/CTR/snd_Types.h
+    enum OutputMode : u8; // nn/snd/CTR/snd_Types.h
+    enum SampleFormat : u8; // nn/snd/CTR/snd_Types.h
+    enum SurroundSpeakerPosition : u8; // nn/snd/CTR/snd_Types.h
+    enum SyncMode : u8; // nn/snd/CTR/snd_Types.h
+    struct ThreadParameter; // nn/snd/CTR/snd_Types.h
+    struct WaveBuffer; // nn/snd/CTR/snd_Types.h
 }}}
 
 namespace nn { namespace socket { 

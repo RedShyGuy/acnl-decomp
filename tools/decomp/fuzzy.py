@@ -40,7 +40,19 @@ RUNTIME_FAMILIES = {
     # ARMCC's ctype macros read the table of __rt_ctype_table, GCC (newlib) calls the functions
     'ctype': ('ctype_table', 'isalnum', 'isalpha', 'isdigit', 'isxdigit', 'islower', 'isupper',
               'isspace', 'ispunct', 'iscntrl', 'isprint', 'isgraph', 'tolower', 'toupper'),
+    # ARMCC's libm functions for hard float are __hardfp_<name>, GCC calls <name>
+    'fmodf': ('fmodf', 'hardfp_fmodf'),
+    'fmod': ('fmod', 'hardfp_fmod'),
+    'sqrtf': ('sqrtf', 'hardfp_sqrtf'),
+    'sqrt': ('sqrt', 'hardfp_sqrt'),
+    'sinf': ('sinf', 'hardfp_sinf'),
+    'cosf': ('cosf', 'hardfp_cosf'),
+    'atan2f': ('atan2f', 'hardfp_atan2f'),
+    'powf': ('powf', 'hardfp_powf'),
 }
+# the plain names of the C library that are runtime helpers
+_PLAIN_RUNTIME = {'memset', 'memcpy', 'memmove', 'strcmp', 'strlen', 'fmodf', 'fmod', 'sqrtf', 'sqrt',
+                  'sinf', 'cosf', 'atan2f', 'powf'}
 
 
 def runtime_family(name):
@@ -58,8 +70,7 @@ def runtime_family(name):
             core = core[len(p):]
             break
     core = core.rstrip('0123456789').removesuffix('_w')
-    if base == core and base not in ('memset', 'memcpy', 'memmove', 'strcmp', 'strlen') \
-            and base not in RUNTIME_FAMILIES['ctype']:
+    if base == core and base not in _PLAIN_RUNTIME and base not in RUNTIME_FAMILIES['ctype']:
         return None                                   # plain names other than the C library ones
     for fam, members in RUNTIME_FAMILIES.items():
         if core in members:
@@ -493,6 +504,18 @@ def extract(words, base, resolve_call, resolve_word, returns_this=lambda key: Fa
             sh = (w >> 5) & 3
             width = {(1, 1): 'h', (1, 2): 'sb', (1, 3): 'sh', (0, 1): 'h', (0, 2): 'd', (0, 3): 'd'}[(int(load), sh)]
             is_load = load or sh == 2                                     # ldrd has L=0, sh=2
+            org = get(rn)[0]
+            if (width == 'd' and is_load and w & (1 << 22) and w & (1 << 24) and not w & (1 << 21)
+                    and isinstance(org, tuple) and org[0] == 'pcword'):
+                imm = ((w >> 8) & 0xF) << 4 | (w & 0xF)
+                j = org[1] + get(rn)[1] // 4 + (imm if w & (1 << 23) else -imm) // 4
+                for k in (j, j + 1):
+                    if 0 <= k < n and words[k]:
+                        consts[('k', words[k])] += 1
+                regs[rd] = (new(), 0)
+                regs[rd + 1] = (new(), 0)
+                shape.append('ld')
+                continue
             if width == 'd' and is_load and w & (1 << 22) and w & (1 << 24) and not w & (1 << 21) and is_rconst(rn):
                 imm = ((w >> 8) & 0xF) << 4 | (w & 0xF)
                 rconst_load(get(rn)[0], get(rn)[1] + (imm if w & (1 << 23) else -imm), 2)
@@ -565,6 +588,14 @@ def extract(words, base, resolve_call, resolve_word, returns_this=lambda key: Fa
                 if imm:
                     consts[('cmp', val if opc != 11 else (-val) & 0xFFFFFFFF)] += 1
                 continue
+            if (imm and rn == PC and opc == 4 and val % 4 == 0 and i + 2 + val // 4 in pool
+                    and any((u & 0x0E1000F0) == 0x000000D0 and (u >> 16) & 0xF == rd
+                            for u in words[i + 1:i + 4])):
+                # add rX, pc, #imm to a 64 bit constant behind the code (GCC; ldrd reads it): the
+                # register holds the pool index, the ldrd below counts the words as constants
+                regs[rd] = (('pcword', i + 2 + val // 4), 0)
+                shape.append('lit')
+                continue
             if resolve_address is not None and imm and rn == PC and opc in (2, 4):   # sub / add rX, pc, #imm
                 key = resolve_address(base + i * 4 + 8 + (val if opc == 4 else -val))
                 if key is not None:
@@ -617,13 +648,24 @@ def extract(words, base, resolve_call, resolve_word, returns_this=lambda key: Fa
                 regs[rd] = (org, o + (val if opc == 4 else -val))
             elif opc == 4 and not imm and (w >> 4) & 0x9 != 0x9:            # add rd, rn, rm (lsl #n): &array[i]
                 array = get(rn)
+                # GCC adds a constant offset to the index before scaling it ((i + K) << 2, then
+                # the base), ARMCC after it: K << 2 belongs to the offset. Small K are the next
+                # elements of a loop that ARMCC unrolled (i + 1): that loop is seen at its first
+                # element, like the rolled one
+                idx_org, idx_off = get(rm)
+                k = 0
+                if idx_off > 3 and not w & 0x70 and isinstance(idx_org, tuple) and idx_org[0] == 'v':
+                    k = idx_off << ((w >> 7) & 31)
                 if isinstance(array[0], tuple) and array[0][0] == 'g' or \
                         isinstance(array[0], str) and array[0].startswith('arg'):
                     # an array of a global or behind an argument: compared like its first element
                     # (a loop with a pointer that moves on is seen at its first element, too)
-                    regs[rd] = array
+                    regs[rd] = (array[0], array[1] + k)
                 else:
-                    regs[rd] = (('idx', fresh[0] + 1), 0)
+                    # an array elsewhere: seen from a fresh base, with an offset added to the
+                    # base before (ARMCC: "add r1, r0, #4; add r1, r1, r4, lsl #1; strh [r1, #36]")
+                    base_off = array[1] if isinstance(array[0], tuple) and array[0][0] == 'v' else 0
+                    regs[rd] = (('idx', fresh[0] + 1), base_off + k)
                     fresh[0] += 1
             else:
                 regs[rd] = (new(), 0)
@@ -1010,6 +1052,31 @@ def _halfword_consts(a, b):
     return +a, +b
 
 
+def _product_consts(a, b):
+    """A product of two constants: ARMCC multiplies 64 bit values at run time (e.g. a TimeSpan of
+    10 ms: 10 and 1000000 with umull), GCC folds the product into one literal (10000000). Two
+    constants on one side whose product is a constant only the other side has count as that one."""
+    a, b = Counter(a), Counter(b)
+    for x, y in ((a, b), (b, a)):
+        only_x = [f[1] for f in x - y if f[0] == 'k']
+        only_y = {f[1] for f in y - x if f[0] == 'k'}
+        done = False
+        for p in sorted(only_y):
+            for i, u in enumerate(only_x):
+                for v in only_x[i + 1:]:
+                    if u > 1 and v > 1 and u * v == p and x[('k', u)] and x[('k', v)]:
+                        x[('k', u)] -= 1
+                        x[('k', v)] -= 1
+                        x[('k', p)] += 1
+                        done = True
+                        break
+                if done:
+                    break
+            if done:
+                break
+    return +a, +b
+
+
 def _orr_consts(a, b, ors_a, ors_b):
     """How a compiler makes a constant it ORs in (IPC descriptors like (size << 14) | 0x402):
     ARMCC loads 0xC with mov and ORs the register, GCC ORs the immediate; ARMCC loads 0x400 and
@@ -1035,6 +1102,7 @@ def _consts(a, b, ors_a=None, ors_b=None):
     if ors_a is not None and ors_b is not None:
         a, b = _orr_consts(a, b, ors_a, ors_b)
     a, b = _range_checks(*_result_checks(*_cmp_literal(*_data_literals(*_division_consts(*_halfword_consts(a, b))))))
+    a, b = _product_consts(a, b)
     pairs = _near_cmp(a, b)
     # compares with 0 only count when they stand in for another compare
     a.pop(('cmp0',), None)
@@ -1083,7 +1151,61 @@ def _split_wide(a, b):
             x += Counter()                               # drop zero counts
         if not changed:
             break
-    return _forwarded(+a, +b)
+    a, b = _tiled(+a, +b)
+    return _bitfields(*_forwarded(a, b))
+
+
+def _tiled(a, b):
+    """A wide access on one side, narrower ones of mixed widths on the other side that cover all
+    of its bytes (ARMCC: one str for a bool, a u8 and a u16 next to each other; GCC: strb, strb,
+    strh): the narrow ones count as the wide one."""
+    a, b = Counter(a), Counter(b)
+    for x, y in ((a, b), (b, a)):
+        for f in list(x):
+            if x[f] <= y[f] or not _span(f):
+                continue
+            base, start, end = _span(f)
+            # parts the other side has as well may help to cover (the byte of a field that both
+            # store once more afterwards), only the unmatched ones are taken
+            parts = [g for g in y if g[0] == f[0] and y[g] > 0 and _span(g) and _span(g)[0] == base
+                     and start <= _span(g)[1] and _span(g)[2] <= end and _WIDTH[g[1]] < _WIDTH[f[1]]]
+            covered = set()
+            for g in parts:
+                covered.update(range(_span(g)[1], _span(g)[2]))
+            unmatched = [g for g in parts if y[g] > x[g]]
+            if len(parts) > 1 and unmatched and covered == set(range(start, end)):
+                for g in unmatched:
+                    y[g] -= 1
+                y[f] += 1
+    return +a, +b
+
+
+def _bitfields(a, b):
+    """A bit field updated in place (load, mask, store at the same place): ARMCC accesses the
+    whole container (ldrh / strh), GCC only the byte that holds the field. Where one side loads
+    and stores the container and the other side loads and stores a narrower part of it instead,
+    they count as the same."""
+    a, b = Counter(a), Counter(b)
+    for x, y in ((a, b), (b, a)):
+        for f in list(x):
+            sign, width, off = f
+            load = ('L', width, off)
+            if sign != 'S' or not _span(f) or x[f] <= y[f] or x[load] <= y[load]:
+                continue
+            base, start, end = _span(f)
+            for g in list(y):
+                gsign, gwidth, goff = g
+                gload = ('L', gwidth, goff)
+                if gsign != 'S' or not _span(g) or y[g] <= x[g] or y[gload] <= x[gload]:
+                    continue
+                gbase, gstart, gend = _span(g)
+                if gbase == base and start <= gstart and gend <= end and _WIDTH[gwidth] < _WIDTH[width]:
+                    y[g] -= 1
+                    y[gload] -= 1
+                    y[f] += 1
+                    y[load] += 1
+                    break
+    return +a, +b
 
 
 _WIDTH = {'b': 1, 'h': 2, 'sh': 2, 'w': 4, 'd': 8}

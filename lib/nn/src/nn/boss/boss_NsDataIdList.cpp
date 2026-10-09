@@ -2,28 +2,34 @@
 
 namespace nn {
 namespace boss {
-// ctor candidate(s) 0x0046ADE8 (unverified)
-nn::boss::NsDataIdList::NsDataIdList()
+// 0x0046ADAC (name is ours)
+void nn::boss::NsDataIdList::Reset()
 {
-}
-
-// 0x0046AE18 slot 0x00 | virtual slot, introduced by nn::boss::NsDataIdList
-void nn::boss::NsDataIdList::vf_0x00()
-{
-}
-
-// 0x0046AE14 slot 0x04 | virtual slot, introduced by nn::boss::NsDataIdList
-void nn::boss::NsDataIdList::vf_0x04()
-{
+    m_StartIndex = 0;
+    m_NextId = 0;
 }
 
 // 0x0046ADBC | nintendogs:bytes [tier A]
-void nn::boss::NsDataIdList::GetNsDataId(unsigned short)
+u32 nn::boss::NsDataIdList::GetNsDataId(unsigned short index)
 {
+    if (m_pIds != 0 && m_Capacity != 0 && m_Count > index) {
+        return m_pIds[index];
+    }
+    return 0xFFFFFFFF;
 }
 
 // 0x0046ADE8 | nintendogs:bytes [tier A]
-nn::boss::NsDataIdList::NsDataIdList(unsigned*, unsigned short)
+nn::boss::NsDataIdList::NsDataIdList(unsigned* pIds, unsigned short capacity)
+    : m_StartIndex(0), m_NextId(0), m_pIds(pIds), m_Capacity(capacity)
+{
+    if (pIds == 0) {
+        m_Capacity = 0;
+    }
+}
+
+// 0x0046AE18
+// 0x0046AE14 (deleting dtor)
+nn::boss::NsDataIdList::~NsDataIdList()
 {
 }
 

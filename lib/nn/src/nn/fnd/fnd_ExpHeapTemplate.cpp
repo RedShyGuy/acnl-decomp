@@ -1,4 +1,5 @@
 #include "nn/fnd/fnd_ExpHeapTemplate.h"
+#include "nn/os/os_LockPolicy_NoLock_LockObject.h"
 
 // The functions are the instantiation for LockPolicy::Object<CriticalSection> (explicit, at the
 // end of the file); check.py puts the argument of that instantiation in for LockPolicyT.
@@ -77,6 +78,23 @@ ExpHeapTemplate<LockPolicyT>::Allocator::~Allocator()
 
 template class ExpHeapTemplate<nn::os::LockPolicy::Object<nn::os::CriticalSection> >;
 ASSERT_SIZE(ExpHeapTemplate<nn::os::LockPolicy::Object<nn::os::CriticalSection> >, 0x64);
+
+// LockPolicy::NoLock: the slots of ExpHeapBase are taken unchanged (the original has one nop each
+// that falls into the ExpHeapBase function); only the destructor is its own
+// 0x007D3848
+// 0x007D3820 (deleting dtor)
+template nn::fnd::ExpHeapTemplate<nn::os::LockPolicy::NoLock>::~ExpHeapTemplate();
+// 0x0013EC80
+template void nn::fnd::ExpHeapTemplate<nn::os::LockPolicy::NoLock>::FreeV(void* p);
+// 0x0072970C
+template void* nn::fnd::ExpHeapTemplate<nn::os::LockPolicy::NoLock>::GetHeapStart() const;
+// 0x007296FC
+template size_t nn::fnd::ExpHeapTemplate<nn::os::LockPolicy::NoLock>::GetHeapSize() const;
+// 0x00729718
+template void nn::fnd::ExpHeapTemplate<nn::os::LockPolicy::NoLock>::PrintState();
+// 0x007296DC
+template bool nn::fnd::ExpHeapTemplate<nn::os::LockPolicy::NoLock>::HasAddress(const void* p) const;
+ASSERT_SIZE(ExpHeapTemplate<nn::os::LockPolicy::NoLock>, 0x58);
 
 } // namespace fnd
 } // namespace nn

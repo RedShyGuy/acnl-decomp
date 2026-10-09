@@ -36,6 +36,14 @@ inline bool StoreExclusive(volatile s32* p, s32 value)
 
 inline void ClearExclusive() { __asm__ __volatile__("clrex" ::: "memory"); }
 
+// waits until the writes before it are done (mcr p15, 0, rX, c7, c10, 4; e.g. before a request in
+// the shared memory of a module is marked as valid; the name is ours)
+inline void DataSynchronizationBarrier() { __asm__ __volatile__("mcr p15, 0, %0, c7, c10, 4" : : "r"(0) : "memory"); }
+
+// orders the memory accesses before it against those after it (mcr p15, 0, rX, c7, c10, 5; the
+// name is ours)
+inline void DataMemoryBarrier() { __asm__ __volatile__("mcr p15, 0, %0, c7, c10, 5" : : "r"(0) : "memory"); }
+
 
 // 16 bit variants (ldrexh / strexh)
 inline s16 LoadExclusive(volatile s16* p)

@@ -42,6 +42,8 @@ import elf32                                    # noqa: E402
 import elfmem                                   # noqa: E402
 import fuzzy                                    # noqa: E402
 
+# the largest callee (bytes) that inline_expand treats as inlined by ARMCC
+INLINE_SIZE_MAX = 1024
 STUB_WORDS = {(0xE12FFF1E,), (0xE7F000F0,)}     # bx lr, GCC's trap for a missing return
 
 
@@ -166,6 +168,7 @@ def source_addresses():
     for d in ('src', 'lib', 'modules'):
         for path in glob.glob(os.path.join(ROOT, d, '**', '*.cpp'), recursive=True):
             ns, pending, sig, body_of, pending_del = [], None, None, None, None
+            pending_local = None
             pending_thunks = []
             text = open(path, encoding='utf-8', errors='replace').read()
             # explicit instantiations ("template class X<arg>;"): a member defined as X<T>::f under
@@ -200,6 +203,10 @@ def source_addresses():
                             pending = -1
                     else:
                         pending, sig = int(m.group(1), 16) & ~1, ''
+                    # a member of a class inside a function ("[local class f(int)::C]"): demangled
+                    # "ns::f(int)::C::g()", which split_signature keys as "::C::g"
+                    lm = re.search(r'\[local class [^\]]*?(\w+)\]', st)
+                    pending_local = '::' + lm.group(1) if lm else None
                     continue
                 if re.match(r'//\s*ctor (candidate|address unknown)', st):
                     pending, sig = -1, ''                 # no verified address: only track empty bodies
@@ -218,6 +225,8 @@ def source_addresses():
                     name, params, const = parsed
                     # definitions inside "namespace a {" may or may not repeat "a::"
                     full = name if not ns or name.startswith(ns[0] + '::') else '::'.join(ns + [name])
+                    if pending_local:
+                        full, pending_local = pending_local + '::' + name, None
                     m = re.match(r'\s*template\s*<([^>]*)>', sig_text)
                     if m:
                         for p in re.findall(r'(?:typename|class)\s+(\w+)', m.group(1)):
@@ -390,11 +399,18 @@ def source_variables():
                 decl = (decl + ' ' + st).strip()
                 if not decl.endswith(';') and '{' not in decl and decl.count('(') > decl.count(')'):
                     continue
+                # an initializer list over several lines ("T s_Table[] = {" ... "};")
+                if not decl.endswith(';') and '=' in decl and decl.count('{') > decl.count('}'):
+                    continue
                 st, decl = decl, ''
                 address, pending = pending, None
                 # a brace before "=" is a function body, after it an initializer list
-                if '{' in st.split('=')[0] or st.startswith('extern'):
+                if '{' in st.split('=')[0] or st.startswith('extern "C"'):
                     continue
+                # "extern const u8 s_Blob[];": data that is not in the source (e.g. a firmware
+                # image in .rodata); the declaration names the address
+                if st.startswith('extern '):
+                    st = st[len('extern '):]
                 # "u8 s_Stacks[2][0x1000] DECOMP_ALIGN(8);" - the attribute is no name
                 st = re.sub(r'\s*(DECOMP_ALIGN\s*\([^)]*\)|__attribute__\s*\(\(.*?\)\))', '', st)
                 m = VARIABLE_RE.search(st) or VARIABLE_INIT_RE.search(st)
@@ -457,6 +473,25 @@ def orig_size(starts, addr, limit):
     i = bisect.bisect_right(starts, addr)
     nxt = starts[i] if i < len(starts) else limit
     return nxt - addr
+
+
+_BL_COUNTS = {}
+
+
+def orig_call_count(mem, addr):
+    """how many bl instructions of the original call addr (the text is scanned once)"""
+    if not _BL_COUNTS:
+        counts = Counter()
+        lo, hi = mem.text
+        for a in range(lo, hi - 3, 4):
+            w = mem.u32(a)
+            if (w & 0x0F000000) == 0x0B000000 and (w >> 28) != 0xF:
+                off = w & 0xFFFFFF
+                if off & 0x800000:
+                    off -= 0x1000000
+                counts[a + 8 + off * 4] += 1
+        _BL_COUNTS['counts'] = counts
+    return _BL_COUNTS['counts'][addr]
 
 
 def make_fuzzy_pair(mem, db, starts, names, by_source, by_name, variables=None):
@@ -670,6 +705,10 @@ def make_fuzzy_pair(mem, db, starts, names, by_source, by_name, variables=None):
                 target |= (w >> 23) & 2                     # blx: H bit
             elif not w & (1 << 24) and addr <= target < addr + n_orig * 4:
                 return None                                  # branch inside the function
+            if not mem.in_text(target & ~1):
+                # a data word inside hand-written assembly that decodes as bl/blx: our copy is a
+                # .word without relocation (unresolved too)
+                return None
             return orig_fn(target & ~1)
 
         def orig_word(j, w):
@@ -759,8 +798,14 @@ def make_fuzzy_pair(mem, db, starts, names, by_source, by_name, variables=None):
         for _ in range(8):
             best = None
             for side, other, label in ((f_mine, f_orig, 'inlined'), (f_orig, f_mine, 'inlined_by_you')):
+                # (not for big callees that the original calls from several places: ARMCC keeps
+                # such a function out of line, e.g. the result table
+                # nn::boss::detail::ChangeBossRetCodeToResult; a big function with one caller
+                # it does inline, e.g. NatTraversalTimeList::Add in sendProbes)
                 surplus = Counter({k: n for k, n in (Counter(side['calls']) - Counter(other['calls'])).items()
-                                   if k[0] == 'fn' and mem.in_text(k[1])})
+                                   if k[0] == 'fn' and mem.in_text(k[1])
+                                   and (orig_size(starts, k[1], mem.text[1]) <= INLINE_SIZE_MAX
+                                        or orig_call_count(mem, k[1]) <= 1)})
                 # one call at a time, or all of them at once (several callees that only
                 # together make the calls alike, e.g. two empty base destructors)
                 trials = [Counter({key: 1}) for key in surplus]
@@ -810,6 +855,12 @@ def main():
                     help='print the differences of every implemented, not equivalent function whose name contains TEXT')
     ap.add_argument('--fuzzy', action='store_true', help=argparse.SUPPRESS)   # always on; kept for old commands
     a = ap.parse_args()
+
+    # data blobs (extern declarations) must be listed for the link (tools/decomp/extract_data.py)
+    sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+    import extract_data
+    for error in extract_data.check(extract_data.load_blobs(a.version)):
+        print('warning:', error)
 
     mem = elfmem.Mem(os.path.join(ROOT, 'orig', a.version, 'code.elf'))
     by_name, starts, db = load_targets(a.version)

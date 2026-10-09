@@ -5,15 +5,25 @@
 namespace nn {
 namespace boss {
 // RTTI N2nn4boss12NsDataIdListE @ 0x008D0364
-// vtable 0x00902170 (vptr 0x00902178), offset_to_top 0, 2 entries
+// A buffer for the ids of the downloaded data (GetNsDataIdList fills it in parts; the member names
+// are ours).
 class NsDataIdList
 {
 public:
-    NsDataIdList(); // ctor candidate(s) 0x0046ADE8 (unverified)
-    virtual void vf_0x00(); // 0x0046AE18 slot 0x00 | virtual slot, introduced by nn::boss::NsDataIdList
-    virtual void vf_0x04(); // 0x0046AE14 slot 0x04 | virtual slot, introduced by nn::boss::NsDataIdList
-    void GetNsDataId(unsigned short); // 0x0046ADBC | nintendogs:bytes [tier A]
-    NsDataIdList(unsigned*, unsigned short); // 0x0046ADE8 | nintendogs:bytes [tier A]
+    NsDataIdList(unsigned* pIds, unsigned short capacity); // 0x0046ADE8 | nintendogs:bytes [tier A]
+    virtual ~NsDataIdList();
+
+    // the id at index, 0xFFFFFFFF past the end
+    u32 GetNsDataId(unsigned short index); // 0x0046ADBC | nintendogs:bytes [tier A]
+    // starts the listing from the beginning again
+    void Reset(); // 0x0046ADAC (name is ours)
+
+    u16 m_Count;      // 0x04, ids in the buffer
+    u16 m_StartIndex; // 0x06, where the next GetNsDataIdList continues
+    u32 m_NextId;     // 0x08, the last id of a full buffer
+    u32* m_pIds;      // 0x0C
+    u32 m_Capacity;   // 0x10
 };
+ASSERT_SIZE(NsDataIdList, 0x14);
 } // namespace boss
 } // namespace nn

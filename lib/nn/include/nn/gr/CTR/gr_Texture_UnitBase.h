@@ -1,10 +1,4 @@
 #pragma once
 
-#include "decomp.h"
+// Texture::UnitBase is defined in gr_Texture.h (Texture holds its units by value).
 #include "nn/gr/CTR/gr_Texture.h"
-
-class nn::gr::CTR::Texture::UnitBase
-{
-public:
-    UnitBase(); // 0x0034B1F4 | fefates:bytes [tier B]
-};
