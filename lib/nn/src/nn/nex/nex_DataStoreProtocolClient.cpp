@@ -19,7 +19,7 @@ void nn::nex::DataStoreProtocolClient::ExtractCallSpecificResults(nn::nex::Messa
 }
 
 // 0x0072D0E4 slot 0x54 | fefates:callseq
-void nn::nex::DataStoreProtocolClient::CreateResponder() const
+nn::nex::ClientProtocol* nn::nex::DataStoreProtocolClient::CreateResponder() const
 {
 }
 

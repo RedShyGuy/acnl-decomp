@@ -150,7 +150,7 @@ void nn::nex::PRUDPEndPoint::_Send(nn::nex::Buffer*, unsigned int, bool, unsigne
 }
 
 // 0x0072A8D0 slot 0x7C | slot vf_0x7C of nn::nex::EndPoint
-void nn::nex::PRUDPEndPoint::GetSupportedFunctionsFlags() const
+u32 nn::nex::PRUDPEndPoint::GetSupportedFunctionsFlags() const
 {
 }
 

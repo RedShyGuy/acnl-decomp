@@ -19,7 +19,7 @@ void nn::nex::NATTraversalReportInternalProtocolClient::ExtractCallSpecificResul
 }
 
 // 0x0072E084 slot 0x54 | slot vf_0x54 of nn::nex::ClientProtocol
-void nn::nex::NATTraversalReportInternalProtocolClient::CreateResponder() const
+nn::nex::ClientProtocol* nn::nex::NATTraversalReportInternalProtocolClient::CreateResponder() const
 {
 }
 

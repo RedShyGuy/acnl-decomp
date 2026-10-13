@@ -18,3 +18,8 @@ uptr GetDeviceMemoryAddress(); // 0x00140690 | nintendogs:callgraph [tier A]
 nn::os::Tick GetCreationTime(); // 0x0034C074 | fefates:bytes [tier B]
 } // namespace os
 } // namespace nn
+
+// C helpers next to nnosTickGetSystemCurrent (the names are ours): sleep the current thread for the
+// nanoseconds, and give up the rest of its time slice (a sleep of 0)
+extern "C" void OsSleepThread(s64 nanoSeconds); // 0x007B2C24 (name is ours)
+extern "C" void OsYieldThread(); // 0x007B2C28 (name is ours)

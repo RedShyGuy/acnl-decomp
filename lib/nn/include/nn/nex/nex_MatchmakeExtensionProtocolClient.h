@@ -14,7 +14,7 @@ public:
     virtual ~MatchmakeExtensionProtocolClient(); // 0x003CA5F0 slot 0x00 | slot vf_0x00 of nn::nex::RefCountedObject
     // 0x003CA5E0 slot 0x04 | slot vf_0x04 of nn::nex::RefCountedObject (deleting dtor)
     virtual void ExtractCallSpecificResults(nn::nex::Message*, nn::nex::ProtocolCallContext*); // 0x003C7E24 slot 0x50 | slot vf_0x50 of nn::nex::ClientProtocol
-    virtual void CreateResponder() const; // 0x0072DEDC slot 0x54 | slot vf_0x54 of nn::nex::ClientProtocol
+    virtual nn::nex::ClientProtocol* CreateResponder() const; // 0x0072DEDC slot 0x54 | slot vf_0x54 of nn::nex::ClientProtocol
     void ProtoReturn_AutoMatchmakeWithSearchCriteria_Postpone(nn::nex::Message*, nn::nex::ProtocolCallContext*); // 0x003C8E28 | fefates:bytes [tier B]
 };
 } // namespace nex

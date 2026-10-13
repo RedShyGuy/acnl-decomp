@@ -19,7 +19,7 @@ void nn::nex::TicketGrantingProtocolClient::ExtractCallSpecificResults(nn::nex::
 }
 
 // 0x0072DE60 slot 0x54 | slot vf_0x54 of nn::nex::ClientProtocol
-void nn::nex::TicketGrantingProtocolClient::CreateResponder() const
+nn::nex::ClientProtocol* nn::nex::TicketGrantingProtocolClient::CreateResponder() const
 {
 }
 

@@ -47,6 +47,27 @@ INLINE_SIZE_MAX = 1024
 STUB_WORDS = {(0xE12FFF1E,), (0xE7F000F0,)}     # bx lr, GCC's trap for a missing return
 
 
+def _const_template_after(n):
+    """'const X<...>&' -> 'X<...> const&' (the template arguments may nest)"""
+    out, i = [], 0
+    for m in re.finditer(r'\bconst ([\w:]+<)', n):
+        if m.start() < i:
+            continue
+        j, depth = m.end(), 1
+        while j < len(n) and depth:
+            depth += {'<': 1, '>': -1}.get(n[j], 0)
+            j += 1
+        k = j
+        while k < len(n) and n[k] == ' ':
+            k += 1
+        if depth == 0 and k < len(n) and n[k] in '&*':
+            out.append(n[i:m.start()])
+            out.append(n[m.start() + len('const '):j] + ' const')
+            i = j
+    out.append(n[i:])
+    return ''.join(out)
+
+
 def norm(name):
     """compare names independent of spelling details of the demanglers"""
     n = name.replace('(anonymous namespace)', '@anon')
@@ -55,6 +76,9 @@ def norm(name):
     n = re.sub(r'\blong long\b', 'longlong', n)
     n = n.replace('(void)', '()')
     n = re.sub(r'\bconst ([\w:]+)(?=[*&])', r'\1 const', n)    # 'const T*' == 'T const*'
+    # a template argument: 'pair<const K, V>' (symbols.json) == 'pair<K const, V>' (GCC)
+    n = re.sub(r'(?<=[<,])\s*const ([\w:]+)(?=\s*[,>])', r'\1 const', n)
+    n = _const_template_after(n)
     return re.sub(r'\s+', '', n)
 
 
@@ -513,6 +537,7 @@ def make_fuzzy_pair(mem, db, starts, names, by_source, by_name, variables=None):
     data_end = db['binary']['data'][1]
     # system calls that ARMCC inlines (__svc) but GCC calls as tiny wrapper functions
     inline_svc = {}
+    c_functions = {}                     # the first address of each name of by_source (C functions)
     svc_h = os.path.join(ROOT, 'lib', 'nn', 'include', 'nn', 'svc', 'svc_Api.h')
     if os.path.exists(svc_h):
         for m in re.finditer(r'NN_SVC_INLINE\((0x[0-9A-Fa-f]+)\)[^;(]*?(\w+)\(', open(svc_h, encoding='utf-8').read()):
@@ -538,7 +563,10 @@ def make_fuzzy_pair(mem, db, starts, names, by_source, by_name, variables=None):
             addr = SOURCE_BY_TYPES.get(typed_key(*parsed))   # overloads with as many parameters
         if addr is None and not parsed:
             # a C function (no parameter list in the name): by its name alone
-            addr = next((a for k, a in by_source.items() if k[0] == re.sub(r'\s+', '', dn)), None)
+            if not c_functions:
+                for k, a in by_source.items():
+                    c_functions.setdefault(k[0], a)
+            addr = c_functions.get(re.sub(r'\s+', '', dn))
         if addr is None:
             addr = by_name.get(norm(dn))
         if addr is None and parsed:

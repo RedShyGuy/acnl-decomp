@@ -102,7 +102,7 @@ void nn::pia::inet::NexSessionSearchCriteria::ConvertTo(nex::MatchmakeSessionSea
         }
         if (m_Unknown0x9D4 == 2) {
             // the parameters of the session
-            pParam->m_Params.Clear();
+            pParam->m_Params.clear();
             if (m_Flags & FLAG_PARAM_SI) {
                 pParam->SetParam(nex::String(nex::g_MatchmakeParamKeySI), nex::Variant(m_ParamSI));
             }

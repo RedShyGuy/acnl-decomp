@@ -14,7 +14,7 @@ public:
     virtual ~MessageDeliveryProtocolClient(); // 0x003C11DC slot 0x00 | slot vf_0x00 of nn::nex::RefCountedObject
     // 0x003C11CC slot 0x04 | slot vf_0x04 of nn::nex::RefCountedObject (deleting dtor)
     virtual void ExtractCallSpecificResults(nn::nex::Message*, nn::nex::ProtocolCallContext*); // 0x003C105C slot 0x50 | slot vf_0x50 of nn::nex::ClientProtocol
-    virtual void CreateResponder() const; // 0x0072DE8C slot 0x54 | slot vf_0x54 of nn::nex::ClientProtocol
+    virtual nn::nex::ClientProtocol* CreateResponder() const; // 0x0072DE8C slot 0x54 | slot vf_0x54 of nn::nex::ClientProtocol
 };
 } // namespace nex
 } // namespace nn

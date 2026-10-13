@@ -19,7 +19,7 @@ void nn::nex::NATTraversalProtocolClient::ExtractCallSpecificResults(nn::nex::Me
 }
 
 // 0x0072DDB8 slot 0x54 | fefates:callseq
-void nn::nex::NATTraversalProtocolClient::CreateResponder() const
+nn::nex::ClientProtocol* nn::nex::NATTraversalProtocolClient::CreateResponder() const
 {
 }
 

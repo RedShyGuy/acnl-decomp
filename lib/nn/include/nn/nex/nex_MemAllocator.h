@@ -4,13 +4,12 @@
 
 namespace nn {
 namespace nex {
-// Instantiations found in the binary:
+// The allocator of the RW STL containers of nex (MemoryManager memory; the containers use
+// MemoryManager directly). Instantiations found in the binary:
 //   nn::nex::MemAllocator<nn::nex::URLProbe>  typeinfo 0x008CE100
-template <typename T0>
+template <typename T>
 class MemAllocator
 {
-public:
-    // TODO: members unknown
 };
 } // namespace nex
 } // namespace nn

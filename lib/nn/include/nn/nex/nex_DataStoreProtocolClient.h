@@ -14,7 +14,7 @@ public:
     virtual ~DataStoreProtocolClient(); // 0x003AF978 slot 0x00 | slot vf_0x00 of nn::nex::RefCountedObject
     // 0x003AF968 slot 0x04 | slot vf_0x04 of nn::nex::RefCountedObject (deleting dtor)
     virtual void ExtractCallSpecificResults(nn::nex::Message*, nn::nex::ProtocolCallContext*); // 0x003A79F8 slot 0x50 | slot vf_0x50 of nn::nex::ClientProtocol
-    virtual void CreateResponder() const; // 0x0072D0E4 slot 0x54 | fefates:callseq
+    virtual nn::nex::ClientProtocol* CreateResponder() const; // 0x0072D0E4 slot 0x54 | fefates:callseq
     void ProtoReturn_GetSpecificMeta(nn::nex::Message*, nn::nex::ProtocolCallContext*); // 0x003A88D4 | fefates:bytes [tier B]
     void ProtoReturn_PrepareGetObject(nn::nex::Message*, nn::nex::ProtocolCallContext*); // 0x003A9F10 | fefates:bytes [tier B]
     void ProtoReturn_GetSpecificMetaV1(nn::nex::Message*, nn::nex::ProtocolCallContext*); // 0x003A9F8C | fefates:bytes [tier B]

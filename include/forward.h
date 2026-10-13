@@ -2849,14 +2849,14 @@ namespace nn { namespace nex {
     class qBuffer;
     class qResult;
     struct DataStorePostObjectEventListener { u32 _unknown; }; // placeholder, real type unknown
-    struct DebugString { u32 _unknown; }; // placeholder, real type unknown
+    class DebugString; // nn/nex/nex_Job.h
     struct MD5 { u32 _unknown; }; // placeholder, real type unknown
     enum MatchmakeSystemType : u32 {}; // (the values are not known; nex::MatchmakeSession stores it as u32)
     struct NATTraversalResult { u32 _unknown; }; // placeholder, real type unknown
     struct PacketType { u32 _unknown; }; // placeholder, real type unknown
     struct RelayType { u32 _unknown; }; // placeholder, real type unknown
     struct SignatureBytes { u32 _unknown; }; // placeholder, real type unknown
-    struct UserContext { u32 _unknown; }; // placeholder, real type unknown
+    class UserContext; // nn/nex/nex_UserContext.h
     struct VirtualPort { u32 _unknown; }; // placeholder, real type unknown
     template <auto T0> class LiteBuffer;
     template <auto T0> class LiteByteStream;

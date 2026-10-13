@@ -1,12 +1,8 @@
 #include "nn/nex/nex_Api.h"
+#include "nn/nex/nex_StringStream.h"
 
 namespace nn {
 namespace nex {
-// 0x00354EE0 | fefates:bytes [tier B]
-void CopyString(wchar_t**, const wchar_t*)
-{
-}
-
 // 0x003B9818 | fefates:bytes-fuzzy [tier B]
 void InsertToHistoryPacketQueue(nn::nex::qChain<nn::nex::Packet*,nn::nex::ChainPolicyHistoryPacket<nn::nex::Packet*>>*, nn::nex::PacketQueue*)
 {
@@ -18,27 +14,15 @@ void InvokeCallbackOnCompletion(nn::nex::CallContext*, const nn::nex::UserContex
 }
 
 // 0x003CD054 | mk7dlp:bytes [tier B]
-void hex(nn::nex::StringStream&)
+nn::nex::StringStream& hex(nn::nex::StringStream& stream)
 {
+    stream.m_IsHex = true;
+    stream.m_IsZeroPadded = false;
+    return stream;
 }
 
 // 0x003CD224 | fefates:bytes-fuzzy [tier B]
 void CreateBunldingStreamFromHistoryPacketQueue(nn::nex::qChain<nn::nex::Packet*,nn::nex::ChainPolicyHistoryPacket<nn::nex::Packet*>>*, nn::nex::PacketOut*, nn::nex::Time, unsigned int, nn::nex::ByteStream*)
-{
-}
-
-// 0x003DA184 | fefates:bytes [tier B]
-void operator+(const wchar_t*, const nn::nex::String&)
-{
-}
-
-// 0x003DA284 | fefates:bytes [tier B]
-void operator+(const nn::nex::String&, const wchar_t*)
-{
-}
-
-// 0x003DA388 | fefates:bytes [tier B]
-void operator+(const nn::nex::String&, const nn::nex::String&)
 {
 }
 

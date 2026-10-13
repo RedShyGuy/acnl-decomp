@@ -39,7 +39,9 @@ public:
         m_pHead->m_pNext = m_pHead;
         m_pHead->m_pPrev = m_pHead;
     }
-    ~qList()
+    // (out of line in some instances: they specialize the destructor with the body of DestroyInline)
+    ~qList() { DestroyInline(); }
+    void DestroyInline()
     {
         if (m_pHead != nullptr) {
             clear();
@@ -67,9 +69,22 @@ public:
         pHead->m_pPrev = pNode;
         m_Size++;
     }
+    void push_front(const T0& value)
+    {
+        Node* pFirst = m_pHead->m_pNext;
+        Node* pNode = AllocNode();
+        ::new (static_cast<void*>(&pNode->m_Value)) T0(value);
+        pNode->m_pNext = pFirst;
+        pNode->m_pPrev = pFirst->m_pPrev;
+        pFirst->m_pPrev->m_pNext = pNode;
+        pFirst->m_pPrev = pNode;
+        m_Size++;
+    }
     // (out of line in the original, one instance per type; not decompiled yet)
+    qList(const qList& other);
     qList& operator=(const qList& other);
     T0& front() { return GetFirst()->m_Value; }
+    const T0& front() const { return GetFirst()->m_Value; }
 
     // the node is destroyed and goes to the free nodes; the next one
     Node* erase(Node* pNode)

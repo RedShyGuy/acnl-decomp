@@ -135,3 +135,15 @@ nn::os::Tick GetCreationTime()
 
 } // namespace os
 } // namespace nn
+
+// 0x007B2C24 (name is ours)
+extern "C" void OsSleepThread(s64 nanoSeconds)
+{
+    svcSleepThread(nanoSeconds);
+}
+
+// 0x007B2C28 (name is ours)
+extern "C" void OsYieldThread()
+{
+    svcSleepThread(0);
+}

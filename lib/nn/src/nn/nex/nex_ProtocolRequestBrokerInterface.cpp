@@ -58,16 +58,6 @@ void nn::nex::ProtocolRequestBrokerInterface::vf_0x28()
 {
 }
 
-// 0x0011C12F slot 0x2C | slot vf_0x00 of ChangeRentalBase
-void nn::nex::ProtocolRequestBrokerInterface::vf_0x2C()
-{
-}
-
-// 0x0011C12F slot 0x30 | slot vf_0x00 of ChangeRentalBase
-void nn::nex::ProtocolRequestBrokerInterface::vf_0x30()
-{
-}
-
 // 0x0011C12F slot 0x34 | slot vf_0x00 of ChangeRentalBase
 void nn::nex::ProtocolRequestBrokerInterface::vf_0x34()
 {

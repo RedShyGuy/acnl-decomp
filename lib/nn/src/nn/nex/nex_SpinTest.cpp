@@ -1,31 +1,49 @@
-#include "nn/nex/nex_RootObject.h"
 #include "nn/nex/nex_SpinTest.h"
+#include "nn/os/os_Api.h"
 
 namespace nn {
 namespace nex {
-// ctor candidate(s) 0x0017F290, 0x00356F58, 0x00362A00, 0x00367E38, 0x00382AA8, 0x003D5EAC (unverified)
-nn::nex::SpinTest::SpinTest()
-{
-}
-
-// 0x003D5F48 slot 0x00 | virtual slot, introduced by nn::nex::SpinTest
-void nn::nex::SpinTest::vf_0x00()
-{
-}
-
-// 0x003D5F24 slot 0x04 | virtual slot, introduced by nn::nex::SpinTest
-void nn::nex::SpinTest::vf_0x04()
-{
-}
-
 // 0x003D5E20 | fefates:bytes-fuzzy [tier B]
-void nn::nex::SpinTest::SpinOnce(wchar_t*, unsigned int, wchar_t*)
+bool nn::nex::SpinTest::SpinOnce(wchar_t* pFile, unsigned int line, wchar_t* pCondition)
 {
+    if (m_SleepMilliseconds != 0) {
+        OsSleepThread(static_cast<u64>(m_SleepMilliseconds) * 1000000);
+    } else {
+        OsYieldThread();
+    }
+    Time now = SystemClock::GetTime();
+    m_Elapsed = static_cast<u32>(now.m_Value) - static_cast<u32>(m_StartTime.m_Value);
+    if (m_Elapsed > m_Timeout && m_Timeout != static_cast<u32>(-1)) {
+        m_IsTimedOut = true;
+        switch (m_Mode) {
+        case MODE_CONTINUE:
+            break;
+        case MODE_STOP:
+            return false;
+        }
+    }
+    return true;
 }
 
 // 0x003D5EAC | fefates:bytes [tier B]
-nn::nex::SpinTest::SpinTest(unsigned int, unsigned int)
+nn::nex::SpinTest::SpinTest(unsigned int sleepMilliseconds, unsigned int timeout)
 {
+    m_SleepMilliseconds = sleepMilliseconds;
+    m_Timeout = timeout;
+    m_StartTime = SystemClock::GetTime();
+    m_Elapsed = 0;
+    m_Unknown0x20 = 1000;
+    m_Mode = MODE_CONTINUE;
+    m_Unknown0x28 = 0;
+    m_Unknown0x2C = 8;
+    m_IsTimedOut = false;
+}
+
+// 0x003D5F48
+// 0x003D5F24 (deleting dtor)
+nn::nex::SpinTest::~SpinTest()
+{
+    // nothing to do: the members and bases are destroyed / constructed by the compiler
 }
 
 } // namespace nex

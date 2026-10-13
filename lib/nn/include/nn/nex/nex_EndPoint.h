@@ -3,9 +3,12 @@
 #include "decomp.h"
 #include "nn/nex/nex_EndPointInfoInterface.h"
 #include "nn/nex/nex_RootObject.h"
+#include "nn/nex/nex_StationURL.h"
 
 namespace nn {
 namespace nex {
+class ConnectionOrientedStream;
+class EndPointEventHandler;
 // RTTI N2nn3nex8EndPointE @ 0x008CF6B0
 // vtable 0x008FFBB0 (vptr 0x008FFBB8), offset_to_top 0, 37 entries
 class EndPoint : public ::nn::nex::EndPointInfoInterface, public ::nn::nex::RootObject
@@ -44,7 +47,7 @@ public:
     virtual void _Connect(nn::nex::Buffer*, nn::nex::Buffer*, void (*)(nn::nex::EndPoint*,nn::nex::qResult,const nn::nex::UserContext*), const nn::nex::UserContext&, unsigned int); // 0x0011C12F slot 0x70 | slot vf_0x00 of ChangeRentalBase
     virtual void _Disconnect(void (*)(nn::nex::EndPoint*,nn::nex::qResult,const nn::nex::UserContext*), const nn::nex::UserContext&, unsigned int); // 0x0011C12F slot 0x74 | slot vf_0x00 of ChangeRentalBase
     virtual void _Send(nn::nex::Buffer*, unsigned int, bool, unsigned char, unsigned int); // 0x0011C12F slot 0x78 | slot vf_0x00 of ChangeRentalBase
-    virtual void GetSupportedFunctionsFlags() const; // 0x0011C12F slot 0x7C | slot vf_0x00 of ChangeRentalBase
+    virtual u32 GetSupportedFunctionsFlags() const; // 0x0011C12F slot 0x7C | slot vf_0x00 of ChangeRentalBase
     virtual void vf_0x80(); // 0x003D4C68 slot 0x80 | virtual slot, introduced by nn::nex::EndPoint
     virtual void vf_0x84(); // 0x003D4D3C slot 0x84 | virtual slot, introduced by nn::nex::EndPoint
     virtual void SignalFaultEvent(unsigned int, bool); // 0x003D4D38 slot 0x88 | slot vf_0x88 of nn::nex::EndPoint
@@ -53,7 +56,21 @@ public:
     void SetPrincipalID(unsigned); // 0x003D4C70 | mk7dlp:bytes-fuzzy [tier A]
     void SetConnectionID(unsigned); // 0x003D4CCC | mk7dlp:bytes-fuzzy [tier A]
     void Open(); // 0x003D4D84 | mk7dlp:bytes [tier A]
+    // its stream closes it
+    void Close(); // 0x003D4D98 | fefates:callgraph [tier C]
     EndPoint(nn::nex::ConnectionOrientedStream*, const nn::nex::StationURL*); // 0x003D4DAC | fefates:bytes [tier B]
+
+    // (only the members other code uses are known; the names are ours)
+    ConnectionOrientedStream* m_pStream;   // 0x04
+    StationURL m_URL;                      // 0x08
+    EndPointEventHandler* m_pEventHandler; // 0x70
+    u32 m_Unknown0x74;                     // 0x74
+    u32 m_ConnectionId;                    // 0x78
+    u32 m_PrincipalId;                     // 0x7C
+    u32 m_Unknown0x80;                     // 0x80
+    u8 m_Unknown0x84;                      // 0x84
+    u32 m_Unknown0x88;                     // 0x88
+    u8 m_Unknown0x8C;                      // 0x8C
 };
 } // namespace nex
 } // namespace nn

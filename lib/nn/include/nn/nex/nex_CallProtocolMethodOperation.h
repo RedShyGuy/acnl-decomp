@@ -2,6 +2,7 @@
 
 #include "decomp.h"
 #include "nn/nex/nex_Operation.h"
+#include "nn/nex/nex_qResult.h"
 
 namespace nn {
 namespace nex {
@@ -16,7 +17,14 @@ public:
     virtual void vf_0x0C(); // 0x0072DE18 slot 0x0C | virtual slot, introduced by nn::nex::Operation
     virtual void vf_0x10(); // 0x0072DDE8 slot 0x10 | virtual slot, introduced by nn::nex::Operation
     virtual void vf_0x14(); // 0x003BC2E4 slot 0x14 | virtual slot, introduced by nn::nex::Operation
+    // the next attempt of the call: its result is reset to success
     void InitializeForNewCallAttempt(); // 0x003BC298 | mk7dlp:bytes [tier A]
+
+    // (only the members other code uses are known; the names are ours)
+    u32 m_AttemptCount;           // 0x10
+    bool m_Unknown0x14;           // 0x14
+    u8 m_Unknown0x15[0x20 - 0x15]; // 0x15
+    qResult m_Result;             // 0x20 (of the call)
 };
 } // namespace nex
 } // namespace nn

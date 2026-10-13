@@ -14,7 +14,7 @@ nn::nex::NotificationEventManager::~NotificationEventManager()
 }
 
 // 0x0072D548 slot 0x4C | virtual slot, introduced by nn::nex::ServerProtocol
-void nn::nex::NotificationEventManager::vf_0x4C()
+bool nn::nex::NotificationEventManager::vf_0x4C()
 {
 }
 

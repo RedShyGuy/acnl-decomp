@@ -13,6 +13,9 @@ namespace os {
 class Tick
 {
 public:
+    // (the name is ours)
+    static const u32 TICKS_PER_SECOND = 268111856;
+
     Tick() : mTick(0) {}
     explicit Tick(s64 tick) : mTick(tick) {}
 
@@ -37,3 +40,6 @@ private:
 
 } // namespace os
 } // namespace nn
+
+// the system tick now (C interface; a branch to the svc wrapper, not decompiled yet)
+extern "C" s64 nnosTickGetSystemCurrent(); // 0x007B2C34 | fefates:callgraph [tier C]

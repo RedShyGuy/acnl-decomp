@@ -13,7 +13,7 @@ public:
     MessageDeliveryServer(); // ctor address unknown
     virtual ~MessageDeliveryServer(); // 0x0039A678 slot 0x00 | slot vf_0x00 of nn::nex::RefCountedObject
     // 0x0039A624 slot 0x04 | slot vf_0x04 of nn::nex::RefCountedObject (deleting dtor)
-    virtual void vf_0x4C(); // 0x0072CE0C slot 0x4C | virtual slot, introduced by nn::nex::ServerProtocol
+    virtual bool vf_0x4C(); // 0x0072CE0C slot 0x4C | virtual slot, introduced by nn::nex::ServerProtocol
     virtual void DispatchProtocolMessage(nn::nex::Message*, nn::nex::Message*, bool*, nn::nex::EndPoint*); // 0x003CC248 slot 0x50 | mk7dlp:callseq
     virtual void vf_0x5C(); // 0x0039A5D0 slot 0x5C | virtual slot, introduced by nn::nex::MessageDeliveryServer
 };

@@ -1,0 +1,45 @@
+name: Publish decomp.dev progress report
+
+# decomp.dev takes the report from the artifact "<version>_report" of the latest successful run on
+# the default branch. The game dump is not on GitHub, so the report is generated locally
+# (tools/decomp/decompdev_report.py) and committed under report/; this workflow validates the
+# snapshot against the committed sources and uploads it.
+
+on:
+  push:
+    branches:
+      - master
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: decomp-dev-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  publish-report:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        version: ["0004000000086300"]
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v5
+
+      - name: Set up Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: "3.12"
+
+      - name: Validate and unpack report snapshot
+        run: python tools/decomp/decompdev_report.py --version ${{ matrix.version }} --check-snapshot --output build/report.json
+
+      - name: Upload report for decomp.dev
+        uses: actions/upload-artifact@v6
+        with:
+          name: ${{ matrix.version }}_report
+          path: build/report.json
+          if-no-files-found: error
+          retention-days: 90

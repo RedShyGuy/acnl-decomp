@@ -36,6 +36,10 @@ void nn::nex::CallProtocolMethodOperation::vf_0x14()
 // 0x003BC298 | mk7dlp:bytes [tier A]
 void nn::nex::CallProtocolMethodOperation::InitializeForNewCallAttempt()
 {
+    const int RESULT_SUCCESS = qResult::SUCCESS;
+    m_AttemptCount++;
+    m_Unknown0x14 = false;
+    m_Result = qResult(RESULT_SUCCESS);
 }
 
 } // namespace nex

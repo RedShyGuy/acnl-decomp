@@ -19,7 +19,7 @@ void nn::nex::UtilityProtocolClient::ExtractCallSpecificResults(nn::nex::Message
 }
 
 // 0x0072CE48 slot 0x54 | slot vf_0x54 of nn::nex::ClientProtocol
-void nn::nex::UtilityProtocolClient::CreateResponder() const
+nn::nex::ClientProtocol* nn::nex::UtilityProtocolClient::CreateResponder() const
 {
 }
 

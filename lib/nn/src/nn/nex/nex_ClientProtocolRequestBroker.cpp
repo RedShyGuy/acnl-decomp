@@ -63,14 +63,15 @@ void nn::nex::ClientProtocolRequestBroker::vf_0x28()
 {
 }
 
-// 0x003BC3F8 slot 0x2C | virtual slot, introduced by nn::nex::ProtocolRequestBrokerInterface
-void nn::nex::ClientProtocolRequestBroker::vf_0x2C()
+// 0x003BC3F8 (name is ours)
+nn::nex::Protocol* nn::nex::ClientProtocolRequestBroker::FindProtocol(unsigned short id)
 {
 }
 
-// 0x003BC384 slot 0x30 | virtual slot, introduced by nn::nex::ProtocolRequestBrokerInterface
-void nn::nex::ClientProtocolRequestBroker::vf_0x30()
+// 0x003BC384 (name is ours)
+nn::nex::qResult nn::nex::ClientProtocolRequestBroker::ProcessLocalCall(nn::nex::Message* pMessage, nn::nex::Protocol* pClient, nn::nex::Protocol* pServer, u32 unknown)
 {
+    return qResult(static_cast<int>(0x80010002));
 }
 
 // 0x003BCAC0 slot 0x34 | virtual slot, introduced by nn::nex::ProtocolRequestBrokerInterface

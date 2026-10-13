@@ -14,7 +14,7 @@ public:
     virtual ~TicketGrantingProtocolClient(); // 0x003BF758 slot 0x00 | slot vf_0x00 of nn::nex::RefCountedObject
     // 0x003BF748 slot 0x04 | slot vf_0x04 of nn::nex::RefCountedObject (deleting dtor)
     virtual void ExtractCallSpecificResults(nn::nex::Message*, nn::nex::ProtocolCallContext*); // 0x003BF08C slot 0x50 | fefates:bytes
-    virtual void CreateResponder() const; // 0x0072DE60 slot 0x54 | slot vf_0x54 of nn::nex::ClientProtocol
+    virtual nn::nex::ClientProtocol* CreateResponder() const; // 0x0072DE60 slot 0x54 | slot vf_0x54 of nn::nex::ClientProtocol
     void ProtoReturn_RequestTicket(nn::nex::Message*, nn::nex::ProtocolCallContext*); // 0x003BEE84 | fefates:bytes [tier B]
     void ProtoReturn_LoginWithContext(nn::nex::Message*, nn::nex::ProtocolCallContext*); // 0x003BF118 | fefates:bytes [tier B]
 };

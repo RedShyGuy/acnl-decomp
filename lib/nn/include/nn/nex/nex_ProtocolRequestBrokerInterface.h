@@ -2,6 +2,7 @@
 
 #include "decomp.h"
 #include "nn/nex/nex_RootObject.h"
+#include "nn/nex/nex_qResult.h"
 
 namespace nn {
 namespace nex {
@@ -21,8 +22,10 @@ public:
     virtual void vf_0x20(); // 0x0011C12F slot 0x20 | slot vf_0x00 of ChangeRentalBase
     virtual void vf_0x24(); // 0x0011C12F slot 0x24 | slot vf_0x00 of ChangeRentalBase
     virtual void vf_0x28(); // 0x0011C12F slot 0x28 | slot vf_0x00 of ChangeRentalBase
-    virtual void vf_0x2C(); // 0x0011C12F slot 0x2C | slot vf_0x00 of ChangeRentalBase
-    virtual void vf_0x30(); // 0x0011C12F slot 0x30 | slot vf_0x00 of ChangeRentalBase
+    // the protocol with the id (names and signatures of these two are ours)
+    virtual nn::nex::Protocol* FindProtocol(unsigned short id) = 0; // slot 0x2C
+    // a call of the client protocol processed by the server protocol of this station
+    virtual nn::nex::qResult ProcessLocalCall(nn::nex::Message* pMessage, nn::nex::Protocol* pClient, nn::nex::Protocol* pServer, u32 unknown) = 0; // slot 0x30
     virtual void vf_0x34(); // 0x0011C12F slot 0x34 | slot vf_0x00 of ChangeRentalBase
     virtual void vf_0x38(); // 0x0011C12F slot 0x38 | slot vf_0x00 of ChangeRentalBase
     ProtocolRequestBrokerInterface(); // 0x003C30A4 | fefates:bytes [tier B]

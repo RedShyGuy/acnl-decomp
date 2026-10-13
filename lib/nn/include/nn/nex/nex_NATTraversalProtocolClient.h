@@ -14,7 +14,7 @@ public:
     virtual ~NATTraversalProtocolClient(); // 0x003BA784 slot 0x00 | slot vf_0x00 of nn::nex::RefCountedObject
     // 0x003BA774 slot 0x04 | slot vf_0x04 of nn::nex::RefCountedObject (deleting dtor)
     virtual void ExtractCallSpecificResults(nn::nex::Message*, nn::nex::ProtocolCallContext*); // 0x003BA308 slot 0x50 | slot vf_0x50 of nn::nex::ClientProtocol
-    virtual void CreateResponder() const; // 0x0072DDB8 slot 0x54 | fefates:callseq
+    virtual nn::nex::ClientProtocol* CreateResponder() const; // 0x0072DDB8 slot 0x54 | fefates:callseq
 };
 } // namespace nex
 } // namespace nn

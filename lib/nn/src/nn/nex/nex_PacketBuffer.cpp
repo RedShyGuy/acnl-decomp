@@ -1,21 +1,18 @@
-#include "nn/nex/nex_Buffer.h"
 #include "nn/nex/nex_PacketBuffer.h"
 
 namespace nn {
 namespace nex {
-// ctor candidate(s) 0x0035D64C (unverified)
-nn::nex::PacketBuffer::PacketBuffer()
+// 0x0035D64C | fefates:bytes [tier B]
+nn::nex::PacketBuffer::PacketBuffer(unsigned int size) : Buffer(size, FLAG_USE_POOL)
 {
+    // nothing to do: the members and bases are destroyed / constructed by the compiler
 }
 
-// 0x003D0074 slot 0x00 | slot vf_0x00 of nn::nex::RefCountedObject
+// 0x003D0074
+// 0x0035D6B0 (deleting dtor)
 nn::nex::PacketBuffer::~PacketBuffer()
 {
-}
-
-// 0x0035D64C | fefates:bytes [tier B]
-nn::nex::PacketBuffer::PacketBuffer(unsigned int)
-{
+    // nothing to do: the members and bases are destroyed / constructed by the compiler
 }
 
 } // namespace nex

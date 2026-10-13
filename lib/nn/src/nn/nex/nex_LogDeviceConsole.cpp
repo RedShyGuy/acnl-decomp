@@ -1,26 +1,18 @@
-#include "nn/nex/nex_LogDevice.h"
 #include "nn/nex/nex_LogDeviceConsole.h"
 
 namespace nn {
 namespace nex {
-// ctor address unknown
-nn::nex::LogDeviceConsole::LogDeviceConsole()
+// 0x00382210 (name is ours)
+void nn::nex::LogDeviceConsole::Output(const wchar_t* pLine)
 {
+    // nothing to do in this build
 }
 
-// 0x0038222C slot 0x00 | virtual slot, introduced by nn::nex::LogDeviceConsole
-void nn::nex::LogDeviceConsole::vf_0x00()
+// 0x0038222C
+// 0x00382214 (deleting dtor)
+nn::nex::LogDeviceConsole::~LogDeviceConsole()
 {
-}
-
-// 0x00382214 slot 0x04 | virtual slot, introduced by nn::nex::LogDeviceConsole
-void nn::nex::LogDeviceConsole::vf_0x04()
-{
-}
-
-// 0x00382210 slot 0x08 | virtual slot, introduced by nn::nex::LogDeviceConsole
-void nn::nex::LogDeviceConsole::vf_0x08()
-{
+    // nothing to do: the members and bases are destroyed / constructed by the compiler
 }
 
 } // namespace nex

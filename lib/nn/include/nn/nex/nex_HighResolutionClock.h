@@ -7,7 +7,8 @@ namespace nex {
 class HighResolutionClock
 {
 public:
-    void GetHighResolutionTime(); // 0x0039333C | mk7dlp:bytes [tier A]
+    // the microseconds of the system tick
+    static u64 GetHighResolutionTime(); // 0x0039333C | fefates:bytes [tier B]
 };
 } // namespace nex
 } // namespace nn

@@ -19,7 +19,7 @@ void nn::nex::MatchMakingProtocolClient::ExtractCallSpecificResults(nn::nex::Mes
 }
 
 // 0x0072D68C slot 0x54 | slot vf_0x54 of nn::nex::ClientProtocol
-void nn::nex::MatchMakingProtocolClient::CreateResponder() const
+nn::nex::ClientProtocol* nn::nex::MatchMakingProtocolClient::CreateResponder() const
 {
 }
 

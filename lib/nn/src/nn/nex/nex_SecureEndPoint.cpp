@@ -154,7 +154,7 @@ void nn::nex::SecureEndPoint::_Send(nn::nex::Buffer*, unsigned int, bool, unsign
 }
 
 // 0x0072B300 slot 0x7C | fefates:bytes
-void nn::nex::SecureEndPoint::GetSupportedFunctionsFlags() const
+u32 nn::nex::SecureEndPoint::GetSupportedFunctionsFlags() const
 {
 }
 

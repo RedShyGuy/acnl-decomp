@@ -14,7 +14,7 @@ nn::nex::MessageDeliveryServer::~MessageDeliveryServer()
 }
 
 // 0x0072CE0C slot 0x4C | virtual slot, introduced by nn::nex::ServerProtocol
-void nn::nex::MessageDeliveryServer::vf_0x4C()
+bool nn::nex::MessageDeliveryServer::vf_0x4C()
 {
 }
 

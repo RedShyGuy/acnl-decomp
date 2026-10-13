@@ -359,7 +359,7 @@ nn::Result nn::pia::inet::NatTraverser::updateStationUrls()
         m_ProtocolCallContext.Reset();
         m_ProtocolCallContext.m_Deadline = nex::Time::ConvertTimeoutToDeadline(REPLACE_URL_TIMEOUT_MSEC);
         nex::UserContext userContext;
-        userContext._unknown = 0;
+        userContext.m_Value = 0;
         m_ProtocolCallContext.RegisterCompletionCallback(OnReplaceUrlCompleted, userContext, true);
         pBridge->ReplaceURL(&m_ProtocolCallContext, *m_pOldStationUrl, *m_pNewStationUrl);
     }

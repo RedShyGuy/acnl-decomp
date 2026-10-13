@@ -14,7 +14,7 @@ public:
     virtual ~MatchMakingProtocolClient(); // 0x003B83E4 slot 0x00 | slot vf_0x00 of nn::nex::RefCountedObject
     // 0x003B83D4 slot 0x04 | slot vf_0x04 of nn::nex::RefCountedObject (deleting dtor)
     virtual void ExtractCallSpecificResults(nn::nex::Message*, nn::nex::ProtocolCallContext*); // 0x003B7C5C slot 0x50 | fefates:bytes
-    virtual void CreateResponder() const; // 0x0072D68C slot 0x54 | slot vf_0x54 of nn::nex::ClientProtocol
+    virtual nn::nex::ClientProtocol* CreateResponder() const; // 0x0072D68C slot 0x54 | slot vf_0x54 of nn::nex::ClientProtocol
     void ProtoReturn_FindByOwner(nn::nex::Message*, nn::nex::ProtocolCallContext*); // 0x003B790C | fefates:bytes [tier B]
     void ProtoReturn_GetSessionURLs(nn::nex::Message*, nn::nex::ProtocolCallContext*); // 0x003B7E18 | fefates:bytes [tier B]
 };

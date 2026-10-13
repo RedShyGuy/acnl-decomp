@@ -66,5 +66,9 @@ set(CMAKE_C_FLAGS_INIT "${DECOMP_GCC_FLAGS}")
 # -fno-devirtualize-speculatively: a virtual call stays an indirect call (GCC would compare the
 #   vptr, inline the expected target and keep the indirect call as the other branch; e.g. the
 #   "this->~File()" in nn::fs::CTR::MPCore::detail::FileServerArchive::File::Close)
-set(CMAKE_CXX_FLAGS_INIT "${DECOMP_GCC_FLAGS} -std=gnu++17 -fno-exceptions -fno-sized-deallocation -fcheck-new -fno-devirtualize-speculatively")
+# -fno-devirtualize: a virtual call on an object whose type GCC can see (a member or a global, e.g.
+#   the lock of a ThreadVariable or nn::nex::InstanceTable::s_Lock) stays a call through the vtable
+#   like ARMCC makes it. Tested on the whole project 2026-10-09: 14 functions better (nex locks),
+#   2 slightly worse (pia::common::Crypto::Encrypt/Decrypt, -0.06)
+set(CMAKE_CXX_FLAGS_INIT "${DECOMP_GCC_FLAGS} -std=gnu++17 -fno-exceptions -fno-sized-deallocation -fcheck-new -fno-devirtualize-speculatively -fno-devirtualize")
 

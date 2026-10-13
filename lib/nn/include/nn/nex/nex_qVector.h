@@ -2,76 +2,60 @@
 
 #include <new>
 #include "decomp.h"
+#include "nn/nex/nex_MemAllocator.h"
 #include "nn/nex/nex_MemoryManager.h"
 
 // the error of the RW STL (error 8 = length error, with the function and the sizes; the strings
 // are empty in the binary)
 extern "C" void StlThrow(int error, ...); // 0x0030757C (name is ours)
 
-namespace nn {
-namespace nex {
-// The vector of the RW STL with nex::MemAllocator (qVector<T> derives from it): begin, end and
-// the end of the capacity. ARMCC inlines its functions; push_back is written like the RW one (it
-// grows by 1 + 1/2 + 1/8 but at least by 32 elements). The member names are ours.
-template <typename T0>
-class qVector
+namespace std {
+// The vector of the RW STL as nex instantiates it (with nex::MemAllocator; nex::qVector derives
+// from it): begin, end and the end of the capacity. ARMCC inlines the small functions; the others
+// (operator=, insert, _C_insert_aux2) are out of line per instance and only declared here.
+// _C_insert_aux is out of line in some instances and inline in others. It grows by 1 + 1/2 + 1/8
+// but at least by 32 elements. The class and function names are from the binary, the member names
+// are ours.
+template <typename T, typename Alloc = nn::nex::MemAllocator<T> >
+class vector
 {
 public:
-    qVector() : m_pBegin(nullptr), m_pEnd(nullptr), m_pCapacityEnd(nullptr) {}
-    ~qVector()
+    vector() : m_pBegin(nullptr), m_pEnd(nullptr), m_pCapacityEnd(nullptr) {}
+    ~vector()
     {
-        for (T0* p = m_pBegin; p != m_pEnd; p++) {
-            p->~T0();
+        for (T* p = m_pBegin; p != m_pEnd; p++) {
+            p->~T();
         }
-        MemoryManager::Free(m_pBegin);
+        nn::nex::MemoryManager::Free(m_pBegin);
     }
 
-    // (inline: at least 32 elements of capacity)
-    qVector(const qVector& other) : m_pBegin(nullptr), m_pEnd(nullptr), m_pCapacityEnd(nullptr)
-    {
-        u32 num = other.m_pEnd - other.m_pBegin;
-        if (num < 32) {
-            num = 32;
-        }
-        m_pBegin = static_cast<T0*>(MemoryManager::Allocate(num * sizeof(T0)));
-        T0* pDst = m_pBegin;
-        for (const T0* p = other.m_pBegin; p != other.m_pEnd; p++, pDst++) {
-            ::new (static_cast<void*>(pDst)) T0(*p);
-        }
-        m_pEnd = m_pBegin + (other.m_pEnd - other.m_pBegin);
-        m_pCapacityEnd = m_pBegin + num;
-    }
-    // the values of a range (the RW constructor inserts them at the end)
-    template <typename It>
-    qVector(It first, It last) : m_pBegin(nullptr), m_pEnd(nullptr), m_pCapacityEnd(nullptr)
-    {
-        insert(m_pEnd, first, last);
-    }
     // (out of line in the original, one instance per type; not decompiled yet)
-    qVector& operator=(const qVector& other);
-    void assign(const T0* pFirst, const T0* pLast);
+    vector& operator=(const vector& other);
+    void assign(const T* pFirst, const T* pLast);
     template <typename It>
     void assign(It first, It last);
     template <typename It>
-    void insert(T0* pPos, It first, It last);
+    void insert(T* pPos, It first, It last);
+    template <typename It>
+    void _C_insert_aux2(T* pPos, It first, It last);
 
     // (the RW erase of all values)
     void clear()
     {
         if (m_pBegin != m_pEnd) {
-            for (T0* p = m_pBegin; p != m_pEnd; p++) {
-                p->~T0();
+            for (T* p = m_pBegin; p != m_pEnd; p++) {
+                p->~T();
             }
             m_pEnd -= m_pEnd - m_pBegin;
         }
     }
 
-    T0* begin() const { return m_pBegin; }
-    T0* end() const { return m_pEnd; }
+    T* begin() const { return m_pBegin; }
+    T* end() const { return m_pEnd; }
     u32 size() const { return m_pEnd - m_pBegin; }
     u32 capacity() const { return m_pCapacityEnd - m_pBegin; }
-    T0& operator[](u32 index) const { return m_pBegin[index]; }
-    u32 max_size() const { return static_cast<u32>(-1) / sizeof(T0); }
+    T& operator[](u32 index) const { return m_pBegin[index]; }
+    u32 max_size() const { return static_cast<u32>(-1) / sizeof(T); }
 
     void reserve(u32 num)
     {
@@ -87,34 +71,34 @@ public:
             if (newCapacity > num) {
                 num = newCapacity;
             }
-            T0* pNew = static_cast<T0*>(MemoryManager::Allocate(num * sizeof(T0)));
-            T0* pDst = pNew;
-            for (T0* p = m_pBegin; p != m_pEnd; p++, pDst++) {
-                ::new (static_cast<void*>(pDst)) T0(*p);
+            T* pNew = static_cast<T*>(nn::nex::MemoryManager::Allocate(num * sizeof(T)));
+            T* pDst = pNew;
+            for (T* p = m_pBegin; p != m_pEnd; p++, pDst++) {
+                ::new (static_cast<void*>(pDst)) T(*p);
             }
-            MemoryManager::Free(m_pBegin);
+            nn::nex::MemoryManager::Free(m_pBegin);
             m_pEnd = pNew + (m_pEnd - m_pBegin);
             m_pBegin = pNew;
             m_pCapacityEnd = pNew + num;
         }
     }
 
-    void push_back(const T0& value)
+    void push_back(const T& value)
     {
         if (m_pEnd != m_pCapacityEnd) {
-            ::new (static_cast<void*>(m_pEnd)) T0(value);
+            ::new (static_cast<void*>(m_pEnd)) T(value);
             m_pEnd++;
         } else {
-            InsertOne(m_pEnd, value);
+            _C_insert_aux(m_pEnd, value);
         }
     }
 
-    // one value at pos (the RW _C_insert_1)
-    void InsertOne(T0* pos, const T0& value)
+    // one value at pos
+    void _C_insert_aux(T* pos, const T& value)
     {
         if (size() < capacity()) {
-            ::new (static_cast<void*>(m_pEnd)) T0(m_pEnd[-1]);
-            T0* last = m_pEnd - 1;
+            ::new (static_cast<void*>(m_pEnd)) T(m_pEnd[-1]);
+            T* last = m_pEnd - 1;
             m_pEnd++;
             while (last != pos) {
                 *last = last[-1];
@@ -128,25 +112,65 @@ public:
         if (num + 32 > newCapacity) {
             newCapacity = num + 32;
         }
-        T0* pNew = static_cast<T0*>(MemoryManager::Allocate(newCapacity * sizeof(T0)));
-        T0* pDst = pNew;
-        for (T0* p = m_pBegin; p != pos; p++, pDst++) {
-            ::new (static_cast<void*>(pDst)) T0(*p);
+        T* pNew = static_cast<T*>(nn::nex::MemoryManager::Allocate(newCapacity * sizeof(T)));
+        T* pDst = pNew;
+        for (T* p = m_pBegin; p != pos; p++, pDst++) {
+            ::new (static_cast<void*>(pDst)) T(*p);
         }
-        ::new (static_cast<void*>(pDst)) T0(value);
+        ::new (static_cast<void*>(pDst)) T(value);
         pDst++;
-        for (T0* p = pos; p != m_pEnd; p++, pDst++) {
-            ::new (static_cast<void*>(pDst)) T0(*p);
+        for (T* p = pos; p != m_pEnd; p++, pDst++) {
+            ::new (static_cast<void*>(pDst)) T(*p);
         }
-        MemoryManager::Free(m_pBegin);
+        nn::nex::MemoryManager::Free(m_pBegin);
         m_pBegin = pNew;
         m_pEnd = pNew + num + 1;
         m_pCapacityEnd = pNew + newCapacity;
     }
 
-    T0* m_pBegin;       // 0x0
-    T0* m_pEnd;         // 0x4
-    T0* m_pCapacityEnd; // 0x8
+    T* m_pBegin;       // 0x0
+    T* m_pEnd;         // 0x4
+    T* m_pCapacityEnd; // 0x8
+};
+} // namespace std
+
+namespace nn {
+namespace nex {
+// std::vector with MemAllocator. Its constructors and destructor are its own (inline, with copies
+// out of line per type).
+template <typename T0>
+class qVector : public std::vector<T0, MemAllocator<T0> >
+{
+public:
+    qVector() {}
+    ~qVector() {}
+
+    // (inline: at least 32 elements of capacity)
+    qVector(const qVector& other)
+    {
+        u32 num = other.m_pEnd - other.m_pBegin;
+        if (num < 32) {
+            num = 32;
+        }
+        this->m_pBegin = static_cast<T0*>(MemoryManager::Allocate(num * sizeof(T0)));
+        T0* pDst = this->m_pBegin;
+        for (const T0* p = other.m_pBegin; p != other.m_pEnd; p++, pDst++) {
+            ::new (static_cast<void*>(pDst)) T0(*p);
+        }
+        this->m_pEnd = this->m_pBegin + (other.m_pEnd - other.m_pBegin);
+        this->m_pCapacityEnd = this->m_pBegin + num;
+    }
+    // the values of a range (the RW constructor inserts them at the end)
+    template <typename It>
+    qVector(It first, It last)
+    {
+        this->insert(this->m_pEnd, first, last);
+    }
+    qVector& operator=(const qVector& other)
+    {
+        std::vector<T0, MemAllocator<T0> >::operator=(other);
+        return *this;
+    }
 };
 } // namespace nex
 } // namespace nn

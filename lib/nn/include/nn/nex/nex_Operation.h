@@ -18,6 +18,12 @@ public:
     virtual void vf_0x0C(); // 0x0011C12F slot 0x0C | slot vf_0x00 of ChangeRentalBase
     virtual void vf_0x10(); // 0x0011C12F slot 0x10 | slot vf_0x00 of ChangeRentalBase
     virtual void vf_0x14(); // 0x0011C12F slot 0x14 | slot vf_0x00 of ChangeRentalBase
+
+    // (only the layout is known; the names are ours)
+    u8 m_Unknown0x04;  // 0x04
+    u8 m_Unknown0x05;  // 0x05
+    u32 m_Unknown0x08; // 0x08
+    u32 m_Type;        // 0x0C (the constructor argument)
 };
 } // namespace nex
 } // namespace nn

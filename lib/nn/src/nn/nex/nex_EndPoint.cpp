@@ -1,3 +1,4 @@
+#include "nn/nex/nex_ConnectionOrientedStream.h"
 #include "nn/nex/nex_RootObject.h"
 #include "nn/nex/nex_EndPointInfoInterface.h"
 #include "nn/nex/nex_EndPoint.h"
@@ -160,7 +161,7 @@ void nn::nex::EndPoint::_Send(nn::nex::Buffer*, unsigned int, bool, unsigned cha
 }
 
 // 0x0011C12F slot 0x7C | slot vf_0x00 of ChangeRentalBase
-void nn::nex::EndPoint::GetSupportedFunctionsFlags() const
+u32 nn::nex::EndPoint::GetSupportedFunctionsFlags() const
 {
 }
 
@@ -207,6 +208,12 @@ void nn::nex::EndPoint::Open()
 // 0x003D4DAC | fefates:bytes [tier B]
 nn::nex::EndPoint::EndPoint(nn::nex::ConnectionOrientedStream*, const nn::nex::StationURL*)
 {
+}
+
+// 0x003D4D98 | fefates:callgraph [tier C]
+void nn::nex::EndPoint::Close()
+{
+    m_pStream->CloseEndPoint(this);
 }
 
 } // namespace nex

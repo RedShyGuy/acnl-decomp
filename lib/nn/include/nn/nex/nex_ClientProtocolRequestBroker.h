@@ -22,8 +22,9 @@ public:
     virtual void vf_0x20(); // 0x003BC310 slot 0x20 | virtual slot, introduced by nn::nex::ProtocolRequestBrokerInterface
     virtual void vf_0x24(); // 0x003BC9F4 slot 0x24 | virtual slot, introduced by nn::nex::ProtocolRequestBrokerInterface
     virtual void vf_0x28(); // 0x003BCADC slot 0x28 | virtual slot, introduced by nn::nex::ProtocolRequestBrokerInterface
-    virtual void vf_0x2C(); // 0x003BC3F8 slot 0x2C | virtual slot, introduced by nn::nex::ProtocolRequestBrokerInterface
-    virtual void vf_0x30(); // 0x003BC384 slot 0x30 | virtual slot, introduced by nn::nex::ProtocolRequestBrokerInterface
+    virtual nn::nex::Protocol* FindProtocol(unsigned short id); // 0x003BC3F8 slot 0x2C (name is ours)
+    // (not supported by the client broker)
+    virtual nn::nex::qResult ProcessLocalCall(nn::nex::Message* pMessage, nn::nex::Protocol* pClient, nn::nex::Protocol* pServer, u32 unknown); // 0x003BC384 slot 0x30 (name is ours)
     virtual void vf_0x34(); // 0x003BCAC0 slot 0x34 | virtual slot, introduced by nn::nex::ProtocolRequestBrokerInterface
     virtual void vf_0x38(); // 0x003BCB90 slot 0x38 | virtual slot, introduced by nn::nex::ProtocolRequestBrokerInterface
     virtual void vf_0x3C(); // 0x003BC3A0 slot 0x3C | virtual slot, introduced by nn::nex::ClientProtocolRequestBroker

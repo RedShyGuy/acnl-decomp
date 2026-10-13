@@ -37,13 +37,6 @@ const wchar_t* g_MatchmakeParamKeyUpGI = L"@UpGI";
 // 0x0096B124
 const wchar_t* g_MatchmakeParamKeyLGFPC = L"@LGFPC";
 
-// 0x007FCA80 (the erase of the RW tree)
-template <>
-nn::nex::qMap<nn::nex::String, nn::nex::Variant>::Iterator nn::nex::qMap<nn::nex::String, nn::nex::Variant>::Erase(
-    nn::nex::qMap<nn::nex::String, nn::nex::Variant>::Iterator first, nn::nex::qMap<nn::nex::String, nn::nex::Variant>::Iterator)
-{
-}
-
 // 0x0072B124 (name is ours)
 bool nn::nex::MatchmakeParam::GetParamLGFPC(u32*) const
 {

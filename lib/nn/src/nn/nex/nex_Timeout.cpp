@@ -1,31 +1,32 @@
-#include "nn/nex/nex_RootObject.h"
 #include "nn/nex/nex_Timeout.h"
+#include "nn/nex/nex_Core.h"
 
 namespace nn {
 namespace nex {
-// ctor address unknown
-nn::nex::Timeout::Timeout()
+// 0x003D3794 | fefates:bytes [tier B]
+void nn::nex::Timeout::SetRelativeExpirationTime(int milliseconds)
 {
+    m_ExpirationTime = SystemClock::GetTime() + milliseconds;
+    m_RelativeTime = milliseconds;
 }
 
-// 0x003D3814 slot 0x00 | virtual slot, introduced by nn::nex::Timeout
-void nn::nex::Timeout::vf_0x00()
+// 0x003D3814
+// 0x003D37F0 (deleting dtor)
+nn::nex::Timeout::~Timeout()
 {
-}
-
-// 0x003D37F0 slot 0x04 | virtual slot, introduced by nn::nex::Timeout
-void nn::nex::Timeout::vf_0x04()
-{
-}
-
-// 0x003D3794 | mk7dlp:bytes [tier A]
-void nn::nex::Timeout::SetRelativeExpirationTime(int)
-{
+    // nothing to do: the members and bases are destroyed / constructed by the compiler
 }
 
 // 0x0072E478 | fefates:bytes [tier B]
-void nn::nex::Timeout::IsExpired() const
+bool nn::nex::Timeout::IsExpired() const
 {
+    if (m_ExpirationTime.m_Value != 0 && static_cast<s64>(m_ExpirationTime.m_Value - SystemClock::GetTime().m_Value) < 0) {
+        return true;
+    }
+    if (m_pCore->m_IsInterrupted && static_cast<s64>(m_pCore->m_InterruptTime.m_Value - SystemClock::GetTime().m_Value) < 0) {
+        return true;
+    }
+    return false;
 }
 
 } // namespace nex

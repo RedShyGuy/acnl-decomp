@@ -14,7 +14,7 @@ nn::nex::NintendoNotificationEventManager::~NintendoNotificationEventManager()
 }
 
 // 0x0072DF00 slot 0x4C | virtual slot, introduced by nn::nex::ServerProtocol
-void nn::nex::NintendoNotificationEventManager::vf_0x4C()
+bool nn::nex::NintendoNotificationEventManager::vf_0x4C()
 {
 }
 

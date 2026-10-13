@@ -19,7 +19,7 @@ void nn::nex::MatchmakeExtensionProtocolClient::ExtractCallSpecificResults(nn::n
 }
 
 // 0x0072DEDC slot 0x54 | slot vf_0x54 of nn::nex::ClientProtocol
-void nn::nex::MatchmakeExtensionProtocolClient::CreateResponder() const
+nn::nex::ClientProtocol* nn::nex::MatchmakeExtensionProtocolClient::CreateResponder() const
 {
 }
 

@@ -4,7 +4,7 @@
 namespace nn {
 namespace nex {
 // ctor address unknown
-nn::nex::ConnectivityManager::ConnectivityManager()
+nn::nex::ConnectivityManager::ConnectivityManager() : PseudoSingleton(11)
 {
 }
 

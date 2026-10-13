@@ -1,16 +1,12 @@
-#include "nn/nex/nex_SystemComponentGroup.h"
 #include "nn/nex/nex_SystemComponents.h"
 
 namespace nn {
 namespace nex {
-// ctor address unknown
-nn::nex::SystemComponents::SystemComponents()
-{
-}
-
-// 0x0039828C slot 0x00 | slot vf_0x00 of nn::nex::RefCountedObject
+// 0x0039828C
+// 0x00383A28 (deleting dtor)
 nn::nex::SystemComponents::~SystemComponents()
 {
+    // nothing to do: the members and bases are destroyed / constructed by the compiler
 }
 
 } // namespace nex

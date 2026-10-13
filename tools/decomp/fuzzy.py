@@ -18,6 +18,7 @@ categories present on either side (shape only when none of them is).
 Only ARM state is decoded (the original has 134 Thumb functions out of 32 000).
 """
 import difflib
+import functools
 from collections import Counter
 
 # shape is reported, but not scored: it mostly shows the compiler's style
@@ -975,6 +976,7 @@ def _result_checks(a, b):
     return +a, +b
 
 
+@functools.lru_cache(maxsize=None)
 def _division_kind(v):
     """the divisor d (3 to 255) whose constant division v belongs to, and what it is:
     'magic' (rounded up 2^(32+s) / d, the multiply-high of x / d), 'inverse' (d * v = 1 modulo
@@ -996,7 +998,7 @@ def _division_kind(v):
             if (v == -(-(1 << (32 + sh)) // d) or sh and v == (1 << (32 + sh)) // d) and v < (1 << 32):
                 out.append((d, 'magic'))
                 break
-    return out
+    return tuple(out)
 
 
 def _division_consts(a, b):
