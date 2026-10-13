@@ -1,4 +1,8 @@
 # acnl-decomp
+[![Match](https://decomp.dev/RedShyGuy/acnl-decomp/0004000000086300.svg?mode=shield&label=Match&color=%2324aa27&measure=matched_code_percent)](https://decomp.dev/RedShyGuy/acnl-decomp)
+[![Fuzzy](https://decomp.dev/RedShyGuy/acnl-decomp/0004000000086300.svg?mode=shield&label=Fuzzy+Match&measure=fuzzy_match_percent)](https://decomp.dev/RedShyGuy/acnl-decomp)
+
+[![Project Completion](https://decomp.dev/RedShyGuy/acnl-decomp/0004000000086300.svg?mode=overview)](https://decomp.dev/RedShyGuy/acnl-decomp)
 
 Decompilation of **Animal Crossing: New Leaf - Welcome amiibo** (3DS, USA, version 1.5). The game's code name is *garden*. The goal is C++ source that does what the original `code.bin` and CRO modules do, function by function. It is built with GCC (devkitARM); Nintendo's compiler (ARMCC 4.1) is not used, so functions are compared with the original by structure instead of byte for byte (see "Checking").
 
@@ -77,7 +81,7 @@ different code (unrolled loops, inlining choices, a destructor call per return p
 The remaining differences are explained in the comments.
 
 State of nn without nex (2026-10-09, `progress`): 4 345 functions, 4 240 of them written (98.7% of
-the bytes); 2 857 `equivalent`, 791 `close`, 592 `far`. Whole project: 3.54% of the bytes done.
+the bytes); 2 857 `equivalent`, 791 `close`, 592 `far`.
 
 ## Setup
 
