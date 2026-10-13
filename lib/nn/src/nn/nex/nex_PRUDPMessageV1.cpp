@@ -10,12 +10,8 @@ nn::nex::PRUDPMessageV1::PRUDPMessageV1()
 {
 }
 
-// 0x00373AD0 slot 0x00 | virtual slot, introduced by nn::nex::PRUDPMessageV1
-void nn::nex::PRUDPMessageV1::vf_0x00()
-{
-}
-
-// 0x00373A94 slot 0x04 | fefates:bytes
+// 0x00373AD0 slot 0x00
+// 0x00373A94 (deleting dtor)
 nn::nex::PRUDPMessageV1::~PRUDPMessageV1()
 {
 }

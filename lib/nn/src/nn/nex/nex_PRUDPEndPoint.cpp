@@ -145,7 +145,7 @@ void nn::nex::PRUDPEndPoint::_Disconnect(void (*)(nn::nex::EndPoint*,nn::nex::qR
 }
 
 // 0x003670DC slot 0x78 | slot vf_0x78 of nn::nex::EndPoint
-void nn::nex::PRUDPEndPoint::_Send(nn::nex::Buffer*, unsigned int, bool, unsigned char, unsigned int)
+nn::nex::qResult nn::nex::PRUDPEndPoint::_Send(nn::nex::Buffer*, unsigned int, bool, unsigned char, unsigned int)
 {
 }
 

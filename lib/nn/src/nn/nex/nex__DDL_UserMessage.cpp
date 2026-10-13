@@ -8,12 +8,8 @@ nn::nex::_DDL_UserMessage::_DDL_UserMessage()
 {
 }
 
-// 0x0038462C slot 0x00 | virtual slot, introduced by nn::nex::Data
-void nn::nex::_DDL_UserMessage::vf_0x00()
-{
-}
-
-// 0x00384604 slot 0x04 | slot vf_0x04 of nn::nex::Data
+// 0x0038462C slot 0x00
+// 0x00384604 (deleting dtor)
 nn::nex::_DDL_UserMessage::~_DDL_UserMessage()
 {
 }

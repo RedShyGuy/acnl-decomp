@@ -11,8 +11,8 @@ class _DDL_AuthenticationInfo : public ::nn::nex::Data
 {
 public:
     _DDL_AuthenticationInfo(); // ctor address unknown
-    virtual void vf_0x00(); // 0x003B18A4 slot 0x00 | virtual slot, introduced by nn::nex::Data
-    virtual ~_DDL_AuthenticationInfo(); // 0x003B1880 slot 0x04 | slot vf_0x04 of nn::nex::Data
+    virtual ~_DDL_AuthenticationInfo(); // 0x003B18A4 slot 0x00
+    // 0x003B1880 slot 0x04 (deleting dtor)
     virtual void Clone() const; // 0x0072D31C slot 0x08 | fefates:bytes
     virtual void GetDataType() const; // 0x0072D2B4 slot 0x0C | mk7dlp:bytes
     virtual void vf_0x10(); // 0x0072D2E4 slot 0x10 | virtual slot, introduced by nn::nex::Data

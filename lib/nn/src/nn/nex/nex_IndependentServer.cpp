@@ -8,12 +8,8 @@ nn::nex::IndependentServer::IndependentServer()
 {
 }
 
-// 0x00386F78 slot 0x00 | virtual slot, introduced by nn::nex::IndependentServer
-void nn::nex::IndependentServer::vf_0x00()
-{
-}
-
-// 0x00386F54 slot 0x04 | mk7dlp:bytes
+// 0x00386F78 slot 0x00
+// 0x00386F54 (deleting dtor)
 nn::nex::IndependentServer::~IndependentServer()
 {
 }

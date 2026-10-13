@@ -10,12 +10,8 @@ nn::nex::PRUDPMessageV0::PRUDPMessageV0()
 {
 }
 
-// 0x0037270C slot 0x00 | virtual slot, introduced by nn::nex::PRUDPMessageV0
-void nn::nex::PRUDPMessageV0::vf_0x00()
-{
-}
-
-// 0x003726F4 slot 0x04 | slot vf_0x04 of nn::nex::PRUDPMessageV0
+// 0x0037270C slot 0x00
+// 0x003726F4 (deleting dtor)
 nn::nex::PRUDPMessageV0::~PRUDPMessageV0()
 {
 }

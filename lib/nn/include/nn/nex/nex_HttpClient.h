@@ -13,8 +13,8 @@ class HttpClient : public ::nn::nex::RootObject, public ::nn::nex::NonCopyable
 {
 public:
     HttpClient(); // ctor candidate(s) 0x003550C0 (unverified)
-    virtual void vf_0x00(); // 0x003550D0 slot 0x00 | virtual slot, introduced by nn::nex::HttpClient
-    virtual ~HttpClient(); // 0x002F8500 slot 0x04 | fefates:bytes
+    virtual ~HttpClient(); // 0x003550D0 slot 0x00
+    // 0x002F8500 slot 0x04 (deleting dtor)
     void Start(nn::nex::CallContext*, const nn::nex::String&, nn::nex::HttpConnection::Method, nn::nex::HttpEventListener*, unsigned int); // 0x00354F30 | fefates:bytes-fuzzy [tier B]
 };
 } // namespace nex

@@ -8,12 +8,8 @@ nn::nex::BinaryMessage::BinaryMessage()
 {
 }
 
-// 0x00361C40 slot 0x00 | virtual slot, introduced by nn::nex::Data
-void nn::nex::BinaryMessage::vf_0x00()
-{
-}
-
-// 0x00361C00 slot 0x04 | slot vf_0x04 of nn::nex::Data
+// 0x00361C40 slot 0x00
+// 0x00361C00 (deleting dtor)
 nn::nex::BinaryMessage::~BinaryMessage()
 {
 }

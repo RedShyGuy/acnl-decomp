@@ -8,12 +8,8 @@ nn::nex::PacketQueue::PacketQueue()
 {
 }
 
-// 0x0035B610 slot 0x00 | virtual slot, introduced by nn::nex::PacketQueue
-void nn::nex::PacketQueue::vf_0x00()
-{
-}
-
-// 0x0035B5D0 slot 0x04 | fefates:bytes
+// 0x0035B610 slot 0x00
+// 0x0035B5D0 (deleting dtor)
 nn::nex::PacketQueue::~PacketQueue()
 {
 }

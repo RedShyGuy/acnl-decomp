@@ -14,10 +14,12 @@ public:
     virtual ~RVClientCore(); // 0x0035EDC8 slot 0x00 | slot vf_0x00 of nn::nex::RefCountedObject
     // 0x0035ED48 slot 0x04 | fefates:bytes (deleting dtor)
     static RVClientCore* GetInstance(); // 0x0035E8F4 | fefates:callgraph [tier C]
+    // the server protocol with the id (not decompiled yet)
+    nn::nex::ServerProtocol* FindProtocol(unsigned short id); // 0x0035EA4C (name is ours)
 
-    // (only the member pia uses; the name is ours)
+    // (only the members known so far; the names are ours)
     u8 m_Unknown0x9[3];   // 0x09
-    u32 m_Unknown0xC;     // 0x0C
+    ProtocolRegistry* m_pProtocolRegistry; // 0x0C
 };
 } // namespace nex
 } // namespace nn

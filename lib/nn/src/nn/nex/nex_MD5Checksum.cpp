@@ -3,12 +3,8 @@
 
 namespace nn {
 namespace nex {
-// 0x00358968 slot 0x00 | virtual slot, introduced by nn::nex::MD5Checksum
-void nn::nex::MD5Checksum::vf_0x00()
-{
-}
-
-// 0x00358950 slot 0x04 | slot vf_0x04 of nn::nex::MD5Checksum
+// 0x00358968 slot 0x00
+// 0x00358950 (deleting dtor)
 nn::nex::MD5Checksum::~MD5Checksum()
 {
 }

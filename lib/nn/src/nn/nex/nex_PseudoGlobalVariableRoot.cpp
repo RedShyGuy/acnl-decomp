@@ -9,12 +9,8 @@ nn::nex::PseudoGlobalVariableRoot::PseudoGlobalVariableRoot()
 }
 
 // 0x003B5758 slot 0x00 | slot vf_0x00 of nn::nex::PseudoGlobalVariableRoot
+// 0x003B5740 (deleting dtor)
 nn::nex::PseudoGlobalVariableRoot::~PseudoGlobalVariableRoot()
-{
-}
-
-// 0x003B5740 slot 0x04 | virtual slot, introduced by nn::nex::PseudoGlobalVariableRoot
-void nn::nex::PseudoGlobalVariableRoot::vf_0x04()
 {
 }
 

@@ -129,6 +129,14 @@ bool nn::nex::Protocol::RegisterCallContext(nn::nex::Message* pMessage, nn::nex:
     return true;
 }
 
+// 0x003D5DFC (name is ours)
+u32 nn::nex::Protocol::ExtractCallID(nn::nex::Message* pMessage)
+{
+    u32 callId;
+    pMessage->ExtractPrimitive(&callId);
+    return callId;
+}
+
 // 0x003D5DF8
 void nn::nex::Protocol::vf_0x44()
 {

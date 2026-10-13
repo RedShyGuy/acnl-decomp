@@ -91,7 +91,7 @@ template const nn::nex::qList<nn::nex::SecurityContext>& nn::nex::ThreadVariable
 
 // 0x003CF6A8 | fefates:bytes [tier B]
 template <>
-qList<SecurityContext>::~qList()
+DECOMP_NOINLINE qList<SecurityContext>::~qList()
 {
     DestroyInline();
 }
@@ -102,7 +102,7 @@ qList<SecurityContext>::~qList()
 namespace std {
 // 0x0082E7CC | fefates:bytes [tier B]
 template <>
-nn::nex::qList<nn::nex::SecurityContext>& map<u32, nn::nex::qList<nn::nex::SecurityContext>, less<u32>, nn::nex::MemAllocator<pair<const u32, nn::nex::qList<nn::nex::SecurityContext> > > >::operator[](const u32& key)
+DECOMP_NOINLINE nn::nex::qList<nn::nex::SecurityContext>& map<u32, nn::nex::qList<nn::nex::SecurityContext>, less<u32>, nn::nex::MemAllocator<pair<const u32, nn::nex::qList<nn::nex::SecurityContext> > > >::operator[](const u32& key)
 {
     return IndexInline(key);
 }

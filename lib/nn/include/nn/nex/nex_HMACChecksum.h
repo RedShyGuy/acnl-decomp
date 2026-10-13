@@ -11,7 +11,7 @@ class HMACChecksum : public ::nn::nex::KeyedChecksumAlgorithm
 {
 public:
     virtual ~HMACChecksum(); // 0x0035CE48 slot 0x00 | mk7dlp:callseq-callee
-    virtual void vf_0x04(); // 0x0035CE14 slot 0x04 | virtual slot, introduced by nn::nex::KeyedChecksumAlgorithm
+    // 0x0035CE14 slot 0x04 (deleting dtor)
     virtual void vf_0x08(); // 0x0035CBCC slot 0x08 | fefates:callseq
     virtual void ComputeChecksum(const unsigned char**, const unsigned int*, int, nn::nex::SignatureBytes&); // 0x0035CB5C slot 0x0C | slot vf_0x0C of nn::nex::KeyedChecksumAlgorithm
     virtual void ComputeChecksumForTransportArray(const unsigned char**, const unsigned int*, int); // 0x0035CD5C slot 0x18 | slot vf_0x18 of nn::nex::KeyedChecksumAlgorithm

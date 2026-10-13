@@ -12,7 +12,7 @@ class TransportAdapter : public ::nn::nex::RootObject
 public:
     TransportAdapter(); // ctor address unknown
     virtual ~TransportAdapter(); // 0x00383F78 slot 0x00 | slot vf_0x00 of nn::nex::TransportAdapter
-    virtual void vf_0x04(); // 0x00383F54 slot 0x04 | virtual slot, introduced by nn::nex::TransportAdapter
+    // 0x00383F54 slot 0x04 (deleting dtor)
     virtual void GetLocalURLs(nn::nex::qList<nn::nex::StationURL>*); // 0x00383A4C slot 0x08 | fefates:bytes
     virtual void vf_0x0C(); // 0x00383D90 slot 0x0C | fefates:callseq
     virtual void ReleaseAddress(const nn::nex::StationURL&); // 0x00383D8C slot 0x10 | slot vf_0x10 of nn::nex::TransportAdapter

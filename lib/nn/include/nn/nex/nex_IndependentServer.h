@@ -11,8 +11,8 @@ class IndependentServer : public ::nn::nex::RootObject
 {
 public:
     IndependentServer(); // ctor candidate(s) 0x00386F30 (unverified)
-    virtual void vf_0x00(); // 0x00386F78 slot 0x00 | virtual slot, introduced by nn::nex::IndependentServer
-    virtual ~IndependentServer(); // 0x00386F54 slot 0x04 | mk7dlp:bytes
+    virtual ~IndependentServer(); // 0x00386F78 slot 0x00
+    // 0x00386F54 slot 0x04 (deleting dtor)
 };
 } // namespace nex
 } // namespace nn

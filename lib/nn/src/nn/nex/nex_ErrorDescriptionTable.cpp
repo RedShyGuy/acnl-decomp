@@ -9,12 +9,8 @@ nn::nex::ErrorDescriptionTable::ErrorDescriptionTable()
 }
 
 // 0x00398648 slot 0x00 | fefates:bytes
+// 0x0039860C (deleting dtor)
 nn::nex::ErrorDescriptionTable::~ErrorDescriptionTable()
-{
-}
-
-// 0x0039860C slot 0x04 | virtual slot, introduced by nn::nex::ErrorDescriptionTable
-void nn::nex::ErrorDescriptionTable::vf_0x04()
 {
 }
 

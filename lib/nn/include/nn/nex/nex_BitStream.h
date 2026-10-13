@@ -10,8 +10,8 @@ namespace nex {
 class BitStream : public ::nn::nex::RootObject
 {
 public:
-    virtual void vf_0x00(); // 0x003D6734 slot 0x00 | fefates:callgraph
-    virtual ~BitStream(); // 0x003D66B4 slot 0x04 | fefates:bytes
+    virtual ~BitStream(); // 0x003D6734 slot 0x00
+    // 0x003D66B4 slot 0x04 (deleting dtor)
     void ExtractRaw(unsigned char*, unsigned int); // 0x003D6218 | fefates:bytes-fuzzy [tier B]
     void AppendRaw(const unsigned char*, unsigned); // 0x003D641C | mk7dlp:callseq [tier A]
     BitStream(nn::nex::Buffer*); // 0x003D6618 | fefates:bytes [tier B]

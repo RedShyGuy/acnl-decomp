@@ -85,6 +85,9 @@ public:
     qList& operator=(const qList& other);
     T0& front() { return GetFirst()->m_Value; }
     const T0& front() const { return GetFirst()->m_Value; }
+    T0& back() { return m_pHead->m_pPrev->m_Value; }
+    const T0& back() const { return m_pHead->m_pPrev->m_Value; }
+    void pop_back() { erase(m_pHead->m_pPrev); }
 
     // the node is destroyed and goes to the free nodes; the next one
     Node* erase(Node* pNode)

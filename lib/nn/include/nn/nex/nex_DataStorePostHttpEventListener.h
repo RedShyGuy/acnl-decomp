@@ -13,8 +13,8 @@ class DataStorePostHttpEventListener : public ::nn::nex::HttpEventListener, publ
 {
 public:
     DataStorePostHttpEventListener(); // ctor candidate(s) 0x003C23CC (unverified)
-    virtual void vf_0x00(); // 0x003C2450 slot 0x00 | virtual slot, introduced by nn::nex::DataStorePostHttpEventListener
-    virtual ~DataStorePostHttpEventListener(); // 0x003C2420 slot 0x04 | mk7dlp:bytes
+    virtual ~DataStorePostHttpEventListener(); // 0x003C2450 slot 0x00
+    // 0x003C2420 slot 0x04 (deleting dtor)
     virtual void PrepareRequest(nn::nex::HttpConnection*); // 0x003C1D00 slot 0x08 | fefates:bytes-fuzzy
     virtual void PostChunkedBuffer(nn::nex::HttpConnection*, unsigned char*, unsigned int, bool*); // 0x003C20F8 slot 0x0C | fefates:bytes
     virtual void ProcessResponseHeader(nn::nex::HttpConnection*, int); // 0x00386D6C slot 0x10 | slot vf_0x10 of nn::nex::DataStorePostHttpEventListener

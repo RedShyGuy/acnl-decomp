@@ -46,7 +46,7 @@ public:
     virtual void vf_0x6C(); // 0x0011C12F slot 0x6C | slot vf_0x00 of ChangeRentalBase
     virtual void _Connect(nn::nex::Buffer*, nn::nex::Buffer*, void (*)(nn::nex::EndPoint*,nn::nex::qResult,const nn::nex::UserContext*), const nn::nex::UserContext&, unsigned int); // 0x0011C12F slot 0x70 | slot vf_0x00 of ChangeRentalBase
     virtual void _Disconnect(void (*)(nn::nex::EndPoint*,nn::nex::qResult,const nn::nex::UserContext*), const nn::nex::UserContext&, unsigned int); // 0x0011C12F slot 0x74 | slot vf_0x00 of ChangeRentalBase
-    virtual void _Send(nn::nex::Buffer*, unsigned int, bool, unsigned char, unsigned int); // 0x0011C12F slot 0x78 | slot vf_0x00 of ChangeRentalBase
+    virtual nn::nex::qResult _Send(nn::nex::Buffer*, unsigned int, bool, unsigned char, unsigned int); // 0x0011C12F slot 0x78 | slot vf_0x00 of ChangeRentalBase
     virtual u32 GetSupportedFunctionsFlags() const; // 0x0011C12F slot 0x7C | slot vf_0x00 of ChangeRentalBase
     virtual void vf_0x80(); // 0x003D4C68 slot 0x80 | virtual slot, introduced by nn::nex::EndPoint
     virtual void vf_0x84(); // 0x003D4D3C slot 0x84 | virtual slot, introduced by nn::nex::EndPoint

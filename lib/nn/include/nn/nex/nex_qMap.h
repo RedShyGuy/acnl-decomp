@@ -11,8 +11,9 @@
 // from it): a red-black tree whose nodes come from buffers of nodes (and a list of free nodes),
 // with a header node (its parent is the root, left/right the first/last node). The class and
 // template names are from the binary (__rw::__rb_tree, __rw::__rw_tree_iter,
-// __rw::__rw_rb_tree_node, __rw::__select1st); ARMCC inlines the small functions, the others are
-// out of line per instance and only declared here. The member names are ours.
+// __rw::__rw_rb_tree_node, __rw::__select1st); ARMCC inlines the small functions, the others
+// (_C_insert, erase, _C_erase, _C_copy) are out of line per instance and defined below the class.
+// The member names are ours.
 namespace __rw {
 template <typename Pair, typename Key>
 struct __select1st
@@ -72,6 +73,10 @@ class __rb_tree
 public:
     typedef __rw_rb_tree_node<Alloc, Value, Key, KeyOfValue> Node;
     typedef __rw_tree_iter<Value, int, Value*, Value&, Node> iterator;
+
+    // the colors of the nodes (names are ours)
+    static const u8 RED = 0;
+    static const u8 BLACK = 1;
 
     // a buffer of nodes
     struct Buffer
@@ -204,14 +209,80 @@ public:
         return std::pair<iterator, bool>(it, false);
     }
 
-    // (out of line per instance; not decompiled)
-    // links a new node with the value under pParent (pNode: where it goes)
-    iterator _C_insert(Node* pNode, Node* pParent, const Value& value);
-    iterator erase(iterator it);
+    // (out of line per instance, defined below the class)
+    // links a new node with the value under pParent (pNode: where it goes) and rebalances
+    DECOMP_NOINLINE iterator _C_insert(Node* pNode, Node* pParent, const Value& value);
+    // (inline in a few range erases: they use EraseRangeAllInline)
+    DECOMP_NOINLINE iterator erase(iterator it) { return EraseInline(it); }
+    iterator EraseInline(iterator it);
     // frees the subtree of the node
-    void _C_erase(Node* pNode);
+    DECOMP_NOINLINE void _C_erase(Node* pNode);
     // copies the subtree of the node under pParent; the copy
-    Node* _C_copy(Node* pNode, Node* pParent);
+    DECOMP_NOINLINE Node* _C_copy(Node* pNode, Node* pParent);
+
+    // a node from the free nodes or the buffers, with a copy of the value (inline)
+    Node* GetNode(const Value& value)
+    {
+        Node* pNode = m_pFreeList;
+        if (pNode != nullptr) {
+            m_pFreeList = pNode->m_pRight;
+        } else {
+            if (m_pNextAvail == m_pLast) {
+                AddBuffer(0);
+            }
+            pNode = m_pNextAvail++;
+        }
+        pNode->m_pParent = nullptr;
+        pNode->m_pLeft = nullptr;
+        pNode->m_pRight = nullptr;
+        pNode->m_Color = RED;
+        ::new (static_cast<void*>(&pNode->m_Value)) Value(value);
+        return pNode;
+    }
+    // the node is destroyed and goes to the free nodes (inline)
+    void PutNode(Node* pNode)
+    {
+        pNode->m_Value.~Value();
+        pNode->m_pRight = m_pFreeList;
+        m_pFreeList = pNode;
+    }
+    // (inline) the rotations of the red-black tree
+    void RotateLeft(Node* pNode)
+    {
+        Node* pRight = pNode->m_pRight;
+        pNode->m_pRight = pRight->m_pLeft;
+        if (pRight->m_pLeft != nullptr) {
+            pRight->m_pLeft->m_pParent = pNode;
+        }
+        pRight->m_pParent = pNode->m_pParent;
+        if (pNode == m_pHeader->m_pParent) {
+            m_pHeader->m_pParent = pRight;
+        } else if (pNode == pNode->m_pParent->m_pLeft) {
+            pNode->m_pParent->m_pLeft = pRight;
+        } else {
+            pNode->m_pParent->m_pRight = pRight;
+        }
+        pRight->m_pLeft = pNode;
+        pNode->m_pParent = pRight;
+    }
+    void RotateRight(Node* pNode)
+    {
+        Node* pLeft = pNode->m_pLeft;
+        pNode->m_pLeft = pLeft->m_pRight;
+        if (pLeft->m_pRight != nullptr) {
+            pLeft->m_pRight->m_pParent = pNode;
+        }
+        pLeft->m_pParent = pNode->m_pParent;
+        if (pNode == m_pHeader->m_pParent) {
+            m_pHeader->m_pParent = pLeft;
+        } else if (pNode == pNode->m_pParent->m_pRight) {
+            pNode->m_pParent->m_pRight = pLeft;
+        } else {
+            pNode->m_pParent->m_pLeft = pLeft;
+        }
+        pLeft->m_pRight = pNode;
+        pNode->m_pParent = pLeft;
+    }
 
     // (inline) the tree becomes a copy of other
     __rb_tree& operator=(const __rb_tree& other)
@@ -249,9 +320,7 @@ public:
             while (pNode != nullptr) {
                 _C_erase(pNode->m_pRight);
                 Node* pLeft = pNode->m_pLeft;
-                pNode->m_Value.~Value();
-                pNode->m_pRight = m_pFreeList;
-                m_pFreeList = pNode;
+                PutNode(pNode);
                 pNode = pLeft;
             }
             m_pHeader->m_pLeft = m_pHeader;
@@ -267,11 +336,48 @@ public:
         }
         return last;
     }
+    // (the range erases with erase(it) inline)
+    iterator EraseRangeAllInline(iterator first, iterator last)
+    {
+        if (first == begin() && last == end() && m_Size != 0) {
+            Node* pNode = m_pHeader->m_pParent;
+            while (pNode != nullptr) {
+                _C_erase(pNode->m_pRight);
+                Node* pLeft = pNode->m_pLeft;
+                PutNode(pNode);
+                pNode = pLeft;
+            }
+            m_pHeader->m_pLeft = m_pHeader;
+            m_pHeader->m_pParent = nullptr;
+            m_pHeader->m_pRight = m_pHeader;
+            m_Size = 0;
+        } else {
+            while (first != last) {
+                iterator it = first;
+                ++first;
+                EraseInline(it);
+            }
+        }
+        return last;
+    }
 
     // the first buffer: 32 nodes
-    void AddBuffer()
+    void AddBuffer() { AddBuffer(32); }
+    // a buffer of num nodes (0: 32 nodes or 1 + 1/2 + 1/8 of the last buffer, at least 32 more)
+    void AddBuffer(u32 num)
     {
-        u32 num = 32;
+        if (num == 0) {
+            if (m_pBufferList == nullptr) {
+                num = 32;
+            } else {
+                u32 size = m_pBufferList->m_Size;
+                num = size + 32;
+                u32 grown = size + (size >> 1) + (size >> 3);
+                if (num <= grown) {
+                    num = grown;
+                }
+            }
+        }
         Buffer* pBuffer = static_cast<Buffer*>(nn::nex::MemoryManager::Allocate(sizeof(Buffer)));
         pBuffer->m_pNodes = static_cast<Node*>(nn::nex::MemoryManager::Allocate(num * sizeof(Node)));
         pBuffer->m_pNext = m_pBufferList;
@@ -290,6 +396,308 @@ public:
     bool m_IsInsertAlways;  // 0x18 (multimap)
     Compare m_Compare;      // 0x19
 };
+
+#define RB_TREE_TEMPLATE template <typename Key, typename Value, typename KeyOfValue, typename Compare, typename Alloc>
+#define RB_TREE __rb_tree<Key, Value, KeyOfValue, Compare, Alloc>
+
+RB_TREE_TEMPLATE
+typename RB_TREE::iterator RB_TREE::_C_insert(Node* pNode, Node* pParent, const Value& value)
+{
+    Node* pNew = GetNode(value);
+    m_Size++;
+    if (pParent == m_pHeader || pNode != nullptr || Compare()(KeyOfValue()(value), KeyOfValue()(pParent->m_Value))) {
+        pParent->m_pLeft = pNew;
+        if (pParent == m_pHeader) {
+            m_pHeader->m_pParent = pNew;
+            m_pHeader->m_pRight = pNew;
+        } else if (pParent == m_pHeader->m_pLeft) {
+            m_pHeader->m_pLeft = pNew;
+        }
+    } else {
+        pParent->m_pRight = pNew;
+        if (pParent == m_pHeader->m_pRight) {
+            m_pHeader->m_pRight = pNew;
+        }
+    }
+    pNew->m_pParent = pParent;
+
+    // (the new node is red)
+    Node* pFixed = pNew;
+    while (pFixed != m_pHeader->m_pParent && pFixed->m_pParent->m_Color == RED) {
+        Node* pGrandparent = pFixed->m_pParent->m_pParent;
+        if (pFixed->m_pParent == pGrandparent->m_pLeft) {
+            Node* pUncle = pGrandparent->m_pRight;
+            if (pUncle != nullptr && pUncle->m_Color == RED) {
+                pFixed->m_pParent->m_Color = BLACK;
+                pUncle->m_Color = BLACK;
+                pFixed->m_pParent->m_pParent->m_Color = RED;
+                pFixed = pFixed->m_pParent->m_pParent;
+            } else {
+                if (pFixed == pFixed->m_pParent->m_pRight) {
+                    pFixed = pFixed->m_pParent;
+                    RotateLeft(pFixed);
+                }
+                pFixed->m_pParent->m_Color = BLACK;
+                pFixed->m_pParent->m_pParent->m_Color = RED;
+                RotateRight(pFixed->m_pParent->m_pParent);
+            }
+        } else {
+            Node* pUncle = pGrandparent->m_pLeft;
+            if (pUncle != nullptr && pUncle->m_Color == RED) {
+                pFixed->m_pParent->m_Color = BLACK;
+                pUncle->m_Color = BLACK;
+                pFixed->m_pParent->m_pParent->m_Color = RED;
+                pFixed = pFixed->m_pParent->m_pParent;
+            } else {
+                if (pFixed == pFixed->m_pParent->m_pLeft) {
+                    pFixed = pFixed->m_pParent;
+                    RotateRight(pFixed);
+                }
+                pFixed->m_pParent->m_Color = BLACK;
+                pFixed->m_pParent->m_pParent->m_Color = RED;
+                RotateLeft(pFixed->m_pParent->m_pParent);
+            }
+        }
+    }
+    m_pHeader->m_pParent->m_Color = BLACK;
+    return iterator(pNew);
+}
+
+// (RW's erase: a removed leaf is unlinked first and the rebalancing starts at its parent; without a
+// child the node taking the place counts as the child; after the last case the child itself, not the
+// root, becomes black)
+RB_TREE_TEMPLATE
+typename RB_TREE::iterator RB_TREE::EraseInline(iterator it)
+{
+    if (it == end()) {
+        return end();
+    }
+    iterator next = it;
+    ++next;
+    Node* pErased = it.m_pNode;
+    Node* pNode = pErased;
+    Node* pChild;
+    if (pErased->m_pLeft == nullptr) {
+        pChild = pErased->m_pRight;
+    } else if (pErased->m_pRight == nullptr) {
+        pChild = pErased->m_pLeft;
+    } else {
+        // the next node takes its place
+        pNode = pErased->m_pRight;
+        while (pNode->m_pLeft != nullptr) {
+            pNode = pNode->m_pLeft;
+        }
+        pChild = pNode->m_pRight;
+    }
+    if (pNode != pErased) {
+        pErased->m_pLeft->m_pParent = pNode;
+        pNode->m_pLeft = pErased->m_pLeft;
+        if (pNode != pErased->m_pRight) {
+            if (pChild != nullptr) {
+                pChild->m_pParent = pNode->m_pParent;
+            }
+            pNode->m_pParent->m_pLeft = pChild;
+            pNode->m_pRight = pErased->m_pRight;
+            pErased->m_pRight->m_pParent = pNode;
+        } else if (pChild != nullptr) {
+            pChild->m_pParent = pNode;
+        }
+        if (m_pHeader->m_pParent == pErased) {
+            m_pHeader->m_pParent = pNode;
+        } else if (pErased->m_pParent->m_pLeft == pErased) {
+            pErased->m_pParent->m_pLeft = pNode;
+        } else {
+            pErased->m_pParent->m_pRight = pNode;
+        }
+        pNode->m_pParent = pErased->m_pParent;
+        if (pChild == nullptr) {
+            pChild = pNode;
+        }
+        u8 color = pNode->m_Color;
+        pNode->m_Color = pErased->m_Color;
+        pErased->m_Color = color;
+        pNode = pErased;
+    } else if (pChild != nullptr) {
+        pChild->m_pParent = pNode->m_pParent;
+        if (m_pHeader->m_pParent == pErased) {
+            m_pHeader->m_pParent = pChild;
+        } else if (pErased->m_pParent->m_pLeft == pErased) {
+            pErased->m_pParent->m_pLeft = pChild;
+        } else {
+            pErased->m_pParent->m_pRight = pChild;
+        }
+        if (m_pHeader->m_pLeft == pErased) {
+            if (pErased->m_pRight == nullptr) {
+                m_pHeader->m_pLeft = pErased->m_pParent;
+            } else {
+                Node* pMin = pChild;
+                while (pMin->m_pLeft != nullptr) {
+                    pMin = pMin->m_pLeft;
+                }
+                m_pHeader->m_pLeft = pMin;
+            }
+        }
+        if (m_pHeader->m_pRight == pErased) {
+            if (pErased->m_pLeft == nullptr) {
+                m_pHeader->m_pRight = pErased->m_pParent;
+            } else {
+                Node* pMax = pChild;
+                while (pMax->m_pRight != nullptr) {
+                    pMax = pMax->m_pRight;
+                }
+                m_pHeader->m_pRight = pMax;
+            }
+        }
+    } else {
+        // a leaf
+        pChild = pErased->m_pParent;
+        if (pChild == m_pHeader) {
+            m_pHeader->m_pRight = m_pHeader;
+            m_pHeader->m_pLeft = m_pHeader;
+            m_pHeader->m_pParent = nullptr;
+        } else if (pChild->m_pLeft == pErased) {
+            pChild->m_pLeft = nullptr;
+            if (m_pHeader->m_pLeft == pErased) {
+                m_pHeader->m_pLeft = pChild;
+            }
+        } else {
+            pChild->m_pRight = nullptr;
+            if (m_pHeader->m_pRight == pErased) {
+                m_pHeader->m_pRight = pChild;
+            }
+        }
+    }
+
+    if (pChild != m_pHeader && pNode->m_Color != RED) {
+        while (pChild != m_pHeader->m_pParent && pChild->m_Color == BLACK) {
+            Node* pParent = pChild->m_pParent;
+            if (pChild == pParent->m_pLeft) {
+                Node* pSibling = pParent->m_pRight;
+                if (pSibling == nullptr) {
+                    pChild->m_Color = RED;
+                    pChild = pParent;
+                    continue;
+                }
+                if (pSibling->m_Color == RED) {
+                    pSibling->m_Color = BLACK;
+                    pChild->m_pParent->m_Color = RED;
+                    RotateLeft(pChild->m_pParent);
+                    pSibling = pChild->m_pParent->m_pRight;
+                    if (pSibling == nullptr) {
+                        pChild->m_Color = RED;
+                        pChild = pChild->m_pParent;
+                        continue;
+                    }
+                }
+                if ((pSibling->m_pLeft == nullptr || pSibling->m_pLeft->m_Color == BLACK)
+                    && (pSibling->m_pRight == nullptr || pSibling->m_pRight->m_Color == BLACK)) {
+                    pSibling->m_Color = RED;
+                    pChild = pChild->m_pParent;
+                } else {
+                    if (pSibling->m_pRight == nullptr || pSibling->m_pRight->m_Color == BLACK) {
+                        if (pSibling->m_pLeft != nullptr) {
+                            pSibling->m_pLeft->m_Color = BLACK;
+                        }
+                        pSibling->m_Color = RED;
+                        RotateRight(pSibling);
+                        pSibling = pChild->m_pParent->m_pRight;
+                        if (pSibling == nullptr) {
+                            break;
+                        }
+                    }
+                    pSibling->m_Color = pChild->m_pParent->m_Color;
+                    pChild->m_pParent->m_Color = BLACK;
+                    if (pSibling->m_pRight != nullptr) {
+                        pSibling->m_pRight->m_Color = BLACK;
+                    }
+                    RotateLeft(pChild->m_pParent);
+                    break;
+                }
+            } else {
+                Node* pSibling = pParent->m_pLeft;
+                if (pSibling == nullptr) {
+                    pChild->m_Color = RED;
+                    pChild = pParent;
+                    continue;
+                }
+                if (pSibling->m_Color == RED) {
+                    pSibling->m_Color = BLACK;
+                    pChild->m_pParent->m_Color = RED;
+                    RotateRight(pChild->m_pParent);
+                    pSibling = pChild->m_pParent->m_pLeft;
+                    if (pSibling == nullptr) {
+                        pChild->m_Color = RED;
+                        pChild = pChild->m_pParent;
+                        continue;
+                    }
+                }
+                if ((pSibling->m_pRight == nullptr || pSibling->m_pRight->m_Color == BLACK)
+                    && (pSibling->m_pLeft == nullptr || pSibling->m_pLeft->m_Color == BLACK)) {
+                    pSibling->m_Color = RED;
+                    pChild = pChild->m_pParent;
+                } else {
+                    if (pSibling->m_pLeft == nullptr || pSibling->m_pLeft->m_Color == BLACK) {
+                        if (pSibling->m_pRight != nullptr) {
+                            pSibling->m_pRight->m_Color = BLACK;
+                        }
+                        pSibling->m_Color = RED;
+                        RotateLeft(pSibling);
+                        pSibling = pChild->m_pParent->m_pLeft;
+                        if (pSibling == nullptr) {
+                            break;
+                        }
+                    }
+                    pSibling->m_Color = pChild->m_pParent->m_Color;
+                    pChild->m_pParent->m_Color = BLACK;
+                    if (pSibling->m_pLeft != nullptr) {
+                        pSibling->m_pLeft->m_Color = BLACK;
+                    }
+                    RotateRight(pChild->m_pParent);
+                    break;
+                }
+            }
+        }
+        pChild->m_Color = BLACK;
+    }
+    PutNode(pNode);
+    m_Size--;
+    return next;
+}
+
+RB_TREE_TEMPLATE
+void RB_TREE::_C_erase(Node* pNode)
+{
+    while (pNode != nullptr) {
+        _C_erase(pNode->m_pRight);
+        Node* pLeft = pNode->m_pLeft;
+        PutNode(pNode);
+        pNode = pLeft;
+    }
+}
+
+// (iterative along the left nodes; each copy is first linked as the left node of its parent)
+RB_TREE_TEMPLATE
+typename RB_TREE::Node* RB_TREE::_C_copy(Node* pNode, Node* pParent)
+{
+    Node* pTop = pNode;
+    while (pNode != nullptr) {
+        Node* pCopy = GetNode(pNode->m_Value);
+        pParent->m_pLeft = pCopy;
+        pCopy->m_pParent = pParent;
+        pCopy->m_Color = pNode->m_Color;
+        if (pTop == pNode) {
+            pTop = pCopy;
+        }
+        pCopy->m_pRight = _C_copy(pNode->m_pRight, pCopy);
+        pParent = pCopy;
+        pNode = pNode->m_pLeft;
+    }
+    pParent->m_pLeft = nullptr;
+    return pTop;
+}
+
+#undef RB_TREE
+#undef RB_TREE_TEMPLATE
 } // namespace __rw
 
 namespace std {

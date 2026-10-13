@@ -8,12 +8,8 @@ nn::nex::TransportBufferMultiThread::TransportBufferMultiThread()
 {
 }
 
-// 0x003BB79C slot 0x00 | fefates:callseq
-void nn::nex::TransportBufferMultiThread::vf_0x00()
-{
-}
-
-// 0x003BB76C slot 0x04 | slot vf_0x04 of nn::nex::TransportBufferMultiThread
+// 0x003BB79C slot 0x00
+// 0x003BB76C (deleting dtor)
 nn::nex::TransportBufferMultiThread::~TransportBufferMultiThread()
 {
 }

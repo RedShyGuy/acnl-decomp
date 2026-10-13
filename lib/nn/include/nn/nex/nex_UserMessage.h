@@ -11,8 +11,8 @@ class UserMessage : public ::nn::nex::_DDL_UserMessage
 {
 public:
     UserMessage(); // ctor address unknown
-    virtual void vf_0x00(); // 0x0035C418 slot 0x00 | virtual slot, introduced by nn::nex::Data
-    virtual ~UserMessage(); // 0x0035C3F0 slot 0x04 | slot vf_0x04 of nn::nex::Data
+    virtual ~UserMessage(); // 0x0035C418 slot 0x00
+    // 0x0035C3F0 slot 0x04 (deleting dtor)
     virtual void vf_0x20(); // 0x0035C3C0 slot 0x20 | virtual slot, introduced by nn::nex::UserMessage
 };
 } // namespace nex

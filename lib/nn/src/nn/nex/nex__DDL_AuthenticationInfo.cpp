@@ -8,12 +8,8 @@ nn::nex::_DDL_AuthenticationInfo::_DDL_AuthenticationInfo()
 {
 }
 
-// 0x003B18A4 slot 0x00 | virtual slot, introduced by nn::nex::Data
-void nn::nex::_DDL_AuthenticationInfo::vf_0x00()
-{
-}
-
-// 0x003B1880 slot 0x04 | slot vf_0x04 of nn::nex::Data
+// 0x003B18A4 slot 0x00
+// 0x003B1880 (deleting dtor)
 nn::nex::_DDL_AuthenticationInfo::~_DDL_AuthenticationInfo()
 {
 }

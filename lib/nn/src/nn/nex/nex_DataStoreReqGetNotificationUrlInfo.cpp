@@ -4,12 +4,8 @@
 namespace nn {
 namespace nex {
 // 0x003CB8AC slot 0x00 | fefates:bytes
+// 0x003CB86C (deleting dtor)
 nn::nex::DataStoreReqGetNotificationUrlInfo::~DataStoreReqGetNotificationUrlInfo()
-{
-}
-
-// 0x003CB86C slot 0x04 | virtual slot, introduced by nn::nex::_DDL_DataStoreReqGetNotificationUrlInfo
-void nn::nex::DataStoreReqGetNotificationUrlInfo::vf_0x04()
 {
 }
 

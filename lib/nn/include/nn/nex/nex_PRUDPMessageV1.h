@@ -13,8 +13,8 @@ class PRUDPMessageV1 : public ::nn::nex::PRUDPMessageInterface, public ::nn::nex
 {
 public:
     PRUDPMessageV1(); // ctor candidate(s) 0x003739B8 (unverified)
-    virtual void vf_0x00(); // 0x00373AD0 slot 0x00 | virtual slot, introduced by nn::nex::PRUDPMessageV1
-    virtual ~PRUDPMessageV1(); // 0x00373A94 slot 0x04 | fefates:bytes
+    virtual ~PRUDPMessageV1(); // 0x00373AD0 slot 0x00
+    // 0x00373A94 slot 0x04 (deleting dtor)
     virtual void CalcSignature(nn::nex::PacketOut*, nn::nex::PRUDPMessageInterface::SignatureMethod, const nn::nex::Key*, nn::nex::Stream::Type, nn::nex::TransportSignatureGenerator*, const nn::nex::SignatureBytes*, nn::nex::SignatureBytes&); // 0x00372B58 slot 0x08 | fefates:bytes
     virtual void CalcSignature(nn::nex::Packet*, nn::nex::PRUDPMessageInterface::SignatureMethod, const nn::nex::Key*, nn::nex::Stream::Type, nn::nex::TransportSignatureGenerator*, const nn::nex::SignatureBytes*, nn::nex::SignatureBytes&); // 0x00372B34 slot 0x0C | fefates:bytes
     virtual void DecideSignatureMethod(const nn::nex::Packet*, nn::nex::Stream::Type, bool); // 0x00373414 slot 0x10 | slot vf_0x10 of nn::nex::PRUDPMessageV1

@@ -4,12 +4,8 @@
 namespace nn {
 namespace nex {
 // 0x00396348 slot 0x00 | fefates:bytes
+// 0x00396308 (deleting dtor)
 nn::nex::DataStoreReqPostInfo::~DataStoreReqPostInfo()
-{
-}
-
-// 0x00396308 slot 0x04 | virtual slot, introduced by nn::nex::_DDL_DataStoreReqPostInfo
-void nn::nex::DataStoreReqPostInfo::vf_0x04()
 {
 }
 

@@ -3,12 +3,8 @@
 
 namespace nn {
 namespace nex {
-// 0x003D6734 slot 0x00 | fefates:callgraph
-void nn::nex::BitStream::vf_0x00()
-{
-}
-
-// 0x003D66B4 slot 0x04 | fefates:bytes
+// 0x003D6734 slot 0x00
+// 0x003D66B4 (deleting dtor)
 nn::nex::BitStream::~BitStream()
 {
 }

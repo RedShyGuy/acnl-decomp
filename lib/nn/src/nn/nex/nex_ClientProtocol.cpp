@@ -1,4 +1,5 @@
 #include "nn/nex/nex_ClientProtocol.h"
+#include "nn/nex/nex_ServerProtocol.h"
 #include "nn/nex/nex_Credentials.h"
 #include "nn/nex/nex_EndPoint.h"
 #include "nn/nex/nex_Message.h"

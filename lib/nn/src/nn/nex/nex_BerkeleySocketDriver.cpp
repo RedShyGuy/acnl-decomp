@@ -9,12 +9,8 @@ nn::nex::BerkeleySocketDriver::BerkeleySocketDriver()
 }
 
 // 0x00396214 slot 0x00 | slot vf_0x00 of nn::nex::BerkeleySocketDriver
+// 0x003961FC (deleting dtor)
 nn::nex::BerkeleySocketDriver::~BerkeleySocketDriver()
-{
-}
-
-// 0x003961FC slot 0x04 | virtual slot, introduced by nn::nex::BerkeleySocketDriver
-void nn::nex::BerkeleySocketDriver::vf_0x04()
 {
 }
 

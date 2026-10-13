@@ -11,8 +11,8 @@ class AuthenticationInfo : public ::nn::nex::_DDL_AuthenticationInfo
 {
 public:
     AuthenticationInfo(); // ctor candidate(s) 0x00357A5C, 0x0035D194, 0x003D725C (unverified)
-    virtual void vf_0x00(); // 0x00387420 slot 0x00 | virtual slot, introduced by nn::nex::Data
-    virtual ~AuthenticationInfo(); // 0x003873FC slot 0x04 | slot vf_0x04 of nn::nex::Data
+    virtual ~AuthenticationInfo(); // 0x00387420 slot 0x00
+    // 0x003873FC slot 0x04 (deleting dtor)
 };
 } // namespace nex
 } // namespace nn

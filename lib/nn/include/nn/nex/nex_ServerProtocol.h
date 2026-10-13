@@ -26,7 +26,7 @@ public:
     virtual void DispatchProtocolMessageWithAttemptCount(unsigned int callId, nn::nex::Message* pRequest, nn::nex::Message* pResponse, bool* pIsHandled, int* pAttemptCount, nn::nex::EndPoint* pEndPoint); // 0x003744E0 slot 0x54
     virtual bool UseAttemptCountMethod(); // 0x003744D4 slot 0x58
 
-    // (not decompiled yet: needs the layout of the broker) the result of the current call
+    // the result of the current call
     void SetCallError(nn::nex::qResult result); // 0x00374230 | mk7dlp:callseq-callee [tier A]
     // dispatches a call with the SecurityContext of the end point
     void DispatchCallRequest(unsigned int callId, nn::nex::Message* pRequest, nn::nex::Message* pResponse, bool* pIsHandled, int* pAttemptCount, nn::nex::EndPoint* pEndPoint); // 0x00374264 | fefates:callseq [tier C]

@@ -12,7 +12,7 @@ class MD5KeyDerivation : public ::nn::nex::KeyDerivation
 public:
     MD5KeyDerivation(); // ctor address unknown
     virtual ~MD5KeyDerivation(); // 0x00382518 slot 0x00 | slot vf_0x00 of nn::nex::MD5KeyDerivation
-    virtual void vf_0x04(); // 0x00382514 slot 0x04 | virtual slot, introduced by nn::nex::MD5KeyDerivation
+    // 0x00382514 slot 0x04 (deleting dtor)
     virtual void CreateKey(unsigned, const char*); // 0x003824C0 slot 0x08 | mk7dlp:bytes-fuzzy
     virtual void vf_0x0C(); // 0x003823C0 slot 0x0C | virtual slot, introduced by nn::nex::MD5KeyDerivation
     virtual void vf_0x10(); // 0x0038230C slot 0x10 | virtual slot, introduced by nn::nex::MD5KeyDerivation

@@ -11,8 +11,8 @@ class PacketQueue : public ::nn::nex::RootObject
 {
 public:
     PacketQueue(); // ctor address unknown
-    virtual void vf_0x00(); // 0x0035B610 slot 0x00 | virtual slot, introduced by nn::nex::PacketQueue
-    virtual ~PacketQueue(); // 0x0035B5D0 slot 0x04 | fefates:bytes
+    virtual ~PacketQueue(); // 0x0035B610 slot 0x00
+    // 0x0035B5D0 slot 0x04 (deleting dtor)
     virtual void Purge(); // 0x0035B408 slot 0x08 | mk7dlp:bytes
     virtual void Queue(nn::nex::Packet*, bool); // 0x0035B454 slot 0x0C | slot vf_0x0C of nn::nex::PacketQueue
     virtual void QueueFront(nn::nex::Packet*, bool); // 0x0035B344 slot 0x10 | fefates:bytes

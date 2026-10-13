@@ -8,9 +8,10 @@
 
 namespace nn {
 namespace nex {
-// (the original calls these instances out of line; defined in nex_SecurityContextManager.cpp)
+// (the original calls these instances out of line; defined in nex_SecurityContextManager.cpp; noipa:
+// with noinline GCC still inlines the destructor into the tree functions)
 template <>
-DECOMP_NOINLINE qList<SecurityContext>::~qList();
+DECOMP_NOIPA qList<SecurityContext>::~qList();
 } // namespace nex
 } // namespace nn
 

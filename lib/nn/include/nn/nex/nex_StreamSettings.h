@@ -12,7 +12,7 @@ class StreamSettings : public ::nn::nex::RootObject
 public:
     StreamSettings(); // ctor address unknown
     virtual ~StreamSettings(); // 0x003749DC slot 0x00 | fefates:bytes
-    virtual void vf_0x04(); // 0x0037498C slot 0x04 | virtual slot, introduced by nn::nex::StreamSettings
+    // 0x0037498C slot 0x04 (deleting dtor)
 };
 } // namespace nex
 } // namespace nn

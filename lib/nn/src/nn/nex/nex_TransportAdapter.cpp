@@ -9,12 +9,8 @@ nn::nex::TransportAdapter::TransportAdapter()
 }
 
 // 0x00383F78 slot 0x00 | slot vf_0x00 of nn::nex::TransportAdapter
+// 0x00383F54 (deleting dtor)
 nn::nex::TransportAdapter::~TransportAdapter()
-{
-}
-
-// 0x00383F54 slot 0x04 | virtual slot, introduced by nn::nex::TransportAdapter
-void nn::nex::TransportAdapter::vf_0x04()
 {
 }
 

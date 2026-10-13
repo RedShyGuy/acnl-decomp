@@ -149,7 +149,7 @@ void nn::nex::SecureEndPoint::_Disconnect(void (*)(nn::nex::EndPoint*,nn::nex::q
 }
 
 // 0x00373F90 slot 0x78 | slot vf_0x78 of nn::nex::EndPoint
-void nn::nex::SecureEndPoint::_Send(nn::nex::Buffer*, unsigned int, bool, unsigned char, unsigned int)
+nn::nex::qResult nn::nex::SecureEndPoint::_Send(nn::nex::Buffer*, unsigned int, bool, unsigned char, unsigned int)
 {
 }
 

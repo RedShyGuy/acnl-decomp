@@ -11,8 +11,8 @@ class _DDL_TextMessage : public ::nn::nex::UserMessage
 {
 public:
     _DDL_TextMessage(); // ctor address unknown
-    virtual void vf_0x00(); // 0x00384288 slot 0x00 | virtual slot, introduced by nn::nex::Data
-    virtual ~_DDL_TextMessage(); // 0x00384248 slot 0x04 | slot vf_0x04 of nn::nex::Data
+    virtual ~_DDL_TextMessage(); // 0x00384288 slot 0x00
+    // 0x00384248 slot 0x04 (deleting dtor)
     virtual void Clone() const; // 0x0072B950 slot 0x08 | slot vf_0x08 of nn::nex::Data
     virtual void GetDataType() const; // 0x0072B908 slot 0x0C | slot vf_0x0C of nn::nex::Data
     virtual void vf_0x10(); // 0x0072B928 slot 0x10 | virtual slot, introduced by nn::nex::Data

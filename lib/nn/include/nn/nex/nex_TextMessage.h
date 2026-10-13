@@ -11,8 +11,8 @@ class TextMessage : public ::nn::nex::_DDL_TextMessage
 {
 public:
     TextMessage(); // ctor candidate(s) 0x0051353C (unverified)
-    virtual void vf_0x00(); // 0x0035C380 slot 0x00 | virtual slot, introduced by nn::nex::Data
-    virtual ~TextMessage(); // 0x0035C340 slot 0x04 | slot vf_0x04 of nn::nex::Data
+    virtual ~TextMessage(); // 0x0035C380 slot 0x00
+    // 0x0035C340 slot 0x04 (deleting dtor)
     virtual void vf_0x20(); // 0x0035C3BC slot 0x20 | virtual slot, introduced by nn::nex::UserMessage
 };
 } // namespace nex

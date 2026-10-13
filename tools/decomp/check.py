@@ -74,6 +74,8 @@ def norm(name):
     n = re.sub(r'\bunsigned int\b', 'unsigned', n)
     n = re.sub(r'\bsigned char\b', 'schar', n)
     n = re.sub(r'\blong long\b', 'longlong', n)
+    # the other two-word types as one word, so that 'const unsigned short' moves like 'const T'
+    n = re.sub(r'\bunsigned (char|short|long)\b', r'unsigned_\1', n)
     n = n.replace('(void)', '()')
     n = re.sub(r'\bconst ([\w:]+)(?=[*&])', r'\1 const', n)    # 'const T*' == 'T const*'
     # a template argument: 'pair<const K, V>' (symbols.json) == 'pair<K const, V>' (GCC)

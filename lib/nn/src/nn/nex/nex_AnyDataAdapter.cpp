@@ -11,12 +11,8 @@ nn::nex::AnyDataAdapter::AnyDataAdapter()
 }
 
 // 0x00370800 slot 0x00 | fefates:bytes
+// 0x003707C8 (deleting dtor)
 nn::nex::AnyDataAdapter::~AnyDataAdapter()
-{
-}
-
-// 0x003707C8 slot 0x04 | virtual slot, introduced by nn::nex::AnyDataAdapter
-void nn::nex::AnyDataAdapter::vf_0x04()
 {
 }
 

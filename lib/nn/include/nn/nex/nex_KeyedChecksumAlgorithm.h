@@ -12,7 +12,7 @@ class KeyedChecksumAlgorithm : public ::nn::nex::ChecksumAlgorithm
 public:
     KeyedChecksumAlgorithm(); // ctor address unknown
     virtual ~KeyedChecksumAlgorithm(); // 0x0039DAF4 slot 0x00 | slot vf_0x00 of nn::nex::KeyedChecksumAlgorithm
-    virtual void vf_0x04(); // 0x0039DAC0 slot 0x04 | virtual slot, introduced by nn::nex::KeyedChecksumAlgorithm
+    // 0x0039DAC0 slot 0x04 (deleting dtor)
     virtual void vf_0x08(); // 0x0011C12F slot 0x08 | slot vf_0x00 of ChangeRentalBase
     virtual void ComputeChecksum(const unsigned char**, const unsigned int*, int, nn::nex::SignatureBytes&); // 0x0011C12F slot 0x0C | slot vf_0x00 of ChangeRentalBase
     virtual void IsReady() const; // 0x0072D088 slot 0x10 | fefates:bytes

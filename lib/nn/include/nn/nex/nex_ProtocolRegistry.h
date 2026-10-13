@@ -1,6 +1,7 @@
 #pragma once
 
 #include "decomp.h"
+#include "nn/nex/nex_Protocol.h"
 #include "nn/nex/nex_RootObject.h"
 
 namespace nn {
@@ -13,6 +14,8 @@ public:
     ProtocolRegistry(); // ctor address unknown
     virtual ~ProtocolRegistry(); // 0x003837C0 slot 0x00 | fefates:bytes
     // 0x003837B0 slot 0x04 | slot vf_0x04 of nn::nex::ProtocolRegistry (deleting dtor)
+    // the protocol with the id and type (null if there is none)
+    nn::nex::Protocol* GetProtocol(unsigned short id, nn::nex::Protocol::_Type type); // 0x00383454 | fefates:callgraph [tier C]
     void RegisterProtocol(unsigned short, nn::nex::Protocol*); // 0x0038378C | fefates:bytes [tier B]
 };
 } // namespace nex

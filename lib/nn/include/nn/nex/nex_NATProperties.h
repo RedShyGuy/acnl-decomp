@@ -12,7 +12,7 @@ class NATProperties : public ::nn::nex::RootObject
 {
 public:
     virtual ~NATProperties(); // 0x0036208C slot 0x00 | mk7dlp:bytes
-    virtual void vf_0x04(); // 0x00362050 slot 0x04 | virtual slot, introduced by nn::nex::NATProperties
+    // 0x00362050 slot 0x04 (deleting dtor)
     NATProperties(); // 0x00361FF0 | fefates:bytes [tier B]
     // the mapping and the filtering of the NAT (3 while a global flag of nex is set)
     u8 GetNATMapping() const; // 0x0072A618

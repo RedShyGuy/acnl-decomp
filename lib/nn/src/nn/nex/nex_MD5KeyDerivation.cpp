@@ -9,12 +9,8 @@ nn::nex::MD5KeyDerivation::MD5KeyDerivation()
 }
 
 // 0x00382518 slot 0x00 | slot vf_0x00 of nn::nex::MD5KeyDerivation
+// 0x00382514 (deleting dtor)
 nn::nex::MD5KeyDerivation::~MD5KeyDerivation()
-{
-}
-
-// 0x00382514 slot 0x04 | virtual slot, introduced by nn::nex::MD5KeyDerivation
-void nn::nex::MD5KeyDerivation::vf_0x04()
 {
 }
 

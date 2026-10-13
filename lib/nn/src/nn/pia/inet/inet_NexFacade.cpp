@@ -335,7 +335,7 @@ nn::Result nn::pia::inet::NexFacade::Startup(nn::nex::MatchMakingClient* pClient
     }
     m_Unknown0x10 = 0;
     m_pMatchMakingClient = pClient;
-    if (m_pRelayClientBuffer == nullptr || nex::RVClientCore::GetInstance() == nullptr || nex::RVClientCore::GetInstance()->m_Unknown0xC == 0) {
+    if (m_pRelayClientBuffer == nullptr || nex::RVClientCore::GetInstance() == nullptr || nex::RVClientCore::GetInstance()->m_pProtocolRegistry == nullptr) {
         return common::RESULT_INVALID_STATE;
     }
     if (!s_IsNatSessionSkipped) {

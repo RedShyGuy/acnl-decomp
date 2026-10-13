@@ -10,12 +10,8 @@ nn::nex::HttpClient::HttpClient()
 {
 }
 
-// 0x003550D0 slot 0x00 | virtual slot, introduced by nn::nex::HttpClient
-void nn::nex::HttpClient::vf_0x00()
-{
-}
-
-// 0x002F8500 slot 0x04 | fefates:bytes
+// 0x003550D0 slot 0x00
+// 0x002F8500 (deleting dtor)
 nn::nex::HttpClient::~HttpClient()
 {
 }

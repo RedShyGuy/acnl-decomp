@@ -156,7 +156,7 @@ void nn::nex::EndPoint::_Disconnect(void (*)(nn::nex::EndPoint*,nn::nex::qResult
 }
 
 // 0x0011C12F slot 0x78 | slot vf_0x00 of ChangeRentalBase
-void nn::nex::EndPoint::_Send(nn::nex::Buffer*, unsigned int, bool, unsigned char, unsigned int)
+nn::nex::qResult nn::nex::EndPoint::_Send(nn::nex::Buffer*, unsigned int, bool, unsigned char, unsigned int)
 {
 }
 

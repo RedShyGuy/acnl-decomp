@@ -1,6 +1,8 @@
 #include "nn/nex/nex_ServerProtocol.h"
+#include "nn/nex/nex_CallProtocolMethodOperation.h"
 #include "nn/nex/nex_EndPoint.h"
 #include "nn/nex/nex_Message.h"
+#include "nn/nex/nex_ProtocolRequestBrokerInterface.h"
 #include "nn/nex/nex_Scheduler.h"
 #include "nn/nex/nex_SecurityContextManager.h"
 #include <cwchar>
@@ -17,6 +19,9 @@ const u32 FUNCTION_UNKNOWN_08000000 = 0x08000000;
 // 0x00374230 | mk7dlp:callseq-callee [tier A]
 void nn::nex::ServerProtocol::SetCallError(nn::nex::qResult result)
 {
+    // (the current operation is the call being dispatched)
+    CallProtocolMethodOperation* pOperation = static_cast<CallProtocolMethodOperation*>(m_pBroker->m_OperationManager.GetCurrentOperation());
+    pOperation->m_Result = result;
 }
 
 // 0x00374264 | fefates:callseq [tier C]

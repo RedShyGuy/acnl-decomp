@@ -518,7 +518,7 @@ bool nn::nex::Scheduler::GetTotalNumberOfJobs()
 
 // 0x007E44E8 | fefates:bytes [tier B]
 template <>
-qChain<Job*, DefaultChainPolicy<Job*> >::iterator qChain<Job*, DefaultChainPolicy<Job*> >::erase(iterator it)
+DECOMP_NOINLINE qChain<Job*, DefaultChainPolicy<Job*> >::iterator qChain<Job*, DefaultChainPolicy<Job*> >::erase(iterator it)
 {
     return EraseInline(it);
 }
@@ -533,7 +533,7 @@ template qChain<Job*, DefaultChainPolicy<Job*> >::~qChain();
 namespace __rw {
 // 0x007FBA94 (name is ours)
 template <>
-__rb_tree<nn::nex::Time, std::pair<const nn::nex::Time, nn::nex::Job*>, __select1st<std::pair<const nn::nex::Time, nn::nex::Job*>, nn::nex::Time>,
+DECOMP_NOINLINE __rb_tree<nn::nex::Time, std::pair<const nn::nex::Time, nn::nex::Job*>, __select1st<std::pair<const nn::nex::Time, nn::nex::Job*>, nn::nex::Time>,
           std::less<nn::nex::Time>, nn::nex::MemAllocator<std::pair<const nn::nex::Time, nn::nex::Job*> > >::iterator
 __rb_tree<nn::nex::Time, std::pair<const nn::nex::Time, nn::nex::Job*>, __select1st<std::pair<const nn::nex::Time, nn::nex::Job*>, nn::nex::Time>,
           std::less<nn::nex::Time>, nn::nex::MemAllocator<std::pair<const nn::nex::Time, nn::nex::Job*> > >::erase(iterator first, iterator last)

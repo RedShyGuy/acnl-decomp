@@ -12,7 +12,7 @@ class _DDL_DataStoreReqGetNotificationUrlInfo : public ::nn::nex::RootObject
 public:
     _DDL_DataStoreReqGetNotificationUrlInfo(); // ctor candidate(s) 0x003C03B0, 0x003CB820 (unverified)
     virtual ~_DDL_DataStoreReqGetNotificationUrlInfo(); // 0x003CC53C slot 0x00 | slot vf_0x00 of nn::nex::_DDL_DataStoreReqGetNotificationUrlInfo
-    virtual void vf_0x04(); // 0x003CC4FC slot 0x04 | virtual slot, introduced by nn::nex::_DDL_DataStoreReqGetNotificationUrlInfo
+    // 0x003CC4FC slot 0x04 (deleting dtor)
 };
 } // namespace nex
 } // namespace nn

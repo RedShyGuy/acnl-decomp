@@ -8,12 +8,8 @@ nn::nex::ProtectedPacketQueue::ProtectedPacketQueue()
 {
 }
 
-// 0x00397CDC slot 0x00 | virtual slot, introduced by nn::nex::PacketQueue
-void nn::nex::ProtectedPacketQueue::vf_0x00()
-{
-}
-
-// 0x00397C60 slot 0x04 | fefates:callseq
+// 0x00397CDC slot 0x00
+// 0x00397C60 (deleting dtor)
 nn::nex::ProtectedPacketQueue::~ProtectedPacketQueue()
 {
 }

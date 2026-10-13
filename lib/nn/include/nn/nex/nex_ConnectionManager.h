@@ -12,8 +12,8 @@ class ConnectionManager : public ::nn::nex::TransportEventHandler
 {
 public:
     ConnectionManager(); // TODO: default ctor added so derived stubs compile - may not exist
-    virtual void vf_0x00(); // 0x00386A98 slot 0x00 | virtual slot, introduced by nn::nex::ConnectionManager
-    virtual ~ConnectionManager(); // 0x00386A2C slot 0x04 | fefates:bytes
+    virtual ~ConnectionManager(); // 0x00386A98 slot 0x00
+    // 0x00386A2C slot 0x04 (deleting dtor)
     virtual void Receive(nn::nex::ConnectionOrientedStream*, nn::nex::Buffer*, const nn::nex::StationURL*); // 0x0039AE44 slot 0x08 | slot vf_0x08 of nn::nex::ConnectionManager
     virtual void vf_0x0C(); // 0x0039AE38 slot 0x0C | virtual slot, introduced by nn::nex::ConnectionManager
     virtual void SwitchToRoutingConnection(nn::nex::EndPoint*); // 0x0039AE3C slot 0x10 | slot vf_0x10 of nn::nex::ConnectionManager

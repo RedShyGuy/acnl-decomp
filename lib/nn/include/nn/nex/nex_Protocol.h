@@ -66,6 +66,8 @@ public:
     static void ExtractCallOutcome(nn::nex::Message* pMessage, nn::nex::qResult* pResult); // 0x003D5C00 | fefates:bytes [tier B]
     static void ExtractProtocolKey(nn::nex::Message* pMessage, nn::nex::Protocol::_Command& command, unsigned short& protocolId); // 0x003D5D08 | fefates:bytes [tier B]
     // the call starts and its id goes into the message
+    // the id of the call (after RegisterCallContext added it)
+    static u32 ExtractCallID(nn::nex::Message* pMessage); // 0x003D5DFC (name is ours)
     static bool RegisterCallContext(nn::nex::Message* pMessage, nn::nex::ProtocolCallContext* pContext); // 0x003D5DBC | mk7dlp:callseq-callee [tier A]
     // true if all the flags are set (inline in the original, with a copy out of line)
     bool FlagIsSet(unsigned int flags) const; // 0x0072E9F0 | fefates:bytes [tier B]

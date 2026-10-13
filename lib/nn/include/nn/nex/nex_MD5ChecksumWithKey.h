@@ -12,7 +12,7 @@ class MD5ChecksumWithKey : public ::nn::nex::KeyedChecksumAlgorithm
 public:
     MD5ChecksumWithKey(); // ctor candidate(s) 0x003D32A8 (unverified)
     virtual ~MD5ChecksumWithKey(); // 0x0038C5CC slot 0x00 | slot vf_0x00 of nn::nex::KeyedChecksumAlgorithm
-    virtual void vf_0x04(); // 0x0038C598 slot 0x04 | virtual slot, introduced by nn::nex::KeyedChecksumAlgorithm
+    // 0x0038C598 slot 0x04 (deleting dtor)
     virtual void vf_0x08(); // 0x0038C408 slot 0x08 | fefates:callseq
     virtual void ComputeChecksum(const unsigned char**, const unsigned int*, int, nn::nex::SignatureBytes&); // 0x0038C398 slot 0x0C | slot vf_0x0C of nn::nex::KeyedChecksumAlgorithm
     virtual void IsReady() const; // 0x0072C1F8 slot 0x10 | slot vf_0x10 of nn::nex::KeyedChecksumAlgorithm

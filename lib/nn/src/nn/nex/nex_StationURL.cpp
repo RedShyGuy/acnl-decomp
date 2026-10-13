@@ -591,7 +591,7 @@ bool nn::nex::StationURL::operator!=(const nn::nex::StationURL& other) const
 namespace __rw {
 // 0x007FE8D8 | mk7dlp:callgraph [tier A]
 template <>
-__rb_tree<nn::nex::String, std::pair<const nn::nex::String, nn::nex::String>, __select1st<std::pair<const nn::nex::String, nn::nex::String>, nn::nex::String>,
+DECOMP_NOINLINE __rb_tree<nn::nex::String, std::pair<const nn::nex::String, nn::nex::String>, __select1st<std::pair<const nn::nex::String, nn::nex::String>, nn::nex::String>,
           std::less<nn::nex::String>, nn::nex::MemAllocator<std::pair<const nn::nex::String, nn::nex::String> > >::iterator
 __rb_tree<nn::nex::String, std::pair<const nn::nex::String, nn::nex::String>, __select1st<std::pair<const nn::nex::String, nn::nex::String>, nn::nex::String>,
           std::less<nn::nex::String>, nn::nex::MemAllocator<std::pair<const nn::nex::String, nn::nex::String> > >::erase(iterator first, iterator last)
@@ -602,7 +602,7 @@ __rb_tree<nn::nex::String, std::pair<const nn::nex::String, nn::nex::String>, __
 // (armlink folded this instance with the equal code of the DOHandle map that symbols.json names)
 // 0x007FF59C
 template <>
-__rb_tree<nn::nex::String, std::pair<const nn::nex::String, u32>, __select1st<std::pair<const nn::nex::String, u32>, nn::nex::String>,
+DECOMP_NOINLINE __rb_tree<nn::nex::String, std::pair<const nn::nex::String, u32>, __select1st<std::pair<const nn::nex::String, u32>, nn::nex::String>,
           std::less<nn::nex::String>, nn::nex::MemAllocator<std::pair<const nn::nex::String, u32> > >::iterator
 __rb_tree<nn::nex::String, std::pair<const nn::nex::String, u32>, __select1st<std::pair<const nn::nex::String, u32>, nn::nex::String>,
           std::less<nn::nex::String>, nn::nex::MemAllocator<std::pair<const nn::nex::String, u32> > >::erase(iterator first, iterator last)
@@ -614,7 +614,7 @@ __rb_tree<nn::nex::String, std::pair<const nn::nex::String, u32>, __select1st<st
 namespace std {
 // 0x0082E600 | fefates:bytes [tier B]
 template <>
-nn::nex::String& map<nn::nex::String, nn::nex::String, less<nn::nex::String>, nn::nex::MemAllocator<pair<const nn::nex::String, nn::nex::String> > >::operator[](const nn::nex::String& key)
+DECOMP_NOINLINE nn::nex::String& map<nn::nex::String, nn::nex::String, less<nn::nex::String>, nn::nex::MemAllocator<pair<const nn::nex::String, nn::nex::String> > >::operator[](const nn::nex::String& key)
 {
     return IndexInline(key);
 }

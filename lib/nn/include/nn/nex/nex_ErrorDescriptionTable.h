@@ -12,7 +12,7 @@ class ErrorDescriptionTable : public ::nn::nex::RootObject
 public:
     ErrorDescriptionTable(); // ctor address unknown
     virtual ~ErrorDescriptionTable(); // 0x00398648 slot 0x00 | fefates:bytes
-    virtual void vf_0x04(); // 0x0039860C slot 0x04 | virtual slot, introduced by nn::nex::ErrorDescriptionTable
+    // 0x0039860C slot 0x04 (deleting dtor)
 };
 } // namespace nex
 } // namespace nn

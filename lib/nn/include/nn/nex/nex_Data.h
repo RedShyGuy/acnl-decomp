@@ -11,8 +11,8 @@ class Data : public ::nn::nex::_DDL_Data
 {
 public:
     Data(); // ctor candidate(s) 0x003CE054 (unverified)
-    virtual void vf_0x00(); // 0x003CE070 slot 0x00 | virtual slot, introduced by nn::nex::Data
-    virtual ~Data(); // 0x003CE06C slot 0x04 | slot vf_0x04 of nn::nex::Data
+    virtual ~Data(); // 0x003CE070 slot 0x00
+    // 0x003CE06C slot 0x04 (deleting dtor)
     virtual void Clone() const; // 0x0072EB7C slot 0x08 | fefates:bytes
     virtual void GetDataType() const; // 0x0072EB4C slot 0x0C | mk7dlp:bytes
     virtual void vf_0x10(); // 0x0072EB60 slot 0x10 | virtual slot, introduced by nn::nex::Data

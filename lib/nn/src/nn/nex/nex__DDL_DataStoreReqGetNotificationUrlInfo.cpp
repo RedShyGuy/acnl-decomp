@@ -9,12 +9,8 @@ nn::nex::_DDL_DataStoreReqGetNotificationUrlInfo::_DDL_DataStoreReqGetNotificati
 }
 
 // 0x003CC53C slot 0x00 | slot vf_0x00 of nn::nex::_DDL_DataStoreReqGetNotificationUrlInfo
+// 0x003CC4FC (deleting dtor)
 nn::nex::_DDL_DataStoreReqGetNotificationUrlInfo::~_DDL_DataStoreReqGetNotificationUrlInfo()
-{
-}
-
-// 0x003CC4FC slot 0x04 | virtual slot, introduced by nn::nex::_DDL_DataStoreReqGetNotificationUrlInfo
-void nn::nex::_DDL_DataStoreReqGetNotificationUrlInfo::vf_0x04()
 {
 }
 

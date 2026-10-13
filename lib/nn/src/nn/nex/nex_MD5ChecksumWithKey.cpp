@@ -9,12 +9,8 @@ nn::nex::MD5ChecksumWithKey::MD5ChecksumWithKey()
 }
 
 // 0x0038C5CC slot 0x00 | slot vf_0x00 of nn::nex::KeyedChecksumAlgorithm
+// 0x0038C598 (deleting dtor)
 nn::nex::MD5ChecksumWithKey::~MD5ChecksumWithKey()
-{
-}
-
-// 0x0038C598 slot 0x04 | virtual slot, introduced by nn::nex::KeyedChecksumAlgorithm
-void nn::nex::MD5ChecksumWithKey::vf_0x04()
 {
 }
 

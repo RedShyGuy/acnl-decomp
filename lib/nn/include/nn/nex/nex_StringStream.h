@@ -33,6 +33,9 @@ public:
     void Clear(); // 0x003613B4 | fefates:bytes [tier B]
     nn::nex::StringStream& operator<<(const void* p); // 0x003614C4 | mk7dlp:bytes-fuzzy [tier A]
     nn::nex::StringStream& operator<<(const wchar_t* pString); // 0x00361568 | fefates:bytes [tier B]
+    // (inline)
+    nn::nex::StringStream& operator<<(int value) { return StreamNumber(value); }
+    nn::nex::StringStream& operator<<(unsigned int value) { return StreamNumber(value); }
 
     // the number of characters (inline in the original, with a copy out of line)
     u32 GetLength() const { return m_pCursor - m_pBuffer; } // 0x0072A604 | fefates:bytes [tier B]

@@ -40,7 +40,7 @@ public:
     virtual void vf_0x6C(); // 0x0072B29C slot 0x6C | virtual slot, introduced by nn::nex::EndPoint
     virtual void _Connect(nn::nex::Buffer*, nn::nex::Buffer*, void (*)(nn::nex::EndPoint*,nn::nex::qResult,const nn::nex::UserContext*), const nn::nex::UserContext&, unsigned int); // 0x0037402C slot 0x70 | fefates:bytes
     virtual void _Disconnect(void (*)(nn::nex::EndPoint*,nn::nex::qResult,const nn::nex::UserContext*), const nn::nex::UserContext&, unsigned int); // 0x00373B80 slot 0x74 | fefates:bytes
-    virtual void _Send(nn::nex::Buffer*, unsigned int, bool, unsigned char, unsigned int); // 0x00373F90 slot 0x78 | slot vf_0x78 of nn::nex::EndPoint
+    virtual nn::nex::qResult _Send(nn::nex::Buffer*, unsigned int, bool, unsigned char, unsigned int); // 0x00373F90 slot 0x78 | slot vf_0x78 of nn::nex::EndPoint
     virtual u32 GetSupportedFunctionsFlags() const; // 0x0072B300 slot 0x7C | fefates:bytes
     virtual void SignalFaultEvent(unsigned int, bool); // 0x00373D54 slot 0x88 | fefates:bytes
     virtual void SetEncryptionKey(const nn::nex::Key&); // 0x00373D1C slot 0x8C | fefates:bytes

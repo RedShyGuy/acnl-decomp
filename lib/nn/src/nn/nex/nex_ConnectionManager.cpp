@@ -9,12 +9,8 @@ nn::nex::ConnectionManager::ConnectionManager()
 {
 }
 
-// 0x00386A98 slot 0x00 | virtual slot, introduced by nn::nex::ConnectionManager
-void nn::nex::ConnectionManager::vf_0x00()
-{
-}
-
-// 0x00386A2C slot 0x04 | fefates:bytes
+// 0x00386A98 slot 0x00
+// 0x00386A2C (deleting dtor)
 nn::nex::ConnectionManager::~ConnectionManager()
 {
 }

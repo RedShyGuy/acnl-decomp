@@ -11,12 +11,8 @@ nn::nex::AnyGatheringAdapter::AnyGatheringAdapter()
 }
 
 // 0x00391560 slot 0x00 | slot vf_0x00 of nn::nex::AnyGatheringAdapter
+// 0x0039155C (deleting dtor)
 nn::nex::AnyGatheringAdapter::~AnyGatheringAdapter()
-{
-}
-
-// 0x0039155C slot 0x04 | virtual slot, introduced by nn::nex::AnyGatheringAdapter
-void nn::nex::AnyGatheringAdapter::vf_0x04()
 {
 }
 

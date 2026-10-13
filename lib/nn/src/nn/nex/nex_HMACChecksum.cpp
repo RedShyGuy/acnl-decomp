@@ -4,12 +4,8 @@
 namespace nn {
 namespace nex {
 // 0x0035CE48 slot 0x00 | mk7dlp:callseq-callee
+// 0x0035CE14 (deleting dtor)
 nn::nex::HMACChecksum::~HMACChecksum()
-{
-}
-
-// 0x0035CE14 slot 0x04 | virtual slot, introduced by nn::nex::KeyedChecksumAlgorithm
-void nn::nex::HMACChecksum::vf_0x04()
 {
 }
 

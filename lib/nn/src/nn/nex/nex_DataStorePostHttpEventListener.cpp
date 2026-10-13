@@ -10,12 +10,8 @@ nn::nex::DataStorePostHttpEventListener::DataStorePostHttpEventListener()
 {
 }
 
-// 0x003C2450 slot 0x00 | virtual slot, introduced by nn::nex::DataStorePostHttpEventListener
-void nn::nex::DataStorePostHttpEventListener::vf_0x00()
-{
-}
-
-// 0x003C2420 slot 0x04 | mk7dlp:bytes
+// 0x003C2450 slot 0x00
+// 0x003C2420 (deleting dtor)
 nn::nex::DataStorePostHttpEventListener::~DataStorePostHttpEventListener()
 {
 }

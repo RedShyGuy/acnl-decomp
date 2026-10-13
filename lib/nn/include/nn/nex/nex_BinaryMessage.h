@@ -11,8 +11,8 @@ class BinaryMessage : public ::nn::nex::_DDL_BinaryMessage
 {
 public:
     BinaryMessage(); // ctor address unknown
-    virtual void vf_0x00(); // 0x00361C40 slot 0x00 | virtual slot, introduced by nn::nex::Data
-    virtual ~BinaryMessage(); // 0x00361C00 slot 0x04 | slot vf_0x04 of nn::nex::Data
+    virtual ~BinaryMessage(); // 0x00361C40 slot 0x00
+    // 0x00361C00 slot 0x04 (deleting dtor)
     virtual void vf_0x20(); // 0x00361B44 slot 0x20 | virtual slot, introduced by nn::nex::UserMessage
 };
 } // namespace nex
