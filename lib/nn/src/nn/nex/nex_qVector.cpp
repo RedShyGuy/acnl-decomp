@@ -55,4 +55,11 @@ DECOMP_NOINLINE void vector<u32, nn::nex::MemAllocator<u32> >::_C_insert_aux(u32
 {
     InsertFillInline(pos, num, value);
 }
+
+// 0x008363F4 | fefates:bytes [tier B]
+template <>
+DECOMP_NOINLINE void vector<u32, nn::nex::MemAllocator<u32> >::_C_insert_aux(u32* pos, const u32& value)
+{
+    InsertAuxInline(pos, value);
+}
 } // namespace std

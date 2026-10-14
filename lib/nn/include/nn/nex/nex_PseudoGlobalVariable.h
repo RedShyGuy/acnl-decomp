@@ -1,6 +1,11 @@
 #pragma once
 
+#include <new>
 #include "decomp.h"
+#include "nn/nex/nex_MemoryManager.h"
+#include "nn/nex/nex_PseudoGlobalVariableList.h"
+#include "nn/nex/nex_PseudoGlobalVariableRoot.h"
+#include "nn/nex/nex_PseudoSingleton.h"
 
 namespace nn {
 namespace nex {
@@ -29,11 +34,65 @@ namespace nex {
 //   nn::nex::PseudoGlobalVariable<unsigned int>  typeinfo 0x008CEA10  vtable 0x008FDBFC
 //   nn::nex::PseudoGlobalVariable<unsigned short>  typeinfo 0x008CEA1C  vtable 0x008FDC20
 //   nn::nex::PseudoGlobalVariable<wchar_t*>  typeinfo 0x008CE9EC  vtable 0x008FDB90
+//
+// A global with a value per context: the value of context 0 is m_Value, the other contexts have
+// copies of the default value in m_pValues (when there is more than one context). The functions are
+// inline with copies per type out of line (vtable); the names are ours.
 template <typename T0>
-class PseudoGlobalVariable
+class PseudoGlobalVariable : public ::nn::nex::PseudoGlobalVariableRoot
 {
 public:
-    // TODO: members unknown
+    // (inline in the static initializers, with copies out of line per type)
+    PseudoGlobalVariable() : m_pValues(nullptr) { Register(); }
+    explicit PseudoGlobalVariable(const T0& value) : m_pValues(nullptr), m_DefaultValue(value) { Register(); }
+    // (inline) the value of context 0 is the default value; the variable goes into the list
+    void Register()
+    {
+        m_Value = m_DefaultValue;
+        PseudoGlobalVariableList::s_Instance.AddVariable(this);
+        if (s_ContextCount > 1) {
+            AllocateValues();
+        }
+    }
+    virtual ~PseudoGlobalVariable()
+    {
+        PseudoGlobalVariableList::s_Instance.RemoveVariable(this);
+        FreeValues();
+    }
+    virtual void AllocateValues()
+    {
+        m_pValues = static_cast<T0*>(MemoryManager::Allocate(s_ContextCount * sizeof(T0)));
+        for (u32 i = 0; i < s_ContextCount; i++) {
+            ::new (static_cast<void*>(&m_pValues[i])) T0(m_DefaultValue);
+        }
+    }
+    virtual void FreeValues()
+    {
+        if (m_pValues != nullptr) {
+            for (u32 i = 0; i < s_ContextCount; i++) {
+                m_pValues[i].~T0();
+            }
+            MemoryManager::Free(m_pValues);
+            m_pValues = nullptr;
+        }
+    }
+    virtual void ResetValue(u32 context) { m_pValues[context] = m_DefaultValue; }
+    virtual PseudoGlobalVariableRoot* GetNext() { return m_pNext; }
+    virtual void SetNext(PseudoGlobalVariableRoot* pNext) { m_pNext = pNext; }
+
+    // (inline) the value of the current context
+    T0& Get()
+    {
+        u32 context = PseudoSingleton::GetCurrentContext();
+        if (context != 0) {
+            return m_pValues[context];
+        }
+        return m_Value;
+    }
+
+    T0* m_pValues;     // 0x08
+    T0 m_Value;        // (context 0)
+    T0 m_DefaultValue;
 };
 } // namespace nex
 } // namespace nn

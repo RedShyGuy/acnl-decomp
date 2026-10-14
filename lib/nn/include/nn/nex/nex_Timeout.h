@@ -1,12 +1,12 @@
 #pragma once
 
 #include "decomp.h"
+#include "nn/nex/nex_Core.h"
 #include "nn/nex/nex_RootObject.h"
 #include "nn/nex/nex_Time.h"
 
 namespace nn {
 namespace nex {
-class Core;
 
 // The expiration of an operation (e.g. a packet): a time relative to when it was set, and the
 // time limit of the Core. The member names are ours.
@@ -15,6 +15,8 @@ class Core;
 class Timeout : public ::nn::nex::RootObject
 {
 public:
+    // (inline)
+    Timeout() : m_pOwner(nullptr), m_pCore(Core::GetInstance()) {}
     virtual ~Timeout(); // 0x003D3814 slot 0x00
     // 0x003D37F0 slot 0x04 (deleting dtor)
 

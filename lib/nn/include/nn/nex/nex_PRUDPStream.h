@@ -15,7 +15,7 @@ public:
     // 0x0035AF5C slot 0x04 | slot vf_0x04 of nn::nex::Stream (deleting dtor)
     virtual void ReceiveIncomingPacket(unsigned short, unsigned char, nn::nex::Packet*); // 0x00359CD0 slot 0x08 | slot vf_0x08 of nn::nex::Stream
     virtual void DoWork(); // 0x0035AADC slot 0x0C | slot vf_0x0C of nn::nex::Stream
-    virtual void IsDuplicateReorderingPacket(nn::nex::Packet*); // 0x0035A45C slot 0x10 | fefates:bytes-fuzzy
+    virtual bool IsDuplicateReorderingPacket(nn::nex::Packet*); // 0x0035A45C slot 0x10 | fefates:bytes-fuzzy
     virtual void StopListen(); // 0x003589C0 slot 0x18 | slot vf_0x18 of nn::nex::ConnectionOrientedStream
     virtual void ResponsibleForURL(const nn::nex::StationURL*); // 0x00359688 slot 0x1C | fefates:bytes
     virtual void GetURLType(); // 0x0035896C slot 0x20 | mk7dlp:bytes

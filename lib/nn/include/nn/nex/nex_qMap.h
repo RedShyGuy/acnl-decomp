@@ -63,6 +63,12 @@ public:
         m_pNode = pNode;
         return *this;
     }
+    __rw_tree_iter operator++(int)
+    {
+        __rw_tree_iter old(*this);
+        ++*this;
+        return old;
+    }
 
     Node* m_pNode;
 };
@@ -717,6 +723,17 @@ public:
     iterator erase(iterator it) { return m_Tree.erase(it); }
     // (out of line per instance) removes the element with the key; the number removed
     u32 erase(const Key& key);
+    // (erase where ARMCC inlined it)
+    u32 EraseInline(const Key& key)
+    {
+        pair<iterator, iterator> range = m_Tree.equal_range(key);
+        u32 count = 0;
+        for (iterator it = range.first; it != range.second; ++it) {
+            count++;
+        }
+        m_Tree.erase(range.first, range.second);
+        return count;
+    }
     void clear() { m_Tree.erase(m_Tree.begin(), m_Tree.end()); }
     map& operator=(const map& other)
     {
@@ -758,6 +775,15 @@ public:
     rep_type m_Tree; // 0x00
 };
 } // namespace std
+
+namespace __rw {
+// (the original calls erase(first, last) of the u32 -> u32 tree out of line; defined in
+// nex_SlidingWindow.cpp)
+template <>
+DECOMP_NOINLINE __rb_tree<u32, std::pair<const u32, u32>, __select1st<std::pair<const u32, u32>, u32>, std::less<u32>, nn::nex::MemAllocator<std::pair<const u32, u32> > >::iterator
+__rb_tree<u32, std::pair<const u32, u32>, __select1st<std::pair<const u32, u32>, u32>, std::less<u32>, nn::nex::MemAllocator<std::pair<const u32, u32> > >::erase(iterator first,
+                                                                                                                                                                 iterator last);
+} // namespace __rw
 
 namespace nn {
 namespace nex {

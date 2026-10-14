@@ -13,8 +13,8 @@ public:
     ZLibCompression(); // ctor candidate(s) 0x0037EB10, 0x0037EC3C (unverified)
     virtual void vf_0x00(); // 0x0037EE08 slot 0x00 | virtual slot, introduced by nn::nex::CompressionAlgorithm
     virtual void vf_0x04(); // 0x0037ED54 slot 0x04 | fefates:callseq
-    virtual void CompressImpl(const nn::nex::Buffer&, nn::nex::Buffer*); // 0x0037E804 slot 0x08 | slot vf_0x08 of nn::nex::CompressionAlgorithm
-    virtual void DecompressImpl(const nn::nex::Buffer&, nn::nex::Buffer*); // 0x0037E974 slot 0x0C | fefates:bytes-fuzzy
+    virtual int CompressImpl(const nn::nex::Buffer&, nn::nex::Buffer*); // 0x0037E804 slot 0x08 | slot vf_0x08 of nn::nex::CompressionAlgorithm
+    virtual int DecompressImpl(const nn::nex::Buffer&, nn::nex::Buffer*); // 0x0037E974 slot 0x0C | fefates:bytes-fuzzy
     ZLibCompression(int, int); // 0x0037EB10 | fefates:bytes-fuzzy [tier B]
 };
 } // namespace nex

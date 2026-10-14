@@ -55,6 +55,14 @@ public:
         memcpy(pDestination, m_pData + m_HeaderSize + offset, size);
     }
 
+    // (inline; the name is ours) moves the start of the content (the bytes before it become the
+    // header and the other way round)
+    void SetHeaderSize(u32 size)
+    {
+        m_ContentSize = m_ContentSize + m_HeaderSize - size;
+        m_HeaderSize = size;
+    }
+
 protected:
     // (inline; PacketBuffer)
     Buffer(unsigned int size, unsigned char flags)

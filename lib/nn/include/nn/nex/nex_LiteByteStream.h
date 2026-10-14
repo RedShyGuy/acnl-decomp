@@ -20,7 +20,8 @@ public:
     LiteByteStream() : m_Position(0), m_IsError(false) {}
     virtual ~LiteByteStream() {}
 
-    bool Append(const unsigned char& value)
+    // (out of line)
+    DECOMP_NOINLINE bool Append(const unsigned char& value)
     {
         u8 byte = value;
         return m_Buffer.AppendData(&byte, sizeof(byte), m_Buffer.m_Size);

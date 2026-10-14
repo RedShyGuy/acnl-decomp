@@ -24,7 +24,7 @@ void nn::nex::PRUDPStream::DoWork()
 }
 
 // 0x0035A45C slot 0x10 | fefates:bytes-fuzzy
-void nn::nex::PRUDPStream::IsDuplicateReorderingPacket(nn::nex::Packet*)
+bool nn::nex::PRUDPStream::IsDuplicateReorderingPacket(nn::nex::Packet*)
 {
 }
 

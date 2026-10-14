@@ -7,5 +7,10 @@ void nn::nex::Platform::GetRandomNumber(unsigned)
 {
 }
 
+// 0x003D5830 | fefates:callseq [tier C]
+u32 nn::nex::Platform::GetRandomSeed()
+{
+}
+
 } // namespace nex
 } // namespace nn

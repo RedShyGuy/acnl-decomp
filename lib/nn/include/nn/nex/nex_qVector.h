@@ -352,6 +352,8 @@ template <>
 DECOMP_NOINLINE void vector<u8, nn::nex::MemAllocator<u8> >::_C_insert_aux(u8* pos, u32 num, const u8& value);
 template <>
 DECOMP_NOINLINE void vector<u32, nn::nex::MemAllocator<u32> >::_C_insert_aux(u32* pos, u32 num, const u32& value);
+template <>
+DECOMP_NOINLINE void vector<u32, nn::nex::MemAllocator<u32> >::_C_insert_aux(u32* pos, const u32& value);
 
 // (inline in Key::operator=; no out-of-line instance)
 template <>

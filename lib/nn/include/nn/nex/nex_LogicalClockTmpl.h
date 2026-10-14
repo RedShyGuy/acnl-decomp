@@ -15,7 +15,12 @@ class LogicalClockTmpl : public ::nn::nex::RootObject
 {
 public:
     LogicalClockTmpl() : m_Value(0) {}
+    explicit LogicalClockTmpl(T value) : m_Value(value) {}
+    LogicalClockTmpl(const LogicalClockTmpl& other) : m_Value(other.m_Value) {}
     virtual ~LogicalClockTmpl() {}
+
+    // (inline) before the other value (by the wrapping difference)
+    bool operator<(const LogicalClockTmpl& other) const { return static_cast<D>(other.m_Value - m_Value) > 0; }
 
     T m_Value; // 0x04
 };
