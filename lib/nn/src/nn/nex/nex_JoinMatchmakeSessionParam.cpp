@@ -8,14 +8,11 @@ nn::nex::JoinMatchmakeSessionParam::JoinMatchmakeSessionParam()
 {
 }
 
-// 0x003B71F8 slot 0x00 | virtual slot, introduced by nn::nex::_DDL_JoinMatchmakeSessionParam
-void nn::nex::JoinMatchmakeSessionParam::vf_0x00()
+// 0x003B71F8 slot 0x00
+// 0x003B71C0 (deleting dtor)
+nn::nex::JoinMatchmakeSessionParam::~JoinMatchmakeSessionParam()
 {
-}
-
-// 0x003B71C0 slot 0x04 | virtual slot, introduced by nn::nex::_DDL_JoinMatchmakeSessionParam
-void nn::nex::JoinMatchmakeSessionParam::vf_0x04()
-{
+    // nothing to do: the members and bases are destroyed / constructed by the compiler
 }
 
 } // namespace nex

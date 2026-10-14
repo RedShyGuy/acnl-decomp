@@ -10,9 +10,11 @@ namespace nex {
 class DataStoreReqGetAdditionalMeta : public ::nn::nex::_DDL_DataStoreReqGetAdditionalMeta
 {
 public:
-    virtual void vf_0x00(); // 0x003BF7FC slot 0x00 | virtual slot, introduced by nn::nex::_DDL_DataStoreReqGetAdditionalMeta
-    virtual void vf_0x04(); // 0x003BF7DC slot 0x04 | virtual slot, introduced by nn::nex::_DDL_DataStoreReqGetAdditionalMeta
-    DataStoreReqGetAdditionalMeta(); // 0x003BF7A8 | fefates:bytes [tier B]
+    // (inline)
+    DataStoreReqGetAdditionalMeta() {}
+    virtual ~DataStoreReqGetAdditionalMeta(); // 0x003BF7FC slot 0x00
+    // 0x003BF7DC slot 0x04 (deleting dtor)
 };
+ASSERT_SIZE(DataStoreReqGetAdditionalMeta, 0x30);
 } // namespace nex
 } // namespace nn

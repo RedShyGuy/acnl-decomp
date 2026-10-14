@@ -1,21 +1,19 @@
-#include "nn/nex/nex__DDL_DataStoreRatingTarget.h"
 #include "nn/nex/nex_DataStoreRatingTarget.h"
 
 namespace nn {
 namespace nex {
-// ctor address unknown
-nn::nex::DataStoreRatingTarget::DataStoreRatingTarget()
+// 0x0039842C slot 0x00
+// 0x00398428 (deleting dtor)
+nn::nex::DataStoreRatingTarget::~DataStoreRatingTarget()
 {
+    // nothing to do: the members and bases are destroyed / constructed by the compiler
 }
 
-// 0x0039842C slot 0x00 | fefates:callseq
-void nn::nex::DataStoreRatingTarget::vf_0x00()
+// 0x007D539C | fefates:bytes [tier B]
+template <>
+DECOMP_NOINLINE void _Type_qvector<DDLClassMetaType<DataStoreRatingTarget>>::Add(Message* pMessage, const Type& vector)
 {
-}
-
-// 0x00398428 slot 0x04 | virtual slot, introduced by nn::nex::DataStoreRatingTarget
-void nn::nex::DataStoreRatingTarget::vf_0x04()
-{
+    AddInline(pMessage, vector);
 }
 
 } // namespace nex

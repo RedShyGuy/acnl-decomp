@@ -39,8 +39,8 @@ void nn::nex::ServerProtocol::DispatchCallRequest(unsigned int callId, nn::nex::
         m_ConnectionId = pEndPoint->m_ConnectionId;
         if (pEndPoint->m_PrincipalId - SPECIAL_PRINCIPAL_FIRST < SPECIAL_PRINCIPAL_COUNT
             || (pEndPoint->GetSupportedFunctionsFlags() & FUNCTION_UNKNOWN_08000000) == 0) {
-            pRequest->m_Unknown0x3B = true;
-            pResponse->m_Unknown0x3B = true;
+            pRequest->m_IsWithoutStructureHeader = true;
+            pResponse->m_IsWithoutStructureHeader = true;
         }
     } else {
         u32 address = SecurityContextManager::GetInstance()->GetCurrentAddress();

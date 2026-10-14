@@ -15,8 +15,8 @@ class _DDL_UpdateMatchmakeSessionParam : public ::nn::nex::RootObject
 {
 public:
     _DDL_UpdateMatchmakeSessionParam(); // ctor address unknown
-    virtual void vf_0x00(); // 0x003CB0B8 slot 0x00 | virtual slot, introduced by nn::nex::_DDL_UpdateMatchmakeSessionParam
-    virtual void vf_0x04(); // 0x003CB074 slot 0x04 | virtual slot, introduced by nn::nex::_DDL_UpdateMatchmakeSessionParam
+    virtual ~_DDL_UpdateMatchmakeSessionParam(); // 0x003CB0B8 slot 0x00
+    // 0x003CB074 slot 0x04 (deleting dtor)
 
     // (the layout is from pia::inet::NexMatchmakeSession, which inlines the constructor; the
     // names are ours)

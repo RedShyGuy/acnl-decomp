@@ -2,6 +2,7 @@
 
 #include "decomp.h"
 #include "nn/nex/nex__DDL_NotificationEvent.h"
+#include "nn/nex/nex_StringStream.h"
 
 namespace nn {
 namespace nex {
@@ -10,9 +11,14 @@ namespace nex {
 class NotificationEvent : public ::nn::nex::_DDL_NotificationEvent
 {
 public:
-    NotificationEvent(); // ctor candidate(s) 0x0039D29C, 0x003B4C5C, 0x003B9CB0, 0x003C24E8, 0x003C9888, 0x003CB76C (unverified)
-    virtual void vf_0x00(); // 0x003873E0 slot 0x00 | virtual slot, introduced by nn::nex::_DDL_NotificationEvent
-    virtual void vf_0x04(); // 0x003873C0 slot 0x04 | virtual slot, introduced by nn::nex::_DDL_NotificationEvent
+    // (inline)
+    NotificationEvent() {}
+    virtual ~NotificationEvent(); // 0x003873E0 slot 0x00
+    // 0x003873C0 slot 0x04 (deleting dtor)
 };
+ASSERT_SIZE(NotificationEvent, 0x24);
+
+// the fields of the event as text; the type is split into type * 1000 + subtype (the name is ours)
+nn::nex::StringStream& operator<<(nn::nex::StringStream& stream, const nn::nex::NotificationEvent& event); // 0x003D9EE0
 } // namespace nex
 } // namespace nn

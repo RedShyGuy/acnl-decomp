@@ -1,18 +1,88 @@
 #pragma once
 
 #include "decomp.h"
+#include "nn/nex/nex_DDLTypes.h"
 #include "nn/nex/nex_RootObject.h"
+#include "nn/nex/nex_DataStoreKeyValue.h"
+#include "nn/nex/nex_String.h"
+#include "nn/nex/_Type_string/_Type_string_Api.h"
 
 namespace nn {
 namespace nex {
+// The DDL part of DataStoreReqPostInfo (DataStore). The member names are from the DDL declarations in the binary.
 // RTTI N2nn3nex25_DDL_DataStoreReqPostInfoE @ 0x008CEF00
 // vtable 0x008FEB6C (vptr 0x008FEB74), offset_to_top 0, 2 entries
 class _DDL_DataStoreReqPostInfo : public ::nn::nex::RootObject
 {
 public:
-    _DDL_DataStoreReqPostInfo(); // ctor candidate(s) 0x003962B4 (unverified)
-    virtual ~_DDL_DataStoreReqPostInfo(); // 0x003B8718 slot 0x00 | slot vf_0x00 of nn::nex::_DDL_DataStoreReqPostInfo
+    // (inline)
+    _DDL_DataStoreReqPostInfo() : m_StructureVersion(0), m_RequestHeaders(0), m_FormFields(0), m_RootCaCert(0) {}
+    virtual ~_DDL_DataStoreReqPostInfo(); // 0x003B8718 slot 0x00
     // 0x003B86D8 slot 0x04 (deleting dtor)
+
+    // (inline)
+    static DECOMP_ALWAYS_INLINE void Add(nn::nex::Message* pMessage, const nn::nex::_DDL_DataStoreReqPostInfo& data)
+    {
+        bool isWithoutHeader = pMessage->m_IsWithoutStructureHeader;
+        u32 start = 0;
+        if (!isWithoutHeader) {
+            start = DDLStructure::BeginAdd(pMessage, data.m_StructureVersion);
+        }
+        pMessage->AppendRaw(reinterpret_cast<const u8*>(&data.m_DataId), sizeof(u64));
+        _Type_string::Add(pMessage, data.m_Url);
+        _Type_qvector<DDLClassMetaType<DataStoreKeyValue>>::Add(pMessage, data.m_RequestHeaders);
+        _Type_qvector<DDLClassMetaType<DataStoreKeyValue>>::Add(pMessage, data.m_FormFields);
+        _Type_qvector<_Type_byte>::Add(pMessage, data.m_RootCaCert);
+        if (!isWithoutHeader) {
+            DDLStructure::EndAdd(pMessage, start);
+        }
+    }
+    // (inline)
+    static DECOMP_ALWAYS_INLINE void Extract(nn::nex::Message* pMessage, nn::nex::_DDL_DataStoreReqPostInfo* pData)
+    {
+        pData->m_StructureVersion = 0;
+        bool isWithoutHeader = pMessage->m_IsWithoutStructureHeader;
+        u32 size = 0;
+        if (!isWithoutHeader && !DDLStructure::BeginExtract(pMessage, &pData->m_StructureVersion, &size)) {
+            return;
+        }
+        if (pMessage->m_IsError) {
+            return;
+        }
+        u32 start = pMessage->m_Position;
+        pMessage->ExtractPrimitive(&pData->m_DataId);
+        if (pMessage->m_IsError) {
+            return;
+        }
+        _Type_string::Extract(pMessage, &pData->m_Url);
+        if (pMessage->m_IsError) {
+            return;
+        }
+        _Type_qvector<DDLClassMetaType<DataStoreKeyValue>>::Extract(pMessage, &pData->m_RequestHeaders);
+        if (pMessage->m_IsError) {
+            return;
+        }
+        _Type_qvector<DDLClassMetaType<DataStoreKeyValue>>::Extract(pMessage, &pData->m_FormFields);
+        if (pMessage->m_IsError) {
+            return;
+        }
+        _Type_qvector<_Type_byte>::Extract(pMessage, &pData->m_RootCaCert);
+        if (pMessage->m_IsError) {
+            return;
+        }
+        if (!isWithoutHeader) {
+            DDLStructure::EndExtract(pMessage, start, size);
+        }
+    }
+
+    u8 m_StructureVersion; // 0x04
+    u64 m_DataId; // 0x08
+    String m_Url; // 0x10
+    qVector<DataStoreKeyValue> m_RequestHeaders; // 0x18
+    qVector<DataStoreKeyValue> m_FormFields; // 0x24
+    qVector<u8> m_RootCaCert; // 0x30
 };
+ASSERT_OFFSET(_DDL_DataStoreReqPostInfo, m_RootCaCert, 0x30);
+ASSERT_SIZE(_DDL_DataStoreReqPostInfo, 0x40);
 } // namespace nex
 } // namespace nn

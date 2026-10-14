@@ -1,21 +1,19 @@
-#include "nn/nex/nex__DDL_DataStoreGetNewArrivedNotificationsParam.h"
 #include "nn/nex/nex_DataStoreGetNewArrivedNotificationsParam.h"
 
 namespace nn {
 namespace nex {
-// ctor address unknown
-nn::nex::DataStoreGetNewArrivedNotificationsParam::DataStoreGetNewArrivedNotificationsParam()
+// 0x003CD06C slot 0x00
+// 0x003CD068 (deleting dtor)
+nn::nex::DataStoreGetNewArrivedNotificationsParam::~DataStoreGetNewArrivedNotificationsParam()
 {
+    // nothing to do: the members and bases are destroyed / constructed by the compiler
 }
 
-// 0x003CD06C slot 0x00 | virtual slot, introduced by nn::nex::DataStoreGetNewArrivedNotificationsParam
-void nn::nex::DataStoreGetNewArrivedNotificationsParam::vf_0x00()
+// 0x007D72C4
+template <>
+DECOMP_NOINLINE void DDLClassMetaType<DataStoreGetNewArrivedNotificationsParam>::Add(Message* pMessage, const nn::nex::DataStoreGetNewArrivedNotificationsParam& value)
 {
-}
-
-// 0x003CD068 slot 0x04 | virtual slot, introduced by nn::nex::DataStoreGetNewArrivedNotificationsParam
-void nn::nex::DataStoreGetNewArrivedNotificationsParam::vf_0x04()
-{
+    DataStoreGetNewArrivedNotificationsParam::Add(pMessage, value);
 }
 
 } // namespace nex

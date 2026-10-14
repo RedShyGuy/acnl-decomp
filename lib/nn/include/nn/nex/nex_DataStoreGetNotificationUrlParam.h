@@ -10,9 +10,11 @@ namespace nex {
 class DataStoreGetNotificationUrlParam : public ::nn::nex::_DDL_DataStoreGetNotificationUrlParam
 {
 public:
-    DataStoreGetNotificationUrlParam(); // ctor candidate(s) 0x003BFC04 (unverified)
-    virtual void vf_0x00(); // 0x003C6E24 slot 0x00 | virtual slot, introduced by nn::nex::_DDL_DataStoreGetNotificationUrlParam
-    virtual void vf_0x04(); // 0x003C6E04 slot 0x04 | virtual slot, introduced by nn::nex::_DDL_DataStoreGetNotificationUrlParam
+    // (inline)
+    DataStoreGetNotificationUrlParam() {}
+    virtual ~DataStoreGetNotificationUrlParam(); // 0x003C6E24 slot 0x00
+    // 0x003C6E04 slot 0x04 (deleting dtor)
 };
+ASSERT_SIZE(DataStoreGetNotificationUrlParam, 0x10);
 } // namespace nex
 } // namespace nn

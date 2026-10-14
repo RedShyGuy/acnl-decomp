@@ -104,7 +104,9 @@ public:
         }
         return pNext;
     }
-    void clear()
+    // (out of line in some instances: they specialize clear with the body of ClearInline)
+    void clear() { ClearInline(); }
+    void ClearInline()
     {
         Node* pEnd = m_pHead;
         for (Node* pNode = m_pHead->m_pNext; pNode != pEnd;) {

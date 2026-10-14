@@ -2850,16 +2850,16 @@ namespace nn { namespace nex {
     class qResult;
     struct DataStorePostObjectEventListener { u32 _unknown; }; // placeholder, real type unknown
     class DebugString; // nn/nex/nex_Job.h
-    struct MD5 { u32 _unknown; }; // placeholder, real type unknown
+    class MD5; // nn/nex/nex_MD5.h
     enum MatchmakeSystemType : u32 {}; // (the values are not known; nex::MatchmakeSession stores it as u32)
     struct NATTraversalResult { u32 _unknown; }; // placeholder, real type unknown
     struct PacketType { u32 _unknown; }; // placeholder, real type unknown
     struct RelayType { u32 _unknown; }; // placeholder, real type unknown
-    struct SignatureBytes { u32 _unknown; }; // placeholder, real type unknown
+    struct SignatureBytes; // nn/nex/nex_SignatureBytes.h
     class UserContext; // nn/nex/nex_UserContext.h
     struct VirtualPort { u32 _unknown; }; // placeholder, real type unknown
-    template <auto T0> class LiteBuffer;
-    template <auto T0> class LiteByteStream;
+    template <int SIZE> class LiteBuffer; // nn/nex/nex_LiteBuffer.h
+    template <int SIZE> class LiteByteStream; // nn/nex/nex_LiteByteStream.h
     template <typename T0, typename T1, typename T2> class MethodCallJob;
     template <typename T0, typename T1> class AnyObjectAdapter;
     template <typename T0, typename T1> class AnyObjectHolder;
@@ -2889,7 +2889,7 @@ namespace nn { namespace nex {
 }}
 
 namespace nn { namespace nex { namespace DataStoreConstants { 
-    struct Permission { u32 _unknown; }; // placeholder, real type unknown
+    enum Permission : u8; // nn/nex/nex_DataStoreConstants.h
 }}}
 
 namespace nn { namespace nfc { namespace CTR { 

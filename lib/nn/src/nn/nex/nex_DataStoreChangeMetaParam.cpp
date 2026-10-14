@@ -1,16 +1,12 @@
-#include "nn/nex/nex__DDL_DataStoreChangeMetaParam.h"
 #include "nn/nex/nex_DataStoreChangeMetaParam.h"
 
 namespace nn {
 namespace nex {
-// ctor candidate(s) 0x003B2084 (unverified)
-nn::nex::DataStoreChangeMetaParam::DataStoreChangeMetaParam()
-{
-}
-
-// 0x003B22E0 slot 0x00 | slot vf_0x00 of nn::nex::_DDL_DataStoreChangeMetaParam
+// 0x003B22E0 slot 0x00
+// 0x003B22D0 (deleting dtor)
 nn::nex::DataStoreChangeMetaParam::~DataStoreChangeMetaParam()
 {
+    // nothing to do: the members and bases are destroyed / constructed by the compiler
 }
 
 } // namespace nex

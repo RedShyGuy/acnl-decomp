@@ -10,9 +10,11 @@ namespace nex {
 class DataStorePrepareUpdateParam : public ::nn::nex::_DDL_DataStorePrepareUpdateParam
 {
 public:
-    DataStorePrepareUpdateParam(); // ctor candidate(s) 0x0050F8A4 (unverified)
-    virtual void vf_0x00(); // 0x003BCF78 slot 0x00 | virtual slot, introduced by nn::nex::_DDL_DataStorePrepareUpdateParam
-    virtual void vf_0x04(); // 0x003BCF28 slot 0x04 | virtual slot, introduced by nn::nex::_DDL_DataStorePrepareUpdateParam
+    // (inline)
+    DataStorePrepareUpdateParam() {}
+    virtual ~DataStorePrepareUpdateParam(); // 0x003BCF78 slot 0x00
+    // 0x003BCF28 slot 0x04 (deleting dtor)
 };
+ASSERT_SIZE(DataStorePrepareUpdateParam, 0x30);
 } // namespace nex
 } // namespace nn

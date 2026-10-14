@@ -34,6 +34,8 @@ public:
     static Time ConvertTimeoutToDeadline(unsigned int timeout); // 0x003CE0B8 | fefates:bytes [tier B]
     // the milliseconds until the deadline (-1 for none, 0 if it passed)
     static unsigned int ConvertDeadlineToTimeout(Time deadline); // 0x003CE074 | fefates:callgraph [tier C]
+    // (where the original inlines it; defined below SystemClock)
+    static unsigned int ConvertDeadlineToTimeoutInline(Time deadline);
 
     u64 m_Value; // 0x0
 };
@@ -69,5 +71,17 @@ public:
     static Time s_LastTime;
     static s64 s_Offset;
 };
+
+inline unsigned int Time::ConvertDeadlineToTimeoutInline(Time deadline)
+{
+    if (deadline.m_Value == 0) {
+        return static_cast<unsigned int>(-1);
+    }
+    Time now = SystemClock::GetTime();
+    if (now.m_Value >= deadline.m_Value) {
+        return 0;
+    }
+    return deadline.m_Value - now.m_Value;
+}
 } // namespace nex
 } // namespace nn

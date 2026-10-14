@@ -26,8 +26,8 @@ public:
         m_ParticipationCount = 1;
         m_Unknown0x4A = 0;
     }
-    virtual void vf_0x00(); // 0x003B71F8 slot 0x00 | virtual slot, introduced by nn::nex::_DDL_JoinMatchmakeSessionParam
-    virtual void vf_0x04(); // 0x003B71C0 slot 0x04 | virtual slot, introduced by nn::nex::_DDL_JoinMatchmakeSessionParam
+    virtual ~JoinMatchmakeSessionParam(); // 0x003B71F8 slot 0x00
+    // 0x003B71C0 slot 0x04 (deleting dtor)
 };
 } // namespace nex
 } // namespace nn

@@ -2,6 +2,7 @@
 
 #include "decomp.h"
 #include "nn/nex/nex_DateTime.h"
+#include "nn/nex/nex_MemoryManager.h"
 #include "nn/nex/nex_String.h"
 
 namespace nn {
@@ -33,11 +34,26 @@ public:
     Variant(const nn::nex::DateTime&); // 0x003D3844 | fefates:bytes [tier B]
     Variant(const nn::nex::Variant&); // 0x003D3860 | fefates:bytes [tier B]
     ~Variant(); // 0x003D38E0 | fefates:bytes [tier B]
-    void operator=(const nn::nex::Variant&); // 0x003D3AE4 | fefates:bytes-fuzzy [tier B]
-    void GetBoolValue() const; // 0x0072E508 | fefates:bytes [tier B]
-    void GetDoubleValue() const; // 0x0072E540 | fefates:bytes [tier B]
-    void GetStringValue() const; // 0x0072E560 | fefates:bytes [tier B]
-    void GetDateTimeValue() const; // 0x0072E5CC | fefates:bytes [tier B]
+    nn::nex::Variant& operator=(const nn::nex::Variant& other); // 0x003D3AE4 | fefates:bytes-fuzzy [tier B]
+
+    // the value, or 0 / false / an empty string if the variant has another type (inline; armlink
+    // placed copies at the end of the code; the names without symbol are ours)
+    bool GetBoolValue() const; // 0x0072E508 | fefates:bytes [tier B]
+    s64 GetInt64Value() const; // 0x0072E51C
+    double GetDoubleValue() const; // 0x0072E540 | fefates:bytes [tier B]
+    nn::nex::String GetStringValue() const; // 0x0072E560 | fefates:bytes [tier B]
+    // (the low word of an integer of both types)
+    u32 GetUInt32Value() const; // 0x0072E590
+    u64 GetUInt64Value() const; // 0x0072E5A8
+    nn::nex::DateTime GetDateTimeValue() const; // 0x0072E5CC | fefates:bytes [tier B]
+
+    // (inline) frees the string of a string variant
+    void ReleaseString()
+    {
+        if (m_Type == TYPE_STRING) {
+            MemoryManager::FreeInline(reinterpret_cast<u32*>(m_pString) - 1);
+        }
+    }
 
     union
     {

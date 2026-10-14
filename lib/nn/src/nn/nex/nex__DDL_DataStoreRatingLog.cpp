@@ -1,21 +1,13 @@
-#include "nn/nex/nex_RootObject.h"
 #include "nn/nex/nex__DDL_DataStoreRatingLog.h"
+#include "nn/nex/nex_DataStoreRatingLog.h"
 
 namespace nn {
 namespace nex {
-// ctor candidate(s) 0x00387968 (unverified)
-nn::nex::_DDL_DataStoreRatingLog::_DDL_DataStoreRatingLog()
+// 0x003B1BCC slot 0x00
+// 0x003B1BBC (deleting dtor)
+nn::nex::_DDL_DataStoreRatingLog::~_DDL_DataStoreRatingLog()
 {
-}
-
-// 0x003B1BCC slot 0x00 | virtual slot, introduced by nn::nex::_DDL_DataStoreRatingLog
-void nn::nex::_DDL_DataStoreRatingLog::vf_0x00()
-{
-}
-
-// 0x003B1BBC slot 0x04 | virtual slot, introduced by nn::nex::_DDL_DataStoreRatingLog
-void nn::nex::_DDL_DataStoreRatingLog::vf_0x04()
-{
+    // nothing to do: the members and bases are destroyed / constructed by the compiler
 }
 
 } // namespace nex

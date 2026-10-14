@@ -10,9 +10,11 @@ namespace nex {
 class DataStoreReqPostInfo : public ::nn::nex::_DDL_DataStoreReqPostInfo
 {
 public:
-    virtual ~DataStoreReqPostInfo(); // 0x00396348 slot 0x00 | fefates:bytes
+    // (inline)
+    DataStoreReqPostInfo() {}
+    virtual ~DataStoreReqPostInfo(); // 0x00396348 slot 0x00
     // 0x00396308 slot 0x04 (deleting dtor)
-    DataStoreReqPostInfo(); // 0x003962B4 | fefates:bytes [tier B]
 };
+ASSERT_SIZE(DataStoreReqPostInfo, 0x40);
 } // namespace nex
 } // namespace nn

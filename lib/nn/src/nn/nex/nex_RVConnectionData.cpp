@@ -1,16 +1,12 @@
-#include "nn/nex/nex__DDL_RVConnectionData.h"
 #include "nn/nex/nex_RVConnectionData.h"
 
 namespace nn {
 namespace nex {
-// 0x003839B8 slot 0x00 | slot vf_0x00 of nn::nex::_DDL_RVConnectionData
+// 0x003839B8 slot 0x00
+// 0x003839A8 (deleting dtor)
 nn::nex::RVConnectionData::~RVConnectionData()
 {
-}
-
-// 0x003838F8 | mk7dlp:callseq [tier A]
-nn::nex::RVConnectionData::RVConnectionData()
-{
+    // nothing to do: the members and bases are destroyed / constructed by the compiler
 }
 
 } // namespace nex

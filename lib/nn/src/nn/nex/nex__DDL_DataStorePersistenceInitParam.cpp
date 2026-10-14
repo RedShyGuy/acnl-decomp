@@ -1,26 +1,22 @@
-#include "nn/nex/nex_RootObject.h"
 #include "nn/nex/nex__DDL_DataStorePersistenceInitParam.h"
+#include "nn/nex/nex_DataStorePersistenceInitParam.h"
 
 namespace nn {
 namespace nex {
-// ctor address unknown
-nn::nex::_DDL_DataStorePersistenceInitParam::_DDL_DataStorePersistenceInitParam()
+// 0x003CB928 slot 0x00
+// 0x003CB924 (deleting dtor)
+nn::nex::_DDL_DataStorePersistenceInitParam::~_DDL_DataStorePersistenceInitParam()
 {
+    // nothing to do: the members and bases are destroyed / constructed by the compiler
 }
 
-// 0x003CB928 slot 0x00 | virtual slot, introduced by nn::nex::_DDL_DataStorePersistenceInitParam
-void nn::nex::_DDL_DataStorePersistenceInitParam::vf_0x00()
+// 0x003CB92C
+nn::nex::_DDL_DataStorePersistenceInitParam& nn::nex::_DDL_DataStorePersistenceInitParam::operator=(const nn::nex::_DDL_DataStorePersistenceInitParam& other)
 {
-}
-
-// 0x003CB924 slot 0x04 | virtual slot, introduced by nn::nex::_DDL_DataStorePersistenceInitParam
-void nn::nex::_DDL_DataStorePersistenceInitParam::vf_0x04()
-{
-}
-
-// 0x003CB92C | fefates:bytes [tier B]
-void nn::nex::_DDL_DataStorePersistenceInitParam::operator=(const nn::nex::_DDL_DataStorePersistenceInitParam&)
-{
+    m_StructureVersion = other.m_StructureVersion;
+    m_PersistenceSlotId = other.m_PersistenceSlotId;
+    m_DeleteLastObject = other.m_DeleteLastObject;
+    return *this;
 }
 
 } // namespace nex

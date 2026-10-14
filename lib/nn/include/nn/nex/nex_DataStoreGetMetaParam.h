@@ -10,9 +10,11 @@ namespace nex {
 class DataStoreGetMetaParam : public ::nn::nex::_DDL_DataStoreGetMetaParam
 {
 public:
-    DataStoreGetMetaParam(); // ctor address unknown
-    virtual void vf_0x00(); // 0x003983E8 slot 0x00 | virtual slot, introduced by nn::nex::_DDL_DataStoreGetMetaParam
-    virtual void vf_0x04(); // 0x003983D8 slot 0x04 | virtual slot, introduced by nn::nex::_DDL_DataStoreGetMetaParam
+    // (inline)
+    DataStoreGetMetaParam() {}
+    virtual ~DataStoreGetMetaParam(); // 0x003983E8 slot 0x00
+    // 0x003983D8 slot 0x04 (deleting dtor)
 };
+ASSERT_SIZE(DataStoreGetMetaParam, 0x30);
 } // namespace nex
 } // namespace nn

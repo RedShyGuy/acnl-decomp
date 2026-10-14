@@ -10,9 +10,11 @@ namespace nex {
 class DataStoreRatingLog : public ::nn::nex::_DDL_DataStoreRatingLog
 {
 public:
-    DataStoreRatingLog(); // ctor candidate(s) 0x0038796C (unverified)
-    virtual void vf_0x00(); // 0x003879A0 slot 0x00 | virtual slot, introduced by nn::nex::_DDL_DataStoreRatingLog
-    virtual void vf_0x04(); // 0x0038799C slot 0x04 | virtual slot, introduced by nn::nex::_DDL_DataStoreRatingLog
+    // (inline)
+    DataStoreRatingLog() {}
+    virtual ~DataStoreRatingLog(); // 0x003879A0 slot 0x00
+    // 0x0038799C slot 0x04 (deleting dtor)
 };
+ASSERT_SIZE(DataStoreRatingLog, 0x18);
 } // namespace nex
 } // namespace nn

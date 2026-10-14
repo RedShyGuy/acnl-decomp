@@ -10,10 +10,16 @@ namespace nex {
 class BinaryMessage : public ::nn::nex::_DDL_BinaryMessage
 {
 public:
-    BinaryMessage(); // ctor address unknown
+    // (inline)
+    BinaryMessage() {}
     virtual ~BinaryMessage(); // 0x00361C40 slot 0x00
     // 0x00361C00 slot 0x04 (deleting dtor)
-    virtual void vf_0x20(); // 0x00361B44 slot 0x20 | virtual slot, introduced by nn::nex::UserMessage
+    // the part of UserMessage, then the data as hexadecimal bytes in lines of 64
+    virtual void Trace() const; // 0x00361B44 slot 0x20
+
+    // the bytes in a line of the trace
+    static const u32 TRACE_LINE_LENGTH = 64;
 };
+ASSERT_SIZE(BinaryMessage, 0x68);
 } // namespace nex
 } // namespace nn

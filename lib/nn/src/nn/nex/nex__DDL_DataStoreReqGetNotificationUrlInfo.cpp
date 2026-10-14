@@ -1,17 +1,13 @@
-#include "nn/nex/nex_RootObject.h"
 #include "nn/nex/nex__DDL_DataStoreReqGetNotificationUrlInfo.h"
+#include "nn/nex/nex_DataStoreReqGetNotificationUrlInfo.h"
 
 namespace nn {
 namespace nex {
-// ctor candidate(s) 0x003C03B0, 0x003CB820 (unverified)
-nn::nex::_DDL_DataStoreReqGetNotificationUrlInfo::_DDL_DataStoreReqGetNotificationUrlInfo()
-{
-}
-
-// 0x003CC53C slot 0x00 | slot vf_0x00 of nn::nex::_DDL_DataStoreReqGetNotificationUrlInfo
+// 0x003CC53C slot 0x00
 // 0x003CC4FC (deleting dtor)
 nn::nex::_DDL_DataStoreReqGetNotificationUrlInfo::~_DDL_DataStoreReqGetNotificationUrlInfo()
 {
+    // nothing to do: the members and bases are destroyed / constructed by the compiler
 }
 
 } // namespace nex

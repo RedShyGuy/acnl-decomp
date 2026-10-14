@@ -1,21 +1,23 @@
-#include "nn/nex/nex__DDL_NotificationEvent.h"
 #include "nn/nex/nex_NotificationEvent.h"
 
 namespace nn {
 namespace nex {
-// ctor candidate(s) 0x0039D29C, 0x003B4C5C, 0x003B9CB0, 0x003C24E8, 0x003C9888, 0x003CB76C (unverified)
-nn::nex::NotificationEvent::NotificationEvent()
+// 0x003873E0 slot 0x00
+// 0x003873C0 (deleting dtor)
+nn::nex::NotificationEvent::~NotificationEvent()
 {
+    // nothing to do: the members and bases are destroyed / constructed by the compiler
 }
 
-// 0x003873E0 slot 0x00 | virtual slot, introduced by nn::nex::_DDL_NotificationEvent
-void nn::nex::NotificationEvent::vf_0x00()
+// 0x003D9EE0
+nn::nex::StringStream& operator<<(nn::nex::StringStream& stream, const nn::nex::NotificationEvent& event)
 {
-}
-
-// 0x003873C0 slot 0x04 | virtual slot, introduced by nn::nex::_DDL_NotificationEvent
-void nn::nex::NotificationEvent::vf_0x04()
-{
+    u64 param = (static_cast<u64>(event.m_uiParam1) << 32) | event.m_uiParam2;
+    stream << L"NotificationEvent (" << L" PIDSource=" << event.m_pidSource << L" Type=" << event.m_uiType / 1000
+           << L" SubType=" << event.m_uiType % 1000 << L" Param1=" << event.m_uiParam1 << L" Param2=" << event.m_uiParam2
+           << L" Param3=" << event.m_uiParam3 << L" UInt64Param1=";
+    stream.StreamNumber(param) << L" StrParam=" << event.m_strParam << L") ";
+    return stream;
 }
 
 } // namespace nex

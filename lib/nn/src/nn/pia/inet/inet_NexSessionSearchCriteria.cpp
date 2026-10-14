@@ -205,8 +205,8 @@ void nn::pia::inet::NexSessionSearchCriteria::ConvertTo(nex::MatchmakeSessionSea
         }
     }
     if (common::IsValidPointer(pRange)) {
-        pRange->m_Offset = m_ResultOffset;
-        pRange->m_Size = m_ResultNumMax >= RESULT_NUM_MAX ? RESULT_NUM_MAX : m_ResultNumMax;
+        pRange->m_uiOffset = m_ResultOffset;
+        pRange->m_uiSize = m_ResultNumMax >= RESULT_NUM_MAX ? RESULT_NUM_MAX : m_ResultNumMax;
     }
 }
 

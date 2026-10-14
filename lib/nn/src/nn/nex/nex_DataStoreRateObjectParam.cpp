@@ -1,21 +1,19 @@
-#include "nn/nex/nex__DDL_DataStoreRateObjectParam.h"
 #include "nn/nex/nex_DataStoreRateObjectParam.h"
 
 namespace nn {
 namespace nex {
-// ctor candidate(s) 0x008322CC (unverified)
-nn::nex::DataStoreRateObjectParam::DataStoreRateObjectParam()
+// 0x003B24B4 slot 0x00
+// 0x003B24B0 (deleting dtor)
+nn::nex::DataStoreRateObjectParam::~DataStoreRateObjectParam()
 {
+    // nothing to do: the members and bases are destroyed / constructed by the compiler
 }
 
-// 0x003B24B4 slot 0x00 | virtual slot, introduced by nn::nex::_DDL_DataStoreRateObjectParam
-void nn::nex::DataStoreRateObjectParam::vf_0x00()
+// 0x007D54C0 | fefates:bytes [tier B]
+template <>
+DECOMP_NOINLINE void _Type_qvector<DDLClassMetaType<DataStoreRateObjectParam>>::Add(Message* pMessage, const Type& vector)
 {
-}
-
-// 0x003B24B0 slot 0x04 | virtual slot, introduced by nn::nex::_DDL_DataStoreRateObjectParam
-void nn::nex::DataStoreRateObjectParam::vf_0x04()
-{
+    AddInline(pMessage, vector);
 }
 
 } // namespace nex

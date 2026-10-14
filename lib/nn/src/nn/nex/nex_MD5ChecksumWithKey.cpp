@@ -1,47 +1,65 @@
-#include "nn/nex/nex_KeyedChecksumAlgorithm.h"
 #include "nn/nex/nex_MD5ChecksumWithKey.h"
+#include "nn/nex/nex_MD5.h"
+#include "nn/nex/nex_SignatureBytes.h"
+#include <cstring>
 
 namespace nn {
 namespace nex {
-// ctor candidate(s) 0x003D32A8 (unverified)
-nn::nex::MD5ChecksumWithKey::MD5ChecksumWithKey()
+// 0x0038C398 slot 0x0C
+bool nn::nex::MD5ChecksumWithKey::ComputeChecksum(const unsigned char** ppData, const unsigned int* pSizes, int count, nn::nex::SignatureBytes& checksum)
 {
-}
-
-// 0x0038C5CC slot 0x00 | slot vf_0x00 of nn::nex::KeyedChecksumAlgorithm
-// 0x0038C598 (deleting dtor)
-nn::nex::MD5ChecksumWithKey::~MD5ChecksumWithKey()
-{
+    MD5 md5;
+    ChecksumComputeHelper(ppData, pSizes, count, md5);
+    memcpy(checksum.m_Data, md5.m_Digest, MD5::DIGEST_SIZE);
+    checksum.m_Size = MD5::DIGEST_SIZE;
+    return true;
 }
 
 // 0x0038C408 slot 0x08 | fefates:callseq
-void nn::nex::MD5ChecksumWithKey::vf_0x08()
+bool nn::nex::MD5ChecksumWithKey::ComputeChecksum(const nn::nex::Buffer& input, nn::nex::Buffer* pOutput)
 {
+    MD5 md5;
+    const unsigned char* pData = input.m_pData + input.m_HeaderSize;
+    unsigned int size = input.m_ContentSize;
+    ChecksumComputeHelper(&pData, &size, 1, md5);
+    pOutput->AppendData(md5.m_Digest, MD5::DIGEST_SIZE, static_cast<unsigned>(-1));
+    return true;
 }
 
-// 0x0038C398 slot 0x0C | slot vf_0x0C of nn::nex::KeyedChecksumAlgorithm
-void nn::nex::MD5ChecksumWithKey::ComputeChecksum(const unsigned char**, const unsigned int*, int, nn::nex::SignatureBytes&)
+// 0x0038C48C slot 0x1C
+u32 nn::nex::MD5ChecksumWithKey::GetChecksumLength()
 {
-}
-
-// 0x0072C1F8 slot 0x10 | slot vf_0x10 of nn::nex::KeyedChecksumAlgorithm
-void nn::nex::MD5ChecksumWithKey::IsReady() const
-{
-}
-
-// 0x0038C53C slot 0x18 | slot vf_0x18 of nn::nex::KeyedChecksumAlgorithm
-void nn::nex::MD5ChecksumWithKey::ComputeChecksumForTransportArray(const unsigned char**, const unsigned int*, int)
-{
-}
-
-// 0x0038C48C slot 0x1C | slot vf_0x1C of nn::nex::KeyedChecksumAlgorithm
-void nn::nex::MD5ChecksumWithKey::GetChecksumLength()
-{
+    return MD5::DIGEST_SIZE;
 }
 
 // 0x0038C494 | fefates:bytes [tier B]
-void nn::nex::MD5ChecksumWithKey::ChecksumComputeHelper(const unsigned char**, const unsigned int*, int, nn::nex::MD5&)
+void nn::nex::MD5ChecksumWithKey::ChecksumComputeHelper(const unsigned char** ppData, const unsigned int* pSizes, int count, nn::nex::MD5& md5)
 {
+    u32 keyLength = m_Key.GetLength();
+    for (int i = 0; i < count; i++) {
+        if (ppData[i] != nullptr && pSizes[i] != 0) {
+            md5.Update(ppData[i], pSizes[i]);
+        }
+    }
+    if (keyLength != 0) {
+        md5.Update(m_Key.GetContentPtr(), keyLength);
+    }
+    md5.GetDigest();
+}
+
+// 0x0038C53C slot 0x18
+u32 nn::nex::MD5ChecksumWithKey::ComputeChecksumForTransportArray(const unsigned char** ppData, const unsigned int* pSizes, int count)
+{
+    MD5 md5;
+    ChecksumComputeHelper(ppData, pSizes, count, md5);
+    return *reinterpret_cast<const u32*>(md5.m_Digest);
+}
+
+// 0x0038C5CC slot 0x00
+// 0x0038C598 (deleting dtor)
+nn::nex::MD5ChecksumWithKey::~MD5ChecksumWithKey()
+{
+    // nothing to do: the members and bases are destroyed / constructed by the compiler
 }
 
 } // namespace nex

@@ -1,6 +1,7 @@
 #pragma once
 
 #include "decomp.h"
+#include "nn/nex/nex_DataStoreConstants.h"
 #include "nn/nex/nex__DDL_DataStorePermission.h"
 
 namespace nn {
@@ -10,11 +11,19 @@ namespace nex {
 class DataStorePermission : public ::nn::nex::_DDL_DataStorePermission
 {
 public:
-    DataStorePermission(); // ctor candidate(s) 0x00392DE0, 0x00392E60 (unverified)
-    virtual void vf_0x00(); // 0x00392F3C slot 0x00 | virtual slot, introduced by nn::nex::_DDL_DataStorePermission
-    virtual void vf_0x04(); // 0x00392F14 slot 0x04 | virtual slot, introduced by nn::nex::_DDL_DataStorePermission
-    DataStorePermission(nn::nex::DataStoreConstants::Permission, const nn::nex::qVector<unsigned int>&); // 0x00392DE0 | fefates:bytes [tier B]
-    DataStorePermission(const nn::nex::DataStorePermission&); // 0x00392E50 | fefates:bytes [tier B]
+    // (inline)
+    DataStorePermission() {}
+    DataStorePermission(nn::nex::DataStoreConstants::Permission permission, const nn::nex::qVector<unsigned int>& recipientIds); // 0x00392DE0 | fefates:bytes [tier B]
+    DataStorePermission(const nn::nex::DataStorePermission& other); // 0x00392E50
+    virtual ~DataStorePermission(); // 0x00392F3C slot 0x00
+    // 0x00392F14 slot 0x04 (deleting dtor)
 };
+ASSERT_SIZE(DataStorePermission, 0x14);
+
+// (out of line)
+template <>
+DECOMP_NOINLINE void DDLClassMetaType<DataStorePermission>::Add(Message* pMessage, const nn::nex::DataStorePermission& value);
+template <>
+DECOMP_NOINLINE void DDLClassMetaType<DataStorePermission>::Extract(Message* pMessage, nn::nex::DataStorePermission* pValue);
 } // namespace nex
 } // namespace nn

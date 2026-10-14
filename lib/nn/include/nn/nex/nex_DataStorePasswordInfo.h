@@ -10,9 +10,11 @@ namespace nex {
 class DataStorePasswordInfo : public ::nn::nex::_DDL_DataStorePasswordInfo
 {
 public:
-    DataStorePasswordInfo(); // ctor candidate(s) 0x00398400, 0x003A9248, 0x008319A4 (unverified)
-    virtual void vf_0x00(); // 0x00398424 slot 0x00 | virtual slot, introduced by nn::nex::_DDL_DataStorePasswordInfo
-    virtual void vf_0x04(); // 0x00398420 slot 0x04 | virtual slot, introduced by nn::nex::_DDL_DataStorePasswordInfo
+    // (inline)
+    DataStorePasswordInfo() {}
+    virtual ~DataStorePasswordInfo(); // 0x00398424 slot 0x00
+    // 0x00398420 slot 0x04 (deleting dtor)
 };
+ASSERT_SIZE(DataStorePasswordInfo, 0x20);
 } // namespace nex
 } // namespace nn

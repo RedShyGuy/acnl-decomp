@@ -10,9 +10,11 @@ namespace nex {
 class DataStorePersistenceInfo : public ::nn::nex::_DDL_DataStorePersistenceInfo
 {
 public:
-    virtual void vf_0x00(); // 0x003B2344 slot 0x00 | virtual slot, introduced by nn::nex::_DDL_DataStorePersistenceInfo
-    virtual void vf_0x04(); // 0x003B2340 slot 0x04 | virtual slot, introduced by nn::nex::_DDL_DataStorePersistenceInfo
-    DataStorePersistenceInfo(); // 0x003B2320 | fefates:bytes [tier B]
+    // (inline)
+    DataStorePersistenceInfo() {}
+    virtual ~DataStorePersistenceInfo(); // 0x003B2344 slot 0x00
+    // 0x003B2340 slot 0x04 (deleting dtor)
 };
+ASSERT_SIZE(DataStorePersistenceInfo, 0x18);
 } // namespace nex
 } // namespace nn

@@ -10,9 +10,11 @@ namespace nex {
 class DataStoreNotification : public ::nn::nex::_DDL_DataStoreNotification
 {
 public:
-    DataStoreNotification(); // ctor candidate(s) 0x003ADF8C, 0x00831734 (unverified)
-    virtual void vf_0x00(); // 0x003983FC slot 0x00 | virtual slot, introduced by nn::nex::_DDL_DataStoreNotification
-    virtual void vf_0x04(); // 0x003983F8 slot 0x04 | virtual slot, introduced by nn::nex::_DDL_DataStoreNotification
+    // (inline)
+    DataStoreNotification() {}
+    virtual ~DataStoreNotification(); // 0x003983FC slot 0x00
+    // 0x003983F8 slot 0x04 (deleting dtor)
 };
+ASSERT_SIZE(DataStoreNotification, 0x18);
 } // namespace nex
 } // namespace nn

@@ -10,9 +10,11 @@ namespace nex {
 class DataStoreSearchResult : public ::nn::nex::_DDL_DataStoreSearchResult
 {
 public:
-    virtual void vf_0x00(); // 0x003985C0 slot 0x00 | virtual slot, introduced by nn::nex::_DDL_DataStoreSearchResult
-    virtual void vf_0x04(); // 0x00398570 slot 0x04 | virtual slot, introduced by nn::nex::_DDL_DataStoreSearchResult
-    DataStoreSearchResult(); // 0x003984E4 | fefates:bytes [tier B]
+    // (inline)
+    DataStoreSearchResult() {}
+    virtual ~DataStoreSearchResult(); // 0x003985C0 slot 0x00
+    // 0x00398570 slot 0x04 (deleting dtor)
 };
+ASSERT_SIZE(DataStoreSearchResult, 0x1C);
 } // namespace nex
 } // namespace nn

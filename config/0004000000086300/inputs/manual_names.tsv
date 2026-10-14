@@ -75,3 +75,28 @@
 0x80A998	__rw::__rb_tree<unsigned int, std::pair<unsigned int const, unsigned int>, __rw::__select1st<std::pair<unsigned int const, unsigned int>, unsigned int>, std::less<unsigned int>, nn::nex::MemAllocator<std::pair<unsigned int const, unsigned int> > >::_C_erase(__rw::__rw_rb_tree_node<nn::nex::MemAllocator<std::pair<unsigned int const, unsigned int> >, std::pair<unsigned int const, unsigned int>, unsigned int, __rw::__select1st<std::pair<unsigned int const, unsigned int>, unsigned int> >*)	manual:ours	0x0	tree instance
 0x80A9D4	__rw::__rb_tree<unsigned int, std::pair<unsigned int const, unsigned int>, __rw::__select1st<std::pair<unsigned int const, unsigned int>, unsigned int>, std::less<unsigned int>, nn::nex::MemAllocator<std::pair<unsigned int const, unsigned int> > >::_C_insert(__rw::__rw_rb_tree_node<nn::nex::MemAllocator<std::pair<unsigned int const, unsigned int> >, std::pair<unsigned int const, unsigned int>, unsigned int, __rw::__select1st<std::pair<unsigned int const, unsigned int>, unsigned int> >*, __rw::__rw_rb_tree_node<nn::nex::MemAllocator<std::pair<unsigned int const, unsigned int> >, std::pair<unsigned int const, unsigned int>, unsigned int, __rw::__select1st<std::pair<unsigned int const, unsigned int>, unsigned int> >*, std::pair<unsigned int const, unsigned int> const&)	manual:ours	0x0	tree instance
 0x7FBBCC	__rw::__rb_tree<nn::nex::Time, std::pair<nn::nex::Time const, nn::nex::Job*>, __rw::__select1st<std::pair<nn::nex::Time const, nn::nex::Job*>, nn::nex::Time>, std::less<nn::nex::Time>, nn::nex::MemAllocator<std::pair<nn::nex::Time const, nn::nex::Job*> > >::_C_erase(__rw::__rw_rb_tree_node<nn::nex::MemAllocator<std::pair<nn::nex::Time const, nn::nex::Job*> >, std::pair<nn::nex::Time const, nn::nex::Job*>, nn::nex::Time, __rw::__select1st<std::pair<nn::nex::Time const, nn::nex::Job*>, nn::nex::Time> >*)	manual:ours	0x0	tree instance
+0x36ABE0	nn::nex::RC4Encryption::Process(unsigned char*, unsigned int)	manual:ours	0x0	RC4 key stream
+0x39318C	nn::nex::EncryptionAlgorithm::GetErrorString(int, wchar_t*, unsigned int)	manual:ours	0x0	Encryption Error
+0x386198	nn::nex::ChecksumAlgorithm::DeriveKey(nn::nex::Buffer const&, unsigned int)	manual:ours	0x0	buffer variant
+0x3823C0	nn::nex::MD5KeyDerivation::InitializeKey(char const*)	manual:ours	0x0	sync
+0x38230C	nn::nex::MD5KeyDerivation::CreateKey(unsigned int, nn::nex::Key const&)	manual:ours	0x0	sync from key
+0x382230	nn::nex::MD5KeyDerivation::CreateKey(nn::nex::CallContext*, unsigned int, nn::nex::Key const&, nn::nex::Key*)	manual:ours	0x0	job from key
+0x3842D4	nn::nex::_DDL_UserMessage::Add(nn::nex::Message*, nn::nex::_DDL_UserMessage const&)	manual:ours	0x0	after Data part
+0x38444C	nn::nex::_DDL_UserMessage::Extract(nn::nex::Message*, nn::nex::_DDL_UserMessage*)	manual:ours	0x0	after Data part
+0x384650	nn::nex::_DDL_UserMessage::operator=(nn::nex::_DDL_UserMessage const&)	manual:ours	0x0	copy of members
+0x384130	nn::nex::_DDL_TextMessage::Extract(nn::nex::Message*, nn::nex::_DDL_TextMessage*)	manual:ours	0x0	after StreamOut nop
+0x390E2C	nn::nex::_DDL_BinaryMessage::Extract(nn::nex::Message*, nn::nex::_DDL_BinaryMessage*)	manual:ours	0x0	after StreamOut nop
+0x3D9DEC	nn::nex::operator<<(nn::nex::StringStream&, nn::nex::UserMessage const&)	manual:ours	0x0	UserMessage ( text
+0x3D9EE0	nn::nex::operator<<(nn::nex::StringStream&, nn::nex::NotificationEvent const&)	manual:ours	0x0	NotificationEvent ( text
+0x3DA0A8	nn::nex::operator<<(nn::nex::StringStream&, nn::nex::DateTime const&)	manual:ours	0x0	date format
+0x35C3C0	nn::nex::UserMessage::Trace() const	manual:ours	0x0	slot 0x20
+0x35C3BC	nn::nex::TextMessage::Trace() const	manual:ours	0x0	slot 0x20 nop
+0x361B44	nn::nex::BinaryMessage::Trace() const	manual:ours	0x0	slot 0x20
+0x3D6A90	nn::nex::Gathering::Gathering()	manual:ours	0x0	fefates:bytes, conflict with nintendogs
+0x72B42C	nn::nex::_DDL_Gathering::Clone() const	manual:ours	0x0	fefates:bytes, conflict with nintendogs
+0x375F80	nn::nex::_DDL_Gathering::operator=(nn::nex::_DDL_Gathering const&)	manual:ours	0x0	copy
+0x72EA04	nn::nex::Gathering::Trace() const	manual:ours	0x0	slot 0x20 empty
+0x3846C8	nn::nex::_DDL_DynamicGathering::StreamIn(nn::nex::Message*) const	manual:ours	0x0	slot 0x18
+0x3B5BD4	nn::nex::_DDL_PersistentGathering::Add(nn::nex::Message*, nn::nex::_DDL_PersistentGathering const&)	manual:ours	0x0	after StreamIn nop
+0x82FDB0	nn::nex::qList<nn::nex::MatchmakeSessionSearchCriteria>::clear()	manual:ours	0x0	virtual dtor per node
+0x82F2BC	nn::nex::qList<nn::nex::ResultRange>::clear()	manual:ours	0x0	virtual dtor per node

@@ -35,9 +35,16 @@ public:
     nn::nex::ByteStream& operator<<(const bool& value); // 0x00354E58 | mk7dlp:bytes [tier A]
     nn::nex::ByteStream& operator>>(bool& value); // 0x00354E8C | fefates:bytes [tier B]
 
-    // (out of line per type)
+    // (out of line per type; inline in some blobs: ExtractPrimitiveInline)
+    // (noipa: GCC would clone it per caller)
     template <typename T>
-    DECOMP_NOINLINE bool ExtractPrimitive(T* pValue)
+    DECOMP_NOIPA bool ExtractPrimitive(T* pValue)
+    {
+        return ExtractPrimitiveInline(pValue);
+    }
+    // (an unaligned read of the value)
+    template <typename T>
+    bool ExtractPrimitiveInline(T* pValue)
     {
         if (m_pBuffer->m_ContentSize - m_Position < sizeof(T)) {
             m_IsError = true;
@@ -45,10 +52,8 @@ public:
             return false;
         }
         const u8* p = m_pBuffer->m_pData + m_pBuffer->m_HeaderSize + m_Position;
-        T value = 0;
-        for (u32 i = 0; i < sizeof(T); i++) {
-            value |= static_cast<T>(p[i]) << (i * 8);
-        }
+        T value;
+        memcpy(&value, p, sizeof(T));
         *pValue = value;
         m_Position += sizeof(T);
         return true;

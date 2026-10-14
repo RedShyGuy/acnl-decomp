@@ -1,4 +1,6 @@
 #include "nn/nex/nex_DateTime.h"
+#include "nn/nex/nex_StringStream.h"
+#include <cwchar>
 
 namespace nn {
 namespace nex {
@@ -169,6 +171,12 @@ u8 nn::nex::DateTime::GetSecond() const
     return static_cast<u8>(m_Value & SECOND_MASK);
 }
 
+// 0x003D4C58
+u64 nn::nex::DateTime::GetValue() const
+{
+    return m_Value;
+}
+
 // 0x0072E99C | fefates:callseq-callee [tier B]
 nn::nex::DateTime::operator unsigned long long() const
 {
@@ -179,6 +187,15 @@ nn::nex::DateTime::operator unsigned long long() const
 s64 nn::nex::DateTime::operator-(const nn::nex::DateTime& other) const
 {
     return (ToEpochTime() - other.ToEpochTime()) * 1000;
+}
+
+// 0x003DA0A8
+nn::nex::StringStream& operator<<(nn::nex::StringStream& stream, const nn::nex::DateTime& dateTime)
+{
+    wchar_t text[24];
+    swprintf(text, sizeof(text) / sizeof(text[0]), L"%04d-%02d-%02d %02d:%02d:%02d", dateTime.GetYear(), dateTime.GetMonth(),
+             dateTime.GetDay(), dateTime.GetHour(), dateTime.GetMinute(), dateTime.GetSecond());
+    return stream << text;
 }
 
 } // namespace nex

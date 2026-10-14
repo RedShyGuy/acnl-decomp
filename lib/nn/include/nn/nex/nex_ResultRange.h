@@ -1,6 +1,7 @@
 #pragma once
 
 #include "decomp.h"
+#include "nn/nex/nex_qList.h"
 #include "nn/nex/nex__DDL_ResultRange.h"
 
 namespace nn {
@@ -10,17 +11,24 @@ namespace nex {
 class ResultRange : public ::nn::nex::_DDL_ResultRange
 {
 public:
-    ResultRange(); // ctor candidate(s) 0x0050E8D0 (unverified)
+    // (inline)
+    ResultRange() {}
     // (inline in pia::inet::NexMatchmakeSession)
     ResultRange(u32 offset, u32 size)
     {
-        m_Offset = offset;
-        m_Size = size;
+        m_uiOffset = offset;
+        m_uiSize = size;
     }
-    virtual void vf_0x00(); // 0x0035BA7C slot 0x00 | virtual slot, introduced by nn::nex::_DDL_ResultRange
-    virtual void vf_0x04(); // 0x0035BA78 slot 0x04 | virtual slot, introduced by nn::nex::_DDL_ResultRange
-    virtual void vf_0x08(); // 0x0072A388 slot 0x08 | virtual slot, introduced by nn::nex::ResultRange
-    virtual void vf_0x0C(); // 0x0072A380 slot 0x0C | virtual slot, introduced by nn::nex::ResultRange
+    virtual ~ResultRange(); // 0x0035BA7C slot 0x00
+    // 0x0035BA78 slot 0x04 (deleting dtor)
+    // (inline, with copies out of line; the names are ours)
+    virtual u32 GetOffset() const { return m_uiOffset; } // 0x0072A388 slot 0x08
+    virtual u32 GetSize() const { return m_uiSize; } // 0x0072A380 slot 0x0C
 };
+ASSERT_SIZE(ResultRange, 0x10);
+
+// (out of line)
+template <>
+DECOMP_NOINLINE void qList<ResultRange>::clear();
 } // namespace nex
 } // namespace nn

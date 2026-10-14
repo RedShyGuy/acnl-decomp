@@ -10,9 +10,11 @@ namespace nex {
 class DataStoreChangeMetaParam : public ::nn::nex::_DDL_DataStoreChangeMetaParam
 {
 public:
-    DataStoreChangeMetaParam(); // ctor candidate(s) 0x003B2084 (unverified)
-    virtual ~DataStoreChangeMetaParam(); // 0x003B22E0 slot 0x00 | slot vf_0x00 of nn::nex::_DDL_DataStoreChangeMetaParam
-    // 0x003B22D0 slot 0x04 | slot vf_0x04 of nn::nex::_DDL_DataStoreChangeMetaParam (deleting dtor)
+    // (inline)
+    DataStoreChangeMetaParam() {}
+    virtual ~DataStoreChangeMetaParam(); // 0x003B22E0 slot 0x00
+    // 0x003B22D0 slot 0x04 (deleting dtor)
 };
+ASSERT_SIZE(DataStoreChangeMetaParam, 0x110);
 } // namespace nex
 } // namespace nn

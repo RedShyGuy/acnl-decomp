@@ -150,6 +150,23 @@ def split_signature(sig):
     return m.group(1), params, const
 
 
+def strip_init_list(sig):
+    """'X::X(int a) : m_A(a), m_B(0)' -> 'X::X(int a)': the parameter list is the first top-level
+    parenthesis group after the name, not the last one"""
+    depth = 0
+    for i, ch in enumerate(sig):
+        if ch == '(':
+            depth += 1
+        elif ch == ')':
+            depth -= 1
+            if depth == 0:
+                rest = sig[i + 1:]
+                if re.match(r'\s*:(?!:)', rest):
+                    return sig[:i + 1]
+                return sig
+    return sig
+
+
 def sig_key(qualname, params, const):
     return (re.sub(r'\s+', '', qualname), len(params), const)
 
@@ -241,7 +258,7 @@ def source_addresses():
                     continue
                 sig += ' ' + st
                 if '{' in st or st.endswith(';'):
-                    parsed = split_signature(sig.split('{')[0].rstrip().rstrip(';'))   # also declarations
+                    parsed = split_signature(strip_init_list(sig.split('{')[0].rstrip().rstrip(';')))   # also declarations
                     sig_text = sig
                     pending_addr, pending, sig = pending, None, None
                     del_addr, pending_del = pending_del, None

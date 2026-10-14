@@ -4,9 +4,15 @@
 
 namespace nn {
 namespace nex {
-namespace _Type_buffertail {
-void Add(nn::nex::Message*, const nn::nex::Buffer&); // 0x003846F0 | fefates:bytes [tier B]
-void Extract(nn::nex::Message*, nn::nex::Buffer*); // 0x00384728 | fefates:bytes [tier B]
-} // namespace _Type_buffertail
+class Buffer;
+class Message;
+
+// The DDL type of a buffer at the end of a message: the rest of the content.
+class _Type_buffertail
+{
+public:
+    static void Add(nn::nex::Message* pMessage, const nn::nex::Buffer& buffer); // 0x003846F0 | fefates:bytes [tier B]
+    static void Extract(nn::nex::Message* pMessage, nn::nex::Buffer* pBuffer); // 0x00384728 | fefates:bytes [tier B]
+};
 } // namespace nex
 } // namespace nn

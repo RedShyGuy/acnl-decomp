@@ -5,6 +5,8 @@
 
 namespace nn {
 namespace nex {
+class StringStream;
+
 // A date and time packed in 64 bits: second (bits 0-5), minute (6-11), hour (12-16), day
 // (17-21), month (22-25), year (26-39) and a state (40-41, 1: invalid). The names of the fields,
 // of the members and of the functions without a reference name are ours.
@@ -27,6 +29,8 @@ public:
     static const u8 STATE_INVALID = 1;
 
     DateTime(); // 0x003D4C3C | fefates:callgraph [tier C]
+    // (inline) the packed value
+    explicit DateTime(u64 value) : m_Value(value) {}
     DateTime(const nn::nex::DateTime& other); // 0x003D4B40 | fefates:callgraph [tier C]
     // (year 1900-9999; an invalid date is s_pNever)
     DateTime(unsigned short year, unsigned char month, unsigned char day, unsigned char hour, unsigned char minute,
@@ -38,6 +42,8 @@ public:
     // the seconds since 2000-03-01 minus 59 days (with the leap day rule only before 2000)
     u64 ToEpochTime() const; // 0x0072E644 | fefates:bytes [tier B]
     operator unsigned long long() const; // 0x0072E99C | fefates:callseq-callee [tier B]
+    // the packed value (a second copy of the conversion; the name is ours)
+    u64 GetValue() const; // 0x003D4C58
     // the milliseconds between the times
     s64 operator-(const nn::nex::DateTime& other) const; // 0x0072E9AC | fefates:bytes [tier B]
 
@@ -68,5 +74,8 @@ public:
     static const DateTime* s_pForever;
 };
 ASSERT_SIZE(DateTime, 0x8);
+
+// the date as text "YYYY-MM-DD hh:mm:ss" (the name is ours)
+nn::nex::StringStream& operator<<(nn::nex::StringStream& stream, const nn::nex::DateTime& dateTime); // 0x003DA0A8
 } // namespace nex
 } // namespace nn

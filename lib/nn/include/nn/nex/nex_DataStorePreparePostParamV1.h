@@ -10,9 +10,11 @@ namespace nex {
 class DataStorePreparePostParamV1 : public ::nn::nex::_DDL_DataStorePreparePostParamV1
 {
 public:
-    DataStorePreparePostParamV1(); // ctor candidate(s) 0x003BCD14 (unverified)
-    virtual ~DataStorePreparePostParamV1(); // 0x003BCF1C slot 0x00 | slot vf_0x00 of nn::nex::_DDL_DataStorePreparePostParamV1
-    // 0x003BCF0C slot 0x04 | slot vf_0x04 of nn::nex::_DDL_DataStorePreparePostParamV1 (deleting dtor)
+    // (inline)
+    DataStorePreparePostParamV1() {}
+    virtual ~DataStorePreparePostParamV1(); // 0x003BCF1C slot 0x00
+    // 0x003BCF0C slot 0x04 (deleting dtor)
 };
+ASSERT_SIZE(DataStorePreparePostParamV1, 0x84);
 } // namespace nex
 } // namespace nn

@@ -49,7 +49,8 @@ public:
     u8 m_Unknown0x38;           // 0x38
     u8 m_Unknown0x39;           // 0x39
     u8 m_Unknown0x3A;           // 0x3A
-    u8 m_Unknown0x3B;           // 0x3B
+    // the DDL structures have no header (version and size): the peer predates them
+    bool m_IsWithoutStructureHeader; // 0x3B
 };
 ASSERT_OFFSET(Message, m_pEndPoint, 0x34);
 ASSERT_SIZE(Message, 0x40); // (the u64 member aligns the size to 8)

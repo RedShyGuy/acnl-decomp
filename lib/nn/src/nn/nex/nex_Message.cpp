@@ -42,7 +42,7 @@ nn::nex::Buffer* nn::nex::Message::GetBuffer()
 // 0x003D23CC | fefates:bytes-fuzzy [tier B]
 nn::nex::Message::Message(nn::nex::Buffer* pBuffer)
     : ByteStream(pBuffer), m_Unknown0x20(0), m_Unknown0x28(0), m_Unknown0x2C(0), m_Unknown0x30(0), m_pEndPoint(nullptr), m_Unknown0x38(0),
-      m_Unknown0x39(0), m_Unknown0x3A(0), m_Unknown0x3B(0)
+      m_Unknown0x39(0), m_Unknown0x3A(0), m_IsWithoutStructureHeader(0)
 {
     m_Result = qResult(RESULT_SUCCESS);
     Rewind();
@@ -51,7 +51,7 @@ nn::nex::Message::Message(nn::nex::Buffer* pBuffer)
 // 0x003D2490 (name from the reference symbols)
 nn::nex::Message::Message()
     : m_Unknown0x20(0), m_Unknown0x28(0), m_Unknown0x2C(0), m_Unknown0x30(0), m_pEndPoint(nullptr), m_Unknown0x38(0), m_Unknown0x39(0),
-      m_Unknown0x3A(0), m_Unknown0x3B(0)
+      m_Unknown0x3A(0), m_IsWithoutStructureHeader(0)
 {
     m_pBuffer->m_ContentSize = 0;
     m_pBuffer->m_HeaderSize = 0;

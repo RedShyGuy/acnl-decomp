@@ -10,9 +10,11 @@ namespace nex {
 class DataStoreReqUpdateInfo : public ::nn::nex::_DDL_DataStoreReqUpdateInfo
 {
 public:
-    DataStoreReqUpdateInfo(); // ctor candidate(s) 0x0039C1A8 (unverified)
-    virtual void vf_0x00(); // 0x0039C238 slot 0x00 | virtual slot, introduced by nn::nex::_DDL_DataStoreReqUpdateInfo
-    virtual void vf_0x04(); // 0x0039C1F8 slot 0x04 | virtual slot, introduced by nn::nex::_DDL_DataStoreReqUpdateInfo
+    // (inline)
+    DataStoreReqUpdateInfo() {}
+    virtual ~DataStoreReqUpdateInfo(); // 0x0039C238 slot 0x00
+    // 0x0039C1F8 slot 0x04 (deleting dtor)
 };
+ASSERT_SIZE(DataStoreReqUpdateInfo, 0x38);
 } // namespace nex
 } // namespace nn

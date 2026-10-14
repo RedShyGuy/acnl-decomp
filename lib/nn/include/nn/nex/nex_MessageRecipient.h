@@ -10,9 +10,11 @@ namespace nex {
 class MessageRecipient : public ::nn::nex::_DDL_MessageRecipient
 {
 public:
-    MessageRecipient(); // ctor address unknown
-    virtual void vf_0x00(); // 0x00382714 slot 0x00 | virtual slot, introduced by nn::nex::MessageRecipient
-    virtual void vf_0x04(); // 0x00382710 slot 0x04 | virtual slot, introduced by nn::nex::MessageRecipient
+    // (inline)
+    MessageRecipient() {}
+    virtual ~MessageRecipient(); // 0x00382714 slot 0x00
+    // 0x00382710 slot 0x04 (deleting dtor)
 };
+ASSERT_SIZE(MessageRecipient, 0x10);
 } // namespace nex
 } // namespace nn

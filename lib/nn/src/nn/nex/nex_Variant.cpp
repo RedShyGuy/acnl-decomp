@@ -69,35 +69,81 @@ nn::nex::Variant::Variant(u64 value)
 // 0x003D38E0 | fefates:bytes [tier B]
 nn::nex::Variant::~Variant()
 {
-    // the copied string has a count in front of it
-    if (m_Type == TYPE_STRING) {
-        MemoryManager::Free(reinterpret_cast<u8*>(m_pString) - sizeof(u32));
-    }
+    // (the copied string has a count in front of it)
+    ReleaseString();
 }
 
 // 0x003D3AE4 | fefates:bytes-fuzzy [tier B]
-void nn::nex::Variant::operator=(const nn::nex::Variant&)
+nn::nex::Variant& nn::nex::Variant::operator=(const nn::nex::Variant& other)
 {
+    ReleaseString();
+    m_Type = other.m_Type;
+    switch (other.m_Type) {
+    case TYPE_STRING:
+        CopyString(&m_pString, other.GetStringValue().m_pString);
+        break;
+    case TYPE_INT64:
+    case TYPE_UINT64:
+        m_Int64 = other.m_Int64;
+        break;
+    case TYPE_DOUBLE:
+        m_Double = other.m_Double;
+        break;
+    case TYPE_BOOL:
+        m_Bool = other.m_Bool;
+        break;
+    case TYPE_DATE_TIME:
+        m_DateTime = other.m_DateTime;
+        break;
+    default:
+        break;
+    }
+    return *this;
 }
 
 // 0x0072E508 | fefates:bytes [tier B]
-void nn::nex::Variant::GetBoolValue() const
+bool nn::nex::Variant::GetBoolValue() const
 {
+    return m_Type == TYPE_BOOL ? m_Bool : false;
+}
+
+// 0x0072E51C
+s64 nn::nex::Variant::GetInt64Value() const
+{
+    return m_Type == TYPE_INT64 || m_Type == TYPE_UINT64 ? m_Int64 : 0;
 }
 
 // 0x0072E540 | fefates:bytes [tier B]
-void nn::nex::Variant::GetDoubleValue() const
+double nn::nex::Variant::GetDoubleValue() const
 {
+    return m_Type == TYPE_DOUBLE ? m_Double : 0.0;
 }
 
 // 0x0072E560 | fefates:bytes [tier B]
-void nn::nex::Variant::GetStringValue() const
+nn::nex::String nn::nex::Variant::GetStringValue() const
 {
+    if (m_Type == TYPE_STRING) {
+        return String(m_pString);
+    }
+    return String(L"");
+}
+
+// 0x0072E590
+u32 nn::nex::Variant::GetUInt32Value() const
+{
+    return m_Type == TYPE_INT64 || m_Type == TYPE_UINT64 ? static_cast<u32>(m_UInt64) : 0;
+}
+
+// 0x0072E5A8
+u64 nn::nex::Variant::GetUInt64Value() const
+{
+    return m_Type == TYPE_INT64 || m_Type == TYPE_UINT64 ? m_UInt64 : 0;
 }
 
 // 0x0072E5CC | fefates:bytes [tier B]
-void nn::nex::Variant::GetDateTimeValue() const
+nn::nex::DateTime nn::nex::Variant::GetDateTimeValue() const
 {
+    return m_Type == TYPE_DATE_TIME ? DateTime(m_DateTime) : DateTime(0ULL);
 }
 
 } // namespace nex

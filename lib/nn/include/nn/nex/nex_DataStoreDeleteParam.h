@@ -10,9 +10,11 @@ namespace nex {
 class DataStoreDeleteParam : public ::nn::nex::_DDL_DataStoreDeleteParam
 {
 public:
-    DataStoreDeleteParam(); // ctor candidate(s) 0x008314C4 (unverified)
-    virtual void vf_0x00(); // 0x003962B0 slot 0x00 | virtual slot, introduced by nn::nex::_DDL_DataStoreDeleteParam
-    virtual void vf_0x04(); // 0x003962AC slot 0x04 | virtual slot, introduced by nn::nex::_DDL_DataStoreDeleteParam
+    // (inline)
+    DataStoreDeleteParam() {}
+    virtual ~DataStoreDeleteParam(); // 0x003962B0 slot 0x00
+    // 0x003962AC slot 0x04 (deleting dtor)
 };
+ASSERT_SIZE(DataStoreDeleteParam, 0x18);
 } // namespace nex
 } // namespace nn

@@ -46,6 +46,8 @@ public:
     int FindSubstringNoCase(const wchar_t* pString) const; // 0x0072E1C8 | fefates:bytes [tier B]
     unsigned long long ToUInt64() const; // 0x0072E2CC | fefates:bytes [tier B]
     u32 GetLength() const; // 0x0072E360 | mk7dlp:callgraph [tier A]
+    // (inline where the original inlines GetLength)
+    u32 GetLengthInline() const { return m_pString != nullptr ? wcslen(m_pString) : 0; }
     // (null is the empty string)
     bool operator<(const nn::nex::String& other) const; // 0x0072E374 | fefates:bytes [tier B]
 

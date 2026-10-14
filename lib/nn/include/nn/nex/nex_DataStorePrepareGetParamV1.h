@@ -10,9 +10,11 @@ namespace nex {
 class DataStorePrepareGetParamV1 : public ::nn::nex::_DDL_DataStorePrepareGetParamV1
 {
 public:
-    DataStorePrepareGetParamV1(); // ctor address unknown
-    virtual void vf_0x00(); // 0x003B9814 slot 0x00 | virtual slot, introduced by nn::nex::DataStorePrepareGetParamV1
-    virtual void vf_0x04(); // 0x003B9810 slot 0x04 | virtual slot, introduced by nn::nex::DataStorePrepareGetParamV1
+    // (inline)
+    DataStorePrepareGetParamV1() {}
+    virtual ~DataStorePrepareGetParamV1(); // 0x003B9814 slot 0x00
+    // 0x003B9810 slot 0x04 (deleting dtor)
 };
+ASSERT_SIZE(DataStorePrepareGetParamV1, 0x10);
 } // namespace nex
 } // namespace nn

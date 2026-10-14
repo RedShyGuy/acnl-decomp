@@ -10,9 +10,15 @@ namespace nex {
 class DataStoreKeyValue : public ::nn::nex::_DDL_DataStoreKeyValue
 {
 public:
-    DataStoreKeyValue(); // ctor candidate(s) 0x00378A88, 0x007D4FA4, 0x007E4894, 0x00830804, 0x00830A9C (unverified)
-    virtual void vf_0x00(); // 0x00386B14 slot 0x00 | virtual slot, introduced by nn::nex::_DDL_DataStoreKeyValue
-    virtual void vf_0x04(); // 0x00386AEC slot 0x04 | virtual slot, introduced by nn::nex::_DDL_DataStoreKeyValue
+    // (inline)
+    DataStoreKeyValue() {}
+    virtual ~DataStoreKeyValue(); // 0x00386B14 slot 0x00
+    // 0x00386AEC slot 0x04 (deleting dtor)
 };
+ASSERT_SIZE(DataStoreKeyValue, 0x18);
+
+// (out of line)
+template <>
+DECOMP_NOINLINE void _Type_qvector<DDLClassMetaType<DataStoreKeyValue>>::Extract(Message* pMessage, Type* pVector);
 } // namespace nex
 } // namespace nn

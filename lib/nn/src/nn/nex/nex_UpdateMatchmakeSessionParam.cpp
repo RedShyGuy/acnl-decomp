@@ -8,14 +8,11 @@ nn::nex::UpdateMatchmakeSessionParam::UpdateMatchmakeSessionParam()
 {
 }
 
-// 0x003BD94C slot 0x00 | virtual slot, introduced by nn::nex::_DDL_UpdateMatchmakeSessionParam
-void nn::nex::UpdateMatchmakeSessionParam::vf_0x00()
+// 0x003BD94C slot 0x00
+// 0x003BD908 (deleting dtor)
+nn::nex::UpdateMatchmakeSessionParam::~UpdateMatchmakeSessionParam()
 {
-}
-
-// 0x003BD908 slot 0x04 | virtual slot, introduced by nn::nex::_DDL_UpdateMatchmakeSessionParam
-void nn::nex::UpdateMatchmakeSessionParam::vf_0x04()
-{
+    // nothing to do: the members and bases are destroyed / constructed by the compiler
 }
 
 // 0x003BD81C (name is ours)

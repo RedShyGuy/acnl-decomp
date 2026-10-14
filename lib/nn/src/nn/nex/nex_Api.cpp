@@ -21,6 +21,21 @@ nn::nex::StringStream& hex(nn::nex::StringStream& stream)
     return stream;
 }
 
+// 0x0035697C | fefates:callgraph [tier C]
+nn::nex::StringStream& noshowbase(nn::nex::StringStream& stream)
+{
+    stream.m_ShowsBase = false;
+    return stream;
+}
+
+// 0x003D47E8 | fefates:callgraph [tier C]
+nn::nex::StringStream& zerohex(nn::nex::StringStream& stream)
+{
+    stream.m_IsHex = true;
+    stream.m_IsZeroPadded = true;
+    return stream;
+}
+
 // 0x003CD224 | fefates:bytes-fuzzy [tier B]
 void CreateBunldingStreamFromHistoryPacketQueue(nn::nex::qChain<nn::nex::Packet*,nn::nex::ChainPolicyHistoryPacket<nn::nex::Packet*>>*, nn::nex::PacketOut*, nn::nex::Time, unsigned int, nn::nex::ByteStream*)
 {

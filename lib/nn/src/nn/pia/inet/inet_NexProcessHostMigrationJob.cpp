@@ -72,7 +72,7 @@ inline bool IsDispatchTimeBefore(const common::Time& time)
 // 0x0056EC44
 void NexNotificationEventHandler4Pia::ProcessNotificationEvent(const nn::nex::NotificationEvent& event)
 {
-    if (event.m_Type / 1000 == NOTIFICATION_TYPE_HOST_CHANGED && NexFacade::s_pInstance->m_Unknown0x10 == event.m_Param1) {
+    if (event.m_uiType / 1000 == NOTIFICATION_TYPE_HOST_CHANGED && NexFacade::s_pInstance->m_Unknown0x10 == event.m_uiParam1) {
         m_pJob->m_IsSessionHostChanged = true;
     }
 }

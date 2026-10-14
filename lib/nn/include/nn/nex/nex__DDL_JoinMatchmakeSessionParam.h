@@ -13,8 +13,8 @@ class _DDL_JoinMatchmakeSessionParam : public ::nn::nex::RootObject
 {
 public:
     _DDL_JoinMatchmakeSessionParam(); // ctor address unknown
-    virtual void vf_0x00(); // 0x003C4A48 slot 0x00 | virtual slot, introduced by nn::nex::_DDL_JoinMatchmakeSessionParam
-    virtual void vf_0x04(); // 0x003C4A10 slot 0x04 | virtual slot, introduced by nn::nex::_DDL_JoinMatchmakeSessionParam
+    virtual ~_DDL_JoinMatchmakeSessionParam(); // 0x003C4A48 slot 0x00
+    // 0x003C4A10 slot 0x04 (deleting dtor)
 
     // (the layout is from pia::inet::NexMatchmakeSession, which inlines the constructor; the
     // names are ours)

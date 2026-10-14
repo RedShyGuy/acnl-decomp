@@ -38,7 +38,7 @@ void nn::nex::ClientProtocol::ProcessResponse(nn::nex::Message* pMessage, nn::ne
     if (pEndPoint != nullptr
         && (pEndPoint->m_PrincipalId - SPECIAL_PRINCIPAL_FIRST < SPECIAL_PRINCIPAL_COUNT
             || (pEndPoint->GetSupportedFunctionsFlags() & FUNCTION_UNKNOWN_08000000) == 0)) {
-        pMessage->m_Unknown0x3B = true;
+        pMessage->m_IsWithoutStructureHeader = true;
     }
     qResult result;
     ExtractCallOutcome(pMessage, &result);

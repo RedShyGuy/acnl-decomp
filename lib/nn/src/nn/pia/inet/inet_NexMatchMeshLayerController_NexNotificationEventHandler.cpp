@@ -67,7 +67,7 @@ void nn::pia::inet::NexMatchMeshLayerController::NexNotificationEventHandler::Re
 // 0x00410144
 void nn::pia::inet::NexMatchMeshLayerController::NexNotificationEventHandler::ProcessNotificationEvent(const nn::nex::NotificationEvent& event)
 {
-    u32 type = event.m_Type / 1000;
+    u32 type = event.m_uiType / 1000;
     if (type != NOTIFICATION_TYPE_PARTICIPATION && type != NOTIFICATION_TYPE_OWNER_CHANGED && type != NOTIFICATION_TYPE_SESSION_DELETED &&
         type != NOTIFICATION_TYPE_110 && type != NOTIFICATION_TYPE_STRING_SET && type != NOTIFICATION_TYPE_STRING_CLEARED &&
         type != NOTIFICATION_TYPE_122) {
@@ -77,19 +77,19 @@ void nn::pia::inet::NexMatchMeshLayerController::NexNotificationEventHandler::Pr
     u8 index = pSession->m_CurrentIndex;
     session::CommonMatchmakeSession* pCurrent = pSession->m_pMatchmakeSessions[index];
     session::CommonMatchmakeSession* pOther = pSession->m_pMatchmakeSessions[index == 0 ? 1 : 0];
-    if (!IsLeftSession(event.m_Param1)) {
-        AddSession(event.m_Param1);
+    if (!IsLeftSession(event.m_uiParam1)) {
+        AddSession(event.m_uiParam1);
     }
 
-    switch (event.m_Type / 1000) {
+    switch (event.m_uiType / 1000) {
     case NOTIFICATION_TYPE_PARTICIPATION: {
-        u32 subtype = event.m_Type % 1000;
+        u32 subtype = event.m_uiType % 1000;
         if (subtype == PARTICIPATION_JOINED) {
-            if (pSession->m_Unknown0x8C == event.m_Param2) {
+            if (pSession->m_Unknown0x8C == event.m_uiParam2) {
                 ClearLeftSessions();
             }
-            u32 sessionId = event.m_Param1;
-            u32 principalId = event.m_Param2;
+            u32 sessionId = event.m_uiParam1;
+            u32 principalId = event.m_uiParam2;
             SessionEntry* pEntry = FindEntry(sessionId);
             if (pEntry == nullptr) {
                 if (AddSession(sessionId).IsFailure()) {
@@ -127,8 +127,8 @@ void nn::pia::inet::NexMatchMeshLayerController::NexNotificationEventHandler::Pr
         }
 
         // a principal left
-        u32 sessionId = event.m_Param1;
-        u32 principalId = event.m_Param2;
+        u32 sessionId = event.m_uiParam1;
+        u32 principalId = event.m_uiParam2;
         u16 leaveType = static_cast<s16>(subtype);
         SessionEntry* pEntry = FindEntry(sessionId);
         if (pEntry == nullptr && !IsLeftSession(sessionId) && AddSession(sessionId).IsSuccess()) {
@@ -162,62 +162,62 @@ void nn::pia::inet::NexMatchMeshLayerController::NexNotificationEventHandler::Pr
                 }
             }
         }
-        pSession->OnParticipantDisconnected(event.m_Param1, event.m_Param2);
-        if (pSession->m_Unknown0x8C == event.m_Param2) {
+        pSession->OnParticipantDisconnected(event.m_uiParam1, event.m_uiParam2);
+        if (pSession->m_Unknown0x8C == event.m_uiParam2) {
             // the local principal left the session
-            RemoveSession(event.m_Param1);
-            AddLeftSession(event.m_Param1);
+            RemoveSession(event.m_uiParam1);
+            AddLeftSession(event.m_uiParam1);
         }
         break;
     }
     case NOTIFICATION_TYPE_OWNER_CHANGED:
-        if (pSession->m_SessionIds[pSession->m_CurrentIndex] == event.m_Param1) {
-            pCurrent->vf_0x8C(event.m_Param2 == pSession->m_Unknown0x8C);
-            pCurrent->vf_0x94(event.m_Param2);
-        } else if (pSession->m_SessionIds[pSession->m_CurrentIndex == 0 ? 1 : 0] == event.m_Param1 && pOther != nullptr) {
-            pOther->vf_0x8C(event.m_Param2 == pSession->m_Unknown0x8C);
-            pOther->vf_0x94(event.m_Param2);
+        if (pSession->m_SessionIds[pSession->m_CurrentIndex] == event.m_uiParam1) {
+            pCurrent->vf_0x8C(event.m_uiParam2 == pSession->m_Unknown0x8C);
+            pCurrent->vf_0x94(event.m_uiParam2);
+        } else if (pSession->m_SessionIds[pSession->m_CurrentIndex == 0 ? 1 : 0] == event.m_uiParam1 && pOther != nullptr) {
+            pOther->vf_0x8C(event.m_uiParam2 == pSession->m_Unknown0x8C);
+            pOther->vf_0x94(event.m_uiParam2);
         }
-        pSession->UpdateSessionOwner(event.m_Param1, event.m_Param2);
+        pSession->UpdateSessionOwner(event.m_uiParam1, event.m_uiParam2);
         break;
     case NOTIFICATION_TYPE_SESSION_DELETED:
-        if (pSession->m_SessionIds[pSession->m_CurrentIndex] == event.m_Param1) {
+        if (pSession->m_SessionIds[pSession->m_CurrentIndex] == event.m_uiParam1) {
             m_IsSessionDeleted = true;
         }
-        if (pSession->m_SessionIds[pSession->m_CurrentIndex == 0 ? 1 : 0] == event.m_Param1 && pOther != nullptr) {
+        if (pSession->m_SessionIds[pSession->m_CurrentIndex == 0 ? 1 : 0] == event.m_uiParam1 && pOther != nullptr) {
             m_IsSessionDeleted = true;
         }
-        RemoveSession(event.m_Param1);
-        AddLeftSession(event.m_Param1);
-        pSession->OnUnknownNotification(event.m_Param1);
-        pSession->SetJoinable(event.m_Param1, true);
+        RemoveSession(event.m_uiParam1);
+        AddLeftSession(event.m_uiParam1);
+        pSession->OnUnknownNotification(event.m_uiParam1);
+        pSession->SetJoinable(event.m_uiParam1, true);
         break;
     case NOTIFICATION_TYPE_110:
-        if (IsSessionOfSession(pSession, pOther, event.m_Param1)) {
-            pSession->OnUnknownNotification2(event.m_Param1, event.m_Param2);
+        if (IsSessionOfSession(pSession, pOther, event.m_uiParam1)) {
+            pSession->OnUnknownNotification2(event.m_uiParam1, event.m_uiParam2);
         }
         break;
     case NOTIFICATION_TYPE_STRING_SET:
-        if (IsSessionOfSession(pSession, pOther, event.m_Param1)) {
-            pSession->SetString(reinterpret_cast<const u16*>(event.m_StringParam.m_pString), event.m_StringParam.GetLength());
+        if (IsSessionOfSession(pSession, pOther, event.m_uiParam1)) {
+            pSession->SetString(reinterpret_cast<const u16*>(event.m_strParam.m_pString), event.m_strParam.GetLength());
             session::Session::NotifyStationEvent(session::Session::EVENT_TYPE_STRING_SET, STATION_INDEX_UNIDENTIFIED);
         }
         break;
     case NOTIFICATION_TYPE_STRING_CLEARED:
-        if (IsSessionOfSession(pSession, pOther, event.m_Param1)) {
+        if (IsSessionOfSession(pSession, pOther, event.m_uiParam1)) {
             pSession->ClearString();
             session::Session::NotifyStationEvent(session::Session::EVENT_TYPE_STRING_CLEARED, STATION_INDEX_UNIDENTIFIED);
         }
         break;
     case NOTIFICATION_TYPE_122:
-        if (event.m_Param2 == pSession->m_Unknown0x8C && session::Session::s_pInstance->IsUsingStationIdTable()) {
+        if (event.m_uiParam2 == pSession->m_Unknown0x8C && session::Session::s_pInstance->IsUsingStationIdTable()) {
             ClearLeftSessions();
-            AddSession(event.m_Param1);
-            if (event.m_Param2 == pSession->m_Unknown0x8C && pSession->m_SessionIds[pSession->m_CurrentIndex] != event.m_Param1 &&
+            AddSession(event.m_uiParam1);
+            if (event.m_uiParam2 == pSession->m_Unknown0x8C && pSession->m_SessionIds[pSession->m_CurrentIndex] != event.m_uiParam1 &&
                 pOther != nullptr && pSession->m_State == 3) {
                 u32 otherSessionId = pSession->m_SessionIds[pSession->m_CurrentIndex == 0 ? 1 : 0];
-                if (otherSessionId == 0 || otherSessionId == event.m_Param1) {
-                    pSession->m_pMeshLayerController->SetOtherSessionId(event.m_Param1);
+                if (otherSessionId == 0 || otherSessionId == event.m_uiParam1) {
+                    pSession->m_pMeshLayerController->SetOtherSessionId(event.m_uiParam1);
                 } else if (pSession->m_pMeshLayerController->GetJointSessionJob() != nullptr &&
                            pSession->m_pMeshLayerController->GetJointSessionJob()->IsRunning()) {
                     // the joint session fails

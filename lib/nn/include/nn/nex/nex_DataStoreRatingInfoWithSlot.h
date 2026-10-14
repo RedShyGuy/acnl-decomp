@@ -10,9 +10,22 @@ namespace nex {
 class DataStoreRatingInfoWithSlot : public ::nn::nex::_DDL_DataStoreRatingInfoWithSlot
 {
 public:
-    DataStoreRatingInfoWithSlot(); // ctor address unknown
-    virtual void vf_0x00(); // 0x003BCFD4 slot 0x00 | virtual slot, introduced by nn::nex::_DDL_DataStoreRatingInfoWithSlot
-    virtual void vf_0x04(); // 0x003BCFC4 slot 0x04 | virtual slot, introduced by nn::nex::_DDL_DataStoreRatingInfoWithSlot
+    // (inline)
+    DataStoreRatingInfoWithSlot() {}
+    virtual ~DataStoreRatingInfoWithSlot(); // 0x003BCFD4 slot 0x00
+    // 0x003BCFC4 slot 0x04 (deleting dtor)
 };
+ASSERT_SIZE(DataStoreRatingInfoWithSlot, 0x28);
+
+// (out of line)
+template <>
+DECOMP_NOINLINE qVector<qVector<DataStoreRatingInfoWithSlot> >::~qVector();
+template <>
+DECOMP_NOINLINE void _Type_qvector<DDLClassMetaType<DataStoreRatingInfoWithSlot>>::Extract(Message* pMessage, Type* pVector);
 } // namespace nex
 } // namespace nn
+
+namespace std {
+template <>
+DECOMP_NOINLINE vector<nn::nex::DataStoreRatingInfoWithSlot, nn::nex::MemAllocator<nn::nex::DataStoreRatingInfoWithSlot> >::~vector();
+} // namespace std

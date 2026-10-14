@@ -10,9 +10,15 @@ namespace nex {
 class DataStoreRatingTarget : public ::nn::nex::_DDL_DataStoreRatingTarget
 {
 public:
-    DataStoreRatingTarget(); // ctor address unknown
-    virtual void vf_0x00(); // 0x0039842C slot 0x00 | fefates:callseq
-    virtual void vf_0x04(); // 0x00398428 slot 0x04 | virtual slot, introduced by nn::nex::DataStoreRatingTarget
+    // (inline)
+    DataStoreRatingTarget() {}
+    virtual ~DataStoreRatingTarget(); // 0x0039842C slot 0x00
+    // 0x00398428 slot 0x04 (deleting dtor)
 };
+ASSERT_SIZE(DataStoreRatingTarget, 0x18);
+
+// (out of line)
+template <>
+DECOMP_NOINLINE void _Type_qvector<DDLClassMetaType<DataStoreRatingTarget>>::Add(Message* pMessage, const Type& vector);
 } // namespace nex
 } // namespace nn

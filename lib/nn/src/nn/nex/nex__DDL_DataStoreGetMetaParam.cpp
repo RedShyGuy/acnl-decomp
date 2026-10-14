@@ -1,21 +1,13 @@
-#include "nn/nex/nex_RootObject.h"
 #include "nn/nex/nex__DDL_DataStoreGetMetaParam.h"
+#include "nn/nex/nex_DataStoreGetMetaParam.h"
 
 namespace nn {
 namespace nex {
-// ctor address unknown
-nn::nex::_DDL_DataStoreGetMetaParam::_DDL_DataStoreGetMetaParam()
+// 0x003BBBE8 slot 0x00
+// 0x003BBBD8 (deleting dtor)
+nn::nex::_DDL_DataStoreGetMetaParam::~_DDL_DataStoreGetMetaParam()
 {
-}
-
-// 0x003BBBE8 slot 0x00 | virtual slot, introduced by nn::nex::_DDL_DataStoreGetMetaParam
-void nn::nex::_DDL_DataStoreGetMetaParam::vf_0x00()
-{
-}
-
-// 0x003BBBD8 slot 0x04 | virtual slot, introduced by nn::nex::_DDL_DataStoreGetMetaParam
-void nn::nex::_DDL_DataStoreGetMetaParam::vf_0x04()
-{
+    // nothing to do: the members and bases are destroyed / constructed by the compiler
 }
 
 } // namespace nex

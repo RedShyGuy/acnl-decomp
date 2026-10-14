@@ -3,19 +3,23 @@
 
 namespace nn {
 namespace nex {
-// 0x003718CC slot 0x00 | slot vf_0x00 of nn::nex::_DDL_MatchmakeParam
-nn::nex::MatchmakeParam::~MatchmakeParam()
-{
-}
-
 // 0x0037181C | fefates:bytes [tier B]
 nn::nex::MatchmakeParam::MatchmakeParam()
 {
+    m_Params.clear();
+}
+
+// 0x003718CC slot 0x00
+// 0x003718BC (deleting dtor)
+nn::nex::MatchmakeParam::~MatchmakeParam()
+{
+    // nothing to do: the members and bases are destroyed / constructed by the compiler
 }
 
 // 0x003D3924 (name is ours)
-void nn::nex::MatchmakeParam::SetParam(const String&, const Variant&)
+void nn::nex::MatchmakeParam::SetParam(const String& key, const Variant& value)
 {
+    m_Params[key] = value;
 }
 
 // 0x0096B104
@@ -38,8 +42,14 @@ const wchar_t* g_MatchmakeParamKeyUpGI = L"@UpGI";
 const wchar_t* g_MatchmakeParamKeyLGFPC = L"@LGFPC";
 
 // 0x0072B124 (name is ours)
-bool nn::nex::MatchmakeParam::GetParamLGFPC(u32*) const
+bool nn::nex::MatchmakeParam::GetParamLGFPC(u32* pValue) const
 {
+    Variant value;
+    bool isFound = GetParam(String(g_MatchmakeParamKeyLGFPC), &value);
+    if (isFound && pValue != nullptr) {
+        *pValue = value.GetUInt32Value();
+    }
+    return isFound;
 }
 
 } // namespace nex

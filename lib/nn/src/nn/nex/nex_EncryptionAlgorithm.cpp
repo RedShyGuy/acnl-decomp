@@ -1,51 +1,72 @@
-#include "nn/nex/nex_PluginObject.h"
 #include "nn/nex/nex_EncryptionAlgorithm.h"
+#include "nn/nex/nex_Buffer.h"
+#include <cwchar>
 
 namespace nn {
 namespace nex {
-// ctor address unknown
-nn::nex::EncryptionAlgorithm::EncryptionAlgorithm()
-{
-}
+namespace {
+// (Decrypt without a buffer)
+const int ERROR_NO_BUFFER = 3;
+} // namespace
 
-// 0x00393320 slot 0x00 | slot vf_0x00 of nn::nex::EncryptionAlgorithm
-nn::nex::EncryptionAlgorithm::~EncryptionAlgorithm()
-{
-}
-
-// 0x0011C12F slot 0x08 | slot vf_0x00 of ChangeRentalBase
-void nn::nex::EncryptionAlgorithm::Encrypt(const nn::nex::Buffer&, nn::nex::Buffer*)
-{
-}
-
-// 0x00393294 slot 0x0C | fefates:bytes
-void nn::nex::EncryptionAlgorithm::Encrypt(nn::nex::Buffer*)
-{
-}
-
-// 0x0011C12F slot 0x10 | slot vf_0x00 of ChangeRentalBase
-void nn::nex::EncryptionAlgorithm::Decrypt(const nn::nex::Buffer&, nn::nex::Buffer*)
-{
-}
-
-// 0x00393230 slot 0x14 | fefates:bytes
-void nn::nex::EncryptionAlgorithm::Decrypt(nn::nex::Buffer*)
-{
-}
-
-// 0x0039318C slot 0x18 | virtual slot, introduced by nn::nex::EncryptionAlgorithm
-void nn::nex::EncryptionAlgorithm::vf_0x18()
-{
-}
-
-// 0x00393188 slot 0x1C | slot vf_0x1C of nn::nex::EncryptionAlgorithm
+// 0x00393188
 void nn::nex::EncryptionAlgorithm::KeyHasChanged()
 {
+    // nothing to do: the algorithms with a key schedule override it
+}
+
+// 0x0039318C (name is ours)
+bool nn::nex::EncryptionAlgorithm::GetErrorString(int error, wchar_t* pString, u32 size)
+{
+    if (wcslen(L"Encryption Error") >= size) {
+        return false;
+    }
+    wcscpy(pString, L"Encryption Error");
+    return true;
 }
 
 // 0x003931E4 | fefates:bytes [tier B]
-void nn::nex::EncryptionAlgorithm::SetKey(const nn::nex::Key&)
+bool nn::nex::EncryptionAlgorithm::SetKey(const nn::nex::Key& key)
 {
+    u32 length = key.GetLength();
+    if (length < m_MinKeyLength || length > m_MaxKeyLength) {
+        return false;
+    }
+    m_Key = key;
+    KeyHasChanged();
+    return true;
+}
+
+// 0x00393230 | fefates:bytes [tier B]
+int nn::nex::EncryptionAlgorithm::Decrypt(nn::nex::Buffer* pBuffer)
+{
+    if (pBuffer == nullptr) {
+        return ERROR_NO_BUFFER;
+    }
+    Buffer output;
+    int error = Decrypt(*pBuffer, &output);
+    if (error == 0) {
+        *pBuffer = output;
+    }
+    return error;
+}
+
+// 0x00393294 | fefates:bytes [tier B]
+int nn::nex::EncryptionAlgorithm::Encrypt(nn::nex::Buffer* pBuffer)
+{
+    Buffer output;
+    int error = Encrypt(*pBuffer, &output);
+    if (error == 0) {
+        *pBuffer = output;
+    }
+    return error;
+}
+
+// 0x00393320
+// 0x003932EC (deleting dtor)
+nn::nex::EncryptionAlgorithm::~EncryptionAlgorithm()
+{
+    // nothing to do: the members and bases are destroyed / constructed by the compiler
 }
 
 } // namespace nex
