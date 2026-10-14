@@ -358,7 +358,8 @@ def header_addresses():
     return out
 
 
-VARIABLE_RE = re.compile(r'([A-Za-z_]\w*(?:::[A-Za-z_]\w*)*)\s*(?:\[[^\]]*\]\s*)*\s*(?:\)\s*\(.*\))?\s*(?:=.*)?;\s*(?://.*)?$')
+# (the qualified name may have template arguments: a static member of a specialization)
+VARIABLE_RE = re.compile(r'([A-Za-z_]\w*(?:<[^<>;=]*(?:<[^<>;=]*>[^<>;=]*)*>)?(?:::[A-Za-z_]\w*(?:<[^<>;=]*(?:<[^<>;=]*>[^<>;=]*)*>)?)*)\s*(?:\[[^\]]*\]\s*)*\s*(?:\)\s*\(.*\))?\s*(?:=.*)?;\s*(?://.*)?$')
 # a variable with constructor arguments ("Heap s_Heap(16, buffer, size);"), tried when VARIABLE_RE
 # does not match (a function pointer declarator would match this, too)
 VARIABLE_INIT_RE = re.compile(r'([A-Za-z_]\w*(?:::[A-Za-z_]\w*)*)\s*\(.*\);\s*(?://.*)?$')

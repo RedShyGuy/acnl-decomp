@@ -2,6 +2,7 @@
 
 #include "decomp.h"
 #include "nn/nex/nex_MemoryManager.h"
+#include "nn/nex/nex_RootObject.h"
 #include <new>
 
 namespace nn {
@@ -11,8 +12,9 @@ namespace nex {
 //
 // The list of the RW STL with a node pool (like qMap): the buffers of nodes, the free nodes and the
 // circular list behind the head node. ARMCC inlines its functions. The member names are ours.
+// (nex allocates the lists of the any adapters with new: RootObject)
 template <typename T0>
-class qList
+class qList : public RootObject
 {
 public:
     // a node of the circular list (the layout is from pia::inet::NexFacade; the names are ours)

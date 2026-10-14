@@ -100,3 +100,10 @@
 0x3B5BD4	nn::nex::_DDL_PersistentGathering::Add(nn::nex::Message*, nn::nex::_DDL_PersistentGathering const&)	manual:ours	0x0	after StreamIn nop
 0x82FDB0	nn::nex::qList<nn::nex::MatchmakeSessionSearchCriteria>::clear()	manual:ours	0x0	virtual dtor per node
 0x82F2BC	nn::nex::qList<nn::nex::ResultRange>::clear()	manual:ours	0x0	virtual dtor per node
+0x370380	nn::nex::AnyDataAdapter::RegisterPrototype(nn::nex::Data*)	manual:ours	0x0	clone type check
+0x370518	nn::nex::AnyDataAdapter::UnregisterPrototype(nn::nex::String const&)	manual:ours	0x0	delete prototype
+0x3913C4	nn::nex::AnyGatheringAdapter::UnregisterPrototype(nn::nex::String const&)	manual:ours	0x0	delete prototype
+0x3914CC	nn::nex::AnyGatheringAdapter::UnregisterAllPrototypes()	manual:ours	0x0	loop
+0x7D6E70	nn::nex::AnyObjectHolder<nn::nex::Gathering, nn::nex::String>::StreamOut(nn::nex::Message*)	manual:ours	0x0	adapter 0x9830A8
+0x7D6E48	nn::nex::AnyObjectHolder<nn::nex::Data, nn::nex::String>::~AnyObjectHolder()	manual:ours	0x0	dtor
+0x7D6EF4	nn::nex::AnyObjectHolder<nn::nex::Gathering, nn::nex::String>::~AnyObjectHolder()	manual:ours	0x0	dtor

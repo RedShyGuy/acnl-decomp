@@ -1,6 +1,8 @@
 #pragma once
 
 #include "decomp.h"
+#include "nn/nex/nex_AnyObjectAdapter.h"
+#include "nn/nex/nex_RootObject.h"
 
 namespace nn {
 namespace nex {
@@ -9,15 +11,19 @@ namespace nex {
 //   nn::nex::AnyObjectHolder<nn::nex::Gathering, nn::nex::String>  typeinfo 0x008CE454  vtable 0x008FCE34
 //
 // Holds an object of the DDL type (any<Gathering,string> in the protocol definitions) and owns
-// it. The layout is from pia::inet::NexMatchmakeSession; ARMCC inlines its functions. The names
-// are ours.
+// it. The layout is from pia::inet::NexMatchmakeSession; ARMCC inlines its functions (the
+// destructors have copies out of line, see nex_AnyObjectHolder.cpp). The names are ours.
 template <typename T0, typename T1>
-class AnyObjectHolder
+class AnyObjectHolder : public RootObject
 {
 public:
     AnyObjectHolder() : m_pObject(nullptr) {}
-    // (not decompiled yet)
-    virtual ~AnyObjectHolder();
+    virtual ~AnyObjectHolder()
+    {
+        if (m_pObject != nullptr) {
+            delete m_pObject;
+        }
+    }
 
     T0* Get() const { return m_pObject; }
     // the object is deleted and replaced
@@ -34,6 +40,16 @@ public:
         T0* pObject = m_pObject;
         m_pObject = nullptr;
         return pObject;
+    }
+
+    // (through the registered adapter of the type)
+    void StreamIn(Message* pMessage) const { AnyObjectAdapter<T0, T1>::s_pInstance->StreamIn(pMessage, *m_pObject); }
+    // the object is replaced by the one in the message (with a copy out of line)
+    void StreamOut(Message* pMessage)
+    {
+        T0* pObject;
+        AnyObjectAdapter<T0, T1>::s_pInstance->StreamOut(pMessage, &pObject);
+        Reset(pObject);
     }
 
     T0* m_pObject; // 0x4
