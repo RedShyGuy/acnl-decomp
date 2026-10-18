@@ -8,7 +8,7 @@ namespace nex {
 // 0x00374868 (name is ours)
 nn::nex::StreamSettings::StreamSettings()
 {
-    m_Unknown0x04 = static_cast<u32>(-1);
+    m_StreamType = static_cast<u32>(-1);
     m_KeyByteSum = 0;
     m_KeySum = 0;
     m_pCompressionAlgorithm = nullptr;

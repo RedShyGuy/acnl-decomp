@@ -1,9 +1,16 @@
+#define NEX_QRESULT_EMIT_COPIES
 #include "nn/nex/nex_qResult.h"
 
 // The constructors and the assignment are inline in the header (ARMCC inlines them).
 
 namespace nn {
 namespace nex {
+// 0x0072E5EC (name is ours)
+u32 nn::nex::qResult::GetModule() const
+{
+    return (static_cast<u32>(m_Code) << 8) >> 24;
+}
+
 // 0x0072E5FC | mk7dlp:bytes [tier A]
 bool nn::nex::qResult::Equals(const bool& isSuccess) const
 {

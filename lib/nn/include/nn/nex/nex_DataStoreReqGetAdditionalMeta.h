@@ -10,8 +10,7 @@ namespace nex {
 class DataStoreReqGetAdditionalMeta : public ::nn::nex::_DDL_DataStoreReqGetAdditionalMeta
 {
 public:
-    // (inline)
-    DataStoreReqGetAdditionalMeta() {}
+    DataStoreReqGetAdditionalMeta(); // 0x003BF7A8
     virtual ~DataStoreReqGetAdditionalMeta(); // 0x003BF7FC slot 0x00
     // 0x003BF7DC slot 0x04 (deleting dtor)
 };

@@ -28,6 +28,8 @@ public:
 
     // the result of the current call
     void SetCallError(nn::nex::qResult result); // 0x00374230 | mk7dlp:callseq-callee [tier A]
+    // (SetCallError where the original inlined it)
+    void SetCallErrorInline(const nn::nex::qResult& result);
     // dispatches a call with the SecurityContext of the end point
     void DispatchCallRequest(unsigned int callId, nn::nex::Message* pRequest, nn::nex::Message* pResponse, bool* pIsHandled, int* pAttemptCount, nn::nex::EndPoint* pEndPoint); // 0x00374264 | fefates:callseq [tier C]
 };

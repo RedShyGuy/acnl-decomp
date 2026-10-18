@@ -685,7 +685,7 @@ nn::pia::common::ExecuteResult nn::pia::inet::NexJointSessionJob::WaitNotificati
         return common::ExecuteResult(NEXT_DISPATCH);
     }
     NexMatchMeshLayerController* pController = GetController();
-    if (pController->HasParticipant(m_JointSessionId, NexFacade::s_pInstance->m_pNgsBridge->vf_0x0C())) {
+    if (pController->HasParticipant(m_JointSessionId, NexFacade::s_pInstance->m_pNgsBridge->GetPrincipalId())) {
         SetStep(&NexJointSessionJob::SendNextSessionId, "NexJointSessionJob::SendNextSessionId");
         return common::ExecuteResult(CONTINUE);
     }

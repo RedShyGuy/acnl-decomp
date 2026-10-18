@@ -10,8 +10,7 @@ namespace nex {
 class DataStoreReqUpdateInfo : public ::nn::nex::_DDL_DataStoreReqUpdateInfo
 {
 public:
-    // (inline)
-    DataStoreReqUpdateInfo() {}
+    DataStoreReqUpdateInfo(); // 0x0039C1A4
     virtual ~DataStoreReqUpdateInfo(); // 0x0039C238 slot 0x00
     // 0x0039C1F8 slot 0x04 (deleting dtor)
 };

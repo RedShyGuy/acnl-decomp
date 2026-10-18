@@ -36,7 +36,7 @@ public:
     ThreadVariable<u32> m_LastError;                              // 0x014 (SystemError)
     ThreadVariable<u32> m_LastErrorDetail;                        // 0x068 (SystemError)
     ThreadVariable<ObjectThreadRoot*> m_CurrentThread;            // 0x0BC
-    qMap<String, qVector<u8> > m_Unknown0x110;                    // 0x110
+    qMap<String, qVector<u8> > m_RootCaCache;                     // 0x110 (RootCaReader: the certificates by file name)
     EventLog m_EventLog;                                          // 0x12C
     TraceLog m_TraceLog;                                          // 0x148
     CacheManager m_CacheManager;                                  // 0x160
@@ -49,3 +49,9 @@ public:
 ASSERT_SIZE(GlobalVariables, 0x190);
 } // namespace nex
 } // namespace nn
+
+namespace std {
+// (out of line in the original; nex_GlobalVariables.cpp)
+template <>
+DECOMP_NOINLINE pair<map<nn::nex::String, nn::nex::qVector<u8> >::iterator, bool> map<nn::nex::String, nn::nex::qVector<u8> >::insert(const value_type& value);
+} // namespace std

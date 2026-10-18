@@ -16,5 +16,9 @@ public:
     // 0x003983D8 slot 0x04 (deleting dtor)
 };
 ASSERT_SIZE(DataStoreGetMetaParam, 0x30);
+
+// (out of line)
+template <>
+DECOMP_NOINLINE void DDLClassMetaType<DataStoreGetMetaParam>::Add(Message* pMessage, const nn::nex::DataStoreGetMetaParam& value);
 } // namespace nex
 } // namespace nn

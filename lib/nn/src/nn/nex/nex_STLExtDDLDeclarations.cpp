@@ -1,26 +1,25 @@
-#include "nn/nex/nex_DDLDeclarations.h"
 #include "nn/nex/nex_STLExtDDLDeclarations.h"
+#include "nn/nex/nex_PseudoGlobalVariable.h"
 
 namespace nn {
 namespace nex {
-// ctor candidate(s) 0x0039A968 (unverified)
-nn::nex::STLExtDDLDeclarations::STLExtDDLDeclarations()
+// 0x0039A968
+nn::nex::STLExtDDLDeclarations::STLExtDDLDeclarations() : DDLDeclarations(true)
 {
+    // nothing to do
 }
 
-// 0x0039A994 slot 0x00 | virtual slot, introduced by nn::nex::DDLDeclarations
-void nn::nex::STLExtDDLDeclarations::vf_0x00()
+// 0x0039A994 slot 0x00
+// 0x0039A990 (deleting dtor)
+nn::nex::STLExtDDLDeclarations::~STLExtDDLDeclarations()
 {
+    // nothing to do
 }
 
-// 0x0039A990 slot 0x04 | virtual slot, introduced by nn::nex::DDLDeclarations
-void nn::nex::STLExtDDLDeclarations::vf_0x04()
+// 0x0039A964 slot 0x08
+void nn::nex::STLExtDDLDeclarations::Declare()
 {
-}
-
-// 0x0039A964 slot 0x08 | virtual slot, introduced by nn::nex::DDLDeclarations
-void nn::nex::STLExtDDLDeclarations::vf_0x08()
-{
+    // nothing to do
 }
 
 } // namespace nex

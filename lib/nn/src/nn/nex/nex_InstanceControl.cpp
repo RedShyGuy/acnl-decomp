@@ -16,6 +16,13 @@ nn::nex::InstanceControl::InstanceControl(u32 kind, u32 context)
     }
 }
 
+// 0x003784D8 (name is ours)
+void nn::nex::InstanceControl::SetOwner(void* pOwner)
+{
+    ScopedCS lock(InstanceTable::s_Lock);
+    m_pOwner = pOwner;
+}
+
 // 0x00378644
 // 0x00378610 (deleting dtor)
 nn::nex::InstanceControl::~InstanceControl()

@@ -16,6 +16,8 @@ class ByteStream : public ::nn::nex::RootObject
 public:
     // (inline)
     ByteStream() : m_IsError(false), m_pBuffer(new Buffer()), m_Position(0) {}
+    // (inline) with a new buffer of the size
+    explicit ByteStream(u32 size) : m_IsError(false), m_pBuffer(new Buffer(size)), m_Position(0) {}
     // (inline) the stream takes a reference to the buffer
     explicit ByteStream(Buffer* pBuffer) : m_pBuffer(pBuffer)
     {

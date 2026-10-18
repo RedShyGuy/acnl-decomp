@@ -60,7 +60,7 @@ void nn::nex::Buffer::Initialize(unsigned int size, unsigned char flags)
     m_Size = size;
     m_HeaderSize = 0;
     m_pData = static_cast<u8*>(AllocateDataBuffer(size));
-    m_Unknown0x1D = 0;
+    m_TTL = 0;
     m_Unknown0x1E = 0;
 }
 
@@ -193,7 +193,7 @@ nn::nex::Buffer::Buffer(const nn::nex::String& string)
             m_pData[i] = GetHexValue(string.m_pString[i * 2 + 1]) | (GetHexValue(string.m_pString[i * 2]) << 4);
         }
     }
-    m_Unknown0x1D = 0;
+    m_TTL = 0;
     m_Unknown0x1E = 0;
 }
 
@@ -207,7 +207,7 @@ nn::nex::Buffer::Buffer(const nn::nex::Buffer& other)
     m_HeaderSize = 0;
     *this = other;
     m_Flags = other.m_Flags & ~FLAG_USE_POOL;
-    m_Unknown0x1D = other.m_Unknown0x1D;
+    m_TTL = other.m_TTL;
     m_Unknown0x1E = other.m_Unknown0x1E;
 }
 
@@ -248,7 +248,7 @@ nn::nex::Buffer& nn::nex::Buffer::operator=(const nn::nex::Buffer& other)
     m_HeaderSize = headerSize;
     m_ContentSize = oldHeaderSize - headerSize + m_ContentSize;
     m_Flags = (other.m_Flags & ~FLAG_USE_POOL) | (m_Flags & FLAG_USE_POOL);
-    m_Unknown0x1D = other.m_Unknown0x1D;
+    m_TTL = other.m_TTL;
     return *this;
 }
 

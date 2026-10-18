@@ -38,7 +38,7 @@ public:
     nn::nex::StringStream& operator<<(unsigned int value) { return StreamNumber(value); }
 
     // the number of characters (inline in the original, with a copy out of line)
-    u32 GetLength() const { return m_pCursor - m_pBuffer; } // 0x0072A604 | fefates:bytes [tier B]
+    DECOMP_EMIT_COPY u32 GetLength() const { return m_pCursor - m_pBuffer; } // 0x0072A604 | fefates:bytes [tier B]
     const wchar_t* CStr() const { return m_pBuffer; }
 
     wchar_t* m_pBuffer;                     // 0x004

@@ -8,6 +8,8 @@
 
 namespace nn {
 namespace nex {
+class CallContext;
+class UserContext;
 class RootObject;
 
 // The name of a job for the debug output (empty in this build; the class name is from the binary).
@@ -62,6 +64,13 @@ public:
     void SetToWaiting(int waitTime); // 0x003CC594 | fefates:bytes [tier B]
     void SetToComplete(); // 0x003CC630 | mk7dlp:callseq-callee [tier A]
     void SetToSuspended(); // 0x003CC63C | fefates:callgraph [tier C]
+    void SetToReady(); // 0x003CC580 (name is ours)
+    void SetToRunning(); // 0x003CC58C (name is ours)
+    // a copy of SetToReady (name is ours)
+    void SetReadyState(); // 0x003CC718
+    // the completion callback of a call the job waits for: the job is ready again (the context is the
+    // job; the name is ours)
+    static void ReadyOnCompletion(nn::nex::CallContext* pContext, const nn::nex::UserContext* pUserContext); // 0x003CC578
     DECOMP_NOINLINE void SetState(nn::nex::Job::State state); // 0x003CC750 | fefates:bytes [tier B]
     // waits (with the scheduler) until the job is complete
     bool WaitForCompletion(unsigned int timeout); // 0x003CC650 | fefates:callgraph [tier C]

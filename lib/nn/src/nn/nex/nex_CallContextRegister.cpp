@@ -141,7 +141,7 @@ void nn::nex::CallContextRegister::Start()
         Job::JOB_TYPE_DEFAULT, DebugString(String(L"CallContextRegister::CheckExpiredCalls")), this, &CallContextRegister::CheckExpiredCalls, 0);
     m_pTimeoutJob->m_Period = s_CheckExpiredCallsPeriod.m_Value;
     m_pTimeoutJob->AcquireRef();
-    Scheduler::GetInstance()->Queue(m_pTimeoutJob, false);
+    Scheduler::GetInstanceInline()->Queue(m_pTimeoutJob, false);
 }
 
 // 0x00392350 | fefates:bytes [tier B]

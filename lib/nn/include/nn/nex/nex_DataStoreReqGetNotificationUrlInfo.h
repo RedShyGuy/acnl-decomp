@@ -10,8 +10,7 @@ namespace nex {
 class DataStoreReqGetNotificationUrlInfo : public ::nn::nex::_DDL_DataStoreReqGetNotificationUrlInfo
 {
 public:
-    // (inline)
-    DataStoreReqGetNotificationUrlInfo() {}
+    DataStoreReqGetNotificationUrlInfo(); // 0x003CB820
     virtual ~DataStoreReqGetNotificationUrlInfo(); // 0x003CB8AC slot 0x00
     // 0x003CB86C slot 0x04 (deleting dtor)
 };

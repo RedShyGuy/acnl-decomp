@@ -5,29 +5,47 @@
 
 namespace nn {
 namespace nex {
+class ClientProtocol;
+class Credentials;
+class EndPoint;
+class ProtocolCallContext;
+class ProtocolRegistry;
+
+// The base of the clients of a back end: the default credentials (with the connections) of its
+// protocols. The names of the members and of the functions without a reference name are ours.
 // RTTI N2nn3nex13ServiceClientE @ 0x008CE290
 // vtable 0x008FC990 (vptr 0x008FC998), offset_to_top 0, 10 entries
 class ServiceClient : public ::nn::nex::RootObject
 {
 public:
-    ServiceClient(); // ctor candidate(s) 0x0036D600 (unverified)
+    // id: the id of the client (the default for the clients that are not decompiled yet)
+    explicit ServiceClient(unsigned int id = 0); // 0x0036D600
     virtual ~ServiceClient(); // 0x0036D6F4 slot 0x00 | fefates:bytes
-    // 0x0036D6E4 slot 0x04 | slot vf_0x04 of nn::nex::ServiceClient (deleting dtor)
-    virtual void vf_0x08(); // 0x0036D484 slot 0x08 | virtual slot, introduced by nn::nex::ServiceClient
-    virtual bool Bind(nn::nex::Credentials*); // 0x0036D528 slot 0x0C | slot vf_0x0C of nn::nex::ServiceClient
-    virtual void Unbind(); // 0x0036D5A4 slot 0x10 | slot vf_0x10 of nn::nex::ServiceClient
-    virtual void IsConnected() const; // 0x0072AA08 slot 0x14 | slot vf_0x14 of nn::nex::ServiceClient
-    virtual void IsFaulty() const; // 0x0072AB28 slot 0x18 | fefates:bytes
-    virtual void ConnectionStateHasChanged(); // 0x0036D524 slot 0x1C | slot vf_0x1C of nn::nex::ServiceClient
-    virtual void UpdateProtocolsDefaultCredentials(nn::nex::Credentials*); // 0x0011C12F slot 0x20 | slot vf_0x00 of ChangeRentalBase
-    virtual void vf_0x24(); // 0x0072AAEC slot 0x24 | virtual slot, introduced by nn::nex::ServiceClient
-    void SetDefaultCredentials(nn::nex::Credentials*); // 0x0036D488 | fefates:bytes [tier B]
-    void RegisterProtocol(nn::nex::Protocol*); // 0x00383520 | fefates:bytes [tier B]
-    void GetConnection(unsigned short) const; // 0x0072AAA4 | fefates:bytes [tier B]
+    // 0x0036D6E4 slot 0x04 (deleting dtor)
+    virtual void vf_0x08(); // 0x0036D484 slot 0x08
+    virtual bool Bind(nn::nex::Credentials* pCredentials); // 0x0036D528 slot 0x0C
+    virtual bool Unbind(); // 0x0036D5A4 slot 0x10
+    virtual bool IsConnected() const; // 0x0072AA08 slot 0x14
+    virtual bool IsFaulty() const; // 0x0072AB28 slot 0x18 | fefates:bytes
+    virtual void ConnectionStateHasChanged(); // 0x0036D524 slot 0x1C
+    virtual void UpdateProtocolsDefaultCredentials(nn::nex::Credentials* pCredentials) = 0; // slot 0x20
+    // the call goes to the connection of its credentials (or of the default ones); false if there
+    // is none
+    virtual bool SetCallOwner(nn::nex::ProtocolCallContext* pContext); // 0x0072AAEC slot 0x24
+    void SetDefaultCredentials(nn::nex::Credentials* pCredentials); // 0x0036D488 | fefates:bytes [tier B]
+    // false if the registry does not take the responder (only a nop in the original at the end that
+    // falls into ProtocolRegistry::RegisterProtocol)
+    bool RegisterProtocol(nn::nex::ClientProtocol* pProtocol); // 0x00383520 | fefates:bytes [tier B]
+    // (inline; nothing is left of it in this build)
+    bool UnregisterProtocol(nn::nex::ClientProtocol* pProtocol) { return true; }
+    // the connection of the stream type (10: the secure one)
+    nn::nex::EndPoint* GetConnection(unsigned short streamType) const; // 0x0072AAA4 | fefates:bytes [tier B]
+    nn::nex::ProtocolRegistry* GetProtocolRegistry() const; // 0x0072AADC
 
-    // (only the members pia uses; the names are ours)
-    u32 m_Unknown0x4;                     // 0x4
-    Credentials* m_pDefaultCredentials;   // 0x8
+    u32 m_Id;                             // 0x04
+    Credentials* m_pDefaultCredentials;   // 0x08
+    bool m_IsLocal;                       // 0x0C (no connections)
 };
+ASSERT_SIZE(ServiceClient, 0x10);
 } // namespace nex
 } // namespace nn

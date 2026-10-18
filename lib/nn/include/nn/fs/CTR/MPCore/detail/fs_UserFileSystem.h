@@ -36,8 +36,8 @@ public:
     static nn::Result TrySetFileSize(void* file, s64 size); // 0x00347A58 (name is ours)
     static nn::Result TryFlush(void* file); // 0x00347CB8 (the name symbols.json gives 0x00347A58)
     static nn::Result TrySetPriorityForFile(void* file, s32 priority); // 0x00347C2C | fefates:bytes [tier B]
-    // symbols.json also names 0x00373B68 CloseFile (nintendogs:bytes); that one calls slot 0x2C
-    // and lies among nn::nex code
+    // (symbols.json named 0x00373B68 CloseFile (nintendogs:bytes); that code is the end of
+    // nex::SecureEndPoint::IsConnected)
     static void CloseFile(void* file); // 0x00130268
 
     static nn::Result TryReadDirectory(s32* readCount, void* directory, nn::fs::DirectoryEntry* entries, s32 count); // 0x00347B04 | nintendogs:bytes [tier A]

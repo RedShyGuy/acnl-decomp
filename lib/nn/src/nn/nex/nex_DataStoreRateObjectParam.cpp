@@ -16,5 +16,30 @@ DECOMP_NOINLINE void _Type_qvector<DDLClassMetaType<DataStoreRateObjectParam>>::
     AddInline(pMessage, vector);
 }
 
+// 0x003C1A94
+template <>
+DECOMP_NOINLINE void DDLClassMetaType<DataStoreRateObjectParam>::Add(Message* pMessage, const nn::nex::DataStoreRateObjectParam& value)
+{
+    DataStoreRateObjectParam::Add(pMessage, value);
+}
+
 } // namespace nex
 } // namespace nn
+
+namespace std {
+// 0x008322CC
+template <>
+DECOMP_NOINLINE void vector<nn::nex::DataStoreRateObjectParam, nn::nex::MemAllocator<nn::nex::DataStoreRateObjectParam> >::_C_insert_aux(nn::nex::DataStoreRateObjectParam* pos, const nn::nex::DataStoreRateObjectParam& value)
+{
+    InsertAuxInline(pos, value);
+}
+} // namespace std
+
+namespace std {
+// 0x00832528
+template <>
+DECOMP_NOINLINE vector<nn::nex::DataStoreRateObjectParam, nn::nex::MemAllocator<nn::nex::DataStoreRateObjectParam> >::~vector()
+{
+    DestroyInline();
+}
+} // namespace std

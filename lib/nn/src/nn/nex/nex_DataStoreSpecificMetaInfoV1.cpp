@@ -11,3 +11,12 @@ nn::nex::DataStoreSpecificMetaInfoV1::~DataStoreSpecificMetaInfoV1()
 
 } // namespace nex
 } // namespace nn
+
+namespace std {
+// 0x008335A0
+template <>
+DECOMP_NOINLINE void vector<nn::nex::DataStoreSpecificMetaInfoV1, nn::nex::MemAllocator<nn::nex::DataStoreSpecificMetaInfoV1> >::_C_insert_aux(nn::nex::DataStoreSpecificMetaInfoV1* pos, const nn::nex::DataStoreSpecificMetaInfoV1& value)
+{
+    InsertAuxInline(pos, value);
+}
+} // namespace std

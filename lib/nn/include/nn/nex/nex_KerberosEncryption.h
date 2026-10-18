@@ -5,6 +5,7 @@
 #include "nn/nex/nex_Key.h"
 #include "nn/nex/nex_MD5KeyDerivation.h"
 #include "nn/nex/nex_RC4Encryption.h"
+#include "nn/nex/nex_RootObject.h"
 
 namespace nn {
 namespace nex {
@@ -15,7 +16,7 @@ class KeyCache;
 // The encryption of Kerberos tickets and messages: RC4 with an HMAC-MD5 checksum appended, both with
 // the same key. The keys of passwords come from a KeyDerivation (by default MD5 with 65000 + id %
 // 1024 iterations) and a KeyCache. The member names and the names of the statics are ours.
-class KerberosEncryption
+class KerberosEncryption : public ::nn::nex::RootObject
 {
 public:
     KerberosEncryption(); // 0x0038C350 | mk7dlp:callseq [tier A]
@@ -51,6 +52,7 @@ public:
     static KeyDerivation* s_pKeyDerivation;
     static MD5KeyDerivation s_DefaultKeyDerivation;
 };
+ASSERT_SIZE(KerberosEncryption, 0x2FC);
 ASSERT_OFFSET(KerberosEncryption, m_Checksum, 0x234);
 ASSERT_OFFSET(KerberosEncryption, m_Key, 0x2E4);
 } // namespace nex

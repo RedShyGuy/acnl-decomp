@@ -25,6 +25,15 @@ public:
 
     InetAddress(); // 0x003578CC | mk7dlp:bytes [tier A]
     InetAddress(unsigned int address, unsigned short port); // 0x0035789C | mk7dlp:bytes [tier A]
+    // (inline) a dotted address (see SetAddress) and the port
+    InetAddress(const wchar_t* pAddress, unsigned short port)
+    {
+        *reinterpret_cast<u32*>(&m_SockAddr) = 0;
+        m_SockAddr.m_Address = 0;
+        m_SockAddr.m_Family = 2;
+        SetAddress(pAddress);
+        m_SockAddr.m_Port = __builtin_bswap16(port);
+    }
     InetAddress(const nn::nex::InetAddress& other); // 0x0035787C | mk7dlp:bytes [tier A]
     virtual ~InetAddress(); // 0x00357908 slot 0x00
     // 0x003578F0 slot 0x04 (deleting dtor)
@@ -40,6 +49,13 @@ public:
     u16 GetPortNumber() const; // 0x0072A180 | fefates:callgraph [tier C]
     // "address:port"
     void ToStr(wchar_t* pString) const; // 0x0072A18C | fefates:bytes [tier B]
+    // (inline) the order of the maps: the address, then the port (signed, in network byte order)
+    bool operator<(const InetAddress& other) const { return GetKey() < other.GetKey(); }
+    s64 GetKey() const { return static_cast<s64>((static_cast<u64>(m_SockAddr.m_Address) << 32) | m_SockAddr.m_Port); }
+    // (inline) the same address and port
+    bool IsSame(const InetAddress& other) const { return m_SockAddr.m_Address == other.m_SockAddr.m_Address && m_SockAddr.m_Port == other.m_SockAddr.m_Port; }
+    // (inline; the comparison of std::list::remove)
+    bool operator==(const InetAddress& other) const { return IsSame(other); }
 
     SockAddr m_SockAddr; // 0x04
 

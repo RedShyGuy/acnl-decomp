@@ -3,10 +3,6 @@
 
 namespace nn {
 namespace nex {
-namespace {
-const wchar_t* const FILE_NAME = L"D:/home/jenkins/workspace/Manual-Pack/5129d543/OnlineCore/src/Core/Chrono.cpp";
-} // namespace
-
 // 0x003D01E4 (name is ours)
 u32 nn::nex::Chrono::Stop()
 {
@@ -23,25 +19,13 @@ u32 nn::nex::Chrono::Stop()
 // 0x003D0254 | mk7dlp:bytes [tier B]
 u32 nn::nex::Chrono::Check()
 {
-    if (m_State != STATE_RUNNING) {
-        return m_Elapsed;
-    }
-    Time now = SystemClock::GetTime();
-    return static_cast<u32>(now.m_Value) - static_cast<u32>(m_Clock.m_StartTime.m_Value) - static_cast<u32>(m_StartOffset.m_Value) + m_Elapsed;
+    return CheckInline();
 }
 
 // 0x003D029C (name is ours)
 bool nn::nex::Chrono::Start()
 {
-    if (m_State != STATE_STOPPED) {
-        SystemError::SignalError(const_cast<wchar_t*>(FILE_NAME), 47, SystemError::ERROR_INVALID_STATE, 0);
-        return false;
-    }
-    m_Elapsed = 0;
-    Time now = SystemClock::GetTime();
-    m_State = STATE_RUNNING;
-    m_StartOffset = now.m_Value - m_Clock.m_StartTime.m_Value;
-    return true;
+    return StartInline();
 }
 
 // 0x003D0310

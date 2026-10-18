@@ -37,6 +37,7 @@ void nn::nex::OperationManager::OperationBegins(nn::nex::Operation* pOperation)
 // 0x003830CC | fefates:bytes [tier B]
 nn::nex::OperationManager::OperationManager()
 {
+    // nothing to do
 }
 
 // 0x003831E8 | fefates:bytes [tier B]

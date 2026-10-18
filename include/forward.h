@@ -2848,16 +2848,16 @@ namespace nn { namespace nex {
     class _Proto_NotificationProtocolServer;
     class qBuffer;
     class qResult;
-    struct DataStorePostObjectEventListener { u32 _unknown; }; // placeholder, real type unknown
+    class DataStorePostObjectEventListener; // nn/nex/nex_DataStorePostObjectEventListener.h
     class DebugString; // nn/nex/nex_Job.h
     class MD5; // nn/nex/nex_MD5.h
     enum MatchmakeSystemType : u32 {}; // (the values are not known; nex::MatchmakeSession stores it as u32)
-    struct NATTraversalResult { u32 _unknown; }; // placeholder, real type unknown
+    enum NATTraversalResult : u16 {}; // (the detail of a NAT traversal result, NATTraversalEngine::GetNATTraversalResult: 100/110 direct/relay, 200 no probe, 201/210 no reply direct/relay, 999 unknown; ARMCC made it 2 bytes, the protocol sends 4)
     enum PacketType : u32 {}; // (the low 4 bits of the type/flags word of a PRUDP packet; the values are not named yet)
     enum RelayType : u32 {}; // (the low 4 bits of the type word of a relay message; 1 = ping)
     struct SignatureBytes; // nn/nex/nex_SignatureBytes.h
     class UserContext; // nn/nex/nex_UserContext.h
-    struct VirtualPort { u32 _unknown; }; // placeholder, real type unknown
+    struct VirtualPort; // nex_PRUDPEndPointMap.h
     template <int SIZE> class LiteBuffer; // nn/nex/nex_LiteBuffer.h
     template <int SIZE> class LiteByteStream; // nn/nex/nex_LiteByteStream.h
     template <typename T0, typename T1, typename T2> class MethodCallJob;
@@ -2884,7 +2884,7 @@ namespace nn { namespace nex {
     template <typename T0> class VirtualModem;
     template <typename T0> class qList;
     template <typename T0> class qProtectedList;
-    template <typename T0> struct ChainPolicyHistoryPacket { u32 _unknown; }; // placeholder
+    template <typename T0> class ChainPolicyHistoryPacket; // nn/nex/nex_Packet.h
     template <typename T0> class qVector; // nn/nex/nex_qVector.h
 }}
 

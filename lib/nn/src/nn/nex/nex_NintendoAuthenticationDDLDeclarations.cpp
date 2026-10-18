@@ -1,26 +1,29 @@
-#include "nn/nex/nex_DDLDeclarations.h"
 #include "nn/nex/nex_NintendoAuthenticationDDLDeclarations.h"
+#include "nn/nex/nex_PseudoGlobalVariable.h"
 
 namespace nn {
 namespace nex {
-// ctor candidate(s) 0x003CC370, 0x0079FD50 (unverified)
-nn::nex::NintendoAuthenticationDDLDeclarations::NintendoAuthenticationDDLDeclarations()
+// the declarations per context (name is ours)
+// 0x00AE6A14 (name is ours)
+PseudoGlobalVariable<NintendoAuthenticationDDLDeclarations> g_NintendoAuthenticationDDLDeclarations;
+
+// 0x003CC36C
+nn::nex::NintendoAuthenticationDDLDeclarations::NintendoAuthenticationDDLDeclarations() : DDLDeclarations(true)
 {
+    // nothing to do
 }
 
-// 0x003CC398 slot 0x00 | virtual slot, introduced by nn::nex::DDLDeclarations
-void nn::nex::NintendoAuthenticationDDLDeclarations::vf_0x00()
+// 0x003CC398 slot 0x00
+// 0x003CC388 (deleting dtor)
+nn::nex::NintendoAuthenticationDDLDeclarations::~NintendoAuthenticationDDLDeclarations()
 {
+    // nothing to do
 }
 
-// 0x003CC388 slot 0x04 | virtual slot, introduced by nn::nex::DDLDeclarations
-void nn::nex::NintendoAuthenticationDDLDeclarations::vf_0x04()
+// 0x003CC368 slot 0x08
+void nn::nex::NintendoAuthenticationDDLDeclarations::Declare()
 {
-}
-
-// 0x003CC368 slot 0x08 | virtual slot, introduced by nn::nex::DDLDeclarations
-void nn::nex::NintendoAuthenticationDDLDeclarations::vf_0x08()
-{
+    // nothing to do
 }
 
 } // namespace nex

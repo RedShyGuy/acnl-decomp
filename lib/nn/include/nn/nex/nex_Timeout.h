@@ -16,7 +16,7 @@ class Timeout : public ::nn::nex::RootObject
 {
 public:
     // (inline)
-    Timeout() : m_pOwner(nullptr), m_pCore(Core::GetInstance()) {}
+    Timeout() : m_Interval(0), m_RelativeTime(0), m_pCore(Core::GetInstance()) {}
     virtual ~Timeout(); // 0x003D3814 slot 0x00
     // 0x003D37F0 slot 0x04 (deleting dtor)
 
@@ -24,7 +24,7 @@ public:
     // the expiration time passed, or the core was interrupted before now
     bool IsExpired() const; // 0x0072E478 | fefates:bytes [tier B]
 
-    void* m_pOwner;          // 0x04
+    u32 m_Interval;          // 0x04 (ms; the retransmission interval of a packet)
     Time m_Unknown0x08;      // 0x08
     Time m_ExpirationTime;   // 0x10 (0: none)
     s64 m_RelativeTime;      // 0x18

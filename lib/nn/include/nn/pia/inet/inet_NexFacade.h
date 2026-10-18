@@ -7,7 +7,7 @@
 
 namespace nn {
 namespace nex {
-class BackEndServices;
+class NgsFacade;
 class InetAddress;
 class MatchMakingClient;
 class NATTraversalRelayClient;
@@ -45,7 +45,7 @@ public:
     // what the game passes to Bind (the layout is from Bind; the names are ours)
     struct LoginInfo
     {
-        nex::BackEndServices* m_pBackEndServices; // 0x0
+        nex::NgsFacade* m_pBackEndServices; // 0x0
         u32 m_Unknown0x4;                          // 0x4
     };
 

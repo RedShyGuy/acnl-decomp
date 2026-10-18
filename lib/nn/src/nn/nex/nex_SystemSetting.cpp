@@ -30,7 +30,7 @@ nn::nex::SystemSetting::~SystemSetting()
 
 // 0x007E42C4
 // 0x007E4238 (deleting dtor)
-template class qChain<SystemSetting*, DefaultChainPolicy<SystemSetting*> >;
+template qChain<SystemSetting*, DefaultChainPolicy<SystemSetting*> >::~qChain();
 
 } // namespace nex
 } // namespace nn

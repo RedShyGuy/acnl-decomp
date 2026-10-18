@@ -1,11 +1,11 @@
-#include "nn/nex/nex_RootObject.h"
 #include "nn/nex/nex_EmulationDevice.h"
 
 namespace nn {
 namespace nex {
-// ctor address unknown
-nn::nex::EmulationDevice::EmulationDevice()
+// 0x00377650 slot 0x08 (name is ours)
+void nn::nex::EmulationDevice::Enable()
 {
+    m_IsEnabled = true;
 }
 
 } // namespace nex

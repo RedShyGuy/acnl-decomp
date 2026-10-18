@@ -18,3 +18,9 @@ public:
 ASSERT_SIZE(DataStoreSpecificMetaInfoV1, 0x18);
 } // namespace nex
 } // namespace nn
+
+namespace std {
+// (out of line)
+template <>
+DECOMP_NOINLINE void vector<nn::nex::DataStoreSpecificMetaInfoV1, nn::nex::MemAllocator<nn::nex::DataStoreSpecificMetaInfoV1> >::_C_insert_aux(nn::nex::DataStoreSpecificMetaInfoV1* pos, const nn::nex::DataStoreSpecificMetaInfoV1& value);
+} // namespace std

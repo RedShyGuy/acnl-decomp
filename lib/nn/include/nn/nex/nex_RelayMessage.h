@@ -38,7 +38,7 @@ public:
     static const u32 TIME_STAMP_TOLERANCE = 150;
 
     // (inline)
-    RelayMessage() : m_BaseTime(0), m_BaseTimeStamp(0), m_Unknown0x34(0) {}
+    RelayMessage() : m_BaseTime(0), m_BaseTimeStamp(0) {}
     virtual ~RelayMessage(); // 0x0035FA94 slot 0x00
     // 0x0035FA70 slot 0x04 (deleting dtor)
     virtual bool CalcSignature(nn::nex::PacketOut* pPacket, nn::nex::PRUDPMessageInterface::SignatureMethod method, const nn::nex::Key* pKey, nn::nex::Stream::Type type, nn::nex::TransportSignatureGenerator* pGenerator, const nn::nex::SignatureBytes* pReceived, nn::nex::SignatureBytes& signature); // 0x0035F090 slot 0x08 | virtual slot, introduced by nn::nex::RelayMessage
@@ -58,14 +58,13 @@ public:
     // (inline; the name is ours) the seconds of the relay clock
     u32 GetTimeStamp() const
     {
-        return static_cast<s64>(SystemClock::s_LastTime.m_Value - m_BaseTime.m_Value) / 1000 + m_BaseTimeStamp;
+        return static_cast<u32>(static_cast<s64>(SystemClock::s_LastTime.m_Value - m_BaseTime.m_Value) / 1000) + static_cast<u32>(m_BaseTimeStamp);
     }
 
     LiteBuffer<16> m_Key;      // 0x04 (of the signatures)
     u8 m_Unknown0x1C[0xC];     // 0x1C
     Time m_BaseTime;           // 0x28 (the system time of m_BaseTimeStamp)
-    u32 m_BaseTimeStamp;       // 0x30
-    u32 m_Unknown0x34;         // 0x34
+    u64 m_BaseTimeStamp;       // 0x30 (the epoch seconds of the relay server; set by JobResolveRelayInfo)
 };
 ASSERT_OFFSET(RelayMessage, m_BaseTime, 0x28);
 ASSERT_SIZE(RelayMessage, 0x38);

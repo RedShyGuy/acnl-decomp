@@ -96,9 +96,9 @@ public:
         return m_ReadyJobs.size() + m_WaitingJobs.size() + m_SuspendedJobs.size();
     }
 
-    // the scheduler of the core of the current context (inline in the original, with a copy out of
-    // line)
-    static Scheduler* GetInstance() // 0x003D7A2C | fefates:callseq [tier C]
+    // the scheduler of the core of the current context (inline in most callers: GetInstanceInline)
+    static Scheduler* GetInstance(); // 0x003D7A2C | fefates:callseq [tier C]
+    static Scheduler* GetInstanceInline()
     {
         Core* pCore = Core::GetInstance();
         return pCore != nullptr ? pCore->m_pScheduler : nullptr;
@@ -136,3 +136,9 @@ ASSERT_OFFSET(Scheduler, m_CallPolicy, 0x1AC);
 ASSERT_SIZE(Scheduler, 0x1D0);
 } // namespace nex
 } // namespace nn
+
+namespace std {
+// (out of line in the original; nex_Scheduler.cpp)
+template <>
+DECOMP_NOINLINE multimap<nn::nex::Time, nn::nex::Job*>::iterator multimap<nn::nex::Time, nn::nex::Job*>::insert(const value_type& value);
+} // namespace std

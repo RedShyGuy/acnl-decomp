@@ -43,7 +43,7 @@ nn::nex::BandwidthCounter& nn::nex::BandwidthCounter::operator+=(unsigned int si
 
 // 0x007E43C8
 // 0x007E433C (deleting dtor)
-template class qChain<BandwidthCounter*, DefaultChainPolicy<BandwidthCounter*> >;
+template qChain<BandwidthCounter*, DefaultChainPolicy<BandwidthCounter*> >::~qChain();
 
 } // namespace nex
 } // namespace nn

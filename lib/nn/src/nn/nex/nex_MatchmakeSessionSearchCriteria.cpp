@@ -110,5 +110,31 @@ DECOMP_NOINLINE void qList<MatchmakeSessionSearchCriteria>::clear()
     ClearInline();
 }
 
+// 0x003CF818 (name is ours)
+template <>
+DECOMP_NOINLINE qList<MatchmakeSessionSearchCriteria>::qList()
+    : m_pBufferList(nullptr), m_pFreeList(nullptr), m_pNextAvail(nullptr), m_pLast(nullptr), m_pHead(nullptr), m_Size(0)
+{
+    AddBufferInline(true);
+    m_pHead = m_pNextAvail;
+    m_pNextAvail++;
+    m_pHead->m_pNext = m_pHead;
+    m_pHead->m_pPrev = m_pHead;
+}
+
+// 0x0082FE24 (name is ours)
+template <>
+DECOMP_NOINLINE qList<MatchmakeSessionSearchCriteria>::~qList()
+{
+    DestroyInline();
+}
+
+// 0x0082FEF8 (name is ours)
+template <>
+DECOMP_NOINLINE qList<MatchmakeSessionSearchCriteria>& qList<MatchmakeSessionSearchCriteria>::operator=(const qList<MatchmakeSessionSearchCriteria>& other)
+{
+    return AssignInline(other);
+}
+
 } // namespace nex
 } // namespace nn

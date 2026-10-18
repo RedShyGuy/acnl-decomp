@@ -14,6 +14,8 @@ class PacketBufferPacketOut : public ::nn::nex::PacketOut
 public:
     // (inline)
     PacketBufferPacketOut() {}
+    // the timeout comes from the PacketBufferManager too
+    PacketBufferPacketOut(nn::nex::PRUDPEndPoint* pEndPoint, nn::nex::PacketType type, unsigned short flags, nn::nex::Buffer* pPayload, unsigned int value); // 0x0039A6E4 (name is ours)
     virtual ~PacketBufferPacketOut(); // 0x003D7880 slot 0x00
     // 0x0039A7C0 slot 0x04 (deleting dtor)
 };

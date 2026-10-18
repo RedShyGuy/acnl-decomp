@@ -1,26 +1,29 @@
-#include "nn/nex/nex_DDLDeclarations.h"
 #include "nn/nex/nex_MessagingServiceDDLDeclarations.h"
+#include "nn/nex/nex_PseudoGlobalVariable.h"
 
 namespace nn {
 namespace nex {
-// ctor candidate(s) 0x003C6B10, 0x0079D3B8 (unverified)
-nn::nex::MessagingServiceDDLDeclarations::MessagingServiceDDLDeclarations()
+// the declarations per context (name is ours)
+// 0x00ADDBC4 (name is ours)
+PseudoGlobalVariable<MessagingServiceDDLDeclarations> g_MessagingServiceDDLDeclarations;
+
+// 0x003C6B0C
+nn::nex::MessagingServiceDDLDeclarations::MessagingServiceDDLDeclarations() : DDLDeclarations(true)
 {
+    // nothing to do
 }
 
-// 0x003C6B38 slot 0x00 | virtual slot, introduced by nn::nex::DDLDeclarations
-void nn::nex::MessagingServiceDDLDeclarations::vf_0x00()
+// 0x003C6B38 slot 0x00
+// 0x003C6B28 (deleting dtor)
+nn::nex::MessagingServiceDDLDeclarations::~MessagingServiceDDLDeclarations()
 {
+    // nothing to do
 }
 
-// 0x003C6B28 slot 0x04 | virtual slot, introduced by nn::nex::DDLDeclarations
-void nn::nex::MessagingServiceDDLDeclarations::vf_0x04()
+// 0x003C6B08 slot 0x08
+void nn::nex::MessagingServiceDDLDeclarations::Declare()
 {
-}
-
-// 0x003C6B08 slot 0x08 | virtual slot, introduced by nn::nex::DDLDeclarations
-void nn::nex::MessagingServiceDDLDeclarations::vf_0x08()
-{
+    // nothing to do
 }
 
 } // namespace nex

@@ -24,6 +24,7 @@ public:
     _DDL_DataStoreChangeMetaParam() : m_StructureVersion(1), m_Permission(DataStoreConstants::PERMISSION_DEFAULT, qVector<u32>()), m_DelPermission(DataStoreConstants::PERMISSION_DEFAULT, qVector<u32>()), m_MetaBinary(0, 0), m_Tags(0) {}
     virtual ~_DDL_DataStoreChangeMetaParam(); // 0x003C1530 slot 0x00
     // 0x003C1520 slot 0x04 (deleting dtor)
+    nn::nex::_DDL_DataStoreChangeMetaParam& operator=(const nn::nex::_DDL_DataStoreChangeMetaParam& other); // 0x003C15BC
 
     // (inline)
     static DECOMP_ALWAYS_INLINE void Add(nn::nex::Message* pMessage, const nn::nex::_DDL_DataStoreChangeMetaParam& data)

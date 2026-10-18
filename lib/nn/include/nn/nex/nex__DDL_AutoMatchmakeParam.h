@@ -14,12 +14,14 @@ namespace nex {
 class _DDL_AutoMatchmakeParam : public ::nn::nex::RootObject
 {
 public:
-    _DDL_AutoMatchmakeParam(); // ctor address unknown
-    virtual ~_DDL_AutoMatchmakeParam(); // 0x003B1A2C slot 0x00 | slot vf_0x00 of nn::nex::_DDL_AutoMatchmakeParam
+    // (inline)
+    _DDL_AutoMatchmakeParam() : m_StructureVersion(0) {}
+    virtual ~_DDL_AutoMatchmakeParam(); // 0x003B1A2C slot 0x00
     // 0x003B1A1C slot 0x04 | slot vf_0x04 of nn::nex::_DDL_AutoMatchmakeParam (deleting dtor)
+    static void Add(nn::nex::Message* pMessage, const nn::nex::_DDL_AutoMatchmakeParam& data); // 0x003B18C4 (name is ours)
 
     // (the layout is from AutoMatchmakeParam::AutoMatchmakeParam; the names are ours)
-    u8 m_Unknown0x4;                                     // 0x004
+    u8 m_StructureVersion;                                     // 0x04
     MatchmakeSession m_SourceMatchmakeSession;           // 0x008
     qList<u32> m_AdditionalParticipants;                 // 0x0B8
     u32 m_GatheringIdForParticipationCheck;              // 0x0D0

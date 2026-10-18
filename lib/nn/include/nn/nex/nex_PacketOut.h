@@ -1,6 +1,7 @@
 #pragma once
 
 #include "decomp.h"
+#include "nn/nex/nex_qVector.h"
 #include "nn/nex/nex_Packet.h"
 #include "nn/nex/nex_Timeout.h"
 
@@ -43,9 +44,15 @@ public:
 
 protected:
     // (for the derived packets of the PacketBufferManager)
-    PacketOut() {}
+    PacketOut() : m_Unknown0x128(0), m_Unknown0x12C(0) {}
 };
 ASSERT_OFFSET(PacketOut, m_Unknown0x140, 0x140);
 ASSERT_SIZE(PacketOut, 0x150);
 } // namespace nex
 } // namespace nn
+
+namespace std {
+// (out of line)
+template <>
+DECOMP_NOINLINE void vector<nn::nex::PacketOut*, nn::nex::MemAllocator<nn::nex::PacketOut*> >::_C_insert_aux(nn::nex::PacketOut** pos, nn::nex::PacketOut* const& value);
+} // namespace std

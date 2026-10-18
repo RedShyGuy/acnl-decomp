@@ -15,6 +15,8 @@ public:
     InstanceControl(u32 kind, u32 context); // 0x00378514
     virtual ~InstanceControl(); // 0x00378644 slot 0x00
     // 0x00378610 slot 0x04 (deleting dtor)
+    // the object that contains the instance (under the lock of the instance table)
+    void SetOwner(void* pOwner); // 0x003784D8 (name is ours)
 
     u32 m_Context;       // 0x04
     u32 m_Kind;          // 0x08

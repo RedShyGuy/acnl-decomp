@@ -40,6 +40,8 @@ public:
     static u32 (*s_pGetCurrentCID)();
     static u32 (*s_pGetCurrentPID)();
     static bool s_AreGettersSet;
+    // the protocol jobs do not open (reference) the end points of their messages (nothing sets it)
+    static bool s_IsEndPointNotReferenced;
 };
 ASSERT_SIZE(ProtocolRequestBrokerInterface, 0x60);
 } // namespace nex

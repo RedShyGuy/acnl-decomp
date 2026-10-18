@@ -79,13 +79,13 @@ bool nn::nex::ChecksumAlgorithm::DeriveKey(nn::nex::CallContext* pContext, nn::n
 bool nn::nex::ChecksumAlgorithm::DeriveKey(nn::nex::CallContext* pContext, nn::nex::ChecksumAlgorithm* pAlgorithm, const nn::nex::Buffer& password, unsigned int iterations,
                                            nn::nex::Key* pKey, nn::nex::KeyCache* pKeyCache, nn::nex::Job::JobType jobType)
 {
-    ScopedCS lock(Scheduler::GetInstance()->m_Lock);
+    ScopedCS lock(Scheduler::GetInstanceInline()->m_Lock);
     if (!pContext->InitiateCall()) {
         return false;
     }
     JobDeriveKey* pJob = new JobDeriveKey(pContext, pAlgorithm, password, iterations, pKey, jobType);
     pJob->m_pKeyCache = pKeyCache;
-    Scheduler::GetInstance()->Queue(pJob, false);
+    Scheduler::GetInstanceInline()->Queue(pJob, false);
     return true;
 }
 

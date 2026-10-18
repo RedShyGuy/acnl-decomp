@@ -16,5 +16,19 @@ public:
     // 0x003B8B20 slot 0x04 (deleting dtor)
 };
 ASSERT_SIZE(DataStoreChangeMetaParamV1, 0x80);
+
+// (out of line)
+template <>
+DECOMP_NOINLINE void DDLClassMetaType<DataStoreChangeMetaParamV1>::Add(Message* pMessage, const nn::nex::DataStoreChangeMetaParamV1& value);
+
+// (out of line)
+template <>
+DECOMP_NOINLINE void _Type_qvector<DDLClassMetaType<DataStoreChangeMetaParamV1> >::Add(Message* pMessage, const Type& vector);
 } // namespace nex
 } // namespace nn
+
+namespace std {
+// (out of line)
+template <>
+DECOMP_NOINLINE void vector<nn::nex::DataStoreChangeMetaParamV1, nn::nex::MemAllocator<nn::nex::DataStoreChangeMetaParamV1> >::_C_insert_aux(nn::nex::DataStoreChangeMetaParamV1* pos, const nn::nex::DataStoreChangeMetaParamV1& value);
+} // namespace std

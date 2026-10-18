@@ -10,8 +10,12 @@ namespace nex {
 class DataStorePersistenceTarget : public ::nn::nex::_DDL_DataStorePersistenceTarget
 {
 public:
-    // (inline)
-    DataStorePersistenceTarget() {}
+    // (inline; no persistence slot)
+    DataStorePersistenceTarget()
+    {
+        m_OwnerId = 0;
+        m_PersistenceSlotId = 0xFFFF;
+    }
     virtual ~DataStorePersistenceTarget(); // 0x003B980C slot 0x00
     // 0x003B9808 slot 0x04 (deleting dtor)
 };

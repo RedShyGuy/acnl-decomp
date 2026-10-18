@@ -21,6 +21,8 @@ ASSERT_SIZE(DataStoreRatingInfoWithSlot, 0x28);
 template <>
 DECOMP_NOINLINE qVector<qVector<DataStoreRatingInfoWithSlot> >::~qVector();
 template <>
+DECOMP_NOINLINE qVector<DataStoreRatingInfoWithSlot>::qVector(const qVector<DataStoreRatingInfoWithSlot>& other);
+template <>
 DECOMP_NOINLINE void _Type_qvector<DDLClassMetaType<DataStoreRatingInfoWithSlot>>::Extract(Message* pMessage, Type* pVector);
 } // namespace nex
 } // namespace nn
@@ -28,4 +30,8 @@ DECOMP_NOINLINE void _Type_qvector<DDLClassMetaType<DataStoreRatingInfoWithSlot>
 namespace std {
 template <>
 DECOMP_NOINLINE vector<nn::nex::DataStoreRatingInfoWithSlot, nn::nex::MemAllocator<nn::nex::DataStoreRatingInfoWithSlot> >::~vector();
+template <>
+DECOMP_NOINLINE void vector<nn::nex::DataStoreRatingInfoWithSlot, nn::nex::MemAllocator<nn::nex::DataStoreRatingInfoWithSlot> >::_C_insert_aux(nn::nex::DataStoreRatingInfoWithSlot* pos, const nn::nex::DataStoreRatingInfoWithSlot& value);
+template <>
+DECOMP_NOINLINE void vector<nn::nex::qVector<nn::nex::DataStoreRatingInfoWithSlot>, nn::nex::MemAllocator<nn::nex::qVector<nn::nex::DataStoreRatingInfoWithSlot> > >::_C_insert_aux(nn::nex::qVector<nn::nex::DataStoreRatingInfoWithSlot>* pos, const nn::nex::qVector<nn::nex::DataStoreRatingInfoWithSlot>& value);
 } // namespace std

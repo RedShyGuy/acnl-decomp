@@ -10,8 +10,12 @@ namespace nex {
 class DataStorePersistenceInitParam : public ::nn::nex::_DDL_DataStorePersistenceInitParam
 {
 public:
-    // (inline)
-    DataStorePersistenceInitParam() {}
+    // (inline; no persistence slot)
+    DataStorePersistenceInitParam()
+    {
+        m_PersistenceSlotId = 0xFFFF;
+        m_DeleteLastObject = true;
+    }
     virtual ~DataStorePersistenceInitParam(); // 0x003BF7A4 slot 0x00
     // 0x003BF7A0 slot 0x04 (deleting dtor)
 };

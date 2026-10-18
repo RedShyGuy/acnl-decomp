@@ -1,26 +1,29 @@
-#include "nn/nex/nex_DDLDeclarations.h"
 #include "nn/nex/nex_DataStoreDDLDeclarations.h"
+#include "nn/nex/nex_PseudoGlobalVariable.h"
 
 namespace nn {
 namespace nex {
-// ctor candidate(s) 0x003B22F4, 0x0079F69C (unverified)
-nn::nex::DataStoreDDLDeclarations::DataStoreDDLDeclarations()
+// the declarations per context (name is ours)
+// 0x00ADD9FC (name is ours)
+PseudoGlobalVariable<DataStoreDDLDeclarations> g_DataStoreDDLDeclarations;
+
+// 0x003B22F0
+nn::nex::DataStoreDDLDeclarations::DataStoreDDLDeclarations() : DDLDeclarations(true)
 {
+    // nothing to do
 }
 
-// 0x003B231C slot 0x00 | virtual slot, introduced by nn::nex::DDLDeclarations
-void nn::nex::DataStoreDDLDeclarations::vf_0x00()
+// 0x003B231C slot 0x00
+// 0x003B230C (deleting dtor)
+nn::nex::DataStoreDDLDeclarations::~DataStoreDDLDeclarations()
 {
+    // nothing to do
 }
 
-// 0x003B230C slot 0x04 | virtual slot, introduced by nn::nex::DDLDeclarations
-void nn::nex::DataStoreDDLDeclarations::vf_0x04()
+// 0x003B22EC slot 0x08
+void nn::nex::DataStoreDDLDeclarations::Declare()
 {
-}
-
-// 0x003B22EC slot 0x08 | virtual slot, introduced by nn::nex::DDLDeclarations
-void nn::nex::DataStoreDDLDeclarations::vf_0x08()
-{
+    // nothing to do
 }
 
 } // namespace nex

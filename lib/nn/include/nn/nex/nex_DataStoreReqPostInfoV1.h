@@ -10,8 +10,7 @@ namespace nex {
 class DataStoreReqPostInfoV1 : public ::nn::nex::_DDL_DataStoreReqPostInfoV1
 {
 public:
-    // (inline)
-    DataStoreReqPostInfoV1() {}
+    DataStoreReqPostInfoV1(); // 0x0039C0D4
     virtual ~DataStoreReqPostInfoV1(); // 0x0039C168 slot 0x00
     // 0x0039C128 slot 0x04 (deleting dtor)
 };

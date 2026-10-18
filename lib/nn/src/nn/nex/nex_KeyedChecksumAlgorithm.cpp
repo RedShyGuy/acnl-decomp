@@ -11,13 +11,7 @@ void nn::nex::KeyedChecksumAlgorithm::KeyHasChanged()
 // 0x0039DA74 | fefates:bytes [tier B]
 bool nn::nex::KeyedChecksumAlgorithm::SetKey(const nn::nex::Key& key)
 {
-    u32 length = key.GetLength();
-    if (length < m_MinKeyLength || length > m_MaxKeyLength) {
-        return false;
-    }
-    m_Key = key;
-    KeyHasChanged();
-    return true;
+    return SetKeyInline(key);
 }
 
 // 0x0039DAF4

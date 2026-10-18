@@ -11,3 +11,12 @@ nn::nex::DataStoreNotification::~DataStoreNotification()
 
 } // namespace nex
 } // namespace nn
+
+namespace std {
+// 0x00831734
+template <>
+DECOMP_NOINLINE void vector<nn::nex::DataStoreNotification, nn::nex::MemAllocator<nn::nex::DataStoreNotification> >::_C_insert_aux(nn::nex::DataStoreNotification* pos, const nn::nex::DataStoreNotification& value)
+{
+    InsertAuxInline(pos, value);
+}
+} // namespace std

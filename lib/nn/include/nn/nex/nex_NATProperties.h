@@ -6,6 +6,9 @@
 
 namespace nn {
 namespace nex {
+// the transport adapter of the platform factory (PRUDPEndPoint.cpp; the name is ours)
+extern void* g_pUnknown0x96CA28;
+
 // RTTI N2nn3nex13NATPropertiesE @ 0x008CE23C
 // vtable 0x008FC818 (vptr 0x008FC820), offset_to_top 0, 2 entries
 class NATProperties : public ::nn::nex::RootObject
@@ -15,8 +18,16 @@ public:
     // 0x00362050 slot 0x04 (deleting dtor)
     NATProperties(); // 0x00361FF0 | fefates:bytes [tier B]
     // the mapping and the filtering of the NAT (3 while a global flag of nex is set)
+    // (out of line copies of the inline functions; inline where the original inlines them:
+    // GetNATMappingInline / GetNATFilteringInline)
     u8 GetNATMapping() const; // 0x0072A618
     u8 GetNATFiltering() const; // 0x0072A634
+    // (inline) the mapping / filtering of the NAT (unknown while a custom transport adapter is set)
+    u8 GetNATMappingInline() const { return g_pUnknown0x96CA28 != nullptr ? NAT_UNKNOWN : m_NatMapping; }
+    u8 GetNATFilteringInline() const { return g_pUnknown0x96CA28 != nullptr ? NAT_UNKNOWN : m_NatFiltering; }
+
+    // the value of an unknown mapping or filtering (the name is ours)
+    static const u8 NAT_UNKNOWN = 3;
 
     // (names are ours; armlink placed them in front of String::operator=)
     void SetPrivateAddress(const nn::nex::String& address); // 0x00361FE8

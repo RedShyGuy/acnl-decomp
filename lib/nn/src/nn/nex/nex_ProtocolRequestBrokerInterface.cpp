@@ -9,6 +9,8 @@ u32 (*ProtocolRequestBrokerInterface::s_pGetCurrentCID)();
 u32 (*ProtocolRequestBrokerInterface::s_pGetCurrentPID)();
 // 0x009712D4 (name is ours)
 bool ProtocolRequestBrokerInterface::s_AreGettersSet;
+// 0x009712D5 (name is ours)
+bool ProtocolRequestBrokerInterface::s_IsEndPointNotReferenced;
 
 // 0x003C30A4 | fefates:bytes [tier B]
 nn::nex::ProtocolRequestBrokerInterface::ProtocolRequestBrokerInterface() : m_BandwidthCounters(String(L"Protocol"))

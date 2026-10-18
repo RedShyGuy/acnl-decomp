@@ -72,7 +72,7 @@ nn::nex::ProfilingUnit::~ProfilingUnit()
 
 // 0x007E41C0
 // 0x007E4134 (deleting dtor)
-template class qChain<ProfilingUnit*, DefaultChainPolicy<ProfilingUnit*> >;
+template qChain<ProfilingUnit*, DefaultChainPolicy<ProfilingUnit*> >::~qChain();
 
 } // namespace nex
 } // namespace nn

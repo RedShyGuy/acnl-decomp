@@ -128,6 +128,30 @@
             "size": "0x00000014",
             "section": ".rodata",
             "note": "ngc: half width katakana followed by the half width handakuten to full width ones (5 pairs)"
+        },
+        {
+            "name": "nn::nex::s_UnreliableKeySalts",
+            "symbol": "_ZN2nn3nex20s_UnreliableKeySaltsE",
+            "address": "0x00899A40",
+            "size": "0x00000020",
+            "section": ".rodata",
+            "note": "nex: the salts of the two unreliable keys of PacketEncDec (8 bytes for each half of each key, see PacketEncDec::GenerateKey)"
+        },
+        {
+            "name": "nn::nex::g_Unknown0x899864",
+            "symbol": "_ZN2nn3nex17g_Unknown0x899864E",
+            "address": "0x00899864",
+            "size": "0x00000004",
+            "section": ".rodata",
+            "note": "nex: a u32 constant of another source file (the extra header room that PRUDPEndPoint::_Send keeps free with the setting 0x2C of the transport)"
+        },
+        {
+            "name": "nn::nex::g_DefaultChecksumKey",
+            "symbol": "_ZN2nn3nex20g_DefaultChecksumKeyE",
+            "address": "0x0096CDF4",
+            "size": "0x00000010",
+            "section": ".data",
+            "note": "nex: the default key of the checksums of the secure and P2P streams (Network)"
         }
     ]
 }

@@ -45,11 +45,13 @@ nn::nex::Key::Key(const nn::nex::String& string)
 // 0x003CC95C | fefates:bytes [tier B]
 nn::nex::Key::Key(const nn::nex::Key& other) : m_Data(other.m_Data)
 {
+    // nothing to do
 }
 
 // 0x003CCA2C | fefates:bytes [tier B]
 nn::nex::Key::Key()
 {
+    // nothing to do
 }
 
 // 0x003CCA8C slot 0x00 | fefates:bytes

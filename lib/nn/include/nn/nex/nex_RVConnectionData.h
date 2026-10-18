@@ -11,7 +11,7 @@ class RVConnectionData : public ::nn::nex::_DDL_RVConnectionData
 {
 public:
     // (inline)
-    RVConnectionData() {}
+    DECOMP_EMIT_COPY RVConnectionData() {} // 0x003838F8
     virtual ~RVConnectionData(); // 0x003839B8 slot 0x00
     // 0x003839A8 slot 0x04 (deleting dtor)
 };

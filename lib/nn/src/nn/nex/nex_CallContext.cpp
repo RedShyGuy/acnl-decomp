@@ -45,7 +45,7 @@ bool nn::nex::CallContext::CancelImpl(nn::nex::CallContext::State state)
 // 0x00356A84 | fefates:callgraph [tier C]
 bool nn::nex::CallContext::InitiateCall()
 {
-    ScopedCS lock(Scheduler::GetInstance()->m_Lock);
+    ScopedCS lock(Scheduler::GetInstanceInline()->m_Lock);
     if (!SetCallInProgressState()) {
         return false;
     }
@@ -57,7 +57,7 @@ bool nn::nex::CallContext::InitiateCall()
 void nn::nex::CallContext::SetStateImpl(nn::nex::CallContext::State state, nn::nex::qResult result, bool isSignaled)
 {
     {
-        ScopedCS lock(Scheduler::GetInstance()->m_Lock);
+        ScopedCS lock(Scheduler::GetInstanceInline()->m_Lock);
         if (state != STATE_CALL_IN_PROGRESS && state == STATE_AVAILABLE) {
             m_Result = qResult(RESULT_FAILURE);
         }
@@ -111,7 +111,7 @@ void nn::nex::CallContext::ProcessCallCompletion()
 // 0x00356D24 | fefates:callgraph [tier C]
 bool nn::nex::CallContext::SetCallInProgressState()
 {
-    ScopedCS lock(Scheduler::GetInstance()->m_Lock);
+    ScopedCS lock(Scheduler::GetInstanceInline()->m_Lock);
     if (m_State == STATE_CALL_IN_PROGRESS) {
         return false;
     }
@@ -190,7 +190,7 @@ bool nn::nex::CallContext::Reset()
 // 0x00357188 | fefates:callgraph [tier C]
 bool nn::nex::CallContext::Cancel(nn::nex::CallContext::State state)
 {
-    ScopedCS lock(Scheduler::GetInstance()->m_Lock);
+    ScopedCS lock(Scheduler::GetInstanceInline()->m_Lock);
     qVector<u32> ids;
     Core::GetInstance()->m_pCallContextRegister->GetAssociatedId(m_Id, &ids);
     bool isCancelled = CancelImpl(state);
@@ -221,7 +221,7 @@ nn::nex::CallContext::~CallContext()
 {
     Core* pCore = Core::GetInstance();
     if (pCore != nullptr && pCore->m_pScheduler != nullptr) {
-        ScopedCS lock(Scheduler::GetInstance()->m_Lock);
+        ScopedCS lock(Scheduler::GetInstanceInline()->m_Lock);
         if (m_State == STATE_CALL_IN_PROGRESS) {
             Cancel(STATE_CANCELLED);
         }

@@ -13,7 +13,7 @@ class _DDL_DataStoreDeleteParam : public ::nn::nex::RootObject
 {
 public:
     // (inline)
-    _DDL_DataStoreDeleteParam() : m_StructureVersion(0) {}
+    _DDL_DataStoreDeleteParam() : m_StructureVersion(0), m_DataId(0), m_UpdatePassword(0) {}
     virtual ~_DDL_DataStoreDeleteParam(); // 0x003B86D4 slot 0x00
     // 0x003B86D0 slot 0x04 (deleting dtor)
 

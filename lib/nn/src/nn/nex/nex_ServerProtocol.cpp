@@ -53,7 +53,7 @@ void nn::nex::ServerProtocol::DispatchCallRequest(unsigned int callId, nn::nex::
             DispatchProtocolMessage(pRequest, pResponse, pIsHandled, pEndPoint);
         }
     } else {
-        ScopedCS lock(Scheduler::GetInstance()->m_Lock);
+        ScopedCS lock(Scheduler::GetInstanceInline()->m_Lock);
         if (UseAttemptCountMethod()) {
             DispatchProtocolMessageWithAttemptCount(callId, pRequest, pResponse, pIsHandled, pAttemptCount, pEndPoint);
         } else {

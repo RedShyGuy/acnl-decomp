@@ -1,10 +1,12 @@
 #include "nn/nex/nex_ClientProtocol.h"
 #include "nn/nex/nex_ServerProtocol.h"
+#include "nn/nex/nex_Core.h"
 #include "nn/nex/nex_Credentials.h"
 #include "nn/nex/nex_EndPoint.h"
 #include "nn/nex/nex_Message.h"
 #include "nn/nex/nex_ProtocolCallContext.h"
 #include "nn/nex/nex_ProtocolRequestBrokerInterface.h"
+#include "nn/nex/nex_Scheduler.h"
 #include <cwchar>
 
 namespace nn {
@@ -19,7 +21,54 @@ const int RESULT_NO_PROTOCOL = static_cast<int>(0x80010002);
 const u32 SPECIAL_PRINCIPAL_FIRST = 110;
 const u32 SPECIAL_PRINCIPAL_COUNT = 10;
 const u32 FUNCTION_UNKNOWN_08000000 = 0x08000000;
+// there is no connection for a call
+const int RESULT_NO_CONNECTION = static_cast<int>(0x80010001);
+
+// the lock of the scheduler
+inline CriticalSection& GetSchedulerLock()
+{
+    Core* pCore = Core::GetInstance();
+    return (pCore != nullptr ? pCore->m_pScheduler : nullptr)->m_Lock;
+}
 } // namespace
+
+// 0x00370834 (name is ours)
+bool nn::nex::ClientProtocol::SendRequest(nn::nex::ProtocolCallContext* pContext, nn::nex::Message* pMessage)
+{
+    if (pContext == nullptr) {
+        return false;
+    }
+    if (m_IsEndPointKept) {
+        return SendOverLocalLoopback(pContext, pMessage);
+    }
+    ScopedCS lock(GetSchedulerLock());
+    EndPoint* pEndPoint;
+    if (pContext->m_pCredentials != nullptr) {
+        pEndPoint = pContext->m_pCredentials->GetConnection(m_ProtocolId);
+    } else if (m_pConnection != nullptr) {
+        pEndPoint = m_pConnection;
+    } else if (m_pDefaultCredentials != nullptr) {
+        pEndPoint = m_pDefaultCredentials->GetConnection(m_ProtocolId);
+    } else {
+        pEndPoint = nullptr;
+    }
+    if (pEndPoint == nullptr) {
+        pContext->SetStateImpl(CallContext::STATE_FAILURE, qResult(RESULT_NO_CONNECTION), false);
+        return false;
+    }
+    qResult result;
+    {
+        ScopedCS sendLock(GetSchedulerLock());
+        result = pEndPoint->_Send(pMessage->GetBuffer(), 1, false, 0, 0);
+    }
+    bool isSuccess = false;
+    if (result.Equals(isSuccess)) {
+        pContext->SignalFailure(result);
+        return false;
+    }
+    pContext->SetOwner(pEndPoint, pEndPoint->m_ConnectionId);
+    return true;
+}
 
 // 0x00370A18 | fefates:bytes [tier B]
 void nn::nex::ClientProtocol::ProcessResponse(nn::nex::Message* pMessage, nn::nex::EndPoint* pEndPoint)

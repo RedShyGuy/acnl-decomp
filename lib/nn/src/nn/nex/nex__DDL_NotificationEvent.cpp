@@ -10,6 +10,19 @@ nn::nex::_DDL_NotificationEvent::~_DDL_NotificationEvent()
     // nothing to do: the members and bases are destroyed / constructed by the compiler
 }
 
+// 0x0039F454 (name is ours)
+nn::nex::_DDL_NotificationEvent& nn::nex::_DDL_NotificationEvent::operator=(const nn::nex::_DDL_NotificationEvent& other)
+{
+    m_StructureVersion = other.m_StructureVersion;
+    m_pidSource = other.m_pidSource;
+    m_uiType = other.m_uiType;
+    m_uiParam1 = other.m_uiParam1;
+    m_uiParam2 = other.m_uiParam2;
+    m_strParam = other.m_strParam;
+    m_uiParam3 = other.m_uiParam3;
+    return *this;
+}
+
 // 0x0039F2EC
 void nn::nex::_DDL_NotificationEvent::Extract(nn::nex::Message* pMessage, nn::nex::_DDL_NotificationEvent* pData)
 {

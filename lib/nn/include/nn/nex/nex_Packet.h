@@ -1,6 +1,7 @@
 #pragma once
 
 #include "decomp.h"
+#include "nn/nex/nex_qChain.h"
 #include "nn/nex/nex_Buffer.h"
 #include "nn/nex/nex_InetAddress.h"
 #include "nn/nex/nex_LiteByteStream.h"
@@ -27,6 +28,8 @@ public:
     static const u32 TYPE_CONNECT = 1;
     static const u32 TYPE_DATA = 2;
     static const u32 TYPE_DISCONNECT = 3;
+    static const u32 TYPE_PING = 4;
+    static const u32 TYPE_HIGH_LEVEL = 5; // (the packets of the HighLevelStreams)
     static const u32 TYPE_RAW = 7;
 
     Packet(); // 0x003D03CC | fefates:callgraph [tier C]
@@ -78,10 +81,10 @@ public:
 
     Packet* m_pChainNext;                     // 0x0C (PacketQueue)
     Packet* m_pChainPrev;                     // 0x10
-    u32 m_Unknown0x14;                        // 0x14
-    u32 m_Unknown0x18;                        // 0x18
-    u32 m_Unknown0x1C;                        // 0x1C
-    u32 m_Unknown0x20;                        // 0x20
+    Packet* m_pTempNext;                      // 0x14 (temporary chains: ChainPolicyTemp)
+    Packet* m_pTempPrev;                      // 0x18
+    Packet* m_pHistoryNext;                   // 0x1C (the history of the bundled packets: ChainPolicyHistoryPacket)
+    Packet* m_pHistoryPrev;                   // 0x20
     u8 m_MessageVersion;                      // 0x24 (0 V0, 1 V1, 0xD0 relay; selects the message class)
     u8 m_SourcePort;                          // 0x25 (the stream type in the high 4 bits)
     u8 m_DestinationPort;                     // 0x26
@@ -115,5 +118,29 @@ ASSERT_OFFSET(Packet, m_pPayload, 0xD8);
 ASSERT_OFFSET(Packet, m_Unknown0x100, 0x100);
 ASSERT_SIZE(Packet, 0x118);
 ASSERT_SIZE(Packet::RelayHeader, 0x28);
+
+// The links of a packet in the history of the bundled packets (Packet +0x1C/+0x20; the name is from
+// the RTTI of the chain).
+template <typename T>
+class ChainPolicyHistoryPacket
+{
+public:
+    static T& Next(T p) { return p->m_pHistoryNext; }
+    static T& Prev(T p) { return p->m_pHistoryPrev; }
+};
+
+// The links of a packet in a temporary chain (Packet +0x14/+0x18; the name is from the RTTI of the
+// chain).
+template <typename T>
+class ChainPolicyTemp
+{
+public:
+    static T& Next(T p) { return p->m_pTempNext; }
+    static T& Prev(T p) { return p->m_pTempPrev; }
+};
+
+// (out of line in the original; nex_Api.cpp)
+template <>
+DECOMP_NOINLINE qChain<Packet*, ChainPolicyHistoryPacket<Packet*> >::iterator qChain<Packet*, ChainPolicyHistoryPacket<Packet*> >::erase(iterator it);
 } // namespace nex
 } // namespace nn

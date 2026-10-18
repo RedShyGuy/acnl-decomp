@@ -89,6 +89,30 @@ template nn::nex::qList<nn::nex::SecurityContext>& nn::nex::ThreadVariable<nn::n
 // 0x00827B34 | fefates:callgraph [tier C]
 template const nn::nex::qList<nn::nex::SecurityContext>& nn::nex::ThreadVariable<nn::nex::qList<nn::nex::SecurityContext> >::GetRef() const;
 
+// 0x003CF518
+template <>
+DECOMP_NOINLINE qList<SecurityContext>::qList(const qList<SecurityContext>& other)
+    : m_pBufferList(nullptr), m_pFreeList(nullptr), m_pNextAvail(nullptr), m_pLast(nullptr), m_pHead(nullptr), m_Size(0)
+{
+    // (the first buffer has the nodes of a buffer that grows, not one node)
+    AddBufferInline(false);
+    m_pHead = m_pNextAvail;
+    m_pNextAvail++;
+    m_pHead->m_pNext = m_pHead;
+    m_pHead->m_pPrev = m_pHead;
+    Node* pPos = m_pHead->m_pNext;
+    for (Node* pNode = other.GetFirst(); !other.IsEnd(pNode); pNode = pNode->m_pNext) {
+        insert(pPos, pNode->m_Value);
+    }
+}
+
+// 0x0082F864 (name is ours; std::list::operator=)
+template <>
+DECOMP_NOINLINE qList<SecurityContext>& qList<SecurityContext>::operator=(const qList<SecurityContext>& other)
+{
+    return AssignInline(other);
+}
+
 // 0x003CF6A8 | fefates:bytes [tier B]
 template <>
 DECOMP_NOINLINE qList<SecurityContext>::~qList()

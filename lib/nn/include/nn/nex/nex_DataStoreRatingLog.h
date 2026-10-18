@@ -10,8 +10,7 @@ namespace nex {
 class DataStoreRatingLog : public ::nn::nex::_DDL_DataStoreRatingLog
 {
 public:
-    // (inline)
-    DataStoreRatingLog() {}
+    DataStoreRatingLog(); // 0x00387968
     virtual ~DataStoreRatingLog(); // 0x003879A0 slot 0x00
     // 0x0038799C slot 0x04 (deleting dtor)
 };

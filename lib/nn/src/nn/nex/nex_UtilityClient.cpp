@@ -1,31 +1,59 @@
-#include "nn/nex/nex_ServiceClient.h"
 #include "nn/nex/nex_UtilityClient.h"
 
 namespace nn {
 namespace nex {
-// ctor candidate(s) 0x0036F368 (unverified)
-nn::nex::UtilityClient::UtilityClient()
+// 0x0036F2E4 (name is ours)
+bool nn::nex::UtilityClient::GetIntegerSettings(nn::nex::ProtocolCallContext* pContext, unsigned int index, nn::nex::qMap<u16, u32>* pSettings)
 {
+    return m_Protocol.CallGetIntegerSettings(pContext, index, pSettings);
 }
 
-// 0x0036F41C slot 0x00 | slot vf_0x00 of nn::nex::ServiceClient
+// 0x0036F2FC slot 0x0C
+bool nn::nex::UtilityClient::Bind(nn::nex::Credentials* pCredentials)
+{
+    if (!ServiceClient::Bind(pCredentials)) {
+        return false;
+    }
+    if (!RegisterProtocol(&m_Protocol)) {
+        return false;
+    }
+    m_IsProtocolRegistered = true;
+    return true;
+}
+
+// 0x0036F330 slot 0x10
+bool nn::nex::UtilityClient::Unbind()
+{
+    if (!ServiceClient::Unbind()) {
+        return false;
+    }
+    if (!UnregisterProtocol(&m_Protocol)) {
+        return false;
+    }
+    m_IsProtocolRegistered = false;
+    return true;
+}
+
+// 0x0036F368
+nn::nex::UtilityClient::UtilityClient() : ServiceClient(PROTOCOL_ID), m_Protocol(0)
+{
+    m_Protocol.m_ProtocolId = PROTOCOL_ID;
+    m_IsProtocolRegistered = false;
+}
+
+// 0x0036F41C slot 0x00
+// 0x0036F3B8 (deleting dtor)
 nn::nex::UtilityClient::~UtilityClient()
 {
+    if (m_IsProtocolRegistered) {
+        UtilityClient::Unbind();
+    }
 }
 
-// 0x0036F2FC slot 0x0C | slot vf_0x0C of nn::nex::ServiceClient
-bool nn::nex::UtilityClient::Bind(nn::nex::Credentials*)
+// 0x00370DCC slot 0x20
+void nn::nex::UtilityClient::UpdateProtocolsDefaultCredentials(nn::nex::Credentials* pCredentials)
 {
-}
-
-// 0x0036F330 slot 0x10 | slot vf_0x10 of nn::nex::ServiceClient
-void nn::nex::UtilityClient::Unbind()
-{
-}
-
-// 0x00370DCC slot 0x20 | slot vf_0x20 of nn::nex::ServiceClient
-void nn::nex::UtilityClient::UpdateProtocolsDefaultCredentials(nn::nex::Credentials*)
-{
+    m_Protocol.SetDefaultCredentials(pCredentials);
 }
 
 } // namespace nex

@@ -585,6 +585,82 @@ bool nn::nex::StationURL::operator!=(const nn::nex::StationURL& other) const
     return wcscmp(GetURL(), pOther) != 0;
 }
 
+// 0x003CE134 (name is ours)
+template <>
+DECOMP_NOINLINE qMap<String, String>::qMap()
+{
+    // nothing to do: the tree is constructed by the compiler
+}
+
+// 0x003CE1D0 (name is ours)
+template <>
+DECOMP_NOINLINE qMap<String, u32>::qMap()
+{
+    // nothing to do: the tree is constructed by the compiler
+}
+
+// 0x003CF340 | mk7dlp:bytes [tier A]
+template <>
+DECOMP_NOINLINE qList<StationURL>::qList() : m_pBufferList(nullptr), m_pFreeList(nullptr), m_pNextAvail(nullptr), m_pLast(nullptr), m_pHead(nullptr), m_Size(0)
+{
+    InitializeInline();
+}
+
+// 0x003CF25C
+template <>
+DECOMP_NOINLINE qList<StationURL>::qList(const qList<StationURL>& other)
+    : m_pBufferList(nullptr), m_pFreeList(nullptr), m_pNextAvail(nullptr), m_pLast(nullptr), m_pHead(nullptr), m_Size(0)
+{
+    InitializeInline();
+    for (Node* pNode = other.GetFirst(); !other.IsEnd(pNode); pNode = pNode->m_pNext) {
+        insert(m_pHead, pNode->m_Value);
+    }
+}
+
+// 0x0082F020 | fefates:bytes [tier B]
+template <>
+DECOMP_NOINLINE qList<StationURL>::~qList()
+{
+    DestroyInline();
+}
+
+// 0x0082EEB8 | mk7dlp:callgraph [tier A]
+template <>
+DECOMP_NOINLINE void qList<StationURL>::AddBuffer(bool isFirst)
+{
+    AddBufferInline(isFirst);
+}
+
+// 0x0082EFA4 | fefates:callgraph [tier B]
+template <>
+DECOMP_NOINLINE void qList<StationURL>::push_back(const StationURL& value)
+{
+    PushBackInline(value);
+}
+
+// 0x0082F0F0
+template <>
+DECOMP_NOINLINE nn::nex::qList<nn::nex::StationURL>& nn::nex::qList<nn::nex::StationURL>::operator=(const nn::nex::qList<nn::nex::StationURL>& other)
+{
+    if (this != &other) {
+        Node* pNode = m_pHead->m_pNext;
+        Node* pOther = other.m_pHead->m_pNext;
+        for (; pNode != m_pHead && pOther != other.m_pHead; pNode = pNode->m_pNext, pOther = pOther->m_pNext) {
+            pNode->m_Value.Copy(pOther->m_Value);
+        }
+        if (pOther == other.m_pHead) {
+            while (pNode != m_pHead) {
+                pNode = erase(pNode);
+            }
+        } else {
+            for (; pOther != other.m_pHead; pOther = pOther->m_pNext) {
+                push_back(pOther->m_Value);
+            }
+        }
+    }
+    return *this;
+}
+
 } // namespace nex
 } // namespace nn
 
@@ -617,5 +693,14 @@ template <>
 DECOMP_NOINLINE nn::nex::String& map<nn::nex::String, nn::nex::String, less<nn::nex::String>, nn::nex::MemAllocator<pair<const nn::nex::String, nn::nex::String> > >::operator[](const nn::nex::String& key)
 {
     return IndexInline(key);
+}
+} // namespace std
+
+namespace std {
+// 0x0082E4D4 (name is ours)
+template <>
+u32 map<nn::nex::String, nn::nex::String>::erase(const nn::nex::String& key)
+{
+    return EraseInline(key);
 }
 } // namespace std

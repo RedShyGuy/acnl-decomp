@@ -38,5 +38,11 @@ public:
 // (out of line)
 template <>
 DECOMP_NOINLINE void qList<MatchmakeSessionSearchCriteria>::clear();
+template <>
+DECOMP_NOINLINE qList<MatchmakeSessionSearchCriteria>::qList();
+template <>
+DECOMP_NOINLINE qList<MatchmakeSessionSearchCriteria>::~qList();
+template <>
+DECOMP_NOINLINE qList<MatchmakeSessionSearchCriteria>& qList<MatchmakeSessionSearchCriteria>::operator=(const qList<MatchmakeSessionSearchCriteria>& other);
 } // namespace nex
 } // namespace nn

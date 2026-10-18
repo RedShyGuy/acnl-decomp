@@ -36,6 +36,8 @@ public:
     // while interrupted, the timeouts of the core count as expired; the callback runs (once) when
     // it is interrupted
     void SetInterrupted(bool isInterrupted); // 0x003CDB08 (name is ours)
+    // (inline; the name is from the strings of the conditions in the binary)
+    bool GetTerminateImmediately() const { return m_IsInterrupted; }
 
     Scheduler* m_pScheduler;                          // 0x0C
     CallContextRegister* m_pCallContextRegister;      // 0x10

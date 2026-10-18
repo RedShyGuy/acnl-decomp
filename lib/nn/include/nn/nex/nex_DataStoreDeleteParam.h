@@ -16,5 +16,15 @@ public:
     // 0x003962AC slot 0x04 (deleting dtor)
 };
 ASSERT_SIZE(DataStoreDeleteParam, 0x18);
+
+// (out of line)
+template <>
+DECOMP_NOINLINE void DDLClassMetaType<DataStoreDeleteParam>::Add(Message* pMessage, const nn::nex::DataStoreDeleteParam& value);
 } // namespace nex
 } // namespace nn
+
+namespace std {
+// (out of line)
+template <>
+DECOMP_NOINLINE void vector<nn::nex::DataStoreDeleteParam, nn::nex::MemAllocator<nn::nex::DataStoreDeleteParam> >::_C_insert_aux(nn::nex::DataStoreDeleteParam* pos, const nn::nex::DataStoreDeleteParam& value);
+} // namespace std

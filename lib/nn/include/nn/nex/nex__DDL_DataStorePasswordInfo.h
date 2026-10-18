@@ -33,34 +33,7 @@ public:
         }
     }
     // (inline)
-    static DECOMP_ALWAYS_INLINE void Extract(nn::nex::Message* pMessage, nn::nex::_DDL_DataStorePasswordInfo* pData)
-    {
-        pData->m_StructureVersion = 0;
-        bool isWithoutHeader = pMessage->m_IsWithoutStructureHeader;
-        u32 size = 0;
-        if (!isWithoutHeader && !DDLStructure::BeginExtract(pMessage, &pData->m_StructureVersion, &size)) {
-            return;
-        }
-        if (pMessage->m_IsError) {
-            return;
-        }
-        u32 start = pMessage->m_Position;
-        pMessage->ExtractPrimitive(&pData->m_DataId);
-        if (pMessage->m_IsError) {
-            return;
-        }
-        pMessage->ExtractPrimitive(&pData->m_AccessPassword);
-        if (pMessage->m_IsError) {
-            return;
-        }
-        pMessage->ExtractPrimitive(&pData->m_UpdatePassword);
-        if (pMessage->m_IsError) {
-            return;
-        }
-        if (!isWithoutHeader) {
-            DDLStructure::EndExtract(pMessage, start, size);
-        }
-    }
+    static DECOMP_NOINLINE void Extract(nn::nex::Message* pMessage, nn::nex::_DDL_DataStorePasswordInfo* pData); // 0x003BBC00
 
     u8 m_StructureVersion; // 0x04
     u64 m_DataId; // 0x08

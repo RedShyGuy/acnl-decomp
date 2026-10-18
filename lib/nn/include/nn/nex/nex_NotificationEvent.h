@@ -3,6 +3,7 @@
 #include "decomp.h"
 #include "nn/nex/nex__DDL_NotificationEvent.h"
 #include "nn/nex/nex_StringStream.h"
+#include "nn/nex/nex_qList.h"
 
 namespace nn {
 namespace nex {
@@ -11,8 +12,15 @@ namespace nex {
 class NotificationEvent : public ::nn::nex::_DDL_NotificationEvent
 {
 public:
-    // (inline)
-    NotificationEvent() {}
+    // (inline) the fields are 0
+    NotificationEvent()
+    {
+        m_pidSource = 0;
+        m_uiType = 0;
+        m_uiParam1 = 0;
+        m_uiParam2 = 0;
+        m_uiParam3 = 0;
+    }
     virtual ~NotificationEvent(); // 0x003873E0 slot 0x00
     // 0x003873C0 slot 0x04 (deleting dtor)
 };

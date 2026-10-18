@@ -63,7 +63,7 @@ nn::nex::ProtocolCallContext::ProtocolCallContext(nn::nex::Credentials* pCredent
 nn::nex::ProtocolCallContext::~ProtocolCallContext()
 {
     if (m_State == STATE_CALL_IN_PROGRESS) {
-        ScopedCS lock(Scheduler::GetInstance()->m_Lock);
+        ScopedCS lock(Scheduler::GetInstanceInline()->m_Lock);
         if (m_State == STATE_CALL_IN_PROGRESS) {
             Cancel(STATE_CANCELLED);
         }

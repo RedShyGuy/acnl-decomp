@@ -10,11 +10,17 @@ namespace nex {
 class DataStoreSearchParam : public ::nn::nex::_DDL_DataStoreSearchParam
 {
 public:
-    // (inline)
-    DataStoreSearchParam() {}
+    // the defaults of a search
+    DataStoreSearchParam(); // 0x00396564
     virtual ~DataStoreSearchParam(); // 0x003967B0 slot 0x00
     // 0x003967A0 slot 0x04 (deleting dtor)
+    // (the name is ours)
+    void SetDataTypes(const nn::nex::qVector<unsigned short>& dataTypes); // 0x00396384
 };
 ASSERT_SIZE(DataStoreSearchParam, 0x88);
+
+// (out of line)
+template <>
+DECOMP_NOINLINE void DDLClassMetaType<DataStoreSearchParam>::Add(Message* pMessage, const nn::nex::DataStoreSearchParam& value);
 } // namespace nex
 } // namespace nn

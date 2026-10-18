@@ -11,7 +11,13 @@ class DataStorePrepareUpdateParam : public ::nn::nex::_DDL_DataStorePrepareUpdat
 {
 public:
     // (inline)
-    DataStorePrepareUpdateParam() {}
+    DataStorePrepareUpdateParam()
+    {
+        m_DataId = 0;
+        m_Size = 0;
+        m_UpdatePassword = 0;
+        m_ExtraData.clear();
+    }
     virtual ~DataStorePrepareUpdateParam(); // 0x003BCF78 slot 0x00
     // 0x003BCF28 slot 0x04 (deleting dtor)
 };

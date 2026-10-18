@@ -2,6 +2,12 @@
 
 namespace nn {
 namespace nex {
+// 0x003CB820
+nn::nex::DataStoreReqGetNotificationUrlInfo::DataStoreReqGetNotificationUrlInfo()
+{
+    // nothing to do
+}
+
 // 0x003CB8AC slot 0x00
 // 0x003CB86C (deleting dtor)
 nn::nex::DataStoreReqGetNotificationUrlInfo::~DataStoreReqGetNotificationUrlInfo()

@@ -1,213 +1,102 @@
-#include "nn/nex/nex_ConnectionOrientedStream.h"
-#include "nn/nex/nex_RootObject.h"
-#include "nn/nex/nex_EndPointInfoInterface.h"
 #include "nn/nex/nex_EndPoint.h"
+#include "nn/nex/nex_ConnectionOrientedStream.h"
+#include "nn/nex/nex_TransportAdapter.h"
 
 namespace nn {
 namespace nex {
-// ctor candidate(s) 0x003D4DAC (unverified)
-nn::nex::EndPoint::EndPoint()
+namespace {
+// a handler is registered already
+const int RESULT_ALREADY_REGISTERED = static_cast<int>(0x8001000E);
+} // namespace
+
+// 0x003D4DAC | fefates:bytes [tier B]
+nn::nex::EndPoint::EndPoint(nn::nex::ConnectionOrientedStream* pStream, const nn::nex::StationURL* pURL)
+    : m_URL(*pURL), m_pOwner(nullptr), m_Unknown0x8C(0), m_pEventHandler(nullptr), m_pStream(pStream), m_PrincipalId(0), m_ConnectionId(0),
+      m_OpenCount(0), m_Unknown0x84(0)
 {
 }
 
 // 0x003D4E24 slot 0x00 | mk7dlp:bytes-fuzzy
+// 0x003D4DF4 (deleting dtor)
 nn::nex::EndPoint::~EndPoint()
 {
-}
-
-// 0x0011C12F slot 0x08 | slot vf_0x00 of ChangeRentalBase
-void nn::nex::EndPoint::vf_0x08()
-{
-}
-
-// 0x0011C12F slot 0x0C | slot vf_0x00 of ChangeRentalBase
-void nn::nex::EndPoint::vf_0x0C()
-{
-}
-
-// 0x0011C12F slot 0x10 | slot vf_0x00 of ChangeRentalBase
-void nn::nex::EndPoint::vf_0x10()
-{
-}
-
-// 0x0011C12F slot 0x14 | slot vf_0x00 of ChangeRentalBase
-void nn::nex::EndPoint::vf_0x14()
-{
-}
-
-// 0x0011C12F slot 0x18 | slot vf_0x00 of ChangeRentalBase
-void nn::nex::EndPoint::vf_0x18()
-{
-}
-
-// 0x0011C12F slot 0x1C | slot vf_0x00 of ChangeRentalBase
-void nn::nex::EndPoint::IsNotConnected()
-{
-}
-
-// 0x0011C12F slot 0x20 | slot vf_0x00 of ChangeRentalBase
-void nn::nex::EndPoint::IsConnecting()
-{
-}
-
-// 0x0011C12F slot 0x24 | slot vf_0x00 of ChangeRentalBase
-void nn::nex::EndPoint::IsDisconnecting()
-{
-}
-
-// 0x0011C12F slot 0x28 | slot vf_0x00 of ChangeRentalBase
-void nn::nex::EndPoint::IsFaulty()
-{
-}
-
-// 0x0011C12F slot 0x2C | slot vf_0x00 of ChangeRentalBase
-void nn::nex::EndPoint::IsConnected()
-{
-}
-
-// 0x0011C12F slot 0x30 | slot vf_0x00 of ChangeRentalBase
-void nn::nex::EndPoint::PeerIsConnected()
-{
-}
-
-// 0x0011C12F slot 0x34 | slot vf_0x00 of ChangeRentalBase
-void nn::nex::EndPoint::vf_0x34()
-{
+    if (m_pStream != nullptr && m_ConnectionId != 0) {
+        m_pStream->UnregisterConnectionID(m_ConnectionId, this);
+    }
+    m_ConnectionId = 0;
+    if (m_pStream != nullptr && m_PrincipalId != 0) {
+        m_pStream->UnregisterPrincipalID(m_PrincipalId, this);
+    }
+    m_PrincipalId = 0;
+    TransportAdapter::s_pInstance->ReleaseAddress(m_URL);
 }
 
 // 0x003D4D28 slot 0x38 | slot vf_0x38 of nn::nex::EndPoint
 void nn::nex::EndPoint::DisableKeepAlive()
 {
-}
-
-// 0x0011C12F slot 0x3C | slot vf_0x00 of ChangeRentalBase
-void nn::nex::EndPoint::SetKeepAliveTimeout(unsigned int)
-{
-}
-
-// 0x0011C12F slot 0x40 | slot vf_0x00 of ChangeRentalBase
-void nn::nex::EndPoint::SetMaxSilenceTime(unsigned int)
-{
-}
-
-// 0x0011C12F slot 0x44 | slot vf_0x00 of ChangeRentalBase
-void nn::nex::EndPoint::GetKeepAliveTimeout()
-{
-}
-
-// 0x0011C12F slot 0x48 | slot vf_0x00 of ChangeRentalBase
-void nn::nex::EndPoint::GetMaxSilenceTime()
-{
-}
-
-// 0x0011C12F slot 0x4C | slot vf_0x00 of ChangeRentalBase
-void nn::nex::EndPoint::SetPeerConnected()
-{
-}
-
-// 0x0011C12F slot 0x50 | slot vf_0x00 of ChangeRentalBase
-void nn::nex::EndPoint::SetPeerDisconnected()
-{
-}
-
-// 0x0011C12F slot 0x54 | slot vf_0x00 of ChangeRentalBase
-void nn::nex::EndPoint::GetConnectionState() const
-{
-}
-
-// 0x0011C12F slot 0x58 | slot vf_0x00 of ChangeRentalBase
-void nn::nex::EndPoint::SetConnectionState(nn::nex::EndPoint::_ConnectionState)
-{
+    SetKeepAliveTimeout(static_cast<unsigned int>(-1));
 }
 
 // 0x003D4D48 slot 0x5C | mk7dlp:callseq-callee
-void nn::nex::EndPoint::RegisterEventHandler(nn::nex::EndPointEventHandler*)
+nn::nex::qResult nn::nex::EndPoint::RegisterEventHandler(nn::nex::EndPointEventHandler* pHandler)
 {
+    if (m_pEventHandler != nullptr) {
+        return qResult(RESULT_ALREADY_REGISTERED);
+    }
+    m_pEventHandler = pHandler;
+    return qResult(qResult::SUCCESS);
 }
 
-// 0x0011C12F slot 0x60 | slot vf_0x00 of ChangeRentalBase
-void nn::nex::EndPoint::IsAnyPacketProcessed()
+// 0x003D4C68 slot 0x80 (name is ours)
+void nn::nex::EndPoint::SetFaultResultHolder(nn::nex::FaultResultHolder* pHolder)
 {
+    m_pFaultResultHolder = pHolder;
 }
 
-// 0x0011C12F slot 0x64 | slot vf_0x00 of ChangeRentalBase
-void nn::nex::EndPoint::GetSignaledFaultError() const
+// 0x003D4D3C slot 0x84 (name is ours)
+void nn::nex::EndPoint::ClearFaultResultHolder()
 {
-}
-
-// 0x0011C12F slot 0x68 | slot vf_0x00 of ChangeRentalBase
-void nn::nex::EndPoint::vf_0x68()
-{
-}
-
-// 0x0011C12F slot 0x6C | slot vf_0x00 of ChangeRentalBase
-void nn::nex::EndPoint::vf_0x6C()
-{
-}
-
-// 0x0011C12F slot 0x70 | slot vf_0x00 of ChangeRentalBase
-void nn::nex::EndPoint::_Connect(nn::nex::Buffer*, nn::nex::Buffer*, void (*)(nn::nex::EndPoint*,nn::nex::qResult,const nn::nex::UserContext*), const nn::nex::UserContext&, unsigned int)
-{
-}
-
-// 0x0011C12F slot 0x74 | slot vf_0x00 of ChangeRentalBase
-void nn::nex::EndPoint::_Disconnect(void (*)(nn::nex::EndPoint*,nn::nex::qResult,const nn::nex::UserContext*), const nn::nex::UserContext&, unsigned int)
-{
-}
-
-// 0x0011C12F slot 0x78 | slot vf_0x00 of ChangeRentalBase
-nn::nex::qResult nn::nex::EndPoint::_Send(nn::nex::Buffer*, unsigned int, bool, unsigned char, unsigned int)
-{
-}
-
-// 0x0011C12F slot 0x7C | slot vf_0x00 of ChangeRentalBase
-u32 nn::nex::EndPoint::GetSupportedFunctionsFlags() const
-{
-}
-
-// 0x003D4C68 slot 0x80 | virtual slot, introduced by nn::nex::EndPoint
-void nn::nex::EndPoint::vf_0x80()
-{
-}
-
-// 0x003D4D3C slot 0x84 | virtual slot, introduced by nn::nex::EndPoint
-void nn::nex::EndPoint::vf_0x84()
-{
+    m_pFaultResultHolder = nullptr;
 }
 
 // 0x003D4D38 slot 0x88 | slot vf_0x88 of nn::nex::EndPoint
-void nn::nex::EndPoint::SignalFaultEvent(unsigned int, bool)
+void nn::nex::EndPoint::SignalFaultEvent(unsigned int error, bool isProcessed)
 {
-}
-
-// 0x0011C12F slot 0x8C | slot vf_0x00 of ChangeRentalBase
-void nn::nex::EndPoint::SetEncryptionKey(const nn::nex::Key&)
-{
-}
-
-// 0x0011C12F slot 0x90 | slot vf_0x00 of ChangeRentalBase
-void nn::nex::EndPoint::GetEncryptionKey()
-{
+    // nothing to do
 }
 
 // 0x003D4C70 | mk7dlp:bytes-fuzzy [tier A]
-void nn::nex::EndPoint::SetPrincipalID(unsigned)
+void nn::nex::EndPoint::SetPrincipalID(unsigned principalId)
 {
+    if (m_pStream != nullptr) {
+        if (m_PrincipalId != 0) {
+            m_pStream->UnregisterPrincipalID(m_PrincipalId, this);
+        }
+        if (principalId != 0) {
+            m_pStream->RegisterPrincipalID(principalId, this);
+        }
+    }
+    m_PrincipalId = principalId;
 }
 
 // 0x003D4CCC | mk7dlp:bytes-fuzzy [tier A]
-void nn::nex::EndPoint::SetConnectionID(unsigned)
+void nn::nex::EndPoint::SetConnectionID(unsigned connectionId)
 {
+    if (m_pStream != nullptr) {
+        if (m_ConnectionId != 0) {
+            m_pStream->UnregisterConnectionID(m_ConnectionId, this);
+        }
+        if (connectionId != 0) {
+            m_pStream->RegisterConnectionID(connectionId, this);
+        }
+    }
+    m_ConnectionId = connectionId;
 }
 
 // 0x003D4D84 | mk7dlp:bytes [tier A]
 void nn::nex::EndPoint::Open()
 {
-}
-
-// 0x003D4DAC | fefates:bytes [tier B]
-nn::nex::EndPoint::EndPoint(nn::nex::ConnectionOrientedStream*, const nn::nex::StationURL*)
-{
+    m_pStream->OpenEndPoint(this);
 }
 
 // 0x003D4D98 | fefates:callgraph [tier C]

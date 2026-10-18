@@ -2,6 +2,7 @@
 
 #include "decomp.h"
 #include "nn/nex/nex__DDL_PlayingSession.h"
+#include "nn/nex/nex_qList.h"
 
 namespace nn {
 namespace nex {
@@ -18,5 +19,13 @@ public:
     // 0x00373AF8 slot 0x04 (deleting dtor)
 };
 ASSERT_SIZE(PlayingSession, 0x14);
+
+// (out of line in the original; nex_PlayingSession.cpp)
+template <>
+DECOMP_NOINLINE qList<PlayingSession>::qList();
+template <>
+DECOMP_NOINLINE qList<PlayingSession>::~qList();
+template <>
+DECOMP_NOINLINE void qList<PlayingSession>::clear();
 } // namespace nex
 } // namespace nn

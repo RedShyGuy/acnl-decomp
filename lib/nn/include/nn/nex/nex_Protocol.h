@@ -43,7 +43,7 @@ public:
 
     // (inline in the original; Protocol.cpp)
     explicit Protocol(u32 flags)
-        : SystemComponent(String(L"<unknown>")), m_ProtocolId(0), m_Unknown0x24(0), m_pBroker(nullptr), m_Flags(flags), m_pEndPoint(nullptr),
+        : SystemComponent(String(L"<unknown>")), m_ProtocolId(0), m_pConnection(nullptr), m_pBroker(nullptr), m_Flags(flags), m_pEndPoint(nullptr),
           m_IsEndPointKept(false), m_PrincipalId(0), m_ConnectionId(0)
     {
     }
@@ -54,8 +54,10 @@ public:
     virtual void vf_0x44(); // 0x003D5DF8 slot 0x44
     virtual void vf_0x48(); // 0x003D5A48 slot 0x48
     // (inline in the original, with a copy out of line)
-    virtual bool vf_0x4C(); // 0x0072E9E8 slot 0x4C
+    virtual nn::nex::Protocol* Clone(); // 0x0072E9E8 slot 0x4C
 
+    // (armlink placed it far from the others)
+    void SetFlag(u32 flag); // 0x003D5E10 (name is ours)
     // the call context of a response (by the call id in the message)
     static nn::nex::CallContext* RetrieveCallContext(nn::nex::Message* pMessage); // 0x00391B54 | fefates:bytes [tier B]
     static void AddMethodID(nn::nex::Message* pMessage, unsigned int methodId); // 0x003D5A30 | mk7dlp:bytes [tier A]
@@ -73,7 +75,7 @@ public:
     bool FlagIsSet(unsigned int flags) const; // 0x0072E9F0 | fefates:bytes [tier B]
 
     u16 m_ProtocolId;                          // 0x20
-    u32 m_Unknown0x24;                         // 0x24
+    EndPoint* m_pConnection;                   // 0x24 (of the calls without credentials)
     ProtocolRequestBrokerInterface* m_pBroker; // 0x28
     u32 m_Flags;                               // 0x2C
     // the end point of the current call and the ids of its station

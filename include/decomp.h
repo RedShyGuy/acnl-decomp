@@ -30,3 +30,5 @@
 // the original calls it with the arguments of its only caller; GCC would also specialize it for them
 #define DECOMP_NOIPA __attribute__((noipa))
 #define DECOMP_ALWAYS_INLINE inline __attribute__((always_inline))   // the original inlines it, GCC would call it
+// an inline function that the original also has as an out-of-line copy (GCC emits the copy too)
+#define DECOMP_EMIT_COPY __attribute__((used))

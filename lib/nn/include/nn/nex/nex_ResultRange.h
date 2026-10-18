@@ -11,8 +11,15 @@ namespace nex {
 class ResultRange : public ::nn::nex::_DDL_ResultRange
 {
 public:
-    // (inline)
-    ResultRange() {}
+    // the size of a default range (the name is ours)
+    static const u32 DEFAULT_SIZE = 20;
+
+    // (inline; the first 20)
+    ResultRange()
+    {
+        m_uiOffset = 0;
+        m_uiSize = DEFAULT_SIZE;
+    }
     // (inline in pia::inet::NexMatchmakeSession)
     ResultRange(u32 offset, u32 size)
     {

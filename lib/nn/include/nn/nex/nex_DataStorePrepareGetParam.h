@@ -10,8 +10,7 @@ namespace nex {
 class DataStorePrepareGetParam : public ::nn::nex::_DDL_DataStorePrepareGetParam
 {
 public:
-    // (inline)
-    DataStorePrepareGetParam() {}
+    DataStorePrepareGetParam(); // 0x003B2348 | fefates:callgraph [tier C]
     virtual ~DataStorePrepareGetParam(); // 0x003B2464 slot 0x00
     // 0x003B2414 slot 0x04 (deleting dtor)
 };

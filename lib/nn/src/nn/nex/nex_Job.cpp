@@ -1,4 +1,5 @@
 #include "nn/nex/nex_Job.h"
+#include "nn/nex/nex_UserContext.h"
 #include "nn/nex/nex_Scheduler.h"
 #include "nn/nex/nex_SpinTest.h"
 
@@ -18,6 +19,30 @@ bool nn::nex::Job::WaitForCompletionCallback(nn::nex::RootObject* pObject, unsig
 void nn::nex::Job::AddActivity(const wchar_t* pActivity)
 {
     // nothing to do in this build
+}
+
+// 0x003CC578
+void nn::nex::Job::ReadyOnCompletion(nn::nex::CallContext* pContext, const nn::nex::UserContext* pUserContext)
+{
+    static_cast<Job*>(pUserContext->m_pPointer)->SetToReady();
+}
+
+// 0x003CC580 (name is ours)
+void nn::nex::Job::SetToReady()
+{
+    SetState(STATE_READY);
+}
+
+// 0x003CC718 (name is ours)
+void nn::nex::Job::SetReadyState()
+{
+    SetState(STATE_READY);
+}
+
+// 0x003CC58C (name is ours)
+void nn::nex::Job::SetToRunning()
+{
+    SetState(STATE_RUNNING);
 }
 
 // 0x003CC594 | fefates:bytes [tier B]

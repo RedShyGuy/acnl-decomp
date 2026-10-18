@@ -2,6 +2,12 @@
 
 namespace nn {
 namespace nex {
+// 0x003BF7A8
+nn::nex::DataStoreReqGetAdditionalMeta::DataStoreReqGetAdditionalMeta()
+{
+    // nothing to do
+}
+
 // 0x003BF7FC slot 0x00
 // 0x003BF7DC (deleting dtor)
 nn::nex::DataStoreReqGetAdditionalMeta::~DataStoreReqGetAdditionalMeta()

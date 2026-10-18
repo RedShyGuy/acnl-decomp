@@ -34,6 +34,28 @@ public:
     void Format(const wchar_t* pFormat, ...); // 0x003D1168 | fefates:bytes [tier B]
     // (null is the empty string)
     static bool IsEqual(const wchar_t* pA, const wchar_t* pB); // 0x003D11A4 | fefates:bytes [tier B]
+    // (inline) the same characters (a null string is an empty one)
+    bool operator==(const String& other) const
+    {
+        if (m_pString == other.m_pString) {
+            return true;
+        }
+        if (m_pString == nullptr || other.m_pString == nullptr) {
+            return IsEqual(m_pString != nullptr ? m_pString : L"", other.m_pString != nullptr ? other.m_pString : L"");
+        }
+        return wcscmp(m_pString, other.m_pString) == 0;
+    }
+    // (inline) the same for a string of characters
+    bool operator==(const wchar_t* pOther) const
+    {
+        if (m_pString == pOther) {
+            return true;
+        }
+        if (m_pString == nullptr || pOther == nullptr) {
+            return IsEqual(m_pString != nullptr ? m_pString : L"", pOther != nullptr ? pOther : L"");
+        }
+        return wcscmp(m_pString, pOther) == 0;
+    }
     // an empty string with room for size characters (with the terminator)
     void Reserve(int size); // 0x003D11F4 | fefates:bytes [tier B]
     nn::nex::String& operator=(const char* pString); // 0x003D13A4 | mk7dlp:callseq [tier A]

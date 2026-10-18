@@ -41,6 +41,12 @@ void nn::nex::Scheduler::ExecuteJob(nn::nex::Job* pJob, const nn::nex::Time& dea
     pJob->ReleaseRef();
 }
 
+// 0x003D7A2C | fefates:callseq [tier C]
+nn::nex::Scheduler* nn::nex::Scheduler::GetInstance()
+{
+    return GetInstanceInline();
+}
+
 // 0x003D7AC4
 void nn::nex::Scheduler::ExecuteReadyJobs(const nn::nex::Time& deadline)
 {
@@ -161,11 +167,11 @@ bool nn::nex::Scheduler::PreventBlockCall(bool isBlocking, unsigned int timeout,
     if (!isBlocking) {
         return false;
     }
-    if (GetInstance()->m_pWorkerThread->m_Threads.size() != 0
-        && ThreadVariableRoot::GetCurrentThreadId() != GetInstance()->m_CallPolicy.m_ThreadId) {
+    if (GetInstanceInline()->m_pWorkerThread->m_Threads.size() != 0
+        && ThreadVariableRoot::GetCurrentThreadId() != GetInstanceInline()->m_CallPolicy.m_ThreadId) {
         return false;
     }
-    if (ThreadVariableRoot::GetCurrentThreadId() == GetInstance()->m_CallPolicy.m_ThreadId) {
+    if (ThreadVariableRoot::GetCurrentThreadId() == GetInstanceInline()->m_CallPolicy.m_ThreadId) {
         SystemError::SignalError(const_cast<wchar_t*>(FILE_NAME), 105, SystemError::ERROR_BLOCKING_CALL, 0);
         *pResult = errorValue;
         return true;
@@ -241,7 +247,7 @@ void nn::nex::Scheduler::DispatchCurrentContext(unsigned int timeout)
         if (!InstanceTable::IsValidContext(PseudoSingleton::GetCurrentContext())) {
             return;
         }
-        pScheduler = GetInstance();
+        pScheduler = GetInstanceInline();
         if (pScheduler == nullptr || pScheduler->m_pWorkerThread->m_Threads.size() != 0) {
             return;
         }
@@ -257,11 +263,11 @@ bool nn::nex::Scheduler::PreventRegularBlockCall(bool isBlocking, unsigned int t
     if (!isBlocking) {
         return false;
     }
-    if (GetInstance()->m_pWorkerThread->m_Threads.size() != 0
-        && ThreadVariableRoot::GetCurrentThreadId() != GetInstance()->m_CallPolicy.m_ThreadId) {
+    if (GetInstanceInline()->m_pWorkerThread->m_Threads.size() != 0
+        && ThreadVariableRoot::GetCurrentThreadId() != GetInstanceInline()->m_CallPolicy.m_ThreadId) {
         return false;
     }
-    if (ThreadVariableRoot::GetCurrentThreadId() == GetInstance()->m_CallPolicy.m_ThreadId) {
+    if (ThreadVariableRoot::GetCurrentThreadId() == GetInstanceInline()->m_CallPolicy.m_ThreadId) {
         SystemError::SignalError(const_cast<wchar_t*>(FILE_NAME), 147, SystemError::ERROR_BLOCKING_CALL, 0);
         *pResult = qResult(RESULT_TIMEOUT);
         return true;
@@ -356,7 +362,7 @@ void nn::nex::Scheduler::UnregisterRegularJob(nn::nex::Job* pJob)
 void nn::nex::Scheduler::GlobalSingleThreadSpecialDispatch()
 {
     if (!s_DispatchesAllContexts) {
-        Scheduler* pScheduler = GetInstance();
+        Scheduler* pScheduler = GetInstanceInline();
         if (pScheduler != nullptr && pScheduler->m_pWorkerThread->m_Threads.size() == 0) {
             pScheduler->ExecuteRegularJobs(Time(0));
         }
@@ -367,7 +373,7 @@ void nn::nex::Scheduler::GlobalSingleThreadSpecialDispatch()
     for (u32 context = 0; context <= lastContext; context++) {
         if (InstanceTable::IsValidContext(context)) {
             PseudoSingleton::SetContext(context);
-            Scheduler* pScheduler = GetInstance();
+            Scheduler* pScheduler = GetInstanceInline();
             if (pScheduler != nullptr && pScheduler->m_pWorkerThread->m_Threads.size() == 0) {
                 pScheduler->ExecuteRegularJobs(Time(0));
             }
@@ -541,3 +547,12 @@ __rb_tree<nn::nex::Time, std::pair<const nn::nex::Time, nn::nex::Job*>, __select
     return EraseRangeInline(first, last);
 }
 } // namespace __rw
+
+namespace std {
+// 0x00837524 (name is ours)
+template <>
+DECOMP_NOINLINE multimap<nn::nex::Time, nn::nex::Job*>::iterator multimap<nn::nex::Time, nn::nex::Job*>::insert(const value_type& value)
+{
+    return m_Tree.InsertInline(value).first;
+}
+} // namespace std

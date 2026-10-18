@@ -1,6 +1,7 @@
 #pragma once
 
 #include "decomp.h"
+#include "nn/nex/nex_CriticalSection.h"
 #include "nn/nex/nex_EncryptionAlgorithm.h"
 
 namespace nn {
@@ -34,6 +35,13 @@ public:
     }
     // XORs the key stream into the data (nothing without a key)
     void Process(u8* pData, u32 size); // 0x0036ABE0 (name is ours)
+
+    // (inline; the name is ours) the state continues over the messages
+    void DisableResetPerMessage()
+    {
+        ScopedCS lock(*m_pLock);
+        m_IsResetPerMessage = false;
+    }
 
     u8 m_InitialState[256];       // 0x028 (after the key schedule)
     u8 m_State[256];              // 0x128

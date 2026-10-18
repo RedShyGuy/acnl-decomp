@@ -72,7 +72,7 @@ protected:
         m_HeaderSize = 0;
         m_Flags = flags;
         m_pData = static_cast<u8*>(AllocateDataBuffer(size));
-        m_Unknown0x1D = 0;
+        m_TTL = 0;
         m_Unknown0x1E = 0;
     }
 
@@ -82,7 +82,7 @@ public:
     u32 m_Size;         // 0x14
     u32 m_HeaderSize;   // 0x18
     u8 m_Flags;         // 0x1C
-    u8 m_Unknown0x1D;   // 0x1D
+    u8 m_TTL;           // 0x1D (the time to live of the packet; 0: the default one)
     u8 m_Unknown0x1E;   // 0x1E
 
     static u32 s_DefaultBufferSize;

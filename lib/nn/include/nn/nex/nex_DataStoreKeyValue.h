@@ -12,6 +12,12 @@ class DataStoreKeyValue : public ::nn::nex::_DDL_DataStoreKeyValue
 public:
     // (inline)
     DataStoreKeyValue() {}
+    // (inline)
+    DataStoreKeyValue(const String& key, const String& value)
+    {
+        m_Key = key;
+        m_Value = value;
+    }
     virtual ~DataStoreKeyValue(); // 0x00386B14 slot 0x00
     // 0x00386AEC slot 0x04 (deleting dtor)
 };
@@ -22,3 +28,11 @@ template <>
 DECOMP_NOINLINE void _Type_qvector<DDLClassMetaType<DataStoreKeyValue>>::Extract(Message* pMessage, Type* pVector);
 } // namespace nex
 } // namespace nn
+
+namespace std {
+// (out of line)
+template <>
+DECOMP_NOINLINE void vector<nn::nex::DataStoreKeyValue, nn::nex::MemAllocator<nn::nex::DataStoreKeyValue> >::_C_insert_aux(nn::nex::DataStoreKeyValue* pos, const nn::nex::DataStoreKeyValue& value);
+template <>
+DECOMP_NOINLINE vector<nn::nex::DataStoreKeyValue, nn::nex::MemAllocator<nn::nex::DataStoreKeyValue> >& vector<nn::nex::DataStoreKeyValue, nn::nex::MemAllocator<nn::nex::DataStoreKeyValue> >::operator=(const vector& other);
+} // namespace std

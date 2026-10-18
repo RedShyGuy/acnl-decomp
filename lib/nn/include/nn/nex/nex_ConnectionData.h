@@ -2,6 +2,7 @@
 
 #include "decomp.h"
 #include "nn/nex/nex__DDL_ConnectionData.h"
+#include "nn/nex/nex_qList.h"
 
 namespace nn {
 namespace nex {
@@ -16,5 +17,11 @@ public:
     // 0x00371000 slot 0x04 (deleting dtor)
 };
 ASSERT_SIZE(ConnectionData, 0x74);
+
+// (out of line in the original; nex_ConnectionData.cpp)
+template <>
+DECOMP_NOINLINE qList<ConnectionData>::qList();
+template <>
+DECOMP_NOINLINE qList<ConnectionData>::~qList();
 } // namespace nex
 } // namespace nn

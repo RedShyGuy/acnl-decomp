@@ -11,8 +11,8 @@ class CreateMatchmakeSessionParam : public ::nn::nex::_DDL_CreateMatchmakeSessio
 {
 public:
     CreateMatchmakeSessionParam(); // 0x003BCBF0
-    virtual ~CreateMatchmakeSessionParam(); // 0x003BCD08 slot 0x00 | slot vf_0x00 of nn::nex::_DDL_CreateMatchmakeSessionParam
-    // 0x003BCCF8 slot 0x04 | slot vf_0x04 of nn::nex::_DDL_CreateMatchmakeSessionParam (deleting dtor)
+    virtual ~CreateMatchmakeSessionParam(); // 0x003BCD08 slot 0x00
+    // 0x003BCCF8 slot 0x04 (deleting dtor)
 };
 } // namespace nex
 } // namespace nn

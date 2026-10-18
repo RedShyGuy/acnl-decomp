@@ -29,7 +29,7 @@ public:
     // (inline)
     StreamSettings& operator=(const StreamSettings& other)
     {
-        m_Unknown0x04 = other.m_Unknown0x04;
+        m_StreamType = other.m_StreamType;
         m_KeyByteSum = other.m_KeyByteSum;
         m_KeySum = other.m_KeySum;
         m_pCompressionAlgorithm = other.m_pCompressionAlgorithm;
@@ -65,7 +65,7 @@ public:
     // the sums of the bytes of the key and the MD5 of it as the key of the checksum algorithm
     void SetKey(const nn::nex::String& key); // 0x00374614 | fefates:callgraph [tier C]
 
-    u32 m_Unknown0x04;                            // 0x04
+    u32 m_StreamType;                            // 0x04
     u8 m_KeyByteSum;                              // 0x08
     s32 m_KeySum;                                 // 0x0C
     CompressionAlgorithm* m_pCompressionAlgorithm; // 0x10

@@ -170,7 +170,7 @@ nn::pia::common::ExecuteResult nn::pia::inet::NexMatchAutoMatchmakeJob::WaitNoti
     }
     // the notification of the own participation
     NexMatchMeshLayerController* pController = GetController();
-    if (!pController->HasParticipant(m_SessionId, NexFacade::s_pInstance->m_pNgsBridge->vf_0x0C())) {
+    if (!pController->HasParticipant(m_SessionId, NexFacade::s_pInstance->m_pNgsBridge->GetPrincipalId())) {
         return common::ExecuteResult(common::ExecuteResult::STATE_NEXT_DISPATCH);
     }
     if (session::Session::s_pInstance->IsUsingStationIdTable()) {

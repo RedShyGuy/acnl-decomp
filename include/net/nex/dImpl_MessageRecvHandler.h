@@ -10,7 +10,8 @@ class net::nex::Impl::MessageRecvHandler : public ::nn::nex::MessagingNotificati
 {
 public:
     MessageRecvHandler(); // ctor address unknown
-    virtual void vf_0x00(); // 0x003BDDF4 slot 0x00 | virtual slot, introduced by nn::nex::MessagingNotificationHandler
-    virtual void vf_0x04(); // 0x00513400 slot 0x04 | virtual slot, introduced by nn::nex::MessagingNotificationHandler
-    virtual void vf_0x08(); // 0x00513328 slot 0x08 | virtual slot, introduced by nn::nex::MessagingNotificationHandler
+    // (a nop in the original that falls into the destructor of MessagingNotificationHandler)
+    virtual ~MessageRecvHandler(); // 0x003BDDF4 slot 0x00
+    // 0x00513400 slot 0x04 (deleting dtor)
+    virtual void DeliverMessage(nn::nex::AnyObjectHolder<nn::nex::Data, nn::nex::String>& oUserMessage); // 0x00513328 slot 0x08
 };

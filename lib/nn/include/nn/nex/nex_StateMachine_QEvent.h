@@ -8,5 +8,6 @@
 class nn::nex::StateMachine::QEvent : public ::nn::nex::RootObject
 {
 public:
-    QEvent(); // ctor address unknown
+    // (inline)
+    QEvent() {}
 };

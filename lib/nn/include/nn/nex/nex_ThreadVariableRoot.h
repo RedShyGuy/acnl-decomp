@@ -26,19 +26,21 @@ public:
     virtual void ClearThread(u32 threadId); // 0x00390694 slot 0x10
 
     // the id of the current thread (inline in the original, with a copy out of line)
-    static u32 GetCurrentThreadId() // 0x0039069C
-    {
-        u32 threadId;
-        nn::Result result = nn::svc::GetThreadId(&threadId, nn::Handle(PSEUDO_HANDLE_CURRENT_THREAD));
-        if (result.IsFailure()) {
-            nn::os::CTR::detail::HandleInternalError(result);
-        }
-        return threadId;
-    }
+    static DECOMP_EMIT_COPY u32 GetCurrentThreadId(); // 0x0039069C
 
     ThreadVariableRoot* m_pChainNext; // 0x04
     ThreadVariableRoot* m_pChainPrev; // 0x08
 };
 ASSERT_SIZE(ThreadVariableRoot, 0xC);
+
+inline u32 ThreadVariableRoot::GetCurrentThreadId()
+{
+    u32 threadId;
+    nn::Result result = nn::svc::GetThreadId(&threadId, nn::Handle(PSEUDO_HANDLE_CURRENT_THREAD));
+    if (result.IsFailure()) {
+        nn::os::CTR::detail::HandleInternalError(result);
+    }
+    return threadId;
+}
 } // namespace nex
 } // namespace nn

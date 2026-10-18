@@ -1,6 +1,7 @@
 #pragma once
 
 #include "decomp.h"
+#include "nn/fnd/fnd_DateTime.h"
 
 // The C types of the friends library (names from the symbols, including the typo "friesnds"; the
 // layouts after the IPC buffers of frd:u, 3dbrew "Friend Services"; member names are ours).
@@ -21,13 +22,26 @@ struct nnfriendsMyPresence
 
 struct nnfriesndsServiceLocatorData
 {
-    u8 data[0x198];
+    s32 result;                       // 0x000 (read by nex JobCTRLogin)
+    s32 httpStatusCode;               // 0x004
+    u8 unknown0x008[0x80];            // 0x008
+    char serviceToken[0x100];         // 0x088
+    u8 unknown0x188[0x8];             // 0x188
+    nn::fnd::DateTime serverTime;     // 0x190 (nex zeroes it)
 };
+ASSERT_SIZE(nnfriesndsServiceLocatorData, 0x198);
 
 struct nnfriesndsGameAuthenticationData
 {
-    u8 data[0x138];
+    s32 result;                       // 0x000 (read by nex JobCTRLogin)
+    s32 httpStatusCode;               // 0x004
+    char serverAddress[0x20];         // 0x008
+    u16 serverPort;                   // 0x028
+    u8 unknown0x02A[0x6];             // 0x02A
+    char token[0x100];                // 0x030
+    nn::fnd::DateTime serverTime;     // 0x130 (nex zeroes it)
 };
+ASSERT_SIZE(nnfriesndsGameAuthenticationData, 0x138);
 
 namespace nn {
 namespace friends {

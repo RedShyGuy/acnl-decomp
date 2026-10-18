@@ -28,13 +28,7 @@ bool nn::nex::EncryptionAlgorithm::GetErrorString(int error, wchar_t* pString, u
 // 0x003931E4 | fefates:bytes [tier B]
 bool nn::nex::EncryptionAlgorithm::SetKey(const nn::nex::Key& key)
 {
-    u32 length = key.GetLength();
-    if (length < m_MinKeyLength || length > m_MaxKeyLength) {
-        return false;
-    }
-    m_Key = key;
-    KeyHasChanged();
-    return true;
+    return SetKeyInline(key);
 }
 
 // 0x00393230 | fefates:bytes [tier B]

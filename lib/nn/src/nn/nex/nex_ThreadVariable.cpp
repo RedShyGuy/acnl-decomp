@@ -16,6 +16,8 @@ template void nn::nex::ThreadVariable<unsigned int>::ClearCurrentThread();
 template void nn::nex::ThreadVariable<unsigned int>::ClearThread(unsigned int);
 // 0x007D6970 | fefates:callseq [tier B]
 template unsigned int& nn::nex::ThreadVariable<unsigned int>::GetRef();
+// 0x007D6C64 (symbols.json names it nn::nex::PseudoSingleton::GetCurrentContext)
+template const unsigned int& nn::nex::ThreadVariable<unsigned int>::GetRef() const;
 
 // 0x007D6578
 // 0x007D6548 (deleting dtor)
@@ -29,3 +31,17 @@ template void nn::nex::ThreadVariable<nn::nex::ObjectThreadRoot*>::ClearThread(u
 
 } // namespace nex
 } // namespace nn
+
+namespace std {
+// 0x0082E998 (name is ours)
+template <>
+DECOMP_NOINLINE nn::nex::ObjectThreadRoot*& map<u32, nn::nex::ObjectThreadRoot*>::operator[](const u32& key)
+{
+    return IndexInline(key);
+}
+} // namespace std
+
+namespace __rw {
+// 0x0080716C (name is ours)
+template __rb_tree<u32, std::pair<const u32, nn::nex::ObjectThreadRoot*>, __select1st<std::pair<const u32, nn::nex::ObjectThreadRoot*>, u32>, std::less<u32>, nn::nex::MemAllocator<std::pair<const u32, nn::nex::ObjectThreadRoot*> > >::iterator __rb_tree<u32, std::pair<const u32, nn::nex::ObjectThreadRoot*>, __select1st<std::pair<const u32, nn::nex::ObjectThreadRoot*>, u32>, std::less<u32>, nn::nex::MemAllocator<std::pair<const u32, nn::nex::ObjectThreadRoot*> > >::_C_insert(__rb_tree<u32, std::pair<const u32, nn::nex::ObjectThreadRoot*>, __select1st<std::pair<const u32, nn::nex::ObjectThreadRoot*>, u32>, std::less<u32>, nn::nex::MemAllocator<std::pair<const u32, nn::nex::ObjectThreadRoot*> > >::Node* pNode, __rb_tree<u32, std::pair<const u32, nn::nex::ObjectThreadRoot*>, __select1st<std::pair<const u32, nn::nex::ObjectThreadRoot*>, u32>, std::less<u32>, nn::nex::MemAllocator<std::pair<const u32, nn::nex::ObjectThreadRoot*> > >::Node* pParent, const std::pair<const u32, nn::nex::ObjectThreadRoot*>& value);
+} // namespace __rw

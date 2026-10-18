@@ -30,6 +30,9 @@ public:
 
     // the response of a call: its outcome, then the results
     void ProcessResponse(nn::nex::Message* pMessage, nn::nex::EndPoint* pEndPoint); // 0x00370A18 | fefates:bytes [tier B]
+    // the request of a call goes to the connection of the call (or the local server protocol);
+    // false if it failed
+    bool SendRequest(nn::nex::ProtocolCallContext* pContext, nn::nex::Message* pMessage); // 0x00370834 (name is ours)
     // a call to the server protocol of this station; false if it failed
     bool SendOverLocalLoopback(nn::nex::ProtocolCallContext* pContext, nn::nex::Message* pMessage); // 0x00370C88 | fefates:bytes [tier B]
     // (only a nop in this build)

@@ -1,6 +1,7 @@
 #pragma once
 
 #include "decomp.h"
+#include "nn/nex/nex_qList.h"
 #include "nn/nex/nex_InetAddress.h"
 #include "nn/nex/nex_RootObject.h"
 #include "nn/nex/nex_String.h"
@@ -33,6 +34,12 @@ inline u32& map<nn::nex::String, u32, less<nn::nex::String>, nn::nex::MemAllocat
 
 namespace nn {
 namespace nex {
+// (out of line in the original; nex_StationURL.cpp)
+template <>
+DECOMP_NOINLINE qMap<String, String>::qMap();
+template <>
+DECOMP_NOINLINE qMap<String, u32>::qMap();
+
 // The address of a station as text, e.g. "prudp:/address=1.2.3.4;port=1234;sid=15#Rsa=..." (the
 // parameters behind '#' are the extended ones). The text and the parsed form are kept and made
 // from each other on demand: numeric parameters are in m_Params, the others in m_StringParams
@@ -102,6 +109,45 @@ public:
     // the numeric parameter (defaultValue if there is none; the key is a wchar_t* in this build)
     u32 GetParamValue(const wchar_t* pKey, unsigned int defaultValue) const; // 0x00729C88 | mk7dlp:callseq [tier A]
     u16 GetPortNumber() const; // 0x00729DF0 | mk7dlp:callseq-callee [tier A]
+    // (inline where the original inlines GetPortNumber)
+    u16 GetPortNumberInline() const
+    {
+        if (!m_IsParsed) {
+            const_cast<StationURL*>(this)->Parse();
+        }
+        return __builtin_bswap16(m_pAddress->m_SockAddr.m_Port);
+    }
+    // (inline where the original inlines GetInetAddress)
+    const InetAddress* GetInetAddressInline() const
+    {
+        if (!m_IsParsed) {
+            const_cast<StationURL*>(this)->Parse();
+        }
+        return m_pAddress;
+    }
+    // (inline where the original inlines SetURLType)
+    void SetURLTypeInline(URLType type)
+    {
+        if (!m_IsParsed) {
+            Parse();
+        }
+        m_URLType = type;
+        m_IsFormatted = false;
+    }
+    // (inline where the original inlines SetPortNumber)
+    void SetPortNumberInline(unsigned short port)
+    {
+        ValidateData();
+        m_pAddress->m_SockAddr.m_Port = __builtin_bswap16(port);
+        m_IsFormatted = false;
+    }
+    // (inline) the address of the URL (a dotted address or a host name)
+    void SetAddressInline(const wchar_t* pAddress)
+    {
+        ValidateData();
+        m_IsFormatted = false;
+        m_pAddress->SetAddress(pAddress);
+    }
     u8 GetStreamType() const; // 0x00729E14 | fefates:callgraph [tier C]
     const nn::nex::InetAddress* GetInetAddress() const; // 0x00729E30 | mk7dlp:bytes [tier A]
     u32 GetPrincipalID() const; // 0x00729E4C | mk7dlp:callseq-callee [tier A]
@@ -129,5 +175,26 @@ public:
 ASSERT_OFFSET(StationURL, m_ExtendedParams, 0x44);
 ASSERT_OFFSET(StationURL, m_pURL, 0x60);
 ASSERT_SIZE(StationURL, 0x68);
+
+// (out of line in the original; nex_StationURL.cpp)
+template <>
+DECOMP_NOINLINE qList<StationURL>::qList();
+template <>
+DECOMP_NOINLINE qList<StationURL>::qList(const qList<StationURL>& other);
+template <>
+DECOMP_NOINLINE qList<StationURL>::~qList();
+// 0x0082F0F0
+template <>
+DECOMP_NOINLINE qList<StationURL>& qList<StationURL>::operator=(const qList<StationURL>& other);
+template <>
+DECOMP_NOINLINE void qList<StationURL>::AddBuffer(bool isFirst);
+template <>
+DECOMP_NOINLINE void qList<StationURL>::push_back(const StationURL& value);
 } // namespace nex
 } // namespace nn
+
+namespace std {
+// (out of line in the original; nex_StationURL.cpp)
+template <>
+u32 map<nn::nex::String, nn::nex::String>::erase(const nn::nex::String& key);
+} // namespace std

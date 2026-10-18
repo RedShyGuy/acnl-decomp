@@ -4,6 +4,7 @@
 #include "nn/nex/nex_Core.h"
 #include "nn/nex/nex_Message.h"
 #include "nn/nex/nex_ProtocolCallContext.h"
+#include "nn/nex/nex_ProtocolRequestBroker.h"
 #include "nn/nex/nex_ProtocolRequestBrokerInterface.h"
 
 namespace nn {
@@ -17,6 +18,12 @@ const u8 OUTCOME_SUCCESS = 1;
 const u8 REQUEST_BIT = 0x80;
 } // namespace
 
+// 0x003D5E10 (name is ours)
+void nn::nex::Protocol::SetFlag(u32 flag)
+{
+    m_Flags |= flag;
+}
+
 // 0x00391B54 | fefates:bytes [tier B]
 nn::nex::CallContext* nn::nex::Protocol::RetrieveCallContext(nn::nex::Message* pMessage)
 {
@@ -29,6 +36,12 @@ nn::nex::CallContext* nn::nex::Protocol::RetrieveCallContext(nn::nex::Message* p
 void nn::nex::Protocol::AddMethodID(nn::nex::Message* pMessage, unsigned int methodId)
 {
     pMessage->AppendRaw(reinterpret_cast<const unsigned char*>(&methodId), sizeof(methodId));
+}
+
+// 0x003D5A4C | fefates:callgraph [tier C]
+void nn::nex::ProtocolRequestBroker::InitMessage(nn::nex::Message* pMessage, unsigned short protocolId, nn::nex::Protocol::_Type type)
+{
+    Protocol::AddProtocolKey(pMessage, static_cast<Protocol::_Command>(type), protocolId);
 }
 
 // 0x003D5A5C | fefates:bytes [tier B]
@@ -150,9 +163,9 @@ void nn::nex::Protocol::vf_0x48()
 }
 
 // 0x0072E9E8
-bool nn::nex::Protocol::vf_0x4C()
+nn::nex::Protocol* nn::nex::Protocol::Clone()
 {
-    return false;
+    return nullptr;
 }
 
 // 0x0072E9F0 | fefates:bytes [tier B]

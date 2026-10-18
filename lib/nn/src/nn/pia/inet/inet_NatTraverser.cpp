@@ -7,6 +7,7 @@
 #include "nn/nex/nex_NgsBridgeInterface.h"
 #include "nn/nex/nex_RootTransport.h"
 #include "nn/nex/nex_StationURL.h"
+#include "nn/nex/nex_StreamBundling.h"
 #include "nn/nex/nex_Time.h"
 #include "nn/pia/common/common_Api.h"
 #include "nn/pia/common/common_HeapManager.h"
@@ -208,7 +209,7 @@ nn::Result nn::pia::inet::NatTraverser::startNatPortDetection()
         IncrementCounter(common::g_SessionBeginMonitoringContent.m_Unknown0x272);
     }
     IncrementCounter(common::g_SessionStateMonitoringContent.m_Unknown0x3DC);
-    m_LocalPort = NatDetecter::GetDifferentPortNumber(nex::RootTransport::GetCurrentPortNumber());
+    m_LocalPort = NatDetecter::GetDifferentPortNumber(nex::RootTransport::GetWellKnownPortNumber());
     if (m_NatProperty.m_NatMapping == NAT_MAPPING_EDM) {
         // the port of the next mapping cannot be predicted
         m_State = STATE_DETECTING_PORT;
@@ -302,7 +303,7 @@ nn::Result nn::pia::inet::NatTraverser::updateStationUrls()
 {
     // (a trace of the NAT property; armlink removed the call)
     bool isPrivateUrlUpdated = false;
-    nex::qList<nex::StationURL>& urls = nex::Network::GetInstance()->m_StationUrls;
+    nex::qList<nex::StationURL>& urls = nex::Network::GetInstance()->m_StationUrls.m_List;
     transport::StationConnectionInfo info;
     for (nex::qList<nex::StationURL>::Node* pNode = urls.GetFirst(); !urls.IsEnd(pNode); pNode = pNode->m_pNext) {
         nex::StationURL& url = pNode->m_Value;
@@ -390,7 +391,7 @@ void nn::pia::inet::NatTraverser::completeNatSession()
     }
     m_NatProperty.SetNexNatProperties(GetNexRootTransport()->GetNATProperties());
     if (NexFacade::s_IsNatSessionSkipped) {
-        m_LocalPort = nex::RootTransport::GetCurrentPortNumber() + 1;
+        m_LocalPort = nex::RootTransport::GetWellKnownPortNumber() + 1;
     } else if (m_NatProperty.m_PrivatePort != 0 && m_NatProperty.m_NatMapping != NAT_MAPPING_EDM) {
         // the port the NAT check used
         m_LocalPort = m_NatProperty.m_PrivatePort;
@@ -432,12 +433,12 @@ void nn::pia::inet::NatTraverser::completeNatSession()
     content.m_Unknown0x40 = self.m_PrivateLocation.m_StationAddress.m_InetAddress.m_Address;
     content.m_Unknown0x54 = common::hashWithMd5(self.m_PublicLocation.m_PrincipalId);
     content.m_Unknown0x5C = NexFacade::s_pInstance->m_Unknown0x4;
-    content.m_Unknown0x60 = nex::g_Unknown0x96C91E;
+    content.m_Unknown0x60 = nex::Core::s_ThreadMode;
     if (common::IsValidPointer(GetNexRootTransport())) {
-        content.m_Unknown0x64 = nex::g_Unknown0x96C9C8;
-        content.m_Unknown0x68 = nex::g_Unknown0x96C9D4;
-        content.m_Unknown0x6C = nex::g_Unknown0x96C9D8;
-        content.m_Unknown0x70 = nex::g_Unknown0x96C91F;
+        content.m_Unknown0x64 = nex::g_TransportBufferThreadSleepTime;
+        content.m_Unknown0x68 = nex::g_TransportReceiveCount;
+        content.m_Unknown0x6C = nex::g_TransportSendCount;
+        content.m_Unknown0x70 = nex::Core::s_IsTransportThreaded;
         content.m_Unknown0x71 = nex::g_Unknown0x96C92B;
     }
 }
@@ -572,7 +573,7 @@ nn::Result nn::pia::inet::NatTraverser::startNatPropertyDetection()
     }
     IncrementCounter(common::g_SessionStateMonitoringContent.m_Unknown0x3DA);
     common::InetAddress localAddress;
-    m_LocalPort = NatDetecter::GetDifferentPortNumber(nex::RootTransport::GetCurrentPortNumber());
+    m_LocalPort = NatDetecter::GetDifferentPortNumber(nex::RootTransport::GetWellKnownPortNumber());
     localAddress.m_Port = m_LocalPort;
     m_PropertyCallContext.RegisterCallback(OnPropertyDetectedCallback, this);
     nn::Result result = m_PropertyDetecter.Startup(&m_PropertyCallContext, localAddress);

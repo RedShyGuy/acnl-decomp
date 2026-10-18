@@ -20,5 +20,21 @@ ASSERT_SIZE(DataStoreRateObjectParam, 0x18);
 // (out of line)
 template <>
 DECOMP_NOINLINE void _Type_qvector<DDLClassMetaType<DataStoreRateObjectParam>>::Add(Message* pMessage, const Type& vector);
+
+// (out of line)
+template <>
+DECOMP_NOINLINE void DDLClassMetaType<DataStoreRateObjectParam>::Add(Message* pMessage, const nn::nex::DataStoreRateObjectParam& value);
 } // namespace nex
 } // namespace nn
+
+namespace std {
+// (out of line)
+template <>
+DECOMP_NOINLINE void vector<nn::nex::DataStoreRateObjectParam, nn::nex::MemAllocator<nn::nex::DataStoreRateObjectParam> >::_C_insert_aux(nn::nex::DataStoreRateObjectParam* pos, const nn::nex::DataStoreRateObjectParam& value);
+} // namespace std
+
+namespace std {
+// (out of line)
+template <>
+DECOMP_NOINLINE vector<nn::nex::DataStoreRateObjectParam, nn::nex::MemAllocator<nn::nex::DataStoreRateObjectParam> >::~vector();
+} // namespace std

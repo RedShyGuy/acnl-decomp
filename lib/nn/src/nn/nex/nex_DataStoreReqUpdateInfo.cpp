@@ -2,6 +2,12 @@
 
 namespace nn {
 namespace nex {
+// 0x0039C1A4
+nn::nex::DataStoreReqUpdateInfo::DataStoreReqUpdateInfo()
+{
+    // nothing to do
+}
+
 // 0x0039C238 slot 0x00
 // 0x0039C1F8 (deleting dtor)
 nn::nex::DataStoreReqUpdateInfo::~DataStoreReqUpdateInfo()

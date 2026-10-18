@@ -44,7 +44,7 @@ nn::nex::ThreadVariableList::~ThreadVariableList()
 
 // 0x007E4470
 // 0x007E4440 (deleting dtor)
-template class qChain<ThreadVariableRoot*, DefaultChainPolicy<ThreadVariableRoot*> >;
+template qChain<ThreadVariableRoot*, DefaultChainPolicy<ThreadVariableRoot*> >::~qChain();
 
 } // namespace nex
 } // namespace nn

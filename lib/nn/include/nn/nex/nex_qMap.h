@@ -21,6 +21,13 @@ struct __select1st
     const Key& operator()(const Pair& pair) const { return pair.first; }
 };
 
+// the key of a set is the value
+template <typename Value, typename Key>
+struct __ident
+{
+    const Key& operator()(const Value& value) const { return value; }
+};
+
 template <typename Alloc, typename Value, typename Key, typename KeyOfValue>
 struct __rw_rb_tree_node
 {
@@ -718,6 +725,7 @@ public:
     iterator begin() const { return m_Tree.begin(); }
     iterator end() const { return m_Tree.end(); }
     u32 size() const { return m_Tree.size(); }
+    iterator find(const Key& key) { return m_Tree.find(key); }
     iterator find(const Key& key) const { return m_Tree.find(key); }
     pair<iterator, bool> insert(const value_type& value) { return m_Tree.insert(value); }
     iterator erase(iterator it) { return m_Tree.erase(it); }
@@ -774,6 +782,42 @@ public:
 
     rep_type m_Tree; // 0x00
 };
+
+// std::set of the RW STL (the same tree, the values are the keys).
+template <typename Key, typename Compare = less<Key>, typename Alloc = nn::nex::MemAllocator<Key> >
+class set
+{
+public:
+    typedef Key value_type;
+    typedef __rw::__rb_tree<Key, Key, __rw::__ident<Key, Key>, Compare, Alloc> rep_type;
+    typedef typename rep_type::iterator iterator;
+
+    // (inline everywhere in the original)
+    DECOMP_ALWAYS_INLINE ~set() {}
+
+    iterator begin() const { return m_Tree.begin(); }
+    iterator end() const { return m_Tree.end(); }
+    u32 size() const { return m_Tree.size(); }
+    iterator find(const Key& key) { return m_Tree.find(key); }
+    iterator find(const Key& key) const { return m_Tree.find(key); }
+    pair<iterator, bool> insert(const value_type& value) { return m_Tree.insert(value); }
+    pair<iterator, bool> InsertInline(const value_type& value) { return m_Tree.InsertInline(value); }
+    iterator erase(iterator it) { return m_Tree.erase(it); }
+    iterator erase(iterator first, iterator last) { return m_Tree.erase(first, last); }
+    // the values equal to key are erased; their number (the range is counted first)
+    u32 erase(const Key& key)
+    {
+        pair<iterator, iterator> range = m_Tree.equal_range(key);
+        u32 count = 0;
+        for (iterator it = range.first; it != range.second; ++it) {
+            count++;
+        }
+        m_Tree.erase(range.first, range.second);
+        return count;
+    }
+
+    rep_type m_Tree; // 0x00
+};
 } // namespace std
 
 namespace __rw {
@@ -792,7 +836,22 @@ template <typename Key, typename T>
 class qMap : public std::map<Key, T, std::less<Key>, MemAllocator<std::pair<const Key, T> > >
 {
 public:
+    // (out of line in some instances: they are specialized)
+    DECOMP_ALWAYS_INLINE qMap() {}
     DECOMP_ALWAYS_INLINE ~qMap() {}
 };
+
+// A multimap of the RW STL (the constructor and destructor are out of line per instance).
+template <typename Key, typename T>
+class qMultiMap : public std::multimap<Key, T, std::less<Key>, MemAllocator<std::pair<const Key, T> > >
+{
+public:
+    qMultiMap() {}
+    ~qMultiMap() {}
+};
+
+// (out of line in the original; nex_PRUDPEndPoint.cpp)
+template <>
+DECOMP_NOINLINE qMap<u32, u32>::qMap();
 } // namespace nex
 } // namespace nn

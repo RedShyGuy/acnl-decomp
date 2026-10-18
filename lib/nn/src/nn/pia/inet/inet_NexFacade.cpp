@@ -1,5 +1,5 @@
 #include "nn/pia/inet/inet_NexFacade.h"
-#include "nn/nex/nex_BackEndServices.h"
+#include "nn/nex/nex_NgsFacade.h"
 #include "nn/nex/nex_InetAddress.h"
 #include "nn/nex/nex_NgsBridgeInterface.h"
 #include "nn/nex/nex_Globals.h"
@@ -330,7 +330,7 @@ nn::Result nn::pia::inet::NexFacade::Startup(nn::nex::MatchMakingClient* pClient
     if (!common::IsValidPointer(pClient)) {
         return common::RESULT_INVALID_ARGUMENT;
     }
-    if (!common::IsValidPointer(m_pNgsBridge) || m_Unknown0x4 == 0 || (nex::g_Unknown0x96C91E != 3 && nex::g_Unknown0x96C91E != 2)) {
+    if (!common::IsValidPointer(m_pNgsBridge) || m_Unknown0x4 == 0 || (nex::Core::s_ThreadMode != 3 && nex::Core::s_ThreadMode != 2)) {
         return common::RESULT_INVALID_STATE;
     }
     m_Unknown0x10 = 0;

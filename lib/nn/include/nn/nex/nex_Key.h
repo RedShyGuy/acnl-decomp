@@ -1,6 +1,7 @@
 #pragma once
 
 #include "decomp.h"
+#include <cstring>
 #include "nn/nex/nex_RefCountedObject.h"
 #include "nn/nex/nex_String.h"
 #include "nn/nex/nex_qVector.h"
@@ -14,6 +15,8 @@ class Key : public ::nn::nex::RefCountedObject
 {
 public:
     Key(); // 0x003CCA2C | fefates:bytes [tier B]
+    // (inline; the name is ours) size zero bytes
+    explicit Key(u32 size) : m_Data(size) { memset(m_Data.m_pBegin, 0, size); }
     Key(const unsigned char* pData, unsigned size); // 0x003CC840 | mk7dlp:callseq-callee [tier A]
     // from the hexadecimal string (two digits per byte, lowercase)
     Key(const nn::nex::String& string); // 0x003CC8A4 | fefates:bytes [tier B]
@@ -25,8 +28,8 @@ public:
     unsigned char* PrepareContentPtr(unsigned int size); // 0x003CC824 | fefates:bytes [tier B]
     nn::nex::Key& operator=(const nn::nex::Key& other); // 0x003CCB14 | fefates:bytes [tier B]
     // (inline, with copies out of line) the bytes, null if the key is empty
-    const unsigned char* GetContentPtr() const { return m_Data.m_pBegin != m_Data.m_pEnd ? m_Data.m_pBegin : nullptr; } // 0x0072DF34 | fefates:bytes [tier B]
-    u32 GetLength() const { return m_Data.m_pEnd - m_Data.m_pBegin; } // 0x0072E078 | fefates:bytes [tier C]
+    DECOMP_EMIT_COPY const unsigned char* GetContentPtr() const { return m_Data.m_pBegin != m_Data.m_pEnd ? m_Data.m_pBegin : nullptr; } // 0x0072DF34 | fefates:bytes [tier B]
+    DECOMP_EMIT_COPY u32 GetLength() const { return m_Data.m_pEnd - m_Data.m_pBegin; } // 0x0072E078 | fefates:bytes [tier C]
     // the bytes in hexadecimal
     void ExtractToString(nn::nex::String* pString) const; // 0x0072DF4C | fefates:bytes [tier B]
     nn::nex::String ToString() const; // 0x0072E040 | fefates:bytes [tier B]

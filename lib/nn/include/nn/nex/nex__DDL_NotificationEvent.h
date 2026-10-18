@@ -18,6 +18,8 @@ public:
     _DDL_NotificationEvent() : m_StructureVersion(0) {}
     virtual ~_DDL_NotificationEvent(); // 0x0039F438 slot 0x00
     // 0x0039F418 slot 0x04 (deleting dtor)
+    // (out of line in the original; the name is ours)
+    nn::nex::_DDL_NotificationEvent& operator=(const nn::nex::_DDL_NotificationEvent& other); // 0x0039F454
 
     // (inline)
     static DECOMP_ALWAYS_INLINE void Add(nn::nex::Message* pMessage, const nn::nex::_DDL_NotificationEvent& data)

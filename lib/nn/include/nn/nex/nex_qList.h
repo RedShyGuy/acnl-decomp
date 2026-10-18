@@ -32,10 +32,12 @@ public:
         Node* m_pNodes;  // 0x8
     };
 
-    // (one node is the head of the circular list)
-    qList() : m_pBufferList(nullptr), m_pFreeList(nullptr), m_pNextAvail(nullptr), m_pLast(nullptr), m_pHead(nullptr), m_Size(0)
+    // (one node is the head of the circular list; out of line in some instances: they specialize the
+    // constructor with the body of InitializeInline)
+    qList() : m_pBufferList(nullptr), m_pFreeList(nullptr), m_pNextAvail(nullptr), m_pLast(nullptr), m_pHead(nullptr), m_Size(0) { InitializeInline(); }
+    void InitializeInline()
     {
-        AddBuffer(1);
+        AddBuffer(true);
         m_pHead = m_pNextAvail;
         m_pNextAvail++;
         m_pHead->m_pNext = m_pHead;
@@ -60,7 +62,9 @@ public:
         m_pNextAvail = nullptr;
         m_pLast = nullptr;
     }
-    void push_back(const T0& value)
+    // (out of line in some instances: they specialize push_back with the body of PushBackInline)
+    void push_back(const T0& value) { PushBackInline(value); }
+    void PushBackInline(const T0& value)
     {
         Node* pHead = m_pHead;
         Node* pNode = AllocNode();
@@ -69,6 +73,17 @@ public:
         pNode->m_pPrev = pHead->m_pPrev;
         pHead->m_pPrev->m_pNext = pNode;
         pHead->m_pPrev = pNode;
+        m_Size++;
+    }
+    // the value goes in front of the node
+    void insert(Node* pPos, const T0& value)
+    {
+        Node* pNode = AllocNode();
+        ::new (static_cast<void*>(&pNode->m_Value)) T0(value);
+        pNode->m_pNext = pPos;
+        pNode->m_pPrev = pPos->m_pPrev;
+        pPos->m_pPrev->m_pNext = pNode;
+        pPos->m_pPrev = pNode;
         m_Size++;
     }
     void push_front(const T0& value)
@@ -84,7 +99,29 @@ public:
     }
     // (out of line in the original, one instance per type; not decompiled yet)
     qList(const qList& other);
-    qList& operator=(const qList& other);
+    // (out of line in the original, one instance per type) the elements are assigned, the rest is
+    // erased or appended
+    qList& operator=(const qList& other) { return AssignInline(other); }
+    DECOMP_ALWAYS_INLINE qList& AssignInline(const qList& other)
+    {
+        if (this != &other) {
+            Node* pNode = m_pHead->m_pNext;
+            Node* pOther = other.m_pHead->m_pNext;
+            for (; pNode != m_pHead && pOther != other.m_pHead; pNode = pNode->m_pNext, pOther = pOther->m_pNext) {
+                pNode->m_Value = pOther->m_Value;
+            }
+            if (pOther == other.m_pHead) {
+                while (pNode != m_pHead) {
+                    pNode = erase(pNode);
+                }
+            } else {
+                for (; pOther != other.m_pHead; pOther = pOther->m_pNext) {
+                    push_back(pOther->m_Value);
+                }
+            }
+        }
+        return *this;
+    }
     T0& front() { return GetFirst()->m_Value; }
     const T0& front() const { return GetFirst()->m_Value; }
     T0& back() { return m_pHead->m_pPrev->m_Value; }
@@ -106,6 +143,18 @@ public:
         }
         return pNext;
     }
+    // the elements equal to the value are erased (out of line in the original, one instance per type)
+    void remove(const T0& value)
+    {
+        Node* pHead = m_pHead;
+        for (Node* pNode = pHead->m_pNext; pNode != pHead;) {
+            Node* pNext = pNode->m_pNext;
+            if (pNode->m_Value == value) {
+                erase(pNode);
+            }
+            pNode = pNext;
+        }
+    }
     // (out of line in some instances: they specialize clear with the body of ClearInline)
     void clear() { ClearInline(); }
     void ClearInline()
@@ -116,11 +165,14 @@ public:
         }
     }
 
-    // a buffer of num nodes (the RW _C_add_buffer; 0: 32 nodes or 1 + 1/2 + 1/8 of the last
-    // buffer, at least 32 more)
-    void AddBuffer(u32 num)
+    // a buffer of nodes (the RW _C_add_buffer; the first one has one node, else 32 nodes or 1 + 1/2 +
+    // 1/8 of the last buffer, at least 32 more; out of line in some instances: they specialize it
+    // with the body of AddBufferInline)
+    void AddBuffer(bool isFirst) { AddBufferInline(isFirst); }
+    void AddBufferInline(bool isFirst)
     {
-        if (num == 0) {
+        u32 num = 1;
+        if (!isFirst) {
             if (m_pBufferList == nullptr) {
                 num = 32;
             } else {
@@ -148,7 +200,7 @@ public:
             m_pFreeList = pNode->m_pNext;
         } else {
             if (m_pNextAvail == m_pLast) {
-                AddBuffer(0);
+                AddBuffer(false);
             }
             pNode = m_pNextAvail;
             m_pNextAvail++;
@@ -168,5 +220,17 @@ public:
     Node* m_pHead;         // 0x10
     u32 m_Size;            // 0x14
 };
+
+// (out of line in the original; nex_qList.cpp)
+template <>
+DECOMP_NOINLINE qList<u32>::qList();
+template <>
+DECOMP_NOINLINE qList<u32>::~qList();
+template <>
+DECOMP_NOINLINE void qList<u32>::AddBuffer(bool isFirst);
+template <>
+DECOMP_NOINLINE void qList<u32>::clear();
+template <>
+DECOMP_NOINLINE qList<u32>& qList<u32>::operator=(const qList<u32>& other);
 } // namespace nex
 } // namespace nn

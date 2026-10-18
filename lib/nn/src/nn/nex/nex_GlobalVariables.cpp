@@ -58,3 +58,17 @@ nn::nex::GlobalVariables::~GlobalVariables()
 
 } // namespace nex
 } // namespace nn
+
+namespace __rw {
+// 0x007FD6A4 (name is ours)
+template __rb_tree<nn::nex::String, std::pair<const nn::nex::String, nn::nex::qVector<u8> >, __select1st<std::pair<const nn::nex::String, nn::nex::qVector<u8> >, nn::nex::String>, std::less<nn::nex::String>, nn::nex::MemAllocator<std::pair<const nn::nex::String, nn::nex::qVector<u8> >> >::iterator __rb_tree<nn::nex::String, std::pair<const nn::nex::String, nn::nex::qVector<u8> >, __select1st<std::pair<const nn::nex::String, nn::nex::qVector<u8> >, nn::nex::String>, std::less<nn::nex::String>, nn::nex::MemAllocator<std::pair<const nn::nex::String, nn::nex::qVector<u8> >> >::erase(iterator it);
+} // namespace __rw
+
+namespace std {
+// 0x0082E360 (name is ours)
+template <>
+DECOMP_NOINLINE pair<map<nn::nex::String, nn::nex::qVector<u8> >::iterator, bool> map<nn::nex::String, nn::nex::qVector<u8> >::insert(const value_type& value)
+{
+    return m_Tree.InsertInline(value);
+}
+} // namespace std

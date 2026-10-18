@@ -81,7 +81,7 @@ nn::pia::common::ExecuteResult nn::pia::inet::NexMatchCreateSessionJob::WaitNoti
     // the notification of the own participation
     session::Session* pSession = session::Session::s_pInstance;
     NexMatchMeshLayerController* pController = static_cast<NexMatchMeshLayerController*>(pSession->m_pMeshLayerController);
-    u32 principalId = NexFacade::s_pInstance->m_pNgsBridge->vf_0x0C();
+    u32 principalId = NexFacade::s_pInstance->m_pNgsBridge->GetPrincipalId();
     if (pController->HasParticipant(session::Session::s_pInstance->m_SessionIds[session::Session::s_pInstance->m_CurrentIndex], principalId)) {
         SetStep(&NexMatchCreateSessionJob::StartNatSession, "NexMatchCreateSessionJob::StartNatSession");
         return common::ExecuteResult(common::ExecuteResult::STATE_CONTINUE);

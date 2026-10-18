@@ -18,6 +18,8 @@ class AnyObjectHolder : public RootObject
 {
 public:
     AnyObjectHolder() : m_pObject(nullptr) {}
+    // the copy takes over the object (the lists of holders are filled with temporaries)
+    AnyObjectHolder(const AnyObjectHolder& other) : m_pObject(other.m_pObject) { const_cast<AnyObjectHolder&>(other).m_pObject = nullptr; }
     virtual ~AnyObjectHolder()
     {
         if (m_pObject != nullptr) {

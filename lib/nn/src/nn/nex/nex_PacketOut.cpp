@@ -81,3 +81,12 @@ nn::nex::PacketOut::~PacketOut()
 
 } // namespace nex
 } // namespace nn
+
+namespace std {
+// 0x00834AC4
+template <>
+DECOMP_NOINLINE void vector<nn::nex::PacketOut*, nn::nex::MemAllocator<nn::nex::PacketOut*> >::_C_insert_aux(nn::nex::PacketOut** pos, nn::nex::PacketOut* const& value)
+{
+    InsertAuxInline(pos, value);
+}
+} // namespace std

@@ -24,12 +24,13 @@ public:
     static const u32 TYPE_COUNT = 16;
 
     // (inline)
-    explicit Stream(Type type) : m_Type(type) {}
+    explicit Stream(Type type) : m_Type(type) { GetSettings(type)->m_StreamType = m_Type; }
     // (for the derived classes that are not decompiled yet)
     Stream() : m_Type(0) {}
     virtual ~Stream(); // 0x003D113C slot 0x00
     // 0x003D1124 slot 0x04 (deleting dtor)
-    virtual void ReceiveIncomingPacket(unsigned short port, unsigned char session, nn::nex::Packet* pPacket) = 0; // slot 0x08
+    // true: the stream took the packet
+    virtual bool ReceiveIncomingPacket(unsigned short port, unsigned char session, nn::nex::Packet* pPacket) = 0; // slot 0x08
     virtual void DoWork() = 0; // slot 0x0C
     virtual bool IsDuplicateReorderingPacket(nn::nex::Packet* pPacket); // 0x003D111C slot 0x10
 

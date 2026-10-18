@@ -84,3 +84,15 @@ public:
 };
 } // namespace nex
 } // namespace nn
+
+namespace nn {
+namespace nex {
+class ObjectThreadRoot;
+} // namespace nex
+} // namespace nn
+
+namespace std {
+// (out of line in the original; nex_ThreadVariable.cpp)
+template <>
+DECOMP_NOINLINE nn::nex::ObjectThreadRoot*& map<u32, nn::nex::ObjectThreadRoot*>::operator[](const u32& key);
+} // namespace std

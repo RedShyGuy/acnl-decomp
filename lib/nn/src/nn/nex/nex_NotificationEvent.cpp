@@ -20,5 +20,13 @@ nn::nex::StringStream& operator<<(nn::nex::StringStream& stream, const nn::nex::
     return stream;
 }
 
+// (copies out of line; the other users inline them)
+// 0x003CF7B8 (name is ours)
+template qList<NotificationEvent>::qList();
+// 0x0082FB84 (name is ours; std::list::~list, the destructor of the qList at 0x003CF80C calls it)
+template qList<NotificationEvent>::~qList();
+// 0x0082FB08 (name is ours)
+template void qList<NotificationEvent>::AddBuffer(bool isFirst);
+
 } // namespace nex
 } // namespace nn

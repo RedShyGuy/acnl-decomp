@@ -10,8 +10,10 @@ namespace nex {
 class DataStoreChangeMetaCompareParam : public ::nn::nex::_DDL_DataStoreChangeMetaCompareParam
 {
 public:
-    // (inline)
-    DataStoreChangeMetaCompareParam() {}
+    // the days until an object is deleted (the name is ours)
+    static const u16 DEFAULT_PERIOD = 90;
+
+    DataStoreChangeMetaCompareParam(); // 0x003C5974
     virtual ~DataStoreChangeMetaCompareParam(); // 0x003C5B44 slot 0x00
     // 0x003C5B34 slot 0x04 (deleting dtor)
 };

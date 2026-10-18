@@ -37,8 +37,8 @@ ASSERT_SIZE(DateTimeParameters, 0xC);
 class DateTime
 {
 public:
-    // (no out-of-line default constructor exists; inline so that stubs compile, value unknown)
-    DateTime() {}
+    // (inline: nex zeroes the DateTime in the friends data structures this way)
+    DateTime() : mMilliSeconds(0) {}
     DateTime(int year, int month, int day, int hour, int minute, int second, int milliSecond); // 0x00130FCC | nintendogs:bytes [tier A]
 
     static DateTime FromParameters(const nn::fnd::DateTimeParameters& parameters); // 0x0012468C | fefates:bytes [tier B]

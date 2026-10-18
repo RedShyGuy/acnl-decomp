@@ -1,26 +1,29 @@
-#include "nn/nex/nex_DDLDeclarations.h"
 #include "nn/nex/nex_ProtocolFoundationDDLDeclarations.h"
+#include "nn/nex/nex_PseudoGlobalVariable.h"
 
 namespace nn {
 namespace nex {
-// ctor candidate(s) 0x003CB168 (unverified)
-nn::nex::ProtocolFoundationDDLDeclarations::ProtocolFoundationDDLDeclarations()
+// the declarations per context (name is ours)
+// 0x00AE077C (name is ours)
+PseudoGlobalVariable<ProtocolFoundationDDLDeclarations> g_ProtocolFoundationDDLDeclarations;
+
+// 0x003CB164
+nn::nex::ProtocolFoundationDDLDeclarations::ProtocolFoundationDDLDeclarations() : DDLDeclarations(true)
 {
+    // nothing to do
 }
 
-// 0x003CB190 slot 0x00 | virtual slot, introduced by nn::nex::DDLDeclarations
-void nn::nex::ProtocolFoundationDDLDeclarations::vf_0x00()
+// 0x003CB190 slot 0x00
+// 0x003CB180 (deleting dtor)
+nn::nex::ProtocolFoundationDDLDeclarations::~ProtocolFoundationDDLDeclarations()
 {
+    // nothing to do
 }
 
-// 0x003CB180 slot 0x04 | virtual slot, introduced by nn::nex::DDLDeclarations
-void nn::nex::ProtocolFoundationDDLDeclarations::vf_0x04()
+// 0x003CB160 slot 0x08
+void nn::nex::ProtocolFoundationDDLDeclarations::Declare()
 {
-}
-
-// 0x003CB160 slot 0x08 | virtual slot, introduced by nn::nex::DDLDeclarations
-void nn::nex::ProtocolFoundationDDLDeclarations::vf_0x08()
-{
+    // nothing to do
 }
 
 } // namespace nex

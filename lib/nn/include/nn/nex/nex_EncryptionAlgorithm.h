@@ -30,6 +30,17 @@ public:
     virtual void KeyHasChanged(); // 0x00393188 slot 0x1C | slot vf_0x1C of nn::nex::EncryptionAlgorithm
     // false if the length of the key is out of the range
     bool SetKey(const nn::nex::Key& key); // 0x003931E4 | fefates:bytes [tier B]
+    // (SetKey where the original inlines it)
+    DECOMP_ALWAYS_INLINE bool SetKeyInline(const nn::nex::Key& key)
+    {
+        u32 length = key.GetLength();
+        if (length < m_MinKeyLength || length > m_MaxKeyLength) {
+            return false;
+        }
+        m_Key = key;
+        KeyHasChanged();
+        return true;
+    }
 
     Key m_Key;            // 0x08
     u32 m_MinKeyLength;   // 0x20

@@ -1,6 +1,7 @@
 #pragma once
 
 #include "decomp.h"
+#include "nn/nex/_Type_stationurl/_Type_stationurl_Api.h"
 #include "nn/nex/_Type_string/_Type_string_Api.h"
 #include "nn/nex/nex_Message.h"
 #include "nn/nex/nex_qList.h"
@@ -117,8 +118,8 @@ public:
 
     // (inline in most users; the instances out of line in the original specialize them with the
     // bodies of AddInline / ExtractInline)
-    static void Add(Message* pMessage, const Type& vector) { AddInline(pMessage, vector); }
-    static void Extract(Message* pMessage, Type* pVector) { ExtractInline(pMessage, pVector); }
+    static DECOMP_ALWAYS_INLINE void Add(Message* pMessage, const Type& vector) { AddInline(pMessage, vector); }
+    static DECOMP_ALWAYS_INLINE void Extract(Message* pMessage, Type* pVector) { ExtractInline(pMessage, pVector); }
     static DECOMP_ALWAYS_INLINE void AddInline(Message* pMessage, const Type& vector)
     {
         u32 count = vector.size();
@@ -154,7 +155,9 @@ class _Type_qlist
 public:
     typedef qList<typename E::Type> Type;
 
-    static void Add(Message* pMessage, const Type& list)
+    // (out of line in some instances: they are specialized with the body of AddInline)
+    static void Add(Message* pMessage, const Type& list) { AddInline(pMessage, list); }
+    static void AddInline(Message* pMessage, const Type& list)
     {
         u32 count = list.GetSize();
         pMessage->AppendRaw(reinterpret_cast<const u8*>(&count), sizeof(count));
@@ -162,15 +165,22 @@ public:
             E::Add(pMessage, pNode->m_Value);
         }
     }
+    // a failed element empties the list
     static void Extract(Message* pMessage, Type* pList)
     {
-        pList->clear();
-        u32 count = 0;
-        pMessage->ExtractPrimitive(&count);
-        for (u32 i = 0; i < count; i++) {
+        pList->ClearInline();
+        u32 count;
+        if (!pMessage->ExtractPrimitiveInline(&count)) {
+            return;
+        }
+        for (u32 i = 0; i < count && !pMessage->m_IsError; i++) {
             typename E::Type value;
             E::Extract(pMessage, &value);
-            pList->push_back(value);
+            if (pMessage->m_IsError) {
+                pList->ClearInline();
+                return;
+            }
+            pList->PushBackInline(value);
         }
     }
 };
@@ -180,7 +190,9 @@ class _Type_std_list
 public:
     typedef qList<typename E::Type> Type;
 
-    static void Add(Message* pMessage, const Type& list)
+    // (out of line in some instances: they are specialized with the body of AddInline)
+    static void Add(Message* pMessage, const Type& list) { AddInline(pMessage, list); }
+    static void AddInline(Message* pMessage, const Type& list)
     {
         u32 count = list.GetSize();
         pMessage->AppendRaw(reinterpret_cast<const u8*>(&count), sizeof(count));
@@ -251,5 +263,10 @@ public:
     static void Add(Message* pMessage, const T& value) { T::Add(pMessage, value); }
     static void Extract(Message* pMessage, T* pValue) { T::Extract(pMessage, pValue); }
 };
+// (out of line in the original; nex_DDLTypes.cpp)
+template <>
+DECOMP_NOINLINE void _Type_std_list<_Type_stationurl>::Add(Message* pMessage, const Type& list);
+template <>
+DECOMP_NOINLINE void _Type_qlist<_Type_uint32>::Add(Message* pMessage, const Type& list);
 } // namespace nex
 } // namespace nn

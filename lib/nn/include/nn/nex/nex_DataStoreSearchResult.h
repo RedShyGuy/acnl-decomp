@@ -10,8 +10,7 @@ namespace nex {
 class DataStoreSearchResult : public ::nn::nex::_DDL_DataStoreSearchResult
 {
 public:
-    // (inline)
-    DataStoreSearchResult() {}
+    DataStoreSearchResult(); // 0x003984E4
     virtual ~DataStoreSearchResult(); // 0x003985C0 slot 0x00
     // 0x00398570 slot 0x04 (deleting dtor)
 };

@@ -11,6 +11,8 @@ class ServerProtocol;
 
 // (out of line in the original)
 template <>
+DECOMP_NOINLINE qMap<u16, ServerProtocol*>::qMap();
+template <>
 DECOMP_NOINLINE qMap<u16, ServerProtocol*>::~qMap();
 
 // The broker of the client: it processes the messages of the end points (call requests to the
@@ -41,8 +43,8 @@ public:
     virtual nn::nex::qResult vf_0x34(); // 0x003BCAC0 slot 0x34 | virtual slot, introduced by nn::nex::ProtocolRequestBrokerInterface
     virtual nn::nex::qResult vf_0x38(); // 0x003BCB90 slot 0x38 | virtual slot, introduced by nn::nex::ProtocolRequestBrokerInterface
     // the calls of the end point are cancelled (the two slots do the same)
-    virtual void vf_0x3C(nn::nex::EndPoint* pEndPoint); // 0x003BC3A0 slot 0x3C | virtual slot, introduced by nn::nex::ClientProtocolRequestBroker
-    virtual void vf_0x40(nn::nex::EndPoint* pEndPoint); // 0x003BC318 slot 0x40 | virtual slot, introduced by nn::nex::ClientProtocolRequestBroker
+    virtual void PeerDisconnected(nn::nex::EndPoint* pEndPoint); // 0x003BC3A0 slot 0x3C (name is ours; the calls of the end point are cancelled)
+    virtual void FaultDetection(nn::nex::EndPoint* pEndPoint, unsigned int error); // 0x003BC318 slot 0x40 (name is ours)
 
     // a request is dispatched and its response sent; a response goes to its client protocol
     void ProcessMessageCore(nn::nex::CallProtocolMethodOperation* pOperation, nn::nex::EndPoint* pEndPoint, nn::nex::Buffer* pBuffer); // 0x003BC634 | fefates:callgraph [tier C]

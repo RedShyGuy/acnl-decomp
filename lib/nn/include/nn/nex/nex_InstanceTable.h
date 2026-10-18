@@ -22,27 +22,7 @@ public:
 
     // the instance of a kind in a context (-1 if one of them is invalid; inline in the original
     // with a copy out of line; the checks are those of InstanceTable.h and InstantiationContext.h)
-    InstanceControl* GetInstance(u32 kind, u32 context) // 0x00361C7C (name is ours)
-    {
-        InstantiationContext* pContext;
-        if (context == 0) {
-            pContext = &m_DefaultContext;
-        } else {
-            if (context >= m_pContexts->size()) {
-                SystemError::SignalError(const_cast<wchar_t*>(L"D:\\home\\jenkins\\workspace\\Manual-Pack\\5129d543\\.\\OnlineCore/src/Core/InstanceTable.h"), 72,
-                                         SystemError::ERROR_OUT_OF_RANGE, 0);
-                return reinterpret_cast<InstanceControl*>(-1);
-            }
-            pContext = (*m_pContexts)[context];
-        }
-        if (kind >= InstantiationContext::INSTANCE_COUNT) {
-            SystemError::SignalError(
-                const_cast<wchar_t*>(L"D:\\home\\jenkins\\workspace\\Manual-Pack\\5129d543\\.\\OnlineCore/src/Core/InstantiationContext.h"), 83,
-                SystemError::ERROR_OUT_OF_RANGE, 0);
-            return reinterpret_cast<InstanceControl*>(-1);
-        }
-        return pContext->m_Instances[kind];
-    }
+    DECOMP_EMIT_COPY InstanceControl* GetInstance(u32 kind, u32 context); // 0x00361C7C (name is ours)
 
     // (inline in the original; InstanceTable.cpp)
     bool Register(InstanceControl* pInstance, u32 kind, u32 context)
@@ -97,6 +77,29 @@ public:
     // locks the table
     static CriticalSection s_Lock;
 };
+
+// (inline in the original, with a copy out of line)
+inline InstanceControl* InstanceTable::GetInstance(u32 kind, u32 context)
+{
+    InstantiationContext* pContext;
+    if (context == 0) {
+        pContext = &m_DefaultContext;
+    } else {
+        if (context >= m_pContexts->size()) {
+            SystemError::SignalError(const_cast<wchar_t*>(L"D:\\home\\jenkins\\workspace\\Manual-Pack\\5129d543\\.\\OnlineCore/src/Core/InstanceTable.h"), 72,
+                                     SystemError::ERROR_OUT_OF_RANGE, 0);
+            return reinterpret_cast<InstanceControl*>(-1);
+        }
+        pContext = (*m_pContexts)[context];
+    }
+    if (kind >= InstantiationContext::INSTANCE_COUNT) {
+        SystemError::SignalError(
+            const_cast<wchar_t*>(L"D:\\home\\jenkins\\workspace\\Manual-Pack\\5129d543\\.\\OnlineCore/src/Core/InstantiationContext.h"), 83,
+            SystemError::ERROR_OUT_OF_RANGE, 0);
+        return reinterpret_cast<InstanceControl*>(-1);
+    }
+    return pContext->m_Instances[kind];
+}
 ASSERT_SIZE(InstanceTable, 0x4C);
 } // namespace nex
 } // namespace nn

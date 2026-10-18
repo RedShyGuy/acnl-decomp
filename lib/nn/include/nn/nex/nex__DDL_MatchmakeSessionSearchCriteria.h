@@ -26,6 +26,7 @@ public:
     _DDL_MatchmakeSessionSearchCriteria() : m_StructureVersion(REVISION), m_Attributes(0) {}
     virtual ~_DDL_MatchmakeSessionSearchCriteria(); // 0x003CBBCC slot 0x00 | fefates:callseq
     // 0x003CBB58 slot 0x04 (deleting dtor)
+    nn::nex::_DDL_MatchmakeSessionSearchCriteria& operator=(const nn::nex::_DDL_MatchmakeSessionSearchCriteria& other); // 0x003CBC3C
 
     static void Add(nn::nex::Message* pMessage, const nn::nex::_DDL_MatchmakeSessionSearchCriteria& data); // 0x003CB984 | fefates:bytes [tier B]
     // (inline; no instance in the binary)

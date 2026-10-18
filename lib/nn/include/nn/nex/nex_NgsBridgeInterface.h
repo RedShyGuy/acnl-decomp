@@ -18,11 +18,12 @@ public:
     // slot 0x04 (deleting dtor)
     // the credentials of the game (name is ours; NexFacade binds the relay client with them)
     virtual nn::nex::Credentials* GetCredentials() = 0; // slot 0x08
-    virtual u32 vf_0x0C() = 0; // slot 0x0C
+    // the principal id of the credentials (name is ours)
+    virtual u32 GetPrincipalId() = 0; // slot 0x0C
     virtual bool RegisterNotificationEventHandler(nn::nex::NotificationEventHandler* pHandler) = 0; // slot 0x10
     virtual bool UnregisterNotificationEventHandler(nn::nex::NotificationEventHandler* pHandler) = 0; // slot 0x14
     virtual bool ReplaceURL(nn::nex::ProtocolCallContext* pContext, const nn::nex::StationURL& oldUrl, const nn::nex::StationURL& newUrl) = 0; // slot 0x18
-    virtual bool SendReport(unsigned int type, const void* pData, unsigned int size) = 0; // slot 0x1C
+    virtual void SendReport(unsigned int type, const void* pData, unsigned int size) = 0; // slot 0x1C
     // whether the game is connected (NgsBridgeImp falls into BackEndServices::IsConnected)
     virtual nn::nex::qResult IsConnected() = 0; // slot 0x20
 };

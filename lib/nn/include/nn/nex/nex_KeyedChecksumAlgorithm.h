@@ -25,6 +25,17 @@ public:
     virtual void KeyHasChanged(); // 0x0039DA70 slot 0x20
     // false if the length of the key is out of the range
     bool SetKey(const nn::nex::Key& key); // 0x0039DA74 | fefates:bytes [tier B]
+    // (inline where the original inlines SetKey)
+    bool SetKeyInline(const nn::nex::Key& key)
+    {
+        u32 length = key.GetLength();
+        if (length < m_MinKeyLength || length > m_MaxKeyLength) {
+            return false;
+        }
+        m_Key = key;
+        KeyHasChanged();
+        return true;
+    }
 
     Key m_Key;          // 0x0C
     u32 m_MinKeyLength; // 0x24

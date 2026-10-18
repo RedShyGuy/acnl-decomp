@@ -82,6 +82,19 @@ ASSERT_SIZE(SystemComponent, 0x20);
 class SystemComponent::Use : public ::nn::nex::RootObject
 {
 public:
+    // (inline) the component gets in use if it allows it (m_Unknown0x08 is not set)
+    explicit Use(SystemComponent* pComponent) : m_pComponent(pComponent)
+    {
+        if (pComponent->UseIsAllowed()) {
+            if (pComponent->m_State == STATE_READY) {
+                pComponent->TryTransition(STATE_IN_USE);
+            }
+            pComponent->m_UseCount++;
+            m_IsValid = true;
+        } else {
+            m_IsValid = false;
+        }
+    }
     virtual ~Use(); // 0x0037E16C slot 0x00 | mk7dlp:bytes-fuzzy
     // 0x0037E13C slot 0x04 (deleting dtor)
 

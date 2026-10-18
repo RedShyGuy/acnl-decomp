@@ -11,9 +11,14 @@ namespace nex {
 // The DDL part of ConnectionData (SecureConnectionService). The member names are from the DDL declarations in the binary.
 // RTTI N2nn3nex19_DDL_ConnectionDataE @ 0x008CE814
 // vtable 0x008FD720 (vptr 0x008FD728), offset_to_top 0, 2 entries
+class ConnectionData;
+
 class _DDL_ConnectionData : public ::nn::nex::RootObject
 {
 public:
+    // the element type of the lists
+    typedef ConnectionData Type;
+
     // (inline)
     _DDL_ConnectionData() : m_StructureVersion(0) {}
     virtual ~_DDL_ConnectionData(); // 0x00394CFC slot 0x00

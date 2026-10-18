@@ -2,7 +2,9 @@
 
 #include "decomp.h"
 #include "nn/nex/nex_CriticalSection.h"
+#include "nn/nex/nex_Packet.h"
 #include "nn/nex/nex_RootObject.h"
+#include "nn/nex/nex_TransportAdapter.h"
 
 namespace nn {
 namespace nex {
@@ -47,5 +49,64 @@ ASSERT_SIZE(StreamBundling, 0x48);
 extern bool g_Unknown0x96C92B;
 extern bool g_Unknown0x96C92C;
 extern bool g_Unknown0x96C92D;
+extern bool g_Unknown0x96C92E;
+
+// the statistics of the bundling (QueuingSocket::CreateBundle; the names are ours)
+struct BundleStatistics
+{
+    u32 m_WithoutHistoryCount;  // 0x00 (no packet for the history)
+    u32 m_EmptyHistoryCount;    // 0x04 (no packet of the history in the bundle)
+    u32 m_HistoryCount;         // 0x08
+    u32 m_HalfFullHistoryCount; // 0x0C (at least half of the maximum)
+    u32 m_FullHistoryCount;     // 0x10
+    u32 m_BundleCount;          // 0x14
+};
+extern BundleStatistics g_BundleStatistics;
+// the packets of the history that are bundled again were sent this many milliseconds ago
+extern s32 g_BundlingHistoryDelay;
+// the packets of the history are due again after this many milliseconds
+extern s32 g_BundlingRetransmissionDelay;
+// the maximum size of a bundle
+extern u32 g_MaxBundleSize;
+// the maximum number of packets in the history
+extern u16 g_MaxBundlingHistoryCount;
+// the maximum number of packets of the history in one bundle
+extern u16 g_MaxBundledHistoryPacketCount;
+// a packet of the history goes into this many bundles at most
+extern u16 g_MaxHistoryPacketBundleCount;
+
+// (inline) a reliable data packet of the PRUDP stream that goes into the bundling history (the name
+// is ours)
+inline bool IsBundlingHistoryPacket(const Packet* pPacket)
+{
+    if (!g_Unknown0x96C92B) {
+        return false;
+    }
+    u16 flags = pPacket->m_TypeFlags;
+    if ((flags & Packet::TYPE_MASK) != Packet::TYPE_DATA || pPacket->GetStreamType() != 1) {
+        return false;
+    }
+    if (!g_Unknown0x96C92D && !(flags & 0x30)) {
+        return false;
+    }
+    if ((!g_Unknown0x96C92C || (flags & 0x10)) && (flags & 0x30)) {
+        return false;
+    }
+    return true;
+}
+
+// (inline) the packet can go into the bundle of the packet that was just bundled (the name is ours)
+inline bool CanBundleWith(const Packet* pPacket, const Packet* pBundled)
+{
+    if (pBundled->m_Unknown0x66 != pPacket->m_Unknown0x66 || pBundled->m_Unknown0x86 != pPacket->m_Unknown0x86) {
+        return false;
+    }
+    // (0x200: broadcast)
+    if (TransportAdapter::s_pInstance->m_Unknown0x04 == 1 && (pPacket->m_TypeFlags & 0x200) && (pBundled->m_TypeFlags & 0x200)) {
+        return true;
+    }
+    return pPacket->m_Address.m_SockAddr.m_Address == pBundled->m_Address.m_SockAddr.m_Address &&
+           pPacket->m_Address.m_SockAddr.m_Port == pBundled->m_Address.m_SockAddr.m_Port;
+}
 } // namespace nex
 } // namespace nn

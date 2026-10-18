@@ -103,7 +103,7 @@ bool nn::nex::ClientProtocolRequestBroker::vf_0x20()
 // 0x003BC9F4 slot 0x24 (name is ours)
 bool nn::nex::ClientProtocolRequestBroker::RegisterServerProtocol(unsigned short id, nn::nex::ServerProtocol* pProtocol)
 {
-    ScopedCS lock(Scheduler::GetInstance()->m_Lock);
+    ScopedCS lock(Scheduler::GetInstanceInline()->m_Lock);
     if (m_ServerProtocols.find(id) != m_ServerProtocols.end()) {
         return false;
     }
@@ -114,7 +114,7 @@ bool nn::nex::ClientProtocolRequestBroker::RegisterServerProtocol(unsigned short
 // 0x003BCADC slot 0x28 (name is ours)
 bool nn::nex::ClientProtocolRequestBroker::UnregisterServerProtocol(unsigned short id)
 {
-    ScopedCS lock(Scheduler::GetInstance()->m_Lock);
+    ScopedCS lock(Scheduler::GetInstanceInline()->m_Lock);
     qMap<u16, ServerProtocol*>::iterator it = m_ServerProtocols.find(id);
     if (it != m_ServerProtocols.end()) {
         m_ServerProtocols.erase(it);
@@ -125,7 +125,7 @@ bool nn::nex::ClientProtocolRequestBroker::UnregisterServerProtocol(unsigned sho
 // 0x003BC3F8 slot 0x2C (name is ours)
 nn::nex::ServerProtocol* nn::nex::ClientProtocolRequestBroker::FindProtocol(unsigned short id)
 {
-    ScopedCS lock(Scheduler::GetInstance()->m_Lock);
+    ScopedCS lock(Scheduler::GetInstanceInline()->m_Lock);
     qMap<u16, ServerProtocol*>::iterator it = m_ServerProtocols.find(id);
     if (it == m_ServerProtocols.end()) {
         return nullptr;
@@ -151,17 +151,17 @@ nn::nex::qResult nn::nex::ClientProtocolRequestBroker::vf_0x38()
     return qResult(RESULT_NOT_IMPLEMENTED);
 }
 
-// 0x003BC3A0 slot 0x3C | virtual slot, introduced by nn::nex::ClientProtocolRequestBroker
-void nn::nex::ClientProtocolRequestBroker::vf_0x3C(nn::nex::EndPoint* pEndPoint)
+// 0x003BC3A0 slot 0x3C (name is ours)
+void nn::nex::ClientProtocolRequestBroker::PeerDisconnected(nn::nex::EndPoint* pEndPoint)
 {
-    ScopedCS lock(Scheduler::GetInstance()->m_Lock);
+    ScopedCS lock(Scheduler::GetInstanceInline()->m_Lock);
     Core::GetInstance()->m_pCallContextRegister->CancelCallContexts(pEndPoint, pEndPoint->m_ConnectionId);
 }
 
-// 0x003BC318 slot 0x40 | virtual slot, introduced by nn::nex::ClientProtocolRequestBroker
-void nn::nex::ClientProtocolRequestBroker::vf_0x40(nn::nex::EndPoint* pEndPoint)
+// 0x003BC318 slot 0x40 (name is ours)
+void nn::nex::ClientProtocolRequestBroker::FaultDetection(nn::nex::EndPoint* pEndPoint, unsigned int error)
 {
-    ScopedCS lock(Scheduler::GetInstance()->m_Lock);
+    ScopedCS lock(Scheduler::GetInstanceInline()->m_Lock);
     Core::GetInstance()->m_pCallContextRegister->CancelCallContexts(pEndPoint, pEndPoint->m_ConnectionId);
 }
 
@@ -185,7 +185,7 @@ void nn::nex::ClientProtocolRequestBroker::ProcessMessageCore(nn::nex::CallProto
             if (!pOperation->m_Unknown0x14 && isHandled) {
                 Buffer* pResponseBuffer = response.GetBuffer();
                 {
-                    ScopedCS lock(Scheduler::GetInstance()->m_Lock);
+                    ScopedCS lock(Scheduler::GetInstanceInline()->m_Lock);
                     pEndPoint->_Send(pResponseBuffer, 1, false, 0, 0);
                 }
                 m_BandwidthCounters[protocolId]->m_Outgoing += pResponseBuffer->m_ContentSize;
@@ -193,7 +193,7 @@ void nn::nex::ClientProtocolRequestBroker::ProcessMessageCore(nn::nex::CallProto
         }
         m_OperationManager.OperationEnds(pOperation);
     } else {
-        ScopedCS lock(Scheduler::GetInstance()->m_Lock);
+        ScopedCS lock(Scheduler::GetInstanceInline()->m_Lock);
         ProcessCallResponse(protocolId, &message, pEndPoint);
     }
     if (message.m_IsError) {
@@ -207,6 +207,13 @@ void nn::nex::ClientProtocolRequestBroker::ProcessMessageCore(nn::nex::CallProto
             stream << L"  <EndPoint is NULL>";
         }
     }
+}
+
+// 0x003CE4B4 (name is ours)
+template <>
+DECOMP_NOINLINE qMap<u16, ServerProtocol*>::qMap()
+{
+    // nothing to do: the tree is constructed by the compiler
 }
 
 // 0x003CE550 | fefates:callgraph [tier C]

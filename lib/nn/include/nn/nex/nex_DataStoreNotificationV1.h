@@ -18,3 +18,9 @@ public:
 ASSERT_SIZE(DataStoreNotificationV1, 0x18);
 } // namespace nex
 } // namespace nn
+
+namespace std {
+// (out of line)
+template <>
+DECOMP_NOINLINE void vector<nn::nex::DataStoreNotificationV1, nn::nex::MemAllocator<nn::nex::DataStoreNotificationV1> >::_C_insert_aux(nn::nex::DataStoreNotificationV1* pos, const nn::nex::DataStoreNotificationV1& value);
+} // namespace std

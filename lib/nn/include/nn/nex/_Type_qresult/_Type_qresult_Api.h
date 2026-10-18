@@ -11,6 +11,8 @@ class qResult;
 class _Type_qresult
 {
 public:
+    typedef nn::nex::qResult Type;
+
     static void Extract(nn::nex::Message* pMessage, nn::nex::qResult* pResult); // 0x0036FBFC | fefates:bytes [tier B]
 };
 } // namespace nex

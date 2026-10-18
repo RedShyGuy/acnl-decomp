@@ -60,7 +60,10 @@ def _const_template_after(n):
         k = j
         while k < len(n) and n[k] == ' ':
             k += 1
-        if depth == 0 and k < len(n) and n[k] in '&*':
+        # also a template argument: 'pair<const X<...>, V>' == 'pair<X<...> const, V>'
+        before = n[:m.start()].rstrip()
+        is_argument = k < len(n) and n[k] in ',>' and before.endswith(('<', ','))
+        if depth == 0 and k < len(n) and (n[k] in '&*' or is_argument):
             out.append(n[i:m.start()])
             out.append(n[m.start() + len('const '):j] + ' const')
             i = j
@@ -167,8 +170,34 @@ def strip_init_list(sig):
     return sig
 
 
+def template_args_norm(qualname):
+    """'qMap<u16, u32>::qMap' (source) == 'nn::nex::qMap<unsigned short, unsigned int>::qMap'
+    (demangled): inside the template arguments typedefs are spelled out, scopes dropped and
+    'const T' == 'T const'; the scopes outside the arguments stay"""
+    if '<' not in qualname:
+        return qualname
+    out, buf, depth = [], [], 0
+    for ch in qualname:
+        if ch == '<':
+            depth += 1
+            if depth == 1:
+                out.append(ch)
+                continue
+        elif ch == '>':
+            depth -= 1
+            if depth == 0:
+                args = re.sub(r'\b\w+\b', lambda w: TYPEDEFS.get(w.group(0), w.group(0)), ''.join(buf))
+                args = re.sub(r'@?\w+::', '', norm(args))
+                out.append(args)
+                out.append(ch)
+                buf = []
+                continue
+        (buf if depth > 0 else out).append(ch)
+    return ''.join(out) + ''.join(buf)
+
+
 def sig_key(qualname, params, const):
-    return (re.sub(r'\s+', '', qualname), len(params), const)
+    return (re.sub(r'\s+', '', template_args_norm(qualname)), len(params), const)
 
 
 TYPEDEFS = {'u8': 'unsigned char', 'u16': 'unsigned short', 'u32': 'unsigned int', 'bit32': 'unsigned int',
@@ -194,7 +223,7 @@ def param_type(p):
 
 def typed_key(qualname, params, const):
     """the key of an overload with the same number of parameters as another one"""
-    return (re.sub(r'\s+', '', qualname), tuple(param_type(p) for p in params), const)
+    return (re.sub(r'\s+', '', template_args_norm(qualname)), tuple(param_type(p) for p in params), const)
 
 
 # typed_key -> address of the definitions in the sources (filled by source_addresses)
@@ -236,7 +265,9 @@ def source_addresses():
                     if 'thunk' in st:
                         # the this-adjusting thunk of a secondary base ("(thunk)", for a destructor
                         # also "(deleting thunk)"); like the deleting destructor, before or after
-                        pending_thunks.append(('deleting' in st, int(m.group(1), 16) & ~1))
+                        # with two secondary bases the line names the this-adjustment ("(thunk 92)")
+                        mo = re.search(r'thunk\s+(\d+)', st)
+                        pending_thunks.append(('deleting' in st, int(m.group(1), 16) & ~1, int(mo.group(1)) if mo else None))
                         if pending is None:
                             pending, sig = -1, ''
                     elif 'deleting' in st:
@@ -278,8 +309,8 @@ def source_addresses():
                     key = sig_key(full, params, const)
                     if del_addr is not None:
                         deleting[key] = del_addr
-                    for is_del, t_addr in thunk_addrs:
-                        THUNKS[(key, is_del)] = t_addr
+                    for is_del, t_addr, t_off in thunk_addrs:
+                        THUNKS[(key, is_del, t_off)] = t_addr
                     if pending_addr >= 0:
                         if key in out and out[key] != pending_addr:
                             dup.add(key)
@@ -511,6 +542,38 @@ def is_ctor_dtor(name):
     """ARM C++ ABI: constructors and destructors return 'this'"""
     m = re.match(r'(?:.*::)?([~\w]+)::(~?)(\w+)\(', name or '')
     return bool(m) and (m.group(2) == '~' or m.group(1) == m.group(3))
+
+
+def arm_branch_target(addr, word):
+    """target of the B/BL instruction word at addr (None if it is none)"""
+    if (word & 0x0E000000) != 0x0A000000 or (word >> 28) != 0xE:
+        return None
+    off = word & 0xFFFFFF
+    if off & 0x800000:
+        off -= 0x1000000
+    return addr + 8 + (off << 2)
+
+
+def armcc_call_thunk(mem, addr, first_word, target):
+    """ARMCC's this-adjusting thunk that calls the function instead of branching to it:
+    "sub r0, r0, #n; push {r4, lr}; bl f; pop {r4, pc}" (GCC: "sub r0, r0, #n; b f"); for a deleting
+    destructor "...; bl complete dtor; pop {r4, lr}; b operator delete", and GCC branches to the
+    deleting destructor, which does the same"""
+    if target is None or mem.u32(addr) != first_word or mem.u32(addr + 4) != 0xE92D4010:
+        return False
+    called = arm_branch_target(addr + 8, mem.u32(addr + 8))
+    if called is None or (mem.u32(addr + 8) & 0x01000000) == 0:
+        return False
+    if mem.u32(addr + 12) == 0xE8BD8010:
+        return called == target
+    if mem.u32(addr + 12) != 0xE8BD4010:
+        return False
+    deleter = arm_branch_target(addr + 16, mem.u32(addr + 16))
+    # the deleting destructor of the original: "push {r4, lr}; bl complete dtor; pop {r4, lr}; b delete"
+    return (deleter is not None and mem.u32(target) == 0xE92D4010
+            and arm_branch_target(target + 4, mem.u32(target + 4)) == called
+            and mem.u32(target + 8) == 0xE8BD4010
+            and arm_branch_target(target + 12, mem.u32(target + 12)) == deleter)
 
 
 def orig_size(starts, addr, limit):
@@ -965,6 +1028,9 @@ def main():
     fuzzy_pair = make_fuzzy_pair(mem, db, starts, names, by_source, by_name, source_variables())
     results, counts = {}, {}
     details = []
+    # the functions by symbol (a thunk that ARMCC filled with a copy of the body is compared with the
+    # body of the function that GCC's thunk branches to)
+    funcs_by_symbol = {f[1]: f for f in funcs}
     for obj, mangled, data, size, rel, syminfo in funcs:
         if re.search(r'(C2|D2)E', mangled):
             continue                              # GCC's base-object variants
@@ -979,7 +1045,10 @@ def main():
         skey = sig_key(*parsed) if parsed else None
         if is_thunk:
             # only compared where the source names the address of the thunk
-            addr = THUNKS.get((skey, is_deleting))
+            mo = re.match(r'_ZThn(\d+)_', mangled)
+            addr = THUNKS.get((skey, is_deleting, int(mo.group(1)) if mo else None))
+            if addr is None:
+                addr = THUNKS.get((skey, is_deleting, None))
             if addr is None:
                 continue
             name += ' [deleting thunk]' if is_deleting else ' [thunk]'
@@ -1025,6 +1094,8 @@ def main():
                 if (is_thunk and status == 'differs' and size == 8 and mine[0] == theirs[0]
                         and mem.u32(addr + 4) in (0xE320F000, 0xE1A00000) and by_source.get(skey) == addr + 8):
                     status = 'match'
+        if is_thunk and status in ('differs', 'size') and size == 8 and armcc_call_thunk(mem, addr, mine[0], by_source.get(skey)):
+            status = 'match'
         counts[status] = counts.get(status, 0) + 1
         key = f'0x{addr:08X}' if addr is not None else f'?{mangled}'
         results[key] = {'name': name, 'mangled': mangled, 'status': status, 'size': size,
@@ -1035,12 +1106,18 @@ def main():
         if status in ('differs', 'size', 'prefix', 'match'):
             if addr in thumb:
                 results[key]['grade'] = 'thumb'
-            elif is_thunk and status == 'match' and mine != theirs:
+            elif is_thunk and status == 'match' and (osize != size or mine != theirs):
                 # the fall-through thunk (see above): nothing left to compare
                 results[key].update(score=1.0, grade='equivalent', categories={})
             else:
+                fdata, fsize, fsyminfo = data, size, syminfo
+                if is_thunk and size == 8 and osize is not None and osize > 16:
+                    # GCC: "sub r0, r0, #n; b f"; ARMCC copied the body of f into the thunk
+                    target = funcs_by_symbol.get(re.sub(r'^_ZThn\d+_', '_Z', mangled))
+                    if target is not None:
+                        fdata, fsize, fsyminfo = target[2], target[3], target[5]
                 # prefix: the original range runs into the next (unknown) function
-                fz = fuzzy_pair(data, size, syminfo, addr, size if status == 'prefix' else osize, name)
+                fz = fuzzy_pair(fdata, fsize, fsyminfo, addr, size if status == 'prefix' else osize, name)
                 score, cats = fuzzy.compare(*fz)
                 results[key].update(score=round(score, 3), grade=fuzzy.grade(score),
                                     categories={k: (round(v, 3) if v is not None else None)

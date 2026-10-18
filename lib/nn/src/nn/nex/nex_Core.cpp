@@ -151,7 +151,7 @@ nn::nex::Core::Core()
     m_pSystemComponents->m_pCoreGroup->RegisterComponent(m_pCallContextRegister);
     m_pSecurityContextManager = new SecurityContextManager();
     {
-        ScopedCS lock(Scheduler::GetInstance()->m_Lock);
+        ScopedCS lock(Scheduler::GetInstanceInline()->m_Lock);
         m_pSystemComponents->m_pCoreGroup->Initialize();
     }
 }
@@ -161,7 +161,7 @@ nn::nex::Core::Core()
 nn::nex::Core::~Core()
 {
     {
-        ScopedCS lock(Scheduler::GetInstance()->m_Lock);
+        ScopedCS lock(Scheduler::GetInstanceInline()->m_Lock);
         m_pSystemComponents->m_pCoreGroup->Terminate();
     }
     m_pSystemComponents->WaitForTerminatedState(static_cast<unsigned int>(-1));
@@ -177,7 +177,7 @@ nn::nex::Core::~Core()
     {
         ScopedCS lock(GlobalVariables::s_Lock);
         if (GlobalVariables::s_pInstance != nullptr) {
-            GlobalVariables::s_pInstance->m_Unknown0x110.clear();
+            GlobalVariables::s_pInstance->m_RootCaCache.clear();
         }
     }
 }

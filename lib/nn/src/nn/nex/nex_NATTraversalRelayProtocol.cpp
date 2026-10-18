@@ -1,61 +1,64 @@
-#include "nn/nex/nex__Proto_NATTraversalProtocolServer.h"
 #include "nn/nex/nex_NATTraversalRelayProtocol.h"
 
 namespace nn {
 namespace nex {
-// ctor candidate(s) 0x003B14A8 (unverified)
-nn::nex::NATTraversalRelayProtocol::NATTraversalRelayProtocol()
+// 0x003B83E8 slot 0x60
+void nn::nex::NATTraversalRelayProtocol::InitiateProbe(const nn::nex::StationURL& url)
 {
+    // nothing to do
 }
 
-// 0x003B846C slot 0x00 | slot vf_0x00 of nn::nex::RefCountedObject
+// 0x003B83EC slot 0x6C (name is ours)
+void nn::nex::NATTraversalRelayProtocol::ReportNATProperties(const unsigned int& mapping, const unsigned int& filtering, const unsigned int& rtt)
+{
+    // nothing to do
+}
+
+// 0x003B83F0 slot 0x70 (name is ours)
+void nn::nex::NATTraversalRelayProtocol::GetRelayParameters(unsigned int* pMode, nn::nex::DateTime* pTime, nn::nex::String* pAddress, unsigned short* pPort, unsigned int* pAddressType,
+                                                            unsigned int* pServerTime)
+{
+    // nothing to do
+}
+
+// 0x003B83F4 slot 0x78 (name is ours)
+void nn::nex::NATTraversalRelayProtocol::SetDefaultCredentials(nn::nex::Credentials* pCredentials)
+{
+    m_pClient->SetDefaultCredentials(pCredentials);
+}
+
+// 0x003B8404 slot 0x5C
+void nn::nex::NATTraversalRelayProtocol::RequestProbeInitiation(const nn::nex::qList<nn::nex::StationURL>& targets)
+{
+    // nothing to do
+}
+
+// 0x003B8408 slot 0x68
+void nn::nex::NATTraversalRelayProtocol::ReportNATTraversalResult(const unsigned int& cid, const bool& isSucceeded, const unsigned int& rtt)
+{
+    // nothing to do
+}
+
+// 0x003B840C slot 0x64
+void nn::nex::NATTraversalRelayProtocol::RequestProbeInitiationExt(const nn::nex::qList<nn::nex::StationURL>& targets, const nn::nex::StationURL& source)
+{
+    // nothing to do
+}
+
+// 0x003B8410 slot 0x74 (name is ours)
+void nn::nex::NATTraversalRelayProtocol::ReportNATTraversalResultDetail(const unsigned int& cid, const bool& isSucceeded, const nn::nex::NATTraversalResult& detail, const unsigned int& rtt)
+{
+    // nothing to do
+}
+
+// 0x003B846C slot 0x00
+// 0x003B8414 (deleting dtor)
 nn::nex::NATTraversalRelayProtocol::~NATTraversalRelayProtocol()
 {
-}
-
-// 0x003CB194 slot 0x50 | fefates:bytes-fuzzy
-void nn::nex::NATTraversalRelayProtocol::DispatchProtocolMessage(nn::nex::Message*, nn::nex::Message*, bool*, nn::nex::EndPoint*)
-{
-}
-
-// 0x003B8404 slot 0x5C | slot vf_0x5C of nn::nex::NATTraversalRelayProtocol
-void nn::nex::NATTraversalRelayProtocol::RequestProbeInitiation(const nn::nex::qList<nn::nex::StationURL>&)
-{
-}
-
-// 0x003B83E8 slot 0x60 | slot vf_0x60 of nn::nex::NATTraversalRelayProtocol
-void nn::nex::NATTraversalRelayProtocol::InitiateProbe(const nn::nex::StationURL&)
-{
-}
-
-// 0x003B840C slot 0x64 | slot vf_0x64 of nn::nex::NATTraversalRelayProtocol
-void nn::nex::NATTraversalRelayProtocol::RequestProbeInitiationExt(const nn::nex::qList<nn::nex::StationURL>&, const nn::nex::StationURL&)
-{
-}
-
-// 0x003B8408 slot 0x68 | slot vf_0x68 of nn::nex::NATTraversalRelayProtocol
-void nn::nex::NATTraversalRelayProtocol::ReportNATTraversalResult(const unsigned int&, const bool&, const unsigned int&)
-{
-}
-
-// 0x003B83EC slot 0x6C | virtual slot, introduced by nn::nex::NATTraversalRelayProtocol
-void nn::nex::NATTraversalRelayProtocol::vf_0x6C()
-{
-}
-
-// 0x003B83F0 slot 0x70 | virtual slot, introduced by nn::nex::NATTraversalRelayProtocol
-void nn::nex::NATTraversalRelayProtocol::vf_0x70()
-{
-}
-
-// 0x003B8410 slot 0x74 | virtual slot, introduced by nn::nex::NATTraversalRelayProtocol
-void nn::nex::NATTraversalRelayProtocol::vf_0x74()
-{
-}
-
-// 0x003B83F4 slot 0x78 | virtual slot, introduced by nn::nex::NATTraversalRelayProtocol
-void nn::nex::NATTraversalRelayProtocol::vf_0x78()
-{
+    if (m_pClient != nullptr) {
+        delete m_pClient;
+        m_pClient = nullptr;
+    }
 }
 
 } // namespace nex

@@ -17,10 +17,13 @@ public:
     _DDL_UpdateMatchmakeSessionParam(); // ctor address unknown
     virtual ~_DDL_UpdateMatchmakeSessionParam(); // 0x003CB0B8 slot 0x00
     // 0x003CB074 slot 0x04 (deleting dtor)
+    // the highest revision of the structure
+    static const u8 REVISION = 1;
+    static void Add(nn::nex::Message* pMessage, const nn::nex::_DDL_UpdateMatchmakeSessionParam& data); // 0x003CAE2C (name is ours)
 
     // (the layout is from pia::inet::NexMatchmakeSession, which inlines the constructor; the
     // names are ours)
-    u8 m_Unknown0x4;                     // 0x04
+    u8 m_StructureVersion;                     // 0x04
     u32 m_GatheringId;                   // 0x08
     u32 m_ModificationFlags;             // 0x0C
     qVector<u32> m_Attributes;           // 0x10

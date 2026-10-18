@@ -70,6 +70,7 @@ public:
     {
         if (m_pValues != nullptr) {
             for (u32 i = 0; i < s_ContextCount; i++) {
+                // (ARMCC calls the destructor of classes virtually; GCC knows the type)
                 m_pValues[i].~T0();
             }
             MemoryManager::Free(m_pValues);

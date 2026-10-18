@@ -12,6 +12,10 @@ namespace nex {
 // with noinline GCC still inlines the destructor into the tree functions)
 template <>
 DECOMP_NOIPA qList<SecurityContext>::~qList();
+template <>
+DECOMP_NOINLINE qList<SecurityContext>::qList(const qList<SecurityContext>& other);
+template <>
+DECOMP_NOINLINE qList<SecurityContext>& qList<SecurityContext>::operator=(const qList<SecurityContext>& other);
 } // namespace nex
 } // namespace nn
 
