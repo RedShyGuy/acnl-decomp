@@ -1,6 +1,7 @@
 #pragma once
 
 #include "decomp.h"
+#include "nn/nex/nex_MemoryManager.h"
 
 namespace nn {
 namespace nex {
@@ -15,6 +16,8 @@ public:
     // (only a nop in the original that falls into MemoryManager::Allocate)
     static void* operator new[](unsigned int size); // 0x00361F9C | fefates:callgraph [tier C]
     static void operator delete(void* p); // 0x00355190 | fefates:callgraph [tier C]
+    // (inline; arrays of objects with a destructor have a cookie of 8 bytes in front of them)
+    static void operator delete[](void* p) { MemoryManager::FreeInline(p); }
 };
 } // namespace nex
 } // namespace nn

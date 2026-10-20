@@ -235,3 +235,6 @@ bool TryWaitForControlEvent()
 } // namespace CTR
 } // namespace applet
 } // namespace nn
+
+// ARMCC's static initializer of the file: the constructors of the globals above
+// 0x0079CB78 (static initializer)

@@ -491,3 +491,6 @@ nn::Result Unmount(const char* path)
 
 } // namespace fs
 } // namespace nn
+
+// ARMCC's static initializer of the file: the constructors of the globals above
+// 0x0079BFAC (static initializer)

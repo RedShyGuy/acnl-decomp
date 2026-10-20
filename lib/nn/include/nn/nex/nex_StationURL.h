@@ -181,15 +181,6 @@ template <>
 DECOMP_NOINLINE qList<StationURL>::qList();
 template <>
 DECOMP_NOINLINE qList<StationURL>::qList(const qList<StationURL>& other);
-template <>
-DECOMP_NOINLINE qList<StationURL>::~qList();
-// 0x0082F0F0
-template <>
-DECOMP_NOINLINE qList<StationURL>& qList<StationURL>::operator=(const qList<StationURL>& other);
-template <>
-DECOMP_NOINLINE void qList<StationURL>::AddBuffer(bool isFirst);
-template <>
-DECOMP_NOINLINE void qList<StationURL>::push_back(const StationURL& value);
 } // namespace nex
 } // namespace nn
 
@@ -197,4 +188,19 @@ namespace std {
 // (out of line in the original; nex_StationURL.cpp)
 template <>
 u32 map<nn::nex::String, nn::nex::String>::erase(const nn::nex::String& key);
+} // namespace std
+
+namespace std {
+template <>
+DECOMP_NOINLINE list<nn::nex::StationURL, nn::nex::MemAllocator<nn::nex::StationURL> >::~list();
+
+// 0x0082F0F0
+template <>
+DECOMP_NOINLINE list<nn::nex::StationURL, nn::nex::MemAllocator<nn::nex::StationURL> >& list<nn::nex::StationURL, nn::nex::MemAllocator<nn::nex::StationURL> >::operator=(const list<nn::nex::StationURL, nn::nex::MemAllocator<nn::nex::StationURL> >& other);
+
+template <>
+DECOMP_NOINLINE void list<nn::nex::StationURL, nn::nex::MemAllocator<nn::nex::StationURL> >::AddBuffer(bool isFirst);
+
+template <>
+DECOMP_NOINLINE void list<nn::nex::StationURL, nn::nex::MemAllocator<nn::nex::StationURL> >::push_back(const nn::nex::StationURL& value);
 } // namespace std

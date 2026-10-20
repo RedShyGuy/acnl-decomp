@@ -13,6 +13,8 @@ namespace __rw {
 // (the original calls this instance out of line; defined in nex__DDL_MatchmakeParam.cpp)
 template <>
 DECOMP_NOINLINE __rb_tree<nn::nex::String, std::pair<const nn::nex::String, nn::nex::Variant>, __select1st<std::pair<const nn::nex::String, nn::nex::Variant>, nn::nex::String>, std::less<nn::nex::String>, nn::nex::MemAllocator<std::pair<const nn::nex::String, nn::nex::Variant> > >::iterator __rb_tree<nn::nex::String, std::pair<const nn::nex::String, nn::nex::Variant>, __select1st<std::pair<const nn::nex::String, nn::nex::Variant>, nn::nex::String>, std::less<nn::nex::String>, nn::nex::MemAllocator<std::pair<const nn::nex::String, nn::nex::Variant> > >::erase(iterator first, iterator last);
+template <>
+DECOMP_NOINLINE __rb_tree<nn::nex::String, std::pair<const nn::nex::String, nn::nex::Variant>, __select1st<std::pair<const nn::nex::String, nn::nex::Variant>, nn::nex::String>, std::less<nn::nex::String>, nn::nex::MemAllocator<std::pair<const nn::nex::String, nn::nex::Variant> > >::Node* __rb_tree<nn::nex::String, std::pair<const nn::nex::String, nn::nex::Variant>, __select1st<std::pair<const nn::nex::String, nn::nex::Variant>, nn::nex::String>, std::less<nn::nex::String>, nn::nex::MemAllocator<std::pair<const nn::nex::String, nn::nex::Variant> > >::_C_get_link();
 } // namespace __rw
 
 namespace std {

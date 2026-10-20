@@ -90,27 +90,6 @@ u32 g_LastPublicPort;
 // 0x0096CE2C
 const wchar_t* g_NATTypeNames[4] = {L"Unknown (u)", L"Endpoint-Independent (ei)", L"Address-Dependent (ad)", L"Address and Port-Dependent (apd)"};
 
-// 0x0082FC58
-template <>
-DECOMP_NOINLINE void qList<JobDetectNATType::Request>::push_back(const JobDetectNATType::Request& value)
-{
-    PushBackInline(value);
-}
-
-// 0x0082F21C | std::list::remove
-template <>
-DECOMP_NOINLINE void qList<InetAddress>::remove(const InetAddress& value)
-{
-    Node* pHead = m_pHead;
-    for (Node* pNode = pHead->m_pNext; pNode != pHead;) {
-        Node* pNext = pNode->m_pNext;
-        if (pNode->m_Value == value) {
-            erase(pNode);
-        }
-        pNode = pNext;
-    }
-}
-
 // 0x00389C54 (name is ours)
 void nn::nex::JobDetectNATType::Start()
 {
@@ -616,3 +595,26 @@ void nn::nex::JobDetectNATType::StartMappingTestPort()
 
 } // namespace nex
 } // namespace nn
+
+namespace std {
+// 0x0082FC58
+template <>
+DECOMP_NOINLINE void list<nn::nex::JobDetectNATType::Request, nn::nex::MemAllocator<nn::nex::JobDetectNATType::Request> >::push_back(const nn::nex::JobDetectNATType::Request& value)
+{
+    PushBackInline(value);
+}
+
+// 0x0082F21C | std::list::remove
+template <>
+DECOMP_NOINLINE void list<nn::nex::InetAddress, nn::nex::MemAllocator<nn::nex::InetAddress> >::remove(const nn::nex::InetAddress& value)
+{
+    Node* pHead = m_pHead;
+    for (Node* pNode = pHead->m_pNext; pNode != pHead;) {
+        Node* pNext = pNode->m_pNext;
+        if (pNode->m_Value == value) {
+            erase(pNode);
+        }
+        pNode = pNext;
+    }
+}
+} // namespace std

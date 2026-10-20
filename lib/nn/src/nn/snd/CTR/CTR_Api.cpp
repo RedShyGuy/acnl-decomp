@@ -436,3 +436,6 @@ bool SetEffect(AuxBusId bus, FxReverb* reverb)
 } // namespace CTR
 } // namespace snd
 } // namespace nn
+
+// ARMCC's static initializer of the file: the constructors of the globals above
+// 0x00785888 (static initializer)

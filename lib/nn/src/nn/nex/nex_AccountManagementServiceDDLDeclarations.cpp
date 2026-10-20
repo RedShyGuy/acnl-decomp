@@ -28,3 +28,6 @@ void nn::nex::AccountManagementServiceDDLDeclarations::Declare()
 
 } // namespace nex
 } // namespace nn
+
+// ARMCC's static initializer of the file: the constructors of the globals above
+// 0x0079DCB4 (static initializer)

@@ -49,13 +49,6 @@ inline CallContext* GetCallContext(u32 id)
 // 0x0096CE28
 u32 g_MaxNATCheckAttempts = 3;
 
-// 0x0082F780
-template <>
-DECOMP_NOINLINE void qList<JobNATCheckBase::Request>::push_back(const JobNATCheckBase::Request& value)
-{
-    PushBackInline(value);
-}
-
 // 0x003796CC (name is ours)
 void nn::nex::JobNATCheckBase::Finish()
 {
@@ -307,3 +300,12 @@ void nn::nex::JobCheckNATProperties::SendRequests()
 
 } // namespace nex
 } // namespace nn
+
+namespace std {
+// 0x0082F780
+template <>
+DECOMP_NOINLINE void list<nn::nex::JobNATCheckBase::Request, nn::nex::MemAllocator<nn::nex::JobNATCheckBase::Request> >::push_back(const nn::nex::JobNATCheckBase::Request& value)
+{
+    PushBackInline(value);
+}
+} // namespace std

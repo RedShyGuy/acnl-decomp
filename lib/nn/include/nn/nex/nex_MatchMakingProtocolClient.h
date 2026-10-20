@@ -67,11 +67,16 @@ ASSERT_SIZE(MatchMakingProtocolClient, 0x44);
 // (out of line in the original; nex_MatchMakingProtocolClient.cpp)
 template <>
 DECOMP_NOINLINE qList<AnyObjectHolder<Gathering, String> >::qList();
-template <>
-DECOMP_NOINLINE qList<AnyObjectHolder<Gathering, String> >::~qList();
-template <>
-DECOMP_NOINLINE qList<AnyObjectHolder<Gathering, String> >::Node* qList<AnyObjectHolder<Gathering, String> >::erase(Node* pNode);
-template <>
-DECOMP_NOINLINE void qList<AnyObjectHolder<Gathering, String> >::AddBuffer(bool isFirst);
 } // namespace nex
 } // namespace nn
+
+namespace std {
+template <>
+DECOMP_NOINLINE list<nn::nex::AnyObjectHolder<nn::nex::Gathering, nn::nex::String>, nn::nex::MemAllocator<nn::nex::AnyObjectHolder<nn::nex::Gathering, nn::nex::String> > >::~list();
+
+template <>
+DECOMP_NOINLINE list<nn::nex::AnyObjectHolder<nn::nex::Gathering, nn::nex::String>, nn::nex::MemAllocator<nn::nex::AnyObjectHolder<nn::nex::Gathering, nn::nex::String> > >::Node* list<nn::nex::AnyObjectHolder<nn::nex::Gathering, nn::nex::String>, nn::nex::MemAllocator<nn::nex::AnyObjectHolder<nn::nex::Gathering, nn::nex::String> > >::erase(Node* pNode);
+
+template <>
+DECOMP_NOINLINE void list<nn::nex::AnyObjectHolder<nn::nex::Gathering, nn::nex::String>, nn::nex::MemAllocator<nn::nex::AnyObjectHolder<nn::nex::Gathering, nn::nex::String> > >::AddBuffer(bool isFirst);
+} // namespace std

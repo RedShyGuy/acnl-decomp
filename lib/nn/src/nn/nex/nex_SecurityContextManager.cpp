@@ -91,8 +91,7 @@ template const nn::nex::qList<nn::nex::SecurityContext>& nn::nex::ThreadVariable
 
 // 0x003CF518
 template <>
-DECOMP_NOINLINE qList<SecurityContext>::qList(const qList<SecurityContext>& other)
-    : m_pBufferList(nullptr), m_pFreeList(nullptr), m_pNextAvail(nullptr), m_pLast(nullptr), m_pHead(nullptr), m_Size(0)
+DECOMP_NOINLINE qList<SecurityContext>::qList(const qList<SecurityContext>& other) : base_type(base_type::NoInit())
 {
     // (the first buffer has the nodes of a buffer that grows, not one node)
     AddBufferInline(false);
@@ -106,18 +105,11 @@ DECOMP_NOINLINE qList<SecurityContext>::qList(const qList<SecurityContext>& othe
     }
 }
 
-// 0x0082F864 (name is ours; std::list::operator=)
-template <>
-DECOMP_NOINLINE qList<SecurityContext>& qList<SecurityContext>::operator=(const qList<SecurityContext>& other)
-{
-    return AssignInline(other);
-}
-
 // 0x003CF6A8 | fefates:bytes [tier B]
 template <>
 DECOMP_NOINLINE qList<SecurityContext>::~qList()
 {
-    DestroyInline();
+    // nothing to do: the list is freed by std::list (inline here)
 }
 
 } // namespace nex
@@ -129,5 +121,14 @@ template <>
 DECOMP_NOINLINE nn::nex::qList<nn::nex::SecurityContext>& map<u32, nn::nex::qList<nn::nex::SecurityContext>, less<u32>, nn::nex::MemAllocator<pair<const u32, nn::nex::qList<nn::nex::SecurityContext> > > >::operator[](const u32& key)
 {
     return IndexInline(key);
+}
+} // namespace std
+
+namespace std {
+// 0x0082F864 (name is ours; std::list::operator=)
+template <>
+DECOMP_NOINLINE list<nn::nex::SecurityContext, nn::nex::MemAllocator<nn::nex::SecurityContext> >& list<nn::nex::SecurityContext, nn::nex::MemAllocator<nn::nex::SecurityContext> >::operator=(const list<nn::nex::SecurityContext, nn::nex::MemAllocator<nn::nex::SecurityContext> >& other)
+{
+    return AssignInline(other);
 }
 } // namespace std

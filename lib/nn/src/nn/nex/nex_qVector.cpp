@@ -119,6 +119,9 @@ DECOMP_NOINLINE qVector<DataStoreSpecificMetaInfoV1>::~qVector()
 {
     // nothing to do: the vector destroys its elements
 }
+// 0x003D44BC (name is ours; it calls the destructor of std::vector)
+template qVector<qResult>::~qVector();
+
 } // namespace nex
 } // namespace nn
 
@@ -174,7 +177,7 @@ DECOMP_NOINLINE void vector<unsigned long long, nn::nex::MemAllocator<unsigned l
 
 // 0x0083476C (name is ours)
 template <>
-DECOMP_NOINLINE vector<nn::nex::qResult, nn::nex::MemAllocator<nn::nex::qResult> >::~vector()
+DECOMP_NOINLINE DECOMP_NOIPA vector<nn::nex::qResult, nn::nex::MemAllocator<nn::nex::qResult> >::~vector()
 {
     DestroyInline();
 }

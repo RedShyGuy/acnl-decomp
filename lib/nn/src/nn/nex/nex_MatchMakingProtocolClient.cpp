@@ -212,40 +212,8 @@ void nn::nex::MatchMakingProtocolClient::ProtoReturn_MigrateGatheringOwnership(n
 // 0x003CF4B8 (name is ours)
 template <>
 DECOMP_NOINLINE qList<AnyObjectHolder<Gathering, String> >::qList()
-    : m_pBufferList(nullptr), m_pFreeList(nullptr), m_pNextAvail(nullptr), m_pLast(nullptr), m_pHead(nullptr), m_Size(0)
 {
-    InitializeInline();
-}
-
-// 0x0082F6AC (name is ours; std::list::~list, the destructor of the qList at 0x003CF50C calls it)
-template <>
-DECOMP_NOINLINE qList<AnyObjectHolder<Gathering, String> >::~qList()
-{
-    DestroyInline();
-}
-
-// 0x0082F54C (name is ours)
-template <>
-DECOMP_NOINLINE void qList<AnyObjectHolder<Gathering, String> >::AddBuffer(bool isFirst)
-{
-    AddBufferInline(isFirst);
-}
-
-// 0x0082F630 (name is ours)
-template <>
-DECOMP_NOINLINE qList<AnyObjectHolder<Gathering, String> >::Node* qList<AnyObjectHolder<Gathering, String> >::erase(Node* pNode)
-{
-    Node* pNext = pNode;
-    if (pNode != m_pHead) {
-        pNext = pNode->m_pNext;
-        pNode->m_pPrev->m_pNext = pNext;
-        pNext->m_pPrev = pNode->m_pPrev;
-        m_Size--;
-        pNode->m_Value.~AnyObjectHolder();
-        pNode->m_pNext = m_pFreeList;
-        m_pFreeList = pNode;
-    }
-    return pNext;
+    // nothing to do: std::list makes the head node
 }
 
 // 0x003B7C5C slot 0x50
@@ -285,5 +253,41 @@ nn::nex::ClientProtocol* nn::nex::MatchMakingProtocolClient::CreateResponder() c
     return new MatchMakingProtocolClient(0);
 }
 
+// 0x003CF50C (name is ours; it calls the destructor of std::list)
+template qList<AnyObjectHolder<Gathering, String> >::~qList();
+
 } // namespace nex
 } // namespace nn
+
+namespace std {
+// 0x0082F6AC (name is ours; std::list::~list, the destructor of the qList at 0x003CF50C calls it)
+template <>
+DECOMP_NOINLINE list<nn::nex::AnyObjectHolder<nn::nex::Gathering, nn::nex::String>, nn::nex::MemAllocator<nn::nex::AnyObjectHolder<nn::nex::Gathering, nn::nex::String> > >::~list()
+{
+    DestroyInline();
+}
+
+// 0x0082F54C (name is ours)
+template <>
+DECOMP_NOINLINE void list<nn::nex::AnyObjectHolder<nn::nex::Gathering, nn::nex::String>, nn::nex::MemAllocator<nn::nex::AnyObjectHolder<nn::nex::Gathering, nn::nex::String> > >::AddBuffer(bool isFirst)
+{
+    AddBufferInline(isFirst);
+}
+
+// 0x0082F630 (name is ours)
+template <>
+DECOMP_NOINLINE list<nn::nex::AnyObjectHolder<nn::nex::Gathering, nn::nex::String>, nn::nex::MemAllocator<nn::nex::AnyObjectHolder<nn::nex::Gathering, nn::nex::String> > >::Node* list<nn::nex::AnyObjectHolder<nn::nex::Gathering, nn::nex::String>, nn::nex::MemAllocator<nn::nex::AnyObjectHolder<nn::nex::Gathering, nn::nex::String> > >::erase(Node* pNode)
+{
+    Node* pNext = pNode;
+    if (pNode != m_pHead) {
+        pNext = pNode->m_pNext;
+        pNode->m_pPrev->m_pNext = pNext;
+        pNext->m_pPrev = pNode->m_pPrev;
+        m_Size--;
+        pNode->m_Value.~AnyObjectHolder();
+        pNode->m_pNext = m_pFreeList;
+        m_pFreeList = pNode;
+    }
+    return pNext;
+}
+} // namespace std

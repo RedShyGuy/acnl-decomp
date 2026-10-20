@@ -1244,3 +1244,6 @@ nn::Result nn::cec::CTR::MessageBox::WriteFile(const void* buffer, u32 size)
 } // namespace CTR
 } // namespace cec
 } // namespace nn
+
+// ARMCC's static initializer of the file: the constructors of the globals above
+// 0x00797E0C (static initializer)

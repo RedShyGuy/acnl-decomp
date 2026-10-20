@@ -16,10 +16,6 @@ class ConnectionManager;
 class EndPoint;
 class UserContext;
 
-// (out of line in the original)
-template <>
-DECOMP_NOINLINE void qList<StepSequenceJob::Step>::push_back(const StepSequenceJob::Step& value);
-
 // The job of ConnectionManager::Connect: the connection techniques (direct, then through the
 // routing station) one after the other; per technique the URLs one after the other, each with a
 // NAT traversal if needed, the resolution of the address and the connection of an end point. The
@@ -119,3 +115,9 @@ ASSERT_OFFSET(JobConnectEndPoint, m_pCurrentURL, 0x1AC);
 ASSERT_SIZE(JobConnectEndPoint, 0x1C0);
 } // namespace nex
 } // namespace nn
+
+namespace std {
+// (out of line in the original)
+template <>
+DECOMP_NOINLINE void list<nn::nex::StepSequenceJob::Step, nn::nex::MemAllocator<nn::nex::StepSequenceJob::Step> >::push_back(const nn::nex::StepSequenceJob::Step& value);
+} // namespace std

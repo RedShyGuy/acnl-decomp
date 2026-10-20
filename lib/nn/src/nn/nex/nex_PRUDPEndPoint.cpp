@@ -1885,3 +1885,18 @@ DECOMP_NOINLINE qMap<u32, u32>::qMap()
 
 } // namespace nex
 } // namespace nn
+
+namespace std {
+// 0x00834FBC
+void vector<bool, nn::nex::MemAllocator<bool> >::resize(u32 count, bool value)
+{
+    if (count > size()) {
+        insert(end(), count - size(), value);
+    } else if (count < size()) {
+        erase(begin() + count, end());
+    }
+}
+
+// 0x00835388
+template vector<bool, nn::nex::MemAllocator<bool> >::iterator vector<bool, nn::nex::MemAllocator<bool> >::_C_copy<vector<bool, nn::nex::MemAllocator<bool> >::iterator>(vector<bool, nn::nex::MemAllocator<bool> >::iterator first, vector<bool, nn::nex::MemAllocator<bool> >::iterator last, vector<bool, nn::nex::MemAllocator<bool> >::iterator result);
+} // namespace std

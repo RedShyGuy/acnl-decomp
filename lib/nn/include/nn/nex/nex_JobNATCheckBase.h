@@ -75,10 +75,6 @@ ASSERT_OFFSET(JobNATCheckBase, m_Deadline, 0x158);
 ASSERT_OFFSET(JobNATCheckBase, m_ResolveContext, 0x168);
 ASSERT_SIZE(JobNATCheckBase, 0x1C8);
 
-// (out of line in the original; nex_JobNATCheckBase.cpp)
-template <>
-DECOMP_NOINLINE void qList<JobNATCheckBase::Request>::push_back(const JobNATCheckBase::Request& value);
-
 // The NAT check of the public address: the replies of type 101 of one server (the second one if the
 // NAT maps per destination). The name is ours.
 class JobCheckPublicAddress : public ::nn::nex::JobNATCheckBase
@@ -101,3 +97,9 @@ public:
 ASSERT_OFFSET(JobCheckNATProperties, m_StartTime, 0x1C8);
 } // namespace nex
 } // namespace nn
+
+namespace std {
+// (out of line in the original; nex_JobNATCheckBase.cpp)
+template <>
+DECOMP_NOINLINE void list<nn::nex::JobNATCheckBase::Request, nn::nex::MemAllocator<nn::nex::JobNATCheckBase::Request> >::push_back(const nn::nex::JobNATCheckBase::Request& value);
+} // namespace std

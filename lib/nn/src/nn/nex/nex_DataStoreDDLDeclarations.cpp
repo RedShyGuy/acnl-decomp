@@ -28,3 +28,6 @@ void nn::nex::DataStoreDDLDeclarations::Declare()
 
 } // namespace nex
 } // namespace nn
+
+// ARMCC's static initializer of the file: the constructors of the globals above
+// 0x0079F69C (static initializer)

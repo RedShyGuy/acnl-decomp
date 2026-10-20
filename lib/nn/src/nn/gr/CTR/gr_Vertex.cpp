@@ -322,3 +322,6 @@ u32* nn::gr::CTR::Vertex::MakeEnableAttrCommand_(u32* command) const
 } // namespace CTR
 } // namespace gr
 } // namespace nn
+
+// ARMCC's static initializer of the file: the constructors of the globals above
+// 0x00788578 (static initializer)

@@ -61,3 +61,6 @@ nn::boss::detail::IpcManager::~IpcManager()
 } // namespace detail
 } // namespace boss
 } // namespace nn
+
+// ARMCC's static initializer of the file: the constructors of the globals above
+// 0x007998DC (static initializer)

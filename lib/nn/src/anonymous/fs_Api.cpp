@@ -45,3 +45,6 @@ FatalNotificationHandler s_FatalNotificationHandler;
 } // namespace
 } // namespace fs
 } // namespace nn
+
+// ARMCC's static initializer of the file: the constructors of the globals above
+// 0x00784EF8 (static initializer)

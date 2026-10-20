@@ -28,3 +28,6 @@ void nn::nex::NATTraversalDDLDeclarations::Declare()
 
 } // namespace nex
 } // namespace nn
+
+// ARMCC's static initializer of the file: the constructors of the globals above
+// 0x0079EF78 (static initializer)

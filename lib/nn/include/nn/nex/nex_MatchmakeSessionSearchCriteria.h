@@ -35,14 +35,19 @@ public:
     MatchmakeSessionSearchCriteria(); // 0x003C2F18 | fefates:bytes [tier B]
 };
 
-// (out of line)
-template <>
-DECOMP_NOINLINE void qList<MatchmakeSessionSearchCriteria>::clear();
 template <>
 DECOMP_NOINLINE qList<MatchmakeSessionSearchCriteria>::qList();
-template <>
-DECOMP_NOINLINE qList<MatchmakeSessionSearchCriteria>::~qList();
-template <>
-DECOMP_NOINLINE qList<MatchmakeSessionSearchCriteria>& qList<MatchmakeSessionSearchCriteria>::operator=(const qList<MatchmakeSessionSearchCriteria>& other);
 } // namespace nex
 } // namespace nn
+
+namespace std {
+// (out of line)
+template <>
+DECOMP_NOINLINE void list<nn::nex::MatchmakeSessionSearchCriteria, nn::nex::MemAllocator<nn::nex::MatchmakeSessionSearchCriteria> >::clear();
+
+template <>
+DECOMP_NOINLINE list<nn::nex::MatchmakeSessionSearchCriteria, nn::nex::MemAllocator<nn::nex::MatchmakeSessionSearchCriteria> >::~list();
+
+template <>
+DECOMP_NOINLINE list<nn::nex::MatchmakeSessionSearchCriteria, nn::nex::MemAllocator<nn::nex::MatchmakeSessionSearchCriteria> >& list<nn::nex::MatchmakeSessionSearchCriteria, nn::nex::MemAllocator<nn::nex::MatchmakeSessionSearchCriteria> >::operator=(const list<nn::nex::MatchmakeSessionSearchCriteria, nn::nex::MemAllocator<nn::nex::MatchmakeSessionSearchCriteria> >& other);
+} // namespace std

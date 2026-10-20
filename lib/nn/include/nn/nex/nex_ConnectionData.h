@@ -21,7 +21,10 @@ ASSERT_SIZE(ConnectionData, 0x74);
 // (out of line in the original; nex_ConnectionData.cpp)
 template <>
 DECOMP_NOINLINE qList<ConnectionData>::qList();
-template <>
-DECOMP_NOINLINE qList<ConnectionData>::~qList();
 } // namespace nex
 } // namespace nn
+
+namespace std {
+template <>
+DECOMP_NOINLINE list<nn::nex::ConnectionData, nn::nex::MemAllocator<nn::nex::ConnectionData> >::~list();
+} // namespace std

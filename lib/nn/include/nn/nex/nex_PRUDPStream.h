@@ -19,9 +19,6 @@ class PacketOut;
 class PRUDPEndPoint;
 class PRUDPMessageInterface;
 
-// (the original calls it out of line; defined in nex_PRUDPStream.cpp)
-template <>
-DECOMP_NOINLINE qList<PRUDPEndPoint*>::~qList();
 class EndPoint;
 template <>
 DECOMP_NOINLINE qMultiMap<u32, EndPoint*>::qMultiMap();
@@ -117,4 +114,10 @@ namespace std {
 // (out of line in the original; nex_PRUDPStream.cpp)
 template <>
 DECOMP_NOINLINE multimap<u32, nn::nex::EndPoint*>::iterator multimap<u32, nn::nex::EndPoint*>::insert(const value_type& value);
+} // namespace std
+
+namespace std {
+// (the original calls it out of line; defined in nex_PRUDPStream.cpp)
+template <>
+DECOMP_NOINLINE list<nn::nex::PRUDPEndPoint*, nn::nex::MemAllocator<nn::nex::PRUDPEndPoint*> >::~list();
 } // namespace std

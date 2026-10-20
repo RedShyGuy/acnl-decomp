@@ -8,12 +8,6 @@ namespace nn {
 namespace nex {
 class StationURL;
 
-// (out of line in the original; nex_URLProbeList.cpp)
-template <>
-DECOMP_NOINLINE void qList<URLProbe>::AddBuffer(bool isFirst);
-template <>
-DECOMP_NOINLINE void qList<URLProbe>::push_back(const URLProbe& value);
-
 // The probes of the NAT traversal engine. The names of the functions without a reference name are
 // ours.
 // RTTI N2nn3nex12URLProbeListE
@@ -30,3 +24,12 @@ public:
 ASSERT_SIZE(URLProbeList, 0x1C);
 } // namespace nex
 } // namespace nn
+
+namespace std {
+// (out of line in the original; nex_URLProbeList.cpp)
+template <>
+DECOMP_NOINLINE void list<nn::nex::URLProbe, nn::nex::MemAllocator<nn::nex::URLProbe> >::AddBuffer(bool isFirst);
+
+template <>
+DECOMP_NOINLINE void list<nn::nex::URLProbe, nn::nex::MemAllocator<nn::nex::URLProbe> >::push_back(const nn::nex::URLProbe& value);
+} // namespace std

@@ -11,17 +11,22 @@ nn::nex::ConnectionData::~ConnectionData()
 
 // 0x003CF3A0 (name is ours)
 template <>
-DECOMP_NOINLINE qList<ConnectionData>::qList() : m_pBufferList(nullptr), m_pFreeList(nullptr), m_pNextAvail(nullptr), m_pLast(nullptr), m_pHead(nullptr), m_Size(0)
+DECOMP_NOINLINE qList<ConnectionData>::qList()
 {
-    InitializeInline();
+    // nothing to do: std::list makes the head node
 }
 
-// 0x0082F330 (name is ours; std::list::~list, the destructor of the qList calls it)
-template <>
-DECOMP_NOINLINE qList<ConnectionData>::~qList()
-{
-    DestroyInline();
-}
+// 0x003CF420 (name is ours; it calls the destructor of std::list)
+template qList<ConnectionData>::~qList();
 
 } // namespace nex
 } // namespace nn
+
+namespace std {
+// 0x0082F330 (name is ours; std::list::~list, the destructor of the qList calls it)
+template <>
+DECOMP_NOINLINE DECOMP_NOIPA list<nn::nex::ConnectionData, nn::nex::MemAllocator<nn::nex::ConnectionData> >::~list()
+{
+    DestroyInline();
+}
+} // namespace std

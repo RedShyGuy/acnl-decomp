@@ -25,19 +25,21 @@ nn::nex::URLProbeList::~URLProbeList()
     // nothing to do: the list is destroyed by the base
 }
 
+} // namespace nex
+} // namespace nn
+
+namespace std {
 // 0x008302D8
 template <>
-DECOMP_NOINLINE void qList<URLProbe>::AddBuffer(bool isFirst)
+DECOMP_NOINLINE void list<nn::nex::URLProbe, nn::nex::MemAllocator<nn::nex::URLProbe> >::AddBuffer(bool isFirst)
 {
     AddBufferInline(isFirst);
 }
 
 // 0x00830350
 template <>
-DECOMP_NOINLINE void qList<URLProbe>::push_back(const URLProbe& value)
+DECOMP_NOINLINE void list<nn::nex::URLProbe, nn::nex::MemAllocator<nn::nex::URLProbe> >::push_back(const nn::nex::URLProbe& value)
 {
     PushBackInline(value);
 }
-
-} // namespace nex
-} // namespace nn
+} // namespace std

@@ -539,12 +539,14 @@ nn::nex::JobConnectEndPoint::~JobConnectEndPoint()
     }
 }
 
+} // namespace nex
+} // namespace nn
+
+namespace std {
 // 0x0082FA24
 template <>
-DECOMP_NOINLINE void qList<StepSequenceJob::Step>::push_back(const StepSequenceJob::Step& value)
+DECOMP_NOINLINE void list<nn::nex::StepSequenceJob::Step, nn::nex::MemAllocator<nn::nex::StepSequenceJob::Step> >::push_back(const nn::nex::StepSequenceJob::Step& value)
 {
     PushBackInline(value);
 }
-
-} // namespace nex
-} // namespace nn
+} // namespace std

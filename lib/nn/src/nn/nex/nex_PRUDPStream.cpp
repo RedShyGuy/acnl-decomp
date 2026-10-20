@@ -766,13 +766,6 @@ bool nn::nex::PRUDPStream::Send(unsigned short port, unsigned char session, nn::
 
 namespace nn {
 namespace nex {
-// (the original calls it out of line)
-// 0x0083041C (name is ours)
-template <>
-DECOMP_NOINLINE qList<PRUDPEndPoint*>::~qList()
-{
-    DestroyInline();
-}
 // 0x0072A298 slot 0x3C
 nn::nex::qVector<u32> nn::nex::PRUDPStream::GetConnectionIDs()
 {
@@ -796,5 +789,15 @@ template <>
 DECOMP_NOINLINE multimap<u32, nn::nex::EndPoint*>::iterator multimap<u32, nn::nex::EndPoint*>::insert(const value_type& value)
 {
     return m_Tree.InsertInline(value).first;
+}
+} // namespace std
+
+namespace std {
+// (the original calls it out of line)
+// 0x0083041C (name is ours)
+template <>
+DECOMP_NOINLINE list<nn::nex::PRUDPEndPoint*, nn::nex::MemAllocator<nn::nex::PRUDPEndPoint*> >::~list()
+{
+    DestroyInline();
 }
 } // namespace std

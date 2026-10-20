@@ -601,15 +601,14 @@ DECOMP_NOINLINE qMap<String, u32>::qMap()
 
 // 0x003CF340 | mk7dlp:bytes [tier A]
 template <>
-DECOMP_NOINLINE qList<StationURL>::qList() : m_pBufferList(nullptr), m_pFreeList(nullptr), m_pNextAvail(nullptr), m_pLast(nullptr), m_pHead(nullptr), m_Size(0)
+DECOMP_NOINLINE qList<StationURL>::qList()
 {
-    InitializeInline();
+    // nothing to do: std::list makes the head node
 }
 
 // 0x003CF25C
 template <>
-DECOMP_NOINLINE qList<StationURL>::qList(const qList<StationURL>& other)
-    : m_pBufferList(nullptr), m_pFreeList(nullptr), m_pNextAvail(nullptr), m_pLast(nullptr), m_pHead(nullptr), m_Size(0)
+DECOMP_NOINLINE qList<StationURL>::qList(const qList<StationURL>& other) : base_type(base_type::NoInit())
 {
     InitializeInline();
     for (Node* pNode = other.GetFirst(); !other.IsEnd(pNode); pNode = pNode->m_pNext) {
@@ -617,49 +616,8 @@ DECOMP_NOINLINE qList<StationURL>::qList(const qList<StationURL>& other)
     }
 }
 
-// 0x0082F020 | fefates:bytes [tier B]
-template <>
-DECOMP_NOINLINE qList<StationURL>::~qList()
-{
-    DestroyInline();
-}
-
-// 0x0082EEB8 | mk7dlp:callgraph [tier A]
-template <>
-DECOMP_NOINLINE void qList<StationURL>::AddBuffer(bool isFirst)
-{
-    AddBufferInline(isFirst);
-}
-
-// 0x0082EFA4 | fefates:callgraph [tier B]
-template <>
-DECOMP_NOINLINE void qList<StationURL>::push_back(const StationURL& value)
-{
-    PushBackInline(value);
-}
-
-// 0x0082F0F0
-template <>
-DECOMP_NOINLINE nn::nex::qList<nn::nex::StationURL>& nn::nex::qList<nn::nex::StationURL>::operator=(const nn::nex::qList<nn::nex::StationURL>& other)
-{
-    if (this != &other) {
-        Node* pNode = m_pHead->m_pNext;
-        Node* pOther = other.m_pHead->m_pNext;
-        for (; pNode != m_pHead && pOther != other.m_pHead; pNode = pNode->m_pNext, pOther = pOther->m_pNext) {
-            pNode->m_Value.Copy(pOther->m_Value);
-        }
-        if (pOther == other.m_pHead) {
-            while (pNode != m_pHead) {
-                pNode = erase(pNode);
-            }
-        } else {
-            for (; pOther != other.m_pHead; pOther = pOther->m_pNext) {
-                push_back(pOther->m_Value);
-            }
-        }
-    }
-    return *this;
-}
+// 0x003CF394 (name is ours; it calls the destructor of std::list)
+template qList<StationURL>::~qList();
 
 } // namespace nex
 } // namespace nn
@@ -702,5 +660,51 @@ template <>
 u32 map<nn::nex::String, nn::nex::String>::erase(const nn::nex::String& key)
 {
     return EraseInline(key);
+}
+} // namespace std
+
+namespace std {
+// 0x0082F020 | fefates:bytes [tier B]
+template <>
+DECOMP_NOINLINE DECOMP_NOIPA list<nn::nex::StationURL, nn::nex::MemAllocator<nn::nex::StationURL> >::~list()
+{
+    DestroyInline();
+}
+
+// 0x0082EEB8 | mk7dlp:callgraph [tier A]
+template <>
+DECOMP_NOINLINE void list<nn::nex::StationURL, nn::nex::MemAllocator<nn::nex::StationURL> >::AddBuffer(bool isFirst)
+{
+    AddBufferInline(isFirst);
+}
+
+// 0x0082EFA4 | fefates:callgraph [tier B]
+template <>
+DECOMP_NOINLINE void list<nn::nex::StationURL, nn::nex::MemAllocator<nn::nex::StationURL> >::push_back(const nn::nex::StationURL& value)
+{
+    PushBackInline(value);
+}
+
+// 0x0082F0F0
+template <>
+DECOMP_NOINLINE list<nn::nex::StationURL, nn::nex::MemAllocator<nn::nex::StationURL> >& list<nn::nex::StationURL, nn::nex::MemAllocator<nn::nex::StationURL> >::operator=(const list<nn::nex::StationURL, nn::nex::MemAllocator<nn::nex::StationURL> >& other)
+{
+    if (this != &other) {
+        Node* pNode = m_pHead->m_pNext;
+        Node* pOther = other.m_pHead->m_pNext;
+        for (; pNode != m_pHead && pOther != other.m_pHead; pNode = pNode->m_pNext, pOther = pOther->m_pNext) {
+            pNode->m_Value.Copy(pOther->m_Value);
+        }
+        if (pOther == other.m_pHead) {
+            while (pNode != m_pHead) {
+                pNode = erase(pNode);
+            }
+        } else {
+            for (; pOther != other.m_pHead; pOther = pOther->m_pNext) {
+                push_back(pOther->m_Value);
+            }
+        }
+    }
+    return *this;
 }
 } // namespace std

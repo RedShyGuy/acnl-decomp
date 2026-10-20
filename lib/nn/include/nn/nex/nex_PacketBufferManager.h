@@ -4,6 +4,8 @@
 #include "nn/nex/nex_InstanceTable.h"
 #include "nn/nex/nex_MutexPrimitive.h"
 #include "nn/nex/nex_PseudoSingleton.h"
+#include "nn/nex/nex_RootObject.h"
+#include "nn/nex/nex_qVector.h"
 
 namespace nn {
 namespace nex {
@@ -26,20 +28,48 @@ public:
         u32 m_Count;    // 0x4
     };
 
-    // a unit heap of the pool (0x34 bytes; the layout is not known yet)
-    struct Unit
+    // the status of a unit heap (the debug output of the pools; the meaning of the fields other
+    // than the failures is not known)
+    struct Status
     {
+        u32 m_Unknown0x00[7];
+        u32 m_FailureCount; // 0x1C (HasFreeBuffers failed)
+    };
+    // a unit heap of the pool
+    struct Unit : public RootObject
+    {
+        ~Unit() {} // (inline, empty)
+
         u32 m_Unknown0x00;
         u32 m_HeapSize;  // 0x04
         u32 m_UnitSize;  // 0x08
         u32 m_UsedCount; // 0x0C
         void* m_pHeap;   // 0x10
-        u8 m_Unknown0x14[0x30 - 0x14];
-        u32 m_FailureCount; // 0x30
+        Status m_Status; // 0x14
     };
     // the unit heaps by unit size
-    struct Pool
+    struct Pool : public RootObject
     {
+        // the statuses of the unit heaps are appended (name is ours)
+        void GetStatus(std::vector<Status, MemAllocator<Status> >* pStatuses); // 0x0072D6B0
+        // (inline) the unit heaps and the mutex are freed
+        void Finalize()
+        {
+            if (!m_IsInitialized) {
+                return;
+            }
+            m_IsInitialized = false;
+            for (u32 i = 0; i < m_UnitCount; i++) {
+                m_pUnits[i].m_pHeap = nullptr;
+            }
+            delete[] m_pUnits;
+            m_pUnits = nullptr;
+            if (m_pMutex != nullptr) {
+                delete m_pMutex;
+                m_pMutex = nullptr;
+            }
+        }
+
         Unit* m_pUnits;            // 0x00 (new[])
         u32 m_UnitCount;           // 0x04
         u32 m_MaxUnitSize;         // 0x08
@@ -72,8 +102,13 @@ public:
     static void* AllocateObject(u32 size, bool isDisabled); // 0x003551B8 (name is ours)
     // the pools have count free buffers for size bytes (always if the pools do not hold the size)
     bool HasFreeBuffers(u32 size, u32 count); // 0x00393B7C (name is ours)
-    // (not decompiled yet)
+    // the pools are freed (unless m_Unknown0x24 is set)
     void Finalize(); // 0x00393DE8 | fefates:callgraph [tier C]
+    // the debug output of the statuses of both pools (the traces are removed in the release build;
+    // the argument is the flags of the trace; name is ours)
+    void TraceStatus(u64 traceFlags); // 0x00393C98
+    // (inline) the flag of the global variables that enables the pools (name is ours)
+    static bool IsPoolEnabled();
     // true if the manager of the context is initialized
     static bool IsInstanceInitialized(); // 0x003940C4 (name is ours)
 

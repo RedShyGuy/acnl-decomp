@@ -639,3 +639,6 @@ nn::Result FinalizeModule98()
 } // namespace CTR
 } // namespace applet
 } // namespace nn
+
+// ARMCC's static initializer of the file: the constructors of the globals above
+// 0x00797D1C (static initializer)

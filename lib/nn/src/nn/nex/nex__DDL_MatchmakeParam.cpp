@@ -8,6 +8,13 @@ DECOMP_NOINLINE __rb_tree<nn::nex::String, std::pair<const nn::nex::String, nn::
     return EraseRangeInline(first, last);
 }
 
+// 0x007FC9D0
+template <>
+DECOMP_NOINLINE __rb_tree<nn::nex::String, std::pair<const nn::nex::String, nn::nex::Variant>, __select1st<std::pair<const nn::nex::String, nn::nex::Variant>, nn::nex::String>, std::less<nn::nex::String>, nn::nex::MemAllocator<std::pair<const nn::nex::String, nn::nex::Variant> > >::Node* __rb_tree<nn::nex::String, std::pair<const nn::nex::String, nn::nex::Variant>, __select1st<std::pair<const nn::nex::String, nn::nex::Variant>, nn::nex::String>, std::less<nn::nex::String>, nn::nex::MemAllocator<std::pair<const nn::nex::String, nn::nex::Variant> > >::_C_get_link()
+{
+    return GetLinkInline();
+}
+
 // the functions of the tree of the parameters
 // 0x007FD3B0 | fefates:bytes
 template __rb_tree<nn::nex::String, std::pair<const nn::nex::String, nn::nex::Variant>, __select1st<std::pair<const nn::nex::String, nn::nex::Variant>, nn::nex::String>, std::less<nn::nex::String>, nn::nex::MemAllocator<std::pair<const nn::nex::String, nn::nex::Variant> > >::iterator __rb_tree<nn::nex::String, std::pair<const nn::nex::String, nn::nex::Variant>, __select1st<std::pair<const nn::nex::String, nn::nex::Variant>, nn::nex::String>, std::less<nn::nex::String>, nn::nex::MemAllocator<std::pair<const nn::nex::String, nn::nex::Variant> > >::_C_insert(Node* pNode, Node* pParent, const std::pair<const nn::nex::String, nn::nex::Variant>& value);

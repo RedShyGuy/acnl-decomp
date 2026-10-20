@@ -202,3 +202,6 @@ nn::Result GetLastSamplingAddress(uptr* pAddress)
 } // namespace CTR
 } // namespace mic
 } // namespace nn
+
+// ARMCC's static initializer of the file: the constructors of the globals above
+// 0x007857F4 (static initializer)

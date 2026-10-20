@@ -18,3 +18,6 @@ nn::ssl::detail::LibManager::~LibManager()
 } // namespace detail
 } // namespace ssl
 } // namespace nn
+
+// ARMCC's static initializer of the file: the constructors of the globals above
+// 0x00798F54 (static initializer)

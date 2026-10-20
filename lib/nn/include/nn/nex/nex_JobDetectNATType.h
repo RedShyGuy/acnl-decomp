@@ -128,10 +128,14 @@ ASSERT_SIZE(JobDetectNATType, 0x3A0);
 // the names of the types of the mapping and of the filtering
 extern const wchar_t* g_NATTypeNames[4];
 
-// (out of line in the original; nex_JobDetectNATType.cpp)
-template <>
-DECOMP_NOINLINE void qList<JobDetectNATType::Request>::push_back(const JobDetectNATType::Request& value);
-template <>
-DECOMP_NOINLINE void qList<InetAddress>::remove(const InetAddress& value);
 } // namespace nex
 } // namespace nn
+
+namespace std {
+// (out of line in the original; nex_JobDetectNATType.cpp)
+template <>
+DECOMP_NOINLINE void list<nn::nex::JobDetectNATType::Request, nn::nex::MemAllocator<nn::nex::JobDetectNATType::Request> >::push_back(const nn::nex::JobDetectNATType::Request& value);
+
+template <>
+DECOMP_NOINLINE void list<nn::nex::InetAddress, nn::nex::MemAllocator<nn::nex::InetAddress> >::remove(const nn::nex::InetAddress& value);
+} // namespace std

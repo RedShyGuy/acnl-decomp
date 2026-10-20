@@ -230,6 +230,9 @@ def typed_key(qualname, params, const):
 SOURCE_BY_TYPES = {}
 # (key, deleting) -> address of the this-adjusting thunk named in the sources ("(thunk)" lines)
 THUNKS = {}
+# repository-relative source path -> address of ARMCC's static initializer of the file
+# ("// 0x... (static initializer)" on a line of its own; compared with GCC's _GLOBAL__sub_I_)
+STATIC_INITS = {}
 
 
 def source_addresses():
@@ -261,6 +264,10 @@ def source_addresses():
                     ns.pop()
                     continue
                 m = re.match(r'//\s*0x([0-9A-Fa-f]{6,8})(?![0-9A-Fa-f])', st)
+                if m and 'static initializer' in st:
+                    rel = os.path.relpath(path, ROOT).replace(os.sep, '/')
+                    STATIC_INITS[rel] = int(m.group(1), 16) & ~1
+                    continue
                 if m:
                     if 'thunk' in st:
                         # the this-adjusting thunk of a secondary base ("(thunk)", for a destructor
@@ -462,6 +469,8 @@ def source_variables():
                     ns.pop()
                     continue
                 m = re.match(r'//\s*0x([0-9A-Fa-f]{6,8})\s*(\(.*\))?\s*$', st)
+                if m and 'static initializer' in st:
+                    continue                      # a function (STATIC_INITS), no variable
                 if m:
                     pending, decl = int(m.group(1), 16), ''
                     # a function's static whose guard ARMCC put elsewhere: "(guard 0x...)"
@@ -737,6 +746,8 @@ def make_fuzzy_pair(mem, db, starts, names, by_source, by_name, variables=None):
             if not info:
                 return ('k', w)
             name, typ, secname, secdata, value = info
+            if name == '__dso_handle':
+                return ('k', 0x100000)                     # armlink: the start of the image
             g = global_address(name, typ, secname, value, w)
             if g is not None:
                 return ('gaddr', g)
@@ -1024,6 +1035,8 @@ def main():
     # GCC's clones of a function (".constprop.0", ".isra.0", ".part.0") stand for the function
     names = {k: re.sub(r' \[clone [^\]]*\]', '', v) for k, v in names.items()}
     by_source, empty_bodies, by_source_deleting = source_addresses()
+    # the names of the static initializers in symbols.json ("__sti___10_fs_Api_cpp")
+    static_init_names = {v: k for k, v in by_name.items() if v in set(STATIC_INITS.values())}
     thumb = {s & ~1 for s in db['function_starts'] if s & 1}
     fuzzy_pair = make_fuzzy_pair(mem, db, starts, names, by_source, by_name, source_variables())
     results, counts = {}, {}
@@ -1058,6 +1071,14 @@ def main():
             if addr is None:
                 continue
             name += ' [deleting]'
+        elif mangled.startswith('_GLOBAL__sub_I_'):
+            # the static initializer of the file (the object is named after the source path)
+            obj_path = obj.replace(os.sep, '/')
+            addr = next((v for k, v in STATIC_INITS.items() if obj_path.endswith('/' + k + '.obj')
+                         or obj_path.endswith('/' + k + '.o')), None)
+            if addr is None:
+                continue
+            name = static_init_names.get(addr, name)
         else:
             addr = by_source.get(skey) if parsed else None
             if addr is None and parsed:
@@ -1098,6 +1119,11 @@ def main():
             status = 'match'
         counts[status] = counts.get(status, 0) + 1
         key = f'0x{addr:08X}' if addr is not None else f'?{mangled}'
+        # two functions on one address (e.g. a stub that symbols.json maps there by its name): the
+        # implemented one stays
+        if key in results and status == 'stub' and results[key]['status'] != 'stub':
+            counts[status] -= 1
+            continue
         results[key] = {'name': name, 'mangled': mangled, 'status': status, 'size': size,
                         'orig_size': osize, 'object': obj}
         if status == 'differs':

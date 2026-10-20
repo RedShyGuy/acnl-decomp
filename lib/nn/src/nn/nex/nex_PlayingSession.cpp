@@ -11,14 +11,21 @@ nn::nex::PlayingSession::~PlayingSession()
 
 // 0x003CF42C (name is ours)
 template <>
-DECOMP_NOINLINE qList<PlayingSession>::qList() : m_pBufferList(nullptr), m_pFreeList(nullptr), m_pNextAvail(nullptr), m_pLast(nullptr), m_pHead(nullptr), m_Size(0)
+DECOMP_NOINLINE qList<PlayingSession>::qList()
 {
-    InitializeInline();
+    // nothing to do: std::list makes the head node
 }
 
+// 0x003CF4AC (name is ours; it calls the destructor of std::list)
+template qList<PlayingSession>::~qList();
+
+} // namespace nex
+} // namespace nn
+
+namespace std {
 // 0x0082F478 (name is ours; std::list::~list, the destructor of the qList calls it)
 template <>
-DECOMP_NOINLINE qList<PlayingSession>::~qList()
+DECOMP_NOINLINE list<nn::nex::PlayingSession, nn::nex::MemAllocator<nn::nex::PlayingSession> >::~list()
 {
     // (DestroyInline with the loop of clear)
     if (m_pHead != nullptr) {
@@ -29,8 +36,8 @@ DECOMP_NOINLINE qList<PlayingSession>::~qList()
     while (m_pBufferList != nullptr) {
         Buffer* pBuffer = m_pBufferList;
         m_pBufferList = pBuffer->m_pNext;
-        MemoryManager::Free(pBuffer->m_pNodes);
-        MemoryManager::Free(pBuffer);
+        nn::nex::MemoryManager::Free(pBuffer->m_pNodes);
+        nn::nex::MemoryManager::Free(pBuffer);
     }
     m_pFreeList = nullptr;
     m_pNextAvail = nullptr;
@@ -39,10 +46,8 @@ DECOMP_NOINLINE qList<PlayingSession>::~qList()
 
 // 0x0082F404 (name is ours)
 template <>
-DECOMP_NOINLINE void qList<PlayingSession>::clear()
+DECOMP_NOINLINE void list<nn::nex::PlayingSession, nn::nex::MemAllocator<nn::nex::PlayingSession> >::clear()
 {
     ClearInline();
 }
-
-} // namespace nex
-} // namespace nn
+} // namespace std

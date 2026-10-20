@@ -556,9 +556,65 @@ template <>
 class vector<bool, nn::nex::MemAllocator<bool> >
 {
 public:
-    // a bit position
+    static const int WORD_BIT = 32;
+
+    // a bit position (inline)
     struct iterator
     {
+        iterator() {}
+        iterator(u32* pWord, u32 offset) : m_pWord(pWord), m_Offset(offset) {}
+
+        bool operator==(const iterator& other) const { return m_pWord == other.m_pWord && m_Offset == other.m_Offset; }
+        bool operator!=(const iterator& other) const { return !(*this == other); }
+        // the bits between two positions
+        int operator-(const iterator& other) const
+        {
+            return (m_pWord - other.m_pWord) * WORD_BIT + m_Offset - other.m_Offset;
+        }
+        bool Get() const { return (*m_pWord & (1u << m_Offset)) != 0; }
+        void Set(bool value)
+        {
+            if (value) {
+                *m_pWord |= 1u << m_Offset;
+            } else {
+                *m_pWord &= ~(1u << m_Offset);
+            }
+        }
+        iterator& operator++()
+        {
+            if (++m_Offset == WORD_BIT) {
+                m_Offset = 0;
+                ++m_pWord;
+            }
+            return *this;
+        }
+        iterator& operator--()
+        {
+            if (m_Offset-- == 0) {
+                m_Offset = WORD_BIT - 1;
+                --m_pWord;
+            }
+            return *this;
+        }
+        iterator& operator+=(int num)
+        {
+            int position = num + static_cast<int>(m_Offset);
+            m_pWord += position / WORD_BIT;
+            position %= WORD_BIT;
+            if (position < 0) {
+                m_Offset = position + WORD_BIT;
+                --m_pWord;
+            } else {
+                m_Offset = position;
+            }
+            return *this;
+        }
+        iterator operator+(int num) const
+        {
+            iterator it = *this;
+            return it += num;
+        }
+
         u32* m_pWord;  // 0x0
         u32 m_Offset;  // 0x4
     };
@@ -610,8 +666,75 @@ public:
         u32* pWord = GetWord(index, &mask);
         *pWord &= ~mask;
     }
-    // (out of line)
+    iterator begin() const { return m_Begin; }
+    iterator end() const { return m_End; }
+    u32 size() const { return end() - begin(); }
+    u32 capacity() const { return iterator(m_pEndOfStorage, 0) - begin(); }
+
+    // (out of line) bits are appended with the value or erased at the end
     void resize(u32 count, bool value); // 0x00834FBC
+    // (inline) num bits of the value in front of pos
+    DECOMP_ALWAYS_INLINE void insert(iterator pos, u32 num, const bool& value)
+    {
+        if (num == 0) {
+            return;
+        }
+        if (capacity() - size() >= num) {
+            CopyBackward(pos, end(), end() + num);
+            Fill(pos, pos + num, value);
+            m_End += num;
+        } else {
+            u32 oldSize = size();
+            u32 length = oldSize + (oldSize < num ? num : oldSize);
+            u32 words = (length + WORD_BIT - 1) / WORD_BIT;
+            u32* pWords = static_cast<u32*>(nn::nex::MemoryManager::Allocate(words * sizeof(u32)));
+            iterator it = _C_copy(begin(), pos, iterator(pWords, 0));
+            FillN(it, num, value);
+            m_End = _C_copy(pos, end(), it + num);
+            nn::nex::MemoryManager::FreeInline(m_Begin.m_pWord);
+            m_pEndOfStorage = pWords + words;
+            m_Begin = iterator(pWords, 0);
+        }
+    }
+    // (inline) the bits from first to last are erased
+    iterator erase(iterator first, iterator last)
+    {
+        m_End = _C_copy(last, end(), first);
+        return first;
+    }
+    // copies the bits from first to last to result; the end of the copy (out of line)
+    template <typename It>
+    DECOMP_NOINLINE iterator _C_copy(It first, It last, iterator result)
+    {
+        while (first != last) {
+            result.Set(first.Get());
+            ++result;
+            ++first;
+        }
+        return result;
+    }
+    // (inline, the std algorithms on the bits)
+    static void CopyBackward(iterator first, iterator last, iterator result)
+    {
+        while (first != last) {
+            --result;
+            --last;
+            result.Set(last.Get());
+        }
+    }
+    static void Fill(iterator first, iterator last, bool value)
+    {
+        for (; first != last; ++first) {
+            first.Set(value);
+        }
+    }
+    static void FillN(iterator first, u32 num, bool value)
+    {
+        for (; num > 0; num--) {
+            first.Set(value);
+            ++first;
+        }
+    }
 
     iterator m_Begin;         // 0x00
     iterator m_End;           // 0x08

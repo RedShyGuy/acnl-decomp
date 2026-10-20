@@ -310,3 +310,6 @@ nn::Result Finalize()
 
 // 0x007E5574 | fefates:bytes [tier B]
 template bool nn::Result::ConstRange<-5, 6, 97, 600, 600, 600>::Includes(nn::Result);
+
+// ARMCC's static initializer of the file: the constructors of the globals above
+// 0x00785830 (static initializer)

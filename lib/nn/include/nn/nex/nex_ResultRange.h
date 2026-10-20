@@ -34,8 +34,11 @@ public:
 };
 ASSERT_SIZE(ResultRange, 0x10);
 
-// (out of line)
-template <>
-DECOMP_NOINLINE void qList<ResultRange>::clear();
 } // namespace nex
 } // namespace nn
+
+namespace std {
+// (out of line)
+template <>
+DECOMP_NOINLINE void list<nn::nex::ResultRange, nn::nex::MemAllocator<nn::nex::ResultRange> >::clear();
+} // namespace std

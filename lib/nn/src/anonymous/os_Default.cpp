@@ -89,3 +89,6 @@ DefaultAutoStackManager s_DefaultAutoStackManager;
 } // namespace
 } // namespace os
 } // namespace nn
+
+// ARMCC's static initializer of the file: the constructors of the globals above
+// 0x00790C98 (static initializer)

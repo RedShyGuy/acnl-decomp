@@ -23,9 +23,13 @@ ASSERT_SIZE(PlayingSession, 0x14);
 // (out of line in the original; nex_PlayingSession.cpp)
 template <>
 DECOMP_NOINLINE qList<PlayingSession>::qList();
-template <>
-DECOMP_NOINLINE qList<PlayingSession>::~qList();
-template <>
-DECOMP_NOINLINE void qList<PlayingSession>::clear();
 } // namespace nex
 } // namespace nn
+
+namespace std {
+template <>
+DECOMP_NOINLINE list<nn::nex::PlayingSession, nn::nex::MemAllocator<nn::nex::PlayingSession> >::~list();
+
+template <>
+DECOMP_NOINLINE void list<nn::nex::PlayingSession, nn::nex::MemAllocator<nn::nex::PlayingSession> >::clear();
+} // namespace std

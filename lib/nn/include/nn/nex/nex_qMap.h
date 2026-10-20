@@ -103,13 +103,8 @@ public:
         : m_pBufferList(nullptr), m_pFreeList(nullptr), m_pNextAvail(nullptr), m_pLast(nullptr), m_pHeader(nullptr), m_Size(0),
           m_IsInsertAlways(false)
     {
-        AddBuffer();
-        Node* pHeader = m_pNextAvail++;
-        pHeader->m_pLeft = nullptr;
-        pHeader->m_pRight = nullptr;
-        pHeader->m_Color = 0;
-        m_pHeader = pHeader;
-        pHeader->m_pParent = nullptr;
+        m_pHeader = _C_get_link();
+        m_pHeader->m_pParent = nullptr;
         m_pHeader->m_pLeft = m_pHeader;
         m_pHeader->m_pRight = m_pHeader;
     }
@@ -236,6 +231,15 @@ public:
     // a node from the free nodes or the buffers, with a copy of the value (inline)
     Node* GetNode(const Value& value)
     {
+        Node* pNode = _C_get_link();
+        ::new (static_cast<void*>(&pNode->m_Value)) Value(value);
+        return pNode;
+    }
+    // a red node without links from the free nodes or the buffers (out of line in some instances:
+    // they specialize it with the body of GetLinkInline)
+    Node* _C_get_link() { return GetLinkInline(); }
+    Node* GetLinkInline()
+    {
         Node* pNode = m_pFreeList;
         if (pNode != nullptr) {
             m_pFreeList = pNode->m_pRight;
@@ -249,7 +253,6 @@ public:
         pNode->m_pLeft = nullptr;
         pNode->m_pRight = nullptr;
         pNode->m_Color = RED;
-        ::new (static_cast<void*>(&pNode->m_Value)) Value(value);
         return pNode;
     }
     // the node is destroyed and goes to the free nodes (inline)

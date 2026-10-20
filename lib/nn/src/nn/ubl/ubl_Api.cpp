@@ -247,3 +247,6 @@ bool IsExist(u64 id, u32 unknown0, u64 unknown1)
 
 } // namespace ubl
 } // namespace nn
+
+// ARMCC's static initializer of the file: the constructors of the globals above
+// 0x0079FEF8 (static initializer)

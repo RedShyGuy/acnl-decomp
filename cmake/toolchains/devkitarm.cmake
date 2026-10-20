@@ -70,5 +70,8 @@ set(CMAKE_C_FLAGS_INIT "${DECOMP_GCC_FLAGS}")
 #   the lock of a ThreadVariable or nn::nex::InstanceTable::s_Lock) stays a call through the vtable
 #   like ARMCC makes it. Tested on the whole project 2026-10-09: 14 functions better (nex locks),
 #   2 slightly worse (pia::common::Crypto::Encrypt/Decrypt, -0.06)
-set(CMAKE_CXX_FLAGS_INIT "${DECOMP_GCC_FLAGS} -std=gnu++17 -fno-exceptions -fno-sized-deallocation -fcheck-new -fno-devirtualize-speculatively -fno-devirtualize")
+# -fuse-cxa-atexit: the destructor of a global or static object is registered with
+#   __aeabi_atexit(object, destructor, &__dso_handle) in the static initializer like ARMCC does it
+#   (devkitARM's default registers them in a separate _GLOBAL__sub_D function instead)
+set(CMAKE_CXX_FLAGS_INIT "${DECOMP_GCC_FLAGS} -std=gnu++17 -fno-exceptions -fno-sized-deallocation -fcheck-new -fno-devirtualize-speculatively -fno-devirtualize -fuse-cxa-atexit")
 

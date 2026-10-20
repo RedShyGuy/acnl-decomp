@@ -461,3 +461,6 @@ nn::Result GetHostId(u32* hostId)
 } // namespace detail
 } // namespace socket
 } // namespace nn
+
+// ARMCC's static initializer of the file: the constructors of the globals above
+// 0x0079C3AC (static initializer)

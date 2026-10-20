@@ -409,3 +409,6 @@ nn::Result Logout()
 } // namespace CTR
 } // namespace friends
 } // namespace nn
+
+// ARMCC's static initializer of the file: the constructors of the globals above
+// 0x00792F84 (static initializer)

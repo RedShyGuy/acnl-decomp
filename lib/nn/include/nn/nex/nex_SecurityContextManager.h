@@ -14,8 +14,6 @@ template <>
 DECOMP_NOIPA qList<SecurityContext>::~qList();
 template <>
 DECOMP_NOINLINE qList<SecurityContext>::qList(const qList<SecurityContext>& other);
-template <>
-DECOMP_NOINLINE qList<SecurityContext>& qList<SecurityContext>::operator=(const qList<SecurityContext>& other);
 } // namespace nex
 } // namespace nn
 
@@ -53,3 +51,8 @@ public:
 };
 } // namespace nex
 } // namespace nn
+
+namespace std {
+template <>
+DECOMP_NOINLINE list<nn::nex::SecurityContext, nn::nex::MemAllocator<nn::nex::SecurityContext> >& list<nn::nex::SecurityContext, nn::nex::MemAllocator<nn::nex::SecurityContext> >::operator=(const list<nn::nex::SecurityContext, nn::nex::MemAllocator<nn::nex::SecurityContext> >& other);
+} // namespace std

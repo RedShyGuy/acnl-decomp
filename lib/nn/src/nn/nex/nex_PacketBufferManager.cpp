@@ -1,6 +1,28 @@
 #include "nn/nex/nex_PacketBufferManager.h"
 #include "nn/nex/nex_CriticalSection.h"
+#include "nn/nex/nex_GlobalVariables.h"
 #include "nn/nex/nex_MemoryManager.h"
+#include "nn/nex/nex_Network.h"
+#include "nn/nex/nex_RootTransport.h"
+
+namespace std {
+// (inline in Pool::GetStatus; no out-of-line instances)
+template <>
+DECOMP_ALWAYS_INLINE void vector<nn::nex::PacketBufferManager::Status, nn::nex::MemAllocator<nn::nex::PacketBufferManager::Status> >::_C_insert_aux(nn::nex::PacketBufferManager::Status* pos, const nn::nex::PacketBufferManager::Status& value)
+{
+    InsertAuxInline(pos, value);
+}
+template <>
+DECOMP_ALWAYS_INLINE void vector<nn::nex::PacketBufferManager::Status, nn::nex::MemAllocator<nn::nex::PacketBufferManager::Status> >::push_back(const nn::nex::PacketBufferManager::Status& value)
+{
+    if (m_pEnd != m_pCapacityEnd) {
+        ::new (static_cast<void*>(m_pEnd)) nn::nex::PacketBufferManager::Status(value);
+        m_pEnd++;
+    } else {
+        _C_insert_aux(m_pEnd, value);
+    }
+}
+} // namespace std
 
 namespace nn {
 namespace nex {
@@ -13,6 +35,87 @@ bool nn::nex::PacketBufferManager::IsInstanceInitialized()
     ScopedCS lock(s_Lock);
     PacketBufferManager* pManager = GetInstance();
     return pManager != nullptr && pManager->m_IsInitialized;
+}
+
+namespace {
+// the flags of the trace of the statuses (name is ours)
+const u64 STATUS_TRACE_FLAGS = 0x0000008000801000ull;
+} // namespace
+
+// (inline)
+bool nn::nex::PacketBufferManager::IsPoolEnabled()
+{
+    ScopedCS lock(s_Lock);
+    return GlobalVariables::s_pInstance->m_Unknown0x18C;
+}
+
+// 0x00393C98 (name is ours)
+void nn::nex::PacketBufferManager::TraceStatus(u64 traceFlags)
+{
+    if (m_pPool != nullptr) {
+        std::vector<Status, MemAllocator<Status> > statuses;
+        m_pPool->GetStatus(&statuses);
+        for (Status* pStatus = statuses.begin(); pStatus != statuses.end(); pStatus++) {
+            // (the trace of the status is removed)
+        }
+        for (u32 i = 1; i <= statuses.size(); i++) {
+            // (the trace of the totals is removed)
+        }
+    }
+    if (m_pPool2 != nullptr) {
+        std::vector<Status, MemAllocator<Status> > statuses;
+        m_pPool2->GetStatus(&statuses);
+        for (Status* pStatus = statuses.begin(); pStatus != statuses.end(); pStatus++) {
+            // (the trace of the status is removed)
+        }
+        for (u32 i = 1; i <= statuses.size(); i++) {
+            // (the trace of the totals is removed)
+        }
+    }
+}
+
+// 0x00393DE8 | fefates:callgraph [tier C]
+void nn::nex::PacketBufferManager::Finalize()
+{
+    ScopedCS lock(s_Lock);
+    if (m_Unknown0x24 != 0 || !IsPoolEnabled() || !IsInstanceInitialized()) {
+        return;
+    }
+    // the packets in the pools go first
+    Network* pNetwork = Network::GetInstance();
+    if (pNetwork != nullptr && pNetwork->m_pRootTransport != nullptr) {
+        pNetwork->m_pRootTransport->DropPoolPackets();
+    }
+    TraceStatus(STATUS_TRACE_FLAGS);
+    if (m_pPool2 != nullptr) {
+        m_pPool2->Finalize();
+        delete m_pPool2;
+        m_pPool2 = nullptr;
+    }
+    if (m_pPool != nullptr) {
+        m_pPool->Finalize();
+        delete m_pPool;
+        m_pPool = nullptr;
+    }
+    MemoryManager::FreeInline(m_Unknown0x1C);
+    m_Unknown0x1C = nullptr;
+    m_pAllocateFunction = nullptr;
+    m_pAllocateObjectFunction = nullptr;
+    m_IsInitialized = false;
+}
+
+// 0x0072D6B0 (name is ours)
+void nn::nex::PacketBufferManager::Pool::GetStatus(std::vector<Status, MemAllocator<Status> >* pStatuses)
+{
+    if (m_pMutex != nullptr && !CriticalSection::s_IsLockDisabled) {
+        m_pMutex->Enter();
+    }
+    for (u32 i = 0; i < m_UnitCount; i++) {
+        pStatuses->push_back(m_pUnits[i].m_Status);
+    }
+    if (m_pMutex != nullptr && !CriticalSection::s_IsLockDisabled) {
+        m_pMutex->Leave();
+    }
 }
 
 // (inline in the constructor of Network)
@@ -69,7 +172,7 @@ bool nn::nex::PacketBufferManager::HasFreeBuffers(u32 size, u32 count)
         }
     }
     if (!hasFree) {
-        pPool->m_pUnits[pPool->m_UnitCount - 1].m_FailureCount++;
+        pPool->m_pUnits[pPool->m_UnitCount - 1].m_Status.m_FailureCount++;
     }
     pPool->m_IsShort = !hasFree;
     if (pPool->m_pMutex != nullptr && !CriticalSection::s_IsLockDisabled) {

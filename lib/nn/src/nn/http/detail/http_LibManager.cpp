@@ -61,3 +61,6 @@ nn::http::detail::LibManager::~LibManager()
 } // namespace detail
 } // namespace http
 } // namespace nn
+
+// ARMCC's static initializer of the file: the constructors of the globals above
+// 0x0079A294 (static initializer)

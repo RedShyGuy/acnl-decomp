@@ -123,3 +123,6 @@ void ThrowFatalErrAll(nn::Result result, uptr address)
 } // namespace CTR
 } // namespace err
 } // namespace nn
+
+// ARMCC's static initializer of the file: the constructors of the globals above
+// 0x00785708 (static initializer)

@@ -28,7 +28,7 @@ nn::os::Event* s_pStatusEvent;
 // 0x00AEEA74
 NetworkDescription s_NetworkDescription;
 // 0x00AEEB7C
-nn::os::CriticalSection s_CriticalSection;
+nn::os::CriticalSection s_CriticalSection((nn::os::CriticalSection::InitializeTag()));
 // 0x00AEEB88
 EndpointEntry s_Endpoints[ENDPOINT_MAX];
 // 0x00AEEC48
@@ -208,3 +208,6 @@ void ScrambleLocalFriendCode(ScrambledLocalFriendCode* scrambled, u64 localFrien
 } // namespace CTR
 } // namespace uds
 } // namespace nn
+
+// ARMCC's static initializer of the file: the constructors of the globals above
+// 0x007858B0 (static initializer)
