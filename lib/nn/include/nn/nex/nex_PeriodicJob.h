@@ -12,7 +12,6 @@ class PeriodicJob : public ::nn::nex::Job
 {
 public:
     // (inline)
-    PeriodicJob(); // TODO: default ctor added so derived stubs compile - does not exist
     PeriodicJob(nn::nex::Job::JobType type, const nn::nex::DebugString& debugString) : Job(type, debugString), m_Period(0)
     {
         SetToWaiting(m_WaitTime);

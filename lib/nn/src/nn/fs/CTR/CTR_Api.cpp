@@ -37,7 +37,7 @@ nn::Result GetSelfSystemMenuData(nn::CTR::SystemMenuData* data)
     if (result.IsFailure()) {
         return result;
     }
-    archive = FileServerArchive(s_Session, handle);
+    archive.Attach(s_Session, handle);
 
     SelfNcchFilePath filePath = {SELF_NCCH_FILE_TYPE_EXEFS, {'i', 'c', 'o', 'n', 0, 0, 0, 0}};
     ArchivePath path;

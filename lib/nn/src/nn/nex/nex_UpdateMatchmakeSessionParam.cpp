@@ -10,11 +10,6 @@ const u32 ATTRIBUTE_COUNT = 6;
 const u8 DEFAULT_PROGRESS_SCORE = 100;
 } // namespace
 
-// ctor address unknown
-nn::nex::UpdateMatchmakeSessionParam::UpdateMatchmakeSessionParam()
-{
-}
-
 // 0x003BD94C slot 0x00
 // 0x003BD908 (deleting dtor)
 nn::nex::UpdateMatchmakeSessionParam::~UpdateMatchmakeSessionParam()

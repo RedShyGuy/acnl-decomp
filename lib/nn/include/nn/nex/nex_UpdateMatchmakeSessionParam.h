@@ -10,8 +10,8 @@ namespace nex {
 class UpdateMatchmakeSessionParam : public ::nn::nex::_DDL_UpdateMatchmakeSessionParam
 {
 public:
-    // (inline in pia::inet::NexMatchmakeSession; not decompiled yet)
-    UpdateMatchmakeSessionParam();
+    // (inline)
+    UpdateMatchmakeSessionParam() { Reset(); }
     // the values of a new parameter / the application buffer (names are ours)
     void Reset(); // 0x003BD81C
     void SetApplicationBuffer(const qVector<u8>& buffer); // 0x003BD65C

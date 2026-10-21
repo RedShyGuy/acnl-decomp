@@ -21,7 +21,7 @@ nn::nex::StringStream& noshowbase(nn::nex::StringStream& stream); // 0x0035697C 
 // switches the stream to zero padded hexadecimal numbers
 nn::nex::StringStream& zerohex(nn::nex::StringStream& stream); // 0x003D47E8 | fefates:callgraph [tier C]
 // the packets of the history (to the address of the packet, sent before the time) are written into
-// the stream while they fit into size bytes; the number of packets (not decompiled yet)
+// the stream while they fit into size bytes; the number of packets
 u32 CreateBunldingStreamFromHistoryPacketQueue(nn::nex::qChain<nn::nex::Packet*, nn::nex::ChainPolicyHistoryPacket<nn::nex::Packet*> >* pHistory, nn::nex::PacketOut* pPacket, nn::nex::Time time, unsigned int size, nn::nex::ByteStream* pStream); // 0x003CD224 | fefates:bytes-fuzzy [tier B]
 } // namespace nex
 } // namespace nn

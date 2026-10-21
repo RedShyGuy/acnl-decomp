@@ -18,8 +18,8 @@ class ProtocolRegistry;
 class ServiceClient : public ::nn::nex::RootObject
 {
 public:
-    // id: the id of the client (the default for the clients that are not decompiled yet)
-    explicit ServiceClient(unsigned int id = 0); // 0x0036D600
+    // id: the id of the client
+    explicit ServiceClient(unsigned int id); // 0x0036D600
     virtual ~ServiceClient(); // 0x0036D6F4 slot 0x00 | fefates:bytes
     // 0x0036D6E4 slot 0x04 (deleting dtor)
     virtual void vf_0x08(); // 0x0036D484 slot 0x08

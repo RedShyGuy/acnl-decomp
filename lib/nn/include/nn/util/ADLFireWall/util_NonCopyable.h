@@ -28,11 +28,20 @@ namespace ADLFireWall {
 //   nn::util::ADLFireWall::NonCopyable<nn::http::Connection>  typeinfo 0x008D046C
 //   nn::util::ADLFireWall::NonCopyable<nn::os::HandleObject>  typeinfo 0x008D0454
 //   nn::util::ADLFireWall::NonCopyable<nn::os::ThreadPool>  typeinfo 0x008D044C
+//
+// The base of the classes that cannot be copied (empty; the copy constructor and the assignment
+// are private and not defined, like nn::nex::NonCopyable). The template argument is the derived
+// class, so that each class gets its own empty base.
 template <typename T0>
 class NonCopyable
 {
-public:
-    // TODO: members unknown
+protected:
+    // (inline)
+    NonCopyable() {}
+
+private:
+    NonCopyable(const NonCopyable& other);
+    NonCopyable& operator=(const NonCopyable& other);
 };
 } // namespace ADLFireWall
 } // namespace util

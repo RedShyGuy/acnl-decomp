@@ -32,7 +32,6 @@ public:
     };
 
     explicit SystemComponent(const nn::nex::String& name); // 0x0037E3C8 | fefates:bytes [tier B]
-    SystemComponent(); // TODO: default ctor added so derived stubs compile - may not exist
     virtual ~SystemComponent(); // 0x0037E47C slot 0x00 | fefates:callgraph
     // 0x0037E420 slot 0x04 (deleting dtor)
     // the name of the class (inline in the original, with a copy out of line)

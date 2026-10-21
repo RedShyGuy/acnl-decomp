@@ -57,10 +57,6 @@ public:
     virtual void RegisterConnectionID(unsigned connectionId, nn::nex::EndPoint* pEndPoint); // 0x003B1D28 slot 0x78
     virtual bool UnregisterConnectionID(unsigned connectionId, nn::nex::EndPoint* pEndPoint); // 0x003B1D30 slot 0x7C
 
-protected:
-    // (for the derived streams that are not decompiled yet)
-    ConnectionOrientedStream() : m_pEventHandler(nullptr), m_pTransport(nullptr), m_Port(0) {}
-
 public:
     TransportEventHandler* m_pEventHandler; // 0x08
     RootTransport* m_pTransport;           // 0x0C

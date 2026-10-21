@@ -102,7 +102,12 @@ inline void SetDimension(u32* pRegister, const Surface* pSurface)
 // the bias as a fixed point number of 13 bits (1.4.8)
 DECOMP_ALWAYS_INLINE u32 ConvertLodBias(f32 bias)
 {
-    if (bias == 0.0f || (reinterpret_cast<u32&>(bias) << 1) >> 24 == 0xFF) {
+    union {
+        f32 f;
+        u32 u;
+    } pun;
+    pun.f = bias;
+    if (bias == 0.0f || (pun.u << 1) >> 24 == 0xFF) {
         return 0;
     }
     f32 value = (bias + 16.0f) * 256.0f;

@@ -25,8 +25,6 @@ public:
 
     // (inline)
     explicit Stream(Type type) : m_Type(type) { GetSettings(type)->m_StreamType = m_Type; }
-    // (for the derived classes that are not decompiled yet)
-    Stream() : m_Type(0) {}
     virtual ~Stream(); // 0x003D113C slot 0x00
     // 0x003D1124 slot 0x04 (deleting dtor)
     // true: the stream took the packet

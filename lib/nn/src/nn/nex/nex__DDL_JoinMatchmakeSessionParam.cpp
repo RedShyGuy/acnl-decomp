@@ -6,11 +6,6 @@
 
 namespace nn {
 namespace nex {
-// ctor address unknown
-nn::nex::_DDL_JoinMatchmakeSessionParam::_DDL_JoinMatchmakeSessionParam()
-{
-}
-
 // 0x003C4A48 slot 0x00
 // 0x003C4A10 (deleting dtor)
 nn::nex::_DDL_JoinMatchmakeSessionParam::~_DDL_JoinMatchmakeSessionParam()

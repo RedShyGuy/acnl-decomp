@@ -10,8 +10,8 @@ namespace nex {
 class JoinMatchmakeSessionParam : public ::nn::nex::_DDL_JoinMatchmakeSessionParam
 {
 public:
-    // (inline in pia::inet::NexMatchmakeSession; not decompiled yet)
-    JoinMatchmakeSessionParam();
+    // (inline)
+    JoinMatchmakeSessionParam() { Reset(); }
     // the values of a new parameter (inline; name is ours)
     void Reset()
     {

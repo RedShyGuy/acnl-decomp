@@ -14,11 +14,6 @@ nn::nex::StepSequenceJob::Step::~Step()
     // nothing to do
 }
 
-// (for the derived jobs that are not decompiled yet)
-nn::nex::StepSequenceJob::StepSequenceJob() : m_StepCount(0), m_TraceFlags(0)
-{
-}
-
 // 0x0037DBC8 | fefates:bytes [tier B]
 nn::nex::StepSequenceJob::StepSequenceJob(nn::nex::Job::JobType type, const nn::nex::DebugString& debugString)
     : Job(type, debugString), m_StepStartTime(0), m_Step(), m_StepCount(0), m_TraceFlags(0)

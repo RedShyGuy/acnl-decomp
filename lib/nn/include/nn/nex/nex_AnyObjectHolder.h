@@ -2,7 +2,7 @@
 
 #include "decomp.h"
 #include "nn/nex/nex_AnyObjectAdapter.h"
-#include "nn/nex/nex_RootObject.h"
+#include "nn/nex/nex_Holder.h"
 
 namespace nn {
 namespace nex {
@@ -14,7 +14,7 @@ namespace nex {
 // it. The layout is from pia::inet::NexMatchmakeSession; ARMCC inlines its functions (the
 // destructors have copies out of line, see nex_AnyObjectHolder.cpp). The names are ours.
 template <typename T0, typename T1>
-class AnyObjectHolder : public RootObject
+class AnyObjectHolder : public Holder<T0>
 {
 public:
     AnyObjectHolder() : m_pObject(nullptr) {}

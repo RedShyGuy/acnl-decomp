@@ -12,7 +12,8 @@ namespace nex {
 class _DDL_JoinMatchmakeSessionParam : public ::nn::nex::RootObject
 {
 public:
-    _DDL_JoinMatchmakeSessionParam(); // ctor address unknown
+    // (inline)
+    _DDL_JoinMatchmakeSessionParam() : m_StructureVersion(REVISION) {}
     virtual ~_DDL_JoinMatchmakeSessionParam(); // 0x003C4A48 slot 0x00
     // 0x003C4A10 slot 0x04 (deleting dtor)
     // the highest revision of the structure

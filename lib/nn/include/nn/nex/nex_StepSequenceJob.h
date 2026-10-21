@@ -72,10 +72,6 @@ public:
         m_Step.m_pName = step.m_pName;
     }
 
-protected:
-    // (for the derived jobs that are not decompiled yet)
-    StepSequenceJob();
-
 public:
     Time m_StepStartTime; // 0x40
     u32 m_StepCount;      // 0x48

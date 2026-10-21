@@ -6,11 +6,6 @@
 
 namespace nn {
 namespace nex {
-// ctor address unknown
-nn::nex::_DDL_UpdateMatchmakeSessionParam::_DDL_UpdateMatchmakeSessionParam()
-{
-}
-
 // 0x003CB0B8 slot 0x00
 // 0x003CB074 (deleting dtor)
 nn::nex::_DDL_UpdateMatchmakeSessionParam::~_DDL_UpdateMatchmakeSessionParam()

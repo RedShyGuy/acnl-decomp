@@ -14,7 +14,6 @@ class Credentials;
 class ClientProtocol : public ::nn::nex::Protocol
 {
 public:
-    ClientProtocol(); // TODO: default ctor added so derived stubs compile - does not exist
     explicit ClientProtocol(unsigned int flags); // 0x00370E64 | fefates:bytes [tier B]
     virtual ~ClientProtocol(); // 0x00370EF0 slot 0x00 | fefates:bytes [tier B]
     // 0x00370EDC slot 0x04 (deleting dtor)

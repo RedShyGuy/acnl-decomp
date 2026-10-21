@@ -42,6 +42,13 @@ public:
 
     // the archive handle of the FS service (inline; name is ours)
     u64 GetArchiveHandle() const { return mArchive; }
+    // the archive takes the session and an opened archive handle (inline; name is ours; the object
+    // cannot be copied, so no temporary is assigned, which would close the archive again)
+    void Attach(nn::Handle session, u64 archive)
+    {
+        mHandle = session;
+        mArchive = archive;
+    }
 
 private:
     // the FS:USER session; a fatal error if there is none (inline, out of line at 0x00726978)

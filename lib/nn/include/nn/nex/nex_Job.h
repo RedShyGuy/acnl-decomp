@@ -44,7 +44,6 @@ public:
         STATE_COMPLETED = 5
     };
 
-    Job(); // TODO: default ctor added so derived stubs compile - does not exist
     Job(nn::nex::Job::JobType type, const nn::nex::DebugString& debugString); // 0x003CC778 | fefates:callgraph [tier C]
     virtual ~Job(); // 0x003CC80C slot 0x00 | fefates:callgraph
     // 0x003CC7E0 slot 0x04 (deleting dtor)

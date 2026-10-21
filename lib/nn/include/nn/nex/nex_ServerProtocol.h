@@ -13,7 +13,6 @@ namespace nex {
 class ServerProtocol : public ::nn::nex::Protocol
 {
 public:
-    ServerProtocol(); // TODO: default ctor added so derived stubs compile - does not exist
     explicit ServerProtocol(unsigned int flags); // 0x003744E4 | fefates:bytes [tier B]
     virtual ~ServerProtocol(); // 0x0037E478 slot 0x00 | fefates:callgraph [tier C]
     // 0x00374558 slot 0x04 (deleting dtor)

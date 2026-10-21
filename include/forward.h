@@ -2142,7 +2142,6 @@ namespace nn { namespace camera { namespace CTR {
     enum CameraSelect : u8; // nn/camera/CTR/camera_Types.h
     enum Context : u8; // nn/camera/CTR/camera_Types.h
     enum Flip : u8; // nn/camera/CTR/camera_Types.h
-    struct PackageParameterContextDetail { u32 _unknown; }; // placeholder, real type unknown
     enum Port : u8; // nn/camera/CTR/camera_Types.h
     enum ShutterSoundType : u8; // nn/camera/CTR/camera_Types.h
     struct StereoCameraCalibrationData; // nn/camera/CTR/camera_Types.h
@@ -2976,10 +2975,6 @@ namespace nn { namespace os {
     class MemoryBlockBase; // nn/os/os_MemoryBlockBase.h
     class Tick; // nn/os/os_Tick.h
 }}
-
-namespace nn { namespace os { namespace anonymous_namespace { 
-    struct WaitMultipleObjectsArgs { u32 _unknown; }; // placeholder, real type unknown
-}}}
 
 namespace nn { namespace os { namespace ipc { 
     class Session; // nn/os/os_IpcSession.h

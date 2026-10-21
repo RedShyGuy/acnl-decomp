@@ -314,8 +314,9 @@ DECOMP_NOINLINE nn::Result SetMemoryFill(void* start0, void* end0, unsigned valu
     request.params[3] = reinterpret_cast<uptr>(start1);
     request.params[4] = value1;
     request.params[5] = reinterpret_cast<uptr>(end1);
-    reinterpret_cast<u16*>(&request.params[6])[0] = control0;
-    reinterpret_cast<u16*>(&request.params[6])[1] = control1;
+    // the controls as the two halves of the last parameter
+    u16 controls[2] = {static_cast<u16>(control0), static_cast<u16>(control1)};
+    memcpy(&request.params[6], controls, sizeof(controls));
     return Enqueue(request);
 }
 

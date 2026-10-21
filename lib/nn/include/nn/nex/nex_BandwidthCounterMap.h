@@ -27,7 +27,6 @@ public:
         BandwidthCounter m_Outgoing; // 0x28
     };
 
-    BandwidthCounterMap(); // TODO: default ctor added so derived stubs compile - may not exist
     explicit BandwidthCounterMap(const nn::nex::String& name); // 0x00391564 | fefates:bytes [tier B]
     virtual ~BandwidthCounterMap(); // 0x0039164C slot 0x00 | fefates:bytes [tier B]
     // 0x0039161C slot 0x04 (deleting dtor)

@@ -194,7 +194,12 @@ const u32 COMMAND_GAS_DELTAZ_DEPTH = 0x80126;
 // a float as the 31 bit float of the GPU (1.7.23)
 inline void ToFloat31(u32* pResult, f32 value)
 {
-    u32 bits = reinterpret_cast<u32&>(value);
+    union {
+        f32 f;
+        u32 u;
+    } pun;
+    pun.f = value;
+    u32 bits = pun.u;
     s32 exponent = 0;
     if ((bits & 0x7FFFFFFF) != 0) {
         exponent = static_cast<s32>((bits << 1) >> 24) - 64;

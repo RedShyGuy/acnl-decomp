@@ -132,7 +132,9 @@ u32* MakeChannel0SubroutineCommand(u32* command, u32* sizeAddress, u32 address, 
     *sizeAddress = reinterpret_cast<uptr>(command);
     *command++ = 0;
     *command++ = nngxGetPhysicalAddr(address) >> 3;
-    *command++ = nngxGetPhysicalAddr(reinterpret_cast<uptr>(command + 2)) >> 3;
+    // the way back: after this command and the jump (two words from here)
+    u32 returnAddress = nngxGetPhysicalAddr(reinterpret_cast<uptr>(command + 2)) >> 3;
+    *command++ = returnAddress;
     *command++ = 1;
     return command;
 }
