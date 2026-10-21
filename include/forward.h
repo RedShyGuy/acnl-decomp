@@ -3474,8 +3474,8 @@ namespace nw { namespace font {
     class ResFont;
     class ResFontBase;
     class TextWriterResource;
-    template <typename T0> class TagProcessorBase;
-    template <typename T0> struct TextWriterBase { u32 _unknown; }; // placeholder
+    template <typename T> class TagProcessorBase; // nw/font/font_TagProcessorBase.h
+    template <typename T> class TextWriterBase; // nw/font/font_TextWriterBase.h
 }}
 
 namespace nw { namespace font { namespace internal { 
@@ -3819,10 +3819,10 @@ namespace nw { namespace ut {
     class HeapBase;
     class HeapNode;
     class ResDicPatricia;
-    struct BinaryBlockHeader { u32 _unknown; }; // placeholder, real type unknown
-    struct BinaryFileHeader { u32 _unknown; }; // placeholder, real type unknown
-    struct LinkListNode { u32 _unknown; }; // placeholder, real type unknown
-    template <typename T0, auto T1> struct LinkList { u32 _unknown; }; // placeholder
+    struct BinaryBlockHeader; // nw/ut/ut_Api.h
+    struct BinaryFileHeader; // nw/ut/ut_Api.h
+    class LinkListNode; // nw/ut/internal/ut_LinkListImpl.h
+    template <typename T, long TNodeOffset> class LinkList; // nw/ut/ut_LinkList.h
     template <typename T0> struct MoveArray { u32 _unknown; }; // placeholder
 }}
 

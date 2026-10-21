@@ -404,7 +404,7 @@ uptr GetPhysicalAddr(unsigned int address)
 }
 
 // 0x0014372C (name is ours, after the command)
-nn::Result StoreDataCache(unsigned address, unsigned size)
+DECOMP_NOINLINE nn::Result StoreDataCache(unsigned address, unsigned size)
 {
     return detail::GetGpuIpc()->StoreDataCache(CURRENT_PROCESS, address, size);
 }
@@ -546,6 +546,12 @@ void nngxlowUnlock()
 nn::Result nngxlowFlushDataCache(unsigned address, unsigned size)
 {
     return GSPGPU_FlushDataCache(address, size);
+}
+
+// 0x0014276C (name is ours, after nngxlowFlushDataCache)
+nn::Result nngxlowStoreDataCache(unsigned address, unsigned size)
+{
+    return nn::gxlow::CTR::StoreDataCache(address, size);
 }
 
 // 0x00136EF0

@@ -33,6 +33,9 @@ namespace CTR {
 // the two command buffer channels of the GPU (0x23C/0x23D are their kick registers)
 enum CommandBufferChannel : u8
 {
+    // the command buffer channels of the GPU (names are ours)
+    COMMAND_BUFFER_CHANNEL_0,
+    COMMAND_BUFFER_CHANNEL_1
 };
 } // namespace CTR
 } // namespace gr

@@ -1949,7 +1949,7 @@ void SetUniformFloat(GLint location, const GLfloat* pValues, GLsizei components,
 // (the integer uniforms of the shaders are ivec3, one integer register each with eight bits per
 // component, the bool uniforms bits of the bool register; the components are not used)
 // 0x007BE1E4 (name is ours)
-void SetUniformInt(GLint location, const GLint* pValues, GLsizei components, GLsizei count)
+DECOMP_NOINLINE void SetUniformInt(GLint location, const GLint* pValues, GLsizei components, GLsizei count)
 {
     if (location == -1 || count == 0) {
         return;
@@ -1999,3 +1999,10 @@ void SetUniformInt(GLint location, const GLint* pValues, GLsizei components, GLs
 } // namespace detail
 } // namespace gx
 } // namespace nn
+
+// (falls into SetUniformInt; nw::font sets its uniforms with it)
+// 0x007BE1D4 (name after the OpenGL ES API)
+extern "C" void glUniform3iv(GLint location, GLsizei count, const GLint* pValues)
+{
+    nn::gx::detail::SetUniformInt(location, pValues, 3, count);
+}

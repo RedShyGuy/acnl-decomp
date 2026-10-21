@@ -3,7 +3,7 @@
 namespace nw {
 namespace font {
 // 0x004D935C | nintendogs:callgraph [tier A]
-nw::font::Glyph::Glyph()
+nw::font::Glyph::Glyph() : m_IsSheetUpdated(false)
 {
 }
 

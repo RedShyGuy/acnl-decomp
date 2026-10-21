@@ -50,10 +50,17 @@ RUNTIME_FAMILIES = {
     'cosf': ('cosf', 'hardfp_cosf'),
     'atan2f': ('atan2f', 'hardfp_atan2f'),
     'powf': ('powf', 'hardfp_powf'),
+    'acosf': ('acosf', 'hardfp_acosf'),
+    'asinf': ('asinf', 'hardfp_asinf'),
+    'tanf': ('tanf', 'hardfp_tanf'),
+    'expf': ('expf', 'hardfp_expf'),
+    'logf': ('logf', 'hardfp_logf'),
+    'ceilf': ('ceilf', 'hardfp_ceilf'),
+    'floorf': ('floorf', 'hardfp_floorf'),
 }
 # the plain names of the C library that are runtime helpers
 _PLAIN_RUNTIME = {'memset', 'memcpy', 'memmove', 'strcmp', 'strlen', 'fmodf', 'fmod', 'sqrtf', 'sqrt',
-                  'sinf', 'cosf', 'atan2f', 'powf'}
+                  'sinf', 'cosf', 'atan2f', 'powf', 'acosf', 'asinf', 'tanf', 'expf', 'logf', 'ceilf', 'floorf'}
 
 
 def runtime_family(name):

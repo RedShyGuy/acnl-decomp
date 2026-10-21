@@ -34,6 +34,7 @@ void glVertexAttribPointer(GLuint index, GLint size, GLenum type, GLboolean norm
 void glUniform1f(GLint location, GLfloat x); // 0x007ADE1C
 void glUniform1i(GLint location, GLint x); // 0x007ADE54
 void glUniform2i(GLint location, GLint x, GLint y); // 0x007ADE70
+void glUniform3iv(GLint location, GLsizei count, const GLint* pValues); // 0x007BE1D4
 void glUniform4f(GLint location, GLfloat x, GLfloat y, GLfloat z, GLfloat w); // 0x007ADE94
 void glUniform4fv(GLint location, GLsizei count, const GLfloat* pValues); // 0x007ADED8
 void glUniformMatrix4fv(GLint location, GLsizei count, GLboolean transpose, const GLfloat* pValues); // 0x007ADF08

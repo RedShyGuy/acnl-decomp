@@ -3,8 +3,9 @@
 namespace nw {
 namespace ut {
 // 0x007377D0 | nintendogs:bytes [tier A]
-void nw::ut::Color8::ToU32() const
+u32 nw::ut::Color8::ToU32() const
 {
+    return (static_cast<u32>(r) << 24) | (static_cast<u32>(g) << 16) | (static_cast<u32>(b) << 8) | a;
 }
 
 } // namespace ut

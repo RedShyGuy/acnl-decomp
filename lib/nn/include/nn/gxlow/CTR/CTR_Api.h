@@ -107,6 +107,8 @@ void nngxlowLock(); // 0x00131624
 void nngxlowUnlock(); // 0x00131634
 nn::Result nngxlowFlushDataCache(unsigned address, unsigned size); // 0x00136EEC
 nn::Result GSPGPU_FlushDataCache(unsigned address, unsigned size); // 0x00136EF0
+// (the caches are written back without invalidating them; nw::font and nw::gfx call it)
+nn::Result nngxlowStoreDataCache(unsigned address, unsigned size); // 0x0014276C (name is ours, after nngxlowFlushDataCache)
 uptr nngxlowGetPhysicalAddr(unsigned int address); // 0x00140C50
 // the requests of the command queue for gx (names are ours, after the other nngxlow functions)
 void nngxlowRequestDma(void* pDst, const void* pSrc, unsigned size, bool isFlushed); // 0x00135960 (name is ours)
