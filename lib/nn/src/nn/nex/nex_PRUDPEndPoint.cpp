@@ -50,8 +50,7 @@ s8 g_KeepsSilentConnections;
 // 0x0096C92A (name is ours)
 bool g_IgnoresDuplicates;
 // the extra header room of the packets with the setting 0x2C of the transport (defined in another
-// source file; 44)
-// 0x00899864
+// source file, see nex_PacketEncDec.cpp)
 extern const u32 g_Unknown0x899864;
 // the PRUDP end points of the main stream are not failed by a full window (name is ours)
 // 0x0096C929 (name is ours)

@@ -8,8 +8,19 @@
 
 namespace nn {
 namespace nex {
+// the extra header room of the packets with the setting 0x2C of the transport, read by
+// PRUDPEndPoint::_Send (in the original from another source file than PRUDPEndPoint; which one is not
+// known) (name is ours)
+// 0x00899864
+extern const u32 g_Unknown0x899864 = 44;
+// (name is ours)
 // 0x00899A40
-extern const u8 s_UnreliableKeySalts[];
+extern const u8 s_UnreliableKeySalts[] = {
+    0x18, 0xD8, 0x23, 0x34, 0x37, 0xE4, 0xE3, 0xFE,
+    0x23, 0x3E, 0x60, 0x01, 0x23, 0xCD, 0xAB, 0x80,
+    0x98, 0xA8, 0x93, 0x84, 0x87, 0x94, 0xE3, 0x6E,
+    0x45, 0xEE, 0xFC, 0xAB, 0xE0, 0x54, 0x02, 0x01,
+};
 
 namespace {
 // the flags of the packets with the second unreliable key (the names are ours)

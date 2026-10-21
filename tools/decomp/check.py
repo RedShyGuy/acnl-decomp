@@ -739,6 +739,7 @@ def make_fuzzy_pair(mem, db, starts, names, by_source, by_name, variables=None):
 
     variables = variables or {}
     variable_addresses = set(variables.values())
+    sorted_variables = sorted(variable_addresses)
     section_names = {}
 
     def global_address(name, typ, secname, value, addend):
@@ -872,8 +873,33 @@ def make_fuzzy_pair(mem, db, starts, names, by_source, by_name, variables=None):
             for k in dtors[:atexits]:
                 del f_orig['consts'][k]
 
+    def pc_relative_literals(addr, n_orig):
+        """literal index -> pc of the add that turns it into an address: ARMCC's position independent
+        addressing ldr rX, =offset; add rY, pc, rX (the C library)"""
+        out = {}
+        loaded = {}
+        for i in range(n_orig):
+            ins = mem.u32(addr + i * 4)
+            if ins >> 28 != 0xE:
+                continue
+            if (ins & 0x0F7F0000) == 0x051F0000:
+                imm = ins & 0xFFF
+                lit = addr + i * 4 + 8 + (imm if ins & (1 << 23) else -imm)
+                if addr <= lit < addr + n_orig * 4:
+                    loaded[(ins >> 12) & 0xF] = (lit - addr) // 4
+                continue
+            if (ins & 0x0FE00FF0) == 0x00800000:
+                rn, rm = (ins >> 16) & 0xF, ins & 0xF
+                other = rm if rn == 15 else rn if rm == 15 else None
+                if other is not None and other in loaded:
+                    out[loaded.pop(other)] = addr + i * 4 + 8
+                    continue
+            loaded.pop((ins >> 12) & 0xF, None)
+        return out
+
     def orig_features(addr, osize, structor=False):
         n_orig = osize // 4
+        pcrel = pc_relative_literals(addr, n_orig)
 
         def orig_call(i, w):
             target = addr + i * 4 + 8 + fuzzy._sext24(w & 0xFFFFFF) * 4
@@ -888,6 +914,13 @@ def make_fuzzy_pair(mem, db, starts, names, by_source, by_name, variables=None):
             return orig_fn(target & ~1)
 
         def orig_word(j, w):
+            if j is not None and j in pcrel:
+                # an offset to the pc: the address of a variable (or a part of one) of the sources
+                a = (w + pcrel[j]) & 0xFFFFFFFF
+                k = bisect.bisect_right(sorted_variables, a) - 1
+                if k >= 0 and a - sorted_variables[k] < 0x1000:
+                    return ('gaddr', a)
+                return orig_word(None, a)
             # a known function, or code that starts like one (push {..., lr}); other values in the
             # code range are constants (IPC headers like 0x001C0040 are)
             if mem.in_text(w & ~1) and ((w & ~1) in start_set or (w & ~1) in addr_name or (w & ~1) in source_set or

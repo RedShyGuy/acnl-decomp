@@ -11,17 +11,14 @@ struct KanaConversion
     wchar_t m_To;
 };
 
+// (the tables are in ngc_KanaConversions.cpp)
 // the small katakana to the large ones
-// 0x008B4346
 extern const KanaConversion s_SmallKanaConversions[];
 // the half width katakana to the full width ones
-// 0x008B4376
 extern const KanaConversion s_HalfwidthKanaConversions[];
 // the half width katakana with the half width dakuten (voiced) to the full width ones
-// 0x008B445E
 extern const KanaConversion s_HalfwidthVoicedKanaConversions[];
 // with the half width handakuten (semi-voiced)
-// 0x008B44B2
 extern const KanaConversion s_HalfwidthSemiVoicedKanaConversions[];
 
 namespace {

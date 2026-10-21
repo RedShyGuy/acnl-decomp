@@ -54,9 +54,11 @@ inline void SetChecksumKey(KeyedChecksumAlgorithm* pAlgorithm, const Key& key)
 }
 } // namespace
 
-// the default key of the checksum of the secure streams, in .data, not in the source (name is ours)
+// the default key of the checksum of the secure streams (name is ours)
 // 0x0096CDF4
-extern u8 g_DefaultChecksumKey[];
+u8 g_DefaultChecksumKey[] = {
+    0x26, 0xC3, 0x1F, 0x38, 0x1E, 0x46, 0xD6, 0xEB, 0x38, 0xE1, 0xAF, 0x6A, 0xB7, 0x0D, 0x11, 0x09,
+};
 
 // 0x0096C925 (name is ours)
 u8 g_CompressionMode;

@@ -27,7 +27,8 @@ sys.path.insert(0, os.path.join(ROOT, 'tools', 'analysis'))
 import elfmem  # noqa: E402
 
 ADDRESS_RE = re.compile(r'//\s*0x([0-9A-Fa-f]{6,8})(?![0-9A-Fa-f])')
-EXTERN_RE = re.compile(r'extern\s+(?!"C")[^;(]*?(\w+)\s*(\[[^\]]*\])?\s*;')
+# (an extern with an initializer is a definition, not a blob)
+EXTERN_RE = re.compile(r'extern\s+(?!"C")[^;(=]*?(\w+)\s*(\[[^\]]*\])?\s*;')
 
 
 def load_blobs(version):

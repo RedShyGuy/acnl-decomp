@@ -133,8 +133,7 @@ void JpegMpDecoderCShrink11CtrRgb565Block8(JpegMpDecoderContext* context, int mc
 void JpegMpDecoderCShrink12CtrRgb565Block8(JpegMpDecoderContext* context, int mcuX, int mcuY);
 void JpegMpDecoderCShrink21CtrRgb565Block8(JpegMpDecoderContext* context, int mcuX, int mcuY);
 void JpegMpDecoderCShrink22CtrRgb565Block8(JpegMpDecoderContext* context, int mcuX, int mcuY);
-// the decoder's default Huffman tables (blob, see extracted_data.json)
-// 0x0089EAC0
+// the decoder's default Huffman tables
 extern const u8 s_DefaultHuffmanTables[];
 // the encoder's Exif (APP1) and MP (APP2) segments
 bool EncodeJpegApp1(JpegMpEncoderWorkObj* work); // 0x00472F84 | nintendogs:bytes [tier B]
@@ -150,16 +149,11 @@ void InitializeJpegMpEncoderApp2IndexTagWork(JpegMpEncoderWorkObj* work); // 0x0
 void InitializeJpegMpEncoderApp2AttributeTagWork(JpegMpEncoderWorkObj* work); // 0x0047DB74 | nintendogs:bytes [tier B]
 
 // the Huffman tables of the encoder (standard tables of JPEG Annex K): the DHT segment and the
-// codes for the assembly (blobs, see extracted_data.json)
-// 0x008A0AC0
+// codes for the assembly
 extern const u8 s_HuffmanTableSegment[];
-// 0x008A0C64
 extern const u8 s_LumaDcCodes[];
-// 0x008A1170
 extern const u8 s_ChromaDcCodes[];
-// 0x008A167C
 extern const u8 s_LumaAcCodes[];
-// 0x008A1B88
 extern const u8 s_ChromaAcCodes[];
 } // namespace detail
 } // namespace CTR
