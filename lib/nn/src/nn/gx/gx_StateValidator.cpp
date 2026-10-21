@@ -132,7 +132,7 @@ void __vbv_validateVBValidator(const u32* pDirtyFlags)
 {
     GlState* pState = s_pGlState;
     if ((pState->m_IgnoredStates & STATE_VERTEX) != 0) {
-        pState->m_Unknown0x81C = pState->m_ArrayBufferName != 0;
+        pState->m_IsVertexBufferUsable = pState->m_ArrayBufferName != 0;
     }
     pState->m_IsArrayMissing = false;
     if (pState->m_ElementBufferName != 0) {
@@ -181,7 +181,7 @@ void __shv_preDraw()
         if (pTables->m_LastMode != PROGRAM_MODE_GAS) {
             PutCommand(0, 0xF0125);
         }
-    } else if (pTables->m_LastMode == PROGRAM_MODE_GAS && pProgram->m_Unknown0xE74) {
+    } else if (pTables->m_LastMode == PROGRAM_MODE_GAS && pProgram->m_IsGasAutoAcc) {
         __sys_markGasAcmMax();
     }
     s_ShaderManager.m_pTables->m_LastMode = s_ShaderManager.m_pTables->m_pCurrentProgram->m_Mode;

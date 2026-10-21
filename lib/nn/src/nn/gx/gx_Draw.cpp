@@ -192,7 +192,7 @@ extern "C" void glDrawArrays(GLenum mode, GLint first, GLsizei count)
     pState->m_DrawMode = mode;
     pState->m_IsValidating = true;
     pState->m_PreviousDrawMode = previous;
-    pState->m_IsFullValidation = true;
+    pState->m_IsElementArrayUnused = true;
     __vldtr_validateAllState();
     if (pState->m_IsCullFaceEnabled == true && pState->m_CullFaceMode == CULL_FRONT_AND_BACK) {
         return;
@@ -207,7 +207,7 @@ extern "C" void glDrawArrays(GLenum mode, GLint first, GLsizei count)
     if (config != 0) {
         PutCommand(config, COMMAND_TEXTURE_CONFIG);
     }
-    if (pState->m_Unknown0x81C) {
+    if (pState->m_IsVertexBufferUsable) {
         if ((pState->m_IgnoredStates & STATE_VERTEX) == 0) {
             u32 offset = (count > 16 ? count * 2 - 32 : 0) + pState->m_ArrayBaseAddress;
             PutCommand((offset & 0xFFF) >= 0xFE0 ? 0x80000020 : 0x80000000, COMMAND_INDEX_BUFFER);
@@ -234,7 +234,7 @@ extern "C" void glDrawArrays(GLenum mode, GLint first, GLsizei count)
         PutCommand(0x7FFF0000, COMMAND_GEOMETRY_ENTRY_END);
     }
     pState->m_IsValidating = false;
-    pState->m_IsFullValidation = false;
+    pState->m_IsElementArrayUnused = false;
     if (pState->m_UpdatedStates != 0) {
         pState->m_UpdatedStates = 0;
     }
@@ -285,7 +285,7 @@ extern "C" void glDrawElements(GLenum mode, GLsizei count, GLenum type, const GL
     if (config != 0) {
         PutCommand(config, COMMAND_TEXTURE_CONFIG);
     }
-    if (pState->m_Unknown0x81C) {
+    if (pState->m_IsVertexBufferUsable) {
         if ((pState->m_IgnoredStates & STATE_VERTEX) == 0) {
             u32 address = reinterpret_cast<u32>(pIndices) + (pState->m_ArrayAddresses[0] - pState->m_ArrayBaseAddress);
             PutCommand((address & ~0xF0000000) | (static_cast<u32>(isShort) << 31), COMMAND_INDEX_BUFFER);

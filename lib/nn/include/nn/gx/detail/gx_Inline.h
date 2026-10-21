@@ -14,7 +14,7 @@ namespace detail {
 const GLint RUN_MODE_AUTO = 0x300;
 
 // 1.7.16 float (the float24 of the GPU)
-inline u32 Float32ToFloat24(f32 value)
+DECOMP_ALWAYS_INLINE u32 Float32ToFloat24(f32 value)
 {
     union {
         f32 f;
@@ -33,7 +33,7 @@ inline u32 Float32ToFloat24(f32 value)
 }
 
 // four floats as three words of float24 (the constant value of a vertex attribute)
-inline void PackFloat24(u32* pPacked, const f32* pValues)
+DECOMP_ALWAYS_INLINE void PackFloat24(u32* pPacked, const f32* pValues)
 {
     u32 x = Float32ToFloat24(pValues[0]);
     u32 y = Float32ToFloat24(pValues[1]);

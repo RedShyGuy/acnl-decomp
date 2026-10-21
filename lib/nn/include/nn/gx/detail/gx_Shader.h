@@ -198,6 +198,14 @@ ASSERT_SIZE(AttributeBinding, 0xC);
 // the float registers a program uses
 const u32 FLOAT_REGISTER_COUNT = 96;
 
+// an array of the vertex attribute setup, in the list of the arrays sorted by address
+struct AttributeNode
+{
+    u32 m_Index;               // 0x0 (the attribute)
+    AttributeNode* m_pNext;    // 0x4
+};
+ASSERT_SIZE(AttributeNode, 0x8);
+
 // a program (glCreateProgram; 0xF1C bytes)
 struct Program
 {
@@ -218,28 +226,40 @@ struct Program
     u32* m_pVertexFloatValues;       // 0x02C (four words per register)
     u32 m_VertexFloatRegisters[FLOAT_REGISTER_COUNT]; // 0x030
     u32 m_VertexFloatRegisterCount;  // 0x1B0
-    s32 m_Unknown0x1B4[3];           // 0x1B4
+    u32 m_VertexDirtyFloatRegisters[3]; // 0x1B4 (one bit per register: set by the uniform setter)
     u32* m_pGeometryFloatValues;     // 0x1C0
     u32 m_GeometryFloatRegisters[FLOAT_REGISTER_COUNT]; // 0x1C4
     u32 m_GeometryFloatRegisterCount; // 0x344
-    s32 m_Unknown0x348[3];           // 0x348
+    u32 m_GeometryDirtyFloatRegisters[3]; // 0x348
     AttributeBinding m_Bindings[16]; // 0x354
     ShaderBinary* m_pLinkedBinary;   // 0x414
     u32 m_VertexEntryIndex;          // 0x418
     u32 m_GeometryEntryIndex;        // 0x41C
     u32 m_OutmapMask;                // 0x420
     bool m_HasGeometryShader;        // 0x424
-    u8 _unknown0x425;
+    bool m_IsBaseAtElementArray;     // 0x425 (the base address of the arrays is that of the element array)
     u8 m_RegisterMasks[SHADER_REGISTER_COUNT];   // 0x426
     u8 _unknown0x4E3;
     u32 m_RegisterValues[SHADER_REGISTER_COUNT]; // 0x4E4
     u32 m_DirtyRegisters[6];         // 0x7D8 (one bit per register)
-    u8 _unknown0x7F0[0x9EC - 0x7F0];
+    // the vertex attribute setup of the last validation (the arrays, the constant attributes, the
+    // GPU registers 0x200-0x226 of the vertex loaders and the input permutations)
+    AttributeNode m_AttributeNodes[16];  // 0x7F0
+    AttributeNode* m_pFirstAttribute;    // 0x870
+    u32 m_AttributeAddresses[16];        // 0x874
+    GLsizei m_AttributeStrides[16];      // 0x8B4
+    s32 m_AttributeArrayCount;           // 0x8F4
+    u32 m_ConstantAttributes[16];        // 0x8F8
+    s32 m_ConstantAttributeCount;        // 0x938
+    s32 m_LoaderCount;                   // 0x93C
+    u32 m_AttributeRegisters[39];        // 0x940
+    u32 m_VertexInputPermutation[2];     // 0x9DC (GPU registers 0x2BB, 0x2BC)
+    u32 m_GeometryInputPermutation[2];   // 0x9E4 (GPU registers 0x28B, 0x28C)
     u8 m_ReservedValues[0xE2C - 0x9EC]; // 0x9EC (the values of the reserved uniforms)
     GLenum m_SamplerTypes[3];        // 0xE2C
     GLenum m_Mode;                   // 0xE38 (0x6051: gas, see __shv_preDraw; 0x6030 at the start)
     u8 m_ReservedValues2[0xE74 - 0xE3C]; // 0xE3C
-    bool m_Unknown0xE74;             // 0xE74 (__shv_preDraw marks the gas accumulation)
+    bool m_IsGasAutoAcc;             // 0xE74 (dmp_Gas.autoAcc; __shv_preDraw marks the gas accumulation)
     u8 m_ReservedValues3[0xF1C - 0xE75]; // 0xE75
 };
 ASSERT_OFFSET(Program, m_VertexFloatRegisterCount, 0x1B0);
@@ -248,6 +268,9 @@ ASSERT_OFFSET(Program, m_Bindings, 0x354);
 ASSERT_OFFSET(Program, m_RegisterMasks, 0x426);
 ASSERT_OFFSET(Program, m_RegisterValues, 0x4E4);
 ASSERT_OFFSET(Program, m_DirtyRegisters, 0x7D8);
+ASSERT_OFFSET(Program, m_AttributeNodes, 0x7F0);
+ASSERT_OFFSET(Program, m_AttributeRegisters, 0x940);
+ASSERT_OFFSET(Program, m_ReservedValues, 0x9EC);
 ASSERT_OFFSET(Program, m_Mode, 0xE38);
 ASSERT_SIZE(Program, 0xF1C);
 
@@ -269,11 +292,11 @@ ASSERT_SIZE(UniformInfo, 0xC);
 struct ShaderTables
 {
     Program* m_pCurrentProgram;                     // 0x0000 (glUseProgram)
-    u32 _unknown0x0004;
+    Program* m_pAttributeProgram;                   // 0x0004 (the program of the last vertex attribute setup)
     Program* m_pPrograms[SHADER_BUCKET_COUNT];      // 0x0008
     Shader* m_pShaders[SHADER_BUCKET_COUNT];        // 0x0808
     ShaderBinary* m_pBinaries;                      // 0x1008
-    u32 m_DefaultRegisterValues[SHADER_REGISTER_COUNT]; // 0x100C (the values at the start)
+    u32 m_SentRegisterValues[SHADER_REGISTER_COUNT]; // 0x100C (the values of the last commands; the start values at first)
     u32 m_RegisterValues[SHADER_REGISTER_COUNT];    // 0x1300
     u8 m_DefaultRegisterMasks[SHADER_REGISTER_COUNT];   // 0x15F4
     u8 m_RegisterMasks[SHADER_REGISTER_COUNT];      // 0x16B1 (the byte masks of the commands)
@@ -292,7 +315,7 @@ struct ShaderManager
     GLuint m_NextProgramName;        // 0x0
     GLuint m_NextShaderName;         // 0x4
     ShaderTables* m_pTables;         // 0x8
-    s32 m_Unknown0xC;                // 0xC (-1 at the start)
+    s32 m_LastGeometryShaderState;   // 0xC (whether the GPU runs a geometry shader; -1 at the start)
 };
 
 extern ShaderManager s_ShaderManager;

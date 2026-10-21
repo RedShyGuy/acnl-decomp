@@ -161,7 +161,7 @@ void __vbv_validateVBValidator(const u32* pDirtyFlags);
 void __shv_initializeShaderValidator(u32* pDirtyMask);
 void __shv_initializeShaderValidatorHWRegister();
 void __shv_validateShaderValidator(const u32* pDirtyFlags);
-void __shv_partialValidateShaderValidator(nn::gx::detail::GlState* pState, GLbitfield states);
+void __shv_partialValidateShaderValidator(const u32* pDirtyFlags, GLbitfield states);
 void __shv_preDraw();
 } // extern "C"
 

@@ -103,7 +103,7 @@ inline TextureLut* CreateLut(GLuint name)
     TextureLut* p = static_cast<TextureLut*>(AllocateObject(sizeof(TextureLut)));
     if (p != nullptr) {
         memset(p, 0, sizeof(TextureLut));
-        p->m_Unknown0x81C = -1;
+        p->m_DirtyBuffers = 0xFFFFFFFF;
         p->m_Name = name;
     }
     return p;
@@ -495,7 +495,7 @@ extern "C" void glDeleteTextures(GLsizei n, const GLuint* pNames)
                 for (u32 j = 0; j < 33; j++) {
                     if (pState->m_UsedLutNames[j] == pNames[i]) {
                         pState->m_UsedLutNames[j] = 0;
-                        pState->m_UsedLuts[j] = 0;
+                        pState->m_LutUpdateCounts[j] = 0;
                         pState->m_DirtyFlags |= DIRTY_LUTS;
                     }
                 }

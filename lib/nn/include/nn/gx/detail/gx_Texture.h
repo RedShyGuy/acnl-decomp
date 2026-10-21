@@ -53,8 +53,10 @@ struct TextureLut
 {
     GLuint m_Name;           // 0x000
     u8 m_Data[0x800];        // 0x004
-    void* m_pBuffers[6];     // 0x804
-    s32 m_Unknown0x81C;      // 0x81C (-1 at the start)
+    // the data in the formats of the GPU: lighting, fog, gas, procedural texture map, noise and
+    // color tables (the last one in bytes)
+    u32* m_pBuffers[6];      // 0x804
+    u32 m_DirtyBuffers;      // 0x81C (one bit per buffer to convert again; all at the start)
 };
 ASSERT_SIZE(TextureLut, 0x820);
 

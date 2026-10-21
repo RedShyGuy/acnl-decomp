@@ -779,7 +779,7 @@ extern "C" void nngxUseSavedCmdlist(GLuint name, GLuint offset, GLsizei size, GL
         pState->m_DirtyFlags |= DIRTY_6;
         for (s32 i = 0; i < 33; i++) {
             pState->m_UsedLutNames[i] = 0;
-            pState->m_UsedLuts[i] = 0;
+            pState->m_LutUpdateCounts[i] = 0;
         }
     }
     if ((update & STATE_TEXTURE) != 0) {

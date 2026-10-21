@@ -728,7 +728,7 @@ int __shm_initializeShaderManager(void* pMemory)
     memset(pMemory, 0, sizeof(ShaderTables));
     int result = 0;
     s_ShaderManager.m_NextShaderName = 1;
-    s_ShaderManager.m_Unknown0xC = -1;
+    s_ShaderManager.m_LastGeometryShaderState = -1;
     s_ShaderManager.m_NextProgramName = 1;
     for (const UniformDefinition* p = s_UniformDefinitions; p->m_Index != -1; p++) {
         s_ReservedUniforms[p->m_Index] = p->m_Info;
@@ -842,7 +842,7 @@ int __shm_initializeShaderManager(void* pMemory)
         }
     }
     SetRegister(pTables, 84, 0, 0xF);
-    memcpy(pTables->m_DefaultRegisterValues, pTables->m_RegisterValues, sizeof(pTables->m_RegisterValues));
+    memcpy(pTables->m_SentRegisterValues, pTables->m_RegisterValues, sizeof(pTables->m_RegisterValues));
     memcpy(s_ShaderManager.m_pTables->m_DefaultRegisterMasks, s_ShaderManager.m_pTables->m_RegisterMasks, sizeof(pTables->m_RegisterMasks));
     memset(s_RegisterSet0, 0, sizeof(s_RegisterSet0));
     SetBits(s_RegisterSet0, s_RegisterList0);
@@ -1424,7 +1424,7 @@ inline void InitializeReservedValues(Program* pProgram)
     pProgram->m_Mode = 0x6030;
     SetReservedFloat(pProgram, 0xE1C, 1.0f);
     SetReservedWord(pProgram, 0xE64, 0xFFFFFFFF);
-    pProgram->m_Unknown0xE74 = true;
+    pProgram->m_IsGasAutoAcc = true;
     SetReservedWord(pProgram, 0xE78, 0xFFFFFFFF);
     SetReservedWord(pProgram, 0xE7C, 0xFFFFFFFF);
     SetReservedWord(pProgram, 0xE80, 0xFFFFFFFF);
@@ -1621,15 +1621,15 @@ extern "C" void glLinkProgram(GLuint program)
     FreeBuffer(pProgram->m_pVertexFloatValues);
     pProgram->m_pVertexFloatValues = nullptr;
     pProgram->m_VertexFloatRegisterCount = 0;
-    pProgram->m_Unknown0x1B4[0] = 0;
-    pProgram->m_Unknown0x1B4[1] = 0;
-    pProgram->m_Unknown0x1B4[2] = 0;
+    pProgram->m_VertexDirtyFloatRegisters[0] = 0;
+    pProgram->m_VertexDirtyFloatRegisters[1] = 0;
+    pProgram->m_VertexDirtyFloatRegisters[2] = 0;
     FreeBuffer(pProgram->m_pGeometryFloatValues);
     pProgram->m_pGeometryFloatValues = nullptr;
     pProgram->m_GeometryFloatRegisterCount = 0;
-    pProgram->m_Unknown0x348[0] = 0;
-    pProgram->m_Unknown0x348[1] = 0;
-    pProgram->m_Unknown0x348[2] = 0;
+    pProgram->m_GeometryDirtyFloatRegisters[0] = 0;
+    pProgram->m_GeometryDirtyFloatRegisters[1] = 0;
+    pProgram->m_GeometryDirtyFloatRegisters[2] = 0;
     for (u32 i = 0; i < 16; i++) {
         pProgram->m_Bindings[i].m_Register = -1;
     }
@@ -1823,13 +1823,13 @@ extern "C" void glLinkProgram(GLuint program)
             pState->m_DirtyFlags |= DIRTY_PROGRAM_BINARY;
         }
         pState->m_DirtyFlags |= DIRTY_PROGRAM;
-        pProgram->m_Unknown0x1B4[0] = -1;
-        pProgram->m_Unknown0x1B4[1] = -1;
-        pProgram->m_Unknown0x1B4[2] = -1;
+        pProgram->m_VertexDirtyFloatRegisters[0] = 0xFFFFFFFF;
+        pProgram->m_VertexDirtyFloatRegisters[1] = 0xFFFFFFFF;
+        pProgram->m_VertexDirtyFloatRegisters[2] = 0xFFFFFFFF;
         if (pProgram->m_pGeometryShader != nullptr) {
-            pProgram->m_Unknown0x348[0] = -1;
-            pProgram->m_Unknown0x348[1] = -1;
-            pProgram->m_Unknown0x348[2] = -1;
+            pProgram->m_GeometryDirtyFloatRegisters[0] = 0xFFFFFFFF;
+            pProgram->m_GeometryDirtyFloatRegisters[1] = 0xFFFFFFFF;
+            pProgram->m_GeometryDirtyFloatRegisters[2] = 0xFFFFFFFF;
         }
         for (u32 i = 0; i < 6; i++) {
             pProgram->m_DirtyRegisters[i] = 0xFFFFFFFF;
@@ -1935,13 +1935,13 @@ inline void SetFlag(GlState* pState, bool* pFlag, bool value, u32 dirty)
 // all registers and values of the program go to the GPU again
 inline void MarkProgramDirty(Program* pProgram)
 {
-    pProgram->m_Unknown0x1B4[0] = -1;
-    pProgram->m_Unknown0x1B4[1] = -1;
-    pProgram->m_Unknown0x1B4[2] = -1;
+    pProgram->m_VertexDirtyFloatRegisters[0] = 0xFFFFFFFF;
+    pProgram->m_VertexDirtyFloatRegisters[1] = 0xFFFFFFFF;
+    pProgram->m_VertexDirtyFloatRegisters[2] = 0xFFFFFFFF;
     if (pProgram->m_HasGeometryShader) {
-        pProgram->m_Unknown0x348[0] = -1;
-        pProgram->m_Unknown0x348[1] = -1;
-        pProgram->m_Unknown0x348[2] = -1;
+        pProgram->m_GeometryDirtyFloatRegisters[0] = 0xFFFFFFFF;
+        pProgram->m_GeometryDirtyFloatRegisters[1] = 0xFFFFFFFF;
+        pProgram->m_GeometryDirtyFloatRegisters[2] = 0xFFFFFFFF;
     }
     for (u32 i = 0; i < 6; i++) {
         pProgram->m_DirtyRegisters[i] = 0xFFFFFFFF;
@@ -1959,7 +1959,7 @@ extern "C" void glUseProgram(GLuint program)
         Program* pCurrent = pTables->m_pCurrentProgram;
         if (pCurrent != nullptr && pCurrent->m_IsDeletePending) {
             DestroyProgram(pCurrent->m_Name);
-            s_ShaderManager.m_pTables->_unknown0x0004 = 0;
+            s_ShaderManager.m_pTables->m_pAttributeProgram = nullptr;
         }
         s_ShaderManager.m_pTables->m_pCurrentProgram = nullptr;
         pState->m_ProgramName = 0;

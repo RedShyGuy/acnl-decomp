@@ -263,7 +263,7 @@ struct GlState
     GLenum m_DrawMode;                  // 0x010 (the mode of the last draw; 4 at the start)
     GLenum m_PreviousDrawMode;          // 0x014 (4 at the start)
     bool m_IsValidating;                // 0x018 (during the shader validation of nngxValidateState)
-    bool m_IsFullValidation;            // 0x019
+    bool m_IsElementArrayUnused;        // 0x019 (glDrawArrays and the full nngxValidateState)
     bool m_Unknown0x1A;                 // 0x01A (glEnable 0x6502; on at the start)
     bool m_HasGeometryShader;           // 0x01B (of the program in use)
     GLuint m_ProgramName;               // 0x01C (glUseProgram)
@@ -278,10 +278,10 @@ struct GlState
     bool m_IsCullFaceEnabled;           // 0x03C
     u8 _unknown0x3D[3];
     f32 m_Unknown0x40;                  // 0x040
-    f32 m_Unknown0x44;                  // 0x044
+    f32 m_PolygonOffsetUnits;           // 0x044 (the uniform wScale 0 adds it in steps of the depth buffer)
     f32 m_Unknown0x48;                  // 0x048
-    f32 m_Unknown0x4C;                  // 0x04C (0.0 at the start)
-    f32 m_Unknown0x50;                  // 0x050 (1.0 at the start)
+    f32 m_DepthRangeNear;               // 0x04C (0.0 at the start)
+    f32 m_DepthRangeFar;                // 0x050 (1.0 at the start)
     bool m_IsPolygonOffsetFillEnabled;  // 0x054
     u8 _unknown0x55[3];
     s32 m_ActiveTextureUnit;            // 0x058
@@ -293,15 +293,17 @@ struct GlState
     bool m_IsTexture2dEnabled[TEXTURE_UNIT_COUNT];   // 0x104
     bool m_IsTextureCubeEnabled[TEXTURE_UNIT_COUNT]; // 0x107
     u8 _unknown0x10A[2];
+    // the lookup tables last sent to the GPU, per slot (material 0-5, light SP 6-13, light DA 14-21,
+    // procedural texture 22-28, fog 29, gas 30-32), and the part of each to send again
     GLuint m_UsedLutNames[33];          // 0x10C (cleared with the update of state bit 6)
-    u32 m_UsedLuts[33];                 // 0x190
-    u8 _unknown0x214[0x298 - 0x214];
+    u32 m_LutUpdateCounts[33];          // 0x190
+    u32 m_LutUpdateStarts[33];          // 0x214
     VertexAttributeValues m_AttributeValues;                // 0x298
     VertexAttribute m_Attributes[VERTEX_ATTRIBUTE_COUNT];  // 0x458
     GLuint m_ElementBufferName;         // 0x5D8
     GLuint m_ArrayBufferName;           // 0x5DC
     GLuint m_CollectionName;            // 0x5E0 (the bound vertex state collection)
-    u32 m_Unknown0x5E4[4];              // 0x5E4
+    GLint m_ScissorBox[4];              // 0x5E4 (x, y, width, height)
     GLenum m_Unknown0x5F4;              // 0x5F4 (GL_ALWAYS at the start)
     f32 m_Unknown0x5F8;                 // 0x5F8
     GLenum m_StencilFunction;           // 0x5FC (GL_ALWAYS at the start)
@@ -319,7 +321,7 @@ struct GlState
     GLenum m_BlendEquationAlpha;        // 0x62C
     f32 m_BlendColor[4];                // 0x630
     GLenum m_LogicOperation;            // 0x640 (GL_COPY at the start)
-    GLenum m_Unknown0x644;              // 0x644 (0x6030 at the start)
+    GLenum m_LastFragmentMode;          // 0x644 (the mode of the program the fragment registers were set for)
     bool m_IsScissorTestEnabled;        // 0x648
     bool m_Unknown0x649;                // 0x649
     bool m_IsStencilTestEnabled;        // 0x64A
@@ -366,9 +368,9 @@ struct GlState
     u32 m_ColorAddress;                 // 0x810
     u32 m_DepthSize;                    // 0x814
     u32 m_ColorSize;                    // 0x818
-    bool m_Unknown0x81C;                // 0x81C (an array buffer is bound; set while STATE_VERTEX is ignored)
+    bool m_IsVertexBufferUsable;        // 0x81C (the arrays go through the vertex loaders; else immediate vertices)
     u8 _unknown0x81D[3];
-    u32 m_Unknown0x820;                 // 0x820
+    u32 m_ArrayInputCount;              // 0x820 (the inputs from arrays, the others are constant)
     u32 m_InputCount;                   // 0x824 (the inputs of the program in use)
     s32 m_InputAttributes[16];          // 0x828 (the attribute of each input; -1 at the start)
 };
@@ -378,7 +380,7 @@ ASSERT_OFFSET(GlState, m_ActiveTextureUnit, 0x58);
 ASSERT_OFFSET(GlState, m_TextureCollectionName, 0xF4);
 ASSERT_OFFSET(GlState, m_IsTexture2dEnabled, 0x104);
 ASSERT_OFFSET(GlState, m_UsedLutNames, 0x10C);
-ASSERT_OFFSET(GlState, m_UsedLuts, 0x190);
+ASSERT_OFFSET(GlState, m_LutUpdateCounts, 0x190);
 ASSERT_OFFSET(GlState, m_AttributeValues, 0x298);
 ASSERT_OFFSET(GlState, m_Attributes, 0x458);
 ASSERT_OFFSET(GlState, m_CollectionName, 0x5E0);
@@ -395,7 +397,8 @@ ASSERT_OFFSET(GlState, m_ArraySources, 0x6E8);
 ASSERT_OFFSET(GlState, m_ArrayStrides, 0x72C);
 ASSERT_OFFSET(GlState, m_IsArrayMissing, 0x76C);
 ASSERT_OFFSET(GlState, m_TextureRegisters, 0x770);
-ASSERT_OFFSET(GlState, m_Unknown0x81C, 0x81C);
+ASSERT_OFFSET(GlState, m_IsVertexBufferUsable, 0x81C);
+ASSERT_OFFSET(GlState, m_LutUpdateStarts, 0x214);
 
 // the state validator (__vldtr_initializeStateValidator): the dirty flags the texture,
 // framebuffer, vertex buffer and shader validators handle

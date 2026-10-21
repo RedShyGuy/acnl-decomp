@@ -64,7 +64,7 @@ extern "C" void nngxUpdateState(GLbitfield states)
     if ((update & STATE_6) != 0) {
         pState->m_DirtyFlags |= DIRTY_6;
         memset(pState->m_UsedLutNames, 0, sizeof(pState->m_UsedLutNames));
-        memset(pState->m_UsedLuts, 0, sizeof(pState->m_UsedLuts));
+        memset(pState->m_LutUpdateCounts, 0, sizeof(pState->m_LutUpdateCounts));
     }
     if ((update & STATE_TEXTURE) != 0) {
         pState->m_DirtyFlags |= DIRTY_TEXTURE;
@@ -115,11 +115,11 @@ extern "C" GLenum nngxValidateState(GLbitfield states, GLboolean isPartial)
     if ((validate & STATE_SHADER_MASK) != 0) {
         pState->m_IsValidating = true;
         if (!isPartial) {
-            pState->m_IsFullValidation = true;
+            pState->m_IsElementArrayUnused = true;
         }
-        __shv_partialValidateShaderValidator(pState, validate);
+        __shv_partialValidateShaderValidator(&pState->m_DirtyFlags, validate);
         pState->m_IsValidating = false;
-        pState->m_IsFullValidation = false;
+        pState->m_IsElementArrayUnused = false;
     }
     if ((validate & STATE_0) != 0) {
         pState->m_DirtyFlags &= ~DIRTY_0;
@@ -298,7 +298,7 @@ int __sta_initializeState(void* pMemory, void* pValidator)
     memset(pMemory, 0, sizeof(GlState));
     GlState* pState = s_pGlState;
     pState->m_IsValidating = false;
-    pState->m_IsFullValidation = false;
+    pState->m_IsElementArrayUnused = false;
     pState->m_DrawMode = 4;
     pState->m_PreviousDrawMode = 4;
     pState->m_Unknown0x1A = true;
@@ -313,10 +313,10 @@ int __sta_initializeState(void* pMemory, void* pValidator)
     pState->m_FrontFace = FRONT_FACE_CCW;
     pState->m_CullFaceMode = CULL_FACE_BACK;
     pState->m_Unknown0x40 = 0.0f;
-    pState->m_Unknown0x44 = 0.0f;
+    pState->m_PolygonOffsetUnits = 0.0f;
     pState->m_IsPolygonOffsetFillEnabled = false;
-    pState->m_Unknown0x4C = 0.0f;
-    pState->m_Unknown0x50 = 1.0f;
+    pState->m_DepthRangeNear = 0.0f;
+    pState->m_DepthRangeFar = 1.0f;
     pState->m_Unknown0x48 = 0.0f;
     pState->m_ActiveTextureUnit = 0;
     for (u32 i = 0; i < TEXTURE_UNIT_COUNT; i++) {
@@ -347,10 +347,10 @@ int __sta_initializeState(void* pMemory, void* pValidator)
     pState->m_ArrayBufferName = 0;
     pState->m_CollectionName = 0;
     pState->m_IsScissorTestEnabled = false;
-    pState->m_Unknown0x5E4[0] = 0;
-    pState->m_Unknown0x5E4[1] = 0;
-    pState->m_Unknown0x5E4[2] = 0;
-    pState->m_Unknown0x5E4[3] = 0;
+    pState->m_ScissorBox[0] = 0;
+    pState->m_ScissorBox[1] = 0;
+    pState->m_ScissorBox[2] = 0;
+    pState->m_ScissorBox[3] = 0;
     pState->m_Unknown0x649 = false;
     pState->m_Unknown0x5F4 = FUNCTION_ALWAYS;
     pState->m_Unknown0x5F8 = 0.0f;
@@ -374,7 +374,7 @@ int __sta_initializeState(void* pMemory, void* pValidator)
     pState->m_BlendEquationRgb = EQUATION_ADD;
     pState->m_BlendEquationAlpha = EQUATION_ADD;
     pState->m_LogicOperation = LOGIC_COPY;
-    pState->m_Unknown0x644 = 0x6030;
+    pState->m_LastFragmentMode = 0x6030;
     pState->m_BlendColor[3] = 0.0f;
     pState->m_BlendColor[2] = 0.0f;
     pState->m_BlendColor[1] = 0.0f;
@@ -416,8 +416,8 @@ int __sta_initializeState(void* pMemory, void* pValidator)
         pState->m_ArraySources[1 + i] = 0;
     }
     pState->m_TextureRegisters[0] = 0;
-    pState->m_Unknown0x81C = false;
-    pState->m_Unknown0x820 = 0;
+    pState->m_IsVertexBufferUsable = false;
+    pState->m_ArrayInputCount = 0;
     pState->m_InputCount = 0;
     memset(pState->m_InputAttributes, 0xFF, sizeof(pState->m_InputAttributes));
     return 0;

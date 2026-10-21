@@ -775,10 +775,11 @@ def make_fuzzy_pair(mem, db, starts, names, by_source, by_name, variables=None):
                 candidates.append('::'.join(parts[:k] + parts[-1:]))
         for c in candidates:
             if guard and variables.get('guard variable for ' + norm(c)) is not None:
-                return variables['guard variable for ' + norm(c)] + addend
+                return (variables['guard variable for ' + norm(c)] + addend) & 0xFFFFFFFF
             a = variables.get(norm(c))
             if a is not None:
-                return a + addend + (4 if guard else 0)  # ARMCC puts the guard after the static
+                # (a negative addend comes as a 32-bit value)
+                return (a + addend + (4 if guard else 0)) & 0xFFFFFFFF  # ARMCC puts the guard after the static
         return None
 
     def returns_this(key):
