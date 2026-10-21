@@ -80,4 +80,8 @@ __rb_tree<nn::nex::InetAddress, std::pair<const nn::nex::InetAddress, u16>, __se
 template void __rb_tree<u16, std::pair<const u16, nn::nex::InetAddress>, __select1st<std::pair<const u16, nn::nex::InetAddress>, u16>, std::less<u16>, nn::nex::MemAllocator<std::pair<const u16, nn::nex::InetAddress> > >::_C_erase(Node* pNode);
 // 0x007F93C4 (name is ours)
 template void __rb_tree<nn::nex::InetAddress, std::pair<const nn::nex::InetAddress, u16>, __select1st<std::pair<const nn::nex::InetAddress, u16>, nn::nex::InetAddress>, std::less<nn::nex::InetAddress>, nn::nex::MemAllocator<std::pair<const nn::nex::InetAddress, u16> > >::_C_erase(Node* pNode);
+// 0x0080AD50 (name is ours)
+template __rb_tree<u16, std::pair<const u16, nn::nex::InetAddress>, __select1st<std::pair<const u16, nn::nex::InetAddress>, u16>, std::less<u16>, nn::nex::MemAllocator<std::pair<const u16, nn::nex::InetAddress> > >::iterator __rb_tree<u16, std::pair<const u16, nn::nex::InetAddress>, __select1st<std::pair<const u16, nn::nex::InetAddress>, u16>, std::less<u16>, nn::nex::MemAllocator<std::pair<const u16, nn::nex::InetAddress> > >::erase(iterator it);
+// 0x007F8C28 (name is ours)
+template __rb_tree<nn::nex::InetAddress, std::pair<const nn::nex::InetAddress, u16>, __select1st<std::pair<const nn::nex::InetAddress, u16>, nn::nex::InetAddress>, std::less<nn::nex::InetAddress>, nn::nex::MemAllocator<std::pair<const nn::nex::InetAddress, u16> > >::iterator __rb_tree<nn::nex::InetAddress, std::pair<const nn::nex::InetAddress, u16>, __select1st<std::pair<const nn::nex::InetAddress, u16>, nn::nex::InetAddress>, std::less<nn::nex::InetAddress>, nn::nex::MemAllocator<std::pair<const nn::nex::InetAddress, u16> > >::erase(iterator it);
 } // namespace __rw

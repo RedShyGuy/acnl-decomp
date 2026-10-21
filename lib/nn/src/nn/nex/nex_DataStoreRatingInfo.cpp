@@ -33,6 +33,17 @@ template __rb_tree<s8, std::pair<const s8, nn::nex::DataStoreRatingInfo>, __sele
 } // namespace __rw
 
 namespace __rw {
-// 0x00804344 (name is ours)
+// 0x00804344 | fefates:bytes [tier B]
 template __rb_tree<s8, std::pair<const s8, nn::nex::DataStoreRatingInfo>, __select1st<std::pair<const s8, nn::nex::DataStoreRatingInfo>, s8>, std::less<s8>, nn::nex::MemAllocator<std::pair<const s8, nn::nex::DataStoreRatingInfo>> >& __rb_tree<s8, std::pair<const s8, nn::nex::DataStoreRatingInfo>, __select1st<std::pair<const s8, nn::nex::DataStoreRatingInfo>, s8>, std::less<s8>, nn::nex::MemAllocator<std::pair<const s8, nn::nex::DataStoreRatingInfo>> >::operator=(const __rb_tree<s8, std::pair<const s8, nn::nex::DataStoreRatingInfo>, __select1st<std::pair<const s8, nn::nex::DataStoreRatingInfo>, s8>, std::less<s8>, nn::nex::MemAllocator<std::pair<const s8, nn::nex::DataStoreRatingInfo>> >& other);
 } // namespace __rw
+
+namespace nn {
+namespace nex {
+// 0x003CE26C | fefates:bytes [tier B]
+template <>
+DECOMP_NOINLINE qMap<s8, DataStoreRatingInfo>::qMap(const qMap<s8, DataStoreRatingInfo>& other) : base_type(other)
+{
+    // nothing to do: the tree copies the nodes
+}
+} // namespace nex
+} // namespace nn

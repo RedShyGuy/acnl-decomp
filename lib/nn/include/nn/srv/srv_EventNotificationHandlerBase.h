@@ -9,7 +9,7 @@ namespace srv {
 //   nn::srv::EventNotificationHandlerBase<nn::os::LightEvent>  typeinfo 0x008D0300  vtable 0x009020C0
 //
 // Signals an event when the notification comes. Member names are ours; all inline (the
-// instantiation's out-of-line copies are at 0x007E53EC and 0x00467164).
+// instantiation's out-of-line copies: anonymous/fs_Api.cpp).
 template <typename EventT>
 class EventNotificationHandlerBase : public NotificationHandler
 {

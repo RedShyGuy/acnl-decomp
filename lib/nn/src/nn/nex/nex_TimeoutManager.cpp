@@ -159,7 +159,7 @@ nn::nex::TimeoutManager::~TimeoutManager()
 } // namespace nn
 
 namespace __rw {
-// 0x00801F98 (name is ours)
+// 0x00801F98 | fefates:callgraph [tier C]
 template <>
 DECOMP_NOINLINE __rb_tree<nn::nex::PacketOut*, nn::nex::PacketOut*, __ident<nn::nex::PacketOut*, nn::nex::PacketOut*>, std::less<nn::nex::PacketOut*>,
                           nn::nex::MemAllocator<nn::nex::PacketOut*> >::iterator
@@ -175,13 +175,13 @@ template __rb_tree<nn::nex::PacketOut*, nn::nex::PacketOut*, __ident<nn::nex::Pa
 __rb_tree<nn::nex::PacketOut*, nn::nex::PacketOut*, __ident<nn::nex::PacketOut*, nn::nex::PacketOut*>, std::less<nn::nex::PacketOut*>,
           nn::nex::MemAllocator<nn::nex::PacketOut*> >::_C_insert(Node* pNode, Node* pParent, nn::nex::PacketOut* const& value);
 
-// 0x007FBFA0 (name is ours)
+// 0x007FBFA0 | fefates:callgraph [tier C]
 template __rb_tree<nn::nex::Time, std::pair<const nn::nex::Time, nn::nex::PacketOut*>, __select1st<std::pair<const nn::nex::Time, nn::nex::PacketOut*>, nn::nex::Time>,
                    std::less<nn::nex::Time>, nn::nex::MemAllocator<std::pair<const nn::nex::Time, nn::nex::PacketOut*> > >::iterator
 __rb_tree<nn::nex::Time, std::pair<const nn::nex::Time, nn::nex::PacketOut*>, __select1st<std::pair<const nn::nex::Time, nn::nex::PacketOut*>, nn::nex::Time>,
           std::less<nn::nex::Time>, nn::nex::MemAllocator<std::pair<const nn::nex::Time, nn::nex::PacketOut*> > >::erase(iterator it);
 
-// 0x007FC5FC (name is ours)
+// 0x007FC5FC | fefates:callgraph [tier C]
 template void __rb_tree<nn::nex::Time, std::pair<const nn::nex::Time, nn::nex::PacketOut*>, __select1st<std::pair<const nn::nex::Time, nn::nex::PacketOut*>, nn::nex::Time>,
                         std::less<nn::nex::Time>, nn::nex::MemAllocator<std::pair<const nn::nex::Time, nn::nex::PacketOut*> > >::_C_erase(Node* pNode);
 

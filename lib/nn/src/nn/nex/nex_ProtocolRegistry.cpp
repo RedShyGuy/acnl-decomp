@@ -85,7 +85,7 @@ DECOMP_NOINLINE qMap<u16, Protocol*>::qMap()
     // nothing to do: the tree is constructed by the compiler
 }
 
-// 0x003CE73C (name is ours)
+// 0x003CE73C | fefates:callgraph [tier C]
 template <>
 DECOMP_NOINLINE qMap<u16, Protocol*>::~qMap()
 {
@@ -94,3 +94,12 @@ DECOMP_NOINLINE qMap<u16, Protocol*>::~qMap()
 
 } // namespace nex
 } // namespace nn
+
+namespace __rw {
+// 0x0080BF40 (name is ours)
+template __rb_tree<u16, std::pair<const u16, nn::nex::Protocol*>, __select1st<std::pair<const u16, nn::nex::Protocol*>, u16>, std::less<u16>, nn::nex::MemAllocator<std::pair<const u16, nn::nex::Protocol*> > >::iterator __rb_tree<u16, std::pair<const u16, nn::nex::Protocol*>, __select1st<std::pair<const u16, nn::nex::Protocol*>, u16>, std::less<u16>, nn::nex::MemAllocator<std::pair<const u16, nn::nex::Protocol*> > >::erase(iterator it);
+// 0x0080C5A0 (name is ours)
+template void __rb_tree<u16, std::pair<const u16, nn::nex::Protocol*>, __select1st<std::pair<const u16, nn::nex::Protocol*>, u16>, std::less<u16>, nn::nex::MemAllocator<std::pair<const u16, nn::nex::Protocol*> > >::_C_erase(Node* pNode);
+// 0x0080C5DC (name is ours)
+template __rb_tree<u16, std::pair<const u16, nn::nex::Protocol*>, __select1st<std::pair<const u16, nn::nex::Protocol*>, u16>, std::less<u16>, nn::nex::MemAllocator<std::pair<const u16, nn::nex::Protocol*> > >::iterator __rb_tree<u16, std::pair<const u16, nn::nex::Protocol*>, __select1st<std::pair<const u16, nn::nex::Protocol*>, u16>, std::less<u16>, nn::nex::MemAllocator<std::pair<const u16, nn::nex::Protocol*> > >::_C_insert(Node* pNode, Node* pParent, const std::pair<const u16, nn::nex::Protocol*>& value);
+} // namespace __rw

@@ -119,7 +119,7 @@ nn::Result nn::pia::inet::Socket::Bind(unsigned short port)
     return Bind(address);
 }
 
-// 0x00412698 (name is ours)
+// 0x00412698 | fefates:callgraph [tier C]
 nn::Result nn::pia::inet::Socket::Open()
 {
     return Open(SOCKET_TYPE_DATAGRAM, 0);

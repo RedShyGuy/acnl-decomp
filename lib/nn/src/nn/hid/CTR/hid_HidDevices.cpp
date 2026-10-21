@@ -70,6 +70,7 @@ nn::Result nn::hid::CTR::HidDevices::Initialize(const char* serviceName)
 // 0x00352714 | nintendogs:bytes [tier A]
 nn::hid::CTR::HidDevices::~HidDevices()
 {
+    // nothing to do: the members and bases are destroyed by the compiler
 }
 
 } // namespace CTR

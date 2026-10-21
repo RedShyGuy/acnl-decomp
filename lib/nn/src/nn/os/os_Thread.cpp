@@ -7,8 +7,28 @@
 namespace nn {
 namespace os {
 
+namespace {
+// 0x008A356C (name is ours)
+const nn::Handle CURRENT_THREAD(nn::PSEUDO_HANDLE_CURRENT_THREAD);
+} // namespace
+
+// (inline in the static initializer)
+inline nn::os::Thread::Thread(CurrentThreadTag)
+{
+    nn::Handle handle;
+    nn::Result result = nn::svc::DuplicateHandle(&handle, CURRENT_THREAD);
+    if (result.IsFailure()) {
+        CTR::detail::HandleInternalError(result);
+    }
+    mHandle = handle;
+    mIsJoined = false;
+    mUsingAutoStack = false;
+}
+
 // 0x00975F84
 AutoStackManager* Thread::s_pAutoStackManager;
+// 0x00975F8C
+Thread Thread::s_MainThread((Thread::CurrentThreadTag()));
 
 // 0x00128390 | nintendogs:bytes [tier B]
 // last act of a thread with an automatic stack: the thread frees its own stack
@@ -102,3 +122,6 @@ nn::os::Thread::~Thread()
 
 } // namespace os
 } // namespace nn
+
+// ARMCC's static initializer of the file: the constructor of the main thread above
+// 0x0078859C (static initializer)

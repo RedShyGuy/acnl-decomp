@@ -29,7 +29,7 @@ bool nn::nex::UtilityProtocolClient::CallGetIntegerSettings(nn::nex::ProtocolCal
     }
     message.AppendRaw(reinterpret_cast<const u8*>(&index), sizeof(index));
     if (pContext != nullptr) {
-        pContext->AddReturnValue(pSettings);
+        pContext->AddReturnValuePtr(pSettings);
     }
     s_ProtoReturnFunctions[METHOD_GET_INTEGER_SETTINGS - 1] = ProtoReturn_GetIntegerSettings;
     return EndRegistered(this, &message, lock, pContext);
@@ -115,4 +115,6 @@ __rb_tree<u16, std::pair<const u16, u32>, __select1st<std::pair<const u16, u32>,
 template __rb_tree<u16, std::pair<const u16, u32>, __select1st<std::pair<const u16, u32>, u16>, std::less<u16>, nn::nex::MemAllocator<std::pair<const u16, u32> > >::iterator
 __rb_tree<u16, std::pair<const u16, u32>, __select1st<std::pair<const u16, u32>, u16>, std::less<u16>, nn::nex::MemAllocator<std::pair<const u16, u32> > >::_C_insert(
     Node* pNode, Node* pParent, const std::pair<const u16, u32>& value);
+// 0x0080D0C4 (name is ours)
+template void __rb_tree<u16, std::pair<const u16, u32>, __select1st<std::pair<const u16, u32>, u16>, std::less<u16>, nn::nex::MemAllocator<std::pair<const u16, u32> > >::_C_erase(Node* pNode);
 } // namespace __rw

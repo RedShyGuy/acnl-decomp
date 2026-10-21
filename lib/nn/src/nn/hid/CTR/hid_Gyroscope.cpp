@@ -7,6 +7,7 @@ namespace CTR {
 // 0x00354698 (deleting dtor)
 nn::hid::CTR::Gyroscope::~Gyroscope()
 {
+    // nothing to do: the members and bases are destroyed by the compiler
 }
 
 } // namespace CTR

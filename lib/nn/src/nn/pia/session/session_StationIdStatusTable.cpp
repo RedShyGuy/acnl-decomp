@@ -1,6 +1,11 @@
 #include "nn/pia/session/session_StationIdStatusTable.h"
 #include "nn/pia/common/common_HeapManager.h"
 #include "nn/pia/common/common_Result.h"
+#include "nn/pia/session/session_JointSessionJob.h"
+#include "nn/pia/session/session_Session.h"
+#include "nn/pia/transport/transport_Station.h"
+#include "nn/pia/transport/transport_StationManager.h"
+#include "nn/pia/transport/transport_Transport.h"
 #include "pead/peadHeapMgr.h"
 
 namespace nn {
@@ -195,7 +200,42 @@ bool nn::pia::session::StationIdStatusTable::SetUnknown0x12(const nn::pia::Stati
 // 0x0043E958 (name is ours)
 void nn::pia::session::StationIdStatusTable::RemoveLostStations()
 {
-    // with Session (written with it)
+    StationId lostStations[STATION_INDEX_MAX + 1];
+    Session* pSession = Session::s_pInstance;
+    bool isLocalLost = false;
+    u32 lostNum = 0;
+    StationId localStationId = pSession->m_LocalStationId;
+    for (Node* node = m_List.Begin(); node != m_List.End(); node = m_List.Advance(node)) {
+        Entry& entry = node->m_Value;
+        bool isLost = false;
+        transport::Station* pStation = transport::StationManager::s_pInstance->GetStation(entry.m_StationId);
+        if (!common::IsValidPointer(pStation) || pStation->m_State != transport::Station::STATION_STATE_CONNECTED) {
+            isLost = true;
+        }
+        if (!isLost && entry.m_IsValid) {
+            continue;
+        }
+        // the local station leaves last
+        if (entry.m_StationId == localStationId) {
+            isLocalLost = true;
+        } else {
+            lostStations[lostNum++] = entry.m_StationId;
+        }
+        transport::StationIdTable::Entry* pIdEntry = transport::Transport::s_pInstance->m_pStationIdTable->FindCore(entry.m_StationId);
+        if (common::IsValidPointer(pIdEntry) && pIdEntry->m_StationIndex == STATION_INDEX_UNIDENTIFIED) {
+            pIdEntry->m_StationIndex = entry.m_StationIndex;
+        }
+    }
+    if (isLocalLost) {
+        lostStations[lostNum++] = localStationId;
+    }
+    for (u32 i = 0; i < lostNum; i++) {
+        transport::StationIdTable::Entry idEntry;
+        idEntry.m_StationId = lostStations[i];
+        idEntry.m_StationIndex = STATION_INDEX_UNIDENTIFIED;
+        idEntry.m_Key = 0;
+        pSession->RemoveStation(idEntry, 0);
+    }
 }
 
 // 0x0043EAD8 (name is ours)
@@ -213,7 +253,34 @@ bool nn::pia::session::StationIdStatusTable::SetUnknown0x13(const nn::pia::Stati
 // 0x0043EB3C (name is ours)
 void nn::pia::session::StationIdStatusTable::NotifyStations()
 {
-    // with Session (written with it)
+    Session* pSession = Session::s_pInstance;
+    // the local station first, then the host, then the others
+    StationId localStationId = pSession->m_LocalStationId;
+    if (!IsNotified(localStationId)) {
+        pSession->AddToStationIdList(localStationId);
+        pSession->NotifyJoinEvent(localStationId);
+        SetNotified(localStationId, true);
+    }
+    StationId hostStationId = pSession->m_HostStationId;
+    if (!IsNotified(hostStationId)) {
+        for (Node* node = m_List.Begin(); node != m_List.End(); node = m_List.Advance(node)) {
+            if (node->m_Value.m_StationId == hostStationId) {
+                if (node->m_Value.m_IsValid) {
+                    pSession->AddToStationIdList(hostStationId);
+                    pSession->NotifyJoinEvent(hostStationId);
+                    SetNotified(hostStationId, true);
+                }
+                break;
+            }
+        }
+    }
+    for (Node* node = m_List.Begin(); node != m_List.End(); node = m_List.Advance(node)) {
+        if (!node->m_Value.m_IsNotified) {
+            pSession->AddToStationIdList(node->m_Value.m_StationId);
+            pSession->NotifyJoinEvent(node->m_Value.m_StationId);
+            node->m_Value.m_IsNotified = true;
+        }
+    }
 }
 
 // 0x0043EC94 (name is ours)
@@ -452,9 +519,30 @@ bool nn::pia::session::StationIdStatusTable::GetUnknown0x13(const nn::pia::Stati
 }
 
 // 0x00733FA0 (name is ours)
-bool nn::pia::session::StationIdStatusTable::IsJointSessionStation(const nn::pia::transport::StationIdTable::Entry*) const
+bool nn::pia::session::StationIdStatusTable::IsJointSessionStation(const nn::pia::transport::StationIdTable::Entry* pEntry) const
 {
-    // with Session (written with it)
+    // (the special index 254, see StationId)
+    if (pEntry == nullptr || pEntry->m_StationIndex == 254) {
+        return false;
+    }
+    Session* pSession = Session::s_pInstance;
+    if (!pSession->m_Unknown0xB1) {
+        return false;
+    }
+    for (Node* node = m_List.Begin(); node != m_List.End(); node = m_List.Advance(node)) {
+        if (node->m_Value.m_StationId == pEntry->m_StationId) {
+            JointSessionJob* pJob = pSession->m_pJointSessionJob;
+            if (pJob == nullptr) {
+                return false;
+            }
+            // while the joint session is made, only the stations of status 2
+            if (pJob->m_Phase == 6 || pJob->m_Phase == 7 || pJob->m_Phase == 8) {
+                return node->m_Value.m_Status == 2;
+            }
+            return true;
+        }
+    }
+    return false;
 }
 
 } // namespace session

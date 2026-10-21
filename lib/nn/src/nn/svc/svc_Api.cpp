@@ -627,6 +627,7 @@ nn::Result GetResourceLimitCurrentValues(s64* values, nn::Handle resourceLimit, 
     );
 }
 
+// 0x00135C84 | copied from the binary
 void Break(u32 reason, const void* data, u32 size)
 {
     asm volatile(
@@ -1048,6 +1049,15 @@ nn::Result QueryProcessMemory(MemoryInfo* info, PageInfo* page, nn::Handle proce
 
 } // namespace svc
 } // namespace nn
+
+// 0x00128428 (name is ours, like svcSleepThread)
+extern "C" s64 svcGetSystemTick()
+{
+    asm volatile(
+        "svc 0x28\n"
+        "bx lr\n"
+    );
+}
 
 // 0x0012843C | copied from the binary
 extern "C" void svcSleepThread(s64 nanoSeconds)

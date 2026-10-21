@@ -184,6 +184,7 @@ void nn::snd::CTR::MasterManagerImpl::Finalize()
 // 0x00463388 (name is ours)
 nn::snd::CTR::MasterManagerImpl::~MasterManagerImpl()
 {
+    // nothing to do: the members and bases are destroyed by the compiler
 }
 
 } // namespace CTR

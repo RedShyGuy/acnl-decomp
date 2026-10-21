@@ -18,6 +18,7 @@ nn::Result StartDetection(); // 0x003DA804 | fefates:bytes [tier B]
 nn::Result StopDetection(); // 0x003DA7D0 | tier C (confirmed by the code)
 nn::Result ResetTagScanState(); // 0x003DACB8 (name is ours, after NFC:ResetTagScanState)
 nn::Result Command0A(); // 0x003DAC84 (name is ours, after NfcIpc::Command0A)
+nn::Result Command1A(); // 0x003DAD40 (name is ours, after NfcIpc::Command1A)
 // the state of NFC, 0 when the library is not initialized
 nn::nfc::CTR::NfcState GetNfpState(); // 0x003DA758 | fefates:bytes [tier B]
 nn::Result GetTargetConnectionStatus(nn::nfp::TargetConnectionStatus* status); // 0x003DAA3C | fefates:bytes [tier B]

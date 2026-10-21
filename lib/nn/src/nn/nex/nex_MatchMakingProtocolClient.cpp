@@ -66,7 +66,7 @@ bool nn::nex::MatchMakingProtocolClient::CallFindByOwner(nn::nex::ProtocolCallCo
     message.AppendRaw(reinterpret_cast<const u8*>(&id), sizeof(id));
     _DDL_ResultRange::Add(&message, resultRange);
     if (pContext != nullptr) {
-        pContext->AddReturnValue(plstGathering);
+        pContext->AddReturnValuePtr(plstGathering);
     }
     s_ProtoReturnFunctions[METHOD_FIND_BY_OWNER - 1] = ProtoReturn_FindByOwner;
     return EndRegistered(this, &message, lock, pContext);
@@ -82,8 +82,8 @@ bool nn::nex::MatchMakingProtocolClient::CallFindBySingleID(nn::nex::ProtocolCal
     }
     message.AppendRaw(reinterpret_cast<const u8*>(&id), sizeof(id));
     if (pContext != nullptr) {
-        pContext->AddReturnValue(pbResult);
-        pContext->AddReturnValue(pGathering);
+        pContext->AddReturnValuePtr(pbResult);
+        pContext->AddReturnValuePtr(pGathering);
     }
     s_ProtoReturnFunctions[METHOD_FIND_BY_SINGLE_ID - 1] = ProtoReturn_FindBySingleID;
     return EndRegistered(this, &message, lock, pContext);
@@ -99,7 +99,7 @@ bool nn::nex::MatchMakingProtocolClient::CallGetSessionURLs(nn::nex::ProtocolCal
     }
     message.AppendRaw(reinterpret_cast<const u8*>(&gid), sizeof(gid));
     if (pContext != nullptr) {
-        pContext->AddReturnValue(plstURLs);
+        pContext->AddReturnValuePtr(plstURLs);
     }
     s_ProtoReturnFunctions[METHOD_GET_SESSION_URLS - 1] = ProtoReturn_GetSessionURLs;
     return EndRegistered(this, &message, lock, pContext);
@@ -129,7 +129,7 @@ bool nn::nex::MatchMakingProtocolClient::CallUnregisterGathering(nn::nex::Protoc
     }
     message.AppendRaw(reinterpret_cast<const u8*>(&idGathering), sizeof(idGathering));
     if (pContext != nullptr) {
-        pContext->AddReturnValue(pRetval);
+        pContext->AddReturnValuePtr(pRetval);
     }
     s_ProtoReturnFunctions[METHOD_UNREGISTER_GATHERING - 1] = ProtoReturn_UnregisterGathering;
     return EndRegistered(this, &message, lock, pContext);
@@ -209,7 +209,7 @@ void nn::nex::MatchMakingProtocolClient::ProtoReturn_MigrateGatheringOwnership(n
     // nothing to do
 }
 
-// 0x003CF4B8 (name is ours)
+// 0x003CF4B8 | fefates:bytes [tier B]
 template <>
 DECOMP_NOINLINE qList<AnyObjectHolder<Gathering, String> >::qList()
 {
@@ -255,6 +255,8 @@ nn::nex::ClientProtocol* nn::nex::MatchMakingProtocolClient::CreateResponder() c
 
 // 0x003CF50C (name is ours; it calls the destructor of std::list)
 template qList<AnyObjectHolder<Gathering, String> >::~qList();
+// 0x00151B80 (an out-of-line copy whose address the original uses; a second one is at 0x00151D64)
+template AnyObjectHolder<Gathering, String>::AnyObjectHolder();
 
 } // namespace nex
 } // namespace nn
@@ -272,6 +274,13 @@ template <>
 DECOMP_NOINLINE void list<nn::nex::AnyObjectHolder<nn::nex::Gathering, nn::nex::String>, nn::nex::MemAllocator<nn::nex::AnyObjectHolder<nn::nex::Gathering, nn::nex::String> > >::AddBuffer(bool isFirst)
 {
     AddBufferInline(isFirst);
+}
+
+// 0x0082F5BC (name is ours)
+template <>
+DECOMP_NOINLINE void list<nn::nex::AnyObjectHolder<nn::nex::Gathering, nn::nex::String>, nn::nex::MemAllocator<nn::nex::AnyObjectHolder<nn::nex::Gathering, nn::nex::String>> >::clear()
+{
+    ClearEraseInline();
 }
 
 // 0x0082F630 (name is ours)

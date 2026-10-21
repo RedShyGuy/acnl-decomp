@@ -199,3 +199,6 @@ nn::Result GetCountryCodeString(char* string, u16 countryCodeId)
 } // namespace CTR
 } // namespace cfg
 } // namespace nn
+
+// ARMCC's static initializer of the file: the constructors of the globals above
+// 0x00791A24 (static initializer)

@@ -37,6 +37,16 @@ bool s_IsMemoryBlockEnabled;
 // 0x00975F88
 uptr s_MainThreadLocalRegion;
 
+// the address space of the memory blocks (once; name is ours)
+// 0x0011D494 (name is ours)
+void InitializeMemoryBlock(uptr begin, size_t size)
+{
+    if (!s_IsMemoryBlockEnabled) {
+        s_IsMemoryBlockEnabled = true;
+        nnosAddressSpaceManagerInitialize(&s_MemoryBlockSpace, begin, size);
+    }
+}
+
 // 0x0011DFA4 | tier C
 void SaveThreadLocalRegionAddress()
 {

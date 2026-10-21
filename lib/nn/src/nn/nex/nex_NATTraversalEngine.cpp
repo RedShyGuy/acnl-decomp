@@ -760,7 +760,7 @@ bool nn::nex::NATTraversalEngine::ShouldUseRelay(const nn::nex::StationURL& url,
 } // namespace nn
 
 namespace __rw {
-// 0x00809524 (name is ours)
+// 0x00809524 | fefates:bytes [tier B]
 template __rb_tree<unsigned int, std::pair<const unsigned int, std::pair<nn::nex::Time, nn::nex::StationURL> >,
                    __select1st<std::pair<const unsigned int, std::pair<nn::nex::Time, nn::nex::StationURL> >, unsigned int>, std::less<unsigned int>,
                    nn::nex::MemAllocator<std::pair<const unsigned int, std::pair<nn::nex::Time, nn::nex::StationURL> > > >::iterator
@@ -768,7 +768,7 @@ __rb_tree<unsigned int, std::pair<const unsigned int, std::pair<nn::nex::Time, n
           __select1st<std::pair<const unsigned int, std::pair<nn::nex::Time, nn::nex::StationURL> >, unsigned int>, std::less<unsigned int>,
           nn::nex::MemAllocator<std::pair<const unsigned int, std::pair<nn::nex::Time, nn::nex::StationURL> > > >::erase(iterator it);
 
-// 0x00809B8C (name is ours)
+// 0x00809B8C | fefates:bytes [tier B]
 template <>
 DECOMP_NOINLINE __rb_tree<unsigned int, std::pair<const unsigned int, std::pair<nn::nex::Time, nn::nex::StationURL> >,
                           __select1st<std::pair<const unsigned int, std::pair<nn::nex::Time, nn::nex::StationURL> >, unsigned int>, std::less<unsigned int>,
@@ -780,7 +780,7 @@ __rb_tree<unsigned int, std::pair<const unsigned int, std::pair<nn::nex::Time, n
     return EraseRangeInline(first, last);
 }
 
-// 0x00809CE0 (name is ours)
+// 0x00809CE0 | fefates:bytes [tier B]
 template void __rb_tree<unsigned int, std::pair<const unsigned int, std::pair<nn::nex::Time, nn::nex::StationURL> >,
                         __select1st<std::pair<const unsigned int, std::pair<nn::nex::Time, nn::nex::StationURL> >, unsigned int>, std::less<unsigned int>,
                         nn::nex::MemAllocator<std::pair<const unsigned int, std::pair<nn::nex::Time, nn::nex::StationURL> > > >::_C_erase(Node* pNode);

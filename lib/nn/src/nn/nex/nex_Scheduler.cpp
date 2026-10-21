@@ -549,7 +549,7 @@ __rb_tree<nn::nex::Time, std::pair<const nn::nex::Time, nn::nex::Job*>, __select
 } // namespace __rw
 
 namespace std {
-// 0x00837524 (name is ours)
+// 0x00837524 | fefates:bytes [tier B]
 template <>
 DECOMP_NOINLINE multimap<nn::nex::Time, nn::nex::Job*>::iterator multimap<nn::nex::Time, nn::nex::Job*>::insert(const value_type& value)
 {

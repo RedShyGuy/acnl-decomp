@@ -16,7 +16,7 @@ nn::nex::PRUDPEndPoint* nn::nex::PRUDPEndPointMap::Locate(const nn::nex::InetAdd
 } // namespace nn
 
 namespace std {
-// 0x0082E288 (name is ours)
+// 0x0082E288 | mk7dlp:bytes [tier A]
 template <>
 DECOMP_NOINLINE map<nn::nex::EndPointUniqueID, nn::nex::PRUDPEndPoint*>::iterator map<nn::nex::EndPointUniqueID, nn::nex::PRUDPEndPoint*>::find(const nn::nex::EndPointUniqueID& key)
 {

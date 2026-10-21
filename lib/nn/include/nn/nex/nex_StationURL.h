@@ -203,4 +203,7 @@ DECOMP_NOINLINE void list<nn::nex::StationURL, nn::nex::MemAllocator<nn::nex::St
 
 template <>
 DECOMP_NOINLINE void list<nn::nex::StationURL, nn::nex::MemAllocator<nn::nex::StationURL> >::push_back(const nn::nex::StationURL& value);
+
+template <>
+DECOMP_NOINLINE void list<nn::nex::StationURL, nn::nex::MemAllocator<nn::nex::StationURL> >::clear();
 } // namespace std

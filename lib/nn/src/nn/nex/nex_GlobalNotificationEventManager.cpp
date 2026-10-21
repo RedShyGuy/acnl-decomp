@@ -78,3 +78,12 @@ bool nn::nex::GlobalNotificationEventManager::UnregisterGlobalNotificationEventM
 
 } // namespace nex
 } // namespace nn
+
+namespace __rw {
+// 0x00800DA8 (name is ours)
+template __rb_tree<nn::nex::NotificationEventManager*, nn::nex::NotificationEventManager*, __ident<nn::nex::NotificationEventManager*, nn::nex::NotificationEventManager*>, std::less<nn::nex::NotificationEventManager*>, nn::nex::MemAllocator<nn::nex::NotificationEventManager*> >::iterator __rb_tree<nn::nex::NotificationEventManager*, nn::nex::NotificationEventManager*, __ident<nn::nex::NotificationEventManager*, nn::nex::NotificationEventManager*>, std::less<nn::nex::NotificationEventManager*>, nn::nex::MemAllocator<nn::nex::NotificationEventManager*> >::erase(iterator it);
+// 0x00801404 (name is ours)
+template void __rb_tree<nn::nex::NotificationEventManager*, nn::nex::NotificationEventManager*, __ident<nn::nex::NotificationEventManager*, nn::nex::NotificationEventManager*>, std::less<nn::nex::NotificationEventManager*>, nn::nex::MemAllocator<nn::nex::NotificationEventManager*> >::_C_erase(Node* pNode);
+// 0x00801440 (name is ours)
+template __rb_tree<nn::nex::NotificationEventManager*, nn::nex::NotificationEventManager*, __ident<nn::nex::NotificationEventManager*, nn::nex::NotificationEventManager*>, std::less<nn::nex::NotificationEventManager*>, nn::nex::MemAllocator<nn::nex::NotificationEventManager*> >::iterator __rb_tree<nn::nex::NotificationEventManager*, nn::nex::NotificationEventManager*, __ident<nn::nex::NotificationEventManager*, nn::nex::NotificationEventManager*>, std::less<nn::nex::NotificationEventManager*>, nn::nex::MemAllocator<nn::nex::NotificationEventManager*> >::_C_insert(Node* pNode, Node* pParent, nn::nex::NotificationEventManager* const& value);
+} // namespace __rw

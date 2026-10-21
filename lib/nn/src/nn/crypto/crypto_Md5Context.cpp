@@ -154,12 +154,14 @@ void nn::crypto::Md5Context::GetHash(void* pOutput)
 // 0x00482DEC (name is ours)
 void nn::crypto::Md5Context::Finalize()
 {
+    // nothing to do: empty in the original
 }
 
 // 0x00482DF4
 // 0x00482DF0 (deleting dtor)
 nn::crypto::Md5Context::~Md5Context()
 {
+    // nothing to do: the members and bases are destroyed by the compiler
 }
 
 } // namespace crypto

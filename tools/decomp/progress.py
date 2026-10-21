@@ -21,7 +21,13 @@ ROOT = os.path.normpath(os.path.join(HERE, '..', '..'))
 LIBRARIES = ('nn', 'nw', 'sead', 'pead', 'imgdb', 'mw', 'libms', 'cfl', 'std', '__rw', '__cxxabiv1')
 
 
+# the C functions of nn (nngxInitialize, nncxZlib_deflate, nninitSetup, nndbgPanic, ...)
+NN_C_FUNCTION = re.compile(r'nn(gx|gxlow|cx|init|dbg|nstd|os)[A-Z_]|nexZlib_|gl[A-Z]|__(sta|fb|fbv|vb|vbv|shm|shv|tx|txv|vldtr|sys|cb|mem|srf)_')
+
+
 def unit_of(name):
+    if NN_C_FUNCTION.match(name):
+        return 'nn'
     top = re.split(r'::|\(', name.replace('(anonymous namespace)::', ''), maxsplit=1)[0]
     return top if top in LIBRARIES else 'game'
 

@@ -9,6 +9,8 @@ namespace os {
 namespace {
 
 const uptr HEAP_BEGIN = 0x08000000;
+// the size of the APPLICATION memory region in the configuration memory (3dbrew "APPMEMALLOC")
+const uptr CONFIG_MEMORY_APPMEMALLOC = 0x1FF80040;
 const uptr PAGE_MASK = 0xFFF;
 const uptr DEVICE_MEMORY_STEP_MASK = 0xFFFFF;
 
@@ -35,6 +37,12 @@ size_t s_DeviceMemorySize;
 // 0x00975F7C
 size_t s_HeapSize;
 
+// 0x0011D2A8 (name is ours)
+size_t GetHeapSize()
+{
+    return s_HeapSize;
+}
+
 // 0x0011D2B8 | nintendogs:bytes [tier A]
 nn::Result SetHeapSize(size_t size)
 {
@@ -53,6 +61,12 @@ nn::Result SetHeapSize(size_t size)
         s_HeapSize = size;
     }
     return result;
+}
+
+// 0x0011D350 (name is ours, after 3dbrew's APPMEMALLOC)
+size_t GetAppMemorySize()
+{
+    return *reinterpret_cast<volatile u32*>(CONFIG_MEMORY_APPMEMALLOC);
 }
 
 // 0x0011D360 | nintendogs:bytes [tier A]
@@ -146,4 +160,10 @@ extern "C" void OsSleepThread(s64 nanoSeconds)
 extern "C" void OsYieldThread()
 {
     svcSleepThread(0);
+}
+
+// 0x007B2C34 | fefates:callgraph [tier C]
+extern "C" s64 nnosTickGetSystemCurrent()
+{
+    return svcGetSystemTick();
 }

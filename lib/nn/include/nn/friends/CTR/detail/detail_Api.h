@@ -22,6 +22,8 @@ bool IsInitialized(); // 0x0048A9E0 (name is ours)
 // the session of frd:a (never opened by ACNL)
 DECOMP_NOINLINE bool IsInitializedAdmin(); // 0x0012BDAC | fefates:callgraph [tier C]
 
+// the notifications that frd:u reports (bits of the notification types)
+nn::Result SetNotificationMask(bit32 mask); // 0x00125740 (name after 3dbrew)
 nn::Result GetFriendKeyList(nnfriendsFriendKey* pKeys, unsigned int* pCount, unsigned int offset, unsigned int size); // 0x001256A0 | fefates:bytes [tier B]
 bool HasLoggedIn(); // 0x0048A904 | fefates:bytes [tier B]
 nn::Result GetMyPassword(char* pPassword); // 0x0048A968 | fefates:bytes [tier B]

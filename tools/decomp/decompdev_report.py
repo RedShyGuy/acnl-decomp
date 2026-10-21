@@ -118,6 +118,9 @@ def category_of(unit: str, name: str) -> str:
         return m.group(1)
     if unit.startswith("src/"):
         return "game"
+    # the C functions of nn (nngxInitialize, nncxZlib_deflate, nninitSetup, nndbgPanic, ...)
+    if re.match(r"nn(gx|gxlow|cx|init|dbg|nstd|os)[A-Z_]|nexZlib_|gl[A-Z]|__(sta|fb|fbv|vb|vbv|shm|shv|tx|txv|vldtr|sys|cb|mem|srf)_", name):
+        return "nn"
     top = namespace_of(name)
     if top in LIBRARIES:
         return top

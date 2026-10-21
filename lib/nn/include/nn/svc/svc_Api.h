@@ -19,6 +19,8 @@
 
 // C wrappers that the original calls instead of the inline svc (only the ones that are used)
 extern "C" void svcSleepThread(s64 nanoSeconds) SVC_ASM; // svc 0x0A | 0x0012843C
+// (nngxlowGetSystemTick and nnosTickGetSystemCurrent branch to it; the name is ours, like svcSleepThread)
+extern "C" s64 svcGetSystemTick() SVC_ASM; // svc 0x28 | 0x00128428
 
 namespace nn {
 namespace svc {

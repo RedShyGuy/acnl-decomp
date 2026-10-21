@@ -347,11 +347,15 @@ nn::Result Connect()
     return result;
 }
 
-// 0x00124D70 (name is ours)
-void SetReceivedWakeupByCancel()
+} // namespace detail
+
+// 0x00124D70 | fefates:callgraph [tier C]
+void SetReceivedWakeupByCancelFlag()
 {
-    s_IsReceivedWakeupByCancel = true;
+    detail::s_IsReceivedWakeupByCancel = true;
 }
+
+namespace detail {
 
 // 0x001250DC | nintendogs:bytes [tier A]
 void LockTransition(unsigned transition, bool flag)
@@ -689,7 +693,7 @@ nn::applet::CTR::WakeupState WaitForStarting(unsigned* pSenderAppId, unsigned ch
     case COMMAND_WAKEUP_BY_CANCEL:
         state = WAKEUP_STATE_BY_CANCEL;
         nn::dsp::CTR::OrderToWaitForFinalize();
-        SetReceivedWakeupByCancel();
+        SetReceivedWakeupByCancelFlag();
         break;
     case COMMAND_WAKEUP_BY_CANCELALL:
         state = WAKEUP_STATE_BY_CANCEL_ALL;

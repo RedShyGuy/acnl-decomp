@@ -22,7 +22,7 @@ public:
     StationAddress(); // 0x00426EF0 | fefates:bytes [tier B]
     StationAddress(const nn::pia::common::StationAddress& rhs); // 0x00426EC4 | fefates:bytes [tier B]
     // (inline; ARMCC also emitted copies at 0x00426F14 and 0x00427B48)
-    ~StationAddress() {} // 0x00426F14 (also out of line in the original, unused)
+    DECOMP_EMIT_COPY ~StationAddress() {} // 0x00426F14 (also out of line in the original, unused)
     StationAddress& operator=(const nn::pia::common::StationAddress& rhs); // 0x00426F40 | fefates:bytes [tier B]
 
     virtual void Trace(u64 flag) const; // 0x00731978 slot 0x00 (name after StepSequenceJob::Trace)

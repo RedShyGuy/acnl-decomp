@@ -151,12 +151,6 @@ void StartLcdDisplay()
     }
 }
 
-// 0x00128428 (name is ours)
-s64 GetSystemTick()
-{
-    return nn::svc::GetSystemTick();
-}
-
 // 0x0012A9E0 | mk7dlp:callseq [tier A]
 void Initialize()
 {
@@ -176,6 +170,12 @@ void Initialize()
     s_pInterruptReceiver = new (s_InterruptReceiverStorage) InterruptReceiver;
     s_pInterruptReceiver->Initialize();
     s_Lock.Exit();
+}
+
+// 0x0013116C (name is ours, after WriteHWRegs)
+nn::Result ReadHWRegs(unsigned regAddress, void* data, unsigned size)
+{
+    return detail::GetGpuIpc()->ReadHWRegs(regAddress, static_cast<u8*>(data), size);
 }
 
 // 0x0012AAE8 (name is ours, after GSPGPU_WriteHWRegs)
@@ -287,7 +287,7 @@ void Unlock()
 }
 
 // 0x00136D9C | nintendogs:bytes [tier A]
-void RequestDma(void* pDst, const void* pSrc, unsigned size, bool isFlushed, bool isOnlyToVram)
+DECOMP_NOINLINE void RequestDma(void* pDst, const void* pSrc, unsigned size, bool isFlushed, bool isOnlyToVram)
 {
     if (isOnlyToVram && !(reinterpret_cast<uptr>(pDst) - VRAM_ADDRESS < VRAM_SIZE)) {
         return;
@@ -303,7 +303,7 @@ void RequestDma(void* pDst, const void* pSrc, unsigned size, bool isFlushed, boo
 }
 
 // 0x00136E7C | nintendogs:bytes [tier A]
-nn::Result SetMemoryFill(void* start0, void* end0, unsigned value0, unsigned control0, void* start1, void* end1, unsigned value1, unsigned control1)
+DECOMP_NOINLINE nn::Result SetMemoryFill(void* start0, void* end0, unsigned value0, unsigned control0, void* start1, void* end1, unsigned value1, unsigned control1)
 {
     detail::CmdReq request = *s_pDefaultCmdReq;
     request.id = detail::CMD_REQ_MEMORY_FILL;
@@ -345,7 +345,7 @@ nn::Result SetCommandlist(void* buffer, unsigned size, bool isFlushed, bool upda
 }
 
 // 0x00136FF0 | nintendogs:bytes [tier A]
-nn::Result SetTextureCopy(void* src, void* dst, unsigned size, unsigned short srcLineWidth, unsigned short srcGap, unsigned short dstLineWidth,
+DECOMP_NOINLINE nn::Result SetTextureCopy(void* src, void* dst, unsigned size, unsigned short srcLineWidth, unsigned short srcGap, unsigned short dstLineWidth,
                           unsigned short dstGap, unsigned flags)
 {
     detail::CmdReq request = *s_pDefaultCmdReq;
@@ -484,13 +484,19 @@ void ImportDisplayCaptureInfo(nn::gxlow::CTR::DisplayCaptureInfo* pInfo)
 // 0x00128424
 s64 nngxlowGetSystemTick()
 {
-    return nn::gxlow::CTR::GetSystemTick();
+    return svcGetSystemTick();
 }
 
 // 0x0012AAE4
 nn::Result GSPGPU_WriteHWRegs(unsigned regAddress, const void* data, unsigned size)
 {
     return nn::gxlow::CTR::WriteHWRegs(regAddress, data, size);
+}
+
+// 0x00131168 (name is ours, after GSPGPU_WriteHWRegs)
+nn::Result GSPGPU_ReadHWRegs(unsigned regAddress, void* data, unsigned size)
+{
+    return nn::gxlow::CTR::ReadHWRegs(regAddress, data, size);
 }
 
 // 0x0012AB10
@@ -569,4 +575,42 @@ bool nngxlowIsSwapPending(int screen)
 void nngxlowSetBufferSwap(int screen, int activeFramebuffer, void* left, void* right, unsigned int stride, unsigned int format, unsigned int select)
 {
     nn::gxlow::CTR::SetBufferSwap(screen, activeFramebuffer, left, right, stride, format, select);
+}
+
+// ARMCC's static initializer of the file (gxlow_Management.cpp): the constructors of the globals above
+// 0x0079B5C4 (static initializer)
+
+// the requests of the command queue for gx (C interface; the names are ours, after the other
+// nngxlow functions)
+// 0x00135960 (name is ours)
+void nngxlowRequestDma(void* pDst, const void* pSrc, unsigned size, bool isFlushed)
+{
+    nn::gxlow::CTR::RequestDma(pDst, pSrc, size, isFlushed, true);
+}
+
+// (the entry is a nop that falls into SetCommandlist)
+// 0x00136F20 (name is ours)
+nn::Result nngxlowSetCommandlist(void* buffer, unsigned size, bool isFlushed, bool updatesGasAdditiveBlend)
+{
+    return nn::gxlow::CTR::SetCommandlist(buffer, size, isFlushed, updatesGasAdditiveBlend);
+}
+
+// 0x00135994 (name is ours)
+nn::Result nngxlowSetMemoryFill(void* start0, void* end0, unsigned value0, unsigned control0, void* start1, void* end1, unsigned value1, unsigned control1)
+{
+    return nn::gxlow::CTR::SetMemoryFill(start0, end0, value0, control0, start1, end1, value1, control1);
+}
+
+// 0x00135974 (name is ours)
+nn::Result nngxlowSetDisplayTransfer(void* src, unsigned short srcWidth, unsigned short srcHeight, void* dst, unsigned short dstWidth, unsigned short dstHeight,
+                                     unsigned flags)
+{
+    return nn::gxlow::CTR::SetDisplayTransfer(src, srcWidth, srcHeight, dst, dstWidth, dstHeight, flags);
+}
+
+// 0x001359B4 (name is ours)
+nn::Result nngxlowSetTextureCopy(void* src, void* dst, unsigned size, unsigned short srcLineWidth, unsigned short srcGap, unsigned short dstLineWidth,
+                                 unsigned short dstGap, unsigned flags)
+{
+    return nn::gxlow::CTR::SetTextureCopy(src, dst, size, srcLineWidth, srcGap, dstLineWidth, dstGap, flags);
 }

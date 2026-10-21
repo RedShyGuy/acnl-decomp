@@ -125,7 +125,7 @@ DECOMP_NOINLINE nn::nex::qList<nn::nex::SecurityContext>& map<u32, nn::nex::qLis
 } // namespace std
 
 namespace std {
-// 0x0082F864 (name is ours; std::list::operator=)
+// 0x0082F864 | fefates:bytes [tier B] (std::list::operator=)
 template <>
 DECOMP_NOINLINE list<nn::nex::SecurityContext, nn::nex::MemAllocator<nn::nex::SecurityContext> >& list<nn::nex::SecurityContext, nn::nex::MemAllocator<nn::nex::SecurityContext> >::operator=(const list<nn::nex::SecurityContext, nn::nex::MemAllocator<nn::nex::SecurityContext> >& other)
 {

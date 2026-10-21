@@ -110,7 +110,6 @@
 0x1376F4	nw::gfx::res::ResLight::Cleanup()	mk7dlp:bytes	0x22F77C	
 0x137780	nw::gfx::res::ResModel::Cleanup()	mk7dlp:bytes	0x22FA84	
 0x1378BC	nw::gfx::res::ResShader::Cleanup()	mk7dlp:callgraph	0x22FD44	
-0x137B04	nn::nex::Credentials::MarkInvalid()	mk7dlp:bytes	0x171ED0	
 0x137B28	nw::snd::internal::BasicSound::DetachGeneralHandle()	mk7dlp:callgraph	0x240BA4	
 0x137B30	nw::snd::SoundHandle::DetachSound()	mk7dlp:bytes	0x240BAC	
 0x137C74	nw::snd::SoundDataManager::SoundDataManager()	mk7dlp:bytes	0x242A38	
@@ -379,7 +378,6 @@
 0x14FB90	nn::svc::CreateMutex(nn::Handle*, bool)	mk7dlp:bytes	0x1150EC	
 0x14FBA8	nn::svc::DuplicateHandle(nn::Handle*, nn::Handle)	mk7dlp:bytes	0x115104	
 0x1503B0	sead::ptcl::PtclEditor::calc()	mk7dlp:callgraph	0x2E6238	
-0x1509E0	nn::nex::Gathering::Gathering()	mk7dlp:callgraph	0x1F7A38	
 0x150E98	sead::GraphicsFileResNw4c::GraphicsFileResNw4c()	mk7dlp:callgraph	0x2E2428	
 0x150F90	strncmp	mk7dlp:callgraph	0x116854	
 0x151080	strlcpy	mk7dlp:callgraph	0x1164FC	
@@ -420,10 +418,6 @@
 0x158E20	std::ctype_byname<char>::_C_get_mask_table(const char*)	mk7dlp:callseq	0x4C4990	
 0x159D9C	LMS_GetText	mk7dlp:bytes	0x121E34	
 0x175AD8	CFLi_GetStringLength8(const char*)	mk7dlp:bytes-fuzzy	0x128A60	
-0x1C9E14	nn::nex::DataStoreKeyValue::~DataStoreKeyValue()	mk7dlp:bytes	0x1B0918	
-0x24F380	nn::nex::UdsSetting::~UdsSetting__deallocating()	mk7dlp:bytes	0x1708D8	
-0x256678	nn::nex::ChangeDupSetOperation::~ChangeDupSetOperation()	mk7dlp:bytes	0x1C9884	nn::nex::CreateMasterOperation::~CreateMasterOperation() | nn::nex::FaultRecoveryOperation::~FaultRecoveryOperation()
-0x2E98F0	nn::nex::DORef::~DORef()	mk7dlp:callgraph	0x1E69F0	
 0x2F7E98	_ll_udiv10	mk7dlp:bytes	0x116A00	
 0x2F83C4	__rt_memclr_w	mk7dlp:bytes-fuzzy	0x10E7A8	
 0x2F85E4	__rt_memcpy	mk7dlp:bytes	0x108A94	
@@ -1033,7 +1027,6 @@
 0x4C5ACC	nw::snd::internal::CurveAdshr::SetHold(int)	mk7dlp:bytes	0x24600C	
 0x4C5AEC	nw::snd::internal::CurveAdshr::SetDecay(int)	mk7dlp:bytes	0x24602C	
 0x4C5B78	nw::snd::internal::CurveAdshr::CurveAdshr()	mk7dlp:bytes	0x2460B8	
-0x4C5D5C	nn::fs::detail::FileBase::TrySeek(long long, nn::fs::PositionBase)	mk7dlp:callseq-callee	0x165F74	
 0x4C5E0C	nw::snd::internal::PlayerHeap::Alloc(unsigned)	mk7dlp:bytes	0x2460E4	
 0x4C5E44	nw::snd::internal::PlayerHeap::Create(void*, unsigned)	mk7dlp:bytes	0x246168	
 0x4C5EC4	nw::snd::internal::TaskThread::ThreadProc()	mk7dlp:callseq	0x2461C8	
@@ -1197,7 +1190,6 @@
 0x4D9948	nw::math::MTX34LookAtFIdx(nn::math::MTX34*, const nn::math::VEC3*, float, const nn::math::VEC3*)	mk7dlp:bytes-fuzzy	0x256B80	
 0x52218C	nn::nex::DOOperation::~DOOperation__sub_object()	mk7dlp:callgraph	0x1723CC	
 0x528FD0	nn::nex::StringConversion::Char8_2T(const char*, wchar_t*, unsigned)	mk7dlp:callseq-callee	0x1AC77C	
-0x52DC5C	nn::nex::UdsNode::ParseUpdateMigrationNodeInfoMessage(nn::nex::UdsMessage*)	mk7dlp:callseq	0x1F31B4	
 0x538014	sead::MainThread::~MainThread()	mk7dlp:bytes	0x2D96DC	
 0x53825C	sead::BitFlagUtil::findOnBitFromRight(unsigned, int)	mk7dlp:bytes	0x2D9CC4	
 0x5383C4	sead::Thread::sendMessage(int, sead::MessageQueue::BlockType)	mk7dlp:bytes	0x2DABFC	
@@ -1427,7 +1419,6 @@
 0x562600	sead::Framework::procReset_()	mk7dlp:bytes	0x2F9BD8	
 0x590934	Mii::MiiEngine::draw(nw::gfx::RenderContext*)	mk7dlp:callseq	0x25C074	
 0x6D272C	sead::ptcl::PtclSystem::calcEditor()	mk7dlp:bytes	0x2E6C6C	
-0x6F899C	nn::nex::Event::Event(nn::nex::EventHandler*, unsigned, unsigned)	mk7dlp:bytes	0x1E6D2C	
 0x712A0C	CFLiResShape::DirectDraw(const CFLProgramContext*) const	mk7dlp:callseq	0x486128	
 0x726A44	nn::gr::CTR::FrameBuffer::MakeCommand(unsigned*, unsigned, bool) const	mk7dlp:callseq-callee	0x48FE38	
 0x72770C	nn::gr::CTR::Shader::MakeFullCommand(unsigned*) const	mk7dlp:callgraph	0x490680	
@@ -1712,7 +1703,6 @@
 0x7E97A8	nw::font::TextWriterBase<wchar_t>::Print(const wchar_t*, int)	mk7dlp:bytes	0x53D38C	
 0x7E9804	nw::font::TextWriterBase<wchar_t>::PrintImpl(const wchar_t*, int)	mk7dlp:callgraph	0x53D3E8	
 0x7E9CE8	nw::font::TextWriterBase<wchar_t>::TextWriterBase()	mk7dlp:bytes	0x53D8CC	
-0x7F00B4	nn::nex::_DDL_Gathering::Clone() const	mk7dlp:bytes	0x493B98	
 0x7F3E0C	sead::DirectResourceFactory<sead::GraphicsFileResNw4c>::newResource_(sead::Heap*, int)	mk7dlp:bytes	0x55FB2C	
 0x7F7858	__rw::__rb_tree<nn::nex::InetAddress, nn::nex::InetAddress, __rw::__ident<nn::nex::InetAddress, nn::nex::InetAddress>, std::less<nn::nex::InetAddress>, nn::nex::MemAllocator<nn::nex::InetAddress>>::_C_erase(__rw::__rw_rb_tree_node<nn::nex::MemAllocator<nn::nex::InetAddress>, nn::nex::InetAddress, nn::nex::InetAddress, __rw::__ident<nn::nex::InetAddress, nn::nex::InetAddress>>*)	mk7dlp:bytes-fuzzy	0x5449A4	
 0x7FE8D8	__rw::__rb_tree<nn::nex::String, std::pair<const nn::nex::String, nn::nex::String>, __rw::__select1st<std::pair<const nn::nex::String, nn::nex::String>, nn::nex::String>, std::less<nn::nex::String>, nn::nex::MemAllocator<std::pair<const nn::nex::String, nn::nex::String>>>::erase(__rw::__rw_tree_iter<std::pair<const nn::nex::String, nn::nex::String>, int, std::pair<const nn::nex::String, nn::nex::String>*, std::pair<const nn::nex::String, nn::nex::String>&, __rw::__rw_rb_tree_node<nn::nex::MemAllocator<std::pair<const nn::nex::String, nn::nex::String>>, std::pair<const nn::nex::String, nn::nex::String>, nn::nex::String, __rw::__select1st<std::pair<const nn::nex::String, nn::nex::String>, nn::nex::String>>>, __rw::__rw_tree_iter<std::pair<const nn::nex::String, nn::nex::String>, int, std::pair<const nn::nex::String, nn::nex::String>*, std::pair<const nn::nex::String, nn::nex::String>&, __rw::__rw_rb_tree_node<nn::nex::MemAllocator<std::pair<const nn::nex::String, nn::nex::String>>, std::pair<const nn::nex::String, nn::nex::String>, nn::nex::String, __rw::__select1st<std::pair<const nn::nex::String, nn::nex::String>, nn::nex::String>>>)	mk7dlp:callgraph	0x54AC10	

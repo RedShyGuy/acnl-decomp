@@ -115,7 +115,7 @@ bool nn::nex::MatchmakeExtensionProtocolClient::CallGetPlayingSession(nn::nex::P
     }
     _Type_qlist<_Type_uint32>::Add(&message, principalIds);
     if (pContext != nullptr) {
-        pContext->AddReturnValue(pSessions);
+        pContext->AddReturnValuePtr(pSessions);
     }
     s_ProtoReturnFunctions[METHOD_GET_PLAYING_SESSION - 1] = ProtoReturn_GetPlayingSession;
     return EndRegistered(this, &message, lock, pContext);
@@ -157,7 +157,7 @@ bool nn::nex::MatchmakeExtensionProtocolClient::CallMethod45(nn::nex::ProtocolCa
     }
     _DDL_AutoMatchmakeParam::Add(&message, param);
     if (pContext != nullptr) {
-        pContext->AddReturnValue(pResult);
+        pContext->AddReturnValuePtr(pResult);
     }
     s_ProtoReturnFunctions[METHOD_45 - 1] = ProtoReturn_Method45;
     return EndRegistered(this, &message, lock, pContext);
@@ -202,7 +202,7 @@ bool nn::nex::MatchmakeExtensionProtocolClient::CallAutoMatchmakePostpone(nn::ne
     gathering.StreamIn(&request);
     _Type_string::Add(&request, message);
     if (pContext != nullptr) {
-        pContext->AddReturnValue(pJoinedGathering);
+        pContext->AddReturnValuePtr(pJoinedGathering);
     }
     s_ProtoReturnFunctions[METHOD_AUTO_MATCHMAKE_POSTPONE - 1] = ProtoReturn_AutoMatchmakePostpone;
     return EndRegistered(this, &request, lock, pContext);
@@ -220,7 +220,7 @@ bool nn::nex::MatchmakeExtensionProtocolClient::CallBrowseMatchmakeSession(nn::n
     _DDL_MatchmakeSessionSearchCriteria::Add(&message, criteria);
     _DDL_ResultRange::Add(&message, range);
     if (pContext != nullptr) {
-        pContext->AddReturnValue(pGatherings);
+        pContext->AddReturnValuePtr(pGatherings);
     }
     s_ProtoReturnFunctions[METHOD_BROWSE_MATCHMAKE_SESSION - 1] = ProtoReturn_BrowseMatchmakeSession;
     return EndRegistered(this, &message, lock, pContext);
@@ -267,7 +267,7 @@ bool nn::nex::MatchmakeExtensionProtocolClient::CallMethod10(nn::nex::ProtocolCa
     }
     message.AppendRaw(reinterpret_cast<const u8*>(&value), sizeof(value));
     if (pContext != nullptr) {
-        pContext->AddReturnValue(pEvents);
+        pContext->AddReturnValuePtr(pEvents);
     }
     s_ProtoReturnFunctions[METHOD_10 - 1] = ProtoReturn_Method10;
     return EndRegistered(this, &message, lock, pContext);
@@ -331,7 +331,7 @@ bool nn::nex::MatchmakeExtensionProtocolClient::CallJoinMatchmakeSession(nn::nex
     }
     _DDL_JoinMatchmakeSessionParam::Add(&message, param);
     if (pContext != nullptr) {
-        pContext->AddReturnValue(pSession);
+        pContext->AddReturnValuePtr(pSession);
     }
     s_ProtoReturnFunctions[METHOD_JOIN_MATCHMAKE_SESSION - 1] = ProtoReturn_JoinMatchmakeSession;
     return EndRegistered(this, &message, lock, pContext);
@@ -365,7 +365,7 @@ bool nn::nex::MatchmakeExtensionProtocolClient::CallAutoMatchmake(nn::nex::Proto
     }
     _DDL_AutoMatchmakeParam::Add(&message, param);
     if (pContext != nullptr) {
-        pContext->AddReturnValue(pSession);
+        pContext->AddReturnValuePtr(pSession);
     }
     s_ProtoReturnFunctions[METHOD_AUTO_MATCHMAKE - 1] = ProtoReturn_AutoMatchmake;
     return EndRegistered(this, &message, lock, pContext);
@@ -382,7 +382,7 @@ bool nn::nex::MatchmakeExtensionProtocolClient::CallCreateMatchmakeSession(nn::n
     }
     _DDL_CreateMatchmakeSessionParam::Add(&message, param);
     if (pContext != nullptr) {
-        pContext->AddReturnValue(pSession);
+        pContext->AddReturnValuePtr(pSession);
     }
     s_ProtoReturnFunctions[METHOD_CREATE_MATCHMAKE_SESSION - 1] = ProtoReturn_CreateMatchmakeSession;
     return EndRegistered(this, &message, lock, pContext);
@@ -430,7 +430,7 @@ bool nn::nex::MatchmakeExtensionProtocolClient::CallGenerateMatchmakeSessionSyst
     }
     message.AppendRaw(reinterpret_cast<const u8*>(&gatheringId), sizeof(gatheringId));
     if (pContext != nullptr) {
-        pContext->AddReturnValue(pPassword);
+        pContext->AddReturnValuePtr(pPassword);
     }
     s_ProtoReturnFunctions[METHOD_GENERATE_MATCHMAKE_SESSION_SYSTEM_PASSWORD - 1] = ProtoReturn_GenerateMatchmakeSessionSystemPassword;
     return EndRegistered(this, &message, lock, pContext);
@@ -446,7 +446,7 @@ bool nn::nex::MatchmakeExtensionProtocolClient::CallGetMatchmakeSession(nn::nex:
     }
     message.AppendRaw(reinterpret_cast<const u8*>(&gatheringId), sizeof(gatheringId));
     if (pContext != nullptr) {
-        pContext->AddReturnValue(pSession);
+        pContext->AddReturnValuePtr(pSession);
     }
     s_ProtoReturnFunctions[METHOD_GET_MATCHMAKE_SESSION - 1] = ProtoReturn_GetMatchmakeSession;
     return EndRegistered(this, &message, lock, pContext);

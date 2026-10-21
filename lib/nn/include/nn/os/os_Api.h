@@ -7,7 +7,10 @@
 namespace nn {
 namespace os {
 // heap at 0x08000000; size in whole pages
+size_t GetHeapSize(); // 0x0011D2A8 (name is ours)
 nn::Result SetHeapSize(size_t size); // 0x0011D2B8 | nintendogs:bytes [tier A]
+// the memory of the application (the configuration memory says how much)
+size_t GetAppMemorySize(); // 0x0011D350 (name is ours, after 3dbrew's APPMEMALLOC)
 // memory the process committed (resource limit "commit")
 size_t GetUsingMemorySize(); // 0x0011D360 | nintendogs:bytes [tier A]
 // linear (device) memory; once there is some, it grows / shrinks in steps of 1 MB

@@ -177,6 +177,12 @@ nn::Result nn::cec::CTR::MessageBox::Finalize()
     return nn::Result();
 }
 
+// 0x0013EA7C (name of the overload)
+void nn::cec::CTR::MessageBox::CloseMessageBox()
+{
+    CloseMessageBox(false);
+}
+
 // 0x0013EA84 | nintendogs:bytes [tier A]
 void nn::cec::CTR::MessageBox::CloseMessageBox(bool isFailure)
 {
@@ -500,6 +506,12 @@ nn::Result nn::cec::CTR::MessageBox::WriteMessage(const Message& message, CecBox
     }
     os_free(binary);
     return result;
+}
+
+// 0x0034DD60 (name of the overload)
+nn::Result nn::cec::CTR::MessageBox::DeleteMessage(nn::cec::CTR::CecBoxType type, const nn::cec::CTR::MessageId& messageId)
+{
+    return DeleteMessage(type, messageId, true);
 }
 
 // 0x0034DD68 | nintendogs:bytes [tier A]
@@ -1126,8 +1138,8 @@ nn::fnd::DateTimeParameters nn::cec::CTR::MessageBox::GetMessageRecvDate(CecBoxT
 {
     CecMessageHeader* header = GetMessHeader(type, index);
     if (header == NULL) {
-        nn::fnd::DateTime epoch = nn::fnd::DateTime::EPOCH;
-        return epoch.GetParameters();
+        nn::fnd::DateTime minimum = nn::fnd::DateTime::MIN_DATETIME;
+        return minimum.GetParameters();
     }
     return header->received;
 }

@@ -50,3 +50,6 @@ void nn::pia::common::SignatureSetting::Trace(u64) const
 } // namespace common
 } // namespace pia
 } // namespace nn
+
+// ARMCC's static initializer of the file: the constructor of the global above
+// 0x0079F0D0 (static initializer)

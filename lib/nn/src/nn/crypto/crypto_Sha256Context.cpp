@@ -91,12 +91,14 @@ void nn::crypto::Sha256Context::GetHash(void* pOutput)
 // 0x00483490 (name is ours)
 void nn::crypto::Sha256Context::Finalize()
 {
+    // nothing to do: empty in the original
 }
 
 // 0x00483498
 // 0x00483494 (deleting dtor)
 nn::crypto::Sha256Context::~Sha256Context()
 {
+    // nothing to do: the members and bases are destroyed by the compiler
 }
 
 // 0x00148D70

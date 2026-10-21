@@ -8,6 +8,12 @@
 namespace nn {
 namespace uds {
 namespace CTR {
+
+// 0x00468E88 (deleting dtor)
+nn::uds::CTR::NetworkDescriptionReaderInternal::~NetworkDescriptionReaderInternal()
+{
+    // nothing to do: the members and bases are destroyed by the compiler
+}
 namespace {
 
 const u8 NINTENDO_OUI[3] = { 0x00, 0x1F, 0x32 }; // 0x008C2404

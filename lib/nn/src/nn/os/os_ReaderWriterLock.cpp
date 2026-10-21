@@ -89,6 +89,7 @@ void nn::os::ReaderWriterLock::Initialize()
 // 0x0034C18C
 nn::os::ReaderWriterLock::~ReaderWriterLock()
 {
+    // nothing to do: the members and bases are destroyed by the compiler
 }
 
 // 0x0034C174 (name is ours)

@@ -300,6 +300,31 @@ public:
         pNode->m_pParent = pLeft;
     }
 
+    // the nodes of other are copied (out of line in some instances: qMap<s8, DataStoreRatingInfo>;
+    // the original does not copy m_IsInsertAlways)
+    __rb_tree(const __rb_tree& other)
+        : m_pBufferList(nullptr), m_pFreeList(nullptr), m_pNextAvail(nullptr), m_pLast(nullptr), m_pHeader(nullptr), m_Size(other.m_Size),
+          m_IsInsertAlways(false), m_Compare(other.m_Compare)
+    {
+        m_pHeader = _C_get_link();
+        m_pHeader->m_pParent = _C_copy(other.m_pHeader->m_pParent, m_pHeader);
+        if (m_pHeader->m_pParent == nullptr) {
+            m_pHeader->m_pLeft = m_pHeader;
+            m_pHeader->m_pRight = m_pHeader;
+        } else {
+            Node* pNode = m_pHeader->m_pParent;
+            while (pNode->m_pLeft != nullptr) {
+                pNode = pNode->m_pLeft;
+            }
+            m_pHeader->m_pLeft = pNode;
+            pNode = m_pHeader->m_pParent;
+            while (pNode->m_pRight != nullptr) {
+                pNode = pNode->m_pRight;
+            }
+            m_pHeader->m_pRight = pNode;
+        }
+    }
+
     // (inline) the tree becomes a copy of other
     __rb_tree& operator=(const __rb_tree& other)
     {
@@ -839,9 +864,13 @@ template <typename Key, typename T>
 class qMap : public std::map<Key, T, std::less<Key>, MemAllocator<std::pair<const Key, T> > >
 {
 public:
+    typedef std::map<Key, T, std::less<Key>, MemAllocator<std::pair<const Key, T> > > base_type;
+
     // (out of line in some instances: they are specialized)
     DECOMP_ALWAYS_INLINE qMap() {}
     DECOMP_ALWAYS_INLINE ~qMap() {}
+    // (inline; out of line in some instances: they are specialized)
+    qMap(const qMap& other) : base_type(other) {}
 };
 
 // A multimap of the RW STL (the constructor and destructor are out of line per instance).

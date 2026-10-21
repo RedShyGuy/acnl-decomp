@@ -10,7 +10,7 @@ namespace nex {
 class Credentials;
 
 // The call context of a protocol call: the pointers where the call writes its return values and
-// the credentials of the call. The names of the members and of AddReturnValue are ours.
+// the credentials of the call. The names of the members are ours.
 // RTTI N2nn3nex19ProtocolCallContextE @ 0x008CE7FC
 // vtable 0x008FD704 (vptr 0x008FD70C), offset_to_top 0, 5 entries
 class ProtocolCallContext : public ::nn::nex::CallContext
@@ -25,7 +25,7 @@ public:
 
     void SetCredentials(nn::nex::Credentials* pCredentials); // 0x00394768 | fefates:bytes [tier B]
     // (symbols.json names this Protocol::FlagIsSet)
-    void AddReturnValue(void* pValue); // 0x00394888 (name is ours)
+    void AddReturnValuePtr(void* pValue); // 0x00394888 | fefates:bytes [tier B]
     void* GetReturnValuePtr(unsigned int index); // 0x00394A1C | fefates:callgraph [tier C]
 
     qVector<void*> m_ReturnValues;  // 0x60

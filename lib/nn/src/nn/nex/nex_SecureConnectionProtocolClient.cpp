@@ -40,9 +40,9 @@ bool nn::nex::SecureConnectionProtocolClient::CallRegister(nn::nex::ProtocolCall
     }
     _Type_std_list<_Type_stationurl>::Add(&message, urls);
     if (pContext != nullptr) {
-        pContext->AddReturnValue(pResult);
-        pContext->AddReturnValue(pConnectionId);
-        pContext->AddReturnValue(pPublicURL);
+        pContext->AddReturnValuePtr(pResult);
+        pContext->AddReturnValuePtr(pConnectionId);
+        pContext->AddReturnValuePtr(pPublicURL);
     }
     s_ProtoReturnFunctions[METHOD_REGISTER - 1] = ProtoReturn_Register;
     return End(this, &message, lock, pContext);
@@ -61,9 +61,9 @@ bool nn::nex::SecureConnectionProtocolClient::CallRegisterEx(nn::nex::ProtocolCa
     _Type_std_list<_Type_stationurl>::Add(&message, urls);
     data.StreamIn(&message);
     if (pContext != nullptr) {
-        pContext->AddReturnValue(pResult);
-        pContext->AddReturnValue(pConnectionId);
-        pContext->AddReturnValue(pPublicURL);
+        pContext->AddReturnValuePtr(pResult);
+        pContext->AddReturnValuePtr(pConnectionId);
+        pContext->AddReturnValuePtr(pPublicURL);
     }
     s_ProtoReturnFunctions[METHOD_REGISTER_EX - 1] = ProtoReturn_RegisterEx;
     return End(this, &message, lock, pContext);
@@ -149,8 +149,8 @@ bool nn::nex::SecureConnectionProtocolClient::CallRequestConnectionData(nn::nex:
     message.AppendRaw(reinterpret_cast<const u8*>(&connectionId), sizeof(connectionId));
     message.AppendRaw(reinterpret_cast<const u8*>(&principalId), sizeof(principalId));
     if (pContext != nullptr) {
-        pContext->AddReturnValue(pIsSuccess);
-        pContext->AddReturnValue(pConnectionData);
+        pContext->AddReturnValuePtr(pIsSuccess);
+        pContext->AddReturnValuePtr(pConnectionData);
     }
     s_ProtoReturnFunctions[METHOD_REQUEST_CONNECTION_DATA - 1] = ProtoReturn_RequestConnectionData;
     return End(this, &message, lock, pContext);

@@ -64,6 +64,7 @@ nn::Result AcquireGpuRight(); // 0x0012AB24 | nintendogs:bytes [tier A]
 nn::Result ReleaseGpuRight(); // 0x0012AB8C | nintendogs:bytes [tier A]
 nn::Result SaveVramSysArea(); // 0x0047F7B0 (name is ours, after the command)
 nn::Result RestoreVramSysArea(); // 0x0012ABE0 | nintendogs:callgraph [tier A]
+nn::Result ReadHWRegs(unsigned regAddress, void* data, unsigned size); // 0x0013116C (name is ours, after WriteHWRegs)
 nn::Result WriteHWRegs(unsigned regAddress, const void* data, unsigned size); // 0x0012AAE8 (name is ours, after GSPGPU_WriteHWRegs)
 nn::Result WriteHWRegsWithMask(unsigned regAddress, const void* data, const void* mask, unsigned size); // 0x0012AC0C | nintendogs:bytes [tier A]
 // the old handler
@@ -83,7 +84,6 @@ void SetBufferSwap(int screen, int activeFramebuffer, void* left, void* right, u
 void ImportDisplayCaptureInfo(nn::gxlow::CTR::DisplayCaptureInfo* pInfo); // 0x0047F7D8 | nintendogs:bytes [tier A]
 
 // the functions behind the C functions of the same names (names are ours)
-s64 GetSystemTick(); // 0x00128428 (name is ours)
 void YieldThread(); // 0x0012AB14 (name is ours)
 bool IsFirstInitialization(); // 0x0012AC40 (name is ours)
 u32 GetNumSpeculativeRequests(); // 0x0012ACA4 (name is ours)
@@ -98,6 +98,7 @@ extern "C" {
 s64 nngxlowGetSystemTick(); // 0x00128424
 void nngxlowYieldThread(); // 0x0012AB10
 nn::Result GSPGPU_WriteHWRegs(unsigned regAddress, const void* data, unsigned size); // 0x0012AAE4
+nn::Result GSPGPU_ReadHWRegs(unsigned regAddress, void* data, unsigned size); // 0x00131168 (name is ours, after GSPGPU_WriteHWRegs)
 nn::Result nngxlowWriteHWRegsWithMask(unsigned regAddress, const void* data, const void* mask, unsigned size); // 0x0012AC08
 bool nngxlowIsFirstInitialization(); // 0x0012AC3C
 void (*nngxlowRegisterInterruptHandler(void (*handler)(), nngxlowInterrupt interrupt))(); // 0x0012AC54
@@ -107,11 +108,16 @@ void nngxlowUnlock(); // 0x00131634
 nn::Result nngxlowFlushDataCache(unsigned address, unsigned size); // 0x00136EEC
 nn::Result GSPGPU_FlushDataCache(unsigned address, unsigned size); // 0x00136EF0
 uptr nngxlowGetPhysicalAddr(unsigned int address); // 0x00140C50
+// the requests of the command queue for gx (names are ours, after the other nngxlow functions)
+void nngxlowRequestDma(void* pDst, const void* pSrc, unsigned size, bool isFlushed); // 0x00135960 (name is ours)
+nn::Result nngxlowSetCommandlist(void* buffer, unsigned size, bool isFlushed, bool updatesGasAdditiveBlend); // 0x00136F20 (name is ours)
+nn::Result nngxlowSetMemoryFill(void* start0, void* end0, unsigned value0, unsigned control0, void* start1, void* end1, unsigned value1,
+                                unsigned control1); // 0x00135994 (name is ours)
+nn::Result nngxlowSetDisplayTransfer(void* src, unsigned short srcWidth, unsigned short srcHeight, void* dst, unsigned short dstWidth,
+                                     unsigned short dstHeight, unsigned flags); // 0x00135974 (name is ours)
+nn::Result nngxlowSetTextureCopy(void* src, void* dst, unsigned size, unsigned short srcLineWidth, unsigned short srcGap, unsigned short dstLineWidth,
+                                 unsigned short dstGap, unsigned flags); // 0x001359B4 (name is ours)
 uptr nngxGetPhysicalAddr(unsigned int address); // 0x00143B68
-// (gx library, not decompiled yet; declared for gr)
-void nngxSplitDrawCmdlist(); // 0x001280E0
-void nngxAddMemoryFillCommand(unsigned int address0, unsigned int size0, unsigned int value0, unsigned int width0,
-                              unsigned int address1, unsigned int size1, unsigned int value1, unsigned int width1); // 0x007B175C
 bool nngxlowIsSwapPending(int screen); // 0x0047F6FC
 void nngxlowSetBufferSwap(int screen, int activeFramebuffer, void* left, void* right, unsigned int stride, unsigned int format, unsigned int select); // 0x007B2AE4
 }

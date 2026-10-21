@@ -84,7 +84,7 @@ bool nn::nex::DataStoreProtocolClient::CallGetMeta(nn::nex::ProtocolCallContext*
     }
     DDLClassMetaType<DataStoreGetMetaParam>::Add(&message, param);
     if (pContext != nullptr) {
-        pContext->AddReturnValue(pMetaInfo);
+        pContext->AddReturnValuePtr(pMetaInfo);
     }
     s_ProtoReturnFunctions[METHOD_GET_META - 1] = ProtoReturn_GetMeta;
     return EndRegistered(this, &message, lock, pContext);
@@ -101,8 +101,8 @@ bool nn::nex::DataStoreProtocolClient::CallGetMetas(nn::nex::ProtocolCallContext
     _Type_qvector<_Type_uint64>::Add(&message, dataIds);
     DDLClassMetaType<DataStoreGetMetaParam>::Add(&message, param);
     if (pContext != nullptr) {
-        pContext->AddReturnValue(pMetaInfo);
-        pContext->AddReturnValue(pResults);
+        pContext->AddReturnValuePtr(pMetaInfo);
+        pContext->AddReturnValuePtr(pResults);
     }
     s_ProtoReturnFunctions[METHOD_GET_METAS - 1] = ProtoReturn_GetMetas;
     return EndRegistered(this, &message, lock, pContext);
@@ -119,7 +119,7 @@ bool nn::nex::DataStoreProtocolClient::CallGetRating(nn::nex::ProtocolCallContex
     DDLClassMetaType<DataStoreRatingTarget>::Add(&message, target);
     message.AppendRaw(reinterpret_cast<const u8*>(&accessPassword), sizeof(accessPassword));
     if (pContext != nullptr) {
-        pContext->AddReturnValue(pRating);
+        pContext->AddReturnValuePtr(pRating);
     }
     s_ProtoReturnFunctions[METHOD_GET_RATING - 1] = ProtoReturn_GetRating;
     return EndRegistered(this, &message, lock, pContext);
@@ -149,8 +149,8 @@ bool nn::nex::DataStoreProtocolClient::CallGetRatings(nn::nex::ProtocolCallConte
     _Type_qvector<_Type_uint64>::Add(&message, dataIds);
     message.AppendRaw(reinterpret_cast<const u8*>(&accessPassword), sizeof(accessPassword));
     if (pContext != nullptr) {
-        pContext->AddReturnValue(pRatings);
-        pContext->AddReturnValue(pResults);
+        pContext->AddReturnValuePtr(pRatings);
+        pContext->AddReturnValuePtr(pResults);
     }
     s_ProtoReturnFunctions[METHOD_GET_RATINGS - 1] = ProtoReturn_GetRatings;
     return EndRegistered(this, &message, lock, pContext);
@@ -168,7 +168,7 @@ bool nn::nex::DataStoreProtocolClient::CallRateObject(nn::nex::ProtocolCallConte
     DDLClassMetaType<DataStoreRateObjectParam>::Add(&message, param);
     message << fetchRatings;
     if (pContext != nullptr) {
-        pContext->AddReturnValue(pRating);
+        pContext->AddReturnValuePtr(pRating);
     }
     s_ProtoReturnFunctions[METHOD_RATE_OBJECT - 1] = ProtoReturn_RateObject;
     return EndRegistered(this, &message, lock, pContext);
@@ -186,7 +186,7 @@ bool nn::nex::DataStoreProtocolClient::CallChangeMetas(nn::nex::ProtocolCallCont
     _Type_qvector<DDLClassMetaType<DataStoreChangeMetaParam> >::Add(&message, params);
     message << transactional;
     if (pContext != nullptr) {
-        pContext->AddReturnValue(pResults);
+        pContext->AddReturnValuePtr(pResults);
     }
     s_ProtoReturnFunctions[METHOD_CHANGE_METAS - 1] = ProtoReturn_ChangeMetas;
     return EndRegistered(this, &message, lock, pContext);
@@ -205,8 +205,8 @@ bool nn::nex::DataStoreProtocolClient::CallRateObjects(nn::nex::ProtocolCallCont
     message << transactional;
     message << fetchRatings;
     if (pContext != nullptr) {
-        pContext->AddReturnValue(pRatings);
-        pContext->AddReturnValue(pResults);
+        pContext->AddReturnValuePtr(pRatings);
+        pContext->AddReturnValuePtr(pResults);
     }
     s_ProtoReturnFunctions[METHOD_RATE_OBJECTS - 1] = ProtoReturn_RateObjects;
     return EndRegistered(this, &message, lock, pContext);
@@ -276,7 +276,7 @@ bool nn::nex::DataStoreProtocolClient::CallResetRatings(nn::nex::ProtocolCallCon
     _Type_qvector<_Type_uint64>::Add(&message, dataIds);
     message << transactional;
     if (pContext != nullptr) {
-        pContext->AddReturnValue(pResults);
+        pContext->AddReturnValuePtr(pResults);
     }
     s_ProtoReturnFunctions[METHOD_RESET_RATINGS - 1] = ProtoReturn_ResetRatings;
     return EndRegistered(this, &message, lock, pContext);
@@ -292,7 +292,7 @@ bool nn::nex::DataStoreProtocolClient::CallSearchObject(nn::nex::ProtocolCallCon
     }
     DDLClassMetaType<DataStoreSearchParam>::Add(&message, param);
     if (pContext != nullptr) {
-        pContext->AddReturnValue(pSearchResult);
+        pContext->AddReturnValuePtr(pSearchResult);
     }
     s_ProtoReturnFunctions[METHOD_SEARCH_OBJECT - 1] = ProtoReturn_SearchObject;
     return EndRegistered(this, &message, lock, pContext);
@@ -310,7 +310,7 @@ bool nn::nex::DataStoreProtocolClient::CallChangeMetasV1(nn::nex::ProtocolCallCo
     _Type_qvector<DDLClassMetaType<DataStoreChangeMetaParamV1> >::Add(&message, params);
     message << transactional;
     if (pContext != nullptr) {
-        pContext->AddReturnValue(pResults);
+        pContext->AddReturnValuePtr(pResults);
     }
     s_ProtoReturnFunctions[METHOD_CHANGE_METAS_V1 - 1] = ProtoReturn_ChangeMetasV1;
     return EndRegistered(this, &message, lock, pContext);
@@ -327,7 +327,7 @@ bool nn::nex::DataStoreProtocolClient::CallDeleteObjects(nn::nex::ProtocolCallCo
     _Type_qvector<DDLClassMetaType<DataStoreDeleteParam> >::Add(&message, params);
     message << transactional;
     if (pContext != nullptr) {
-        pContext->AddReturnValue(pResults);
+        pContext->AddReturnValuePtr(pResults);
     }
     s_ProtoReturnFunctions[METHOD_DELETE_OBJECTS - 1] = ProtoReturn_DeleteObjects;
     return EndRegistered(this, &message, lock, pContext);
@@ -343,8 +343,8 @@ bool nn::nex::DataStoreProtocolClient::CallGetObjectInfos(nn::nex::ProtocolCallC
     }
     _Type_qvector<_Type_uint64>::Add(&message, dataIds);
     if (pContext != nullptr) {
-        pContext->AddReturnValue(pInfos);
-        pContext->AddReturnValue(pResults);
+        pContext->AddReturnValuePtr(pInfos);
+        pContext->AddReturnValuePtr(pResults);
     }
     s_ProtoReturnFunctions[METHOD_GET_OBJECT_INFOS - 1] = ProtoReturn_GetObjectInfos;
     return EndRegistered(this, &message, lock, pContext);
@@ -360,7 +360,7 @@ bool nn::nex::DataStoreProtocolClient::CallPostMetaBinary(nn::nex::ProtocolCallC
     }
     DDLClassMetaType<DataStorePreparePostParam>::Add(&message, param);
     if (pContext != nullptr) {
-        pContext->AddReturnValue(pDataId);
+        pContext->AddReturnValuePtr(pDataId);
     }
     s_ProtoReturnFunctions[METHOD_POST_META_BINARY - 1] = ProtoReturn_PostMetaBinary;
     return EndRegistered(this, &message, lock, pContext);
@@ -376,7 +376,7 @@ bool nn::nex::DataStoreProtocolClient::CallGetPasswordInfo(nn::nex::ProtocolCall
     }
     message.AppendRaw(reinterpret_cast<const u8*>(&dataId), sizeof(dataId));
     if (pContext != nullptr) {
-        pContext->AddReturnValue(pPasswordInfo);
+        pContext->AddReturnValuePtr(pPasswordInfo);
     }
     s_ProtoReturnFunctions[METHOD_GET_PASSWORD_INFO - 1] = ProtoReturn_GetPasswordInfo;
     return EndRegistered(this, &message, lock, pContext);
@@ -392,7 +392,7 @@ bool nn::nex::DataStoreProtocolClient::CallGetSpecificMeta(nn::nex::ProtocolCall
     }
     DDLClassMetaType<DataStoreGetSpecificMetaParam>::Add(&message, param);
     if (pContext != nullptr) {
-        pContext->AddReturnValue(pMetaInfos);
+        pContext->AddReturnValuePtr(pMetaInfos);
     }
     s_ProtoReturnFunctions[METHOD_GET_SPECIFIC_META - 1] = ProtoReturn_GetSpecificMeta;
     return EndRegistered(this, &message, lock, pContext);
@@ -414,8 +414,8 @@ bool nn::nex::DataStoreProtocolClient::CallGetPasswordInfos(nn::nex::ProtocolCal
     }
     _Type_qvector<_Type_uint64>::Add(&message, dataIds);
     if (pContext != nullptr) {
-        pContext->AddReturnValue(pPasswordInfos);
-        pContext->AddReturnValue(pResults);
+        pContext->AddReturnValuePtr(pPasswordInfos);
+        pContext->AddReturnValuePtr(pResults);
     }
     s_ProtoReturnFunctions[METHOD_GET_PASSWORD_INFOS - 1] = ProtoReturn_GetPasswordInfos;
     return EndRegistered(this, &message, lock, pContext);
@@ -432,8 +432,8 @@ bool nn::nex::DataStoreProtocolClient::CallGetRatingWithLog(nn::nex::ProtocolCal
     DDLClassMetaType<DataStoreRatingTarget>::Add(&message, target);
     message.AppendRaw(reinterpret_cast<const u8*>(&accessPassword), sizeof(accessPassword));
     if (pContext != nullptr) {
-        pContext->AddReturnValue(pRating);
-        pContext->AddReturnValue(pRatingLog);
+        pContext->AddReturnValuePtr(pRating);
+        pContext->AddReturnValuePtr(pRatingLog);
     }
     s_ProtoReturnFunctions[METHOD_GET_RATING_WITH_LOG - 1] = ProtoReturn_GetRatingWithLog;
     return EndRegistered(this, &message, lock, pContext);
@@ -464,7 +464,7 @@ bool nn::nex::DataStoreProtocolClient::CallPrepareGetObject(nn::nex::ProtocolCal
     }
     DDLClassMetaType<DataStorePrepareGetParam>::Add(&message, param);
     if (pContext != nullptr) {
-        pContext->AddReturnValue(pReqGetInfo);
+        pContext->AddReturnValuePtr(pReqGetInfo);
     }
     s_ProtoReturnFunctions[METHOD_PREPARE_GET_OBJECT - 1] = ProtoReturn_PrepareGetObject;
     return EndRegistered(this, &message, lock, pContext);
@@ -490,7 +490,7 @@ bool nn::nex::DataStoreProtocolClient::CallGetSpecificMetaV1(nn::nex::ProtocolCa
     }
     DDLClassMetaType<DataStoreGetSpecificMetaParamV1>::Add(&message, param);
     if (pContext != nullptr) {
-        pContext->AddReturnValue(pMetaInfos);
+        pContext->AddReturnValuePtr(pMetaInfos);
     }
     s_ProtoReturnFunctions[METHOD_GET_SPECIFIC_META_V1 - 1] = ProtoReturn_GetSpecificMetaV1;
     return EndRegistered(this, &message, lock, pContext);
@@ -506,7 +506,7 @@ bool nn::nex::DataStoreProtocolClient::CallPreparePostObject(nn::nex::ProtocolCa
     }
     DDLClassMetaType<DataStorePreparePostParam>::Add(&message, param);
     if (pContext != nullptr) {
-        pContext->AddReturnValue(pReqPostInfo);
+        pContext->AddReturnValuePtr(pReqPostInfo);
     }
     s_ProtoReturnFunctions[METHOD_PREPARE_POST_OBJECT - 1] = ProtoReturn_PreparePostObject;
     return EndRegistered(this, &message, lock, pContext);
@@ -522,7 +522,7 @@ bool nn::nex::DataStoreProtocolClient::CallSearchObjectLight(nn::nex::ProtocolCa
     }
     DDLClassMetaType<DataStoreSearchParam>::Add(&message, param);
     if (pContext != nullptr) {
-        pContext->AddReturnValue(pSearchResult);
+        pContext->AddReturnValuePtr(pSearchResult);
     }
     s_ProtoReturnFunctions[METHOD_SEARCH_OBJECT_LIGHT - 1] = ProtoReturn_SearchObjectLight;
     return EndRegistered(this, &message, lock, pContext);
@@ -557,7 +557,7 @@ bool nn::nex::DataStoreProtocolClient::CallGetNotificationUrl(nn::nex::ProtocolC
     }
     DDLClassMetaType<DataStoreGetNotificationUrlParam>::Add(&message, param);
     if (pContext != nullptr) {
-        pContext->AddReturnValue(pInfo);
+        pContext->AddReturnValuePtr(pInfo);
     }
     s_ProtoReturnFunctions[METHOD_GET_NOTIFICATION_URL - 1] = ProtoReturn_GetNotificationUrl;
     return EndRegistered(this, &message, lock, pContext);
@@ -574,7 +574,7 @@ bool nn::nex::DataStoreProtocolClient::CallGetPersistenceInfo(nn::nex::ProtocolC
     message.AppendRaw(reinterpret_cast<const u8*>(&ownerId), sizeof(ownerId));
     message.AppendRaw(reinterpret_cast<const u8*>(&persistenceSlotId), sizeof(persistenceSlotId));
     if (pContext != nullptr) {
-        pContext->AddReturnValue(pPersistenceInfo);
+        pContext->AddReturnValuePtr(pPersistenceInfo);
     }
     s_ProtoReturnFunctions[METHOD_GET_PERSISTENCE_INFO - 1] = ProtoReturn_GetPersistenceInfo;
     return EndRegistered(this, &message, lock, pContext);
@@ -590,7 +590,7 @@ bool nn::nex::DataStoreProtocolClient::CallPrepareGetObjectV1(nn::nex::ProtocolC
     }
     DDLClassMetaType<DataStorePrepareGetParamV1>::Add(&message, param);
     if (pContext != nullptr) {
-        pContext->AddReturnValue(pReqGetInfo);
+        pContext->AddReturnValuePtr(pReqGetInfo);
     }
     s_ProtoReturnFunctions[METHOD_PREPARE_GET_OBJECT_V1 - 1] = ProtoReturn_PrepareGetObjectV1;
     return EndRegistered(this, &message, lock, pContext);
@@ -656,8 +656,8 @@ bool nn::nex::DataStoreProtocolClient::CallGetPersistenceInfos(nn::nex::Protocol
     message.AppendRaw(reinterpret_cast<const u8*>(&ownerId), sizeof(ownerId));
     _Type_qvector<_Type_uint16>::Add(&message, persistenceSlotIds);
     if (pContext != nullptr) {
-        pContext->AddReturnValue(pPersistenceInfo);
-        pContext->AddReturnValue(pResults);
+        pContext->AddReturnValuePtr(pPersistenceInfo);
+        pContext->AddReturnValuePtr(pResults);
     }
     s_ProtoReturnFunctions[METHOD_GET_PERSISTENCE_INFOS - 1] = ProtoReturn_GetPersistenceInfos;
     return EndRegistered(this, &message, lock, pContext);
@@ -673,7 +673,7 @@ bool nn::nex::DataStoreProtocolClient::CallPreparePostObjectV1(nn::nex::Protocol
     }
     DDLClassMetaType<DataStorePreparePostParamV1>::Add(&message, param);
     if (pContext != nullptr) {
-        pContext->AddReturnValue(pReqPostInfo);
+        pContext->AddReturnValuePtr(pReqPostInfo);
     }
     s_ProtoReturnFunctions[METHOD_PREPARE_POST_OBJECT_V1 - 1] = ProtoReturn_PreparePostObjectV1;
     return EndRegistered(this, &message, lock, pContext);
@@ -689,7 +689,7 @@ bool nn::nex::DataStoreProtocolClient::CallPrepareUpdateObject(nn::nex::Protocol
     }
     DDLClassMetaType<DataStorePrepareUpdateParam>::Add(&message, param);
     if (pContext != nullptr) {
-        pContext->AddReturnValue(pReqUpdateInfo);
+        pContext->AddReturnValuePtr(pReqUpdateInfo);
     }
     s_ProtoReturnFunctions[METHOD_PREPARE_UPDATE_OBJECT - 1] = ProtoReturn_PrepareUpdateObject;
     return EndRegistered(this, &message, lock, pContext);
@@ -783,8 +783,8 @@ bool nn::nex::DataStoreProtocolClient::CallGetMetasMultipleParam(nn::nex::Protoc
     }
     _Type_qvector<DDLClassMetaType<DataStoreGetMetaParam> >::Add(&message, params);
     if (pContext != nullptr) {
-        pContext->AddReturnValue(pMetaInfo);
-        pContext->AddReturnValue(pResults);
+        pContext->AddReturnValuePtr(pMetaInfo);
+        pContext->AddReturnValuePtr(pResults);
     }
     s_ProtoReturnFunctions[METHOD_GET_METAS_MULTIPLE_PARAM - 1] = ProtoReturn_GetMetasMultipleParam;
     return EndRegistered(this, &message, lock, pContext);
@@ -803,7 +803,7 @@ bool nn::nex::DataStoreProtocolClient::CallRateObjectWithPosting(nn::nex::Protoc
     DDLClassMetaType<DataStorePreparePostParam>::Add(&message, postParam);
     message << fetchRatings;
     if (pContext != nullptr) {
-        pContext->AddReturnValue(pRating);
+        pContext->AddReturnValuePtr(pRating);
     }
     s_ProtoReturnFunctions[METHOD_RATE_OBJECT_WITH_POSTING - 1] = ProtoReturn_RateObjectWithPosting;
     return EndRegistered(this, &message, lock, pContext);
@@ -835,8 +835,8 @@ bool nn::nex::DataStoreProtocolClient::CallRateObjectsWithPosting(nn::nex::Proto
     message << transactional;
     message << fetchRatings;
     if (pContext != nullptr) {
-        pContext->AddReturnValue(pRatings);
-        pContext->AddReturnValue(pResults);
+        pContext->AddReturnValuePtr(pRatings);
+        pContext->AddReturnValuePtr(pResults);
     }
     s_ProtoReturnFunctions[METHOD_RATE_OBJECTS_WITH_POSTING - 1] = ProtoReturn_RateObjectsWithPosting;
     return EndRegistered(this, &message, lock, pContext);
@@ -944,8 +944,8 @@ bool nn::nex::DataStoreProtocolClient::CallGetNewArrivedNotifications(nn::nex::P
     }
     DDLClassMetaType<DataStoreGetNewArrivedNotificationsParam>::Add(&message, param);
     if (pContext != nullptr) {
-        pContext->AddReturnValue(pResult);
-        pContext->AddReturnValue(pHasNext);
+        pContext->AddReturnValuePtr(pResult);
+        pContext->AddReturnValuePtr(pHasNext);
     }
     s_ProtoReturnFunctions[METHOD_GET_NEW_ARRIVED_NOTIFICATIONS - 1] = ProtoReturn_GetNewArrivedNotifications;
     return EndRegistered(this, &message, lock, pContext);
@@ -963,7 +963,7 @@ bool nn::nex::DataStoreProtocolClient::CallPostMetaBinariesWithDataId(nn::nex::P
     _Type_qvector<DDLClassMetaType<DataStorePreparePostParam> >::Add(&message, params);
     message << transactional;
     if (pContext != nullptr) {
-        pContext->AddReturnValue(pResults);
+        pContext->AddReturnValuePtr(pResults);
     }
     s_ProtoReturnFunctions[METHOD_POST_META_BINARIES_WITH_DATA_ID - 1] = ProtoReturn_PostMetaBinariesWithDataId;
     return EndRegistered(this, &message, lock, pContext);
@@ -1037,8 +1037,8 @@ bool nn::nex::DataStoreProtocolClient::CallGetNewArrivedNotificationsV1(nn::nex:
     }
     DDLClassMetaType<DataStoreGetNewArrivedNotificationsParam>::Add(&message, param);
     if (pContext != nullptr) {
-        pContext->AddReturnValue(pResult);
-        pContext->AddReturnValue(pHasNext);
+        pContext->AddReturnValuePtr(pResult);
+        pContext->AddReturnValuePtr(pHasNext);
     }
     s_ProtoReturnFunctions[METHOD_GET_NEW_ARRIVED_NOTIFICATIONS_V1 - 1] = ProtoReturn_GetNewArrivedNotificationsV1;
     return EndRegistered(this, &message, lock, pContext);
@@ -1054,8 +1054,8 @@ bool nn::nex::DataStoreProtocolClient::CallPrepareGetObjectOrMetaBinary(nn::nex:
     }
     DDLClassMetaType<DataStorePrepareGetParam>::Add(&message, param);
     if (pContext != nullptr) {
-        pContext->AddReturnValue(pReqGetInfo);
-        pContext->AddReturnValue(pReqGetAdditionalMeta);
+        pContext->AddReturnValuePtr(pReqGetInfo);
+        pContext->AddReturnValuePtr(pReqGetAdditionalMeta);
     }
     s_ProtoReturnFunctions[METHOD_PREPARE_GET_OBJECT_OR_META_BINARY - 1] = ProtoReturn_PrepareGetObjectOrMetaBinary;
     return EndRegistered(this, &message, lock, pContext);

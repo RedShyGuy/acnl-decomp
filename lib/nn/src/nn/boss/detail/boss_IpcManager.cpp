@@ -56,6 +56,7 @@ nn::Result nn::boss::detail::IpcManager::InitializeUserIpc()
 // 0x0046D010 (deleting dtor)
 nn::boss::detail::IpcManager::~IpcManager()
 {
+    // nothing to do: the members and bases are destroyed by the compiler
 }
 
 } // namespace detail

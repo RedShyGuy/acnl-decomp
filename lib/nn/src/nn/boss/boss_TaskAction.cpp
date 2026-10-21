@@ -45,12 +45,14 @@ nn::Result nn::boss::TaskAction::GetProperty(nn::boss::PropertyType type, void* 
 // 0x0046A86C | nintendogs:bytes [tier A]
 nn::boss::TaskAction::TaskAction()
 {
+    // nothing to do: the members and bases are constructed by the compiler
 }
 
 // 0x0046A8B4
 // 0x0046A8AC (deleting dtor)
 nn::boss::TaskAction::~TaskAction()
 {
+    // nothing to do: the members and bases are destroyed by the compiler
 }
 
 // 0x0046B130 (name is ours)

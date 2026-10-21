@@ -66,12 +66,14 @@ nn::Result nn::boss::NsaDownloadAction::SetProperty(nn::boss::PropertyType type,
 // 0x0046BAB4 | tier C
 nn::boss::NsaDownloadAction::NsaDownloadAction()
 {
+    // nothing to do: the members and bases are constructed by the compiler
 }
 
 // 0x0046A8B0
 // 0x0046BACC (deleting dtor)
 nn::boss::NsaDownloadAction::~NsaDownloadAction()
 {
+    // nothing to do: the members and bases are destroyed by the compiler
 }
 
 } // namespace boss

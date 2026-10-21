@@ -39,6 +39,14 @@ ASSERT_SIZE(z_stream, 0x38);
 #define Z_DEFLATED 8
 #define Z_DEFAULT_STRATEGY 0
 
+// the functions of the zlib sources (lib/nn/src/nn/cx/zlib)
+int nncxZlib_deflateInit2_(z_stream* strm, int level, int method, int windowBits, int memLevel, int strategy,
+                           const char* version, int stream_size);
+int nncxZlib_deflate(z_stream* strm, int flush);
+int nncxZlib_deflateEnd(z_stream* strm);
+unsigned long nncxZlib_deflateBound(z_stream* strm, unsigned long sourceLen);
+
+// the zlib API of the cx library: they pass the call on (cx_Zlib.cpp)
 int deflateInit2_(z_stream* strm, int level, int method, int windowBits, int memLevel, int strategy,
                   const char* version, int stream_size); // 0x007A456C
 int deflate(z_stream* strm, int flush); // 0x007AFED0

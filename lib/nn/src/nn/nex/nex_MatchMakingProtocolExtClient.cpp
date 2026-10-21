@@ -30,7 +30,7 @@ bool nn::nex::MatchMakingProtocolExtClient::CallEndParticipation(nn::nex::Protoc
     message.AppendRaw(reinterpret_cast<const u8*>(&idGathering), sizeof(idGathering));
     _Type_string::Add(&message, strMessage);
     if (pContext != nullptr) {
-        pContext->AddReturnValue(pRetval);
+        pContext->AddReturnValuePtr(pRetval);
     }
     s_ProtoReturnFunctions[METHOD_END_PARTICIPATION - 1] = ProtoReturn_EndParticipation;
     return EndRegistered(this, &message, lock, pContext);

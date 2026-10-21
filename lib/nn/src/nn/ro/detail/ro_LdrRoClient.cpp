@@ -131,3 +131,6 @@ nn::Result LdrRoClient::Shutdown(nn::Handle process, uptr crsMappedAddress)
 } // namespace detail
 } // namespace ro
 } // namespace nn
+
+// ARMCC's static initializer of the file: the constructors of the globals above
+// 0x0079B690 (static initializer)

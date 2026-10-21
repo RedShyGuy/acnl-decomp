@@ -3576,7 +3576,6 @@
 0x4C5B78	nw::snd::internal::CurveAdshr::CurveAdshr()	fefates:bytes	0x32A6F8	
 0x4C5B98	nw::snd::internal::FileReader::Initialize(const char*,bool)	fefates:bytes	0x32A718	
 0x4C5CF8	nw::snd::internal::FileReader::Read(void*,int,int*)	fefates:bytes	0x32A878	
-0x4C5D5C	nw::snd::internal::FileReader::Seek(int,nw::snd::internal::FileReader::SeekPosition)	fefates:bytes	0x32A8DC	
 0x4C5DD8	nw::snd::internal::FileReader::Finalize()	fefates:bytes	0x1252E0	
 0x4C5E0C	nw::snd::internal::PlayerHeap::Alloc(unsigned int)	fefates:bytes	0x32A958	
 0x4C5E38	nw::snd::internal::PlayerHeap::Clear()	fefates:callgraph	0x32A984	

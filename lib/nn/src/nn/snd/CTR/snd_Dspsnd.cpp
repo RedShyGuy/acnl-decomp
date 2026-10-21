@@ -952,3 +952,6 @@ nn::snd::CTR::Dspsnd::~Dspsnd()
 } // namespace CTR
 } // namespace snd
 } // namespace nn
+
+// ARMCC's static initializer of the file (snd_System.cpp): the constructors of the globals above
+// 0x007916D8 (static initializer)

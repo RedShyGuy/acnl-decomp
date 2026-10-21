@@ -117,7 +117,7 @@ void nn::os::ThreadPool::WorkerThreadFunc(ThreadPool* pool)
     pool->mExecuteEvent.Signal();
 }
 
-// 0x0034BD68 slot 0x00 (branches to the code at 0x00129638)
+// 0x00129638 slot 0x00 (the vtable entry 0x0034BD68 only branches to it)
 void nn::os::ThreadPool::AddTask(QueueableTask* task)
 {
     mExecuteQueueLock.Enter();

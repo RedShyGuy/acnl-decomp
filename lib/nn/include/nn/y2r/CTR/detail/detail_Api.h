@@ -24,6 +24,7 @@ void SetInputLines(s16 lines); // 0x0046A038 | nintendogs:callseq [tier A]
 void SetSendingYuv(uptr buffer, size_t size, s16 transferUnit, s16 transferGap); // 0x0046A054
 // connects to the service (name), once; false if it does not exist or the driver failed
 bool InitializeBase(nn::Handle* session, const char* name); // 0x0046A10C | nintendogs:bytes [tier A]
+void FinalizeBase(nn::Handle* session); // 0x00136D28 (name is ours, after InitializeBase)
 void SetInputFormat(nn::y2r::CTR::InputFormat format); // 0x0046A1B4
 void SetOutputFormat(nn::y2r::CTR::OutputFormat format); // 0x0046A1D0 | nintendogs:callseq [tier A]
 // RESULT_CONVERSION_BUSY is returned, any other failure is fatal

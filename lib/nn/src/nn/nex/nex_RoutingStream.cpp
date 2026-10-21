@@ -248,7 +248,7 @@ nn::nex::RoutingStream::~RoutingStream()
 
 namespace __rw {
 // the functions of the trees of the routing stream
-// 0x00803108 (name is ours)
+// 0x00803108 | fefates:callseq-callee [tier C]
 template <>
 DECOMP_NOINLINE __rb_tree<std::pair<nn::nex::InetAddress, nn::nex::InetAddress>, std::pair<const std::pair<nn::nex::InetAddress, nn::nex::InetAddress>, nn::nex::Time>,
                           __select1st<std::pair<const std::pair<nn::nex::InetAddress, nn::nex::InetAddress>, nn::nex::Time>, std::pair<nn::nex::InetAddress, nn::nex::InetAddress>>, std::less<std::pair<nn::nex::InetAddress, nn::nex::InetAddress>>,
@@ -259,7 +259,7 @@ __rb_tree<std::pair<nn::nex::InetAddress, nn::nex::InetAddress>, std::pair<const
 {
     return EraseRangeInline(first, last);
 }
-// 0x007F8AAC (name is ours)
+// 0x007F8AAC | fefates:callseq-callee [tier C]
 template <>
 DECOMP_NOINLINE __rb_tree<nn::nex::InetAddress, std::pair<const nn::nex::InetAddress, nn::nex::Time>, __select1st<std::pair<const nn::nex::InetAddress, nn::nex::Time>, nn::nex::InetAddress>,
                           std::less<nn::nex::InetAddress>, nn::nex::MemAllocator<std::pair<const nn::nex::InetAddress, nn::nex::Time> > >::iterator

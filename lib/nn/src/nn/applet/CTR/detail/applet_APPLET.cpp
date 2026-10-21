@@ -558,3 +558,6 @@ nn::Result nn::applet::CTR::detail::APPLET::IsStandardMemoryLayout(bool* pIsStan
 } // namespace CTR
 } // namespace applet
 } // namespace nn
+
+// ARMCC's static initializer of the file: the constructors of the globals above
+// 0x007887B8 (static initializer)

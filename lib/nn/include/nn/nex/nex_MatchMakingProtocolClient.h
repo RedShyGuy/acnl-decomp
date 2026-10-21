@@ -79,4 +79,7 @@ DECOMP_NOINLINE list<nn::nex::AnyObjectHolder<nn::nex::Gathering, nn::nex::Strin
 
 template <>
 DECOMP_NOINLINE void list<nn::nex::AnyObjectHolder<nn::nex::Gathering, nn::nex::String>, nn::nex::MemAllocator<nn::nex::AnyObjectHolder<nn::nex::Gathering, nn::nex::String> > >::AddBuffer(bool isFirst);
+
+template <>
+DECOMP_NOINLINE void list<nn::nex::AnyObjectHolder<nn::nex::Gathering, nn::nex::String>, nn::nex::MemAllocator<nn::nex::AnyObjectHolder<nn::nex::Gathering, nn::nex::String>> >::clear();
 } // namespace std

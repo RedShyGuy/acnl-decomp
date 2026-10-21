@@ -218,6 +218,7 @@ nn::boss::NsData::NsData()
 // 0x0046CF1C (deleting dtor)
 nn::boss::NsData::~NsData()
 {
+    // nothing to do: the members and bases are destroyed by the compiler
 }
 
 } // namespace boss

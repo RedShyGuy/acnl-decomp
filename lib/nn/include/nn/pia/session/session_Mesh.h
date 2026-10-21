@@ -217,6 +217,8 @@ public:
     StationIndex GetFreeStationIndex() const; // 0x004493E0
     // the time of the SyncClockProtocol in ms (-3: no transport, -2: no protocol, -1: not synchronized)
     s64 GetTime() const; // 0x00734338 | fefates:bytes-fuzzy [tier B]
+    // GetTime of the mesh, 0 without one (name is ours)
+    static s64 GetInstanceTime(); // 0x00734A88 (name is ours)
     // the local station is the host of the mesh (name is ours)
     static bool IsLocalHost(); // 0x00734394
     // the flag of the monitoring data sender (MonitoringDataSender slot 0x0C; name is ours)

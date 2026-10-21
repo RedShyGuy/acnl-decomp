@@ -46,7 +46,7 @@ nn::nex::Variant::Variant(u32 value)
     m_UInt64 = value;
 }
 
-// 0x003D38B4 (name is ours)
+// 0x003D38B4 | fefates:callgraph [tier C]
 nn::nex::Variant::Variant()
 {
     m_Type = TYPE_NONE;

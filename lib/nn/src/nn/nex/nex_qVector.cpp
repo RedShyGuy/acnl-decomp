@@ -50,7 +50,7 @@ DECOMP_NOINLINE qVector<String>::qVector(const qVector<String>& other)
     InitializeCopyInline(other);
 }
 
-// 0x003D4070 (name is ours; the destructor of the temporary vectors of the protocol client)
+// 0x003D4070 | fefates:callgraph [tier C] (the destructor of the temporary vectors of the protocol client)
 template <>
 DECOMP_NOINLINE qVector<DataStoreKeyValue>::~qVector()
 {
@@ -119,6 +119,10 @@ DECOMP_NOINLINE qVector<DataStoreSpecificMetaInfoV1>::~qVector()
 {
     // nothing to do: the vector destroys its elements
 }
+// 0x003D4798 | mk7dlp:bytes [tier A] (out of line in the original, which uses its address)
+template qVector<u8>::~qVector();
+// 0x003D47B0 | fefates:bytes [tier B] (the static initializer of nex registers it with __aeabi_atexit)
+template qVector<u32>::~qVector();
 // 0x003D44BC (name is ours; it calls the destructor of std::vector)
 template qVector<qResult>::~qVector();
 
@@ -128,9 +132,24 @@ template qVector<qResult>::~qVector();
 namespace std {
 // 0x00836AD0 (name is ours)
 template <>
-DECOMP_NOINLINE void vector<u32, nn::nex::MemAllocator<u32> >::assign(const u32* pFirst, const u32* pLast)
+template <>
+DECOMP_NOINLINE void vector<u32, nn::nex::MemAllocator<u32> >::assign<u32*>(u32* first, u32* last)
 {
-    AssignRangeInline(pFirst, pLast);
+    AssignRangeInline(first, last);
+}
+
+// 0x0083623C (name is ours)
+template <>
+DECOMP_NOINLINE vector<u8, nn::nex::MemAllocator<u8> >& vector<u8, nn::nex::MemAllocator<u8> >::operator=(const vector& other)
+{
+    return AssignInline(other);
+}
+
+// 0x008372D4 (name is ours)
+template <>
+DECOMP_NOINLINE vector<u64, nn::nex::MemAllocator<u64> >& vector<u64, nn::nex::MemAllocator<u64> >::operator=(const vector& other)
+{
+    return AssignInline(other);
 }
 
 // 0x00837294 | fefates:bytes [tier B]
@@ -175,14 +194,14 @@ DECOMP_NOINLINE void vector<unsigned long long, nn::nex::MemAllocator<unsigned l
     InsertAuxInline(pos, value);
 }
 
-// 0x0083476C (name is ours)
+// 0x0083476C | fefates:bytes [tier B]
 template <>
 DECOMP_NOINLINE DECOMP_NOIPA vector<nn::nex::qResult, nn::nex::MemAllocator<nn::nex::qResult> >::~vector()
 {
     DestroyInline();
 }
 
-// 0x008343B0 (name is ours)
+// 0x008343B0 | fefates:bytes [tier B]
 template <>
 DECOMP_NOINLINE void vector<nn::nex::qResult, nn::nex::MemAllocator<nn::nex::qResult> >::_C_destroy(nn::nex::qResult* pFirst, nn::nex::qResult* pLast)
 {
@@ -191,23 +210,27 @@ DECOMP_NOINLINE void vector<nn::nex::qResult, nn::nex::MemAllocator<nn::nex::qRe
     }
 }
 
-// 0x00834408 (name is ours)
+// 0x00834408 | fefates:bytes [tier B]
 template <>
 DECOMP_NOINLINE void vector<nn::nex::qResult, nn::nex::MemAllocator<nn::nex::qResult> >::_C_insert_aux(nn::nex::qResult* pos, const nn::nex::qResult& value)
 {
     InsertAuxInline(pos, value);
 }
 
-// 0x00835F8C (name is ours)
+// 0x00835F8C | fefates:bytes [tier B]
 template void vector<u8, nn::nex::MemAllocator<u8> >::resize(u32 num, u8 value);
+// 0x008357B4 (name is ours)
+template void vector<u8, nn::nex::MemAllocator<u8> >::insert<u8*>(u8* pPos, u8* first, u8* last);
+// 0x00835A3C (name is ours)
+template void vector<u8, nn::nex::MemAllocator<u8> >::assign<u8*>(u8* first, u8* last);
 // 0x00835A6C (name is ours)
 template void vector<u8, nn::nex::MemAllocator<u8> >::insert<const u8*>(u8* pPos, const u8* first, const u8* last);
 // 0x00835CFC (name is ours)
 template void vector<u8, nn::nex::MemAllocator<u8> >::insert<char*>(u8* pPos, char* first, char* last);
 // 0x008367FC (name is ours)
 template void vector<u32, nn::nex::MemAllocator<u32> >::_C_insert_aux2<u32*>(u32* pPos, u32* first, u32* last);
-// 0x00836D94 (name is ours)
+// 0x00836D94 | fefates:bytes [tier B]
 template void vector<u32, nn::nex::MemAllocator<u32> >::push_back(const u32& value);
-// 0x00834978 (name is ours)
+// 0x00834978 | fefates:bytes [tier B]
 template void vector<nn::nex::EncryptionAlgorithm*, nn::nex::MemAllocator<nn::nex::EncryptionAlgorithm*> >::reserve(u32 num);
 } // namespace std

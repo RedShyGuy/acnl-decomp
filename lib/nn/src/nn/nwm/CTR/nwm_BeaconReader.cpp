@@ -12,6 +12,7 @@ const u32 BEACON_FIXED_SIZE = 12;
 // 0x003E23B8 (deleting dtor)
 nn::nwm::CTR::BeaconReader::~BeaconReader()
 {
+    // nothing to do: the members and bases are destroyed by the compiler
 }
 
 // 0x0072ECCC slot 0x08 (name is ours)

@@ -90,6 +90,7 @@ def norm(name):
 def split_signature(sig):
     """'void A::B::f(int, X<a, b>) const' -> ('A::B::f', ['int', 'X<a, b>'], True)"""
     sig = sig.strip().replace('(anonymous namespace)', '@anon')
+    sig = re.sub(r'^extern\s+"C"\s+', '', sig)        # a C function defined with its linkage
     sig = re.sub(r'(?<=>)\s+(?=>)', '', sig)          # "X<Y<Z> >" (demangler) == "X<Y<Z>>"
     const = sig.endswith(' const') or sig.endswith(')const')
     if const:
@@ -228,6 +229,36 @@ def typed_key(qualname, params, const):
 
 # typed_key -> address of the definitions in the sources (filled by source_addresses)
 SOURCE_BY_TYPES = {}
+# typed_key -> [(qualified names, address)] for keys that several definitions share: the scopes
+# inside template arguments are dropped ("list<JobDetectNATType::Request>" and
+# "list<JobNATCheckBase::Request>" give the same key), so these are told apart by the class-qualified
+# names the source spells out
+DUP_CANDIDATES = {}
+
+
+def scoped_names(text):
+    """the 'A::B' pairs of a signature (without blanks)"""
+    return set(re.findall(r'\w+::~?\w+', re.sub(r'\s+', '', text)))
+
+
+def resolve_dup(key, demangled):
+    """the address of the definition of an ambiguous key whose qualified names all occur in the
+    demangled name (None if not exactly one)"""
+    names = scoped_names(demangled)
+    hits = {a for pairs, a in DUP_CANDIDATES.get(key, ()) if pairs <= names}
+    return hits.pop() if len(hits) == 1 else None
+
+
+def source_by_types(parsed, demangled):
+    """the address of the definition with the same parameter types"""
+    tkey = typed_key(*parsed)
+    if tkey in DUP_CANDIDATES:
+        addr = resolve_dup(tkey, demangled)
+        if addr is not None:
+            return addr
+    return SOURCE_BY_TYPES.get(tkey)
+
+
 # (key, deleting) -> address of the this-adjusting thunk named in the sources ("(thunk)" lines)
 THUNKS = {}
 # repository-relative source path -> address of ARMCC's static initializer of the file
@@ -241,9 +272,10 @@ def source_addresses():
     address of the deleting variant (a second comment line that says 'deleting')."""
     out, dup, empty, deleting = {}, set(), set(), {}
     for d in ('src', 'lib', 'modules'):
-        for path in glob.glob(os.path.join(ROOT, d, '**', '*.cpp'), recursive=True):
+        for path in (glob.glob(os.path.join(ROOT, d, '**', '*.cpp'), recursive=True) + glob.glob(os.path.join(ROOT, d, '**', '*.c'), recursive=True)):
             ns, pending, sig, body_of, pending_del = [], None, None, None, None
             pending_local = None
+            pending_symbol = None
             pending_thunks = []
             text = open(path, encoding='utf-8', errors='replace').read()
             # explicit instantiations ("template class X<arg>;"): a member defined as X<T>::f under
@@ -288,15 +320,29 @@ def source_addresses():
                     # "ns::f(int)::C::g()", which split_signature keys as "::C::g"
                     lm = re.search(r'\[local class [^\]]*?(\w+)\]', st)
                     pending_local = '::' + lm.group(1) if lm else None
+                    # the symbol of a C function that a macro renames ("[symbol nexZlib_deflate]")
+                    sm = re.search(r'\[symbol (\w+)\]', st)
+                    pending_symbol = sm.group(1) if sm else None
                     continue
                 if re.match(r'//\s*ctor (candidate|address unknown)', st):
                     pending, sig = -1, ''                 # no verified address: only track empty bodies
                     continue
                 if pending is None or not st or st.startswith('//'):
                     continue
+                # a C definition in the old style ("f(a, b) int a; char* b; {", the zlib sources):
+                # the parameter declarations between ')' and '{' are not the end of a declaration
+                if path.endswith('.c'):
+                    st = re.sub(r'/\*.*?\*/', '', st).strip()
+                knr = path.endswith('.c') and st.endswith(';') and '{' not in st and re.search(r'\)\s*(?:[^;(){}]*;\s*)*$', sig.strip()) \
+                    and re.match(r'^[\w\s*\[\]]+;$', re.sub(r'\s*/\*.*?\*/\s*$', '', st))
                 sig += ' ' + st
+                if knr:
+                    continue
                 if '{' in st or st.endswith(';'):
-                    parsed = split_signature(strip_init_list(sig.split('{')[0].rstrip().rstrip(';')))   # also declarations
+                    head = sig.split('{')[0].rstrip()
+                    if path.endswith('.c'):
+                        head = re.sub(r'\)(?:\s*[^;(){}]+;)+\s*$', ')', head)
+                    parsed = split_signature(strip_init_list(head.rstrip(';')))   # also declarations
                     sig_text = sig
                     pending_addr, pending, sig = pending, None, None
                     del_addr, pending_del = pending_del, None
@@ -304,6 +350,8 @@ def source_addresses():
                     if not parsed:
                         continue
                     name, params, const = parsed
+                    if pending_symbol:
+                        name, pending_symbol = pending_symbol, None
                     # definitions inside "namespace a {" may or may not repeat "a::"
                     full = name if not ns or name.startswith(ns[0] + '::') else '::'.join(ns + [name])
                     if pending_local:
@@ -322,7 +370,9 @@ def source_addresses():
                         if key in out and out[key] != pending_addr:
                             dup.add(key)
                         out[key] = pending_addr
-                        SOURCE_BY_TYPES[typed_key(full, params, const)] = pending_addr
+                        tkey = typed_key(full, params, const)
+                        DUP_CANDIDATES.setdefault(tkey, []).append((scoped_names(full + '(' + ','.join(params) + ')'), pending_addr))
+                        SOURCE_BY_TYPES[tkey] = pending_addr
                     # a constructor with an initializer list does something even with an empty body
                     has_init_list = re.search(r'\)\s*:(?!:)', sig_text.split('{')[0]) is not None
                     if has_init_list:
@@ -331,6 +381,9 @@ def source_addresses():
                         empty.add(key)
                     elif st.endswith('{'):
                         body_of = key
+    for k in list(DUP_CANDIDATES):
+        if len({a for _, a in DUP_CANDIDATES[k]}) < 2:
+            del DUP_CANDIDATES[k]
     for k in dup:
         out.pop(k, None)                          # ambiguous overloads: fall back to symbols.json
     # declarations in headers with the address behind them ("void f(int); // 0x00123456"):
@@ -456,7 +509,7 @@ def source_variables():
     out = header_statics()
     paths = []
     for d in ('src', 'lib', 'modules'):
-        paths += glob.glob(os.path.join(ROOT, d, '**', '*.cpp'), recursive=True)
+        paths += (glob.glob(os.path.join(ROOT, d, '**', '*.cpp'), recursive=True) + glob.glob(os.path.join(ROOT, d, '**', '*.c'), recursive=True))
     for path in paths:
             ns, pending, guard, decl = [], None, None, ''
             for line in open(path, encoding='utf-8', errors='replace'):
@@ -652,7 +705,7 @@ def make_fuzzy_pair(mem, db, starts, names, by_source, by_name, variables=None):
         parsed = split_signature(dn)
         addr = by_source.get(sig_key(*parsed)) if parsed else None
         if addr is None and parsed:
-            addr = SOURCE_BY_TYPES.get(typed_key(*parsed))   # overloads with as many parameters
+            addr = source_by_types(parsed, dn)       # overloads with as many parameters
         if addr is None and not parsed:
             # a C function (no parameter list in the name): by its name alone
             if not c_functions:
@@ -1082,7 +1135,11 @@ def main():
         else:
             addr = by_source.get(skey) if parsed else None
             if addr is None and parsed:
-                addr = SOURCE_BY_TYPES.get(typed_key(*parsed))   # overloads with as many parameters
+                addr = source_by_types(parsed, name)       # overloads with as many parameters
+            if addr is None and not parsed:
+                # a C function (no parameter list in the name): by its name alone
+                cname = re.sub(r'\s+', '', name)
+                addr = next((a for k, a in by_source.items() if k[0] == cname), None)
         if addr is None:
             addr = by_name.get(norm(name))
         mine = masked_words(data, rel, size)

@@ -55,8 +55,11 @@ inline DayOfWeek GetDayOfWeekOfDays(s32 days)
 }
 } // namespace
 
+// (the static initializer makes MAX_DATETIME first)
+// 0x00975F00
+const nn::fnd::DateTime nn::fnd::DateTime::MAX_DATETIME(static_cast<s64>(MAX_DAYS + 1) * MILLISECONDS_PER_DAY - 1);
 // 0x00975EF8
-const nn::fnd::DateTime nn::fnd::DateTime::EPOCH(0);
+const nn::fnd::DateTime nn::fnd::DateTime::MIN_DATETIME(static_cast<s64>(MIN_DAYS) * MILLISECONDS_PER_DAY);
 
 // 0x0012468C | fefates:bytes [tier B]
 nn::fnd::DateTime nn::fnd::DateTime::FromParameters(const nn::fnd::DateTimeParameters& parameters)
@@ -69,7 +72,7 @@ nn::fnd::DateTime nn::fnd::DateTime::FromParameters(const nn::fnd::DateTimeParam
 nn::fnd::DateTime nn::fnd::DateTime::GetNow()
 {
     TimeSpan span = TimeSpan::FromMilliSeconds(nn::ptm::CTR::detail::GetSwcMilliSeconds());
-    DateTime now = EPOCH;
+    DateTime now = MIN_DATETIME;
     return now += span;
 }
 
@@ -266,3 +269,6 @@ s32 nn::fnd::DateTime::GetSecond() const
 
 } // namespace fnd
 } // namespace nn
+
+// ARMCC's static initializer of the file: the constants above
+// 0x00796704 (static initializer)

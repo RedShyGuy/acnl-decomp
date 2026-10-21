@@ -49,6 +49,15 @@ inline void ThrowFatalErrAllIfFailure(nn::Result result)
         ThrowFatalErrAll(result, address);
     }
 }
+
+// logs a failure and stops (name is ours)
+inline void ThrowFatalErrLoggedIfFailure(nn::Result result)
+{
+    uptr address = GetCurrentAddress();
+    if (result.IsFailure()) {
+        ThrowFatalErrLogged(result, address);
+    }
+}
 } // namespace CTR
 } // namespace err
 } // namespace nn

@@ -111,12 +111,14 @@ nn::Result nn::boss::DataStoreDownloadAction::ClearData()
 // 0x0046C180 | tier C
 nn::boss::DataStoreDownloadAction::DataStoreDownloadAction()
 {
+    // nothing to do: the members and bases are constructed by the compiler
 }
 
 // 0x0046C1A8
 // 0x0046C198 (deleting dtor)
 nn::boss::DataStoreDownloadAction::~DataStoreDownloadAction()
 {
+    // nothing to do: the members and bases are destroyed by the compiler
 }
 
 } // namespace boss

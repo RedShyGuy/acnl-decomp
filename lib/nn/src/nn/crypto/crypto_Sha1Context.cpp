@@ -131,12 +131,14 @@ void nn::crypto::Sha1Context::GetHash(void* pOutput)
 // 0x0048320C (name is ours)
 void nn::crypto::Sha1Context::Finalize()
 {
+    // nothing to do: empty in the original
 }
 
 // 0x00483214
 // 0x00483210 (deleting dtor)
 nn::crypto::Sha1Context::~Sha1Context()
 {
+    // nothing to do: the members and bases are destroyed by the compiler
 }
 
 // 0x001437E0

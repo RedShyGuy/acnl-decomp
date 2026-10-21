@@ -45,6 +45,8 @@ public:
     nn::Result Finalize(); // 0x0013B398 | nintendogs:bytes [tier X]
     // writes back the box information unless closing after a failure
     void CloseMessageBox(bool isFailure); // 0x0013EA84 | nintendogs:bytes [tier A]
+    // CloseMessageBox(false) (the original falls into it)
+    void CloseMessageBox(); // 0x0013EA7C (name of the overload)
     nn::Result WriteBoxInfo(CecBoxType type, CecBoxInfoHeader& header, CecMessageHeader** messages); // 0x001408A0 | nintendogs:bytes [tier A]
     nn::Result WriteMessageBoxInfo(); // 0x00140978 | nintendogs:bytes [tier A]
     nn::Result ReadBoxInfo(CecBoxInfoHeader* header, CecMessageHeader** messages, u8* buffer, CecBoxType type); // 0x00143264 | nintendogs:bytes [tier A]
@@ -53,6 +55,8 @@ public:
     nn::Result WriteMessage(const Message& message, CecBoxType type, MessageId& messageId); // 0x0034D770 (name after the overload)
     nn::Result WriteMessage(const Message& message, CecBoxType type, MessageId& messageId, bool writeBoxInfo); // 0x0034D784 | nintendogs:bytes [tier A]
     nn::Result DeleteMessage(CecBoxType type, const MessageId& messageId, bool writeBoxInfo); // 0x0034DD68 | nintendogs:bytes [tier A]
+    // DeleteMessage(type, messageId, true) (the original falls into it)
+    nn::Result DeleteMessage(CecBoxType type, const MessageId& messageId); // 0x0034DD60 (name of the overload)
     nn::Result OpenMessageBox(u32 programId, u32 privateId); // 0x0034E05C | nintendogs:bytes [tier A]
     u32 ReadOutBoxIndex(); // 0x0034E2D8 | nintendogs:bytes [tier A]
     nn::Result CreateMessageBox(u32 programId, u32 privateId, const u8* pHmacKey, const void* icon, u32 iconSize, const void* name, u32 nameSize, u32 inBoxSizeMax, u32 outBoxSizeMax, u32 inBoxMessageNumMax, u32 outBoxMessageNumMax, u32 messageSizeMax); // 0x0034E534 (name is ours)

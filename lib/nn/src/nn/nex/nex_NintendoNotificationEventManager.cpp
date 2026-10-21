@@ -40,7 +40,7 @@ nn::nex::Protocol* nn::nex::NintendoNotificationEventManager::Clone()
 } // namespace nn
 
 namespace __rw {
-// 0x00801E08 (name is ours)
+// 0x00801E08 | fefates:callgraph [tier C]
 template <>
 DECOMP_NOINLINE __rb_tree<nn::nex::NintendoNotificationEventHandler*, nn::nex::NintendoNotificationEventHandler*,
                           __ident<nn::nex::NintendoNotificationEventHandler*, nn::nex::NintendoNotificationEventHandler*>, std::less<nn::nex::NintendoNotificationEventHandler*>,

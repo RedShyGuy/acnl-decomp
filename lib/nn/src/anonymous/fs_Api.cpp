@@ -46,5 +46,11 @@ FatalNotificationHandler s_FatalNotificationHandler;
 } // namespace fs
 } // namespace nn
 
+// the out-of-line copies of the handler of the events
+// 0x007E53EC
+template void nn::srv::EventNotificationHandlerBase<nn::os::LightEvent>::HandleNotification();
+// 0x00467164
+template nn::srv::EventNotificationHandlerBase<nn::os::LightEvent>::~EventNotificationHandlerBase();
+
 // ARMCC's static initializer of the file: the constructors of the globals above
 // 0x00784EF8 (static initializer)

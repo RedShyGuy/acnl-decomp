@@ -296,3 +296,6 @@ nn::snd::CTR::FxReverb::~FxReverb()
 } // namespace CTR
 } // namespace snd
 } // namespace nn
+
+// ARMCC's static initializer of the file: the constructors of the globals above
+// 0x0079684C (static initializer)

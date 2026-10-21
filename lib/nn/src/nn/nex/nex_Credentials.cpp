@@ -9,11 +9,6 @@ nn::nex::Credentials::~Credentials()
     Clear();
 }
 
-// 0x00137B04 | mk7dlp:bytes [tier B]
-void nn::nex::Credentials::MarkInvalid()
-{
-}
-
 // 0x0072A100 | fefates:bytes [tier B]
 nn::nex::EndPoint* nn::nex::Credentials::GetConnection(unsigned short streamType) const
 {

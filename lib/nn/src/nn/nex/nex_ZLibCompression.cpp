@@ -28,8 +28,8 @@ nn::nex::ZLibCompression::ZLibCompression(int windowBits, int memoryLevel)
 // 0x0037ED54 (deleting dtor)
 nn::nex::ZLibCompression::~ZLibCompression()
 {
-    zlib::inflateEnd(&m_pStreams->m_Inflate);
-    zlib::deflateEnd(&m_pStreams->m_Deflate);
+    nexZlib_inflateEnd(&m_pStreams->m_Inflate);
+    nexZlib_deflateEnd(&m_pStreams->m_Deflate);
     if (m_pStreams != nullptr) {
         MemoryManager::FreeInline(m_pStreams);
     }
@@ -40,7 +40,7 @@ nn::nex::ZLibCompression::~ZLibCompression()
 int nn::nex::ZLibCompression::CompressImpl(const nn::nex::Buffer& input, nn::nex::Buffer* pOutput)
 {
     z_stream& stream = m_pStreams->m_Deflate;
-    zlib::deflateReset(&stream);
+    nexZlib_deflateReset(&stream);
     // the ratio byte comes first
     if (pOutput->m_Size - pOutput->m_HeaderSize < input.m_ContentSize + 1) {
         pOutput->ResizeByRealSize(input.m_ContentSize + 1 + pOutput->m_HeaderSize);
@@ -51,7 +51,7 @@ int nn::nex::ZLibCompression::CompressImpl(const nn::nex::Buffer& input, nn::nex
     stream.next_in = input.m_pData + input.m_HeaderSize;
     stream.next_out++;
     stream.avail_out--;
-    if (zlib::deflate(&stream, Z_FINISH) == Z_STREAM_END && stream.total_out < input.m_ContentSize) {
+    if (nexZlib_deflate(&stream, Z_FINISH) == Z_STREAM_END && stream.total_out < input.m_ContentSize) {
         f32 ratio = static_cast<f32>(input.m_ContentSize) / static_cast<f32>(stream.total_out) + 1.0f;
         pOutput->m_ContentSize = stream.total_out + 1;
         pOutput->m_pData[pOutput->m_HeaderSize] = ratio > 255.0f ? RATIO_MAX : static_cast<u8>(ratio);
@@ -88,14 +88,14 @@ int nn::nex::ZLibCompression::DecompressImpl(const nn::nex::Buffer& input, nn::n
     int zResult;
     do {
         z_stream& stream = m_pStreams->m_Inflate;
-        zlib::inflateReset(&stream);
+        nexZlib_inflateReset(&stream);
         stream.avail_out = pOutput->m_Size - pOutput->m_HeaderSize;
         stream.next_out = pOutput->m_pData + pOutput->m_HeaderSize;
         stream.avail_in = input.m_ContentSize;
         stream.next_in = input.m_pData + input.m_HeaderSize;
         stream.next_in = input.m_pData + input.m_HeaderSize + 1;
         stream.avail_in--;
-        zResult = zlib::inflate(&stream, Z_FINISH);
+        zResult = nexZlib_inflate(&stream, Z_FINISH);
         if ((stream.avail_out != 0 || zResult != Z_OK) && zResult != Z_BUF_ERROR) {
             isFailed = true;
             break;

@@ -2,6 +2,7 @@
 
 #include "decomp.h"
 #include "nn/nex/nex__DDL_DataStoreRatingInfo.h"
+#include "nn/nex/nex_qMap.h"
 
 namespace nn {
 namespace nex {
@@ -15,6 +16,10 @@ public:
     // 0x00392F78 slot 0x04 (deleting dtor)
 };
 ASSERT_SIZE(DataStoreRatingInfo, 0x20);
+
+// (out of line in the original; nex_DataStoreRatingInfo.cpp)
+template <>
+DECOMP_NOINLINE qMap<s8, DataStoreRatingInfo>::qMap(const qMap<s8, DataStoreRatingInfo>& other);
 } // namespace nex
 } // namespace nn
 

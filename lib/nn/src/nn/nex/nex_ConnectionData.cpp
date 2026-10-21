@@ -9,7 +9,7 @@ nn::nex::ConnectionData::~ConnectionData()
     // nothing to do: the members and bases are destroyed / constructed by the compiler
 }
 
-// 0x003CF3A0 (name is ours)
+// 0x003CF3A0 | fefates:bytes [tier B]
 template <>
 DECOMP_NOINLINE qList<ConnectionData>::qList()
 {

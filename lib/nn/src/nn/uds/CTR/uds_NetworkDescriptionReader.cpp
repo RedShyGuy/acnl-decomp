@@ -7,8 +7,10 @@ namespace uds {
 namespace CTR {
 
 // 0x00468AF8 slot 0x00
+// 0x00468AF4 (deleting dtor)
 nn::uds::CTR::NetworkDescriptionReader::~NetworkDescriptionReader()
 {
+    // nothing to do: the members and bases are destroyed by the compiler
 }
 
 // 0x004689FC | fefates:bytes [tier B]

@@ -4,6 +4,11 @@
 #include "nn/applet/CTR/applet_SysSleepAcceptedCallbackInfo.h"
 #include "nn/applet/CTR/detail/applet_APPLET.h"
 #include "nn/applet/CTR/detail/detail_Api.h"
+#include <string.h>
+#include "nn/cfg/CTR/CTR_Api.h"
+#include "nn/dbg/dbg_Api.h"
+#include "nn/ndm/ndm_Api.h"
+#include "nn/nwm/CTR/CTR_Api.h"
 #include "nn/dsp/CTR/CTR_Api.h"
 #include "nn/err/CTR/CTR_Api.h"
 #include "nn/os/os_CriticalSection.h"
@@ -51,6 +56,7 @@ ExitHandler s_ExitHandler;
 // 0x004DD2DC
 void ExitHandler::HandleNotification()
 {
+    // nothing to do: empty in the original
 }
 } // namespace
 
@@ -658,6 +664,67 @@ bool IsExpectedToProcessHomeButton()
     return IsExpectedToJumpToHomeMenu() || GetHomeButtonState() != HOME_BUTTON_NONE;
 }
 
+namespace {
+// the internet browser (the names are ours)
+const u32 APP_ID_INTERNET_BROWSER = 0x114;
+// the URL is the parameter of the applet
+const u32 BROWSER_PARAMETER_SIZE = 0x400;
+// StartInternetBrowser (module applet)
+const bit32 RESULT_INVALID_URL = 0xE0A13C01;           // usage, 1
+const bit32 RESULT_BROWSER_NOT_AVAILABLE = 0xE0A13C02; // usage, 2
+const bit32 RESULT_BROWSER_NOT_NOW = 0xC8A13C03;       // status, 3
+// wifi states (nwm::CTR::GetWifiState) in which the browser does not start (meaning not known)
+const u8 WIFI_STATE_3 = 3;
+const u8 WIFI_STATE_4 = 4;
+const u8 WIFI_STATE_6 = 6;
+} // namespace
+
+// starts the internet browser with an http or https URL and waits until it has started (name is
+// ours)
+// 0x0048A6F4 (name is ours)
+nn::Result StartInternetBrowser(const char* url)
+{
+    nn::Result result;
+    if (!detail::IsInternetBrowserAvailable()) {
+        result = nn::Result(RESULT_BROWSER_NOT_AVAILABLE);
+    } else if (strncmp(url, "http://", 7) != 0 && strncmp(url, "https://", 8) != 0) {
+        result = nn::Result(RESULT_INVALID_URL);
+    } else {
+        u8 wifiState = nn::nwm::CTR::GetWifiState();
+        nn::ndm::CTR::ExclusiveMode mode;
+        if (wifiState == WIFI_STATE_3 || wifiState == WIFI_STATE_4 || wifiState == WIFI_STATE_6 ||
+            (nn::ndm::QueryExclusiveMode(mode).IsSuccess() && mode == nn::ndm::CTR::EXCLUSIVE_MODE_LOCAL_COMMUNICATIONS)) {
+            result = nn::Result(RESULT_BROWSER_NOT_NOW);
+        } else {
+            if (detail::PrepareToStartSystemApplet(APP_ID_INTERNET_BROWSER).IsFailure()) {
+                nndbgPanic();
+            }
+            result = detail::StartSystemApplet(APP_ID_INTERNET_BROWSER, reinterpret_cast<const u8*>(url),
+                                               BROWSER_PARAMETER_SIZE, INVALID_HANDLE);
+            if (result.IsFailure()) {
+                nndbgPanic();
+            }
+            detail::WaitForStarting(0, 0, 0, 0, 0, WAIT_INFINITE);
+            return result;
+        }
+    }
+    nn::err::CTR::ThrowFatalErr(result, nn::err::CTR::GetCurrentAddress());
+    return result;
+}
+
+// the parental controls restrict the internet browser (name is ours)
+// 0x0048A83C (name is ours)
+bool IsInternetBrowserRestricted()
+{
+    nn::cfg::CTR::ParentalControlInfo info;
+    nn::cfg::CTR::GetParentalControlInfo(&info);
+    return (info.flags & nn::cfg::CTR::ParentalControlInfo::FLAG_ENABLED) &&
+           (info.flags & nn::cfg::CTR::ParentalControlInfo::FLAG_RESTRICT_INTERNET_BROWSER);
+}
+
 } // namespace CTR
 } // namespace applet
 } // namespace nn
+
+// ARMCC's static initializer of the file (applet_API.cpp): the constructors of the globals above
+// 0x00788744 (static initializer)

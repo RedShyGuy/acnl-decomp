@@ -261,6 +261,7 @@ bool nn::snd::CTR::MasterManager::SetEffect(AuxBusId bus, FxReverb* reverb)
 // 0x00461F1C (name is ours)
 nn::snd::CTR::MasterManager::~MasterManager()
 {
+    // nothing to do: the members and bases are destroyed by the compiler
 }
 
 } // namespace CTR

@@ -711,3 +711,6 @@ nn::Result ReadData(u8* pBuffer, u32 size, u32 option, const u8* pParameter, u32
 } // namespace CTR
 } // namespace cec
 } // namespace nn
+
+// ARMCC's static initializer of the file: the constructors of the globals above
+// 0x007887CC (static initializer)

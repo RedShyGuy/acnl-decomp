@@ -112,6 +112,16 @@ bool InitializeBase(nn::Handle* session, const char* name)
     return true;
 }
 
+// 0x00136D28 (name is ours, after InitializeBase)
+void FinalizeBase(nn::Handle* session)
+{
+    if (s_IsInitialized) {
+        Y2r::DriverFinalize();
+        CheckResult(nn::svc::CloseHandle(*session));
+        s_IsInitialized = false;
+    }
+}
+
 // 0x0046A1B4
 void SetInputFormat(nn::y2r::CTR::InputFormat format)
 {

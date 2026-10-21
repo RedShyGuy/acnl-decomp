@@ -40,7 +40,7 @@ bool nn::nex::MatchMakingClient::EndParticipation(nn::nex::ProtocolCallContext* 
     return m_ExtProtocol.CallEndParticipation(pContext, nullptr, gatheringId, message);
 }
 
-// 0x00387008 (name is ours)
+// 0x00387008 | fefates:callgraph [tier C]
 bool nn::nex::MatchMakingClient::RegisterPrototype(nn::nex::Gathering* pPrototype)
 {
     return AnyGatheringAdapter::s_Instance.RegisterPrototype(pPrototype);

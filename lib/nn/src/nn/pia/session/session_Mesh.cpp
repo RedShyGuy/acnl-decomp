@@ -1299,6 +1299,15 @@ void nn::pia::session::Mesh::Trace(u64) const
     // empty (in the original too)
 }
 
+// 0x00734A88 (name is ours)
+s64 nn::pia::session::Mesh::GetInstanceTime()
+{
+    if (common::IsValidPointer(s_pInstance)) {
+        return s_pInstance->GetTime();
+    }
+    return 0;
+}
+
 // 0x00734338 | fefates:bytes-fuzzy [tier B]
 s64 nn::pia::session::Mesh::GetTime() const
 {
@@ -1325,3 +1334,6 @@ bool nn::pia::session::Mesh::IsLocalHost()
 } // namespace session
 } // namespace pia
 } // namespace nn
+
+// ARMCC's static initializer of the file: the constructors of the globals above
+// 0x00796808 (static initializer)

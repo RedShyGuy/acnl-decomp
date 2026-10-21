@@ -111,6 +111,15 @@ nn::Result GetFriendKeyList(nnfriendsFriendKey* pKeys, unsigned int* pCount, uns
     return Friends::GetFriendKeyList(pKeys, pCount, offset, size);
 }
 
+// 0x00125740 (name after 3dbrew)
+nn::Result SetNotificationMask(bit32 mask)
+{
+    if (!IsAnyInitialized()) {
+        return RESULT_NOT_INITIALIZED;
+    }
+    return Friends::SetNotificationMask(mask);
+}
+
 // 0x0012BDAC | fefates:callgraph [tier C]
 bool IsInitializedAdmin()
 {

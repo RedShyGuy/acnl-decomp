@@ -74,6 +74,7 @@ struct ParentalControlInfo
 {
     // restrictions (bits of flags)
     static const u32 FLAG_ENABLED = 1 << 0;
+    static const u32 FLAG_RESTRICT_INTERNET_BROWSER = 1 << 1;
     static const u32 FLAG_RESTRICT_PHOTO_EXCHANGE = 1 << 3; // sharing images, audio, video, long text
     static const u32 FLAG_RESTRICT_P2P_INTERNET = 1 << 4;   // online interaction
     static const u32 FLAG_RESTRICT_P2P_CEC = 1 << 5;        // StreetPass

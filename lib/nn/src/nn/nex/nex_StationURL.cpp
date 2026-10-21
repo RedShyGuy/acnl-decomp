@@ -585,14 +585,14 @@ bool nn::nex::StationURL::operator!=(const nn::nex::StationURL& other) const
     return wcscmp(GetURL(), pOther) != 0;
 }
 
-// 0x003CE134 (name is ours)
+// 0x003CE134 | fefates:bytes [tier B]
 template <>
 DECOMP_NOINLINE qMap<String, String>::qMap()
 {
     // nothing to do: the tree is constructed by the compiler
 }
 
-// 0x003CE1D0 (name is ours)
+// 0x003CE1D0 | fefates:bytes [tier B]
 template <>
 DECOMP_NOINLINE qMap<String, u32>::qMap()
 {
@@ -655,7 +655,7 @@ DECOMP_NOINLINE nn::nex::String& map<nn::nex::String, nn::nex::String, less<nn::
 } // namespace std
 
 namespace std {
-// 0x0082E4D4 (name is ours)
+// 0x0082E4D4 | mk7dlp:bytes [tier A]
 template <>
 u32 map<nn::nex::String, nn::nex::String>::erase(const nn::nex::String& key)
 {
@@ -676,6 +676,13 @@ template <>
 DECOMP_NOINLINE void list<nn::nex::StationURL, nn::nex::MemAllocator<nn::nex::StationURL> >::AddBuffer(bool isFirst)
 {
     AddBufferInline(isFirst);
+}
+
+// 0x0082EF30 (name is ours)
+template <>
+DECOMP_NOINLINE void list<nn::nex::StationURL, nn::nex::MemAllocator<nn::nex::StationURL> >::clear()
+{
+    ClearEraseInline();
 }
 
 // 0x0082EFA4 | fefates:callgraph [tier B]

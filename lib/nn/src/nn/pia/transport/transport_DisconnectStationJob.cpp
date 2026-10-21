@@ -139,7 +139,7 @@ void nn::pia::transport::DisconnectStationJob::Cleanup()
     m_Deadline = common::Time();
 }
 
-// 0x00458878 (name is ours)
+// 0x00458878 | fefates:callgraph [tier C]
 nn::Result nn::pia::transport::DisconnectStationJob::Startup(nn::pia::transport::Station* pStation)
 {
     return StartupImpl(pStation);

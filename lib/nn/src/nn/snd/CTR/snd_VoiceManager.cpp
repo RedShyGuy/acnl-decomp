@@ -219,6 +219,7 @@ void nn::snd::CTR::VoiceManager::FreeVoice(Voice* voice)
 // 0x00461A44 (name is ours)
 nn::snd::CTR::VoiceManager::~VoiceManager()
 {
+    // nothing to do: the members and bases are destroyed by the compiler
 }
 
 // 0x004668CC (name is ours)

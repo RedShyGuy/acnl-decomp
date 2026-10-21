@@ -56,6 +56,7 @@ nn::Result nn::http::detail::LibManager::Initialize(uptr buffer, size_t size)
 // 0x0046FE14 (deleting dtor)
 nn::http::detail::LibManager::~LibManager()
 {
+    // nothing to do: the members and bases are destroyed by the compiler
 }
 
 } // namespace detail

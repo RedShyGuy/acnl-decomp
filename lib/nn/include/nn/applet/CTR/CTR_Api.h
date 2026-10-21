@@ -71,6 +71,10 @@ DECOMP_NOIPA bool IsInitializedByLauncher(); // 0x0011E58C (name is ours)
 nn::Result CloseApplication(const u8* pParameter, u32 size, nn::Handle handle); // 0x00125238 (name is ours)
 // the internet browser applet (0x114) is there and the memory layout lets it start
 bool IsInternetBrowserAvailable(); // 0x0047FA28 (name is ours)
+// starts the internet browser with an http or https URL and waits until it has started
+nn::Result StartInternetBrowser(const char* url); // 0x0048A6F4 (name is ours)
+// the parental controls restrict the internet browser
+bool IsInternetBrowserRestricted(); // 0x0048A83C (name is ours)
 // AppletUtility 0x10 (3dbrew StartExitTask)
 nn::Result StartExitTask(bool flag); // 0x0047FA98 (name after 3dbrew)
 // handles a HOME button press (jump to the HOME menu and wait for the return)

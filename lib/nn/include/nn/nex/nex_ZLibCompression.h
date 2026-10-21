@@ -43,11 +43,11 @@ public:
         m_pStreams->m_Inflate.zalloc = zlib::Allocate;
         m_pStreams->m_Inflate.zfree = zlib::Free;
         m_pStreams->m_Inflate.opaque = nullptr;
-        zlib::inflateInit_(&m_pStreams->m_Inflate, "1.2.5", sizeof(z_stream));
+        nexZlib_inflateInit_(&m_pStreams->m_Inflate, "1.2.5", sizeof(z_stream));
         m_pStreams->m_Deflate.zalloc = zlib::Allocate;
         m_pStreams->m_Deflate.zfree = zlib::Free;
         m_pStreams->m_Deflate.opaque = nullptr;
-        zlib::deflateInit2_(&m_pStreams->m_Deflate, -1, Z_DEFLATED, windowBits, memoryLevel, Z_DEFAULT_STRATEGY, "1.2.5", sizeof(z_stream));
+        nexZlib_deflateInit2_(&m_pStreams->m_Deflate, -1, Z_DEFLATED, windowBits, memoryLevel, Z_DEFAULT_STRATEGY, "1.2.5", sizeof(z_stream));
     }
 
     Streams* m_pStreams; // 0x118

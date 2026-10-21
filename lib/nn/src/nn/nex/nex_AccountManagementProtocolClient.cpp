@@ -41,7 +41,7 @@ bool nn::nex::AccountManagementProtocolClient::CallCreateAccount(nn::nex::Protoc
     message.AppendRaw(reinterpret_cast<const u8*>(&uiGroups), sizeof(uiGroups));
     _Type_string::Add(&message, strEmail);
     if (pContext != nullptr) {
-        pContext->AddReturnValue(pRetval);
+        pContext->AddReturnValuePtr(pRetval);
     }
     s_ProtoReturnFunctions[METHOD_CREATE_ACCOUNT - 1] = ProtoReturn_CreateAccount;
     return EndRegistered(this, &message, lock, pContext);
@@ -74,7 +74,7 @@ bool nn::nex::AccountManagementProtocolClient::CallChangePassword(nn::nex::Proto
     }
     _Type_string::Add(&message, strNewKey);
     if (pContext != nullptr) {
-        pContext->AddReturnValue(pRetval);
+        pContext->AddReturnValuePtr(pRetval);
     }
     s_ProtoReturnFunctions[METHOD_CHANGE_PASSWORD - 1] = ProtoReturn_ChangePassword;
     return EndRegistered(this, &message, lock, pContext);
@@ -95,7 +95,7 @@ bool nn::nex::AccountManagementProtocolClient::CallCustomCreateAccount(nn::nex::
     _Type_string::Add(&message, strEmail);
     authData.StreamIn(&message);
     if (pContext != nullptr) {
-        pContext->AddReturnValue(pPid);
+        pContext->AddReturnValuePtr(pPid);
     }
     s_ProtoReturnFunctions[METHOD_CUSTOM_CREATE_ACCOUNT - 1] = ProtoReturn_CustomCreateAccount;
     return EndRegistered(this, &message, lock, pContext);
@@ -133,8 +133,8 @@ bool nn::nex::AccountManagementProtocolClient::CallNintendoCreateAccount(nn::nex
     _Type_string::Add(&message, strEmail);
     authData.StreamIn(&message);
     if (pContext != nullptr) {
-        pContext->AddReturnValue(pPid);
-        pContext->AddReturnValue(pPidHMAC);
+        pContext->AddReturnValuePtr(pPid);
+        pContext->AddReturnValuePtr(pPidHMAC);
     }
     s_ProtoReturnFunctions[METHOD_NINTENDO_CREATE_ACCOUNT - 1] = ProtoReturn_NintendoCreateAccount;
     return EndRegistered(this, &message, lock, pContext);

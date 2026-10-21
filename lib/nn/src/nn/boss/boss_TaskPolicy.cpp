@@ -68,6 +68,7 @@ nn::boss::TaskPolicy::TaskPolicy()
 // 0x0046AA70 (deleting dtor)
 nn::boss::TaskPolicy::~TaskPolicy()
 {
+    // nothing to do: the members and bases are destroyed by the compiler
 }
 
 } // namespace boss

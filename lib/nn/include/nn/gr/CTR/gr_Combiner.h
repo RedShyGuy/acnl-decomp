@@ -40,6 +40,11 @@ public:
         Stage(); // 0x0034B4E4 | fefates:bytes [tier B]
         explicit Stage(int index); // 0x0034B398 | fefates:bytes-fuzzy [tier B]
 
+        // presets of RGB and alpha (the names are ours, after the PICA fields): the stage passes
+        // texture 0 on, or multiplies the primary color with texture 0
+        void SetReplaceTexture0(); // 0x0034B2CC (name is ours)
+        void SetModulatePrimaryColorTexture0(); // 0x0034B328 (name is ours)
+
         u32* MakeCommand(u32* command) const; // 0x00728A80 | fefates:bytes [tier B]
 
         Combine m_Rgb;      // 0x00

@@ -8,5 +8,7 @@ namespace init {
 void InitializeAllocator(size_t size); // 0x0011D56C | mk7dlp:bytes [tier B]
 // the heap of malloc / free at address
 void InitializeAllocator(uptr address, size_t size); // 0x0011E4DC | tier C
+// os::Initialize and srv::Initialize (called by the entry code)
+void InitializeSystem(); // 0x0012A7F0 (name is ours)
 } // namespace init
 } // namespace nn

@@ -18,6 +18,9 @@ namespace applet {
 namespace CTR {
 class SysSleepAcceptedCallbackInfo;
 
+// the flag of a wakeup by cancel is set (the name is from fefates; it sets exactly this flag)
+DECOMP_NOIPA void SetReceivedWakeupByCancelFlag(); // 0x00124D70 | fefates:callgraph [tier C]
+
 namespace detail {
 // --- connection (applet_API.cpp) ---
 nn::Result GetTargetPlatform(nn::ptm::CTR::TargetPlatform* pPlatform); // 0x0011E59C | tier C
@@ -39,7 +42,6 @@ nn::Result GetApplicationRunningMode(nn::applet::CTR::ApplicationRunningMode* pM
 
 // --- state (applet_API.cpp) ---
 // (symbols.json names 0x00124D70 ThreadFunc; it sets the flag, ThreadFunc follows at 0x00124D84)
-DECOMP_NOIPA void SetReceivedWakeupByCancel(); // 0x00124D70 (name is ours)
 DECOMP_NOIPA void SetPowerButtonState(nn::applet::CTR::PowerButtonState state); // 0x00125208 | tier C
 DECOMP_NOIPA nn::applet::CTR::OrderToCloseState GetOrderToCloseState(); // 0x00125218 | tier C
 DECOMP_NOIPA void SetOrderToCloseState(nn::applet::CTR::OrderToCloseState state); // 0x00125228 | tier C

@@ -42,6 +42,7 @@ nn::nwm::ScanResultReaderBase::ScanResultReaderBase(const void* buffer, u8* curr
 // 0x003E22EC (deleting dtor)
 nn::nwm::ScanResultReaderBase::~ScanResultReaderBase()
 {
+    // nothing to do: the members and bases are destroyed by the compiler
 }
 
 // 0x0072EC5C | tier C

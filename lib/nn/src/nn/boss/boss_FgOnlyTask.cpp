@@ -17,6 +17,7 @@ nn::boss::FgOnlyTask::FgOnlyTask()
 // 0x0046A754 (deleting dtor)
 nn::boss::FgOnlyTask::~FgOnlyTask()
 {
+    // nothing to do: the members and bases are destroyed by the compiler
 }
 
 } // namespace boss

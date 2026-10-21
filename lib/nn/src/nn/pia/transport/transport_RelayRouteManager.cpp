@@ -1148,8 +1148,58 @@ nn::Result nn::pia::transport::RelayRouteManager::GetOriginalDirectStationList(n
 }
 
 // 0x00735980 (name is ours)
-nn::Result nn::pia::transport::RelayRouteManager::GetRelayRouteDirections(unsigned char*, unsigned int, unsigned int*) const
+nn::Result nn::pia::transport::RelayRouteManager::GetRelayRouteDirections(unsigned char* pBuffer, unsigned int bufferSize, unsigned int* pSize) const
 {
+    u32 n = GetStationNum();
+    u32 bitNum = m_RouteBits * (n * n);
+    if (bitNum & 7) {
+        bitNum += 8 - (bitNum & 7);
+    }
+    u32 routeSize = bitNum >> 3;
+    if (routeSize + n * sizeof(u32) + sizeof(u32) > bufferSize) {
+        *pSize = 0;
+        return common::RESULT_INVALID_ARGUMENT;
+    }
+    if (!common::IsValidPointer(pBuffer)) {
+        return common::RESULT_INVALID_ARGUMENT;
+    }
+    memset(pBuffer, 0, bufferSize);
+
+    // the routes, m_RouteBits each, from the high bits of the bytes on (as SetRelayRouteDirections
+    // reads them)
+    u32 position = 0;
+    u8 bitOffset = 0;
+    for (u32 i = 0; i < n; i++) {
+        for (u32 j = 0; j < n; j++) {
+            u8 route = m_pRelayRouteTable[i * n + j];
+            u8 bits = m_RouteBits;
+            s8 shift = 8 - bitOffset - bits;
+            if (shift < 0) {
+                // the route continues in the next byte
+                pBuffer[position] += (route >> -shift) & ((1 << (bits + shift)) - 1);
+                position++;
+                shift += 8;
+            }
+            pBuffer[position] += static_cast<u8>(route << shift);
+            bitOffset = 8 - shift;
+            if (shift == 0) {
+                bitOffset = 0;
+                position++;
+            }
+        }
+    }
+    position = routeSize;
+    for (u32 i = 0; i < n; i++) {
+        u32 bitmap = m_pConnectionBitmaps[i];
+        pBuffer[position] = static_cast<u8>(bitmap >> 24);
+        pBuffer[position + 1] = static_cast<u8>(bitmap >> 16);
+        pBuffer[position + 2] = static_cast<u8>(bitmap >> 8);
+        pBuffer[position + 3] = static_cast<u8>(bitmap);
+        position += sizeof(u32);
+    }
+    nnnstdMemCpy(pBuffer + position, &m_RefusedStationBitmap, sizeof(u32));
+    *pSize = position + sizeof(u32);
+    return nn::Result();
 }
 
 } // namespace transport

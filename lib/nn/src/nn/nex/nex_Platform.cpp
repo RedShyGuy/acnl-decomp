@@ -25,7 +25,7 @@ bool Platform::s_IsTransferableIdRead;
 u32 nn::nex::Platform::GetRandomSeed()
 {
     u64 data[3] = {SEED_DATA[0], SEED_DATA[1], SEED_DATA[2]};
-    data[0] ^= (nn::fnd::DateTime::GetNow() - nn::fnd::DateTime::EPOCH).GetMilliSeconds();
+    data[0] ^= (nn::fnd::DateTime::GetNow() - nn::fnd::DateTime::MIN_DATETIME).GetMilliSeconds();
     data[1] ^= nn::svc::GetSystemTick();
     if (!s_IsTransferableIdRead) {
         nn::cfg::CTR::Initialize();

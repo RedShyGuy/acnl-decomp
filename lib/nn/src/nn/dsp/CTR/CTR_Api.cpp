@@ -439,3 +439,6 @@ void Finalize()
 } // namespace CTR
 } // namespace dsp
 } // namespace nn
+
+// ARMCC's static initializer of the file: the constructors of the globals above
+// 0x007856A8 (static initializer)

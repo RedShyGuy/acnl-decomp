@@ -43,6 +43,12 @@ public:
     static const s32 CORE_NO_DEFAULT = -2;
 
     Thread() : mIsJoined(true) {}
+    // the object of the thread that is running: a copy of the handle of the current thread (inline,
+    // in the static initializer of os_Thread.cpp; name is ours)
+    struct CurrentThreadTag
+    {
+    };
+    explicit Thread(CurrentThreadTag);
 
     // starts f(param) on a new thread with the given stack, fatal on failure
     template <typename T>
@@ -97,6 +103,8 @@ public:
 
     // allocates the stacks of TryInitializeAndStartImplUsingAutoStack (name is ours)
     static AutoStackManager* s_pAutoStackManager; // 0x00975F84
+    // the thread that runs the program (sead::MainThread uses it; name is ours)
+    static Thread s_MainThread;
 
 private:
     // lies on the new thread's stack, right below the copy of the parameter (names are ours)

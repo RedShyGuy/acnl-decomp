@@ -128,8 +128,10 @@ public:
     const T0& back() const { return m_pHead->m_pPrev->m_Value; }
     void pop_back() { erase(m_pHead->m_pPrev); }
 
-    // the node is destroyed and goes to the free nodes; the next one
-    Node* erase(Node* pNode)
+    // the node is destroyed and goes to the free nodes; the next one (out of line in some instances:
+    // they specialize it with the body of EraseInline)
+    Node* erase(Node* pNode) { return EraseInline(pNode); }
+    Node* EraseInline(Node* pNode)
     {
         Node* pNext = pNode;
         if (pNode != m_pHead) {
@@ -162,6 +164,14 @@ public:
         Node* pEnd = m_pHead;
         for (Node* pNode = m_pHead->m_pNext; pNode != pEnd;) {
             pNode = erase(pNode);
+        }
+    }
+    // (the body of the out-of-line clear of the instances whose erase is out of line elsewhere)
+    void ClearEraseInline()
+    {
+        Node* pEnd = m_pHead;
+        for (Node* pNode = m_pHead->m_pNext; pNode != pEnd;) {
+            pNode = EraseInline(pNode);
         }
     }
 

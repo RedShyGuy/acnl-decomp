@@ -1876,7 +1876,7 @@ void nn::nex::PRUDPEndPoint::StartPing()
     GetStream()->m_TimeoutManager.SchedulePacketTimeout(m_pPingPacket);
 }
 
-// 0x003CE418 (name is ours)
+// 0x003CE418 | fefates:callseq-callee [tier C]
 template <>
 DECOMP_NOINLINE qMap<u32, u32>::qMap()
 {

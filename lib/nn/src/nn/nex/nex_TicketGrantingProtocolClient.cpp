@@ -49,11 +49,11 @@ bool nn::nex::TicketGrantingProtocolClient::CallLoginEx(nn::nex::ProtocolCallCon
     _Type_string::Add(&message, name);
     data.StreamIn(&message);
     if (pContext != nullptr) {
-        pContext->AddReturnValue(pResult);
-        pContext->AddReturnValue(pPrincipalId);
-        pContext->AddReturnValue(pTicket);
-        pContext->AddReturnValue(pConnectionData);
-        pContext->AddReturnValue(pServerName);
+        pContext->AddReturnValuePtr(pResult);
+        pContext->AddReturnValuePtr(pPrincipalId);
+        pContext->AddReturnValuePtr(pTicket);
+        pContext->AddReturnValuePtr(pConnectionData);
+        pContext->AddReturnValuePtr(pServerName);
     }
     s_ProtoReturnFunctions[METHOD_LOGIN_EX - 1] = ProtoReturn_LoginEx;
     return End(this, &message, lock, pContext);
@@ -115,10 +115,10 @@ bool nn::nex::TicketGrantingProtocolClient::CallLoginWithContext(nn::nex::Protoc
     }
     data.StreamIn(&message);
     if (pContext != nullptr) {
-        pContext->AddReturnValue(pResult);
-        pContext->AddReturnValue(pPrincipalId);
-        pContext->AddReturnValue(pTicket);
-        pContext->AddReturnValue(pConnectionData);
+        pContext->AddReturnValuePtr(pResult);
+        pContext->AddReturnValuePtr(pPrincipalId);
+        pContext->AddReturnValuePtr(pTicket);
+        pContext->AddReturnValuePtr(pConnectionData);
     }
     s_ProtoReturnFunctions[METHOD_LOGIN_WITH_CONTEXT - 1] = ProtoReturn_LoginWithContext;
     return End(this, &message, lock, pContext);
@@ -183,8 +183,8 @@ bool nn::nex::TicketGrantingProtocolClient::RequestTicket_PrepareRequest(nn::nex
     pMessage->AppendRaw(reinterpret_cast<const u8*>(&sourceId), sizeof(sourceId));
     pMessage->AppendRaw(reinterpret_cast<const u8*>(&targetId), sizeof(targetId));
     if (pContext != nullptr) {
-        pContext->AddReturnValue(pResult);
-        pContext->AddReturnValue(pTicket);
+        pContext->AddReturnValuePtr(pResult);
+        pContext->AddReturnValuePtr(pTicket);
     }
     s_ProtoReturnFunctions[METHOD_REQUEST_TICKET - 1] = ProtoReturn_RequestTicket;
     return true;
@@ -202,11 +202,11 @@ bool nn::nex::TicketGrantingProtocolClient::CallLogin(nn::nex::ProtocolCallConte
     }
     _Type_string::Add(&message, name);
     if (pContext != nullptr) {
-        pContext->AddReturnValue(pResult);
-        pContext->AddReturnValue(pPrincipalId);
-        pContext->AddReturnValue(pTicket);
-        pContext->AddReturnValue(pConnectionData);
-        pContext->AddReturnValue(pServerName);
+        pContext->AddReturnValuePtr(pResult);
+        pContext->AddReturnValuePtr(pPrincipalId);
+        pContext->AddReturnValuePtr(pTicket);
+        pContext->AddReturnValuePtr(pConnectionData);
+        pContext->AddReturnValuePtr(pServerName);
     }
     s_ProtoReturnFunctions[METHOD_LOGIN - 1] = ProtoReturn_Login;
     return End(this, &message, lock, pContext);

@@ -64,7 +64,8 @@ nn::nex::Key::~Key()
 // 0x003CCB14 | fefates:bytes [tier B]
 nn::nex::Key& nn::nex::Key::operator=(const nn::nex::Key& other)
 {
-    m_Data = other.m_Data;
+    // (the vector's operator= inline here; the other users call it out of line)
+    m_Data.AssignInline(other.m_Data);
     return *this;
 }
 

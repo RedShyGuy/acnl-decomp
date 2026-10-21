@@ -201,3 +201,12 @@ template nn::nex::String nn::nex::MethodCallJob<nn::nex::CallContextRegister, in
 
 } // namespace nex
 } // namespace nn
+
+namespace __rw {
+// 0x008060BC (name is ours)
+template __rb_tree<u32, std::pair<const u32, nn::nex::CallContext*>, __select1st<std::pair<const u32, nn::nex::CallContext*>, u32>, std::less<u32>, nn::nex::MemAllocator<std::pair<const u32, nn::nex::CallContext*> > >::iterator __rb_tree<u32, std::pair<const u32, nn::nex::CallContext*>, __select1st<std::pair<const u32, nn::nex::CallContext*>, u32>, std::less<u32>, nn::nex::MemAllocator<std::pair<const u32, nn::nex::CallContext*> > >::erase(iterator it);
+// 0x0080671C (name is ours)
+template void __rb_tree<u32, std::pair<const u32, nn::nex::CallContext*>, __select1st<std::pair<const u32, nn::nex::CallContext*>, u32>, std::less<u32>, nn::nex::MemAllocator<std::pair<const u32, nn::nex::CallContext*> > >::_C_erase(Node* pNode);
+// 0x00806758 (name is ours)
+template __rb_tree<u32, std::pair<const u32, nn::nex::CallContext*>, __select1st<std::pair<const u32, nn::nex::CallContext*>, u32>, std::less<u32>, nn::nex::MemAllocator<std::pair<const u32, nn::nex::CallContext*> > >::iterator __rb_tree<u32, std::pair<const u32, nn::nex::CallContext*>, __select1st<std::pair<const u32, nn::nex::CallContext*>, u32>, std::less<u32>, nn::nex::MemAllocator<std::pair<const u32, nn::nex::CallContext*> > >::_C_insert(Node* pNode, Node* pParent, const std::pair<const u32, nn::nex::CallContext*>& value);
+} // namespace __rw

@@ -292,6 +292,15 @@ nn::Result ResetTagScanState()
     return ConvertResult(s_NfcIpc.ResetTagScanState());
 }
 
+// 0x003DAD40 (name is ours, after NfcIpc::Command1A)
+nn::Result Command1A()
+{
+    if (!IsInitialized()) {
+        return nn::Result(RESULT_INVALID_STATE);
+    }
+    return ConvertResult(s_NfcIpc.Command1A());
+}
+
 // 0x003DACEC | fefates:bytes [tier B]
 nn::Result Finalize()
 {

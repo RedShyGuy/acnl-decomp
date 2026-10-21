@@ -133,6 +133,7 @@ nn::Result nn::boss::TaskActionBase::SetRootCa(unsigned certificateId)
 // 0x0046B75C (deleting dtor)
 nn::boss::TaskActionBase::~TaskActionBase()
 {
+    // nothing to do: the members and bases are destroyed by the compiler
 }
 
 } // namespace boss

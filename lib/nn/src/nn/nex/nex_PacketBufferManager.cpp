@@ -185,6 +185,6 @@ bool nn::nex::PacketBufferManager::HasFreeBuffers(u32 size, u32 count)
 } // namespace nn
 
 namespace std {
-// 0x0083144C (name is ours)
+// 0x0083144C | fefates:bytes [tier B]
 template vector<nn::nex::PacketBufferManager::UnitHeapParam, nn::nex::MemAllocator<nn::nex::PacketBufferManager::UnitHeapParam> >::~vector();
 } // namespace std

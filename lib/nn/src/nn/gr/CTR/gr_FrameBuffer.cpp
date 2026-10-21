@@ -1,5 +1,6 @@
 #include "nn/gr/CTR/gr_FrameBuffer.h"
 #include "nn/gr/CTR/detail/gr_Command.h"
+#include "nn/gx/gx_Api.h"
 #include "nn/gxlow/CTR/CTR_Api.h"
 
 namespace nn {

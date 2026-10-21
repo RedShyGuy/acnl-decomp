@@ -65,7 +65,7 @@ template __rb_tree<nn::nex::String, std::pair<const nn::nex::String, nn::nex::qV
 } // namespace __rw
 
 namespace std {
-// 0x0082E360 (name is ours)
+// 0x0082E360 | fefates:bytes [tier B]
 template <>
 DECOMP_NOINLINE pair<map<nn::nex::String, nn::nex::qVector<u8> >::iterator, bool> map<nn::nex::String, nn::nex::qVector<u8> >::insert(const value_type& value)
 {

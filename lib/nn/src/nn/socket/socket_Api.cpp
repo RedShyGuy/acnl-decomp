@@ -274,3 +274,6 @@ s32 InetPtoN(s32 family, const char* source, void* destination)
 
 } // namespace socket
 } // namespace nn
+
+// ARMCC's static initializer of the file: the constructors of the globals above
+// 0x0079CAB0 (static initializer)

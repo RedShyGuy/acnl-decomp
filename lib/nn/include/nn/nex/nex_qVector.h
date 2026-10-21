@@ -172,8 +172,8 @@ public:
             }
         }
     }
-    void assign(const T* pFirst, const T* pLast);
-    // (the body of assign: all values are erased, then the range is inserted)
+    // (the body of assign in the instances with the insert inline: all values are erased, then the
+    // range is inserted)
     DECOMP_ALWAYS_INLINE void AssignRangeInline(const T* pFirst, const T* pLast)
     {
         clear();
@@ -401,6 +401,15 @@ void vector<T, Alloc>::insert(T* pPos, It first, It last)
     InsertRangeInline(pPos, first, last);
 }
 
+// (all values are erased, then the range is inserted with the out of line insert)
+template <typename T, typename Alloc>
+template <typename It>
+void vector<T, Alloc>::assign(It first, It last)
+{
+    clear();
+    insert(m_pBegin, first, last);
+}
+
 template <typename T, typename Alloc>
 template <typename It>
 void vector<T, Alloc>::_C_insert_aux2(T* pPos, It first, It last)
@@ -535,14 +544,14 @@ DECOMP_NOINLINE void vector<u32, nn::nex::MemAllocator<u32> >::_C_insert_aux(u32
 template <>
 DECOMP_NOINLINE void vector<u32, nn::nex::MemAllocator<u32> >::_C_insert_aux(u32* pos, const u32& value);
 template <>
-DECOMP_NOINLINE void vector<u32, nn::nex::MemAllocator<u32> >::assign(const u32* pFirst, const u32* pLast);
-
-// (inline in Key::operator=; no out-of-line instance)
 template <>
-inline vector<u8, nn::nex::MemAllocator<u8> >& vector<u8, nn::nex::MemAllocator<u8> >::operator=(const vector& other)
-{
-    return AssignInline(other);
-}
+DECOMP_NOINLINE void vector<u32, nn::nex::MemAllocator<u32> >::assign<u32*>(u32* first, u32* last);
+
+// (out of line in nex_qVector.cpp; inline in Key::operator=)
+template <>
+DECOMP_NOINLINE vector<u8, nn::nex::MemAllocator<u8> >& vector<u8, nn::nex::MemAllocator<u8> >::operator=(const vector& other);
+template <>
+DECOMP_NOINLINE vector<u64, nn::nex::MemAllocator<u64> >& vector<u64, nn::nex::MemAllocator<u64> >::operator=(const vector& other);
 // (inline in DataStoreSearchParam::SetDataTypes; no out-of-line instance)
 template <>
 inline vector<u16, nn::nex::MemAllocator<u16> >& vector<u16, nn::nex::MemAllocator<u16> >::operator=(const vector& other)

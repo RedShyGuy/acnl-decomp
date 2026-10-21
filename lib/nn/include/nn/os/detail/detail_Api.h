@@ -8,6 +8,8 @@ namespace os {
 class StackMemoryBlock;
 
 namespace detail {
+// the address space of the memory blocks (once; the start-up code of the program calls it)
+void InitializeMemoryBlock(uptr begin, size_t size); // 0x0011D494 (name is ours)
 // set up by nn::os::Initialize
 void SaveThreadLocalRegionAddress(); // 0x0011DFA4 | tier C
 void InitializeSharedMemory(); // 0x0011DF90 | tier C

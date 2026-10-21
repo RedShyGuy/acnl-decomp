@@ -202,6 +202,7 @@ void nn::snd::CTR::ThreadManager::EnableSoundThreadTickCounter(bool isEnabled)
 // 0x00462594 | nintendogs:bytes [confirmed by fefates] [tier A]
 nn::snd::CTR::ThreadManager::~ThreadManager()
 {
+    // nothing to do: the members and bases are destroyed by the compiler
 }
 
 } // namespace CTR

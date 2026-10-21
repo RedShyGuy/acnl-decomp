@@ -47,13 +47,13 @@ nn::Result Initialize(const nn::pia::inet::Setting& setting)
     return nn::Result();
 }
 
-// 0x003E6B84 (name is ours)
+// 0x003E6B84 | fefates:callgraph [tier C]
 bool IsInSetupMode()
 {
     return s_IsInSetupMode;
 }
 
-// 0x003E6B94 (name is ours)
+// 0x003E6B94 | fefates:callgraph [tier C]
 bool IsInitialized()
 {
     return s_IsInitialized;

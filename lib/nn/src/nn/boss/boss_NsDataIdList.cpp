@@ -31,6 +31,7 @@ nn::boss::NsDataIdList::NsDataIdList(unsigned* pIds, unsigned short capacity)
 // 0x0046AE14 (deleting dtor)
 nn::boss::NsDataIdList::~NsDataIdList()
 {
+    // nothing to do: the members and bases are destroyed by the compiler
 }
 
 } // namespace boss

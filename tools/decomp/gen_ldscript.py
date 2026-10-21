@@ -65,9 +65,12 @@ def main():
            '    .text : { *(.crt0) *(.text .text.*) }',
            f'    . = 0x{ro[0]:08X};',
            '    .rodata : { *(.rodata .rodata.*) *(.ARM.exidx*) }',
+           # the static initializers (nninitCallStaticInitializers calls them)
+           '    .init_array : { __init_array_start = .; KEEP(*(.init_array*)) __init_array_end = .; }',
            f'    . = 0x{data[0]:08X};',
            '    .data : { *(.data .data.*) }',
-           '    .bss : { *(.bss .bss.*) *(COMMON) }',
+           # the zero-initialized data (nninitRegion clears it)
+           '    .bss : { __bss_start__ = .; *(.bss .bss.*) *(COMMON) . = ALIGN(4); __bss_end__ = .; }',
            '    /DISCARD/ : { *(.comment) *(.ARM.attributes) }',
            '}', '', '/* symbols of code that is not decompiled yet */']
     out += [f'PROVIDE({n} = 0x{v:08X});' for n, v in sorted(syms.items(), key=lambda x: x[1])]

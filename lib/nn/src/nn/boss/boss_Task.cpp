@@ -278,6 +278,7 @@ nn::boss::Task::Task() : m_Unknown04(0), m_Unknown08(0)
 // 0x0046C848 (deleting dtor)
 nn::boss::Task::~Task()
 {
+    // nothing to do: the members and bases are destroyed by the compiler
 }
 
 } // namespace boss

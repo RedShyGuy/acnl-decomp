@@ -139,5 +139,16 @@ void nn::nex::_Proto_NotificationProtocolServer::DispatchProtocolMessage(nn::nex
 
 namespace __rw {
 // 0x008008AC (name is ours)
+template <>
+DECOMP_NOINLINE __rb_tree<nn::nex::NotificationEventHandler*, nn::nex::NotificationEventHandler*, __ident<nn::nex::NotificationEventHandler*, nn::nex::NotificationEventHandler*>, std::less<nn::nex::NotificationEventHandler*>, nn::nex::MemAllocator<nn::nex::NotificationEventHandler*> >::iterator
+__rb_tree<nn::nex::NotificationEventHandler*, nn::nex::NotificationEventHandler*, __ident<nn::nex::NotificationEventHandler*, nn::nex::NotificationEventHandler*>, std::less<nn::nex::NotificationEventHandler*>, nn::nex::MemAllocator<nn::nex::NotificationEventHandler*> >::erase(iterator first, iterator last)
+{
+    return EraseRangeInline(first, last);
+}
+// 0x00800250 (name is ours)
 template __rb_tree<nn::nex::NotificationEventHandler*, nn::nex::NotificationEventHandler*, __ident<nn::nex::NotificationEventHandler*, nn::nex::NotificationEventHandler*>, std::less<nn::nex::NotificationEventHandler*>, nn::nex::MemAllocator<nn::nex::NotificationEventHandler*> >::iterator __rb_tree<nn::nex::NotificationEventHandler*, nn::nex::NotificationEventHandler*, __ident<nn::nex::NotificationEventHandler*, nn::nex::NotificationEventHandler*>, std::less<nn::nex::NotificationEventHandler*>, nn::nex::MemAllocator<nn::nex::NotificationEventHandler*> >::erase(iterator it);
+// 0x00800A00 (name is ours)
+template void __rb_tree<nn::nex::NotificationEventHandler*, nn::nex::NotificationEventHandler*, __ident<nn::nex::NotificationEventHandler*, nn::nex::NotificationEventHandler*>, std::less<nn::nex::NotificationEventHandler*>, nn::nex::MemAllocator<nn::nex::NotificationEventHandler*> >::_C_erase(Node* pNode);
+// 0x00800A3C (name is ours)
+template __rb_tree<nn::nex::NotificationEventHandler*, nn::nex::NotificationEventHandler*, __ident<nn::nex::NotificationEventHandler*, nn::nex::NotificationEventHandler*>, std::less<nn::nex::NotificationEventHandler*>, nn::nex::MemAllocator<nn::nex::NotificationEventHandler*> >::iterator __rb_tree<nn::nex::NotificationEventHandler*, nn::nex::NotificationEventHandler*, __ident<nn::nex::NotificationEventHandler*, nn::nex::NotificationEventHandler*>, std::less<nn::nex::NotificationEventHandler*>, nn::nex::MemAllocator<nn::nex::NotificationEventHandler*> >::_C_insert(Node* pNode, Node* pParent, nn::nex::NotificationEventHandler* const& value);
 } // namespace __rw

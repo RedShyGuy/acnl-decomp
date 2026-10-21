@@ -78,6 +78,7 @@ nn::boss::TaskStatus::TaskStatus()
 // 0x0046AD30 (deleting dtor)
 nn::boss::TaskStatus::~TaskStatus()
 {
+    // nothing to do: the members and bases are destroyed by the compiler
 }
 
 } // namespace boss

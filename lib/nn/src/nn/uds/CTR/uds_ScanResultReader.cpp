@@ -6,8 +6,10 @@ namespace uds {
 namespace CTR {
 
 // 0x004685D8 slot 0x00
+// 0x004685D4 (deleting dtor)
 nn::uds::CTR::ScanResultReader::~ScanResultReader()
 {
+    // nothing to do: the members and bases are destroyed by the compiler
 }
 
 // 0x00468578 | fefates:bytes [tier B]

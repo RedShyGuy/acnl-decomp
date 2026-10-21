@@ -33,7 +33,7 @@ template void nn::nex::ThreadVariable<nn::nex::ObjectThreadRoot*>::ClearThread(u
 } // namespace nn
 
 namespace std {
-// 0x0082E998 (name is ours)
+// 0x0082E998 | fefates:callseq-callee [tier C]
 template <>
 DECOMP_NOINLINE nn::nex::ObjectThreadRoot*& map<u32, nn::nex::ObjectThreadRoot*>::operator[](const u32& key)
 {

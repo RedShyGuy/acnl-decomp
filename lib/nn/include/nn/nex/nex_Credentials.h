@@ -18,7 +18,6 @@ public:
     Credentials() : m_PrincipalId(0), m_ConnectionId(0), m_Password(""), m_pStreamManager(nullptr), m_pSecureConnection(nullptr), m_pConnection(nullptr) {}
     virtual ~Credentials(); // 0x00357650 slot 0x00 | slot vf_0x00 of nn::nex::RefCountedObject
     // 0x003575E0 slot 0x04 | fefates:bytes (deleting dtor)
-    void MarkInvalid(); // 0x00137B04 | mk7dlp:bytes [tier B]
     // the connection of the stream type (none for 0)
     nn::nex::EndPoint* GetConnection(unsigned short streamType) const; // 0x0072A100 | fefates:bytes [tier B]
 

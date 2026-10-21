@@ -128,7 +128,7 @@ u64 nn::nex::DateTime::ToEpochTime() const
 // 0x0072E7D8 (name is ours)
 nn::fnd::DateTime nn::nex::DateTime::ToFndDateTime() const
 {
-    nn::fnd::DateTime dateTime = nn::fnd::DateTime::EPOCH;
+    nn::fnd::DateTime dateTime = nn::fnd::DateTime::MIN_DATETIME;
     if (nn::fnd::DateTime::IsValidParameters(GetYear(), GetMonth(), GetDay(), GetHour(), GetMinute(), GetSecond(), 0)) {
         dateTime = nn::fnd::DateTime(GetYear(), GetMonth(), GetDay(), GetHour(), GetMinute(), GetSecond(), 0);
     }

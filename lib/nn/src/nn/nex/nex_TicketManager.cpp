@@ -78,7 +78,7 @@ nn::nex::TicketManager::TicketManager(nn::nex::AuthenticationClient* pClient) : 
 
 namespace __rw {
 // the functions of the tree of the tickets
-// 0x00807FFC (name is ours)
+// 0x00807FFC | fefates:callgraph [tier C]
 template <>
 DECOMP_NOINLINE __rb_tree<u32, std::pair<const u32, nn::nex::Ticket*>, __select1st<std::pair<const u32, nn::nex::Ticket*>, u32>, std::less<u32>,
                           nn::nex::MemAllocator<std::pair<const u32, nn::nex::Ticket*> > >::iterator

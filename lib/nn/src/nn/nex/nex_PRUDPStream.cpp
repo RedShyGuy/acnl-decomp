@@ -773,7 +773,7 @@ nn::nex::qVector<u32> nn::nex::PRUDPStream::GetConnectionIDs()
     return m_ConnectionIdList;
 }
 
-// 0x003D9BC0 (name is ours)
+// 0x003D9BC0 | fefates:bytes [tier B]
 template <>
 DECOMP_NOINLINE qMultiMap<u32, EndPoint*>::qMultiMap()
 {
@@ -784,7 +784,7 @@ DECOMP_NOINLINE qMultiMap<u32, EndPoint*>::qMultiMap()
 } // namespace nn
 
 namespace std {
-// 0x0083766C (name is ours)
+// 0x0083766C | mk7dlp:bytes [tier A]
 template <>
 DECOMP_NOINLINE multimap<u32, nn::nex::EndPoint*>::iterator multimap<u32, nn::nex::EndPoint*>::insert(const value_type& value)
 {
@@ -794,10 +794,21 @@ DECOMP_NOINLINE multimap<u32, nn::nex::EndPoint*>::iterator multimap<u32, nn::ne
 
 namespace std {
 // (the original calls it out of line)
-// 0x0083041C (name is ours)
+// 0x0083041C | fefates:bytes [tier B]
 template <>
 DECOMP_NOINLINE list<nn::nex::PRUDPEndPoint*, nn::nex::MemAllocator<nn::nex::PRUDPEndPoint*> >::~list()
 {
     DestroyInline();
 }
 } // namespace std
+
+namespace __rw {
+// 0x00808B10 (name is ours)
+template __rb_tree<u32, std::pair<const u32, nn::nex::EndPoint*>, __select1st<std::pair<const u32, nn::nex::EndPoint*>, u32>, std::less<u32>, nn::nex::MemAllocator<std::pair<const u32, nn::nex::EndPoint*> > >::iterator __rb_tree<u32, std::pair<const u32, nn::nex::EndPoint*>, __select1st<std::pair<const u32, nn::nex::EndPoint*>, u32>, std::less<u32>, nn::nex::MemAllocator<std::pair<const u32, nn::nex::EndPoint*> > >::erase(iterator it);
+// 0x0080916C (name is ours)
+template void __rb_tree<u32, std::pair<const u32, nn::nex::EndPoint*>, __select1st<std::pair<const u32, nn::nex::EndPoint*>, u32>, std::less<u32>, nn::nex::MemAllocator<std::pair<const u32, nn::nex::EndPoint*> > >::_C_erase(Node* pNode);
+// 0x007F9400 (name is ours)
+template __rb_tree<nn::nex::EndPointUniqueID, std::pair<const nn::nex::EndPointUniqueID, nn::nex::PRUDPEndPoint*>, __select1st<std::pair<const nn::nex::EndPointUniqueID, nn::nex::PRUDPEndPoint*>, nn::nex::EndPointUniqueID>, std::less<nn::nex::EndPointUniqueID>, nn::nex::MemAllocator<std::pair<const nn::nex::EndPointUniqueID, nn::nex::PRUDPEndPoint*> > >::iterator __rb_tree<nn::nex::EndPointUniqueID, std::pair<const nn::nex::EndPointUniqueID, nn::nex::PRUDPEndPoint*>, __select1st<std::pair<const nn::nex::EndPointUniqueID, nn::nex::PRUDPEndPoint*>, nn::nex::EndPointUniqueID>, std::less<nn::nex::EndPointUniqueID>, nn::nex::MemAllocator<std::pair<const nn::nex::EndPointUniqueID, nn::nex::PRUDPEndPoint*> > >::erase(iterator it);
+// 0x007F9A60 (name is ours)
+template void __rb_tree<nn::nex::EndPointUniqueID, std::pair<const nn::nex::EndPointUniqueID, nn::nex::PRUDPEndPoint*>, __select1st<std::pair<const nn::nex::EndPointUniqueID, nn::nex::PRUDPEndPoint*>, nn::nex::EndPointUniqueID>, std::less<nn::nex::EndPointUniqueID>, nn::nex::MemAllocator<std::pair<const nn::nex::EndPointUniqueID, nn::nex::PRUDPEndPoint*> > >::_C_erase(Node* pNode);
+} // namespace __rw

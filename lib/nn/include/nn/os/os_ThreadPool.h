@@ -66,7 +66,7 @@ public:
     {
         Setup(workBuffer, maxWaitTasks, numThreads, workerStackBottoms, workerPriority, waitThreadPriority);
     }
-    virtual void AddTask(QueueableTask* task); // 0x0034BD68 slot 0x00 (the code is at 0x00129638)
+    virtual void AddTask(QueueableTask* task); // 0x00129638 slot 0x00 (the vtable entry 0x0034BD68 only branches to it)
     virtual ~ThreadPool(); // 0x0034BEA0 slot 0x04
     // 0x0034BE3C slot 0x08 (deleting dtor)
     virtual void AddWaitTask(QueueableWaitTask* task); // 0x0034B9F0 slot 0x0C

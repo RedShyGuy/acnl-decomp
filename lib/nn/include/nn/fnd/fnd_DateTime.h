@@ -32,8 +32,8 @@ struct DateTimeParameters
 };
 ASSERT_SIZE(DateTimeParameters, 0xC);
 
-// A point in time: milliseconds since 2000-01-01 00:00 (EPOCH). The dates are proleptic
-// Gregorian; the valid ones are 1900-01-01 to 2189-12-31 (IsValidDate).
+// A point in time: milliseconds since 2000-01-01 00:00. The dates are proleptic Gregorian; the valid
+// ones are 1900-01-01 to 2189-12-31 (IsValidDate, MIN_DATETIME and MAX_DATETIME).
 class DateTime
 {
 public:
@@ -64,14 +64,22 @@ public:
     s32 GetMinute() const; // 0x007299B0 | nintendogs:bytes [tier A]
     s32 GetSecond() const; // 0x00729A1C | nintendogs:bytes [tier A]
 
-    // 2000-01-01 00:00, the origin of mMilliSeconds (name is ours)
-    static const DateTime EPOCH;
+    // 1900-01-01 00:00 and 2189-12-31 23:59:59.999 (the clock of the system counts the milliseconds
+    // since MIN_DATETIME; names are ours)
+    static const DateTime MIN_DATETIME;
+    static const DateTime MAX_DATETIME;
 
     // inline (name is ours)
     friend TimeSpan operator-(const DateTime& lhs, const DateTime& rhs)
     {
         return TimeSpan::FromMilliSeconds(lhs.mMilliSeconds - rhs.mMilliSeconds);
     }
+    // (inline)
+    friend bool operator<(const DateTime& lhs, const DateTime& rhs) { return lhs.mMilliSeconds < rhs.mMilliSeconds; }
+    friend bool operator==(const DateTime& lhs, const DateTime& rhs) { return lhs.mMilliSeconds == rhs.mMilliSeconds; }
+    friend bool operator!=(const DateTime& lhs, const DateTime& rhs) { return lhs.mMilliSeconds != rhs.mMilliSeconds; }
+    // the milliseconds since 2000-01-01 (e.g. the start of ptm's step history; inline, name is ours)
+    s64 GetMilliSecondsSince2000() const { return mMilliSeconds; }
 
 private:
     explicit DateTime(s64 milliSeconds) : mMilliSeconds(milliSeconds) {}

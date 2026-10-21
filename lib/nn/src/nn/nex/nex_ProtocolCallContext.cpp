@@ -36,8 +36,8 @@ void nn::nex::ProtocolCallContext::BeginTransition(nn::nex::CallContext::State s
     }
 }
 
-// 0x00394888 (name is ours)
-void nn::nex::ProtocolCallContext::AddReturnValue(void* pValue)
+// 0x00394888 | fefates:bytes [tier B]
+void nn::nex::ProtocolCallContext::AddReturnValuePtr(void* pValue)
 {
     m_ReturnValues.push_back(pValue);
 }

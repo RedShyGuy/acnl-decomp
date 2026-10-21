@@ -729,7 +729,7 @@ template bool qSortedVector<u16, QueuingSocket*>::erase(const u16& key);
 } // namespace nn
 
 namespace std {
-// 0x00834C68 (name is ours)
+// 0x00834C68 | fefates:bytes [tier B]
 template <>
 DECOMP_NOINLINE void vector<std::pair<u16, nn::nex::QueuingSocket*>, nn::nex::MemAllocator<std::pair<u16, nn::nex::QueuingSocket*> > >::_C_insert_aux(
     std::pair<u16, nn::nex::QueuingSocket*>* pos, const std::pair<u16, nn::nex::QueuingSocket*>& value)
@@ -737,6 +737,6 @@ DECOMP_NOINLINE void vector<std::pair<u16, nn::nex::QueuingSocket*>, nn::nex::Me
     InsertAuxInline(pos, value);
 }
 
-// 0x00834E68 (name is ours)
+// 0x00834E68 | fefates:bytes [tier B]
 template void vector<std::pair<u16, nn::nex::QueuingSocket*>, nn::nex::MemAllocator<std::pair<u16, nn::nex::QueuingSocket*> > >::reserve(u32 num);
 } // namespace std
