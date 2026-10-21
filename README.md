@@ -22,66 +22,20 @@ For the current numbers run the `check` target and then the `progress` target (s
 
 The first step is to fully decompile any standard libraries used in ACNL.
 This includes nn, nw, pead, sead, mw, libms, imgdb and cfl.
-Beginning with nn:
 
 | | |
 |---|---|
-| nn::ac | ✅ written |
-| nn::applet | ✅ written |
-| nn::boss | ✅ written |
-| nn::camera | ✅ written |
-| nn::cec | ✅ written |
-| nn::cfg | ✅ written |
-| nn::crypto | ✅ written |
-| nn::dbm | ✅ written |
-| nn::dsp | ✅ written |
-| nn::enc | ✅ written |
-| nn::err | ✅ written |
-| nn::erreula | ✅ written |
-| nn::fnd | ✅ written |
-| nn::friends | ✅ written |
-| nn::fs | ✅ written |
-| nn::fslow | ✅ written |
-| nn::gr | ✅ written |
-| nn::gxlow | ✅ written |
-| nn::hid | ✅ written |
-| nn::hidlow | ✅ written |
-| nn::http | ✅ written |
-| nn::init | ✅ written |
-| nn::ir | ✅ written |
-| nn::jpeg | ✅ written |
-| nn::math | ✅ written |
-| nn::mic | ✅ written |
-| nn::ndm | ✅ written |
-| nn::nfc | ✅ written |
-| nn::nfp | ✅ written |
-| nn::ngc | ✅ written |
-| nn::nstd | ✅ written |
-| nn::nwm | ✅ written |
-| nn::os | ✅ written |
-| nn::pia | ✅ written |
-| nn::pl | ✅ written |
-| nn::ptm | ✅ written |
-| nn::ro | ✅ written |
-| nn::snd | ✅ written |
-| nn::socket | ✅ written |
-| nn::srv | ✅ written |
-| nn::ssl | ✅ written |
-| nn::svc | ✅ written |
-| nn::ubl | ✅ written |
-| nn::uds | ✅ written |
-| nn::ulcd | ✅ written |
-| nn::util | ✅ written |
-| nn::y2r | ✅ written |
-| nn::nex | ❌ next |
+| nn | ✅ done |
+| nw | ❌ WIP |
+| pead | ❌ not done |
+| sead | ❌ not done |
+| mw | ❌ not done |
+| libms | ❌ not done |
+| imgdb | ❌ not done |
+| cfl | ❌ not done |
 
-"Written" means every function of the package has its C++ source. A function counts as done when
-`check` rates it `equivalent`; the rest is `close` or `far`, mostly because GCC and ARMCC generate
-different code (unrolled loops, inlining choices, a destructor call per return path in ARMCC, ...).
-The remaining differences are explained in the comments.
-
-State of nn without nex (2026-10-09, `progress`): 4 345 functions, 4 240 of them written (98.7% of
-the bytes); 2 857 `equivalent`, 791 `close`, 592 `far`.
+"done" means that every known function of that library is decompiled.
+If new functions are found that do belong to said library, they will also be decompiled.
 
 ## Setup
 
