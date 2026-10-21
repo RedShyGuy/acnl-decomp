@@ -70,5 +70,6 @@
 #define compress_block        nexZlib_compress_block
 #define scan_tree             nexZlib_scan_tree
 #define send_tree             nexZlib_send_tree
+#define updatewindow          nexZlib_updatewindow
 
 #endif

@@ -6,7 +6,9 @@
 // The command lists of the gx library: named objects in a hash table, a command buffer with the
 // requests behind it, and the functions that build and run them.
 
+using nn::gx::detail::AddRequestInline;
 using nn::gx::detail::Cmdlist;
+using nn::gx::detail::PutCommand;
 using nn::gx::detail::CmdlistRequest;
 using nn::gx::detail::s_Allocator;
 using nn::gx::detail::s_Context;
@@ -119,17 +121,6 @@ inline Cmdlist* CreateCmdlist()
     return p;
 }
 
-// a command to the end of the buffer (if it fits)
-inline void PutCommand(u32 value, u32 header)
-{
-    u32* p = s_pCommandBufferCurrent;
-    if (p < s_pCommandBufferEnd) {
-        p[0] = value;
-        p[1] = header;
-        s_pCommandBufferCurrent = p + 2;
-    }
-}
-
 // writes the used size of the bound list and pads its buffer to 16 bytes
 inline void AlignCommandBuffer()
 {
@@ -163,18 +154,6 @@ DECOMP_ALWAYS_INLINE void FinishCommandsInline(Cmdlist* pCmdlist)
     PutCommand(1, SPLIT_COMMAND_HEADER_0);
     PutCommand(1, SPLIT_COMMAND_HEADER_1);
     PutCommand(SPLIT_COMMAND_VALUE, SPLIT_COMMAND_HEADER_2);
-}
-
-// the request becomes visible to the execution, which starts if the list waits for it
-DECOMP_ALWAYS_INLINE void AddRequestInline(Cmdlist* pCmdlist, s32 count = 1)
-{
-    nngxlowLock();
-    pCmdlist->m_RequestCount += count;
-    if (s_Context.m_pRunningCmdlist == pCmdlist && s_Context.m_IsRunRequested && !s_Context.m_IsRunning) {
-        s_Context.m_IsRunning = true;
-        nn::gx::detail::ExecuteRequests();
-    }
-    nngxlowUnlock();
 }
 
 // the commands since the last request as a request
@@ -799,8 +778,8 @@ extern "C" void nngxUseSavedCmdlist(GLuint name, GLuint offset, GLsizei size, GL
     if ((update & STATE_6) != 0) {
         pState->m_DirtyFlags |= DIRTY_6;
         for (s32 i = 0; i < 33; i++) {
-            pState->m_StateBlock0[i] = 0;
-            pState->m_StateBlock1[i] = 0;
+            pState->m_UsedLutNames[i] = 0;
+            pState->m_UsedLuts[i] = 0;
         }
     }
     if ((update & STATE_TEXTURE) != 0) {

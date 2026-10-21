@@ -13,6 +13,61 @@ namespace detail {
 // the run mode in which nngxRunCmdlist starts the execution
 const GLint RUN_MODE_AUTO = 0x300;
 
+// 1.7.16 float (the float24 of the GPU)
+inline u32 Float32ToFloat24(f32 value)
+{
+    union {
+        f32 f;
+        u32 u;
+    } bits;
+    bits.f = value;
+    const u32 sign = bits.u >> 31;
+    s32 exponent = 0;
+    if ((bits.u & 0x7FFFFFFF) != 0) {
+        exponent = static_cast<s32>((bits.u << 1) >> 24) - 64;
+    }
+    if (exponent < 0) {
+        return sign << 23;
+    }
+    return ((bits.u << 9) >> 16) | (exponent << 16) | (sign << 23);
+}
+
+// four floats as three words of float24 (the constant value of a vertex attribute)
+inline void PackFloat24(u32* pPacked, const f32* pValues)
+{
+    u32 x = Float32ToFloat24(pValues[0]);
+    u32 y = Float32ToFloat24(pValues[1]);
+    u32 z = Float32ToFloat24(pValues[2]);
+    u32 w = Float32ToFloat24(pValues[3]);
+    pPacked[0] = (z >> 16) | (w << 8);
+    pPacked[1] = ((y << 8) >> 16) | (z << 16);
+    pPacked[2] = x | (y << 24);
+}
+
+// a command to the end of the buffer (if it fits; header: register | mask << 16 | extra values << 20
+// | consecutive << 31 after 3dbrew)
+inline void PutCommand(u32 value, u32 header)
+{
+    u32* p = s_pCommandBufferCurrent;
+    if (p < s_pCommandBufferEnd) {
+        p[0] = value;
+        p[1] = header;
+        s_pCommandBufferCurrent = p + 2;
+    }
+}
+
+// the request becomes visible to the execution, which starts if the list waits for it
+DECOMP_ALWAYS_INLINE void AddRequestInline(Cmdlist* pCmdlist, s32 count = 1)
+{
+    nngxlowLock();
+    pCmdlist->m_RequestCount += count;
+    if (s_Context.m_pRunningCmdlist == pCmdlist && s_Context.m_IsRunRequested && !s_Context.m_IsRunning) {
+        s_Context.m_IsRunning = true;
+        ExecuteRequests();
+    }
+    nngxlowUnlock();
+}
+
 DECOMP_ALWAYS_INLINE void CmdlistStorageInline(GLsizei bufferSize, GLsizei requestCount)
 {
     Cmdlist* pCmdlist = s_Context.m_pBoundCmdlist;

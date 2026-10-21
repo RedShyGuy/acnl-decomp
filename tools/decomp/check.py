@@ -958,7 +958,7 @@ def make_fuzzy_pair(mem, db, starts, names, by_source, by_name, variables=None):
         f['calls'], f['call_this'] = calls, call_this
 
     def call_similarity(f_mine, f_orig):
-        sim = fuzzy.compare(f_mine, f_orig)[1]['calls']
+        sim = fuzzy.compare_calls(f_mine, f_orig)
         return 1.0 if sim is None else sim        # no calls on either side
 
     def call_overlap(f_mine, f_orig):

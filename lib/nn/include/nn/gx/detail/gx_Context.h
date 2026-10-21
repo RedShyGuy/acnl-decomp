@@ -6,6 +6,9 @@
 
 #include "decomp.h"
 #include "nn/gx/gx_Types.h"
+#include "nn/gx/detail/gx_Buffer.h"
+#include "nn/gx/detail/gx_Texture.h"
+#include "nn/gx/detail/gx_Framebuffer.h"
 
 extern "C" {
 // the allocator the program gives nngxInitialize: area (MEMORY_AREA_*), purpose (MEMORY_PURPOSE_*),
@@ -23,8 +26,18 @@ const GLenum MEMORY_AREA_VRAM_A = 0x20000;
 const GLenum MEMORY_AREA_VRAM_B = 0x30000;
 // what the allocator allocates
 const GLenum MEMORY_PURPOSE_OBJECT = 0x100;        // the objects of the library
+const GLenum MEMORY_PURPOSE_TEXTURE = 0x101;       // the images of the textures
 const GLenum MEMORY_PURPOSE_DISPLAYBUFFER = 0x104; // the memory of a display buffer
 const GLenum MEMORY_PURPOSE_CMDLIST = 0x105;       // the command buffer and requests of a list
+// the locations of the data of buffers and textures (the upper half of the target of glBufferData /
+// glTexImage2D; names are ours): in the main memory, in VRAM with a copy in the main memory, the
+// data of the caller itself, or in VRAM only
+const u32 LOCATION_MAIN = 0x1010000;
+const u32 LOCATION_VRAM_A_WITH_COPY = 0x1020000;
+const u32 LOCATION_VRAM_B_WITH_COPY = 0x1030000;
+const u32 LOCATION_DIRECT = 0x2010000;
+const u32 LOCATION_VRAM_A = 0x2020000;
+const u32 LOCATION_VRAM_B = 0x2030000;
 
 // the state bits of nngxUpdateState / nngxValidateState and the dirty flags each one sets (names
 // are ours; the meaning is known where a validator handles the bit)
@@ -41,7 +54,7 @@ const GLbitfield STATE_VERTEX = 1 << 9;      // __vbv_validateVBValidator
 const GLbitfield STATE_10 = 1 << 10;
 const GLbitfield STATE_11 = 1 << 11;
 const GLbitfield STATE_12 = 1 << 12;
-const GLbitfield STATE_VIEWPORT = 1 << 13;   // ValidateViewport
+const GLbitfield STATE_VIEWPORT = 1 << 13;   // ValidateViewport (with the fragment operations)
 // the states the shader validation handles
 const GLbitfield STATE_SHADER_MASK = 0x1E7F;
 
@@ -120,14 +133,30 @@ struct CmdlistRequest
             u32 m_IsTiledOutput : 1;
             u32 : 20;
         } m_Transfer;
-        // type 4: a texture copy (lines: line width << 16 | gap)
+        // type 4: a texture copy (lines: line width << 16 | gap, in units of 16 bytes)
         struct
         {
             u32 m_Source;           // 0x04
             u32 m_Destination;      // 0x08
             u32 m_Size;             // 0x0C
-            u32 m_SourceLine;       // 0x10
-            u32 m_DestinationLine;  // 0x14
+            union
+            {
+                u32 m_SourceLine;   // 0x10
+                struct
+                {
+                    u16 m_SourceGap;
+                    u16 m_SourceWidth;
+                };
+            };
+            union
+            {
+                u32 m_DestinationLine; // 0x14
+                struct
+                {
+                    u16 m_DestinationGap;
+                    u16 m_DestinationWidth;
+                };
+            };
         } m_Copy;
         u32 m_Parameters[6];   // 0x04
     };
@@ -230,23 +259,166 @@ struct GlState
     u32 m_UpdatedStates;                // 0x004 (nngxUpdateState, cleared by nngxValidateState)
     u32 m_IgnoredStates;                // 0x008
     bool m_IsCommandGenerationDeferred; // 0x00C (nngxSetCommandGenerationMode)
-    u8 _unknown0x0D[0x18 - 0x0D];
+    u8 _unknown0x0D[3];
+    GLenum m_DrawMode;                  // 0x010 (the mode of the last draw; 4 at the start)
+    GLenum m_PreviousDrawMode;          // 0x014 (4 at the start)
     bool m_IsValidating;                // 0x018 (during the shader validation of nngxValidateState)
     bool m_IsFullValidation;            // 0x019
-    u8 _unknown0x1A[0x10C - 0x1A];
-    u32 m_StateBlock0[33];              // 0x10C (cleared with the update of state bit 6)
-    u32 m_StateBlock1[33];              // 0x190
+    bool m_Unknown0x1A;                 // 0x01A (glEnable 0x6502; on at the start)
+    bool m_HasGeometryShader;           // 0x01B (of the program in use)
+    GLuint m_ProgramName;               // 0x01C (glUseProgram)
+    GLint m_ViewportX;                  // 0x020 (glViewport)
+    GLint m_ViewportY;                  // 0x024
+    GLsizei m_ViewportWidth;            // 0x028
+    GLsizei m_ViewportHeight;           // 0x02C
+    bool m_IsViewportSet;               // 0x030 (glViewport was called)
+    u8 _unknown0x31[3];
+    GLenum m_FrontFace;                 // 0x034 (GL_CW / GL_CCW)
+    GLenum m_CullFaceMode;              // 0x038 (GL_FRONT / GL_BACK)
+    bool m_IsCullFaceEnabled;           // 0x03C
+    u8 _unknown0x3D[3];
+    f32 m_Unknown0x40;                  // 0x040
+    f32 m_Unknown0x44;                  // 0x044
+    f32 m_Unknown0x48;                  // 0x048
+    f32 m_Unknown0x4C;                  // 0x04C (0.0 at the start)
+    f32 m_Unknown0x50;                  // 0x050 (1.0 at the start)
+    bool m_IsPolygonOffsetFillEnabled;  // 0x054
+    u8 _unknown0x55[3];
+    s32 m_ActiveTextureUnit;            // 0x058
+    GLuint m_Texture2dNames[TEXTURE_UNIT_COUNT];   // 0x05C
+    GLuint m_TextureCubeNames[TEXTURE_UNIT_COUNT]; // 0x068
+    GLuint m_LutNames[LUT_COUNT];                  // 0x074
+    GLuint m_TextureCollectionName;     // 0x0F4
+    GLenum m_SamplerTypes[TEXTURE_UNIT_COUNT];     // 0x0F8 (the uniforms dmp_Texture[i].samplerType)
+    bool m_IsTexture2dEnabled[TEXTURE_UNIT_COUNT];   // 0x104
+    bool m_IsTextureCubeEnabled[TEXTURE_UNIT_COUNT]; // 0x107
+    u8 _unknown0x10A[2];
+    GLuint m_UsedLutNames[33];          // 0x10C (cleared with the update of state bit 6)
+    u32 m_UsedLuts[33];                 // 0x190
+    u8 _unknown0x214[0x298 - 0x214];
+    VertexAttributeValues m_AttributeValues;                // 0x298
+    VertexAttribute m_Attributes[VERTEX_ATTRIBUTE_COUNT];  // 0x458
+    GLuint m_ElementBufferName;         // 0x5D8
+    GLuint m_ArrayBufferName;           // 0x5DC
+    GLuint m_CollectionName;            // 0x5E0 (the bound vertex state collection)
+    u32 m_Unknown0x5E4[4];              // 0x5E4
+    GLenum m_Unknown0x5F4;              // 0x5F4 (GL_ALWAYS at the start)
+    f32 m_Unknown0x5F8;                 // 0x5F8
+    GLenum m_StencilFunction;           // 0x5FC (GL_ALWAYS at the start)
+    GLint m_StencilReference;           // 0x600
+    GLuint m_StencilMask;               // 0x604
+    GLenum m_StencilFail;               // 0x608 (GL_KEEP at the start)
+    GLenum m_StencilDepthFail;          // 0x60C
+    GLenum m_StencilDepthPass;          // 0x610
+    GLenum m_DepthFunction;             // 0x614 (GL_LESS at the start)
+    GLenum m_BlendSourceRgb;            // 0x618 (glBlendFuncSeparate)
+    GLenum m_BlendSourceAlpha;          // 0x61C
+    GLenum m_BlendDestinationRgb;       // 0x620
+    GLenum m_BlendDestinationAlpha;     // 0x624
+    GLenum m_BlendEquationRgb;          // 0x628 (glBlendEquationSeparate)
+    GLenum m_BlendEquationAlpha;        // 0x62C
+    f32 m_BlendColor[4];                // 0x630
+    GLenum m_LogicOperation;            // 0x640 (GL_COPY at the start)
+    GLenum m_Unknown0x644;              // 0x644 (0x6030 at the start)
+    bool m_IsScissorTestEnabled;        // 0x648
+    bool m_Unknown0x649;                // 0x649
+    bool m_IsStencilTestEnabled;        // 0x64A
+    bool m_IsDepthTestEnabled;          // 0x64B
+    bool m_IsBlendEnabled;              // 0x64C
+    bool m_IsLogicOpEnabled;            // 0x64D
+    u8 _unknown0x64E;
+    bool m_IsEarlyDepthTestEnabled;     // 0x64F (glEnable 0x6780)
+    GLenum m_EarlyDepthFunction;        // 0x650 (GL_LESS at the start)
+    bool m_ColorMask[4];                // 0x654
+    bool m_DepthMask;                   // 0x658
+    u8 _unknown0x659[3];
+    GLuint m_StencilWriteMask;          // 0x65C
+    f32 m_Unknown0x660[4];              // 0x660
+    f32 m_Unknown0x670;                 // 0x670 (1.0 at the start)
+    u32 m_Unknown0x674;                 // 0x674 (0xFFFFFF at the start)
+    u32 m_Unknown0x678;                 // 0x678
+    u32 m_Unknown0x67C;                 // 0x67C (0xFFFFFF at the start)
+    u32 m_Unknown0x680;                 // 0x680 (0xFFFF at the start)
+    GLenum m_FramebufferStatus;         // 0x684 (GL_FRAMEBUFFER_COMPLETE or 0; __fbv_validateFBValidator)
+    u32 m_ColorFormat;                  // 0x688 (the format of the color buffer register)
+    u32 m_DepthFormat;                  // 0x68C (0 D16, 2 D24, 3 D24S8; 3 at the start)
+    bool m_HasColorBuffer;              // 0x690
+    bool m_HasDepthBuffer;              // 0x691
+    bool m_HasStencilBuffer;            // 0x692
+    bool m_IsBlock32;                   // 0x693 (the framebuffer in 32x32 blocks, GPU register 0x11B)
+    bool m_IsCopyFromDepth;             // 0x694 (glCopyTexImage2D copies the depth buffer)
+    u8 _unknown0x695[3];
+    GLsizei m_FramebufferWidth;         // 0x698
+    GLsizei m_FramebufferHeight;        // 0x69C
+    // the vertex arrays for the draw commands (__vbv_validateVBValidator; [0] the element array,
+    // [1 + i] attribute i)
+    u32 m_ArrayAddresses[17];           // 0x6A0 (the physical addresses)
+    u32 m_ArrayBaseAddress;             // 0x6E4 (the index buffer address is relative to it)
+    u32 m_ArraySources[17];             // 0x6E8 (the addresses of the data)
+    GLsizei m_ArrayStrides[VERTEX_ATTRIBUTE_COUNT]; // 0x72C
+    bool m_IsArrayMissing;              // 0x76C (a bound buffer has no object)
+    u8 _unknown0x76D[3];
+    u32 m_TextureRegisters[31];         // 0x770 (the values of the GPU registers 0x80-0x9E)
+    u8 _unknown0x7EC[0x804 - 0x7EC];
+    u32 m_ColorPixelSize;               // 0x804 (0 16 bits, 2 32 bits)
+    u32 m_DepthFormatRegister;          // 0x808
+    u32 m_DepthAddress;                 // 0x80C
+    u32 m_ColorAddress;                 // 0x810
+    u32 m_DepthSize;                    // 0x814
+    u32 m_ColorSize;                    // 0x818
+    bool m_Unknown0x81C;                // 0x81C (an array buffer is bound; set while STATE_VERTEX is ignored)
+    u8 _unknown0x81D[3];
+    u32 m_Unknown0x820;                 // 0x820
+    u32 m_InputCount;                   // 0x824 (the inputs of the program in use)
+    s32 m_InputAttributes[16];          // 0x828 (the attribute of each input; -1 at the start)
 };
+ASSERT_SIZE(GlState, 0x868);
 ASSERT_OFFSET(GlState, m_IsValidating, 0x18);
-ASSERT_OFFSET(GlState, m_StateBlock0, 0x10C);
-ASSERT_OFFSET(GlState, m_StateBlock1, 0x190);
+ASSERT_OFFSET(GlState, m_ActiveTextureUnit, 0x58);
+ASSERT_OFFSET(GlState, m_TextureCollectionName, 0xF4);
+ASSERT_OFFSET(GlState, m_IsTexture2dEnabled, 0x104);
+ASSERT_OFFSET(GlState, m_UsedLutNames, 0x10C);
+ASSERT_OFFSET(GlState, m_UsedLuts, 0x190);
+ASSERT_OFFSET(GlState, m_AttributeValues, 0x298);
+ASSERT_OFFSET(GlState, m_Attributes, 0x458);
+ASSERT_OFFSET(GlState, m_CollectionName, 0x5E0);
+ASSERT_OFFSET(GlState, m_ViewportX, 0x20);
+ASSERT_OFFSET(GlState, m_FrontFace, 0x34);
+ASSERT_OFFSET(GlState, m_IsBlock32, 0x693);
+ASSERT_OFFSET(GlState, m_IsPolygonOffsetFillEnabled, 0x54);
+ASSERT_OFFSET(GlState, m_BlendSourceRgb, 0x618);
+ASSERT_OFFSET(GlState, m_IsScissorTestEnabled, 0x648);
+ASSERT_OFFSET(GlState, m_IsEarlyDepthTestEnabled, 0x64F);
+ASSERT_OFFSET(GlState, m_IsCopyFromDepth, 0x694);
+ASSERT_OFFSET(GlState, m_ArrayAddresses, 0x6A0);
+ASSERT_OFFSET(GlState, m_ArraySources, 0x6E8);
+ASSERT_OFFSET(GlState, m_ArrayStrides, 0x72C);
+ASSERT_OFFSET(GlState, m_IsArrayMissing, 0x76C);
+ASSERT_OFFSET(GlState, m_TextureRegisters, 0x770);
+ASSERT_OFFSET(GlState, m_Unknown0x81C, 0x81C);
 
-// the state of the vertex buffers (only the part known so far)
-struct VertexState
+// the state validator (__vldtr_initializeStateValidator): the dirty flags the texture,
+// framebuffer, vertex buffer and shader validators handle
+struct StateValidator
 {
-    u8 _unknown0x0[8];
-    u32 m_DirtyMask; // 0x8 (the dirty flags the vertex buffer validator handles)
+    u32 m_TextureMask;      // 0x0
+    u32 m_FramebufferMask;  // 0x4
+    u32 m_VertexBufferMask; // 0x8
+    u32 m_ShaderMask;       // 0xC
 };
+ASSERT_SIZE(StateValidator, 0x10);
+
+// the last values of GPU registers the GL functions change in parts (names are ours, after the
+// registers on 3dbrew)
+extern u32 s_BlendFunctionRegister;       // 0x101
+extern u32 s_DepthColorMaskRegister;      // 0x107
+extern u32 s_StencilTestRegister;         // 0x105
+extern u32 s_StencilOperationRegister;    // 0x106
+extern u32 s_LogicOperationRegister;      // 0x102
+extern u32 s_BlendColorRegister;          // 0x103
+extern u32 s_EarlyDepthFunctionRegister;  // 0x061
+extern u32 s_EarlyDepthDataRegister;      // 0x06A
+extern u32 s_GasDeltaZDepthRegister;      // 0x126
 
 extern Context s_Context;
 extern AllocatorState s_Allocator;
@@ -254,7 +426,7 @@ extern u32* s_pCommandBufferCurrent;
 extern u32* s_pCommandBufferEnd;
 extern GLenum s_Error;
 extern GlState* s_pGlState;
-extern VertexState* s_pVertexState;
+extern StateValidator* s_pStateValidator;
 } // namespace detail
 } // namespace gx
 } // namespace nn

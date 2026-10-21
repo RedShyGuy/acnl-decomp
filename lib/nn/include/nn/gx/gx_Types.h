@@ -5,6 +5,7 @@
 #include "decomp.h"
 
 extern "C" {
+typedef char GLchar;
 typedef unsigned int GLenum;
 typedef unsigned char GLboolean;
 typedef unsigned int GLbitfield;

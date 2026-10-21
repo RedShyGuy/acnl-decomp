@@ -9,16 +9,6 @@
 
 using namespace nn::gx::detail;
 
-extern "C" {
-// the parts of the GL state (names from the symbols; the arguments are their memory)
-int __sta_initializeState(void* pState, void* pValidator); // 0x00127644
-int __fb_initializeFBManager(void* pManager); // 0x00126DB8
-int __vb_initializeVBManager(void* pManager); // 0x00127C90
-int __shm_initializeShaderManager(void* pManager); // 0x00126DFC
-int __tx_initializeTexManager(void* pManager); // 0x00127ADC
-int __vldtr_initializeStateValidator(void* pValidator); // 0x00127D04
-}
-
 namespace nn {
 namespace gx {
 namespace detail {
@@ -188,7 +178,7 @@ extern "C" GLboolean nngxInitialize(GxAllocateFunction pAllocate, GxFreeFunction
     if (glGetError() != 0) {
         goto failed;
     }
-    if (__vldtr_initializeStateValidator(pState + STATE_VALIDATOR_OFFSET) < 0) {
+    if (__vldtr_initializeStateValidator(reinterpret_cast<StateValidator*>(pState + STATE_VALIDATOR_OFFSET)) < 0) {
         goto failed;
     }
     {

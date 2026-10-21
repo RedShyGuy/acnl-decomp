@@ -359,6 +359,7 @@ void makefixed()
    output will fall in the output data, making match copies simpler and faster.
    The advantage may be dependent on the size of the processor's data caches.
  */
+// 0x007C6264 (name after zlib) [symbol nexZlib_updatewindow]
 local int updatewindow(strm, out)
 z_streamp strm;
 unsigned out;

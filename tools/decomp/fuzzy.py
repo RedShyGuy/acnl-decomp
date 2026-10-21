@@ -1262,16 +1262,20 @@ def _merge_repeated_calls(a, b):
     return merge(a), merge(b)
 
 
+def compare_calls(mine, theirs):
+    """the similarity of the calls alone (None if neither side calls anything)"""
+    if not mine['calls'] and not theirs['calls']:
+        return None
+    # order matters: sequence ratio, but never better than the multiset overlap
+    calls_a, calls_b = _merge_repeated_calls(mine['calls'], theirs['calls'])
+    seq = difflib.SequenceMatcher(None, calls_a, calls_b, autojunk=False).ratio()
+    return min(seq, _multiset(calls_a, calls_b))
+
+
 def compare(mine, theirs):
     """-> (score, {category: similarity or None})"""
     cats = {}
-    if mine['calls'] or theirs['calls']:
-        # order matters: sequence ratio, but never better than the multiset overlap
-        calls_a, calls_b = _merge_repeated_calls(mine['calls'], theirs['calls'])
-        seq = difflib.SequenceMatcher(None, calls_a, calls_b, autojunk=False).ratio()
-        cats['calls'] = min(seq, _multiset(calls_a, calls_b))
-    else:
-        cats['calls'] = None
+    cats['calls'] = compare_calls(mine, theirs)
     cats['mem'] = _multiset(*_split_wide(mine['mem'], theirs['mem']))
     cats['consts'] = _consts(mine['consts'], theirs['consts'], mine.get('orr'), theirs.get('orr'))
     cats['flow'] = _multiset(mine['flow'], theirs['flow'])

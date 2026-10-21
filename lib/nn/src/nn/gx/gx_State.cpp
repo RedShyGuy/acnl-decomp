@@ -15,7 +15,7 @@ namespace nn {
 namespace gx {
 namespace detail {
 // 0x00975AA8 (name is ours)
-VertexState* s_pVertexState;
+StateValidator* s_pStateValidator;
 } // namespace detail
 } // namespace gx
 } // namespace nn
@@ -29,27 +29,14 @@ const GLenum DISPLAY_BOTH = 0x402;
 const GLenum DISPLAY_MODE_0 = 0x700;
 const GLenum DISPLAY_MODE_1 = 0x701;
 const GLenum DISPLAY_MODE_2 = 0x702;
-// the formats of the display buffers (the OpenGL ES values) and the framebuffer formats of the LCD
+// the formats of the display buffers: FORMAT_* (gx_Surface.h); the framebuffer formats of the LCD
 // (3dbrew: 0 RGBA8, 1 BGR8, 2 RGB565, 3 RGB5A1, 4 RGBA4)
-const GLenum FORMAT_RGB8 = 0x8051;
-const GLenum FORMAT_RGBA4 = 0x8056;
-const GLenum FORMAT_RGB5_A1 = 0x8057;
-const GLenum FORMAT_RGBA8 = 0x8058;
-const GLenum FORMAT_RGB565 = 0x8D62;
 // the other bits of the framebuffer format (names are ours)
 const u32 FRAMEBUFFER_STEREO = 0x20;
 const u32 FRAMEBUFFER_MONO = 0x40;
 const u32 FRAMEBUFFER_FROM_MAIN = 0x100;
 const u32 FRAMEBUFFER_FROM_VRAM = 0x300;
 } // namespace
-
-extern "C" {
-// the validators of the GL state (names from the symbols)
-void __txv_validateTextureValidator(const u32* pDirtyFlags); // 0x007A0EB0
-void __fbv_validateFBValidator(const u32* pDirtyFlags); // 0x0077A894
-void __vbv_validateVBValidator(GlState* pState); // 0x001356EC
-void __shv_partialValidateShaderValidator(GlState* pState, GLbitfield states); // 0x0077C890
-}
 
 // 0x007B2138 | libgarden [tier A]
 extern "C" void nngxUpdateState(GLbitfield states)
@@ -76,8 +63,8 @@ extern "C" void nngxUpdateState(GLbitfield states)
     }
     if ((update & STATE_6) != 0) {
         pState->m_DirtyFlags |= DIRTY_6;
-        memset(pState->m_StateBlock0, 0, sizeof(pState->m_StateBlock0));
-        memset(pState->m_StateBlock1, 0, sizeof(pState->m_StateBlock1));
+        memset(pState->m_UsedLutNames, 0, sizeof(pState->m_UsedLutNames));
+        memset(pState->m_UsedLuts, 0, sizeof(pState->m_UsedLuts));
     }
     if ((update & STATE_TEXTURE) != 0) {
         pState->m_DirtyFlags |= DIRTY_TEXTURE;
@@ -122,8 +109,8 @@ extern "C" GLenum nngxValidateState(GLbitfield states, GLboolean isPartial)
             __fbv_validateFBValidator(&dirty);
         }
     }
-    if ((validate & STATE_VERTEX) != 0 && (nn::gx::detail::s_pVertexState->m_DirtyMask & pState->m_DirtyFlags) != 0) {
-        __vbv_validateVBValidator(pState);
+    if ((validate & STATE_VERTEX) != 0 && (nn::gx::detail::s_pStateValidator->m_VertexBufferMask & pState->m_DirtyFlags) != 0) {
+        __vbv_validateVBValidator(&pState->m_DirtyFlags);
     }
     if ((validate & STATE_SHADER_MASK) != 0) {
         pState->m_IsValidating = true;
@@ -287,3 +274,152 @@ extern "C" void nngxWaitVSync(GLenum display)
         count = now;
     }
 }
+
+namespace {
+// the values of the GL state at the start (the OpenGL ES values)
+const GLenum FRONT_FACE_CCW = 0x0901;
+const GLenum CULL_FACE_BACK = 0x0405;
+const GLenum FUNCTION_LESS = 0x0201;
+const GLenum FUNCTION_ALWAYS = 0x0207;
+const GLenum STENCIL_KEEP = 0x1E00;
+const GLenum BLEND_ONE = 1;
+const GLenum BLEND_ZERO = 0;
+const GLenum EQUATION_ADD = 0x8006;
+const GLenum LOGIC_COPY = 0x1503;
+const GLenum ATTRIBUTE_TYPE_FLOAT = 0x1406;
+} // namespace
+
+extern "C" {
+// (the state memory is cleared, then the defaults of OpenGL ES and of the extensions)
+// 0x00127644 | nintendogs:bytes [tier B]
+int __sta_initializeState(void* pMemory, void* pValidator)
+{
+    s_pGlState = static_cast<GlState*>(pMemory);
+    memset(pMemory, 0, sizeof(GlState));
+    GlState* pState = s_pGlState;
+    pState->m_IsValidating = false;
+    pState->m_IsFullValidation = false;
+    pState->m_DrawMode = 4;
+    pState->m_PreviousDrawMode = 4;
+    pState->m_Unknown0x1A = true;
+    pState->m_HasGeometryShader = false;
+    pState->m_ProgramName = 0;
+    pState->m_IsViewportSet = false;
+    pState->m_ViewportX = 0;
+    pState->m_ViewportY = 0;
+    pState->m_ViewportWidth = 0;
+    pState->m_ViewportHeight = 0;
+    pState->m_IsCullFaceEnabled = false;
+    pState->m_FrontFace = FRONT_FACE_CCW;
+    pState->m_CullFaceMode = CULL_FACE_BACK;
+    pState->m_Unknown0x40 = 0.0f;
+    pState->m_Unknown0x44 = 0.0f;
+    pState->m_IsPolygonOffsetFillEnabled = false;
+    pState->m_Unknown0x4C = 0.0f;
+    pState->m_Unknown0x50 = 1.0f;
+    pState->m_Unknown0x48 = 0.0f;
+    pState->m_ActiveTextureUnit = 0;
+    for (u32 i = 0; i < TEXTURE_UNIT_COUNT; i++) {
+        pState->m_Texture2dNames[i] = 0;
+        pState->m_IsTexture2dEnabled[i] = false;
+        pState->m_IsTextureCubeEnabled[i] = false;
+        pState->m_SamplerTypes[i] = 0;
+        pState->m_TextureCubeNames[i] = 0;
+    }
+    memset(pState->m_LutNames, 0, sizeof(pState->m_LutNames));
+    pState->m_TextureCollectionName = 0;
+    for (u32 i = 0; i < VERTEX_ATTRIBUTE_COUNT; i++) {
+        pState->m_AttributeValues.m_Values[i][2] = 0.0f;
+        pState->m_AttributeValues.m_Values[i][3] = 1.0f;
+        pState->m_AttributeValues.m_Values[i][1] = 0.0f;
+        pState->m_AttributeValues.m_Values[i][0] = 0.0f;
+    }
+    for (u32 i = 0; i < VERTEX_ATTRIBUTE_COUNT; i++) {
+        PackFloat24(pState->m_AttributeValues.m_PackedValues[i], pState->m_AttributeValues.m_Values[i]);
+    }
+    for (u32 i = 0; i < VERTEX_ATTRIBUTE_COUNT; i++) {
+        pState->m_Attributes[i].m_IsEnabled = false;
+        pState->m_Attributes[i].m_BufferName = 0;
+        pState->m_Attributes[i].m_Size = 4;
+        pState->m_Attributes[i].m_Type = ATTRIBUTE_TYPE_FLOAT;
+    }
+    pState->m_ElementBufferName = 0;
+    pState->m_ArrayBufferName = 0;
+    pState->m_CollectionName = 0;
+    pState->m_IsScissorTestEnabled = false;
+    pState->m_Unknown0x5E4[0] = 0;
+    pState->m_Unknown0x5E4[1] = 0;
+    pState->m_Unknown0x5E4[2] = 0;
+    pState->m_Unknown0x5E4[3] = 0;
+    pState->m_Unknown0x649 = false;
+    pState->m_Unknown0x5F4 = FUNCTION_ALWAYS;
+    pState->m_Unknown0x5F8 = 0.0f;
+    pState->m_IsStencilTestEnabled = false;
+    pState->m_StencilFunction = FUNCTION_ALWAYS;
+    pState->m_StencilReference = 0;
+    pState->m_StencilFail = STENCIL_KEEP;
+    pState->m_StencilMask = 0xFFFFFFFF;
+    pState->m_StencilDepthFail = STENCIL_KEEP;
+    pState->m_StencilDepthPass = STENCIL_KEEP;
+    pState->m_IsDepthTestEnabled = false;
+    pState->m_DepthFunction = FUNCTION_LESS;
+    pState->m_IsEarlyDepthTestEnabled = false;
+    pState->m_EarlyDepthFunction = FUNCTION_LESS;
+    pState->m_IsBlendEnabled = false;
+    pState->m_BlendSourceRgb = BLEND_ONE;
+    pState->m_BlendSourceAlpha = BLEND_ONE;
+    pState->m_BlendDestinationRgb = BLEND_ZERO;
+    pState->m_BlendDestinationAlpha = BLEND_ZERO;
+    pState->m_IsLogicOpEnabled = false;
+    pState->m_BlendEquationRgb = EQUATION_ADD;
+    pState->m_BlendEquationAlpha = EQUATION_ADD;
+    pState->m_LogicOperation = LOGIC_COPY;
+    pState->m_Unknown0x644 = 0x6030;
+    pState->m_BlendColor[3] = 0.0f;
+    pState->m_BlendColor[2] = 0.0f;
+    pState->m_BlendColor[1] = 0.0f;
+    pState->m_BlendColor[0] = 0.0f;
+    pState->m_DepthMask = true;
+    pState->m_StencilWriteMask = 0xFFFFFFFF;
+    pState->m_Unknown0x678 = 0;
+    pState->m_Unknown0x670 = 1.0f;
+    pState->m_Unknown0x67C = 0xFFFFFF;
+    pState->m_Unknown0x680 = 0xFFFF;
+    pState->m_Unknown0x674 = 0xFFFFFF;
+    pState->m_ColorMask[3] = true;
+    pState->m_ColorMask[2] = true;
+    pState->m_ColorMask[1] = true;
+    pState->m_ColorMask[0] = true;
+    pState->m_Unknown0x660[3] = 0.0f;
+    pState->m_Unknown0x660[2] = 0.0f;
+    pState->m_Unknown0x660[1] = 0.0f;
+    pState->m_Unknown0x660[0] = 0.0f;
+    pState->m_FramebufferStatus = 0;
+    pState->m_HasColorBuffer = false;
+    pState->m_HasDepthBuffer = false;
+    pState->m_HasStencilBuffer = false;
+    pState->m_IsBlock32 = false;
+    pState->m_FramebufferWidth = 0;
+    pState->m_FramebufferHeight = 0;
+    pState->m_DepthFormat = 3;
+    pState->m_ColorFormat = 0;
+    pState->m_ArrayAddresses[0] = 0;
+    pState->m_ArraySources[0] = 0;
+    pState->m_ArrayBaseAddress = 0;
+    for (u32 i = 0; i < VERTEX_ATTRIBUTE_COUNT; i++) {
+        pState->m_ArrayStrides[i] = 0;
+    }
+    for (u32 i = 0; i < VERTEX_ATTRIBUTE_COUNT; i++) {
+        pState->m_ArrayAddresses[1 + i] = 0;
+    }
+    for (u32 i = 0; i < VERTEX_ATTRIBUTE_COUNT; i++) {
+        pState->m_ArraySources[1 + i] = 0;
+    }
+    pState->m_TextureRegisters[0] = 0;
+    pState->m_Unknown0x81C = false;
+    pState->m_Unknown0x820 = 0;
+    pState->m_InputCount = 0;
+    memset(pState->m_InputAttributes, 0xFF, sizeof(pState->m_InputAttributes));
+    return 0;
+}
+} // extern "C"
