@@ -1,6 +1,7 @@
 #pragma once
 
 #include "decomp.h"
+#include "nw/gfx/res/gfx_ResSkeleton.h"
 #include "nn/math/math_Vector3.h"
 #include "nw/gfx/gfx_GfxObject.h"
 

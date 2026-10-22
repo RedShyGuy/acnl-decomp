@@ -21,7 +21,7 @@ void nw::gfx::Camera::vf_0x04()
 }
 
 // 0x0073C838 slot 0x08 | slot vf_0x08 of nw::gfx::SceneNode
-void nw::gfx::Camera::GetRuntimeTypeInfo() const
+const nw::gfx::TypeInfo* nw::gfx::Camera::GetRuntimeTypeInfo() const
 {
 }
 
@@ -31,7 +31,7 @@ void nw::gfx::Camera::Accept(nw::gfx::ISceneVisitor*)
 }
 
 // 0x004ACF98 slot 0x24 | nintendogs:bytes
-void nw::gfx::Camera::Initialize(nw::os::IAllocator*)
+u32 nw::gfx::Camera::Initialize(nw::os::IAllocator*)
 {
 }
 

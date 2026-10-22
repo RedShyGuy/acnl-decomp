@@ -17,9 +17,9 @@ public:
     Camera(); // ctor candidate(s) 0x004AE5B0 (unverified)
     virtual ~Camera(); // 0x004AE688 slot 0x00 | nintendogs:bytes
     virtual void vf_0x04(); // 0x004AE684 slot 0x04 | virtual slot, introduced by nw::gfx::SceneNode
-    virtual void GetRuntimeTypeInfo() const; // 0x0073C838 slot 0x08 | slot vf_0x08 of nw::gfx::SceneNode
+    virtual const nw::gfx::TypeInfo* GetRuntimeTypeInfo() const; // 0x0073C838 slot 0x08 | slot vf_0x08 of nw::gfx::SceneNode
     virtual void Accept(nw::gfx::ISceneVisitor*); // 0x004AE144 slot 0x10 | nintendogs:bytes
-    virtual void Initialize(nw::os::IAllocator*); // 0x004ACF98 slot 0x24 | nintendogs:bytes
+    virtual u32 Initialize(nw::os::IAllocator*); // 0x004ACF98 slot 0x24 | nintendogs:bytes
     void StoreOriginal(nw::os::IAllocator*); // 0x004ACFE0 | nintendogs:bytes [tier A]
     void CreateAnimGroup(nw::os::IAllocator*); // 0x004AD684 | nintendogs:bytes [tier A]
     void DestroyResCamera(nw::os::IAllocator*, nw::gfx::res::ResCamera); // 0x004AD944 | nintendogs:callgraph [tier A]

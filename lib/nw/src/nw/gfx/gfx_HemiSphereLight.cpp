@@ -19,7 +19,7 @@ void nw::gfx::HemiSphereLight::vf_0x04()
 }
 
 // 0x00738BC0 slot 0x08 | slot vf_0x08 of nw::gfx::SceneNode
-void nw::gfx::HemiSphereLight::GetRuntimeTypeInfo() const
+const nw::gfx::TypeInfo* nw::gfx::HemiSphereLight::GetRuntimeTypeInfo() const
 {
 }
 
@@ -29,7 +29,7 @@ void nw::gfx::HemiSphereLight::Accept(nw::gfx::ISceneVisitor*)
 }
 
 // 0x0049A98C slot 0x24 | nintendogs:callseq
-void nw::gfx::HemiSphereLight::Initialize(nw::os::IAllocator*)
+u32 nw::gfx::HemiSphereLight::Initialize(nw::os::IAllocator*)
 {
 }
 

@@ -19,7 +19,7 @@ void nw::gfx::Light::vf_0x04()
 }
 
 // 0x0073C820 slot 0x08 | slot vf_0x08 of nw::gfx::SceneNode
-void nw::gfx::Light::GetRuntimeTypeInfo() const
+const nw::gfx::TypeInfo* nw::gfx::Light::GetRuntimeTypeInfo() const
 {
 }
 

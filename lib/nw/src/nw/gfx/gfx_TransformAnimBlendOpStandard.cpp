@@ -1,46 +1,35 @@
-#include "nw/gfx/gfx_TransformAnimBlendOp.h"
 #include "nw/gfx/gfx_TransformAnimBlendOpStandard.h"
 
 namespace nw {
 namespace gfx {
-// ctor address unknown
-nw::gfx::TransformAnimBlendOpStandard::TransformAnimBlendOpStandard()
-{
-}
-
-// 0x004A4774 slot 0x00 | slot vf_0x00 of nw::gfx::TransformAnimBlendOpStandard
+// 0x004A4774 slot 0x00 (name is ours)
+// 0x004A4770 (deleting dtor)
 nw::gfx::TransformAnimBlendOpStandard::~TransformAnimBlendOpStandard()
 {
+    // empty (in the original too)
 }
 
-// 0x004A4770 slot 0x04 | virtual slot, introduced by nw::gfx::TransformAnimBlendOpStandard
-void nw::gfx::TransformAnimBlendOpStandard::vf_0x04()
+// 0x0073C5CC slot 0x08 | nintendogs:callseq [tier A]
+bool nw::gfx::TransformAnimBlendOpStandard::Blend(anim::AnimResult* pDst, f32* /*pDstWeights*/, const anim::AnimResult* pSrc, const f32* pSrcWeights) const
 {
+    CalculatedTransform* pDstTransform = reinterpret_cast<CalculatedTransform*>(pDst);
+    const CalculatedTransform* pSrcTransform = reinterpret_cast<const CalculatedTransform*>(pSrc);
+    BlendScaleStandard(pDstTransform, pSrcTransform, pSrcWeights[0]);
+    BlendRotateMatrix(pDstTransform, pSrcTransform, pSrcWeights[1]);
+    BlendTranslate(pDstTransform, pSrcTransform, pSrcWeights[2]);
+    return true;
 }
 
-// 0x0073C5CC slot 0x08 | nintendogs:callseq
-void nw::gfx::TransformAnimBlendOpStandard::Blend(nw::anim::AnimResult*, float*, const nw::anim::AnimResult*, const float*) const
+// 0x0073C624 slot 0x0C (name after nintendogs)
+bool nw::gfx::TransformAnimBlendOpStandard::PostBlend(anim::AnimResult* pResult, const f32* /*pWeights*/) const
 {
+    return reinterpret_cast<CalculatedTransform*>(pResult)->NormalizeRotateMatrix();
 }
 
-// 0x0073C624 slot 0x0C | slot vf_0x0C of nw::gfx::TransformAnimBlendOpStandard
-void nw::gfx::TransformAnimBlendOpStandard::PostBlend(nw::anim::AnimResult*, const float*) const
+// 0x0073C61C slot 0x10 (name after nintendogs)
+bool nw::gfx::TransformAnimBlendOpStandard::Override(anim::AnimResult* pDst, const anim::AnimResult* pSrc) const
 {
-}
-
-// 0x0073C61C slot 0x10 | slot vf_0x10 of nw::gfx::TransformAnimBlendOpStandard
-void nw::gfx::TransformAnimBlendOpStandard::Override(nw::anim::AnimResult*, const nw::anim::AnimResult*) const
-{
-}
-
-// 0x0073B9B4 slot 0x14 | nintendogs:bytes
-void nw::gfx::TransformAnimBlendOpStandard::Apply(void*, const nw::anim::AnimResult*) const
-{
-}
-
-// 0x0073B7B4 slot 0x18 | nintendogs:bytes
-void nw::gfx::TransformAnimBlendOpStandard::ConvertToAnimResult(nw::anim::AnimResult*, const void*) const
-{
+    return OverrideTransform(reinterpret_cast<CalculatedTransform*>(pDst), reinterpret_cast<const CalculatedTransform*>(pSrc), 0);
 }
 
 } // namespace gfx

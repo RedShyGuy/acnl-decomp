@@ -15,9 +15,9 @@ public:
     HemiSphereLight(); // ctor candidate(s) 0x0049A9E0, 0x0049AEB4 (unverified)
     virtual ~HemiSphereLight(); // 0x0049B0CC slot 0x00 | slot vf_0x00 of nw::gfx::SceneNode
     virtual void vf_0x04(); // 0x0049B0C0 slot 0x04 | virtual slot, introduced by nw::gfx::SceneNode
-    virtual void GetRuntimeTypeInfo() const; // 0x00738BC0 slot 0x08 | slot vf_0x08 of nw::gfx::SceneNode
+    virtual const nw::gfx::TypeInfo* GetRuntimeTypeInfo() const; // 0x00738BC0 slot 0x08 | slot vf_0x08 of nw::gfx::SceneNode
     virtual void Accept(nw::gfx::ISceneVisitor*); // 0x0049AE60 slot 0x10 | nintendogs:bytes
-    virtual void Initialize(nw::os::IAllocator*); // 0x0049A98C slot 0x24 | nintendogs:callseq
+    virtual u32 Initialize(nw::os::IAllocator*); // 0x0049A98C slot 0x24 | nintendogs:callseq
     virtual void vf_0x2C(); // 0x00738BB8 slot 0x2C | virtual slot, introduced by nw::gfx::Light
     virtual void vf_0x30(); // 0x00738BB0 slot 0x30 | virtual slot, introduced by nw::gfx::Light
     void CreateOriginalValue(nw::os::IAllocator*); // 0x0049AAB8 | nintendogs:bytes [tier A]

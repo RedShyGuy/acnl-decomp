@@ -7,6 +7,18 @@ namespace math {
 class MTX44;
 struct VEC3;
 
+// an entry of the table of SinCosFIdx: sin and cos of a step and their changes to the next step
+// (names are ours)
+struct SinCosEntry
+{
+    f32 sinValue;
+    f32 cosValue;
+    f32 sinDelta;
+    f32 cosDelta;
+};
+// the table of 256 steps per turn (and the first again; name is ours)
+extern const SinCosEntry s_SinCosTable[];
+
 // The trigonometry with the table of 256 steps per turn (the index units: 65536 per turn for
 // the integer versions, 256 for the float versions)
 void SinCosFIdx(f32* pSin, f32* pCos, f32 index); // 0x0047DC98 | nintendogs:callgraph [tier A]

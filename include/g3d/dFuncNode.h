@@ -12,6 +12,6 @@ public:
     FuncNode(); // ctor candidate(s) 0x004F1370 (unverified)
     virtual ~FuncNode(); // 0x004F2DF4 slot 0x00 | slot vf_0x00 of nw::gfx::SceneNode
     virtual void vf_0x04(); // 0x004F2DE8 slot 0x04 | virtual slot, introduced by nw::gfx::SceneNode
-    virtual void GetRuntimeTypeInfo() const; // 0x00747500 slot 0x08 | slot vf_0x08 of nw::gfx::SceneNode
+    virtual const nw::gfx::TypeInfo* GetRuntimeTypeInfo() const; // 0x00747500 slot 0x08 | slot vf_0x08 of nw::gfx::SceneNode
 };
 } // namespace g3d

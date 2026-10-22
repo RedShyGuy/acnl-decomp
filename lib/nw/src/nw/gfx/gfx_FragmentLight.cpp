@@ -19,7 +19,7 @@ void nw::gfx::FragmentLight::vf_0x04()
 }
 
 // 0x00738A18 slot 0x08 | slot vf_0x08 of nw::gfx::SceneNode
-void nw::gfx::FragmentLight::GetRuntimeTypeInfo() const
+const nw::gfx::TypeInfo* nw::gfx::FragmentLight::GetRuntimeTypeInfo() const
 {
 }
 
@@ -29,7 +29,7 @@ void nw::gfx::FragmentLight::Accept(nw::gfx::ISceneVisitor*)
 }
 
 // 0x00492A84 slot 0x24 | nintendogs:callseq
-void nw::gfx::FragmentLight::Initialize(nw::os::IAllocator*)
+u32 nw::gfx::FragmentLight::Initialize(nw::os::IAllocator*)
 {
 }
 

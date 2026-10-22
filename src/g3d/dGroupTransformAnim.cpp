@@ -3,7 +3,7 @@
 
 namespace g3d {
 // ctor address unknown
-g3d::GroupTransformAnim::GroupTransformAnim()
+g3d::GroupTransformAnim::GroupTransformAnim() : AnimObject(nullptr, 0) // (stub)
 {
 }
 

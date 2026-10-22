@@ -4,7 +4,13 @@
 
 namespace nw {
 namespace anim {
-void PlayPolicy_Loop(float, float, float, void*); // 0x004D5190 | nintendogs:bytes [tier A]
-void PlayPolicy_Onetime(float, float, float, void*); // 0x004D521C | nintendogs:bytes [tier A]
+// how a frame controller maps its frame into [startFrame, endFrame] (the signature after the
+// reference symbols, the type and parameter names are ours)
+typedef f32 (*PlayPolicyFunc)(f32 startFrame, f32 endFrame, f32 frame, void* pUserData);
+
+// the animation repeated
+f32 PlayPolicy_Loop(f32 startFrame, f32 endFrame, f32 frame, void* pUserData);
+// the animation played once: held at the first and the last frame
+f32 PlayPolicy_Onetime(f32 startFrame, f32 endFrame, f32 frame, void* pUserData);
 } // namespace anim
 } // namespace nw

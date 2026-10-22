@@ -16,9 +16,9 @@ public:
     Model(); // ctor candidate(s) 0x004AC590 (unverified)
     virtual ~Model(); // 0x004AC958 slot 0x00 | nintendogs:bytes
     virtual void vf_0x04(); // 0x004AC94C slot 0x04 | virtual slot, introduced by nw::gfx::SceneNode
-    virtual void GetRuntimeTypeInfo() const; // 0x0073C82C slot 0x08 | slot vf_0x08 of nw::gfx::SceneNode
+    virtual const nw::gfx::TypeInfo* GetRuntimeTypeInfo() const; // 0x0073C82C slot 0x08 | slot vf_0x08 of nw::gfx::SceneNode
     virtual void Accept(nw::gfx::ISceneVisitor*); // 0x004AC53C slot 0x10 | nintendogs:bytes
-    virtual void Initialize(nw::os::IAllocator*); // 0x004AAD24 slot 0x24 | nintendogs:bytes
+    virtual u32 Initialize(nw::os::IAllocator*); // 0x004AAD24 slot 0x24 | nintendogs:bytes
     void IsMeshVisible(nw::gfx::res::ResMesh); // 0x004AAEEC | nintendogs:bytes [tier B]
     void CreateCallbacks(nw::os::IAllocator*); // 0x004AAF70 | nintendogs:callgraph [tier A]
     void CreateMaterials(nw::os::IAllocator*); // 0x004AB1CC | nintendogs:bytes [tier A]

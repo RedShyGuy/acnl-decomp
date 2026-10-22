@@ -3,7 +3,7 @@
 namespace nw {
 namespace gfx {
 // ctor address unknown
-nw::gfx::GfxObject::GfxObject()
+nw::gfx::GfxObject::GfxObject() : m_pAllocator(nullptr)
 {
 }
 

@@ -1,46 +1,33 @@
-#include "nw/anim/anim_AnimBlendOp.h"
 #include "nw/anim/anim_AnimBlendOpTexture.h"
 
 namespace nw {
 namespace anim {
-// ctor address unknown
-nw::anim::AnimBlendOpTexture::AnimBlendOpTexture()
+// 0x004D5208 slot 0x00 (name is ours)
+// 0x004D5204 (deleting dtor)
+nw::anim::AnimBlendOpTexture::~AnimBlendOpTexture()
 {
+    // empty (in the original too)
 }
 
-// 0x004D5208 slot 0x00 | virtual slot, introduced by nw::anim::AnimBlendOpTexture
-void nw::anim::AnimBlendOpTexture::vf_0x00()
+// 0x007435B0 slot 0x10 | nintendogs:bytes [tier A]
+bool nw::anim::AnimBlendOpTexture::Override(AnimResult* pDst, const AnimResult* pSrc) const
 {
+    *static_cast<ut::Offset*>(pDst->GetValueBuffer()) = *static_cast<const ut::Offset*>(pSrc->GetValueBuffer());
+    pDst->m_EnabledFlags = 1;
+    return true;
 }
 
-// 0x004D5204 slot 0x04 | virtual slot, introduced by nw::anim::AnimBlendOpTexture
-void nw::anim::AnimBlendOpTexture::vf_0x04()
+// 0x00743590 slot 0x14 | nintendogs:bytes [tier A]
+void nw::anim::AnimBlendOpTexture::Apply(void* pTarget, const AnimResult* pResult) const
 {
+    *static_cast<ut::Offset*>(pTarget) = *static_cast<const ut::Offset*>(pResult->GetValueBuffer());
 }
 
-// 0x0074341C slot 0x08 | slot vf_0x08 of nw::anim::AnimBlendOpTexture
-void nw::anim::AnimBlendOpTexture::Blend(nw::anim::AnimResult*, float*, const nw::anim::AnimResult*, const float*) const
+// 0x00743564 slot 0x18 | nintendogs:bytes [tier A]
+void nw::anim::AnimBlendOpTexture::ConvertToAnimResult(AnimResult* pResult, const void* pSource) const
 {
-}
-
-// 0x00743424 slot 0x0C | slot vf_0x0C of nw::anim::AnimBlendOpBool
-void nw::anim::AnimBlendOpTexture::vf_0x0C()
-{
-}
-
-// 0x007435B0 slot 0x10 | nintendogs:bytes
-void nw::anim::AnimBlendOpTexture::Override(nw::anim::AnimResult*, const nw::anim::AnimResult*) const
-{
-}
-
-// 0x00743590 slot 0x14 | nintendogs:bytes
-void nw::anim::AnimBlendOpTexture::Apply(void*, const nw::anim::AnimResult*) const
-{
-}
-
-// 0x00743564 slot 0x18 | nintendogs:bytes
-void nw::anim::AnimBlendOpTexture::ConvertToAnimResult(nw::anim::AnimResult*, const void*) const
-{
+    *static_cast<ut::Offset*>(pResult->GetValueBuffer()) = *static_cast<const ut::Offset*>(pSource);
+    pResult->m_EnabledFlags = 1;
 }
 
 } // namespace anim

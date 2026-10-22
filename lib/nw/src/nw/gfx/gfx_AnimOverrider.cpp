@@ -1,31 +1,18 @@
-#include "nw/gfx/gfx_AnimBlender.h"
 #include "nw/gfx/gfx_AnimOverrider.h"
 
 namespace nw {
 namespace gfx {
-// ctor candidate(s) 0x004F2AD8 (unverified)
-nw::gfx::AnimOverrider::AnimOverrider()
-{
-}
+// 0x00976054
+const TypeInfo nw::gfx::AnimOverrider::s_TypeInfo(&AnimBlender::s_TypeInfo);
+
+// sets s_TypeInfo
+// 0x0079C17C (static initializer)
 
 // 0x00492A38 slot 0x00 | slot vf_0x00 of nw::gfx::AnimBlender
+// 0x004929FC (deleting dtor)
 nw::gfx::AnimOverrider::~AnimOverrider()
 {
-}
-
-// 0x004929FC slot 0x04 | virtual slot, introduced by nw::gfx::AnimBlender
-void nw::gfx::AnimOverrider::vf_0x04()
-{
-}
-
-// 0x00738898 slot 0x08 | slot vf_0x08 of nw::gfx::AnimBlender
-void nw::gfx::AnimOverrider::GetRuntimeTypeInfo() const
-{
-}
-
-// 0x007388A4 slot 0x18 | virtual slot, introduced by nw::gfx::AnimBlender
-void nw::gfx::AnimOverrider::vf_0x18()
-{
+    // empty (in the original too)
 }
 
 } // namespace gfx

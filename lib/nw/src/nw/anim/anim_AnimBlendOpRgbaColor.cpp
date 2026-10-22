@@ -1,46 +1,51 @@
-#include "nw/anim/anim_AnimBlendOp.h"
 #include "nw/anim/anim_AnimBlendOpRgbaColor.h"
 
 namespace nw {
 namespace anim {
-// ctor address unknown
-nw::anim::AnimBlendOpRgbaColor::AnimBlendOpRgbaColor()
-{
-}
-
-// 0x004D5268 slot 0x00 | slot vf_0x00 of nw::anim::AnimBlendOpRgbaColor
+// 0x004D5268 slot 0x00 (name is ours)
+// 0x004D5264 (deleting dtor)
 nw::anim::AnimBlendOpRgbaColor::~AnimBlendOpRgbaColor()
 {
+    // empty (in the original too)
 }
 
-// 0x004D5264 slot 0x04 | virtual slot, introduced by nw::anim::AnimBlendOpRgbaColor
-void nw::anim::AnimBlendOpRgbaColor::vf_0x04()
+// 0x007436E4 slot 0x08 | nintendogs:bytes [tier A]
+bool nw::anim::AnimBlendOpRgbaColor::Blend(AnimResult* pDst, f32* pDstWeights, const AnimResult* pSrc, const f32* pSrcWeights) const
 {
+    f32* pDstValue = static_cast<f32*>(pDst->GetValueBuffer());
+    const f32* pSrcValue = static_cast<const f32*>(pSrc->GetValueBuffer());
+    u32 flag = 1;
+    for (int i = 0; i < 4; ++i) {
+        if (pSrc->IsEnabledFlags(flag)) {
+            const f32 value = *pSrcWeights * pSrcValue[i];
+            if (pDst->IsEnabledFlags(flag)) {
+                pDstValue[i] += value;
+            } else {
+                pDstValue[i] = value;
+                pDst->m_EnabledFlags |= flag;
+            }
+        }
+        flag <<= 1;
+    }
+    return true;
 }
 
-// 0x007436E4 slot 0x08 | nintendogs:bytes
-void nw::anim::AnimBlendOpRgbaColor::Blend(nw::anim::AnimResult*, float*, const nw::anim::AnimResult*, const float*) const
+// 0x00743768 slot 0x10 | nintendogs:bytes [tier A]
+bool nw::anim::AnimBlendOpRgbaColor::Override(AnimResult* pDst, const AnimResult* pSrc) const
 {
+    return OverrideFloatVector(pDst, pSrc, 4, 0xF);
 }
 
-// 0x00743424 slot 0x0C | slot vf_0x0C of nw::anim::AnimBlendOpBool
-void nw::anim::AnimBlendOpRgbaColor::vf_0x0C()
+// 0x0074368C slot 0x14 | nintendogs:bytes [tier A]
+void nw::anim::AnimBlendOpRgbaColor::Apply(void* pTarget, const AnimResult* pResult) const
 {
+    ApplyFloatVector(pTarget, pResult, 4);
 }
 
-// 0x00743768 slot 0x10 | nintendogs:bytes
-void nw::anim::AnimBlendOpRgbaColor::Override(nw::anim::AnimResult*, const nw::anim::AnimResult*) const
+// 0x00743630 slot 0x18 | nintendogs:bytes [tier A]
+void nw::anim::AnimBlendOpRgbaColor::ConvertToAnimResult(AnimResult* pResult, const void* pSource) const
 {
-}
-
-// 0x0074368C slot 0x14 | nintendogs:bytes
-void nw::anim::AnimBlendOpRgbaColor::Apply(void*, const nw::anim::AnimResult*) const
-{
-}
-
-// 0x00743630 slot 0x18 | nintendogs:bytes
-void nw::anim::AnimBlendOpRgbaColor::ConvertToAnimResult(nw::anim::AnimResult*, const void*) const
-{
+    ConvertFloatVectorToAnimResult(pResult, pSource, 4);
 }
 
 } // namespace anim

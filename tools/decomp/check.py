@@ -446,12 +446,15 @@ def header_addresses():
                             scopes.pop()
                         depth -= 1
                         stmt = ''
-                if st.endswith(';') or st.endswith(':') or one_line:
+                # the signature line of an inline function over several lines:
+                # "virtual int f(int x) const // 0x..." (the body follows)
+                sig_line = re.search(r'\)\s*(?:const)?\s*$', st) and re.match(r'\s*0x[0-9A-Fa-f]{8}', comment)
+                if st.endswith(';') or st.endswith(':') or one_line or sig_line:
                     decl, stmt = (one_line or stmt.strip().rstrip(';')), ''
                     m = re.match(r'\s*0x([0-9A-Fa-f]{8})(?![0-9A-Fa-f])', comment)
                     if not m or '(' not in decl or decl.startswith(('typedef', 'using', 'return')):
                         continue
-                    decl = re.sub(r'^(?:(?:static|virtual|inline|explicit|extern\s+"C")\s+)+', '', decl)
+                    decl = re.sub(r'^(?:(?:static|virtual|inline|explicit|extern\s+"C"|DECOMP_[A-Z_]+)\s+)+', '', decl)
                     parsed = split_signature(decl)
                     if not parsed:
                         continue
@@ -1084,14 +1087,15 @@ def make_fuzzy_pair(mem, db, starts, names, by_source, by_name, variables=None):
                 # one call at a time, or all of them at once (several callees that only
                 # together make the calls alike, e.g. two empty base destructors)
                 trials = [Counter({key: 1}) for key in surplus]
-                if len(surplus) > 1:
+                # (also one callee inlined several times, e.g. SinCosFIdx for x, y and z)
+                if sum(surplus.values()) > 1:
                     trials.append(surplus)
                 for todo in trials:
                     trial = copy.deepcopy(side)
                     expand(trial, Counter(todo), label)
                     pair_ = (trial, other) if side is f_mine else (other, trial)
                     sim = call_similarity(*pair_)
-                    if len(todo) > 1 and sim < 1.0:
+                    if sum(todo.values()) > 1 and sim < 1.0:
                         continue                        # all at once only when that makes them equal
                     # the similarity of the calls first; when only their order limits it, the
                     # overlap of the call multisets (a forwarder whose callee the other side calls)

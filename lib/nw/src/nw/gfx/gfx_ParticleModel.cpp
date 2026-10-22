@@ -19,7 +19,7 @@ void nw::gfx::ParticleModel::vf_0x04()
 }
 
 // 0x00738A24 slot 0x08 | slot vf_0x08 of nw::gfx::SceneNode
-void nw::gfx::ParticleModel::GetRuntimeTypeInfo() const
+const nw::gfx::TypeInfo* nw::gfx::ParticleModel::GetRuntimeTypeInfo() const
 {
 }
 
@@ -29,7 +29,7 @@ void nw::gfx::ParticleModel::Accept(nw::gfx::ISceneVisitor*)
 }
 
 // 0x0049368C slot 0x24 | slot vf_0x24 of nw::gfx::SceneNode
-void nw::gfx::ParticleModel::Initialize(nw::os::IAllocator*)
+u32 nw::gfx::ParticleModel::Initialize(nw::os::IAllocator*)
 {
 }
 

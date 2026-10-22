@@ -2398,10 +2398,10 @@ namespace nn { namespace math {
     struct MTX33; // nn/math/math_MTX33.h
     enum PivotDirection : u8; // nn/math/math_MTX44.h
     struct QUAT; // nn/math/math_Quaternion.h
-    struct Transform3 { u32 _unknown; }; // placeholder, real type unknown
+    struct Transform3; // nn/math/math_Transform.h
     struct VEC2; // nn/math/math_Vector2.h
     struct VEC3; // nn/math/math_Vector3.h
-    struct VEC3_ { u32 _unknown; }; // placeholder, real type unknown
+    struct VEC3_; // nn/math/math_Vector3.h
     struct VEC4; // nn/math/math_Vector4.h
     template <typename T0, auto T1> struct Vector { u32 _unknown; }; // placeholder
 }}
@@ -3456,12 +3456,12 @@ namespace nw { namespace anim { namespace res {
     class ResTransformAnim;
     class ResVec3Anim;
     class ResVertexLightMember;
-    struct ResAnimGroup { u32 _unknown; }; // placeholder, real type unknown
-    struct ResBoolCurveData { u32 _unknown; }; // placeholder, real type unknown
-    struct ResFloatCurveData { u32 _unknown; }; // placeholder, real type unknown
-    struct ResFullBakedCurveData { u32 _unknown; }; // placeholder, real type unknown
-    struct ResIntCurveData { u32 _unknown; }; // placeholder, real type unknown
-    template <typename T0> struct ResBakedCurveData { u32 _unknown; }; // placeholder
+    class ResAnimGroup; // nw/anim/res/anim_ResAnimGroup.h
+    struct ResBoolCurveData; // nw/anim/res/anim_ResAnimCurve.h
+    struct ResFloatCurveData; // nw/anim/res/anim_ResAnimCurve.h
+    struct ResFullBakedCurveData; // nw/anim/res/anim_ResAnimCurve.h
+    struct ResIntCurveData; // nw/anim/res/anim_ResAnimCurve.h
+    template <typename T> struct ResBakedCurveData; // nw/anim/res/anim_ResAnimCurve.h
 }}}
 
 namespace nw { namespace font { 
@@ -3554,7 +3554,7 @@ namespace nw { namespace gfx {
     template <typename T0, typename T1> class PriorMaterialRenderKeyFactory;
     template <typename T0> class BasicRenderKeyFactory;
     template <typename T0> struct BasicRenderElement { u32 _unknown; }; // placeholder
-    template <typename T0> struct GfxPtr { u32 _unknown; }; // placeholder
+    template <typename T> class GfxPtr; // nw/gfx/gfx_GfxObject.h
 }}
 
 namespace nw { namespace gfx { namespace internal { 
@@ -3597,7 +3597,7 @@ namespace nw { namespace gfx { namespace res {
     struct ResLightingLookupTable { u32 _unknown; }; // placeholder, real type unknown
     struct ResLookAtTargetViewUpdater { u32 _unknown; }; // placeholder, real type unknown
     struct ResMaterialColor { u32 _unknown; }; // placeholder, real type unknown
-    struct ResMaterialData { u32 _unknown; }; // placeholder, real type unknown
+    struct ResMaterialData; // nw/gfx/res/gfx_ResMaterial.h
     struct ResOrthoProjectionUpdater { u32 _unknown; }; // placeholder, real type unknown
     struct ResParticleCollection { u32 _unknown; }; // placeholder, real type unknown
     struct ResParticleInitializer { u32 _unknown; }; // placeholder, real type unknown
@@ -3610,17 +3610,14 @@ namespace nw { namespace gfx { namespace res {
     struct ResReferenceTexture { u32 _unknown; }; // placeholder, real type unknown
     struct ResRotateViewUpdater { u32 _unknown; }; // placeholder, real type unknown
     struct ResSceneEnvironmentSetting { u32 _unknown; }; // placeholder, real type unknown
-    struct ResSceneObject { u32 _unknown; }; // placeholder, real type unknown
+    class ResSceneObject; // nw/gfx/res/gfx_ResSceneObject.h
     struct ResSeparateDataShape { u32 _unknown; }; // placeholder, real type unknown
     struct ResShaderProgramDescription { u32 _unknown; }; // placeholder, real type unknown
     struct ResShaderSymbol { u32 _unknown; }; // placeholder, real type unknown
+    class ResBone; // nw/gfx/res/gfx_ResSkeleton.h
     struct ResSkeleton { u32 _unknown; }; // placeholder, real type unknown
-    struct ResTransformNode { u32 _unknown; }; // placeholder, real type unknown
+    class ResTransformNode; // nw/gfx/res/gfx_ResSceneObject.h
 }}}
-
-namespace nw { namespace gfx { namespace res { namespace ResBone { 
-    struct BillboardMode { u32 _unknown; }; // placeholder, real type unknown
-}}}}
 
 namespace nw { namespace gfx { namespace res { namespace ResTextureCoordinator { 
     struct MappingMatrixMode { u32 _unknown; }; // placeholder, real type unknown
@@ -3680,7 +3677,7 @@ namespace nw { namespace math {
 
 namespace nw { namespace os { 
     class IAllocator;
-    struct MemorySizeCalculator { u32 _unknown; }; // placeholder, real type unknown
+    class MemorySizeCalculator; // nw/os/os_MemorySizeCalculator.h
 }}
 
 namespace nw { namespace snd { 
@@ -3823,7 +3820,7 @@ namespace nw { namespace ut {
     struct BinaryFileHeader; // nw/ut/ut_Api.h
     class LinkListNode; // nw/ut/internal/ut_LinkListImpl.h
     template <typename T, long TNodeOffset> class LinkList; // nw/ut/ut_LinkList.h
-    template <typename T0> struct MoveArray { u32 _unknown; }; // placeholder
+    template <typename T> class MoveArray; // nw/ut/ut_MoveArray.h
 }}
 
 namespace nw { namespace ut { namespace internal { 

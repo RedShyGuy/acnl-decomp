@@ -1,56 +1,53 @@
-#include "nw/gfx/gfx_AnimObject.h"
 #include "nw/gfx/gfx_AnimBlender.h"
 
 namespace nw {
 namespace gfx {
-// ctor address unknown
-nw::gfx::AnimBlender::AnimBlender()
-{
-}
+// 0x00976048
+const TypeInfo nw::gfx::AnimBlender::s_TypeInfo(&AnimObject::s_TypeInfo);
 
-// 0x0048C59C slot 0x00 | nintendogs:bytes
-nw::gfx::AnimBlender::~AnimBlender()
-{
-}
+// sets s_TypeInfo
+// 0x0079A23C (static initializer)
 
-// 0x0048C560 slot 0x04 | virtual slot, introduced by nw::gfx::AnimBlender
-void nw::gfx::AnimBlender::vf_0x04()
+// 0x0048C498 slot 0x20 | mk7dlp:bytes
+void nw::gfx::AnimBlender::UpdateCache()
 {
-}
-
-// 0x00737868 slot 0x08 | slot vf_0x08 of nw::gfx::AnimBlender
-void nw::gfx::AnimBlender::GetRuntimeTypeInfo() const
-{
-}
-
-// 0x0048C554 slot 0x0C | slot vf_0x0C of nw::gfx::AnimBlender
-void nw::gfx::AnimBlender::TryBind(nw::gfx::AnimGroup*)
-{
-}
-
-// 0x0048C548 slot 0x10 | virtual slot, introduced by nw::gfx::AnimBlender
-void nw::gfx::AnimBlender::vf_0x10()
-{
+    for (int i = 0; i < m_AnimObjects.size(); ++i) {
+        AnimObject* pAnimObject = m_AnimObjects[i];
+        if (pAnimObject != nullptr) {
+            pAnimObject->UpdateCache();
+        }
+    }
 }
 
 // 0x0048C4F0 slot 0x14 | mk7dlp:bytes
 void nw::gfx::AnimBlender::UpdateFrame()
 {
+    for (int i = 0; i < m_AnimObjects.size(); ++i) {
+        AnimObject* pAnimObject = m_AnimObjects[i];
+        if (pAnimObject != nullptr) {
+            pAnimObject->UpdateFrame();
+        }
+    }
 }
 
-// 0x0011C12F slot 0x18 | slot vf_0x00 of ChangeRentalBase
-void nw::gfx::AnimBlender::vf_0x18()
+// 0x0048C548 slot 0x10 (name is ours)
+void nw::gfx::AnimBlender::Release()
 {
+    m_pAnimGroup = nullptr;
 }
 
-// 0x007377F8 slot 0x1C | nintendogs:bytes
-void nw::gfx::AnimBlender::HasMemberAnim(int) const
+// 0x0048C554 slot 0x0C | slot vf_0x0C of nw::gfx::AnimBlender
+u32 nw::gfx::AnimBlender::TryBind(AnimGroup* pAnimGroup)
 {
+    m_pAnimGroup = pAnimGroup;
+    return RESULT_SUCCESS;
 }
 
-// 0x0048C498 slot 0x20 | mk7dlp:bytes
-void nw::gfx::AnimBlender::UpdateCache()
+// 0x0048C59C slot 0x00 | nintendogs:bytes
+// 0x0048C560 (deleting dtor)
+nw::gfx::AnimBlender::~AnimBlender()
 {
+    // empty (in the original too: only the array)
 }
 
 } // namespace gfx

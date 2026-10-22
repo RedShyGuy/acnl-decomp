@@ -18,7 +18,7 @@ void g3d::FuncNode::vf_0x04()
 }
 
 // 0x00747500 slot 0x08 | slot vf_0x08 of nw::gfx::SceneNode
-void g3d::FuncNode::GetRuntimeTypeInfo() const
+const nw::gfx::TypeInfo* g3d::FuncNode::GetRuntimeTypeInfo() const
 {
 }
 

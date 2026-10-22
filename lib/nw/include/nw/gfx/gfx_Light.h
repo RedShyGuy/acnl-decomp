@@ -13,7 +13,7 @@ public:
     Light(); // ctor address unknown
     virtual ~Light(); // 0x004AAA38 slot 0x00 | nintendogs:bytes
     virtual void vf_0x04(); // 0x004AAA2C slot 0x04 | virtual slot, introduced by nw::gfx::SceneNode
-    virtual void GetRuntimeTypeInfo() const; // 0x0073C820 slot 0x08 | slot vf_0x08 of nw::gfx::SceneNode
+    virtual const nw::gfx::TypeInfo* GetRuntimeTypeInfo() const; // 0x0073C820 slot 0x08 | slot vf_0x08 of nw::gfx::SceneNode
     virtual void Accept(nw::gfx::ISceneVisitor*); // 0x004AA9D8 slot 0x10 | nintendogs:bytes
     virtual void vf_0x2C(); // 0x0011C12F slot 0x2C | slot vf_0x00 of ChangeRentalBase
     virtual void vf_0x30(); // 0x0011C12F slot 0x30 | slot vf_0x00 of ChangeRentalBase

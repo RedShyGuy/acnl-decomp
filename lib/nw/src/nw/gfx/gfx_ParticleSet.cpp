@@ -19,7 +19,7 @@ void nw::gfx::ParticleSet::vf_0x04()
 }
 
 // 0x00737874 slot 0x08 | slot vf_0x08 of nw::gfx::SceneNode
-void nw::gfx::ParticleSet::GetRuntimeTypeInfo() const
+const nw::gfx::TypeInfo* nw::gfx::ParticleSet::GetRuntimeTypeInfo() const
 {
 }
 

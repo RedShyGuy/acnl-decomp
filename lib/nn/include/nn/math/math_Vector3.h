@@ -5,14 +5,30 @@
 namespace nn {
 namespace math {
 
-struct VEC3
+// the plain data of a VEC3 (resources hold it; the name is from the reference symbols)
+struct VEC3_
 {
-    VEC3() {}
-    VEC3(f32 fx, f32 fy, f32 fz) : x(fx), y(fy), z(fz) {}
-
     f32 x;
     f32 y;
     f32 z;
+};
+ASSERT_SIZE(VEC3_, 0xC);
+
+struct VEC3 : public VEC3_
+{
+    VEC3() {}
+    VEC3(f32 fx, f32 fy, f32 fz)
+    {
+        x = fx;
+        y = fy;
+        z = fz;
+    }
+    VEC3(const VEC3_& v)
+    {
+        x = v.x;
+        y = v.y;
+        z = v.z;
+    }
 
     VEC3 operator+(const VEC3& v) const { VEC3 r = { x + v.x, y + v.y, z + v.z }; return r; }
     VEC3 operator-(const VEC3& v) const { VEC3 r = { x - v.x, y - v.y, z - v.z }; return r; }

@@ -7,6 +7,21 @@
 namespace nw {
 namespace gfx {
 namespace res {
+// The data of a material resource (only the fields known so far; names are ours). The hashes say
+// which state the material activator sent last; an animation of a part sets its hash to 0, so the
+// part is sent again.
+struct ResMaterialData
+{
+    u8 m_Unknown0x0[0x2A8];        // 0x0
+    u32 textureCoordinatorsHash;   // 0x2A8
+    u32 textureSamplersHash;       // 0x2AC
+    u32 textureMappersHash;        // 0x2B0
+    u32 materialColorHash;         // 0x2B4
+    u8 m_Unknown0x2B8[0x18];       // 0x2B8
+    u32 fragmentOperationHash;     // 0x2D0
+};
+ASSERT_OFFSET(ResMaterialData, fragmentOperationHash, 0x2D0);
+
 class ResMaterial
 {
 public:

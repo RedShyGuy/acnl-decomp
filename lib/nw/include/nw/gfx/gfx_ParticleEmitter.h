@@ -14,7 +14,7 @@ public:
     ParticleEmitter(); // ctor address unknown
     virtual ~ParticleEmitter(); // 0x0049BBFC slot 0x00 | nintendogs:bytes
     virtual void vf_0x04(); // 0x0049BBF8 slot 0x04 | virtual slot, introduced by nw::gfx::SceneNode
-    virtual void GetRuntimeTypeInfo() const; // 0x00738BCC slot 0x08 | slot vf_0x08 of nw::gfx::SceneNode
+    virtual const nw::gfx::TypeInfo* GetRuntimeTypeInfo() const; // 0x00738BCC slot 0x08 | slot vf_0x08 of nw::gfx::SceneNode
     virtual void Accept(nw::gfx::ISceneVisitor*); // 0x0049B6FC slot 0x10 | nintendogs:bytes
     void Create(nw::gfx::SceneNode*, nw::gfx::res::ResSceneObject, const nw::gfx::ParticleEmitter::Description&, nw::os::IAllocator*); // 0x0049B750 | nintendogs:bytes-fuzzy [tier A]
 };

@@ -2,6 +2,8 @@
 
 #include "decomp.h"
 #include "nw/gfx/gfx_CalculatedTransform.h"
+#include "nw/ut/ut_MoveArray.h"
+#include "nw/gfx/gfx_CalculatedTransform.h"
 #include "nw/gfx/gfx_Skeleton.h"
 
 namespace nw {

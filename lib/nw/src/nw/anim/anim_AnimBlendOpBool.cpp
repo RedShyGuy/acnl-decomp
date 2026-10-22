@@ -1,46 +1,48 @@
-#include "nw/anim/anim_AnimBlendOp.h"
 #include "nw/anim/anim_AnimBlendOpBool.h"
 
 namespace nw {
 namespace anim {
-// ctor address unknown
-nw::anim::AnimBlendOpBool::AnimBlendOpBool()
-{
-}
-
-// 0x004D518C slot 0x00 | slot vf_0x00 of nw::anim::AnimBlendOpBool
+// 0x004D518C slot 0x00 (name is ours)
+// 0x004D5188 (deleting dtor)
 nw::anim::AnimBlendOpBool::~AnimBlendOpBool()
 {
+    // empty (in the original too)
 }
 
-// 0x004D5188 slot 0x04 | virtual slot, introduced by nw::anim::AnimBlendOpBool
-void nw::anim::AnimBlendOpBool::vf_0x04()
+// 0x00743480 slot 0x08 | nintendogs:bytes [tier A]
+bool nw::anim::AnimBlendOpBool::Blend(AnimResult* pDst, f32* pDstWeights, const AnimResult* pSrc, const f32* pSrcWeights) const
 {
+    bool* pDstValue = static_cast<bool*>(pDst->GetValueBuffer());
+    const bool srcValue = *static_cast<const bool*>(pSrc->GetValueBuffer());
+    if (!pDst->IsEnabledFlags(1)) {
+        *pDstValue = srcValue;
+        pDst->m_EnabledFlags |= 1;
+    } else {
+        *pDstValue = *pDstValue || srcValue;
+    }
+    // once true, the other animations change nothing
+    return !*pDstValue;
 }
 
-// 0x00743480 slot 0x08 | nintendogs:bytes
-void nw::anim::AnimBlendOpBool::Blend(nw::anim::AnimResult*, float*, const nw::anim::AnimResult*, const float*) const
+// 0x007434D0 slot 0x10 | nintendogs:bytes [tier A]
+bool nw::anim::AnimBlendOpBool::Override(AnimResult* pDst, const AnimResult* pSrc) const
 {
+    *static_cast<bool*>(pDst->GetValueBuffer()) = *static_cast<const bool*>(pSrc->GetValueBuffer());
+    pDst->m_EnabledFlags = 1;
+    return true;
 }
 
-// 0x00743424 slot 0x0C | slot vf_0x0C of nw::anim::AnimBlendOpBool
-void nw::anim::AnimBlendOpBool::vf_0x0C()
+// 0x00743474 slot 0x14 (name after nintendogs)
+void nw::anim::AnimBlendOpBool::Apply(void* pTarget, const AnimResult* pResult) const
 {
+    *static_cast<bool*>(pTarget) = *static_cast<const bool*>(pResult->GetValueBuffer());
 }
 
-// 0x007434D0 slot 0x10 | nintendogs:bytes
-void nw::anim::AnimBlendOpBool::Override(nw::anim::AnimResult*, const nw::anim::AnimResult*) const
+// 0x00743460 slot 0x18 | nintendogs:bytes [tier A]
+void nw::anim::AnimBlendOpBool::ConvertToAnimResult(AnimResult* pResult, const void* pSource) const
 {
-}
-
-// 0x00743474 slot 0x14 | slot vf_0x14 of nw::anim::AnimBlendOpBool
-void nw::anim::AnimBlendOpBool::Apply(void*, const nw::anim::AnimResult*) const
-{
-}
-
-// 0x00743460 slot 0x18 | nintendogs:bytes
-void nw::anim::AnimBlendOpBool::ConvertToAnimResult(nw::anim::AnimResult*, const void*) const
-{
+    *static_cast<bool*>(pResult->GetValueBuffer()) = *static_cast<const bool*>(pSource);
+    pResult->m_EnabledFlags = 1;
 }
 
 } // namespace anim

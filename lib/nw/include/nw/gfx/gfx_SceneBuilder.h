@@ -1,6 +1,7 @@
 #pragma once
 
 #include "decomp.h"
+#include "nw/gfx/res/gfx_ResSceneObject.h"
 
 namespace nw {
 namespace gfx {

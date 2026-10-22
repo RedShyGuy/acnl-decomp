@@ -6,16 +6,6 @@
 
 namespace nn {
 namespace math {
-// an entry of the table: sin and cos of a step and their changes to the next step (names are
-// ours)
-struct SinCosEntry
-{
-    f32 sinValue;
-    f32 cosValue;
-    f32 sinDelta;
-    f32 cosDelta;
-};
-
 namespace {
 // the float index is reduced to one turn of 65536 (the table repeats every 256)
 const f32 FLOAT_INDEX_RANGE = 65536.0f;

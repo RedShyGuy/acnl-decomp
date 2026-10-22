@@ -2,19 +2,11 @@
 
 namespace nw {
 namespace anim {
-// ctor address unknown
-nw::anim::AnimFrameController::AnimFrameController()
+// 0x004D5254 slot 0x00 (name is ours)
+// 0x004D5244 (deleting dtor)
+nw::anim::AnimFrameController::~AnimFrameController()
 {
-}
-
-// 0x004D5254 slot 0x00 | virtual slot, introduced by nw::anim::AnimFrameController
-void nw::anim::AnimFrameController::vf_0x00()
-{
-}
-
-// 0x004D5244 slot 0x04 | virtual slot, introduced by nw::anim::AnimFrameController
-void nw::anim::AnimFrameController::vf_0x04()
-{
+    // empty (in the original too: only the member AnimFrame, destroyed without a call)
 }
 
 } // namespace anim

@@ -19,7 +19,7 @@ void nw::gfx::AmbientLight::vf_0x04()
 }
 
 // 0x00737890 slot 0x08 | slot vf_0x08 of nw::gfx::SceneNode
-void nw::gfx::AmbientLight::GetRuntimeTypeInfo() const
+const nw::gfx::TypeInfo* nw::gfx::AmbientLight::GetRuntimeTypeInfo() const
 {
 }
 
@@ -29,7 +29,7 @@ void nw::gfx::AmbientLight::Accept(nw::gfx::ISceneVisitor*)
 }
 
 // 0x0048DB08 slot 0x24 | nintendogs:callseq
-void nw::gfx::AmbientLight::Initialize(nw::os::IAllocator*)
+u32 nw::gfx::AmbientLight::Initialize(nw::os::IAllocator*)
 {
 }
 

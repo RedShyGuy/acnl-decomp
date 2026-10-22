@@ -20,7 +20,7 @@ void nw::gfx::Fog::vf_0x04()
 }
 
 // 0x0073C6AC slot 0x08 | slot vf_0x08 of nw::gfx::SceneNode
-void nw::gfx::Fog::GetRuntimeTypeInfo() const
+const nw::gfx::TypeInfo* nw::gfx::Fog::GetRuntimeTypeInfo() const
 {
 }
 
@@ -30,7 +30,7 @@ void nw::gfx::Fog::Accept(nw::gfx::ISceneVisitor*)
 }
 
 // 0x004A4788 slot 0x24 | nintendogs:bytes
-void nw::gfx::Fog::Initialize(nw::os::IAllocator*)
+u32 nw::gfx::Fog::Initialize(nw::os::IAllocator*)
 {
 }
 

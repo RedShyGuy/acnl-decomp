@@ -19,7 +19,7 @@ void nw::gfx::SkeletalModel::vf_0x04()
 }
 
 // 0x00738B74 slot 0x08 | slot vf_0x08 of nw::gfx::SceneNode
-void nw::gfx::SkeletalModel::GetRuntimeTypeInfo() const
+const nw::gfx::TypeInfo* nw::gfx::SkeletalModel::GetRuntimeTypeInfo() const
 {
 }
 
@@ -29,7 +29,7 @@ void nw::gfx::SkeletalModel::Accept(nw::gfx::ISceneVisitor*)
 }
 
 // 0x00497808 slot 0x24 | nintendogs:bytes
-void nw::gfx::SkeletalModel::Initialize(nw::os::IAllocator*)
+u32 nw::gfx::SkeletalModel::Initialize(nw::os::IAllocator*)
 {
 }
 

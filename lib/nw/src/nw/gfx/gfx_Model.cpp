@@ -21,7 +21,7 @@ void nw::gfx::Model::vf_0x04()
 }
 
 // 0x0073C82C slot 0x08 | slot vf_0x08 of nw::gfx::SceneNode
-void nw::gfx::Model::GetRuntimeTypeInfo() const
+const nw::gfx::TypeInfo* nw::gfx::Model::GetRuntimeTypeInfo() const
 {
 }
 
@@ -31,7 +31,7 @@ void nw::gfx::Model::Accept(nw::gfx::ISceneVisitor*)
 }
 
 // 0x004AAD24 slot 0x24 | nintendogs:bytes
-void nw::gfx::Model::Initialize(nw::os::IAllocator*)
+u32 nw::gfx::Model::Initialize(nw::os::IAllocator*)
 {
 }
 

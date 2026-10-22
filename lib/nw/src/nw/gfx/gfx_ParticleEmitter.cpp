@@ -19,7 +19,7 @@ void nw::gfx::ParticleEmitter::vf_0x04()
 }
 
 // 0x00738BCC slot 0x08 | slot vf_0x08 of nw::gfx::SceneNode
-void nw::gfx::ParticleEmitter::GetRuntimeTypeInfo() const
+const nw::gfx::TypeInfo* nw::gfx::ParticleEmitter::GetRuntimeTypeInfo() const
 {
 }
 

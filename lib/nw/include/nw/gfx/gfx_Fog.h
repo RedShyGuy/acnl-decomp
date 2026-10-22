@@ -16,9 +16,9 @@ public:
     Fog(); // ctor candidate(s) 0x004A4BE4, 0x004A52EC (unverified)
     virtual ~Fog(); // 0x004A5650 slot 0x00 | nintendogs:bytes-fuzzy
     virtual void vf_0x04(); // 0x004A5644 slot 0x04 | virtual slot, introduced by nw::gfx::SceneNode
-    virtual void GetRuntimeTypeInfo() const; // 0x0073C6AC slot 0x08 | slot vf_0x08 of nw::gfx::SceneNode
+    virtual const nw::gfx::TypeInfo* GetRuntimeTypeInfo() const; // 0x0073C6AC slot 0x08 | slot vf_0x08 of nw::gfx::SceneNode
     virtual void Accept(nw::gfx::ISceneVisitor*); // 0x004A5298 slot 0x10 | nintendogs:bytes
-    virtual void Initialize(nw::os::IAllocator*); // 0x004A4788 slot 0x24 | nintendogs:bytes
+    virtual u32 Initialize(nw::os::IAllocator*); // 0x004A4788 slot 0x24 | nintendogs:bytes
     void CreateResFog(nw::os::IAllocator*, const char*); // 0x004A4880 | nintendogs:bytes-fuzzy [tier A]
     void DestroyResFog(nw::os::IAllocator*, nw::gfx::res::ResFogData*); // 0x004A4B1C | nintendogs:bytes [tier A]
     void CreateAnimGroup(nw::os::IAllocator*); // 0x004A4CB0 | nintendogs:bytes [tier A]

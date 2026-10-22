@@ -1,46 +1,66 @@
-#include "nw/gfx/gfx_TransformAnimBlendOp.h"
 #include "nw/gfx/gfx_AnimBlendOpTransform.h"
 
 namespace nw {
 namespace gfx {
-// ctor address unknown
-nw::gfx::AnimBlendOpTransform::AnimBlendOpTransform()
+namespace {
+// (inline) the transform of a result that has none yet starts without parts
+inline CalculatedTransform* GetTransform(anim::AnimResult* pResult)
 {
+    CalculatedTransform* pTransform = static_cast<CalculatedTransform*>(pResult->GetValueBuffer());
+    if (!pResult->IsEnabledFlags(1)) {
+        pTransform->EnableFlags(CalculatedTransform::FLAG_TRANSLATE_UNSET | CalculatedTransform::FLAG_SCALE_UNSET |
+                                CalculatedTransform::FLAG_ROTATE_UNSET);
+        pResult->m_EnabledFlags |= 1;
+    }
+    return pTransform;
 }
 
-// 0x004A0DF0 slot 0x00 | slot vf_0x00 of nw::gfx::AnimBlendOpTransform
+// (inline) the flags after the parts changed
+inline void UpdateFlags(CalculatedTransform* pTransform)
+{
+    pTransform->UpdateScaleFlags();
+    pTransform->UpdateRotateFlags();
+    pTransform->UpdateTranslateFlags();
+    pTransform->UpdateCompositeFlags();
+    pTransform->EnableFlags(CalculatedTransform::FLAG_IS_DIRTY | CalculatedTransform::FLAG_UNKNOWN_0x1);
+}
+} // namespace
+
+// 0x004A0DF0 slot 0x00 (name is ours)
+// 0x004A0DE0 (deleting dtor)
 nw::gfx::AnimBlendOpTransform::~AnimBlendOpTransform()
 {
+    // empty (in the original too)
 }
 
-// 0x004A0DE0 slot 0x04 | virtual slot, introduced by nw::gfx::AnimBlendOpTransform
-void nw::gfx::AnimBlendOpTransform::vf_0x04()
+// 0x0073B0D4 slot 0x08 | nintendogs:bytes [tier A]
+bool nw::gfx::AnimBlendOpTransform::Blend(anim::AnimResult* pDst, f32* /*pDstWeights*/, const anim::AnimResult* pSrc, const f32* pSrcWeights) const
 {
+    CalculatedTransform* pDstTransform = GetTransform(pDst);
+    const CalculatedTransform* pSrcTransform = static_cast<const CalculatedTransform*>(pSrc->GetValueBuffer());
+    const f32 weight = pSrcWeights[0];
+    BlendScaleStandard(pDstTransform, pSrcTransform, weight);
+    BlendRotateMatrix(pDstTransform, pSrcTransform, weight);
+    BlendTranslate(pDstTransform, pSrcTransform, weight);
+    return true;
 }
 
-// 0x0073B0D4 slot 0x08 | nintendogs:bytes
-void nw::gfx::AnimBlendOpTransform::Blend(nw::anim::AnimResult*, float*, const nw::anim::AnimResult*, const float*) const
+// 0x0073B160 slot 0x10 | nintendogs:callseq [tier A]
+bool nw::gfx::AnimBlendOpTransform::Override(anim::AnimResult* pDst, const anim::AnimResult* pSrc) const
 {
+    CalculatedTransform* pDstTransform = GetTransform(pDst);
+    const bool isComplete = OverrideTransform(pDstTransform, static_cast<const CalculatedTransform*>(pSrc->GetValueBuffer()), 0);
+    UpdateFlags(pDstTransform);
+    return isComplete;
 }
 
-// 0x0073B234 slot 0x0C | nintendogs:callseq
-void nw::gfx::AnimBlendOpTransform::PostBlend(nw::anim::AnimResult*, const float*) const
+// 0x0073B234 slot 0x0C | nintendogs:callseq [tier A]
+bool nw::gfx::AnimBlendOpTransform::PostBlend(anim::AnimResult* pResult, const f32* /*pWeights*/) const
 {
-}
-
-// 0x0073B160 slot 0x10 | nintendogs:callseq
-void nw::gfx::AnimBlendOpTransform::vf_0x10()
-{
-}
-
-// 0x0073B9B4 slot 0x14 | nintendogs:bytes
-void nw::gfx::AnimBlendOpTransform::Apply(void*, const nw::anim::AnimResult*) const
-{
-}
-
-// 0x0073B7B4 slot 0x18 | nintendogs:bytes
-void nw::gfx::AnimBlendOpTransform::ConvertToAnimResult(nw::anim::AnimResult*, const void*) const
-{
+    CalculatedTransform* pTransform = static_cast<CalculatedTransform*>(pResult->GetValueBuffer());
+    const bool isNormalized = pTransform->NormalizeRotateMatrix();
+    UpdateFlags(pTransform);
+    return isNormalized;
 }
 
 } // namespace gfx
