@@ -10,7 +10,7 @@ void nw::gfx::res::ResFog::Cleanup()
 }
 
 // 0x004A9DEC | nintendogs:bytes [tier A]
-void nw::gfx::res::ResFog::Setup(nw::os::IAllocator*, nw::gfx::res::ResGraphicsFile)
+u32 nw::gfx::res::ResFog::Setup(nw::os::IAllocator*, nw::gfx::res::ResGraphicsFile)
 {
 }
 

@@ -1,6 +1,7 @@
 #pragma once
 
 #include "decomp.h"
+#include "nw/gfx/res/gfx_ResLookupTable.h"
 #include "nw/gfx/gfx_TransformNode.h"
 #include "nw/gfx/res/gfx_ResFog.h"
 

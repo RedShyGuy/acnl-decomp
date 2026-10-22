@@ -3588,13 +3588,13 @@ namespace nw { namespace gfx { namespace res {
     struct ResCamera { u32 _unknown; }; // placeholder, real type unknown
     struct ResFogData { u32 _unknown; }; // placeholder, real type unknown
     struct ResFogUpdater { u32 _unknown; }; // placeholder, real type unknown
-    struct ResFragmentLight { u32 _unknown; }; // placeholder, real type unknown
-    struct ResFragmentLightData { u32 _unknown; }; // placeholder, real type unknown
+    class ResFragmentLight; // nw/gfx/res/gfx_ResLight.h
+    struct ResFragmentLightData; // nw/gfx/res/gfx_ResLight.h
     struct ResFrustumProjectionUpdater { u32 _unknown; }; // placeholder, real type unknown
     struct ResHemiSphereLight { u32 _unknown; }; // placeholder, real type unknown
-    struct ResImageLookupTable { u32 _unknown; }; // placeholder, real type unknown
+    class ResImageLookupTable; // nw/gfx/res/gfx_ResLookupTable.h
     struct ResIndexStream { u32 _unknown; }; // placeholder, real type unknown
-    struct ResLightingLookupTable { u32 _unknown; }; // placeholder, real type unknown
+    class ResLightingLookupTable; // nw/gfx/res/gfx_ResLookupTable.h
     struct ResLookAtTargetViewUpdater { u32 _unknown; }; // placeholder, real type unknown
     struct ResMaterialColor { u32 _unknown; }; // placeholder, real type unknown
     struct ResMaterialData; // nw/gfx/res/gfx_ResMaterial.h
@@ -3605,9 +3605,9 @@ namespace nw { namespace gfx { namespace res {
     struct ResParticleSet { u32 _unknown; }; // placeholder, real type unknown
     struct ResParticleUpdater { u32 _unknown; }; // placeholder, real type unknown
     struct ResPerspectiveProjectionUpdater { u32 _unknown; }; // placeholder, real type unknown
-    struct ResReferenceLookupTable { u32 _unknown; }; // placeholder, real type unknown
+    class ResReferenceLookupTable; // nw/gfx/res/gfx_ResLookupTable.h
     struct ResReferenceShader { u32 _unknown; }; // placeholder, real type unknown
-    struct ResReferenceTexture { u32 _unknown; }; // placeholder, real type unknown
+    class ResReferenceTexture; // nw/gfx/res/gfx_ResTexture.h
     struct ResRotateViewUpdater { u32 _unknown; }; // placeholder, real type unknown
     struct ResSceneEnvironmentSetting { u32 _unknown; }; // placeholder, real type unknown
     class ResSceneObject; // nw/gfx/res/gfx_ResSceneObject.h
@@ -3615,7 +3615,7 @@ namespace nw { namespace gfx { namespace res {
     struct ResShaderProgramDescription { u32 _unknown; }; // placeholder, real type unknown
     struct ResShaderSymbol { u32 _unknown; }; // placeholder, real type unknown
     class ResBone; // nw/gfx/res/gfx_ResSkeleton.h
-    struct ResSkeleton { u32 _unknown; }; // placeholder, real type unknown
+    class ResSkeleton; // nw/gfx/res/gfx_ResSkeleton.h
     class ResTransformNode; // nw/gfx/res/gfx_ResSceneObject.h
 }}}
 

@@ -32,7 +32,16 @@ public:
     // the node of the name (NULL: not found)
     const Node* Get(const char* key, u32 length) const; // 0x007376D4 | nintendogs:bytes [confirmed by mk7dlp] [tier A]
     // the data of the name (NULL: no dictionary, no name or not found; name is ours)
-    void* GetData(const char* key) const; // 0x0073777C (name is ours)
+    DECOMP_EMIT_COPY void* GetData(const char* key) const // 0x0073777C (name is ours)
+    {
+        if (m_pData != nullptr && key != nullptr) {
+            const Node* pNode = Get(key, std::strlen(key));
+            if (pNode != nullptr && pNode->ofsData != 0) {
+                return const_cast<char*>(reinterpret_cast<const char*>(&pNode->ofsData) + pNode->ofsData);
+            }
+        }
+        return nullptr;
+    }
     // the position of the name in the order of the data (-1: no dictionary, no name or not found;
     // inline, name is ours)
     int GetIndex(const char* key) const

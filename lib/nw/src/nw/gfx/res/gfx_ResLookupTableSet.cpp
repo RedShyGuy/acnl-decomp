@@ -10,8 +10,14 @@ void nw::gfx::res::ResLookupTableSet::Cleanup()
 }
 
 // 0x004A7C5C | nintendogs:bytes [tier A]
-void nw::gfx::res::ResLookupTableSet::Setup(nw::os::IAllocator*, nw::gfx::res::ResGraphicsFile)
+u32 nw::gfx::res::ResLookupTableSet::Setup(os::IAllocator* /*pAllocator*/, ResGraphicsFile /*graphicsFile*/)
 {
+    u32 result = RESULT_SUCCESS;
+    const s32 tableCount = GetTableCount();
+    for (int i = 0; i < tableCount; ++i) {
+        result |= GetTable(i).Setup();
+    }
+    return result;
 }
 
 } // namespace res

@@ -9,8 +9,15 @@ namespace res {
 class ResModel
 {
 public:
+    // (inline)
+    explicit ResModel(const void* pData = nullptr) : m_pData(pData) {}
+    const void* ptr() const { return m_pData; }
+    bool IsValid() const { return m_pData != nullptr; }
+
     void Cleanup(); // 0x00137780 | nintendogs:bytes [tier A]
-    void Setup(nw::os::IAllocator*, nw::gfx::res::ResGraphicsFile); // 0x004AA4C4 | nintendogs:bytes [tier A]
+    u32 Setup(nw::os::IAllocator*, nw::gfx::res::ResGraphicsFile); // 0x004AA4C4 | nintendogs:bytes [tier A]
+
+    const void* m_pData; // 0x0 (the layout of the data is not known yet)
 };
 } // namespace res
 } // namespace gfx

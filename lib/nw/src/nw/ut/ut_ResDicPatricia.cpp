@@ -39,17 +39,5 @@ const nw::ut::ResDicPatricia::Node* nw::ut::ResDicPatricia::Get(const char* key,
     return nullptr;
 }
 
-// 0x0073777C (name is ours)
-void* nw::ut::ResDicPatricia::GetData(const char* key) const
-{
-    if (m_pData != nullptr && key != nullptr) {
-        const Node* pNode = Get(key, std::strlen(key));
-        if (pNode != nullptr && pNode->ofsData != 0) {
-            return const_cast<char*>(reinterpret_cast<const char*>(&pNode->ofsData) + pNode->ofsData);
-        }
-    }
-    return nullptr;
-}
-
 } // namespace ut
 } // namespace nw

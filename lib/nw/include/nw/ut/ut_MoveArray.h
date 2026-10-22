@@ -34,6 +34,14 @@ public:
           m_Capacity((capacity & ~KIND_MASK) | (static_cast<u32>(kind) << KIND_SHIFT))
     {
     }
+    // takes the buffer of the other array (which is left empty, with its allocator and kind)
+    MoveArray(MoveArray& other)
+        : m_pAllocator(other.m_pAllocator), m_pBegin(other.m_pBegin), m_pEnd(other.m_pEnd), m_Capacity(other.m_Capacity)
+    {
+        other.m_pBegin = nullptr;
+        other.m_pEnd = nullptr;
+        other.m_Capacity &= KIND_MASK;
+    }
     ~MoveArray()
     {
         clear();

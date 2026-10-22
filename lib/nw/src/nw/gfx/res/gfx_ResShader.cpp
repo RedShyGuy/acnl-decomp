@@ -15,7 +15,7 @@ void nw::gfx::res::ResShader::Dereference()
 }
 
 // 0x004AA708 | nintendogs:bytes [tier B]
-void nw::gfx::res::ResShader::Setup(nw::os::IAllocator*, nw::gfx::res::ResGraphicsFile)
+u32 nw::gfx::res::ResShader::Setup(nw::os::IAllocator*, nw::gfx::res::ResGraphicsFile)
 {
 }
 

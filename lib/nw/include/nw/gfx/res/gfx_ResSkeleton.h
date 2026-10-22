@@ -4,6 +4,7 @@
 #include "nn/math/math_MTX34.h"
 #include "nn/math/math_Vector3.h"
 #include "nw/ut/ut_Offset.h"
+#include "nw/ut/ut_ResDicPatricia.h"
 
 namespace nw {
 namespace gfx {
@@ -19,6 +20,8 @@ struct ResBoneData
         FLAG_IS_ROTATE_ZERO = 1 << 2,
         FLAG_IS_SCALE_ONE = 1 << 3,
         FLAG_IS_UNIFORM_SCALE = 1 << 4,
+        // the scale of the parent does not shrink the bone (WorldMatrixUpdater::CalculateWorldMayaSsc)
+        FLAG_SEGMENT_SCALE_COMPENSATE = 1 << 5,
     };
 
     ut::Offset name;          // 0x00
@@ -48,6 +51,49 @@ public:
 private:
     const ResBoneData* m_pData; // 0x0
 };
+// A skeleton: its bones by name and how the world matrices are calculated (only the fields known so
+// far; names are ours).
+struct ResSkeletonData
+{
+    // how a bone inherits the scale of its parent (the three WorldMatrixUpdater::CalculateWorld*)
+    enum ScalingRule : u8
+    {
+        SCALING_RULE_STANDARD = 0, // CalculateWorldBasic
+        SCALING_RULE_MAYA = 1,     // CalculateWorldMayaSsc
+        SCALING_RULE_SOFTIMAGE = 2, // CalculateWorldXsi
+    };
+    enum Flag
+    {
+        FLAG_IS_MODEL_COORDINATE = 1 << 0,
+    };
+
+    u32 m_Unknown0x0[6];   // 0x00
+    s32 boneCount;         // 0x18
+    ut::Offset boneDic;    // 0x1C ResDicPatricia of the ResBoneData
+    u32 m_Unknown0x20;     // 0x20
+    u32 scalingRule;       // 0x24 ScalingRule (low byte)
+    u32 flags;             // 0x28 Flag
+};
+ASSERT_OFFSET(ResSkeletonData, flags, 0x28);
+
+// the wrapper of a skeleton (the class name is from the reference symbols)
+class ResSkeleton
+{
+public:
+    // (inline)
+    explicit ResSkeleton(const void* pData = nullptr) : m_pData(static_cast<const ResSkeletonData*>(pData)) {}
+    const ResSkeletonData* ptr() const { return m_pData; }
+    bool IsValid() const { return m_pData != nullptr; }
+    s32 GetBoneCount() const { return m_pData->boneCount; }
+    ResBone GetBone(int index) const
+    {
+        ut::ResDicPatricia dic = {m_pData->boneDic.To<ut::ResDicPatricia::Data>()};
+        return ResBone(dic.GetDataByIndex(index));
+    }
+
+    const ResSkeletonData* m_pData; // 0x0
+};
+ASSERT_SIZE(ResSkeleton, 0x4);
 } // namespace res
 } // namespace gfx
 } // namespace nw

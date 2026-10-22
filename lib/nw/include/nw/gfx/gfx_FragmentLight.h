@@ -1,6 +1,7 @@
 #pragma once
 
 #include "decomp.h"
+#include "nw/gfx/res/gfx_ResLight.h"
 #include "nw/gfx/gfx_Light.h"
 
 namespace nw {

@@ -10,7 +10,7 @@ void nw::anim::res::ResAnim::Cleanup()
 }
 
 // 0x004D6124 | nintendogs:bytes [tier A]
-void nw::anim::res::ResAnim::Setup(nw::os::IAllocator*, nw::gfx::res::ResGraphicsFile)
+u32 nw::anim::res::ResAnim::Setup(nw::os::IAllocator*, nw::gfx::res::ResGraphicsFile)
 {
 }
 

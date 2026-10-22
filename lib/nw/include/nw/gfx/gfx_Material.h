@@ -1,6 +1,7 @@
 #pragma once
 
 #include "decomp.h"
+#include "nw/gfx/res/gfx_ResLookupTable.h"
 #include "nw/gfx/gfx_SceneObject.h"
 #include "nw/gfx/res/gfx_ResFragmentLightingTable.h"
 #include "nw/gfx/res/gfx_ResFragmentShader.h"
