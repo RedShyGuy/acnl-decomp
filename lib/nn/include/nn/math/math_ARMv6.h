@@ -43,3 +43,9 @@ namespace ARMv6 {
 } // namespace ARMv6
 } // namespace math
 } // namespace nn
+
+// (inline)
+inline nn::math::MTX44::MTX44(const MTX44& other)
+{
+    ARMv6::MTX44CopyAsm(this, &other);
+}

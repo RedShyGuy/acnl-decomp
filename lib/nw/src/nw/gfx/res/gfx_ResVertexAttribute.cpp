@@ -11,7 +11,7 @@ namespace res {
 namespace {
 // 0x004A5990 (name is ours)
 // the stream copied to the area of the location flag (or flushed from the cache if it stays in place)
-DECOMP_NOINLINE void UploadVertexStream(const void* pOwner, ResVertexAttributeData* pAttribute, u32 location)
+DECOMP_NOINLINE void UploadVertexStream(const void* pOwner, ResVertexStreamBaseData* pAttribute, u32 location)
 {
     const u32 size = pAttribute->size;
     const u32 area = location & 0xFFFF0000;
@@ -45,7 +45,7 @@ DECOMP_NOINLINE void UploadVertexStream(const void* pOwner, ResVertexAttributeDa
 // 0x004A7E20 | nintendogs:bytes [tier A]
 void nw::gfx::res::ResVertexAttribute::Setup()
 {
-    ResVertexAttributeData* pData = ptr();
+    ResVertexStreamBaseData* pData = static_cast<ResVertexStreamBaseData*>(ptr());
     if ((pData->flags & ResVertexAttributeData::FLAG_CONSTANT) || pData->pLoaded != nullptr) {
         return;
     }
@@ -65,7 +65,7 @@ void nw::gfx::res::ResVertexAttribute::Setup()
 // 0x004A7EC0 (name is ours)
 void nw::gfx::res::ResVertexAttribute::Cleanup()
 {
-    ResVertexAttributeData* pData = ptr();
+    ResVertexStreamBaseData* pData = static_cast<ResVertexStreamBaseData*>(ptr());
     if ((pData->flags & ResVertexAttributeData::FLAG_CONSTANT) || pData->pLoaded == nullptr) {
         return;
     }

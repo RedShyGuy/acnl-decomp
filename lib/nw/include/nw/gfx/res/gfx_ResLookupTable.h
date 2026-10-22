@@ -76,9 +76,11 @@ public:
 // a lookup table of the fragment lighting with its input settings
 struct ResLightingLookupTableData
 {
-    u32 m_Unknown0x0[2];   // 0x0
+    u32 input;             // 0x0 the input of the table (low byte)
+    u32 scale;             // 0x4 the scale of the output (low byte)
     ut::Offset sampler;    // 0x8 the ResLookupTableData
 };
+ASSERT_SIZE(ResLightingLookupTableData, 0xC);
 ASSERT_OFFSET(ResLightingLookupTableData, sampler, 0x8);
 
 class ResLightingLookupTable

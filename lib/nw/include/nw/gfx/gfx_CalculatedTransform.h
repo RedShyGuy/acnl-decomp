@@ -39,25 +39,24 @@ public:
     };
 
     // (inline) the identity
-    CalculatedTransform()
+    CalculatedTransform() : m_TransformMatrix(nn::math::MTX34::Identity())
     {
-        nn::math::ARMv6::MTX34CopyAsm(&m_TransformMatrix, &nn::math::MTX34::Identity());
         m_Scale = nn::math::VEC3(1.0f, 1.0f, 1.0f);
         m_Flags = FLAG_DEFAULT;
     }
-    CalculatedTransform(const nn::math::MTX34& matrix, const nn::math::VEC3& scale, u32 flags = FLAG_DEFAULT)
+    CalculatedTransform(const nn::math::MTX34& matrix, const nn::math::VEC3& scale, u32 flags = FLAG_DEFAULT) : m_TransformMatrix(matrix)
     {
-        nn::math::ARMv6::MTX34CopyAsm(&m_TransformMatrix, &matrix);
         m_Scale = scale;
         m_Flags = flags;
     }
-    // (the copy uses MTX34CopyAsm, the assignment copies the members)
-    CalculatedTransform(const CalculatedTransform& other)
+    // (the copy of the matrix uses MTX34CopyAsm, the assignment copies the members)
+    // (inline) the transform of a bone
+    explicit CalculatedTransform(res::ResBone bone)
     {
-        nn::math::ARMv6::MTX34CopyAsm(&m_TransformMatrix, &other.m_TransformMatrix);
-        m_Scale = other.m_Scale;
-        m_Flags = other.m_Flags;
+        m_Flags = FLAG_DEFAULT;
+        SetTransform(bone);
     }
+    CalculatedTransform(const CalculatedTransform& other) = default;
     CalculatedTransform& operator=(const CalculatedTransform& other) = default;
     // (ARMCC keeps empty loops over the elements of arrays when they are destroyed)
     ~CalculatedTransform() {}

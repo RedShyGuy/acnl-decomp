@@ -18,10 +18,18 @@ struct ResAnimGroupData
         // no SetValueForType)
         FLAG_DIRECT_RESULT = 1 << 0,
     };
+    // what the members of the group belong to (only the kinds the model binds are known; names are ours)
+    enum TargetType
+    {
+        TARGET_TYPE_SKELETON = 1,
+        TARGET_TYPE_MATERIAL = 2,
+        TARGET_TYPE_VISIBILITY = 3,
+    };
 
     u32 m_Unknown0x0;      // 0x0
     u32 flags;             // 0x4 Flag
-    u32 m_Unknown0x8[2];   // 0x8
+    u32 m_Unknown0x8;      // 0x8
+    u32 targetType;        // 0xC TargetType
     s32 memberCount;       // 0x10
     ut::Offset memberDic;  // 0x14 ResDicPatricia of the ResAnimGroupMemberData
     s32 blendOpCount;      // 0x18
@@ -38,6 +46,7 @@ public:
     explicit ResAnimGroup(const void* pData = nullptr) : m_pData(static_cast<const ResAnimGroupData*>(pData)) {}
     const ResAnimGroupData* ptr() const { return m_pData; }
     s32 GetMemberCount() const { return m_pData->memberCount; }
+    u32 GetTargetType() const { return m_pData->targetType; }
     u32 GetFlags() const { return m_pData->flags; }
     u8 GetEvaluationTiming() const { return static_cast<u8>(m_pData->evaluationTiming); }
     s32 GetBlendOpCount() const { return m_pData->blendOpCount; }

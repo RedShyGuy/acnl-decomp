@@ -475,8 +475,7 @@ u32* nw::lyt::Pane::MakeUniformDataSelf(u32* pCommand, DrawInfo& /*drawInfo*/, D
 void nw::lyt::Pane::LoadMtx(DrawInfo& drawInfo)
 {
     GraphicsResource& graphicsResource = *drawInfo.m_pGraphicsResource;
-    nn::math::MTX34 glbMtx;
-    nn::math::ARMv6::MTX34CopyAsm(&glbMtx, &m_GlbMtx);
+    nn::math::MTX34 glbMtx(m_GlbMtx);
     graphicsResource.m_ModelViewMtx = glbMtx;
     graphicsResource.m_IsModelViewMtxLoaded = false;
 }

@@ -1,9 +1,6 @@
 #pragma once
 
-#include <cstring>
-
 #include "decomp.h"
-#include "nn/math/math_ARMv6.h"
 #include "nn/math/math_MTX34.h"
 #include "nn/math/math_Transform.h"
 #include "nw/anim/res/anim_ResAnimGroup.h"
@@ -78,15 +75,6 @@ public:
 };
 ASSERT_SIZE(ResTransformNode, 0x4);
 
-// (inline) the copy of the transform node part of a resource (the matrices with MTX34CopyAsm, as the
-// copy constructor of MTX34 does in the original; the offsets are copied as they are; name is ours)
-inline void CopyResTransformNodeData(ResTransformNodeData* pOut, const ResTransformNodeData& resource)
-{
-    std::memcpy(static_cast<ResSceneObjectData*>(pOut), static_cast<const ResSceneObjectData*>(&resource), sizeof(ResSceneObjectData));
-    pOut->transform = resource.transform;
-    nn::math::ARMv6::MTX34CopyAsm(&pOut->m_Unknown0x54, &resource.m_Unknown0x54);
-    nn::math::ARMv6::MTX34CopyAsm(&pOut->worldMatrix, &resource.worldMatrix);
-}
 } // namespace res
 } // namespace gfx
 } // namespace nw

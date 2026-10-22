@@ -25,7 +25,7 @@ public:
         MAPPING_SHADOW_CUBE = 5,
     };
 
-    // the copy (the matrix with MTX34CopyAsm)
+    // the copy (out of line; the matrix with MTX34CopyAsm)
     ResTextureCoordinatorData(const ResTextureCoordinatorData& other); // 0x004A8FCC | mk7dlp:bytes [tier B]
 
     MappingMethod GetMappingMethod() const { return static_cast<MappingMethod>(mappingMethod); }

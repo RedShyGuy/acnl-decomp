@@ -6,9 +6,9 @@ namespace nw {
 namespace lyt {
 // 0x00132304
 nw::lyt::DrawInfo::DrawInfo()
-    : m_LocationAdjustScale(1.0f, 1.0f), m_GlobalAlpha(1.0f), m_pGraphicsResource(nullptr), m_pLayout(nullptr), m_Flag()
+    : m_ViewMtx(nn::math::MTX34::Identity()), m_LocationAdjustScale(1.0f, 1.0f), m_GlobalAlpha(1.0f), m_pGraphicsResource(nullptr),
+      m_pLayout(nullptr), m_Flag()
 {
-    nn::math::ARMv6::MTX34CopyAsm(&m_ViewMtx, &nn::math::MTX34::Identity());
 }
 
 // 0x004BC8FC slot 0x00 (name is ours)

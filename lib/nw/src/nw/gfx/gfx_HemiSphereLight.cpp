@@ -32,16 +32,10 @@ u32 nw::gfx::HemiSphereLight::Initialize(os::IAllocator* pAllocator)
 // 0x0049AAB8 | nintendogs:bytes [tier A]
 u32 nw::gfx::HemiSphereLight::CreateOriginalValue(os::IAllocator* pAllocator)
 {
-    res::ResHemiSphereLightData* pCopy = static_cast<res::ResHemiSphereLightData*>(pAllocator->Alloc(sizeof(res::ResHemiSphereLightData), 4));
-    if (pCopy != nullptr) {
-        const res::ResHemiSphereLightData& resource = *static_cast<const res::ResHemiSphereLightData*>(GetResSceneObject().ptr());
-        res::CopyResTransformNodeData(pCopy, resource);
-        pCopy->isLightEnabled = resource.isLightEnabled;
-        std::memcpy(pCopy->m_Unknown0xB5, resource.m_Unknown0xB5, sizeof(pCopy->m_Unknown0xB5));
-        pCopy->groundColor = resource.groundColor;
-        pCopy->skyColor = resource.skyColor;
-        pCopy->direction = resource.direction;
-        pCopy->lerpFactor = resource.lerpFactor;
+    void* pMemory = pAllocator->Alloc(sizeof(res::ResHemiSphereLightData), 4);
+    res::ResHemiSphereLightData* pCopy = nullptr;
+    if (pMemory != nullptr) {
+        pCopy = new (pMemory) res::ResHemiSphereLightData(*static_cast<const res::ResHemiSphereLightData*>(GetResSceneObject().ptr()));
     }
     m_pOriginalValue = pCopy;
     m_OriginalTransform = static_cast<const res::ResTransformNodeData*>(GetResSceneObject().ptr())->transform;

@@ -32,15 +32,10 @@ u32 nw::gfx::AmbientLight::Initialize(os::IAllocator* pAllocator)
 // 0x0048DC34 | nintendogs:bytes [tier A]
 u32 nw::gfx::AmbientLight::CreateOriginalValue(os::IAllocator* pAllocator)
 {
-    res::ResAmbientLightData* pCopy = static_cast<res::ResAmbientLightData*>(pAllocator->Alloc(sizeof(res::ResAmbientLightData), 4));
-    if (pCopy != nullptr) {
-        const res::ResAmbientLightData& resource = *static_cast<const res::ResAmbientLightData*>(GetResSceneObject().ptr());
-        res::CopyResTransformNodeData(pCopy, resource);
-        pCopy->isLightEnabled = resource.isLightEnabled;
-        std::memcpy(pCopy->m_Unknown0xB5, resource.m_Unknown0xB5, sizeof(pCopy->m_Unknown0xB5));
-        pCopy->color = resource.color;
-        pCopy->colorU32 = resource.colorU32;
-        std::memcpy(pCopy->m_Unknown0xCC, resource.m_Unknown0xCC, sizeof(pCopy->m_Unknown0xCC));
+    void* pMemory = pAllocator->Alloc(sizeof(res::ResAmbientLightData), 4);
+    res::ResAmbientLightData* pCopy = nullptr;
+    if (pMemory != nullptr) {
+        pCopy = new (pMemory) res::ResAmbientLightData(*static_cast<const res::ResAmbientLightData*>(GetResSceneObject().ptr()));
     }
     m_pOriginalValue = pCopy;
     m_OriginalTransform = static_cast<const res::ResTransformNodeData*>(GetResSceneObject().ptr())->transform;

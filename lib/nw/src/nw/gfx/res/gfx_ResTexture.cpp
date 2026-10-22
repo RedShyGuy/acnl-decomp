@@ -4,6 +4,8 @@
 #include "nn/gx/gx_Api.h"
 #include "nn/gxlow/CTR/CTR_Api.h"
 #include "nn/nstd/nstd_String.h"
+#include "nw/os/os_IAllocator.h"
+#include <new>
 
 namespace nw {
 namespace gfx {
@@ -13,6 +15,28 @@ namespace {
 const GLenum PURPOSE_TEXTURE = 0x101;
 
 typedef void (*TextureFunc)(ResTextureData* pData);
+
+// per texture format (3dbrew "CGFX": RGBA8, RGB8, RGBA5551, RGB565, RGBA4, LA8, HILO8, L8, A8, LA4, L4, A4,
+// ETC1, ETC1A4): the GL format, the GL type and the bytes per pixel
+// 0x008A39B8
+const u32 s_GlFormats[] = {
+    0x6752, 0x6754, 0x6752, 0x6754, 0x6752, 0x6758, 0x6759, 0x6757, 0x6756, 0x6758, 0x6757, 0x6756, 0x675A, 0x675B,
+};
+// 0x008A39F0
+const u32 s_GlTypes[] = {
+    0x1401, 0x1401, 0x8034, 0x8363, 0x8033, 0x1401, 0x1401, 0x1401, 0x1401, 0x6760, 0x6761, 0x6761, 0, 0,
+};
+// 0x008A3A28
+const f32 s_BytesPerPixel[] = {
+    4.0f, 3.0f, 2.0f, 2.0f, 2.0f, 2.0f, 2.0f, 1.0f, 1.0f, 1.0f, 0.5f, 0.5f, 0.5f, 1.0f,
+};
+
+// the signature of a dynamic image texture ("TXIM") and its revision
+const u32 SIGNATURE_IMAGE_TEXTURE = 0x4D495854;
+const u32 DYNAMIC_IMAGE_TEXTURE_REVISION = 0x05000000;
+// the smallest width and height of a mipmap level (ETC1: the blocks are bigger)
+const s32 MIN_MIPMAP_SIZE = 8;
+const s32 MIN_MIPMAP_SIZE_ETC1 = 16;
 
 // 0x004A5B60 (name is ours)
 // the image copied to the area of the location flag (or flushed from the cache if it stays in place)
@@ -270,6 +294,87 @@ ReferenceTarget<ResTexture> GetReferenceTextureTarget(ResReferenceTexture textur
     target.target = ResTexture(texture.ptr()->target.ToPtr());
     target.isFound = isFound;
     return target;
+}
+
+// 0x004A72B0 (name is ours)
+nw::gfx::res::ResImageTexture nw::gfx::res::ResImageTexture::CreateDynamic(const DynamicDescription& description, os::IAllocator* pAllocator)
+{
+    const s32 minSize = description.format == FORMAT_ETC1 ? MIN_MIPMAP_SIZE_ETC1 : MIN_MIPMAP_SIZE;
+    ResImageTextureData* pTexture = new (pAllocator->Alloc(sizeof(ResImageTextureData), 4)) ResImageTextureData();
+    pTexture->typeInfo = TYPE_IMAGE;
+    pTexture->signature = SIGNATURE_IMAGE_TEXTURE;
+    pTexture->m_Unknown0x8 = DYNAMIC_IMAGE_TEXTURE_REVISION;
+    pTexture->name.Set(nullptr);
+    pTexture->m_Unknown0x10[0] = 0;
+    pTexture->m_Unknown0x10[1] = 0;
+    pTexture->height = description.height;
+    pTexture->width = description.width;
+    pTexture->glFormat = s_GlFormats[description.format];
+    pTexture->glType = s_GlTypes[description.format];
+    pTexture->mipmapLevels = description.mipmapLevels;
+    pTexture->pLoaded = nullptr;
+    pTexture->locationFlag = description.locationFlag;
+    pTexture->format = description.format;
+
+    ResImageData* pImage = new (pAllocator->Alloc(sizeof(ResImageData), 4)) ResImageData();
+    pImage->pAllocator = pAllocator;
+    pImage->height = description.height;
+    pImage->width = description.width;
+    pImage->pLocationAddress = description.pLocationAddress;
+    const f32 bytesPerPixel = s_BytesPerPixel[description.format];
+    pImage->bitsPerPixel = static_cast<u32>(bytesPerPixel * 8.0f);
+
+    // the size of all mipmap levels (down to the smallest size)
+    u32 size = 0;
+    s32 height = description.height;
+    s32 width = description.width;
+    const s32 mipmapLevels = description.mipmapLevels;
+    for (s32 level = mipmapLevels; level > 0; --level) {
+        size += static_cast<u32>(bytesPerPixel * static_cast<f32>(height) * static_cast<f32>(width));
+        if (height == minSize && width == minSize) {
+            pTexture->mipmapLevels = mipmapLevels - level + 1;
+            break;
+        }
+        if (height > minSize) {
+            height /= 2;
+        }
+        if (width > minSize) {
+            width /= 2;
+        }
+    }
+
+    if (description.isAllocated) {
+        u8* pPixels = static_cast<u8*>(pAllocator->Alloc(size, 128));
+        if (description.isCleared) {
+            for (u32 i = 0; i < size; ++i) {
+                pPixels[i] = 0;
+            }
+        }
+        pImage->size = size;
+        pImage->data.Set(pPixels);
+    } else {
+        pImage->size = 0;
+        pImage->data.Set(nullptr);
+    }
+    pTexture->image.Set(pImage);
+    return ResImageTexture(pTexture);
+}
+
+// 0x004A7530 (name is ours)
+void nw::gfx::res::ResImageTexture::DestroyDynamic()
+{
+    os::IAllocator* pAllocator = ptr()->image.To<ResImageData>()->pAllocator;
+    if (ptr() != nullptr) {
+        ResImageData* pImage = ptr()->image.To<ResImageData>();
+        if (pImage != nullptr) {
+            if (pImage->data.ToPtr() != nullptr) {
+                pAllocator->Free(pImage->data.ToPtr());
+            }
+            pAllocator->Free(pImage);
+        }
+        pAllocator->Free(ptr());
+        m_pData = nullptr;
+    }
 }
 
 } // namespace res

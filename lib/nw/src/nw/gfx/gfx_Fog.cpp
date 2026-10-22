@@ -244,13 +244,10 @@ void nw::gfx::Fog::SetupFogSampler(res::ResImageLookupTable lookupTable, res::Re
 // 0x004A50E4 | nintendogs:bytes [tier A]
 u32 nw::gfx::Fog::CreateOriginalValue(os::IAllocator* pAllocator)
 {
-    res::ResFogData* pCopy = static_cast<res::ResFogData*>(pAllocator->Alloc(sizeof(res::ResFogData), 4));
-    if (pCopy != nullptr) {
-        const res::ResFogData& resource = *static_cast<const res::ResFogData*>(GetResSceneObject().ptr());
-        res::CopyResTransformNodeData(pCopy, resource);
-        pCopy->color = resource.color;
-        pCopy->sampler.m_Offset = resource.sampler.m_Offset;
-        pCopy->updater.m_Offset = resource.updater.m_Offset;
+    void* pMemory = pAllocator->Alloc(sizeof(res::ResFogData), 4);
+    res::ResFogData* pCopy = nullptr;
+    if (pMemory != nullptr) {
+        pCopy = new (pMemory) res::ResFogData(*static_cast<const res::ResFogData*>(GetResSceneObject().ptr()));
     }
     m_pOriginalValue = pCopy;
     return RESULT_SUCCESS;

@@ -35,8 +35,10 @@ struct ResFragmentShaderData
     ResFragmentLightingData lighting; // 0x10
     u32 m_Unknown0x1C[3];             // 0x1C
     ut::Offset lightingTable;         // 0x28 ResFragmentLightingTableData
+    u8 m_Unknown0x2C[0xC8];           // 0x2C
 };
 ASSERT_OFFSET(ResFragmentShaderData, lightingTable, 0x28);
+ASSERT_SIZE(ResFragmentShaderData, 0xF4);
 
 // the binary resource of a fragment shader (the class name and the functions are from the reference
 // symbols)

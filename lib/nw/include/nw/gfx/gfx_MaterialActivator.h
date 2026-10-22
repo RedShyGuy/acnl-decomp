@@ -7,15 +7,22 @@ namespace nw {
 namespace gfx {
 // RTTI N2nw3gfx17MaterialActivatorE @ 0x008D06AC
 // vtable 0x00902734 (vptr 0x0090273C), offset_to_top 0, 4 entries
-class MaterialActivator : public ::nw::gfx::IMaterialActivator
+// the activator of materials with buffers: it compares the hashes of each part (member names are ours)
+class MaterialActivator : public IMaterialActivator
 {
 public:
-    MaterialActivator(); // ctor candidate(s) 0x0049D3AC (unverified)
-    virtual void vf_0x00(); // 0x0049E12C slot 0x00 | virtual slot, introduced by nw::gfx::MaterialActivator
-    virtual void vf_0x04(); // 0x0049E9D8 slot 0x04 | virtual slot, introduced by nw::gfx::MaterialActivator
-    virtual void vf_0x08(); // 0x0073A878 slot 0x08 | virtual slot, introduced by nw::gfx::MaterialActivator
-    virtual void vf_0x0C(); // 0x0049D3E4 slot 0x0C | virtual slot, introduced by nw::gfx::MaterialActivator
-    void Create(nw::os::IAllocator*); // 0x0049D3AC | nintendogs:callgraph [tier A]
+    // (inline)
+    explicit MaterialActivator(os::IAllocator* pAllocator) : IMaterialActivator(pAllocator) {}
+    virtual ~MaterialActivator();
+
+    virtual const TypeInfo* GetRuntimeTypeInfo() const { return &s_TypeInfo; } // 0x0073A878 slot 0x08
+    virtual void Activate(RenderContext* pRenderContext, const Material* pMaterial); // 0x0049D3E4 slot 0x0C (name is ours)
+
+    // an activator from the allocator (NULL: no memory)
+    static MaterialActivator* Create(os::IAllocator* pAllocator); // 0x0049D3AC | nintendogs:callgraph [tier A]
+
+    static const TypeInfo s_TypeInfo;
 };
+ASSERT_SIZE(MaterialActivator, 0x8);
 } // namespace gfx
 } // namespace nw

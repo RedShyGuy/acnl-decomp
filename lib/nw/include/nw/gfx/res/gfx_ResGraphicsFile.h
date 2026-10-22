@@ -46,6 +46,11 @@ public:
     explicit ResGraphicsFile(const void* pData = nullptr) : m_pData(static_cast<const ResGraphicsFileData*>(pData)) {}
     const ResGraphicsFileData* ptr() const { return m_pData; }
     bool IsValid() const { return m_pData != nullptr; }
+    // the texture at index of the dictionary (for the game; name is ours, after GetModels of the
+    // reference symbols)
+    void* GetTextures(int index) const; // 0x004A6CEC (name is ours)
+    // the skeletal animation of the name (for the game; NULL: none; name is ours)
+    void* GetSkeletalAnims(const char* name) const; // 0x004A6D24 (name is ours)
 
     void Cleanup(); // 0x00131E5C | nintendogs:bytes [tier A]
     // the objects of the file: lookup tables, lights, fogs, shaders, textures, animations, models

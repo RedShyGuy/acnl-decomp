@@ -56,6 +56,18 @@ u32 nw::gfx::res::ResGraphicsFile::Setup(os::IAllocator* pAllocator, ResGraphics
     return result;
 }
 
+// 0x004A6CEC (name is ours)
+void* nw::gfx::res::ResGraphicsFile::GetTextures(int index) const
+{
+    return ptr()->textures.GetData(index);
+}
+
+// 0x004A6D24 (name is ours)
+void* nw::gfx::res::ResGraphicsFile::GetSkeletalAnims(const char* name) const
+{
+    return ptr()->skeletalAnims.GetData(name);
+}
+
 } // namespace res
 } // namespace gfx
 } // namespace nw

@@ -9,10 +9,20 @@ namespace os {
 class MemorySizeCalculator
 {
 public:
-    // (inline)
+    // (inline) an empty calculator for blocks of the alignment
+    explicit MemorySizeCalculator(u32 alignment) : m_Size(0), m_Alignment(alignment), m_MaxAlignment(alignment) {}
+
     void Add(u32 size)
     {
         m_Size = ((m_Size + m_Alignment - 1) & ~(m_Alignment - 1)) + size;
+    }
+    // (inline) the blocks of the other calculator as one block (with room to align it; name is ours)
+    void Add(const MemorySizeCalculator& other) { Add(other.m_Size + other.m_MaxAlignment - m_Alignment); }
+    // (inline) the blocks count times (name is ours)
+    MemorySizeCalculator& operator*=(int count)
+    {
+        m_Size = ((m_Size + m_Alignment - 1) & ~(m_Alignment - 1)) * count;
+        return *this;
     }
     u32 GetSize() const { return m_Size; }
     u32 GetAlignment() const { return m_Alignment; }

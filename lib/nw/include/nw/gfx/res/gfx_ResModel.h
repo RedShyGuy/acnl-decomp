@@ -13,12 +13,35 @@ namespace res {
 // meshes, materials (MTOB, by name) and shapes.
 struct ResModelData : public ResTransformNodeData
 {
-    ResArrayInfo meshes;     // 0xB4 ResMeshData
-    ResDicInfo materials;    // 0xBC ResMaterialData
-    ResArrayInfo shapes;     // 0xC4 ResShapeData
+    static const u32 TYPE = 0x40000012;
+
+    ResArrayInfo meshes;              // 0xB4 ResMeshData
+    ResDicInfo materials;             // 0xBC ResMaterialData
+    ResArrayInfo shapes;              // 0xC4 ResShapeData
+    ResDicInfo meshNodeVisibilities;  // 0xCC ResMeshNodeVisibilityData
+    bool isVisible;                   // 0xD4
 };
 ASSERT_OFFSET(ResModelData, meshes, 0xB4);
 ASSERT_OFFSET(ResModelData, shapes, 0xC4);
+ASSERT_OFFSET(ResModelData, isVisible, 0xD4);
+
+// a model with a skeleton (3dbrew "CGFX": the skeletal model; names are ours)
+struct ResSkeletalModelData : public ResModelData
+{
+    static const u32 TYPE = 0x40000092;
+
+    u32 m_Unknown0xD8[2];  // 0xD8
+    ut::Offset skeleton;   // 0xE0 ResSkeletonData
+};
+ASSERT_OFFSET(ResSkeletalModelData, skeleton, 0xE0);
+
+// the visibility of a group of meshes by name (a visibility animation changes it; names are ours)
+struct ResMeshNodeVisibilityData
+{
+    ut::Offset name; // 0x0
+    bool isVisible;  // 0x4
+};
+ASSERT_SIZE(ResMeshNodeVisibilityData, 0x8);
 
 // the binary resource of a model (the class name and the functions are from the reference symbols)
 class ResModel : public ResTransformNode
@@ -30,6 +53,10 @@ public:
     bool IsValid() const { return m_pData != nullptr; }
     void* GetMesh(int index) const { return ptr()->meshes.GetData(index); }
     void* GetShape(int index) const { return ptr()->shapes.GetData(index); }
+    ResMeshNodeVisibilityData* GetMeshNodeVisibility(int index) const
+    {
+        return static_cast<ResMeshNodeVisibilityData*>(ptr()->meshNodeVisibilities.GetData(index));
+    }
 
     void Cleanup(); // 0x00137780 | nintendogs:bytes [tier A]
     // the shapes, the materials and then the meshes (not if a shader is missing)

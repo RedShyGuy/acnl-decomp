@@ -79,7 +79,7 @@ public:
     void DestroyDynamic(); // 0x004A78F4 | nintendogs:bytes [tier A]
     u32 Setup(os::IAllocator* pAllocator, ResGraphicsFile graphicsFile); // 0x004A7934 | nintendogs:bytes [tier A]
     // the memory CloneDynamic allocates
-    void GetMemorySizeForCloneInternal(os::MemorySizeCalculator* pSize) const // 0x0073C724 | nintendogs:bytes [tier A]
+    DECOMP_NOINLINE void GetMemorySizeForCloneInternal(os::MemorySizeCalculator* pSize) const // 0x0073C724 | nintendogs:bytes [tier A]
     {
         if (m_pData->typeInfo == TYPE_PIXEL_BASED) {
             pSize->Add(sizeof(ResPixelBasedTextureMapperData));

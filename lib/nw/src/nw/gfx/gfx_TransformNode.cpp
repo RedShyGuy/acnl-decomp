@@ -160,10 +160,9 @@ nw::gfx::TransformNode* nw::gfx::TransformNode::Create(SceneNode* pParent, res::
 
 // 0x0049926C | nintendogs:callgraph [tier A]
 nw::gfx::TransformNode::TransformNode(os::IAllocator* pAllocator, res::ResTransformNode resNode, const Description& description)
-    : SceneNode(pAllocator, resNode, description), m_Unknown0x12C(false), m_pCalculatedCallbacks(nullptr), m_Unknown0x134(true),
+    : SceneNode(pAllocator, resNode, description), m_Unknown0xFC(nn::math::MTX34::Identity()), m_Unknown0x12C(false), m_pCalculatedCallbacks(nullptr), m_Unknown0x134(true),
       m_TransformDescription(description)
 {
-    nn::math::ARMv6::MTX34CopyAsm(&m_Unknown0xFC, &nn::math::MTX34::Identity());
     if (resNode.IsValid()) {
         m_Transform.SetTransform(resNode.GetTransform());
         m_WorldMatrix = resNode.GetWorldMatrix();

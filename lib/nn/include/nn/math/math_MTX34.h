@@ -8,6 +8,10 @@ class MTX34
 {
 public:
     MTX34() {}
+    // the copy with MTX34CopyAsm (as ARMCC copy-constructs matrices); the assignment copies the
+    // elements
+    MTX34(const MTX34& other);
+    MTX34& operator=(const MTX34& other) = default;
     MTX34(f32 m00, f32 m01, f32 m02, f32 m03, f32 m10, f32 m11, f32 m12, f32 m13, f32 m20, f32 m21, f32 m22, f32 m23)
     {
         m[0][0] = m00;
@@ -39,3 +43,11 @@ ASSERT_SIZE(MTX34, 0x30);
 
 } // namespace math
 } // namespace nn
+
+#include "nn/math/math_ARMv6.h"
+
+// (inline)
+inline nn::math::MTX34::MTX34(const MTX34& other)
+{
+    ARMv6::MTX34CopyAsm(this, &other);
+}

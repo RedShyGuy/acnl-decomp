@@ -51,25 +51,10 @@ void nw::gfx::FragmentLight::UpdateDirection()
 // 0x00492C78 | nintendogs:bytes [tier A]
 u32 nw::gfx::FragmentLight::CreateOriginalValue(os::IAllocator* pAllocator)
 {
-    res::ResFragmentLightData* pCopy = static_cast<res::ResFragmentLightData*>(pAllocator->Alloc(sizeof(res::ResFragmentLightData), 4));
-    if (pCopy != nullptr) {
-        const res::ResFragmentLightData& resource = *static_cast<const res::ResFragmentLightData*>(GetResSceneObject().ptr());
-        res::CopyResTransformNodeData(pCopy, resource);
-        pCopy->isLightEnabled = resource.isLightEnabled;
-        std::memcpy(pCopy->m_Unknown0xB5, resource.m_Unknown0xB5, sizeof(pCopy->m_Unknown0xB5));
-        pCopy->lightKind = resource.lightKind;
-        pCopy->ambient = resource.ambient;
-        pCopy->diffuse = resource.diffuse;
-        pCopy->specular0 = resource.specular0;
-        pCopy->specular1 = resource.specular1;
-        std::memcpy(pCopy->m_Unknown0xFC, resource.m_Unknown0xFC, sizeof(pCopy->m_Unknown0xFC));
-        pCopy->direction = resource.direction;
-        pCopy->distanceSampler.m_Offset = resource.distanceSampler.m_Offset;
-        pCopy->angleSampler.m_Offset = resource.angleSampler.m_Offset;
-        std::memcpy(pCopy->m_Unknown0x120, resource.m_Unknown0x120, sizeof(pCopy->m_Unknown0x120));
-        pCopy->distanceAttenuationScale = resource.distanceAttenuationScale;
-        pCopy->distanceAttenuationBias = resource.distanceAttenuationBias;
-        std::memcpy(pCopy->m_Unknown0x130, resource.m_Unknown0x130, sizeof(pCopy->m_Unknown0x130));
+    void* pMemory = pAllocator->Alloc(sizeof(res::ResFragmentLightData), 4);
+    res::ResFragmentLightData* pCopy = nullptr;
+    if (pMemory != nullptr) {
+        pCopy = new (pMemory) res::ResFragmentLightData(*static_cast<const res::ResFragmentLightData*>(GetResSceneObject().ptr()));
     }
     m_pOriginalValue = pCopy;
     m_OriginalTransform = static_cast<const res::ResTransformNodeData*>(GetResSceneObject().ptr())->transform;
@@ -104,8 +89,8 @@ nw::gfx::res::ResFragmentLightData* nw::gfx::FragmentLight::CreateResFragmentLig
         static_cast<res::ResLightingLookupTableData*>(pAllocator->Alloc(sizeof(res::ResLightingLookupTableData), 4));
     std::memset(pAngleSampler, 0, sizeof(res::ResLightingLookupTableData));
     pAngleSampler->sampler.Set(res::CreateDynamicReferenceLut(pAllocator));
-    pAngleSampler->m_Unknown0x0[0] = 0;
-    pAngleSampler->m_Unknown0x0[1] = 0;
+    pAngleSampler->input = 0;
+    pAngleSampler->scale = 0;
     pResource->distanceSampler.Set(pDistanceSampler);
     pResource->angleSampler.Set(pAngleSampler);
     return pResource;

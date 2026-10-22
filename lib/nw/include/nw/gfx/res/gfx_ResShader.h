@@ -43,7 +43,8 @@ struct ResShaderProgramDescriptionData
     s32 vertexShaderIndex;        // 0x0C the executable of the binary
     s32 geometryShaderIndex;      // 0x10 (-1: none)
     ResArrayInfo symbols;         // 0x14 ResShaderSymbolData
-    u8 m_Unknown0x1C[0x58];       // 0x1C
+    u8 m_Unknown0x1C[0x30];       // 0x1C
+    s8 attributeRegisters[0x28];  // 0x4C per vertex attribute usage: the input register of the vertex shader
     u32 m_Unknown0x74;            // 0x74 (cleared by Cleanup)
     u32 m_Unknown0x78;            // 0x78
     u32* pCommand;                // 0x7C the commands of the program (memory of the allocator of the binary)

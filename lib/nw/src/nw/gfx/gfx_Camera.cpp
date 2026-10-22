@@ -55,18 +55,6 @@ inline void MTX44InverseOrIdentity(nn::math::MTX44* pOut, const nn::math::MTX44&
     b[3][3] = (a[2][0] * s3 - a[2][1] * s1 + a[2][2] * s0) * inverse;
 }
 
-// (inline) a copy of a camera resource (the matrices with MTX34CopyAsm, as the copy constructor of
-// MTX34 does in the original; name is ours)
-inline void CopyResCamera(res::ResCameraData* pOut, const res::ResCameraData& resource)
-{
-    res::CopyResTransformNodeData(pOut, resource);
-    pOut->viewType = resource.viewType;
-    pOut->projectionType = resource.projectionType;
-    pOut->viewUpdater.m_Offset = resource.viewUpdater.m_Offset;
-    pOut->projectionUpdater.m_Offset = resource.projectionUpdater.m_Offset;
-    pOut->wScale = resource.wScale;
-}
-
 // (inline) a copy of an updater resource in memory of the allocator (NULL: no memory; name is ours)
 template <typename T>
 inline T* CloneUpdaterResource(os::IAllocator* pAllocator, const void* pResource)
@@ -75,9 +63,7 @@ inline T* CloneUpdaterResource(os::IAllocator* pAllocator, const void* pResource
     if (pMemory == nullptr) {
         return nullptr;
     }
-    T* pCopy = static_cast<T*>(pMemory);
-    *pCopy = *static_cast<const T*>(pResource);
-    return pCopy;
+    return new (pMemory) T(*static_cast<const T*>(pResource));
 }
 } // namespace
 
@@ -106,9 +92,9 @@ u32 nw::gfx::Camera::StoreOriginal(os::IAllocator* pAllocator)
     const res::ResCameraData* pResource = static_cast<const res::ResCameraData*>(GetResSceneObject().ptr());
 
     void* pMemory = pAllocator->Alloc(sizeof(res::ResCameraData), 4);
-    res::ResCameraData* pCopy = static_cast<res::ResCameraData*>(pMemory);
-    if (pCopy != nullptr) {
-        CopyResCamera(pCopy, *pResource);
+    res::ResCameraData* pCopy = nullptr;
+    if (pMemory != nullptr) {
+        pCopy = new (pMemory) res::ResCameraData(*pResource);
     }
     pCopy->viewUpdater.m_Offset = 0;
     pCopy->projectionUpdater.m_Offset = 0;
@@ -410,15 +396,12 @@ nw::gfx::Camera* nw::gfx::Camera::Create(SceneNode* pParent, res::ResSceneObject
 nw::gfx::Camera::Camera(os::IAllocator* pAllocator, res::ResTransformNode resNode, const Description& description,
                         GfxPtr<CameraViewUpdater> viewUpdater, GfxPtr<CameraProjectionUpdater> projectionUpdater, f32 wScale,
                         bool isDynamic)
-    : TransformNode(pAllocator, resNode, description), m_ViewUpdater(viewUpdater), m_ProjectionUpdater(projectionUpdater),
-      m_pAnimGroup(nullptr), m_pOriginalResource(nullptr), m_WScale(wScale), m_IsDynamic(isDynamic)
+    : TransformNode(pAllocator, resNode, description), m_ViewMatrix(nn::math::MTX34::Identity()),
+      m_InverseViewMatrix(nn::math::MTX34::Identity()), m_ProjectionMatrix(nn::math::MTX44::Identity()),
+      m_InverseProjectionMatrix(nn::math::MTX44::Identity()), m_TextureProjectionMatrix(nn::math::MTX34::Identity()),
+      m_ViewUpdater(viewUpdater), m_ProjectionUpdater(projectionUpdater), m_pAnimGroup(nullptr), m_pOriginalResource(nullptr),
+      m_WScale(wScale), m_IsDynamic(isDynamic)
 {
-    // (the matrices are copy-constructed in the original: with MTX34CopyAsm / MTX44CopyAsm)
-    nn::math::ARMv6::MTX34CopyAsm(&m_ViewMatrix, &nn::math::MTX34::Identity());
-    nn::math::ARMv6::MTX34CopyAsm(&m_InverseViewMatrix, &nn::math::MTX34::Identity());
-    nn::math::ARMv6::MTX44CopyAsm(&m_ProjectionMatrix, &nn::math::MTX44::Identity());
-    nn::math::ARMv6::MTX44CopyAsm(&m_InverseProjectionMatrix, &nn::math::MTX44::Identity());
-    nn::math::ARMv6::MTX34CopyAsm(&m_TextureProjectionMatrix, &nn::math::MTX34::Identity());
 }
 
 // 0x004AE688 slot 0x00 | nintendogs:bytes
