@@ -1,4 +1,5 @@
 #include "nw/gfx/internal/internal_Api.h"
+#include "nw/gfx/res/gfx_ResShader.h"
 
 namespace nw {
 namespace gfx {
@@ -269,7 +270,7 @@ void SetupShaderProgramMode(bool)
 }
 
 // 0x004B23D8 | nintendogs:bytes [tier A]
-void SetupDrawIndexStreamCommand(nw::gfx::internal::CommandBufferInfo&, nw::gfx::res::ResIndexStream, bool)
+u32 SetupDrawIndexStreamCommand(nw::gfx::internal::CommandBufferInfo&, nw::gfx::res::ResIndexStream, bool)
 {
 }
 

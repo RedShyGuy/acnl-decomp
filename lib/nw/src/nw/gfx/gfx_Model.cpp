@@ -2,6 +2,7 @@
 #include "nw/gfx/res/gfx_ResMesh.h"
 #include "nw/gfx/gfx_TransformNode.h"
 #include "nw/gfx/gfx_Model.h"
+#include "nw/ut/internal/ut_ResArray.h"
 
 namespace nw {
 namespace gfx {

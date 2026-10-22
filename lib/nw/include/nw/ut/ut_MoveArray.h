@@ -18,6 +18,7 @@ public:
     {
         KIND_FIXED = 0,    // the buffer as given
         KIND_VARIABLE = 1, // a new buffer from the allocator when full
+        KIND_INLINE = 2,   // a buffer in the owner of the array (no allocator)
         KIND_SHIFT = 30,
     };
     static const u32 KIND_MASK = 0xC0000000;

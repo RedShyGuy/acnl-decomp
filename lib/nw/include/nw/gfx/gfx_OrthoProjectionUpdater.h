@@ -5,21 +5,32 @@
 
 namespace nw {
 namespace gfx {
-// RTTI N2nw3gfx22OrthoProjectionUpdaterE @ 0x008D0718
+// RTTI N2nw3gfx22OrthoProjectionUpdaterE
 // vtable 0x009027DC (vptr 0x009027E4), offset_to_top 0, 7 entries
+// An orthographic projection of a rectangle (member names are ours).
 class OrthoProjectionUpdater : public ::nw::gfx::CameraProjectionUpdater
 {
 public:
-    OrthoProjectionUpdater(); // ctor candidate(s) 0x004A0E08, 0x004A0F24 (unverified)
-    virtual void vf_0x00(); // 0x004A11BC slot 0x00 | virtual slot, introduced by nw::gfx::OrthoProjectionUpdater
-    virtual void vf_0x04(); // 0x004A1188 slot 0x04 | virtual slot, introduced by nw::gfx::OrthoProjectionUpdater
-    virtual void vf_0x08(); // 0x0073B9DC slot 0x08 | virtual slot, introduced by nw::gfx::OrthoProjectionUpdater
-    virtual void Update(nn::math::MTX44*, nn::math::MTX34*); // 0x004A0F8C slot 0x0C | nintendogs:bytes
-    virtual void vf_0x10(); // 0x004A0E00 slot 0x10 | virtual slot, introduced by nw::gfx::OrthoProjectionUpdater
-    virtual void vf_0x14(); // 0x0073B9D4 slot 0x14 | virtual slot, introduced by nw::gfx::OrthoProjectionUpdater
-    virtual void vf_0x18(); // 0x0073B9E8 slot 0x18 | virtual slot, introduced by nw::gfx::OrthoProjectionUpdater
-    void Create(nw::os::IAllocator*); // 0x004A0E08 | nintendogs:bytes [tier B]
-    void Create(nw::os::IAllocator*, nw::gfx::res::ResOrthoProjectionUpdater); // 0x004A0F24 | nintendogs:callseq-callee [tier A]
+    // (inline)
+    OrthoProjectionUpdater(os::IAllocator* pAllocator, bool isResourceOwner, res::ResOrthoProjectionUpdaterData* pResource)
+        : CameraProjectionUpdater(pAllocator, isResourceOwner), m_pResource(pResource)
+    {
+    }
+    virtual ~OrthoProjectionUpdater();
+
+    virtual const TypeInfo* GetRuntimeTypeInfo() const { return &s_TypeInfo; } // 0x0073B9DC slot 0x08
+    virtual void Update(nn::math::MTX44* pProjection, nn::math::MTX34* pTextureProjection); // 0x004A0F8C slot 0x0C | nintendogs:bytes
+    virtual res::ResCameraProjectionUpdater GetResource();
+    virtual const res::ResCameraProjectionUpdater GetResource() const { return res::ResCameraProjectionUpdater(m_pResource); } // 0x0073B9D4 slot 0x14
+    virtual u32 GetKind() const { return 1; } // 0x0073B9E8 slot 0x18
+    // an updater with a resource of its own (the defaults)
+    static OrthoProjectionUpdater* Create(os::IAllocator* pAllocator); // 0x004A0E08 | nintendogs:bytes [tier A]
+    static OrthoProjectionUpdater* Create(os::IAllocator* pAllocator, res::ResOrthoProjectionUpdater resource); // 0x004A0F24 | nintendogs:callseq-callee [tier A]
+
+    static const TypeInfo s_TypeInfo;
+
+    res::ResOrthoProjectionUpdaterData* m_pResource; // 0x1C
 };
+ASSERT_SIZE(OrthoProjectionUpdater, 0x20);
 } // namespace gfx
 } // namespace nw

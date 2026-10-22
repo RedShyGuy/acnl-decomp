@@ -1,5 +1,6 @@
 #include "nw/gfx/gfx_GfxObject.h"
 #include "nw/gfx/gfx_ShaderProgram.h"
+#include "nw/gfx/res/gfx_ResShader.h"
 
 namespace nw {
 namespace gfx {

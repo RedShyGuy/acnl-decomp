@@ -31,7 +31,7 @@ DECOMP_ALWAYS_INLINE void EvaluateMember(AnimGroup* pAnimGroup, const AnimObject
     } else {
         pResult = pAnimObject->GetResult(pTarget, memberIdx);
     }
-    if (!(member.GetMemberType() == anim::res::ResAnimGroupMemberData::MEMBER_TYPE_UNKNOWN_9 && member.GetField() == 0) && pResult != nullptr) {
+    if (!(member.GetMemberType() == anim::res::ResAnimGroupMemberData::MEMBER_TYPE_SCENE_NODE && member.GetField() == 0) && pResult != nullptr) {
         member.SetValueForType(pAnimGroup->m_Targets[memberIdx], pTarget);
     }
 }

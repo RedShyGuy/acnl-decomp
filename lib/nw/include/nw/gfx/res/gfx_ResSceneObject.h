@@ -1,6 +1,9 @@
 #pragma once
 
+#include <cstring>
+
 #include "decomp.h"
+#include "nn/math/math_ARMv6.h"
 #include "nn/math/math_MTX34.h"
 #include "nn/math/math_Transform.h"
 #include "nw/anim/res/anim_ResAnimGroup.h"
@@ -16,11 +19,19 @@ struct ResSceneObjectData
     enum Flag
     {
         FLAG_IS_BRANCH_VISIBLE = 1 << 0,
+        FLAG_INHERIT_DIRECTION = 1 << 3, // a light direction turns with the parent (name is ours)
     };
 
-    u32 m_Unknown0x0[6];       // 0x0
+    u32 typeInfo;              // 0x00
+    u32 signature;             // 0x04
+    u32 m_Unknown0x8;          // 0x08 (a revision?)
+    ut::Offset name;           // 0x0C
+    s32 userDataCount;         // 0x10
+    ut::Offset userDataDic;    // 0x14
     u32 flags;                 // 0x18 Flag
-    u32 m_Unknown0x1C[3];      // 0x1C
+    u32 m_Unknown0x1C;         // 0x1C
+    u32 m_Unknown0x20;         // 0x20
+    u32 m_Unknown0x24;         // 0x24
     s32 animGroupCount;        // 0x28
     ut::Offset animGroupDic;   // 0x2C ResDicPatricia of the ResAnimGroupData
 };
@@ -66,6 +77,16 @@ public:
     const nn::math::MTX34& GetWorldMatrix() const { return ptr()->worldMatrix; }
 };
 ASSERT_SIZE(ResTransformNode, 0x4);
+
+// (inline) the copy of the transform node part of a resource (the matrices with MTX34CopyAsm, as the
+// copy constructor of MTX34 does in the original; the offsets are copied as they are; name is ours)
+inline void CopyResTransformNodeData(ResTransformNodeData* pOut, const ResTransformNodeData& resource)
+{
+    std::memcpy(static_cast<ResSceneObjectData*>(pOut), static_cast<const ResSceneObjectData*>(&resource), sizeof(ResSceneObjectData));
+    pOut->transform = resource.transform;
+    nn::math::ARMv6::MTX34CopyAsm(&pOut->m_Unknown0x54, &resource.m_Unknown0x54);
+    nn::math::ARMv6::MTX34CopyAsm(&pOut->worldMatrix, &resource.worldMatrix);
+}
 } // namespace res
 } // namespace gfx
 } // namespace nw

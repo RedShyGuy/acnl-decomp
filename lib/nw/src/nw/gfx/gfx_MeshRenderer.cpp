@@ -1,3 +1,4 @@
+#include "nw/gfx/res/gfx_ResShape.h"
 #include "nw/gfx/res/gfx_ResPrimitiveSet.h"
 #include "nw/gfx/res/gfx_ResMesh.h"
 #include "nw/gfx/gfx_GfxObject.h"

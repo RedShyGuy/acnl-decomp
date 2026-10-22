@@ -38,10 +38,11 @@ struct ResPixelBasedTextureData : public ResTextureData
 {
     u32 height;            // 0x18
     u32 width;             // 0x1C
-    u32 m_Unknown0x20[3];  // 0x20
+    u32 m_Unknown0x20[2];  // 0x20
+    u32 mipmapLevels;      // 0x28
     const void* pLoaded;   // 0x2C the texture itself once its images are uploaded (the name for the allocator)
     u32 locationFlag;      // 0x30 where the images go (0: LOCATION_NO_COPY)
-    u32 m_Unknown0x34;     // 0x34
+    u32 format;            // 0x34 (3dbrew "CGFX": the texture formats; FORMAT_ETC1 = 12)
 };
 ASSERT_SIZE(ResPixelBasedTextureData, 0x38);
 
@@ -57,8 +58,11 @@ struct ResCubeTextureData : public ResPixelBasedTextureData
 
 struct ResShadowTextureData : public ResPixelBasedTextureData
 {
-    ut::Offset image; // 0x38 ResImageData
+    ut::Offset image;    // 0x38 ResImageData
+    bool isOrthographic; // 0x3C (else the shadow is perspective)
+    f32 bias;            // 0x40
 };
+ASSERT_OFFSET(ResShadowTextureData, bias, 0x40);
 
 // a texture referenced by name (a texture of the file)
 struct ResReferenceTextureData : public ResTextureData
@@ -79,6 +83,10 @@ public:
         TYPE_CUBE = 0x20000009,
         TYPE_IMAGE = 0x20000011,
         TYPE_SHADOW = 0x20000021,
+    };
+    enum Format
+    {
+        FORMAT_ETC1 = 12,
     };
     // the location flag: where the images are uploaded (high half: the area of the allocator)
     enum Location

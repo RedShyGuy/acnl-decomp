@@ -39,7 +39,7 @@ nw::ut::BinaryBlockHeader* GetNextBinaryBlockHeader(nw::ut::BinaryFileHeader* pH
 
 // a and b are equal up to the float precision of the larger one (out of line per type)
 template <typename T>
-bool FloatEqualsWeak(T a, T b)
+DECOMP_NOINLINE bool FloatEqualsWeak(T a, T b)
 {
     T diff = a - b;
     if (diff < 0) {

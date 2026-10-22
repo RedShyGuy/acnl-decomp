@@ -4,6 +4,7 @@
 namespace sead {
 // ctor candidate(s) 0x0054DA38 (unverified)
 sead::CameraProjectionUpdaterNw4c::CameraProjectionUpdaterNw4c()
+    : nw::gfx::CameraProjectionUpdater(nullptr, false) // (stub)
 {
 }
 

@@ -1,10 +1,30 @@
 #pragma once
 
 #include "decomp.h"
+#include "nw/gfx/res/gfx_ResPrimitive.h"
+#include "nw/gfx/res/gfx_ResShader.h"
+#include "nw/gfx/res/gfx_ResShape.h"
 
 namespace nw {
 namespace gfx {
 namespace internal {
+// A buffer that commands are written to (names are ours; no current position: the current command
+// list of nngx).
+struct CommandBufferInfo
+{
+    // (inline)
+    CommandBufferInfo(u32* pBuffer, u32 size)
+        : pBuffer(pBuffer), pEnd(reinterpret_cast<u32*>(reinterpret_cast<u8*>(pBuffer) + size)), pCurrent(pBuffer), size(size)
+    {
+    }
+
+    u32* pBuffer;  // 0x0
+    u32* pEnd;     // 0x4
+    u32* pCurrent; // 0x8
+    u32 size;      // 0xC bytes
+};
+ASSERT_SIZE(CommandBufferInfo, 0x10);
+
 void NWCopyVec4Reverse(float*, const float*); // 0x0014E1F0 | nintendogs:bytes [tier A]
 void NWCopyVec4WithHeader(float*, const float*, unsigned); // 0x0014E208 | nintendogs:bytes [tier A]
 void NWCopyMtx24Reverse(float*, const float*); // 0x0014E224 | nintendogs:bytes [tier A]
@@ -58,7 +78,7 @@ void FastWordCopyAsm_38(unsigned*, unsigned*); // 0x0014ED18 | nintendogs:bytes 
 void FastWordCopyAsm_78(unsigned*, unsigned*); // 0x0014ED84 | nintendogs:bytes [tier A]
 void ClearVertexAttribute(); // 0x004B22E4 | nintendogs:bytes [tier A]
 void SetupShaderProgramMode(bool); // 0x004B2314 | nintendogs:bytes [tier A]
-void SetupDrawIndexStreamCommand(nw::gfx::internal::CommandBufferInfo&, nw::gfx::res::ResIndexStream, bool); // 0x004B23D8 | nintendogs:bytes [tier A]
+u32 SetupDrawIndexStreamCommand(nw::gfx::internal::CommandBufferInfo&, nw::gfx::res::ResIndexStream, bool); // 0x004B23D8 | nintendogs:bytes [tier A]
 void SetupDeactivateVertexAttributeCommand(nw::gfx::internal::CommandBufferInfo&, nw::gfx::res::ResSeparateDataShape, nw::gfx::res::ResShaderProgramDescription); // 0x004B25E0 | nintendogs:bytes-fuzzy [tier A]
 void SetupVertexAttributeCommand(nw::gfx::internal::CommandBufferInfo&, nw::gfx::res::ResSeparateDataShape, nw::gfx::res::ResShaderProgramDescription); // 0x007E6F70 | nintendogs:bytes [tier A]
 } // namespace internal
