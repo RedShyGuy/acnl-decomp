@@ -10,6 +10,9 @@ struct Rect
     // (inline)
     Rect() {}
     Rect(f32 l, f32 t, f32 r, f32 b) : left(l), top(t), right(r), bottom(b) {}
+    // (inline) ARMCC returns a Rect through memory (nw::lyt::Layout::GetLayoutRect), not in s0-s3
+    // like a VEC2 (Pane::GetVtxPos): a class with a destructor of its own (see ut::Color8)
+    ~Rect() {}
 
     f32 GetWidth() const { return right - left; }
     f32 GetHeight() const { return bottom - top; }

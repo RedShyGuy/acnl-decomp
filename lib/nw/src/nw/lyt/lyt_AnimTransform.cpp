@@ -2,14 +2,16 @@
 
 namespace nw {
 namespace lyt {
-// ctor address unknown
-nw::lyt::AnimTransform::AnimTransform()
+// 0x0073CC38 | nintendogs:bytes [tier A]
+bool nw::lyt::AnimTransform::IsLoopData() const
 {
+    return m_pRes->loop != 0;
 }
 
-// 0x0073CC38 | nintendogs:bytes [tier A]
-void nw::lyt::AnimTransform::IsLoopData() const
+// 0x0073CC4C (name is ours)
+u16 nw::lyt::AnimTransform::GetFrameSize() const
 {
+    return m_pRes->frameSize;
 }
 
 } // namespace lyt

@@ -11,7 +11,12 @@ public:
     // white (inline; the copy out of line constructs arrays with __aeabi_vec_ctor)
     DECOMP_EMIT_COPY Color8() : r(0xFF), g(0xFF), b(0xFF), a(0xFF) {} // 0x0048BA60 (name is ours)
     // (inline)
-    Color8(u8 red, u8 green, u8 blue, u8 alpha) : r(red), g(green), b(blue), a(alpha) {}
+    constexpr Color8(u8 red, u8 green, u8 blue, u8 alpha) : r(red), g(green), b(blue), a(alpha) {}
+    // (inline) ARMCC passes a Color8 argument by reference and returns one through memory
+    // (nw::lyt::Pane::SetVtxColor / GetVtxColor), which it does for classes with a copy constructor
+    // or a destructor of their own; copies of classes with colors are still block copies
+    // (memcpy of the TextWriter in TextWriterBase::Print), so it is the destructor
+    ~Color8() {}
 
     // the color as 0xRRGGBBAA
     u32 ToU32() const; // 0x007377D0 | nintendogs:bytes [tier A]

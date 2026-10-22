@@ -24,8 +24,14 @@ public:
         m[2][3] = m23;
     }
 
-    // the identity (a function-local static)
-    static const MTX34& Identity(); // 0x0047E49C | nintendogs:callgraph [tier A]
+    // the identity (inline: a function-local static; ARMCC inlines it in lyt, gfx and others and
+    // calls the copy out of line elsewhere)
+    DECOMP_EMIT_COPY static const MTX34& Identity() // 0x0047E49C | nintendogs:callgraph [tier A]
+    {
+        // 0x00AF91F4
+        static const MTX34 s_Identity(1.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f);
+        return s_Identity;
+    }
 
     f32 m[3][4];    // row-major, column 3 is the translation
 };

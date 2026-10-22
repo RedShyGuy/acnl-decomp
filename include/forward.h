@@ -2399,10 +2399,10 @@ namespace nn { namespace math {
     enum PivotDirection : u8; // nn/math/math_MTX44.h
     struct QUAT; // nn/math/math_Quaternion.h
     struct Transform3 { u32 _unknown; }; // placeholder, real type unknown
-    struct VEC2 { u32 _unknown; }; // placeholder, real type unknown
+    struct VEC2; // nn/math/math_Vector2.h
     struct VEC3; // nn/math/math_Vector3.h
     struct VEC3_ { u32 _unknown; }; // placeholder, real type unknown
-    struct VEC4 { u32 _unknown; }; // placeholder, real type unknown
+    struct VEC4; // nn/math/math_Vector4.h
     template <typename T0, auto T1> struct Vector { u32 _unknown; }; // placeholder
 }}
 
@@ -3651,10 +3651,10 @@ namespace nw { namespace lyt {
     class TexResource;
     class TextBox;
     class Window;
-    struct AnimationLink { u32 _unknown; }; // placeholder, real type unknown
-    struct ResBlockSet { u32 _unknown; }; // placeholder, real type unknown
-    struct Size { u32 _unknown; }; // placeholder, real type unknown
-    struct TextureInfo { u32 _unknown; }; // placeholder, real type unknown
+    struct AnimationLink; // nw/lyt/lyt_Types.h
+    struct ResBlockSet; // nw/lyt/lyt_Types.h
+    struct Size; // nw/lyt/lyt_Types.h
+    struct TextureInfo; // nw/lyt/lyt_Types.h
 }}
 
 namespace nw { namespace lyt { namespace internal { 
@@ -3663,14 +3663,14 @@ namespace nw { namespace lyt { namespace internal {
 }}}
 
 namespace nw { namespace lyt { namespace res { 
-    struct AnimationBlock { u32 _unknown; }; // placeholder, real type unknown
-    struct Bounding { u32 _unknown; }; // placeholder, real type unknown
-    struct Group { u32 _unknown; }; // placeholder, real type unknown
-    struct Material { u32 _unknown; }; // placeholder, real type unknown
-    struct Pane { u32 _unknown; }; // placeholder, real type unknown
-    struct Picture { u32 _unknown; }; // placeholder, real type unknown
-    struct TextBox { u32 _unknown; }; // placeholder, real type unknown
-    struct Window { u32 _unknown; }; // placeholder, real type unknown
+    struct AnimationBlock; // nw/lyt/lyt_ResourceFormat.h
+    struct Bounding; // nw/lyt/lyt_ResourceFormat.h
+    struct Group; // nw/lyt/lyt_ResourceFormat.h
+    struct Material; // nw/lyt/lyt_ResourceFormat.h
+    struct Pane; // nw/lyt/lyt_ResourceFormat.h
+    struct Picture; // nw/lyt/lyt_ResourceFormat.h
+    struct TextBox; // nw/lyt/lyt_ResourceFormat.h
+    struct Window; // nw/lyt/lyt_ResourceFormat.h
 }}}
 
 namespace nw { namespace math { 

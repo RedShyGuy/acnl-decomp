@@ -15,7 +15,7 @@ ssys::ma::lyt::DummyLayout::~DummyLayout()
 }
 
 // 0x00568770 slot 0x10 | slot vf_0x10 of nw::lyt::Layout
-void ssys::ma::lyt::DummyLayout::CreateAnimTransform(const void*, nw::lyt::ResourceAccessor*)
+nw::lyt::AnimTransform* ssys::ma::lyt::DummyLayout::CreateAnimTransform(const void*, nw::lyt::ResourceAccessor*)
 {
 }
 

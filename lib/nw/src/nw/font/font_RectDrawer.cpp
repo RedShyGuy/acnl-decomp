@@ -255,17 +255,23 @@ u32* nw::font::RectDrawer::DrawBegin(u32* pCommand, u32 flags)
 {
     if ((flags & 1) == 0) {
         // the texture unit is reset, then the state commands
-        *pCommand++ = 0x00000000;
-        *pCommand++ = Header(REG_SH_OUTATTR_CLOCK, 0x2);
-        std::memcpy(pCommand, s_TextureUnitResetCommand, sizeof(s_TextureUnitResetCommand));
-        pCommand[4] = 0x00001000;
-        pCommand[5] = Header(REG_TEXUNIT_CONFIG, 0xB);
-        pCommand += 6;
+        pCommand = ResetTextureUnits(pCommand);
         std::memcpy(pCommand, m_CommandCache.m_pBuffer, m_CommandCache.m_Size);
         pCommand += m_CommandCache.m_Size / sizeof(u32);
     }
     m_pFirstSubroutineEnd = nullptr;
     return pCommand;
+}
+
+// 0x004D7850 (name is ours)
+u32* nw::font::RectDrawer::ResetTextureUnits(u32* pCommand) const
+{
+    *pCommand++ = 0x00000000;
+    *pCommand++ = Header(REG_SH_OUTATTR_CLOCK, 0x2);
+    std::memcpy(pCommand, s_TextureUnitResetCommand, sizeof(s_TextureUnitResetCommand));
+    pCommand[4] = 0x00001000;
+    pCommand[5] = Header(REG_TEXUNIT_CONFIG, 0xB);
+    return pCommand + 6;
 }
 
 // 0x004D855C slot 0x14

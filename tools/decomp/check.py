@@ -256,11 +256,31 @@ def source_by_types(parsed, demangled):
         addr = resolve_dup(tkey, demangled)
         if addr is not None:
             return addr
-    return SOURCE_BY_TYPES.get(tkey)
+    addr = SOURCE_BY_TYPES.get(tkey)
+    if addr is not None:
+        return addr
+    # a parameter type the source spells with a typedef of a class ("AnimationList*" for
+    # "LinkList<AnimationLink,0l>*"): the overload that agrees in the most other parameters, if
+    # exactly one does
+    best, best_n = set(), 0
+    for key, a in SOURCE_BY_TYPES.items():
+        if key[0] != tkey[0] or key[2] != tkey[2] or len(key[1]) != len(tkey[1]):
+            continue
+        n = sum(x == y for x, y in zip(key[1], tkey[1]))
+        if n > best_n:
+            best, best_n = {a}, n
+        elif n == best_n:
+            best.add(a)
+    if len(best) == 1 and best_n >= len(tkey[1]) - 1:
+        return best.pop()
+    return None
 
 
 # (key, deleting) -> address of the this-adjusting thunk named in the sources ("(thunk)" lines)
 THUNKS = {}
+# symbol -> (data, size, syminfo) of GCC's "f.part.N" clones in the object being compared (ipa-split:
+# GCC moved a part of f there and calls it from f): counted as part of the body of f
+PART_CLONES = {}
 # repository-relative source path -> address of ARMCC's static initializer of the file
 # ("// 0x... (static initializer)" on a line of its own; compared with GCC's _GLOBAL__sub_I_)
 STATIC_INITS = {}
@@ -606,6 +626,19 @@ def is_ctor_dtor(name):
     return bool(m) and (m.group(2) == '~' or m.group(1) == m.group(3))
 
 
+def is_structor_name(name):
+    """whether the demangled name is that of a constructor or destructor (also of a class template:
+    "nn::nex::qVector<unsigned char>::~qVector()")"""
+    prefix = name.split('(')[0]
+    while True:
+        stripped = re.sub(r'<[^<>]*>', '', prefix)
+        if stripped == prefix:
+            break
+        prefix = stripped
+    parts = prefix.split('::')
+    return len(parts) >= 2 and parts[-1].lstrip('~') == parts[-2] and parts[-1] != ''
+
+
 def arm_branch_target(addr, word):
     """target of the B/BL instruction word at addr (None if it is none)"""
     if (word & 0x0E000000) != 0x0A000000 or (word >> 28) != 0xE:
@@ -789,6 +822,16 @@ def make_fuzzy_pair(mem, db, starts, names, by_source, by_name, variables=None):
 
     def pair(data, size, syminfo, addr, osize, name=None):
         structor = is_ctor_dtor(name)
+        f_mine = mine_features(data, size, syminfo, structor)
+        f_orig = orig_features(addr, osize, structor)
+        inline_expand(f_mine, f_orig)
+        if name and '::~' in name:
+            fuzzy.ignore_dtor_vptr(f_mine, f_orig)
+        ignore_static_init(f_mine, f_orig)
+        return f_mine, f_orig
+
+    def mine_features(data, size, syminfo, structor=False, depth=0):
+        """the features of a function of our object (and of the parts GCC split off it)"""
         n_mine = size // 4
         mine_words = [int.from_bytes(data[o:o + 4], 'little') for o in range(0, n_mine * 4, 4)]
 
@@ -838,12 +881,35 @@ def make_fuzzy_pair(mem, db, starts, names, by_source, by_name, variables=None):
             return mine_key(info) or ('data',)
 
         f_mine = fuzzy.extract(mine_words, 0, mine_call, mine_word, returns_this, structor)
-        f_orig = orig_features(addr, osize, structor)
-        inline_expand(f_mine, f_orig)
-        if name and '::~' in name:
-            fuzzy.ignore_dtor_vptr(f_mine, f_orig)
-        ignore_static_init(f_mine, f_orig)
-        return f_mine, f_orig
+        if depth < 4:
+            merge_part_clones(f_mine, syminfo, depth)
+        return f_mine
+
+    def merge_part_clones(f, syminfo, depth):
+        """GCC split a part of the function off into "f.part.N" (ipa-split) and calls it: the
+        part is counted as the body of the function (see PART_CLONES)"""
+        for o, info in sorted(syminfo.items()):
+            clone = PART_CLONES.get(info[0])
+            if clone is None:
+                continue
+            key = mine_key(info, is_call=True)
+            if key not in f['calls']:
+                continue
+            i = f['calls'].index(key)
+            del f['calls'][i]
+            if f.get('call_this'):
+                del f['call_this'][i]
+            sub = mine_features(*clone, depth=depth + 1)
+            f['calls'].extend(sub['calls'])
+            if f.get('call_this') is not None:
+                f['call_this'].extend(sub.get('call_this') or [None] * len(sub['calls']))
+            for k in sub['mem']:
+                f['mem'][k] = 1
+            for k in sub['mem_this']:
+                f['mem_this'][k] = 1
+            for cat in ('consts', 'flow', 'orr'):
+                f[cat].update(sub[cat])
+            f['shape'].extend(sub['shape'])
 
     def ignore_static_init(f_mine, f_orig):
         """a function's static object: armlink replaced the calls of __cxa_guard_release and
@@ -1131,9 +1197,20 @@ def main():
     # the functions by symbol (a thunk that ARMCC filled with a copy of the body is compared with the
     # body of the function that GCC's thunk branches to)
     funcs_by_symbol = {f[1]: f for f in funcs}
+    part_clones = {}
+    for f in funcs:
+        if re.search(r'\.part\.\d+$', f[1]):
+            part_clones.setdefault(f[0], {})[f[1]] = (f[2], f[3], f[5])
     for obj, mangled, data, size, rel, syminfo in funcs:
-        if re.search(r'(C2|D2)E', mangled):
-            continue                              # GCC's base-object variants
+        if re.search(r'\.part\.\d+$', mangled):
+            continue                              # counted with the function it was split off
+        PART_CLONES.clear()
+        PART_CLONES.update(part_clones.get(obj, {}))
+        variant = re.search(r'[CD][0-3]E', mangled)
+        if variant and variant.group(0) in ('C2E', 'D2E') and is_structor_name(names.get(mangled, mangled)):
+            # GCC's base-object variants (only of constructors and destructors: "...4VEC2E" in
+            # the parameters of any function is no variant)
+            continue
         is_thunk = mangled.startswith('_ZThn')
         if mangled.startswith(('_ZTv', '_ZTc')):
             continue                              # virtual / covariant thunks: not compared

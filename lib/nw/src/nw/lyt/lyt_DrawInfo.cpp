@@ -1,20 +1,21 @@
 #include "nw/lyt/lyt_DrawInfo.h"
 
+#include "nn/math/math_ARMv6.h"
+
 namespace nw {
 namespace lyt {
-// ctor candidate(s) 0x00132304 (unverified)
+// 0x00132304
 nw::lyt::DrawInfo::DrawInfo()
+    : m_LocationAdjustScale(1.0f, 1.0f), m_GlobalAlpha(1.0f), m_pGraphicsResource(nullptr), m_pLayout(nullptr), m_Flag()
 {
+    nn::math::ARMv6::MTX34CopyAsm(&m_ViewMtx, &nn::math::MTX34::Identity());
 }
 
-// 0x004BC8FC slot 0x00 | virtual slot, introduced by nw::lyt::DrawInfo
-void nw::lyt::DrawInfo::vf_0x00()
+// 0x004BC8FC slot 0x00 (name is ours)
+// 0x004BC8F8 (deleting dtor)
+nw::lyt::DrawInfo::~DrawInfo()
 {
-}
-
-// 0x004BC8F8 slot 0x04 | virtual slot, introduced by nw::lyt::DrawInfo
-void nw::lyt::DrawInfo::vf_0x04()
-{
+    // empty (in the original too)
 }
 
 } // namespace lyt

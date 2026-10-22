@@ -654,6 +654,8 @@ def extract(words, base, resolve_call, resolve_word, returns_this=lambda key: Fa
                         regs[rd] = (new(), 0)
                         continue
                 regs[rd] = (org, o + (val if opc == 4 else -val))
+            elif opc == 4 and not imm and rn == rm:
+                regs[rd] = (new(), 0)                                     # add r1, r1, r1, lsl #1: a multiplication
             elif opc == 4 and not imm and (w >> 4) & 0x9 != 0x9:            # add rd, rn, rm (lsl #n): &array[i]
                 array = get(rn)
                 # GCC adds a constant offset to the index before scaling it ((i + K) << 2, then
@@ -796,10 +798,18 @@ def _access(w, is_imm, rn, rd, load, width, misc, regs, get, new, mem, shape, re
         shape.append('ld')
         return
     if imm is None:
+        k = 0
+        if not misc and pre and (w >> 7) & 31 and not w & 0x60:
+            # "add r1, r1, #80; str r0, [r3, r1, lsl #2]": GCC adds a constant to the index before
+            # scaling it (see the add rd, rn, rm case), ARMCC to the base: (K << n) belongs to the offset
+            idx_org, idx_off = get(w & 0xF)
+            if idx_off > 3 and (isinstance(idx_org, tuple) and idx_org[0] == 'v' or
+                                isinstance(idx_org, str) and idx_org.startswith('arg')):
+                k = idx_off << ((w >> 7) & 31)
         if isinstance(org, tuple) and org[0] == 'g' or isinstance(org, str) and org.startswith('arg'):
             # array[i] of a global or behind an argument: like its first element (as a pointer
             # that moves through the array is seen)
-            mem.append((org, sign, width, base_off))
+            mem.append((org, sign, width, base_off + k))
         else:
             mem.append((org, sign, width, 'reg'))
     else:

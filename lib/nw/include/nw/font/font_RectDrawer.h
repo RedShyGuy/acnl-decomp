@@ -71,6 +71,9 @@ public:
     // the offset of the vertex index address: 32 if the vertices of the characters cross a 4 KiB page
     u32 GetVertexIndexAddressOffset(u32 vertexCount) const; // 0x00744EC4 | nintendogs:bytes [tier A]
 
+    // the commands that turn the texture units off (no texture coordinates); the end
+    u32* ResetTextureUnits(u32* pCommand) const; // 0x004D7850 (name is ours)
+
     // the vector of c4 (name is ours)
     void SetParameter(f32 x, f32 y, f32 z); // 0x004D6FBC (name is ours)
 
