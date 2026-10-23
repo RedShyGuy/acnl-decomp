@@ -6,6 +6,15 @@ artifact named "<version>_report". objdiff cannot compare our objects (GCC vs. t
 so the report is built from check.py's results instead: a function counts as matched when
 check.py rates it "equivalent" (or byte "match"); its fuzzy percent is the structural score.
 
+Data: the .rodata/.data/.bss bytes of code.bin that our sources define (variables with an address
+comment, compared byte by byte; vtables and RTTI of our classes; extracted blobs) count per unit
+(report_data.py). The rest of each section is in auto-generated "unassigned/data/..." units, by
+category where the defined data around a gap belongs to one category.
+
+Modules: every CRO of config/<version>/modules is a unit "modules/<Module>" (module_name/module_id,
+category "modules") with its functions and data segments. check.py does not compare module code
+yet, so it counts as 0%.
+
 The game dump is not on GitHub, so CI cannot build or check. Generate the report locally after a
 full build and a check.py run, and commit the snapshot:
 
@@ -49,6 +58,8 @@ CATEGORY_NAMES = {
     "libms": "libms",
     "cfl": "cfl",
     "runtime": "Runtime / C++ library",
+    "codebin": "code.bin (all)",
+    "modules": "CRO modules",
 }
 # inputs of the report; the fingerprint covers the git-tracked (and new, not ignored) files
 FINGERPRINT_DIRS = ("src", "lib", "modules", "include", "cmake", "tools/decomp", "tools/analysis")
@@ -142,20 +153,24 @@ def unit_of(result: dict[str, Any] | None, name: str) -> str:
     return f"unassigned/{top}"
 
 
-def measures(functions: list[dict[str, Any]], units: int = 0) -> dict[str, Any]:
+def measures(functions: list[dict[str, Any]], data: list[dict[str, Any]] | None = None, units: int = 0) -> dict[str, Any]:
+    """objdiff measures of functions and data items ({_size, _complete}); fuzzy is weighted by code"""
+    data = data or []
     total_code = sum(f["_size"] for f in functions)
     matched_code = sum(f["_size"] for f in functions if f["_complete"])
     total_functions = len(functions)
     matched_functions = sum(1 for f in functions if f["_complete"])
     weighted = sum(f["fuzzy_match_percent"] * f["_size"] for f in functions)
+    total_data = sum(d["_size"] for d in data)
+    matched_data = sum(d["_size"] for d in data if d["_complete"])
     return {
         "fuzzy_match_percent": round(weighted / total_code, 6) if total_code else 0.0,
         "total_code": json_u64(total_code),
         "matched_code": json_u64(matched_code),
         "matched_code_percent": round(100.0 * matched_code / total_code, 6) if total_code else 0.0,
-        "total_data": "0",
-        "matched_data": "0",
-        "matched_data_percent": 0.0,
+        "total_data": json_u64(total_data),
+        "matched_data": json_u64(matched_data),
+        "matched_data_percent": round(100.0 * matched_data / total_data, 6) if total_data else 0.0,
         "total_functions": total_functions,
         "matched_functions": matched_functions,
         "matched_functions_percent": round(100.0 * matched_functions / total_functions, 6) if total_functions else 0.0,
@@ -168,7 +183,28 @@ def measures(functions: list[dict[str, Any]], units: int = 0) -> dict[str, Any]:
     }
 
 
-def build_report(build_dir: Path, version: str) -> dict[str, Any]:
+def text_item(functions: list[dict[str, Any]]) -> list[dict[str, Any]]:
+    """the .text section item of a unit"""
+    size = sum(f["_size"] for f in functions)
+    if not size:
+        return []
+    weighted = sum(f["fuzzy_match_percent"] * f["_size"] for f in functions)
+    return [{"name": ".text", "size": json_u64(size), "fuzzy_match_percent": round(weighted / size, 3)}]
+
+
+def section_items(data: list[dict[str, Any]]) -> list[dict[str, Any]]:
+    """objdiff section items of a unit: per data section its bytes and their match"""
+    out = []
+    for section in sorted({d["_section"] for d in data}):
+        items = [d for d in data if d["_section"] == section]
+        size = sum(d["_size"] for d in items)
+        weighted = sum(d["_percent"] * d["_size"] for d in items)
+        out.append({"name": section, "size": json_u64(size), "fuzzy_match_percent": round(weighted / size, 3) if size else 0.0})
+    return out
+
+
+def code_functions(build_dir: Path, version: str) -> dict[str, list[dict[str, Any]]]:
+    """the functions of code.bin per unit, graded by check.py"""
     config_dir = ROOT / "config" / version
     symbols = load_json(config_dir / "symbols.json")
     results = load_json(build_dir / "check" / "results.json").get("functions", {})
@@ -209,38 +245,144 @@ def build_report(build_dir: Path, version: str) -> dict[str, Any]:
             "_complete": complete,
             "_category": category_of(unit, name),
         })
+    return units
+
+
+def code_data(build_dir: Path, version: str) -> tuple[dict[str, list[dict[str, Any]]], list[dict[str, Any]]]:
+    """the defined data of code.bin per unit, and the rest of each data section (report_data.py)"""
+    import report_data  # needs the original code.elf and the build; not imported by --check-snapshot
+
+    original, items = report_data.collect(build_dir, version)
+    units: dict[str, list[dict[str, Any]]] = defaultdict(list)
+    for it in items:
+        it["category"] = category_of(it["unit"], it["name"])
+        units[it["unit"]].append({
+            "_size": it["size"], "_complete": it["percent"] >= 100.0, "_percent": it["percent"],
+            "_section": it["section"], "_category": it["category"],
+        })
+    # The rest of each section. ARMCC places the data of a library together, so a gap between two
+    # items of the same category belongs to that category; the other gaps stay without one.
+    rest: dict[tuple[str, str], int] = defaultdict(int)
+    for section, (lo, hi) in original.sections.items():
+        inside = [it for it in items if it["section"] == section]
+        position, previous = lo, None
+        for it in inside + [None]:
+            start = it["address"] if it is not None else hi
+            if start > position:
+                same = previous is not None and it is not None and previous["category"] == it["category"]
+                rest[(section, previous["category"] if same else "")] += start - position
+            if it is not None:
+                position, previous = max(position, it["address"] + it["size"]), it
+    data_rest = [{"_size": size, "_complete": False, "_percent": 0.0, "_section": section, "_category": category}
+                 for (section, category), size in sorted(rest.items())]
+    return units, data_rest
+
+
+def module_units(version: str) -> list[dict[str, Any]]:
+    """one unit per CRO module (config/<version>/modules/<Module>.json): its functions and data
+    segments. check.py does not compare module code yet, so nothing of it counts as matched."""
+    out = []
+    paths = sorted((ROOT / "config" / version / "modules").glob("*.json"))
+    for module_id, path in enumerate(paths, start=1):
+        info = load_json(path)
+        module = info.get("module") or path.stem
+        segments = {int(s["id"]): s for s in info.get("segments", []) if int(s.get("size", 0)) > 0}
+        text = segments.get(0)
+        functions: list[dict[str, Any]] = []
+        if text is not None:
+            lo, hi = int(text["offset"]), int(text["offset"]) + int(text["size"])
+            named: dict[int, str] = {}
+            for fn in info.get("functions", []):
+                named.setdefault(int(fn["offset"]) & ~1, str(fn.get("name") or ""))
+            starts = sorted(a for a in named if lo <= a < hi)
+            if not starts or starts[0] != lo:
+                starts.insert(0, lo)
+            for index, start in enumerate(starts):
+                end = starts[index + 1] if index + 1 < len(starts) else hi
+                name = named.get(start) or f"FUN_{module}_{start:06X}"
+                functions.append({
+                    "name": name,
+                    "size": json_u64(end - start),
+                    "fuzzy_match_percent": 0.0,
+                    "metadata": {"demangled_name": name},
+                    "address": json_u64(start - lo),
+                    "_size": end - start,
+                    "_complete": False,
+                })
+        data = []
+        for seg_id, section in ((1, ".rodata"), (2, ".data"), (3, ".bss")):
+            seg = segments.get(seg_id)
+            if seg is not None:
+                data.append({"_size": int(seg["size"]), "_complete": False, "_percent": 0.0, "_section": section})
+        out.append({
+            "name": f"modules/{module}",
+            "measures": measures(functions, data, 1),
+            "sections": text_item(functions) + section_items(data),
+            "functions": [{k: v for k, v in fn.items() if not k.startswith("_")} for fn in functions],
+            "metadata": {"module_name": module, "module_id": module_id, "progress_categories": ["modules"],
+                         "auto_generated": True},
+            "_functions": functions,
+            "_data": data,
+        })
+    return out
+
+
+def build_report(build_dir: Path, version: str) -> dict[str, Any]:
+    functions_by_unit = code_functions(build_dir, version)
+    data_by_unit, data_rest = code_data(build_dir, version)
 
     report_units = []
-    by_category: dict[str, list[dict[str, Any]]] = defaultdict(list)
-    for unit_name in sorted(units):
-        functions = units[unit_name]
-        # a unit belongs to the category of most of its code
+    for unit_name in sorted(set(functions_by_unit) | set(data_by_unit)):
+        functions = functions_by_unit.get(unit_name, [])
+        data = data_by_unit.get(unit_name, [])
+        # a unit belongs to the category of most of its code (of its data without code)
         weights: dict[str, int] = defaultdict(int)
-        for fn in functions:
-            weights[fn["_category"]] += fn["_size"]
+        for item in functions or data:
+            weights[item["_category"]] += item["_size"]
         category = max(sorted(weights), key=lambda c: weights[c])
-        by_category[category].extend(functions)
-        metadata: dict[str, Any] = {"progress_categories": [category], "auto_generated": unit_name.startswith("unassigned/")}
-        if not unit_name.startswith("unassigned/"):
+        auto = unit_name.startswith("unassigned/")
+        metadata: dict[str, Any] = {"progress_categories": [category, "codebin"], "auto_generated": auto}
+        if not auto and unit_name != "extracted_data":
             metadata["source_path"] = unit_name
         report_units.append({
             "name": unit_name,
-            "measures": measures(functions, 1),
+            "measures": measures(functions, data, 1),
+            "sections": text_item(functions) + section_items(data),
             "functions": [{k: v for k, v in fn.items() if not k.startswith("_")} for fn in functions],
             "metadata": metadata,
+            "_functions": functions,
+            "_data": data,
         })
+    # the data of code.bin that no source defines yet, per category and section
+    for item in data_rest:
+        category = item["_category"]
+        report_units.append({
+            "name": f"unassigned/data/{category or 'unknown'}/{item['_section']}",
+            "measures": measures([], [item], 1),
+            "sections": section_items([item]),
+            "functions": [],
+            "metadata": {"progress_categories": ([category] if category else []) + ["codebin"], "auto_generated": True},
+            "_functions": [],
+            "_data": [item],
+        })
+    report_units.extend(module_units(version))
 
-    all_functions = [fn for functions in units.values() for fn in functions]
+    def total(units: list[dict[str, Any]]) -> dict[str, Any]:
+        return measures([f for u in units for f in u["_functions"]], [d for u in units for d in u["_data"]], len(units))
+
+    category_ids = sorted({c for u in report_units for c in u["metadata"]["progress_categories"]})
     categories = [
-        {"id": c, "name": CATEGORY_NAMES.get(c, c), "measures": measures(by_category[c], sum(1 for u in report_units if u["metadata"]["progress_categories"] == [c]))}
-        for c in sorted(by_category)
+        {"id": c, "name": CATEGORY_NAMES.get(c, c),
+         "measures": total([u for u in report_units if c in u["metadata"]["progress_categories"]])}
+        for c in category_ids
     ]
-    return {
-        "measures": measures(all_functions, len(report_units)),
-        "units": report_units,
+    report = {
+        "measures": total(report_units),
+        "units": [{k: v for k, v in u.items() if not k.startswith("_")} for u in report_units],
         "version": REPORT_VERSION,
         "categories": categories,
     }
+    return report
 
 
 def generate(build_dir: Path, version: str) -> None:
@@ -261,7 +403,12 @@ def generate(build_dir: Path, version: str) -> None:
     m = report["measures"]
     print(f"Wrote {REPORT_GZ_PATH.relative_to(ROOT)} ({len(data)} bytes JSON) and {METADATA_PATH.relative_to(ROOT)}")
     print(f"Units: {m['total_units']}; functions: {m['total_functions']}; matched/equivalent: {m['matched_functions']}")
-    print(f"Fuzzy: {m['fuzzy_match_percent']:.3f}%; matched code: {m['matched_code_percent']:.3f}%")
+    print(f"Fuzzy: {m['fuzzy_match_percent']:.3f}%; matched code: {m['matched_code_percent']:.3f}%; "
+          f"matched data: {m['matched_data_percent']:.3f}% of {int(m['total_data'])} bytes")
+    for c in report["categories"]:
+        cm = c["measures"]
+        print(f"  {c['name']}: code {cm['matched_code_percent']:.2f}% (fuzzy {cm['fuzzy_match_percent']:.2f}%), "
+              f"data {cm['matched_data_percent']:.2f}% of {int(cm['total_data'])} bytes, {cm['total_units']} units")
     print("Commit the report/ directory together with the sources it was generated from.")
 
 
