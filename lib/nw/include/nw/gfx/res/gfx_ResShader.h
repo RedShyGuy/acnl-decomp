@@ -27,16 +27,21 @@ ASSERT_SIZE(ResShaderData, 0x18);
 struct ResShaderSymbolData
 {
     ut::Offset name;    // 0x0
-    u8 m_Unknown0x4;    // 0x4
+    bool isEnabled;     // 0x4 the material sets it
     bool isGeometry;    // 0x5 the register is one of the geometry shader
     u8 m_Unknown0x6[2]; // 0x6
     s32 index;          // 0x8 the register (-1: not looked up yet, or not found)
+    u32 type;           // 0xC ResUserUniformData::Type (low byte)
+    f32 values[4];      // 0x10 the default value
 };
-ASSERT_SIZE(ResShaderSymbolData, 0xC);
+ASSERT_SIZE(ResShaderSymbolData, 0x20);
 
 // a program: a vertex shader and an optional geometry shader of the binary
 struct ResShaderProgramDescriptionData
 {
+    // in typeInfo: the program uses hemisphere lighting (name is ours)
+    static const u32 TYPE_FLAG_HEMISPHERE_LIGHTING = 1 << 2;
+
     u32 typeInfo;                 // 0x00
     const void* pVertexShader;    // 0x04 the binary shader of the vertex shader (set by Setup)
     const void* pGeometryShader;  // 0x08 the binary shader of the geometry shader (NULL: none)

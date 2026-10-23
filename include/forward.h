@@ -3596,7 +3596,7 @@ namespace nw { namespace gfx { namespace res {
     class ResIndexStream; // nw/gfx/res/gfx_ResPrimitive.h
     class ResLightingLookupTable; // nw/gfx/res/gfx_ResLookupTable.h
     class ResLookAtTargetViewUpdater; // nw/gfx/res/gfx_ResCamera.h
-    struct ResMaterialColor { u32 _unknown; }; // placeholder, real type unknown
+    class ResMaterialColor; // nw/gfx/res/gfx_ResMaterial.h
     struct ResMaterialData; // nw/gfx/res/gfx_ResMaterial.h
     class ResOrthoProjectionUpdater; // nw/gfx/res/gfx_ResCamera.h
     struct ResParticleCollection { u32 _unknown; }; // placeholder, real type unknown
@@ -3620,9 +3620,9 @@ namespace nw { namespace gfx { namespace res {
     class ResTransformNode; // nw/gfx/res/gfx_ResSceneObject.h
 }}}
 
-namespace nw { namespace gfx { namespace res { namespace ResTextureCoordinator { 
-    struct MappingMatrixMode { u32 _unknown; }; // placeholder, real type unknown
-}}}}
+namespace nw { namespace gfx { namespace res {
+    class ResTextureCoordinator; // nw/gfx/res/gfx_ResTextureCoordinatorData.h
+}}}
 
 namespace nw { namespace io { 
     class FileStream;

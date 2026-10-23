@@ -27,7 +27,7 @@ public:
     // the position of a fragment light (as 16-bit floats)
     static void ActivateFragmentLightPosition(int lightIdx, const nn::math::VEC4& position); // 0x00499994 | nintendogs:bytes [tier A]
 
-    static const res::ResImageLookupTableData* s_LookupTables[LUT_TARGET_COUNT];
+    static res::ResImageLookupTable s_LookupTables[LUT_TARGET_COUNT];
 };
 } // namespace gfx
 } // namespace nw

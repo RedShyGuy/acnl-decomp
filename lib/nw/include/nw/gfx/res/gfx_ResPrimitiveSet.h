@@ -10,7 +10,15 @@ namespace res {
 // a primitive set of a shape (only the fields known so far; names are ours)
 struct ResPrimitiveSetData
 {
-    u32 m_Unknown0x0[3];     // 0x0
+    // how the vertices are moved by the bones (names are ours)
+    enum SkinningMode
+    {
+        SKINNING_MODE_SMOOTH = 2, // per vertex weights of several bones
+    };
+
+    s32 boneIndexCount;      // 0x0 the matrix palette
+    ut::Offset boneIndices;  // 0x4 s32 per palette entry
+    u32 skinningMode;        // 0x8 SkinningMode
     ResArrayInfo primitives; // 0xC ResPrimitiveData
 };
 ASSERT_SIZE(ResPrimitiveSetData, 0x14);

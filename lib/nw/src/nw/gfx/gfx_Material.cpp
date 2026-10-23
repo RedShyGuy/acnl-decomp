@@ -72,16 +72,16 @@ nw::gfx::Material::CopyResult<nw::gfx::res::ResMaterial> nw::gfx::Material::Copy
     pCopy->fragmentShader.Set(nullptr);
     pCopy->userDataCount = 0;
     pCopy->userDataDic.Set(nullptr);
-    pCopy->m_Unknown0x2CC = 0;
+    pCopy->combinerBufferHash = 0;
     pCopy->fragmentLightingHash = 0;
     pCopy->fragmentLightingTableHash = 0;
     pCopy->fragmentLightingTableHashSeed = 0;
     pCopy->fragmentOperationHash = 0;
     pCopy->materialColorHash = 0;
-    pCopy->m_Unknown0x2B8 = 0;
-    pCopy->m_Unknown0x2A4 = 0;
-    pCopy->m_Unknown0x2A0 = 0;
-    pCopy->m_Unknown0x2C8 = 0;
+    pCopy->rasterizationHash = 0;
+    pCopy->userUniformsHash = 0;
+    pCopy->shadingHash = 0;
+    pCopy->textureCombinersHash = 0;
     pCopy->textureCoordinatorsHash = 0;
     pCopy->textureMappersHash = 0;
     pCopy->textureSamplersHash = 0;
@@ -212,7 +212,7 @@ void* nw::gfx::Material::GetAnimTargetObject(const anim::res::ResAnimGroupMember
     switch (pMember->memberType) {
     case anim::res::ResAnimGroupMemberData::MEMBER_TYPE_MATERIAL_COLOR:
         pMember->pObject = pMaterial;
-        return pMaterial->materialColor;
+        return &pMaterial->materialColor;
     case anim::res::ResAnimGroupMemberData::MEMBER_TYPE_TEXTURE_SAMPLER:
         pMember->pObject = pMaterial;
         return pMaterial->textureMappers[pMember->index].ToPtr();
@@ -384,17 +384,17 @@ nw::gfx::Material* nw::gfx::Material::Create(res::ResMaterial resource, int buff
         return nullptr;
     }
     pMaterial->m_Resources[0] = pMaterial->GetResMaterial(BUFFER_USER_UNIFORMS);
-    pMaterial->m_Resources[1] = pMaterial->GetResMaterial(BUFFER_1);
+    pMaterial->m_Resources[1] = pMaterial->GetResMaterial(BUFFER_SHADING);
     pMaterial->m_Resources[2] = pMaterial->GetResMaterial(BUFFER_MATERIAL_COLOR);
-    pMaterial->m_Resources[3] = pMaterial->GetResMaterial(BUFFER_3);
+    pMaterial->m_Resources[3] = pMaterial->GetResMaterial(BUFFER_RASTERIZATION);
     pMaterial->m_Resources[4] = pMaterial->GetResMaterial(BUFFER_TEXTURE_COORDINATORS);
     pMaterial->m_Resources[5] = pMaterial->GetResMaterial(BUFFER_TEXTURE_MAPPERS);
-    pMaterial->m_Resources[6] = pMaterial->GetResMaterial(BUFFER_7);
+    pMaterial->m_Resources[6] = pMaterial->GetResMaterial(BUFFER_FRAGMENT_LIGHTING);
     pMaterial->m_Resources[7] = pMaterial->GetResMaterial(BUFFER_FRAGMENT_LIGHTING_TABLE);
-    pMaterial->m_Resources[8] = pMaterial->GetResMaterial(BUFFER_9);
-    pMaterial->m_Resources[9] = pMaterial->GetResMaterial(BUFFER_10);
+    pMaterial->m_Resources[8] = pMaterial->GetResMaterial(BUFFER_TEXTURE_COMBINERS);
+    pMaterial->m_Resources[9] = pMaterial->GetResMaterial(BUFFER_COMBINER_BUFFER);
     pMaterial->m_Resources[10] = pMaterial->GetResMaterial(BUFFER_FRAGMENT_OPERATION);
-    pMaterial->m_Resources[11] = pMaterial->GetResMaterial(BUFFER_12);
+    pMaterial->m_Resources[11] = pMaterial->GetResMaterial(BUFFER_SCENE_ENVIRONMENT);
     return pMaterial;
 }
 

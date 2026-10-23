@@ -43,9 +43,9 @@ bool nw::gfx::res::ResFragmentShader::CheckFragmentShader(ResMaterialData* pMate
         flags &= ~ResFragmentLightingData::FLAG_SAMPLER4;
         isValid = false;
     }
-    if (static_cast<u8>(lighting.isSampler5Used) && !HasTable(table, 5)) {
+    if (static_cast<u8>(lighting.fresnelSelector) && !HasTable(table, 5)) {
         isValid = false;
-        lighting.isSampler5Used = false;
+        lighting.fresnelSelector = 0;
     }
     if (flags & ResFragmentLightingData::FLAG_CONFIG_SAMPLERS) {
         const u8 samplers = s_ConfigSamplers[static_cast<u8>(lighting.config)];

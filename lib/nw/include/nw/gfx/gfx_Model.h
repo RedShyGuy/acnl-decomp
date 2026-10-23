@@ -65,10 +65,10 @@ public:
     res::ResModel GetResModel() const { return res::ResModel(GetResSceneObject().ptr()); }
     u32 GetBufferOption() const { return m_BufferOption; }
     Material* GetMaterial(int index) const { return m_Materials[index]; }
+    IMaterialActivator* GetMaterialActivator() const { return m_MaterialActivator.Get(); }
 
     static const TypeInfo s_TypeInfo;
 
-protected:
     u32 CreateCallbacks(os::IAllocator* pAllocator); // 0x004AAF70 | nintendogs:callgraph [tier A]
     u32 CreateMaterials(os::IAllocator* pAllocator); // 0x004AB1CC | nintendogs:bytes [tier A]
     u32 CreateResMeshes(os::IAllocator* pAllocator); // 0x004AB3DC | nintendogs:callgraph [tier A]

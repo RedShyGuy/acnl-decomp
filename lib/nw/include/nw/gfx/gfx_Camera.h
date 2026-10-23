@@ -48,11 +48,11 @@ public:
     static Camera* Create(SceneNode* pParent, res::ResSceneObject resObject, const Description& description, os::IAllocator* pAllocator); // 0x004AE198 | nintendogs:callseq [tier A]
 
     // (inline)
-    f32 GetFar() const // 0x0073C844 | nintendogs:bytes [tier A]
+    DECOMP_NOINLINE f32 GetFar() const // 0x0073C844 | nintendogs:bytes [tier A]
     {
         return static_cast<const CameraProjectionUpdater*>(m_ProjectionUpdater.Get())->GetResource().ptr()->far;
     }
-    f32 GetNear() const // 0x0073C860 | nintendogs:bytes [tier A]
+    DECOMP_NOINLINE f32 GetNear() const // 0x0073C860 | nintendogs:bytes [tier A]
     {
         return static_cast<const CameraProjectionUpdater*>(m_ProjectionUpdater.Get())->GetResource().ptr()->near;
     }

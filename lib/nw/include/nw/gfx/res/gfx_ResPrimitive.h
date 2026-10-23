@@ -13,7 +13,8 @@ struct ResIndexStreamData
 {
     u32 format;              // 0x00 the GL type of the indices (GL_UNSIGNED_BYTE / GL_UNSIGNED_SHORT)
     u8 primitiveMode;        // 0x04
-    u8 m_Unknown0x5[3];      // 0x05
+    bool isEnabled;          // 0x05 drawn by RenderContext::RenderPrimitive
+    u8 m_Unknown0x6[2];      // 0x06
     u32 size;                // 0x08 bytes
     ut::Offset data;         // 0x0C
     u32 m_Unknown0x10;       // 0x10

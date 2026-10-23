@@ -22,6 +22,8 @@ struct ResBoneData
         FLAG_IS_UNIFORM_SCALE = 1 << 4,
         // the scale of the parent does not shrink the bone (WorldMatrixUpdater::CalculateWorldMayaSsc)
         FLAG_SEGMENT_SCALE_COMPENSATE = 1 << 5,
+        // the bone has a skinning matrix (the world matrix times the inverse bind pose; name is ours)
+        FLAG_HAS_SKINNING_MATRIX = 1 << 9,
     };
 
     ut::Offset name;          // 0x00

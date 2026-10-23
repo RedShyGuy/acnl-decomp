@@ -170,5 +170,21 @@ public:
     Description m_Description;                     // 0x3C
 };
 ASSERT_SIZE(SceneNode, 0x4C);
+// (inline) the node as a T if it is one or derives from one (NULL: not, or no node; name is ours)
+template <typename T>
+T* DynamicCast(SceneNode* pNode)
+{
+    if (pNode == nullptr) {
+        return nullptr;
+    }
+    const TypeInfo* pTypeInfo = pNode->GetRuntimeTypeInfo();
+    do {
+        if (pTypeInfo == &T::s_TypeInfo) {
+            return static_cast<T*>(pNode);
+        }
+        pTypeInfo = pTypeInfo->pParent;
+    } while (pTypeInfo != nullptr);
+    return nullptr;
+}
 } // namespace gfx
 } // namespace nw

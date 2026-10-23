@@ -23,6 +23,14 @@ public:
     };
     // the words of a bool uniform command: the bools, then the four int uniforms
     static const int BOOL_UNIFORM_COMMAND_WORDS = 6;
+    // bool uniforms the renderer sets (bits of the first word of m_VertexBoolUniformCommand; names are ours)
+    static const u32 BOOL_SMOOTH_SKINNING = 1 << 1;
+    static const u32 BOOL_RIGID_SKINNING = 1 << 2;
+    static const u32 BOOL_HEMISPHERE_LIGHTING = 1 << 5;
+    static const u32 BOOL_HEMISPHERE_OCCLUSION = 1 << 6;
+    static const u32 BOOL_USAGE3_HAS_4_COMPONENTS = 1 << 7;
+    static const u32 BOOL_USAGE8_HAS_4_COMPONENTS = 1 << 8;
+    static const u32 BOOL_FRAGMENT_LIGHTING = 1 << 15;
 
     explicit ShaderProgram(os::IAllocator* pAllocator); // 0x0049777C | nintendogs:bytes [tier A]
     virtual ~ShaderProgram();

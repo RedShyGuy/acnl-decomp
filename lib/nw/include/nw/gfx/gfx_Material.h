@@ -27,22 +27,37 @@ public:
     enum BufferFlag : u16
     {
         BUFFER_USER_UNIFORMS = 1 << 0,
-        BUFFER_1 = 1 << 1,
+        BUFFER_SHADING = 1 << 1,         // the switches of the lighting, hemisphere lighting and fog
         BUFFER_MATERIAL_COLOR = 1 << 2,
-        BUFFER_3 = 1 << 3,
+        BUFFER_RASTERIZATION = 1 << 3,
         BUFFER_TEXTURE_COORDINATORS = 1 << 4,
         BUFFER_TEXTURE_MAPPERS = 1 << 5, // with the texture samplers
         BUFFER_PROCEDURAL_TEXTURE_MAPPER = 1 << 6,
-        BUFFER_7 = 1 << 7,               // bits 7-10: a copy of the fragment shader
+        BUFFER_FRAGMENT_LIGHTING = 1 << 7,               // bits 7-10: a copy of the fragment shader
         BUFFER_FRAGMENT_LIGHTING_TABLE = 1 << 8,
-        BUFFER_9 = 1 << 9,
-        BUFFER_10 = 1 << 10,
+        BUFFER_TEXTURE_COMBINERS = 1 << 9,
+        BUFFER_COMBINER_BUFFER = 1 << 10, // the texture combiner buffer (TEXENV_UPDATE_BUFFER)
         BUFFER_FRAGMENT_OPERATION = 1 << 11,
-        BUFFER_12 = 1 << 12,
-        BUFFER_FRAGMENT_SHADER = BUFFER_7 | BUFFER_FRAGMENT_LIGHTING_TABLE | BUFFER_9 | BUFFER_10,
+        BUFFER_SCENE_ENVIRONMENT = 1 << 12, // the light set and the fog
+        BUFFER_FRAGMENT_SHADER = BUFFER_FRAGMENT_LIGHTING | BUFFER_FRAGMENT_LIGHTING_TABLE | BUFFER_TEXTURE_COMBINERS | BUFFER_COMBINER_BUFFER,
     };
     // the parts with a resource of their own (the order of m_pResources)
-    static const int RESOURCE_COUNT = 12;
+    enum ResourceIndex
+    {
+        RESOURCE_USER_UNIFORMS = 0,
+        RESOURCE_SHADING = 1,
+        RESOURCE_MATERIAL_COLOR = 2,
+        RESOURCE_RASTERIZATION = 3,
+        RESOURCE_TEXTURE_COORDINATORS = 4,
+        RESOURCE_TEXTURE_MAPPERS = 5,
+        RESOURCE_FRAGMENT_LIGHTING = 6,
+        RESOURCE_FRAGMENT_LIGHTING_TABLE = 7,
+        RESOURCE_TEXTURE_COMBINERS = 8,
+        RESOURCE_COMBINER_BUFFER = 9,
+        RESOURCE_FRAGMENT_OPERATION = 10,
+        RESOURCE_SCENE_ENVIRONMENT = 11,
+        RESOURCE_COUNT = 12,
+    };
 
     // a copied resource and whether the copy worked (bit 31 of the result: no memory)
     template <typename TResource>
@@ -81,10 +96,11 @@ public:
         return GetOriginal();
     }
     Model* GetOwner() const { return m_pOwner; }
+    res::ResShaderProgramDescription GetShaderProgramDescription() const { return m_ShaderProgramDescription; }
+    res::ResMaterial GetResource(int part) const { return m_Resources[part]; }
 
     static const TypeInfo s_TypeInfo;
 
-protected:
     // the buffers copied from the resource
     u32 CreateBuffers(os::IAllocator* pAllocator); // 0x004AEECC | nintendogs:callgraph [tier A]
     // a copy of the resource with the parts of the buffer option copied as well

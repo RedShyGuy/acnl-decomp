@@ -32,13 +32,26 @@ struct ResFragmentLightData : public ResLightData
     {
         TYPE = 0x400000A2,
     };
+    // lightKind
+    enum LightKind
+    {
+        LIGHT_KIND_DIRECTIONAL = 0,
+        LIGHT_KIND_POINT = 1,
+        LIGHT_KIND_SPOT = 2,
+    };
+    // in flags (names are ours): both sides of a polygon are lit, the distance attenuation is used
+    static const u32 FLAG_TWO_SIDED_DIFFUSE = 1 << 1;
+    static const u32 FLAG_DISTANCE_ATTENUATION = 1 << 2;
 
     u32 lightKind;                    // 0xB8 (GetLightKind)
     ut::FloatColor ambient;           // 0xBC
     ut::FloatColor diffuse;           // 0xCC
     ut::FloatColor specular0;         // 0xDC
     ut::FloatColor specular1;         // 0xEC
-    u32 m_Unknown0xFC[4];             // 0xFC
+    u32 ambientU8;                    // 0xFC the colors as ut::Color8 words
+    u32 diffuseU8;                    // 0x100
+    u32 specular0U8;                  // 0x104
+    u32 specular1U8;                  // 0x108
     nn::math::VEC3 direction;         // 0x10C
     ut::Offset distanceSampler;       // 0x118 ResLookupTableData
     ut::Offset angleSampler;          // 0x11C ResLightingLookupTableData
@@ -69,6 +82,8 @@ struct ResHemiSphereLightData : public ResLightData
     {
         TYPE = 0x40000122,
     };
+    // in flags: the direction turns with the light (if it has a parent; name is ours)
+    static const u32 FLAG_DIRECTION_IN_WORLD = 1 << 1;
 
     ut::FloatColor groundColor;  // 0xB8
     ut::FloatColor skyColor;     // 0xC8

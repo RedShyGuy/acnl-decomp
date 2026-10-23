@@ -1,6 +1,8 @@
 #pragma once
 
 #include "decomp.h"
+
+#include <cstring>
 #include "nw/gfx/res/gfx_ResPrimitive.h"
 #include "nw/gfx/res/gfx_ResShader.h"
 #include "nw/gfx/res/gfx_ResShape.h"
@@ -9,6 +11,26 @@
 namespace nw {
 namespace gfx {
 namespace internal {
+// (inline) a 1.7.16 float (the float24 of the GPU), too large values the largest
+inline u32 Float32ToFloat24Clamped(f32 value)
+{
+    u32 bits;
+    std::memcpy(&bits, &value, sizeof(bits));
+    const u32 sign = (bits & 0x80000000) ? 0x800000 : 0;
+    const u32 mantissa = ((bits << 9) >> 9) >> 7;
+    s32 exponent = 0;
+    if ((bits & 0x7FFFFFFF) != 0) {
+        exponent = static_cast<s32>((bits << 1) >> 24) - 64;
+        if (exponent < 0) {
+            return sign;
+        }
+        if (exponent > 127) {
+            return 0x7F0000;
+        }
+    }
+    return sign | mantissa | ((exponent & 0x7F) << 16);
+}
+
 // A buffer that commands are written to (names are ours; no current position: the current command
 // list of nngx).
 struct CommandBufferInfo
@@ -126,24 +148,24 @@ void NWCopyMtx31Reverse(float*, const float*) GFX_ASM; // 0x0014E778 | nintendog
 void NWCopyMtx31WithHeader(float*, const float*, unsigned) GFX_ASM; // 0x0014E7B4 | nintendogs:bytes [tier A]
 void NWCopyMtx41Reverse(float*, const float*) GFX_ASM; // 0x0014E7F4 | nintendogs:bytes [tier A]
 void NWCopyMtx41WithHeader(float*, const float*, unsigned) GFX_ASM; // 0x0014E840 | nintendogs:bytes [tier A]
-void FastWordCopyAsm_4(unsigned*, unsigned*) GFX_ASM; // 0x0014E8AC | nintendogs:bytes [tier A]
-void FastWordCopyAsm_6(unsigned*, unsigned*) GFX_ASM; // 0x0014E8C8 | nintendogs:bytes [tier A]
-void FastWordCopyAsm_8(unsigned*, unsigned*) GFX_ASM; // 0x0014E8E4 | nintendogs:bytes [tier A]
-void FastWordCopyAsm_10(unsigned*, unsigned*) GFX_ASM; // 0x0014E904 | nintendogs:bytes [tier A]
-void FastWordCopyAsm_12(unsigned*, unsigned*) GFX_ASM; // 0x0014E934 | nintendogs:bytes [tier A]
-void FastWordCopyAsm_14(unsigned*, unsigned*) GFX_ASM; // 0x0014E964 | nintendogs:bytes [tier A]
-void FastWordCopyAsm_16(unsigned*, unsigned*) GFX_ASM; // 0x0014E994 | nintendogs:bytes [tier A]
-void FastWordCopyAsm_18(unsigned*, unsigned*) GFX_ASM; // 0x0014E9C8 | nintendogs:bytes [tier A]
-void FastWordCopyAsm_20(unsigned*, unsigned*) GFX_ASM; // 0x0014EA0C | nintendogs:bytes [tier A]
-void FastWordCopyAsm_22(unsigned*, unsigned*) GFX_ASM; // 0x0014EA50 | nintendogs:bytes [tier A]
-void FastWordCopyAsm_24(unsigned*, unsigned*) GFX_ASM; // 0x0014EA94 | nintendogs:bytes [tier A]
-void FastWordCopyAsm_26(unsigned*, unsigned*) GFX_ASM; // 0x0014EADC | nintendogs:bytes [tier A]
-void FastWordCopyAsm_28(unsigned*, unsigned*) GFX_ASM; // 0x0014EB34 | nintendogs:bytes [tier A]
-void FastWordCopyAsm_30(unsigned*, unsigned*) GFX_ASM; // 0x0014EB8C | nintendogs:bytes [tier A]
-void FastWordCopyAsm_32(unsigned*, unsigned*) GFX_ASM; // 0x0014EBE4 | nintendogs:bytes [tier A]
-void FastWordCopyAsm_34(unsigned*, unsigned*) GFX_ASM; // 0x0014EC40 | nintendogs:bytes [tier A]
-void FastWordCopyAsm_36(unsigned*, unsigned*) GFX_ASM; // 0x0014ECAC | nintendogs:bytes [tier A]
-void FastWordCopyAsm_38(unsigned*, unsigned*) GFX_ASM; // 0x0014ED18 | nintendogs:bytes [tier A]
+u32* FastWordCopyAsm_4(u32*, u32*) GFX_ASM; // 0x0014E8AC | nintendogs:bytes [tier A]
+u32* FastWordCopyAsm_6(u32*, u32*) GFX_ASM; // 0x0014E8C8 | nintendogs:bytes [tier A]
+u32* FastWordCopyAsm_8(u32*, u32*) GFX_ASM; // 0x0014E8E4 | nintendogs:bytes [tier A]
+u32* FastWordCopyAsm_10(u32*, u32*) GFX_ASM; // 0x0014E904 | nintendogs:bytes [tier A]
+u32* FastWordCopyAsm_12(u32*, u32*) GFX_ASM; // 0x0014E934 | nintendogs:bytes [tier A]
+u32* FastWordCopyAsm_14(u32*, u32*) GFX_ASM; // 0x0014E964 | nintendogs:bytes [tier A]
+u32* FastWordCopyAsm_16(u32*, u32*) GFX_ASM; // 0x0014E994 | nintendogs:bytes [tier A]
+u32* FastWordCopyAsm_18(u32*, u32*) GFX_ASM; // 0x0014E9C8 | nintendogs:bytes [tier A]
+u32* FastWordCopyAsm_20(u32*, u32*) GFX_ASM; // 0x0014EA0C | nintendogs:bytes [tier A]
+u32* FastWordCopyAsm_22(u32*, u32*) GFX_ASM; // 0x0014EA50 | nintendogs:bytes [tier A]
+u32* FastWordCopyAsm_24(u32*, u32*) GFX_ASM; // 0x0014EA94 | nintendogs:bytes [tier A]
+u32* FastWordCopyAsm_26(u32*, u32*) GFX_ASM; // 0x0014EADC | nintendogs:bytes [tier A]
+u32* FastWordCopyAsm_28(u32*, u32*) GFX_ASM; // 0x0014EB34 | nintendogs:bytes [tier A]
+u32* FastWordCopyAsm_30(u32*, u32*) GFX_ASM; // 0x0014EB8C | nintendogs:bytes [tier A]
+u32* FastWordCopyAsm_32(u32*, u32*) GFX_ASM; // 0x0014EBE4 | nintendogs:bytes [tier A]
+u32* FastWordCopyAsm_34(u32*, u32*) GFX_ASM; // 0x0014EC40 | nintendogs:bytes [tier A]
+u32* FastWordCopyAsm_36(u32*, u32*) GFX_ASM; // 0x0014ECAC | nintendogs:bytes [tier A]
+u32* FastWordCopyAsm_38(u32*, u32*) GFX_ASM; // 0x0014ED18 | nintendogs:bytes [tier A]
 // the 78 words copied, the end of the destination returned
 u32* FastWordCopyAsm_78(u32* pDst, u32* pSrc) GFX_ASM; // 0x0014ED84 | nintendogs:bytes [tier A]
 // all vertex attributes fixed to 0, the buffers off (to the current command list)

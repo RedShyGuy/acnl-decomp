@@ -7,6 +7,7 @@
 #include "nw/gfx/res/gfx_ResTexture.h"
 #include "nw/gfx/res/gfx_ResTextureCoordinatorData.h"
 #include "nw/ut/internal/ut_ResArray.h"
+#include "nw/ut/ut_FloatColor.h"
 
 namespace nw {
 namespace gfx {
@@ -50,6 +51,37 @@ struct ResUserUniformData
 // the size of a user uniform without its values
 const u32 USER_UNIFORM_HEADER_SIZE = 0xC;
 
+// The colors of a material: as floats and as 8-bit colors (ut::Color8 words; names are ours)
+struct ResMaterialColorData
+{
+    ut::FloatColor emission;      // 0x00
+    ut::FloatColor ambient;       // 0x10
+    ut::FloatColor diffuse;       // 0x20
+    ut::FloatColor specular0;     // 0x30
+    ut::FloatColor specular1;     // 0x40
+    ut::FloatColor constant[6];   // 0x50
+    u32 emissionU8;               // 0xB0
+    u32 ambientU8;                // 0xB4
+    u32 diffuseU8;                // 0xB8
+    u32 specular0U8;              // 0xBC
+    u32 specular1U8;              // 0xC0
+    u32 constantU8[6];            // 0xC4
+    u32 m_Unknown0xDC;            // 0xDC
+};
+ASSERT_SIZE(ResMaterialColorData, 0xE0);
+
+// the wrapper of the colors of a material (the class name is from the reference symbols)
+class ResMaterialColor
+{
+public:
+    // (inline)
+    explicit ResMaterialColor(const void* pData = nullptr) : m_pData(static_cast<const ResMaterialColorData*>(pData)) {}
+    const ResMaterialColorData* ptr() const { return m_pData; }
+
+    const ResMaterialColorData* m_pData; // 0x0
+};
+ASSERT_SIZE(ResMaterialColor, 0x4);
+
 // The data of a material resource (only the fields known so far; names are ours). The hashes say
 // which state the material activator sent last; an animation of a part sets its hash to 0, so the
 // part is sent again.
@@ -66,6 +98,21 @@ struct ResMaterialData
     };
     // in fragmentOperationMode: the result does not depend on the color buffer (set by Setup)
     static const u32 FRAGMENT_OPERATION_NO_DESTINATION = 0x80000000;
+    // rasterizationFlags (names are ours)
+    enum RasterizationFlag
+    {
+        RASTERIZATION_POLYGON_OFFSET = 1 << 0,
+    };
+    // depthFlags (names are ours)
+    enum DepthFlag
+    {
+        DEPTH_TEST = 1 << 0,
+        DEPTH_WRITE = 1 << 1,
+    };
+    // in flags of the resource of Material::BUFFER_SHADING (names are ours; FLAG_FRAGMENT_LIGHTING too)
+    static const u32 FLAG_HEMISPHERE_LIGHTING = 1 << 2;
+    static const u32 FLAG_HEMISPHERE_OCCLUSION = 1 << 3;
+    static const u32 FLAG_FOG = 1 << 4;
 
     u32 typeInfo;                        // 0x000
     u32 signature;                       // 0x004 "MTOB"
@@ -76,13 +123,22 @@ struct ResMaterialData
     u32 flags;                           // 0x018
     u32 textureCoordinateConfig;         // 0x01C which coordinators the texture units use (low byte)
     u32 m_Unknown0x20;                   // 0x020
-    u8 materialColor[0xE0];              // 0x024 the colors (animated as a whole)
-    u8 m_Unknown0x104[0x28];             // 0x104
+    ResMaterialColorData materialColor;  // 0x024 (animated as a whole)
+    u32 rasterizationFlags;              // 0x104 RasterizationFlag
+    u32 m_Unknown0x108;                  // 0x108
+    f32 polygonOffsetUnits;              // 0x10C
+    u32 cullingCommand[2];               // 0x110 (FACECULLING_CONFIG)
+    u32 depthFlags;                      // 0x118 DepthFlag
+    u32 depthCommand[4];                 // 0x11C
     u32 fragmentOperationMode;           // 0x12C low byte: the blend mode (3: logic op); the blend operation starts here
-    u8 m_Unknown0x130[0x18];             // 0x130
+    u32 m_Unknown0x130[4];               // 0x130
+    u32 colorOperation;                  // 0x140 the blend commands start here (COLOR_OPERATION, six words)
+    u32 colorOperationHeader;            // 0x144
     u32 blendFunction;                   // 0x148 (3dbrew "GPU/Internal Registers": BLEND_FUNC)
     u32 logicOperation;                  // 0x14C (LOGIC_OP)
-    u8 m_Unknown0x150[0x1C];             // 0x150
+    u32 m_Unknown0x150[2];               // 0x150
+    u32 stencilCommand[4];               // 0x158 (word 0 bit 0: the stencil test is used)
+    s32 textureCoordinatorCount;         // 0x168 the coordinators that are used
     ResTextureCoordinatorData textureCoordinators[3]; // 0x16C
     ut::Offset textureMappers[3];        // 0x274 ResPixelBasedTextureMapperData
     ut::Offset proceduralTextureMapper;  // 0x280
@@ -90,19 +146,20 @@ struct ResMaterialData
     ut::Offset fragmentShader;           // 0x288 ResFragmentShaderData
     s32 shaderProgramDescriptionIndex;   // 0x28C
     ResArrayInfo userUniforms;           // 0x290 ResUserUniformData
-    u32 m_Unknown0x298[2];               // 0x298
-    u32 m_Unknown0x2A0;                  // 0x2A0 (a hash: cleared in a copy)
-    u32 m_Unknown0x2A4;                  // 0x2A4 (a hash: cleared in a copy)
+    s32 lightSetIndex;                   // 0x298 the light set of the scene environment
+    s32 fogIndex;                        // 0x29C the fog of the scene environment
+    u32 shadingHash;                     // 0x2A0
+    u32 userUniformsHash;                // 0x2A4
     u32 textureCoordinatorsHash;         // 0x2A8
     u32 textureSamplersHash;             // 0x2AC
     u32 textureMappersHash;              // 0x2B0 the samplers hash with the textures of the mappers
     u32 materialColorHash;               // 0x2B4
-    u32 m_Unknown0x2B8;                  // 0x2B8
+    u32 rasterizationHash;               // 0x2B8
     u32 fragmentLightingHash;            // 0x2BC
     u32 fragmentLightingTableHash;       // 0x2C0 the seed with the lookup tables of the samplers
     u32 fragmentLightingTableHashSeed;   // 0x2C4
-    u32 m_Unknown0x2C8;                  // 0x2C8 (a hash: cleared in a copy)
-    u32 m_Unknown0x2CC;                  // 0x2CC (a hash: cleared in a copy)
+    u32 textureCombinersHash;            // 0x2C8
+    u32 combinerBufferHash;              // 0x2CC
     u32 fragmentOperationHash;           // 0x2D0
     u32 m_Unknown0x2D4;                  // 0x2D4
 };

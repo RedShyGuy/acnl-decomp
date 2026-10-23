@@ -1,6 +1,7 @@
 #pragma once
 
 #include "decomp.h"
+#include "nn/math/math_Vector3.h"
 #include "nw/gfx/res/gfx_ResCommon.h"
 
 namespace nw {
@@ -18,7 +19,8 @@ struct ResShapeData
     u32 typeInfo;              // 0x00
     u32 m_Unknown0x4[5];       // 0x04
     u32 flags;                 // 0x18
-    u32 m_Unknown0x1C[4];      // 0x1C
+    u32 m_Unknown0x1C;         // 0x1C
+    nn::math::VEC3_ positionOffset; // 0x20 added to the positions in the shader (uniform c6)
 };
 ASSERT_SIZE(ResShapeData, 0x2C);
 

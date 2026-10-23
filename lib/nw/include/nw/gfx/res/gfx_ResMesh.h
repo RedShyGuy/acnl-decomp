@@ -34,7 +34,7 @@ struct ResMeshData
     bool isVisible;                // 0x24
     u8 m_Unknown0x25;              // 0x25
     s16 meshNodeVisibilityIndex;   // 0x26 the ResMeshNodeVisibilityData of the mesh (-1: none)
-    u32 m_Unknown0x28;             // 0x28
+    s32 primitiveIndex;            // 0x28 the primitive of each primitive set that is drawn
     u32 flags;                     // 0x2C
     // the scales of the vertex attributes as two float uniforms of the vertex shader (c7: usages 0-3,
     // c8: usages 4, 5, 6 and 8; written by Setup)

@@ -1,9 +1,19 @@
 #include "nw/gfx/gfx_SimpleMaterialActivator.h"
 
+#include "nw/gfx/internal/gfx_ActivateMaterial.h"
+
 #include <new>
 
 namespace nw {
 namespace gfx {
+namespace {
+// the resource of a part: always the material resource
+struct GetOriginal
+{
+    res::ResMaterial operator()(const Material* pMaterial, int /*part*/) const { return pMaterial->GetOriginal(); }
+};
+} // namespace
+
 // 0x0097F4A0
 const TypeInfo nw::gfx::SimpleMaterialActivator::s_TypeInfo(&IMaterialActivator::s_TypeInfo);
 
@@ -17,8 +27,18 @@ nw::gfx::SimpleMaterialActivator::~SimpleMaterialActivator()
 }
 
 // 0x004A2AD8 slot 0x0C (name is ours)
-void nw::gfx::SimpleMaterialActivator::Activate(RenderContext* /*pRenderContext*/, const Material* /*pMaterial*/)
+void nw::gfx::SimpleMaterialActivator::Activate(RenderContext* pRenderContext, const Material* pMaterial)
 {
+    // nothing to do for the material sent last if no light changed
+    const SceneEnvironment& environment = pRenderContext->m_SceneEnvironment;
+    const bool isLightDirty = environment.m_IsFragmentLightDirty || environment.m_IsAmbientLightDirty;
+    const bool isHemiSphereLightDirty = environment.m_IsHemiSphereLightDirty;
+    const Material* pActive = pRenderContext->m_pActiveMaterial;
+    if (pActive != nullptr && pActive->m_Buffers.size() == 0 && pActive->GetResSceneObject().ptr() == pMaterial->GetResSceneObject().ptr() &&
+        !isLightDirty && !isHemiSphereLightDirty) {
+        return;
+    }
+    internal::ActivateMaterial(pRenderContext, pMaterial, GetOriginal());
 }
 
 // 0x004A2AA0 | nintendogs:callgraph [tier A]

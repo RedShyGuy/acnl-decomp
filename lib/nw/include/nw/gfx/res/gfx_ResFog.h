@@ -39,6 +39,8 @@ struct ResFogData : public ResTransformNodeData
     // the header of a resource made by the DynamicBuilder ("CFOG")
     static const u32 SIGNATURE = 0x474F4643;
     static const u32 DYNAMIC_REVISION = 0x06000000;
+    // in flags: the fog is flipped in z (name is ours)
+    static const u32 FLAG_Z_FLIP = 1 << 1;
 
     ut::FloatColor color;  // 0xB4
     ut::Offset sampler;    // 0xC4 ResImageLookupTableData
