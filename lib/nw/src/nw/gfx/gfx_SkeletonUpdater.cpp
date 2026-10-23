@@ -1,6 +1,10 @@
 #include "nw/gfx/gfx_SkeletonUpdater.h"
 
+#include <cmath>
+
 #include "nn/math/math_ARMv6.h"
+#include "nw/gfx/gfx_BillboardUpdater.h"
+#include "nw/gfx/gfx_Camera.h"
 #include "nw/gfx/gfx_Skeleton.h"
 #include "nw/gfx/gfx_TransformNode.h"
 #include "nw/gfx/gfx_WorldMatrixUpdater.h"
@@ -77,6 +81,54 @@ DECOMP_ALWAYS_INLINE void UpdateBoneWorld(const WorldMatrixUpdater& worldMatrixU
 nw::gfx::SkeletonUpdater::~SkeletonUpdater()
 {
     // empty (in the original too)
+}
+
+// 0x00738BD8 (name is ours)
+void nw::gfx::SkeletonUpdater::UpdateView(Skeleton* pSkeleton, const BillboardUpdater& billboardUpdater, const Camera& camera) const
+{
+    if (pSkeleton->m_IsViewIndependent) {
+        return;
+    }
+    res::ResSkeleton resSkeleton(pSkeleton->GetResSceneObject().ptr());
+    bool isViewDependent = false;
+    Skeleton::TransformArray* pLocalTransforms = pSkeleton->GetLocalTransforms();
+    Skeleton::TransformArray* pWorldTransforms = pSkeleton->GetWorldTransforms();
+    const nn::math::MTX34& cameraMatrix = camera.m_WorldMatrix;
+    const nn::math::VEC3 cameraPosition(cameraMatrix.m[0][3], cameraMatrix.m[1][3], cameraMatrix.m[2][3]);
+    int boneIdx = 0;
+    Skeleton::MatrixArray* pWorldMatrices = pSkeleton->GetWorldMatrices();
+    for (nn::math::MTX34* pWorldMatrix = pWorldMatrices->begin(); pWorldMatrix != pWorldMatrices->end(); ++pWorldMatrix, ++boneIdx) {
+        const CalculatedTransform& localTransform = (*pLocalTransforms)[boneIdx];
+        if (!localTransform.IsEnabledFlags(CalculatedTransform::FLAG_UNKNOWN_0x1 | CalculatedTransform::FLAG_UNKNOWN_0x1000)) {
+            continue;
+        }
+        const res::ResBoneData* pBone = resSkeleton.GetBone(boneIdx).ptr();
+        const res::ResBone::BillboardMode mode = static_cast<res::ResBone::BillboardMode>(pBone->billboardMode);
+        if (mode != res::ResBone::BILLBOARD_MODE_OFF) {
+            const CalculatedTransform& worldTransform = (*pWorldTransforms)[boneIdx];
+            billboardUpdater.Update(pWorldMatrix, camera.m_ViewMatrix, camera.m_InverseViewMatrix, cameraPosition, worldTransform,
+                                    localTransform, mode);
+            if (!worldTransform.IsEnabledFlags(CalculatedTransform::FLAG_IS_SCALE_ONE)) {
+                // the world scale (the lengths of the columns) applied to the turned axes
+                nn::math::MTX34 scaled;
+                nn::math::ARMv6::MTX34MultScaleAsm(&scaled, &worldTransform.m_TransformMatrix, &localTransform.m_Scale);
+                const f32 x = scaled.m[0][0] * scaled.m[0][0] + scaled.m[1][0] * scaled.m[1][0] + scaled.m[2][0] * scaled.m[2][0];
+                const f32 y = scaled.m[0][1] * scaled.m[0][1] + scaled.m[1][1] * scaled.m[1][1] + scaled.m[2][1] * scaled.m[2][1];
+                const f32 z = scaled.m[0][2] * scaled.m[0][2] + scaled.m[1][2] * scaled.m[1][2] + scaled.m[2][2] * scaled.m[2][2];
+                nn::math::MTX34 scale(std::sqrt(x), 0.0f, 0.0f, 0.0f, 0.0f, std::sqrt(y), 0.0f, 0.0f, 0.0f, 0.0f, std::sqrt(z), 0.0f);
+                nn::math::ARMv6::MTX33MultAsm(pWorldMatrix, pWorldMatrix, &scale);
+            }
+            isViewDependent = true;
+        }
+        const u32 SKINNING = res::ResBoneData::FLAG_UNKNOWN_0x40 | res::ResBoneData::FLAG_HAS_SKINNING_MATRIX;
+        if ((pBone->flags & SKINNING) == SKINNING) {
+            nn::math::ARMv6::MTX34MultAsm(&(*pSkeleton->GetSkinningMatrices())[boneIdx], pWorldMatrix, &pBone->inverseBaseMatrix);
+            isViewDependent = true;
+        }
+    }
+    if (!isViewDependent) {
+        pSkeleton->m_IsViewIndependent = true;
+    }
 }
 
 // 0x00738E08 | mk7dlp:callseq

@@ -29,6 +29,7 @@ public:
         FLAG_IS_SCALE_ONE = 1 << 9,
         FLAG_IS_UNIFORM_SCALE = 1 << 10,
         FLAG_IS_DIRTY = 1 << 11,            // the matrix changed
+        FLAG_UNKNOWN_0x1000 = 1 << 12,      // (with FLAG_UNKNOWN_0x1: SkeletonUpdater::UpdateView looks at the bone)
         // the values are in the form for blending (the logarithm of the scale, the rotation as a
         // quaternion, see NormalizeRotateQuaternion)
         FLAG_IS_BLEND_FORM = 1 << 30,

@@ -5,6 +5,8 @@
 
 namespace nw {
 namespace gfx {
+class BillboardUpdater;
+class Camera;
 class Skeleton;
 class WorldMatrixUpdater;
 
@@ -23,6 +25,9 @@ public:
 
     // the bones in their order (parents first), with the callbacks of the skeleton around each one
     void UpdateWorld(Skeleton* pSkeleton, const WorldMatrixUpdater& worldMatrixUpdater) const; // 0x00738E08 | mk7dlp:callseq
+    // the matrices that depend on the camera: billboard bones turned to it, the skinning matrices of
+    // the bones that have one (name is ours)
+    void UpdateView(Skeleton* pSkeleton, const BillboardUpdater& billboardUpdater, const Camera& camera) const; // 0x00738BD8 (name is ours)
 };
 ASSERT_SIZE(SkeletonUpdater, 0x8);
 } // namespace gfx

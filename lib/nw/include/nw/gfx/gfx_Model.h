@@ -1,6 +1,7 @@
 #pragma once
 
 #include "decomp.h"
+#include "nn/math/math_ARMv6.h"
 #include "nn/math/math_MTX34.h"
 #include "nw/anim/res/anim_ResAnimGroupMember.h"
 #include "nw/gfx/gfx_GfxObject.h"
@@ -61,6 +62,52 @@ public:
 
     // whether the mesh is drawn (its own visibility and the one of its mesh node)
     bool IsMeshVisible(res::ResMesh mesh); // 0x004AAEEC | nintendogs:bytes [tier B]
+    // (inline in the original, called out of line) the view matrix for the normals: the view
+    // matrix times the inverse transpose of the world matrix, else times the scale correction of
+    // the world matrix (none for a world scale of one; skeletal models whose bones are not in model
+    // space use the inverse transpose; name is ours)
+    DECOMP_NOINLINE void UpdateNormalMatrix(const nn::math::MTX34& viewMatrix, bool useInverseTranspose) // 0x00135B9C (name is ours)
+    {
+        if (useInverseTranspose) {
+            nn::math::MTX34 inverseTranspose;
+            nn::math::ARMv6::MTX34InvTransposeAsm(&inverseTranspose, &m_WorldMatrix);
+            nn::math::ARMv6::MTX34MultAsm(&m_NormalMatrix, &viewMatrix, &inverseTranspose);
+        } else if (!m_WorldTransform.IsEnabledFlags(CalculatedTransform::FLAG_IS_SCALE_ONE)) {
+            nn::math::MTX34 inverse;
+            nn::math::ARMv6::MTX34InverseAsm(&inverse, &m_WorldMatrix);
+            nn::math::MTX34 transpose;
+            nn::math::ARMv6::MTX34TransposeAsm(&transpose, &inverse);
+            nn::math::MTX34 correction;
+            nn::math::ARMv6::MTX34MultAsm(&correction, &transpose, &inverse);
+            nn::math::ARMv6::MTX34MultAsm(&m_NormalMatrix, &viewMatrix, &correction);
+        } else {
+            nn::math::ARMv6::MTX34CopyAsm(&m_NormalMatrix, &viewMatrix);
+        }
+    }
+
+    // whether a model is drawn: visible and on a visible branch (the class name is from the
+    // reference symbols)
+    struct IsVisibleModelDefaultFunctor
+    {
+        bool operator()(const Model* pModel) const { return pModel->m_IsVisible && pModel->IsVisible(); }
+    };
+    // (name is ours) a test whether a model is drawn, given to SceneUpdater::SubmitView
+    class IsVisibleModelFunctor
+    {
+    public:
+        virtual bool operator()(const Model* pModel) const = 0;
+    };
+
+    // (inline) the copies of the meshes, else the meshes of the resource
+    ut::internal::ResArray<res::ResMesh, ut::internal::ResArrayClassTraits> GetResMeshes() const
+    {
+        if (m_ResMeshes.m_pBegin != m_ResMeshes.m_pEnd) {
+            return m_ResMeshes;
+        }
+        const res::ResModelData* pResource = GetResModel().ptr();
+        return ut::internal::ResArray<res::ResMesh, ut::internal::ResArrayClassTraits>(pResource->meshes.array.To<ut::Offset>(),
+                                                                                       pResource->meshes.count);
+    }
 
     res::ResModel GetResModel() const { return res::ResModel(GetResSceneObject().ptr()); }
     u32 GetBufferOption() const { return m_BufferOption; }
@@ -111,7 +158,7 @@ public:
     ut::MoveArray<res::ResMeshNodeVisibilityData> m_MeshNodeVisibilities; // 0x178 copies (or those of the shared model)
     u32 m_BufferOption;                                             // 0x188
     nn::math::MTX34 m_Unknown0x18C;                                 // 0x18C (the identity)
-    nn::math::MTX34 m_Unknown0x1BC;                                 // 0x1BC (the identity)
+    nn::math::MTX34 m_NormalMatrix;                                 // 0x1BC the view matrix for the normals (UpdateNormalMatrix)
     GfxPtr<IMaterialActivator> m_MaterialActivator;                // 0x1EC
     u8 m_LayerId;                                                   // 0x1F4 (the renderer sorts by it)
     bool m_IsResourceVisible;                                       // 0x1F5 the visibility of the resource

@@ -9,6 +9,13 @@ namespace gfx {
 namespace res {
 // A shape of a model (only the fields known so far; names are ours). A separate-data shape has
 // primitive sets (the index streams) and vertex attributes (the vertex streams).
+// the bounding box of a shape (only the field known so far; names are ours)
+struct ResOrientedBoundingBoxData
+{
+    u32 m_Unknown0x0;        // 0x0
+    nn::math::VEC3_ center;  // 0x4
+};
+
 struct ResShapeData
 {
     enum Flag
@@ -19,7 +26,7 @@ struct ResShapeData
     u32 typeInfo;              // 0x00
     u32 m_Unknown0x4[5];       // 0x04
     u32 flags;                 // 0x18
-    u32 m_Unknown0x1C;         // 0x1C
+    ut::Offset boundingBox;    // 0x1C ResOrientedBoundingBoxData
     nn::math::VEC3_ positionOffset; // 0x20 added to the positions in the shader (uniform c6)
 };
 ASSERT_SIZE(ResShapeData, 0x2C);

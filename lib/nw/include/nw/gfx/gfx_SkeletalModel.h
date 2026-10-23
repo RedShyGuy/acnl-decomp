@@ -36,7 +36,6 @@ public:
 
     static const TypeInfo s_TypeInfo;
 
-protected:
     // the animation group of the bones (if the resource has one)
     u32 CreateSkeletalAnimGroup(os::IAllocator* pAllocator); // 0x0049785C | nintendogs:bytes-fuzzy [tier A]
     // the animated values of the group: the local transforms of the bones, or their world matrices

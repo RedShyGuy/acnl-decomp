@@ -103,6 +103,11 @@ def split_signature(sig):
         if depth == 0:
             break
     head, inner = sig[:i], sig[i + 1:-1]
+    # a template call operator ("F::operator()<T>(...)"): the template arguments stay with the name
+    targs = ''
+    mo = re.search(r'operator\s*\(\)\s*(?=<)', head)
+    if mo and head.rstrip().endswith('>'):
+        head, targs = head[:mo.start()] + 'operator()', head[mo.end():].rstrip()
     m = re.search(r'([\w:~@<>]+|operator\s*\S+)\s*$', head)
     if not m:
         return None
@@ -151,7 +156,7 @@ def split_signature(sig):
             cur += ch
     if cur.strip() and cur.strip() != 'void':
         params.append(cur.strip())
-    return m.group(1), params, const
+    return m.group(1) + targs, params, const
 
 
 def strip_init_list(sig):

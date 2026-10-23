@@ -15,14 +15,18 @@ class Light;
 class FragmentLight;
 class AmbientLight;
 class HemiSphereLight;
+class ParticleSet;
+class ParticleEmitter;
+class ParticleModel;
 
 // RTTI N2nw3gfx13ISceneVisitorE @ 0x008D05EC
-// Visits the nodes of a scene (SceneNode::Accept); one function per node class. The slots are filled
-// in as the node classes are written (names after the reference symbols of SceneTraverser).
+// Visits the nodes of a scene (SceneNode::Accept); one function per node class (names after the
+// reference symbols of SceneTraverser, the others are ours).
 class ISceneVisitor : public ::nw::gfx::GfxObject
 {
 public:
-    ISceneVisitor(); // ctor address unknown
+    // (inline)
+    explicit ISceneVisitor(os::IAllocator* pAllocator) : GfxObject(pAllocator) {}
     virtual ~ISceneVisitor() {}
 
     virtual const TypeInfo* GetRuntimeTypeInfo() const = 0; // slot 0x08
@@ -38,6 +42,11 @@ public:
     virtual void VisitFragmentLight(FragmentLight* pLight) = 0; // slot 0x2C
     virtual void VisitAmbientLight(AmbientLight* pLight) = 0; // slot 0x30
     virtual void VisitHemiSphereLight(HemiSphereLight* pLight) = 0; // slot 0x34
+    virtual void VisitParticleSet(ParticleSet* pParticleSet) = 0; // slot 0x38 (name is ours)
+    virtual void VisitParticleEmitter(ParticleEmitter* pEmitter) = 0; // slot 0x3C (name is ours)
+    virtual void VisitParticleModel(ParticleModel* pModel) = 0; // slot 0x40 (name is ours)
+
+    static const TypeInfo s_TypeInfo;
 };
 } // namespace gfx
 } // namespace nw

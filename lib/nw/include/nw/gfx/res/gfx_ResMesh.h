@@ -16,6 +16,7 @@ struct ResMeshData
     {
         FLAG_USAGE3_HAS_4_COMPONENTS = 0x1,  // the attribute of usage 3 has four components
         FLAG_USAGE8_HAS_4_COMPONENTS = 0x2,  // the attribute of usage 8 has four components
+        FLAG_RENDER_KEY_CACHED = 0x4,        // renderKeyCache holds the key (a render queue that caches keys)
         FLAG_SETUP_DONE = 0x8,
     };
 
@@ -32,7 +33,7 @@ struct ResMeshData
     s32 materialIndex;             // 0x1C
     ut::Offset owner;              // 0x20 the ResModelData (of a copy: the model it belongs to)
     bool isVisible;                // 0x24
-    u8 m_Unknown0x25;              // 0x25
+    u8 renderPriority;             // 0x25 (in the render keys)
     s16 meshNodeVisibilityIndex;   // 0x26 the ResMeshNodeVisibilityData of the mesh (-1: none)
     s32 primitiveIndex;            // 0x28 the primitive of each primitive set that is drawn
     u32 flags;                     // 0x2C
@@ -44,7 +45,8 @@ struct ResMeshData
     u32* pDeactivateCommand;       // 0x68 the commands that turn them off again (in the same memory)
     u32 deactivateCommandSize;     // 0x6C bytes
     ut::Offset m_Unknown0x70;      // 0x70
-    u32 m_Unknown0x74[3];          // 0x74
+    u32 m_Unknown0x74;             // 0x74
+    u64 renderKeyCache;            // 0x78 the key of the mesh in a render queue (FLAG_RENDER_KEY_CACHED)
     os::IAllocator* pAllocator;    // 0x80
     u32 m_Unknown0x84;             // 0x84 (not copied with the resource)
 };

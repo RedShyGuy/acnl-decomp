@@ -535,7 +535,7 @@ nw::gfx::Model::Model(os::IAllocator* pAllocator, res::ResModel resource, const 
       m_pVisibilityAnimGroup(nullptr), m_VisibilityAnimGroupIndex(0), m_pPreRenderCallbacks(nullptr),
       m_pPostRenderCallbacks(nullptr), m_Materials(), m_ResMeshes(nullptr, 0), m_MeshNodeVisibilities(),
       m_BufferOption(description.bufferOption), m_Unknown0x18C(nn::math::MTX34::Identity()),
-      m_Unknown0x1BC(nn::math::MTX34::Identity()), m_MaterialActivator(), m_LayerId(0), m_IsResourceVisible(true),
+      m_NormalMatrix(nn::math::MTX34::Identity()), m_MaterialActivator(), m_LayerId(0), m_IsResourceVisible(true),
       m_IsVisible(true),
       m_SharingFlags((description.pSharedMaterialModel != nullptr ? SHARING_MATERIALS : 0) |
                      (description.pSharedMeshNodeVisibilityModel != nullptr ? SHARING_MESH_NODE_VISIBILITIES : 0)),

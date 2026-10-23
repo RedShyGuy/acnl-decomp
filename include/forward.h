@@ -3553,7 +3553,7 @@ namespace nw { namespace gfx {
     template <typename T0, typename T1> class PriorDepthRenderKeyFactory;
     template <typename T0, typename T1> class PriorMaterialRenderKeyFactory;
     template <typename T0> class BasicRenderKeyFactory;
-    template <typename T0> struct BasicRenderElement { u32 _unknown; }; // placeholder
+    template <typename T0> class BasicRenderElement; // nw/gfx/gfx_BasicRenderElement.h
     template <typename T> class GfxPtr; // nw/gfx/gfx_GfxObject.h
 }}
 

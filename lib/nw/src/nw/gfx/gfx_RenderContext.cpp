@@ -46,7 +46,7 @@ const u32 REG_VSH_FLOATUNIFORM_DATA = 0x2C1;
 const u32 FLOAT_UNIFORM_F32 = 0x80000000;
 // the float uniforms of the gfx shaders (names are ours)
 const u32 UNIFORM_MODEL_MATRIX = 0;         // c0-c2 (the identity unless the skeleton is in model space)
-const u32 UNIFORM_MODEL_VIEW_MATRIX = 3;    // c3-c5 (Model::m_Unknown0x1BC)
+const u32 UNIFORM_NORMAL_MATRIX = 3;        // c3-c5 (Model::m_NormalMatrix)
 const u32 UNIFORM_HEMISPHERE_GROUND = 22;
 const u32 UNIFORM_HEMISPHERE_SKY = 23;
 const u32 UNIFORM_HEMISPHERE_DIRECTION = 24;
@@ -396,7 +396,7 @@ void nw::gfx::RenderContext::ActivateFragmentLight(int lightIdx, const FragmentL
 void nw::gfx::RenderContext::SetModelMatrixForModel(Model* pModel)
 {
     PutVertexMatrix34(UNIFORM_MODEL_MATRIX, nn::math::MTX34::Identity());
-    PutVertexMatrix34(UNIFORM_MODEL_VIEW_MATRIX, pModel->m_Unknown0x1BC);
+    PutVertexMatrix34(UNIFORM_NORMAL_MATRIX, pModel->m_NormalMatrix);
     m_pModel = pModel;
 }
 
@@ -522,7 +522,7 @@ void nw::gfx::RenderContext::SetModelMatrixForSkeletalModel(SkeletalModel* pMode
     } else {
         PutVertexMatrix34(UNIFORM_MODEL_MATRIX, nn::math::MTX34::Identity());
     }
-    PutVertexMatrix34(UNIFORM_MODEL_VIEW_MATRIX, pModel->m_Unknown0x1BC);
+    PutVertexMatrix34(UNIFORM_NORMAL_MATRIX, pModel->m_NormalMatrix);
     m_pModel = pModel;
 }
 

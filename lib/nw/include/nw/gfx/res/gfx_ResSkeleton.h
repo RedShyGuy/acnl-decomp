@@ -24,6 +24,8 @@ struct ResBoneData
         FLAG_SEGMENT_SCALE_COMPENSATE = 1 << 5,
         // the bone has a skinning matrix (the world matrix times the inverse bind pose; name is ours)
         FLAG_HAS_SKINNING_MATRIX = 1 << 9,
+        // (set together with FLAG_HAS_SKINNING_MATRIX on the bones whose skinning matrix is used)
+        FLAG_UNKNOWN_0x40 = 1 << 6,
     };
 
     ut::Offset name;          // 0x00
@@ -35,16 +37,30 @@ struct ResBoneData
     nn::math::VEC3_ scale;    // 0x20
     nn::math::VEC3_ rotate;   // 0x2C angles in radians
     nn::math::VEC3_ translate; // 0x38
+    nn::math::MTX34 localMatrix;        // 0x44
+    nn::math::MTX34 worldMatrix;        // 0x74
+    nn::math::MTX34 inverseBaseMatrix;  // 0xA4 the inverse of the bind pose
+    u32 billboardMode;                  // 0xD4 ResBone::BillboardMode (low byte)
 };
 ASSERT_OFFSET(ResBoneData, scale, 0x20);
 ASSERT_OFFSET(ResBoneData, translate, 0x38);
+ASSERT_OFFSET(ResBoneData, billboardMode, 0xD4);
 
 // the wrapper of a bone (passed by value like all resources)
 class ResBone
 {
 public:
-    // how the bone faces the camera (the values are filled in with BillboardUpdater)
-    enum BillboardMode : u8;
+    // how the bone faces the camera (names are ours, after BillboardUpdater::Update)
+    enum BillboardMode : u8
+    {
+        BILLBOARD_MODE_OFF = 0,
+        BILLBOARD_MODE_WORLD = 1,             // z along the z axis of the camera
+        BILLBOARD_MODE_WORLD_VIEWPOINT = 2,   // z towards the camera position
+        BILLBOARD_MODE_SCREEN = 3,            // parallel to the screen, the up vector kept in view space
+        BILLBOARD_MODE_SCREEN_VIEWPOINT = 4,  // towards the camera in view space
+        BILLBOARD_MODE_Y_AXIAL = 5,           // turns about its y axis only
+        BILLBOARD_MODE_Y_AXIAL_VIEWPOINT = 6,
+    };
 
     // (inline)
     explicit ResBone(const void* pData = nullptr) : m_pData(static_cast<const ResBoneData*>(pData)) {}

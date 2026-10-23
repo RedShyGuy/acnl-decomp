@@ -27,7 +27,7 @@ public:
     // (inline)
     Skeleton(os::IAllocator* pAllocator, res::ResSkeleton resSkeleton, int maxCallbacks, bool isFixedSizeMemory)
         : SceneObject(pAllocator, res::ResSceneObject(resSkeleton.ptr())), m_pOwner(nullptr), m_pPreCalculateCallbacks(nullptr),
-          m_pPostCalculateCallbacks(nullptr), m_Unknown0x18(false), m_Unknown0x19(false)
+          m_pPostCalculateCallbacks(nullptr), m_IsWorldCalculated(false), m_IsViewIndependent(false)
     {
         CreateCallbacks(pAllocator, maxCallbacks, isFixedSizeMemory);
     }
@@ -53,8 +53,8 @@ public:
     TransformNode* m_pOwner;                // 0xC the model (the parent of the root bones)
     CallbackList* m_pPreCalculateCallbacks;  // 0x10 per bone before its world transform is calculated
     CallbackList* m_pPostCalculateCallbacks; // 0x14
-    bool m_Unknown0x18;                     // 0x18
-    bool m_Unknown0x19;                     // 0x19
+    bool m_IsWorldCalculated;               // 0x18 the world matrices of this frame are calculated (SceneUpdater)
+    bool m_IsViewIndependent;               // 0x19 no bone is a billboard or has a skinning matrix (SkeletonUpdater::UpdateView)
 };
 ASSERT_SIZE(Skeleton, 0x1C);
 } // namespace gfx

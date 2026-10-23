@@ -98,6 +98,14 @@ struct ResMaterialData
     };
     // in fragmentOperationMode: the result does not depend on the color buffer (set by Setup)
     static const u32 FRAGMENT_OPERATION_NO_DESTINATION = 0x80000000;
+    // how the material is sorted and blended (translucencyKind; names are ours)
+    enum TranslucencyKind
+    {
+        TRANSLUCENCY_KIND_OPAQUE = 0,
+        TRANSLUCENCY_KIND_TRANSLUCENT = 1, // sorted by depth, far ones first
+        TRANSLUCENCY_KIND_SUBTRACTIVE = 2,
+        TRANSLUCENCY_KIND_ADDITIVE = 3,
+    };
     // rasterizationFlags (names are ours)
     enum RasterizationFlag
     {
@@ -122,7 +130,7 @@ struct ResMaterialData
     ut::Offset userDataDic;              // 0x014
     u32 flags;                           // 0x018
     u32 textureCoordinateConfig;         // 0x01C which coordinators the texture units use (low byte)
-    u32 m_Unknown0x20;                   // 0x020
+    u32 translucencyKind;                // 0x020 TranslucencyKind (low byte)
     ResMaterialColorData materialColor;  // 0x024 (animated as a whole)
     u32 rasterizationFlags;              // 0x104 RasterizationFlag
     u32 m_Unknown0x108;                  // 0x108
@@ -161,7 +169,7 @@ struct ResMaterialData
     u32 textureCombinersHash;            // 0x2C8
     u32 combinerBufferHash;              // 0x2CC
     u32 fragmentOperationHash;           // 0x2D0
-    u32 m_Unknown0x2D4;                  // 0x2D4
+    u32 renderKeyId;                     // 0x2D4 the part of the material in the render keys
 };
 ASSERT_SIZE(ResMaterialData, 0x2D8);
 ASSERT_OFFSET(ResMaterialData, textureCoordinators, 0x16C);

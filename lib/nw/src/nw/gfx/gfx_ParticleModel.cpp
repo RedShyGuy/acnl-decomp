@@ -3,6 +3,12 @@
 
 namespace nw {
 namespace gfx {
+// 0x0097F488
+const TypeInfo nw::gfx::ParticleModel::s_TypeInfo(&Model::s_TypeInfo);
+
+// sets s_TypeInfo
+// 0x0079C1E8 (static initializer)
+
 // ctor candidate(s) 0x0049419C (unverified)
 nw::gfx::ParticleModel::ParticleModel()
 {
@@ -15,11 +21,6 @@ nw::gfx::ParticleModel::~ParticleModel()
 
 // 0x004947D8 slot 0x04 | virtual slot, introduced by nw::gfx::SceneNode
 void nw::gfx::ParticleModel::vf_0x04()
-{
-}
-
-// 0x00738A24 slot 0x08 | slot vf_0x08 of nw::gfx::SceneNode
-const nw::gfx::TypeInfo* nw::gfx::ParticleModel::GetRuntimeTypeInfo() const
 {
 }
 
