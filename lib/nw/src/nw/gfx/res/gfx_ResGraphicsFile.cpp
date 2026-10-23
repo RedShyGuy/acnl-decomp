@@ -11,9 +11,64 @@
 namespace nw {
 namespace gfx {
 namespace res {
+namespace {
+// (inline) the animations of a dictionary
+inline void CleanupAnims(const ResDicInfo& anims)
+{
+    for (int i = 0; i < anims.count; ++i) {
+        anim::res::ResAnim anim(anims.GetData(i));
+        if (anim.IsValid()) {
+            anim.Cleanup();
+        }
+    }
+}
+} // namespace
+
 // 0x00131E5C | nintendogs:bytes [tier A]
 void nw::gfx::res::ResGraphicsFile::Cleanup()
 {
+    // the reverse order of Setup
+    for (int i = 0; i < m_pData->models.count; ++i) {
+        ResModel model(m_pData->models.GetData(i));
+        if (model.IsValid()) {
+            model.Cleanup();
+        }
+    }
+    CleanupAnims(m_pData->lightAnims);
+    CleanupAnims(m_pData->cameraAnims);
+    CleanupAnims(m_pData->visibilityAnims);
+    CleanupAnims(m_pData->textureAnims);
+    CleanupAnims(m_pData->skeletalAnims);
+    for (int i = 0; i < m_pData->textures.count; ++i) {
+        ResTexture texture(m_pData->textures.GetData(i));
+        if (texture.IsValid()) {
+            texture.Cleanup();
+        }
+    }
+    for (int i = 0; i < m_pData->shaders.count; ++i) {
+        ResShader shader(m_pData->shaders.GetData(i));
+        if (shader.IsValid()) {
+            shader.Cleanup();
+        }
+    }
+    for (int i = 0; i < m_pData->fogs.count; ++i) {
+        ResFog fog(m_pData->fogs.GetData(i));
+        if (fog.IsValid()) {
+            fog.Cleanup();
+        }
+    }
+    for (int i = 0; i < m_pData->lights.count; ++i) {
+        ResLight light(m_pData->lights.GetData(i));
+        if (light.IsValid()) {
+            light.Cleanup();
+        }
+    }
+    for (int i = 0; i < m_pData->luts.count; ++i) {
+        ResLookupTableSet luts(m_pData->luts.GetData(i));
+        if (luts.IsValid()) {
+            luts.Cleanup();
+        }
+    }
 }
 
 // 0x004A6D94 | nintendogs:callseq [tier A]

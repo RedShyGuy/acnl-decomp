@@ -221,7 +221,7 @@ void* nw::gfx::Material::GetAnimTargetObject(const anim::res::ResAnimGroupMember
         return pMaterial->textureMappers[pMember->index].ToPtr();
     case anim::res::ResAnimGroupMemberData::MEMBER_TYPE_BLEND_OPERATION:
         pMember->pObject = pMaterial;
-        return &pMaterial->fragmentOperationMode;
+        return &pMaterial->blendOperation;
     case anim::res::ResAnimGroupMemberData::MEMBER_TYPE_TEXTURE_COORDINATOR:
         pMember->pObject = pMaterial;
         return &pMaterial->textureCoordinators[pMember->index];

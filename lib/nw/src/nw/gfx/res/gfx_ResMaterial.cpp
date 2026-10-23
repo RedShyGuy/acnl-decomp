@@ -332,12 +332,12 @@ u32 nw::gfx::res::ResMaterial::Setup(os::IAllocator* pAllocator, ResGraphicsFile
     // COPY, SET, COPY_INVERTED; a blend with a source factor that reads it or a destination factor
     // other than ZERO
     bool isWithoutDestination;
-    u32& mode = ptr()->fragmentOperationMode;
+    u32& mode = ptr()->blendOperation.mode;
     if (static_cast<u8>(mode) == BLEND_MODE_LOGIC_OP) {
-        const u32 operation = ptr()->logicOperation & 0xF;
+        const u32 operation = ptr()->blendOperation.logicOperation & 0xF;
         isWithoutDestination = operation == 0 || operation == 3 || operation == 4 || operation == 5;
     } else {
-        const u32 blend = ptr()->blendFunction;
+        const u32 blend = ptr()->blendOperation.blendFunction;
         isWithoutDestination = !ReadsDestination((blend >> 16) & 0xF) && !ReadsDestination((blend >> 24) & 0xF) &&
                                ((blend >> 20) & 0xF) == 0 && (blend >> 28) == 0;
     }

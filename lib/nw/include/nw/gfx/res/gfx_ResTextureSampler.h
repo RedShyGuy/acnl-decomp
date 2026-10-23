@@ -2,6 +2,7 @@
 
 #include "decomp.h"
 #include "nw/gfx/res/gfx_ResCommon.h"
+#include "nw/ut/ut_FloatColor.h"
 
 namespace nw {
 namespace gfx {
@@ -21,7 +22,8 @@ struct ResTextureSamplerData
     u32 typeInfo;          // 0x00
     ut::Offset owner;      // 0x04 the ResPixelBasedTextureMapperData
     u32 minFilter;         // 0x08 MinFilter (low byte)
-    u32 m_Unknown0xC[5];   // 0x0C
+    ut::FloatColor borderColor; // 0x0C (animated; in the border color command of the owner)
+    u32 m_Unknown0x1C;     // 0x1C
 };
 ASSERT_SIZE(ResTextureSamplerData, 0x20);
 

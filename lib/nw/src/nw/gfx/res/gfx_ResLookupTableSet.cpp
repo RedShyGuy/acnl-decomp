@@ -7,6 +7,13 @@ namespace res {
 // 0x00137638 | nintendogs:bytes [tier A]
 void nw::gfx::res::ResLookupTableSet::Cleanup()
 {
+    const s32 tableCount = GetTableCount();
+    for (int i = 0; i < tableCount; ++i) {
+        ResLookupTable table = GetTable(i);
+        if (table.IsValid()) {
+            table.Cleanup();
+        }
+    }
 }
 
 // 0x004A7C5C | nintendogs:bytes [tier A]

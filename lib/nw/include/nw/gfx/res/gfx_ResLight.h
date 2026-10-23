@@ -55,13 +55,30 @@ struct ResFragmentLightData : public ResLightData
     nn::math::VEC3 direction;         // 0x10C
     ut::Offset distanceSampler;       // 0x118 ResLookupTableData
     ut::Offset angleSampler;          // 0x11C ResLightingLookupTableData
-    u32 m_Unknown0x120[2];            // 0x120
+    f32 distanceAttenuationStart;     // 0x120
+    f32 distanceAttenuationEnd;       // 0x124
     u32 distanceAttenuationScale;     // 0x128 float20 (3dbrew "GPU/Internal Registers": LIGHTn_ATTENUATION_SCALE)
     u32 distanceAttenuationBias;      // 0x12C float20 (LIGHTn_ATTENUATION_BIAS)
     u8 m_Unknown0x130[4];             // 0x130
 };
 ASSERT_OFFSET(ResFragmentLightData, angleSampler, 0x11C);
 ASSERT_SIZE(ResFragmentLightData, 0x134);
+
+// a vertex light (computed by the vertex shader; names are ours)
+struct ResVertexLightData : public ResLightData
+{
+    u32 m_Unknown0xB8;                     // 0xB8
+    ut::FloatColor ambient;                // 0xBC
+    ut::FloatColor diffuse;                // 0xCC
+    nn::math::VEC3 direction;              // 0xDC
+    f32 distanceAttenuationConstant;       // 0xE8
+    f32 distanceAttenuationLinear;         // 0xEC
+    f32 distanceAttenuationQuadratic;      // 0xF0
+    u32 m_Unknown0xF4;                     // 0xF4
+    f32 spotExponent;                      // 0xF8
+    f32 spotCutoffAngle;                   // 0xFC
+};
+ASSERT_OFFSET(ResVertexLightData, spotCutoffAngle, 0xFC);
 
 struct ResAmbientLightData : public ResLightData
 {

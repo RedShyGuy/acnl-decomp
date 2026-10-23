@@ -82,6 +82,20 @@ public:
 };
 ASSERT_SIZE(ResMaterialColor, 0x4);
 
+// The blend operation of a material: its mode, the blend color and the blend commands (names are ours).
+struct ResBlendOperationData
+{
+    u32 mode;                  // 0x00 low byte: the blend mode (3: logic op); bit 31 see FRAGMENT_OPERATION_NO_DESTINATION
+    ut::FloatColor blendColor; // 0x04 (animated)
+    u32 colorOperation;        // 0x14 the blend commands start here (COLOR_OPERATION, six words)
+    u32 colorOperationHeader;  // 0x18
+    u32 blendFunction;         // 0x1C (3dbrew "GPU/Internal Registers": BLEND_FUNC)
+    u32 logicOperation;        // 0x20 (LOGIC_OP)
+    u32 blendColorCommand;     // 0x24 (BLEND_COLOR: the blend color as a PICA word)
+    u32 m_Unknown0x28;         // 0x28
+};
+ASSERT_SIZE(ResBlendOperationData, 0x2C);
+
 // The data of a material resource (only the fields known so far; names are ours). The hashes say
 // which state the material activator sent last; an animation of a part sets its hash to 0, so the
 // part is sent again.
@@ -96,7 +110,7 @@ struct ResMaterialData
         FLAG_TEXTURES_SETUP_DONE = 0x100,
         FLAG_FRAGMENT_SHADER_SETUP_DONE = 0x200,
     };
-    // in fragmentOperationMode: the result does not depend on the color buffer (set by Setup)
+    // in blendOperation.mode: the result does not depend on the color buffer (set by Setup)
     static const u32 FRAGMENT_OPERATION_NO_DESTINATION = 0x80000000;
     // how the material is sorted and blended (translucencyKind; names are ours)
     enum TranslucencyKind
@@ -138,13 +152,7 @@ struct ResMaterialData
     u32 cullingCommand[2];               // 0x110 (FACECULLING_CONFIG)
     u32 depthFlags;                      // 0x118 DepthFlag
     u32 depthCommand[4];                 // 0x11C
-    u32 fragmentOperationMode;           // 0x12C low byte: the blend mode (3: logic op); the blend operation starts here
-    u32 m_Unknown0x130[4];               // 0x130
-    u32 colorOperation;                  // 0x140 the blend commands start here (COLOR_OPERATION, six words)
-    u32 colorOperationHeader;            // 0x144
-    u32 blendFunction;                   // 0x148 (3dbrew "GPU/Internal Registers": BLEND_FUNC)
-    u32 logicOperation;                  // 0x14C (LOGIC_OP)
-    u32 m_Unknown0x150[2];               // 0x150
+    ResBlendOperationData blendOperation; // 0x12C
     u32 stencilCommand[4];               // 0x158 (word 0 bit 0: the stencil test is used)
     s32 textureCoordinatorCount;         // 0x168 the coordinators that are used
     ResTextureCoordinatorData textureCoordinators[3]; // 0x16C

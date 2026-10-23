@@ -13,11 +13,28 @@ inline u32 SetupSampler(ResLightingLookupTable sampler, ResGraphicsFile graphics
     }
     return SetupLightingLookupTable(sampler, graphicsFile);
 }
+
+// (inline) the table of a sampler that is there
+inline void CleanupSampler(ResLightingLookupTable sampler)
+{
+    if (sampler.IsValid()) {
+        ResLookupTable table = sampler.GetSampler();
+        if (table.IsValid()) {
+            table.Cleanup();
+        }
+    }
+}
 } // namespace
 
 // 0x00140F80 | nintendogs:bytes-fuzzy [tier A]
 void nw::gfx::res::ResFragmentLightingTable::Cleanup()
 {
+    CleanupSampler(GetSampler(0));
+    CleanupSampler(GetSampler(1));
+    CleanupSampler(GetSampler(2));
+    CleanupSampler(GetSampler(3));
+    CleanupSampler(GetSampler(4));
+    CleanupSampler(GetSampler(5));
 }
 
 // 0x004A8874 | nintendogs:bytes [tier A]

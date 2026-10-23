@@ -85,7 +85,8 @@ public:
     u32 GetField() const { return m_pData->field; }
     void* GetObject() const { return m_pData->pObject; }
 
-    void SetValueForType(void*, const void*) const; // 0x007442FC | nintendogs:callseq [tier A]
+    // the value written to the target object of the member (by member type and field)
+    void SetValueForType(void* pTarget, const void* pValue) const; // 0x007442FC | nintendogs:callseq [tier A]
 
     const ResAnimGroupMemberData* m_pData; // 0x0
 };

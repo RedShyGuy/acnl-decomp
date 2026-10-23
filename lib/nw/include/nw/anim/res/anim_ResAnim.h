@@ -47,8 +47,10 @@ public:
         return ResMemberAnim(dic.GetDataByIndex(index));
     }
 
+    // the textures of the texture pattern animations forgotten
     void Cleanup(); // 0x001385DC | nintendogs:bytes [tier A]
-    u32 Setup(nw::os::IAllocator*, nw::gfx::res::ResGraphicsFile); // 0x004D6124 | nintendogs:bytes [tier A]
+    // the texture pattern animations resolved
+    u32 Setup(os::IAllocator* pAllocator, gfx::res::ResGraphicsFile graphicsFile); // 0x004D6124 | nintendogs:bytes [tier A]
 
     const ResAnimData* m_pData; // 0x0
 };

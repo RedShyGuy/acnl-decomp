@@ -208,13 +208,13 @@ DECOMP_ALWAYS_INLINE void PutFragmentOperation(res::ResMaterialData* pOperation)
     g_IsStencilTest = isStencilTest;
     PutCommand(pOperation->stencilCommand, 4);
 
-    bool isColorRead = !(pOperation->fragmentOperationMode & res::ResMaterialData::FRAGMENT_OPERATION_NO_DESTINATION);
+    bool isColorRead = !(pOperation->blendOperation.mode & res::ResMaterialData::FRAGMENT_OPERATION_NO_DESTINATION);
     g_IsBufferAccessDirty = g_IsBufferAccessDirty || g_IsColorRead != isColorRead;
     g_IsColorRead = isColorRead;
     nn::gx::detail::s_pCommandBufferCurrent =
-        FastWordCopyAsm_6(nn::gx::detail::s_pCommandBufferCurrent, &pOperation->colorOperation);
+        FastWordCopyAsm_6(nn::gx::detail::s_pCommandBufferCurrent, &pOperation->blendOperation.colorOperation);
 
-    u8 mode = pOperation->colorOperation & 3;
+    u8 mode = pOperation->blendOperation.colorOperation & 3;
     if (g_FragmentOperationMode != mode) {
         g_FragmentOperationMode = mode;
         g_IsBufferAccessDirty = true;
