@@ -37,6 +37,18 @@ public:
 };
 ASSERT_SIZE(GfxObject, 0x8);
 
+// (inline) the object destroyed and given back to its allocator, the pointer set to NULL (name is
+// ours)
+template <typename T>
+inline void SafeDestroy(T*& pObject)
+{
+    if (pObject != nullptr) {
+        pObject->~T();
+        pObject->GetAllocator()->Free(pObject);
+        pObject = nullptr;
+    }
+}
+
 // A pointer to a gfx object that destroys the object when it owns it (the class name is from the
 // reference symbols, the rest is ours). Copying moves the object; assigning swaps.
 template <typename T>

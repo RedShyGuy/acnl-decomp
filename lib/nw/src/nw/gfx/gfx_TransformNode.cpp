@@ -103,25 +103,7 @@ void nw::gfx::TransformNode::InheritTraversalResults()
 // 0x00498E98 | nintendogs:bytes [tier A]
 void nw::gfx::TransformNode::GetMemorySizeForInitialize(os::MemorySizeCalculator* pSize, res::ResTransformNode resNode, Description description)
 {
-    // the children (aligned to 32)
-    const u32 alignment = pSize->GetAlignment();
-    pSize->SetAlignment(32);
-    pSize->Add(description.maxChildren * sizeof(SceneNode*));
-    pSize->SetAlignment(alignment);
-
-    // the callbacks of the scene node
-    pSize->Add(sizeof(NodeCallbackList<SceneNode>));
-    if (description.maxCallbacks != 0) {
-        pSize->Add(description.maxCallbacks * sizeof(NodeCallback<SceneNode>*));
-    }
-
-    // the animation binding
-    if (description.isAnimationEnabled && resNode.IsValid() && resNode.GetAnimGroupCount() != 0) {
-        const s32 groupCount = resNode.GetAnimGroupCount();
-        pSize->Add(sizeof(AnimBinding));
-        pSize->Add(groupCount * sizeof(AnimGroup*));
-        pSize->Add(groupCount * description.maxAnimObjectsPerGroup * sizeof(AnimObject*));
-    }
+    SceneNode::GetMemorySizeForInitialize(pSize, resNode, description);
 
     // the callbacks of the transform node
     pSize->Add(sizeof(NodeCallbackList<TransformNode>));

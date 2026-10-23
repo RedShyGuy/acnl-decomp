@@ -25,6 +25,18 @@ struct BinaryBlockHeader
 };
 ASSERT_SIZE(BinaryBlockHeader, 0x8);
 
+// (inline) the value rounded up to a multiple of the alignment, a power of two (name is ours)
+template <typename T>
+inline T RoundUp(T value, u32 alignment)
+{
+    return (value + alignment - 1) & ~static_cast<T>(alignment - 1);
+}
+template <typename T>
+inline T* RoundUp(T* pointer, u32 alignment)
+{
+    return reinterpret_cast<T*>(RoundUp(reinterpret_cast<uptr>(pointer), alignment));
+}
+
 // the smallest x with 1 + x != 1 (2^-23; name is ours)
 const f32 FLOAT_EPSILON = 1.1920929e-7f;
 

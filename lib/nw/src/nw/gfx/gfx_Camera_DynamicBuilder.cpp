@@ -61,8 +61,8 @@ nw::gfx::Camera* nw::gfx::Camera::DynamicBuilder::Create(os::IAllocator* pAlloca
     pResource->userDataCount = 0;
     pResource->userDataDic.m_Offset = 0;
     pResource->name.m_Offset = 0;
-    pResource->m_Unknown0x20 = 0;
-    pResource->m_Unknown0x24 = 0;
+    pResource->childCount = 0;
+    pResource->children.m_Offset = 0;
     pResource->animGroupCount = 0;
     pResource->animGroupDic.m_Offset = 0;
     pResource->transform.scale = nn::math::VEC3(1.0f, 1.0f, 1.0f);

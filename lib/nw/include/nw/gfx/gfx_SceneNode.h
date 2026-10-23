@@ -10,6 +10,7 @@
 #include "nw/gfx/gfx_ISceneVisitor.h"
 #include "nw/gfx/gfx_NodeCallback.h"
 #include "nw/gfx/gfx_SceneObject.h"
+#include "nw/os/os_MemorySizeCalculator.h"
 #include "nw/ut/ut_MoveArray.h"
 
 namespace nw {
@@ -134,6 +135,27 @@ public:
 
     // a node made from the resource, attached to pParent (name is ours)
     static SceneNode* Create(SceneNode* pParent, res::ResSceneObject resObject, const Description& description, os::IAllocator* pAllocator);
+    // (inline) the memory Initialize takes: the children (aligned to 32), the callbacks and the
+    // animation binding
+    static void GetMemorySizeForInitialize(os::MemorySizeCalculator* pSize, res::ResSceneObject resObject, Description description)
+    {
+        const u32 alignment = pSize->GetAlignment();
+        pSize->SetAlignment(32);
+        pSize->Add(description.maxChildren * sizeof(SceneNode*));
+        pSize->SetAlignment(alignment);
+
+        pSize->Add(sizeof(NodeCallbackList<SceneNode>));
+        if (description.maxCallbacks != 0) {
+            pSize->Add(description.maxCallbacks * sizeof(NodeCallback<SceneNode>*));
+        }
+
+        if (description.isAnimationEnabled && resObject.IsValid() && resObject.GetAnimGroupCount() != 0) {
+            const s32 groupCount = resObject.GetAnimGroupCount();
+            pSize->Add(sizeof(AnimBinding));
+            pSize->Add(groupCount * sizeof(AnimGroup*));
+            pSize->Add(groupCount * description.maxAnimObjectsPerGroup * sizeof(AnimObject*));
+        }
+    }
     // false if the child has a parent or is above this node
     bool AttachChild(SceneNode* pChild);
     // the frames of the bound animations

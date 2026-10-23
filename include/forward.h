@@ -3599,11 +3599,11 @@ namespace nw { namespace gfx { namespace res {
     class ResMaterialColor; // nw/gfx/res/gfx_ResMaterial.h
     struct ResMaterialData; // nw/gfx/res/gfx_ResMaterial.h
     class ResOrthoProjectionUpdater; // nw/gfx/res/gfx_ResCamera.h
-    struct ResParticleCollection { u32 _unknown; }; // placeholder, real type unknown
-    struct ResParticleInitializer { u32 _unknown; }; // placeholder, real type unknown
-    struct ResParticleModel { u32 _unknown; }; // placeholder, real type unknown
-    struct ResParticleSet { u32 _unknown; }; // placeholder, real type unknown
-    struct ResParticleUpdater { u32 _unknown; }; // placeholder, real type unknown
+    class ResParticleCollection; // nw/gfx/res/gfx_ResParticle.h
+    class ResParticleInitializer; // nw/gfx/res/gfx_ResParticle.h
+    class ResParticleModel; // nw/gfx/res/gfx_ResParticle.h
+    class ResParticleSet; // nw/gfx/res/gfx_ResParticle.h
+    class ResParticleUpdater; // nw/gfx/res/gfx_ResParticle.h
     class ResPerspectiveProjectionUpdater; // nw/gfx/res/gfx_ResCamera.h
     class ResReferenceLookupTable; // nw/gfx/res/gfx_ResLookupTable.h
     class ResReferenceShader; // nw/gfx/res/gfx_ResShader.h

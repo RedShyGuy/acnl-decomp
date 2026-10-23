@@ -46,8 +46,8 @@ inline void SetupDynamicResSceneObject(ResSceneObjectData* pResource, u32 typeIn
 // (inline) a transform node at the origin, visible, without animation groups
 inline void SetupDynamicResTransformNode(ResTransformNodeData* pResource)
 {
-    pResource->m_Unknown0x20 = 0;
-    pResource->m_Unknown0x24 = 0;
+    pResource->childCount = 0;
+    pResource->children.m_Offset = 0;
     pResource->animGroupCount = 0;
     pResource->animGroupDic.m_Offset = 0;
     pResource->transform.scale = nn::math::VEC3(1.0f, 1.0f, 1.0f);

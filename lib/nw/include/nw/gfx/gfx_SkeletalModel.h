@@ -1,9 +1,12 @@
 #pragma once
 
 #include "decomp.h"
+#include "nw/gfx/gfx_AnimGroup.h"
 #include "nw/gfx/gfx_GfxObject.h"
 #include "nw/gfx/gfx_Model.h"
 #include "nw/gfx/gfx_Skeleton.h"
+#include "nw/gfx/gfx_StandardSkeleton.h"
+#include "nw/gfx/res/gfx_ResSkeleton.h"
 
 namespace nw {
 namespace gfx {
@@ -33,6 +36,34 @@ public:
     virtual u32 Initialize(os::IAllocator* pAllocator); // 0x00497808 slot 0x24 | nintendogs:bytes
 
     Skeleton* GetSkeleton() const { return m_Skeleton.Get(); }
+
+    // (inline) the memory Builder::Create takes with a skeleton of its own: the local transforms,
+    // the skeleton, the model and the animation group of the bones
+    DECOMP_ALWAYS_INLINE static void GetMemorySizeInternal(os::MemorySizeCalculator* pSize, res::ResModel resource, const Description& description)
+    {
+        const res::ResSkeletonData* pResSkeleton =
+            static_cast<const res::ResSkeletalModelData*>(resource.ptr())->skeleton.To<res::ResSkeletonData>();
+        const u32 alignment = pSize->GetAlignment();
+        pSize->SetAlignment(32);
+        pSize->Add(pResSkeleton->boneCount * sizeof(CalculatedTransform));
+        pSize->SetAlignment(alignment);
+        StandardSkeleton::GetMemorySizeInternal(pSize, res::ResSkeleton(pResSkeleton), description.maxCallbacks);
+
+        pSize->Add(sizeof(SkeletalModel));
+        Model::GetMemorySizeForInitialize(pSize, resource, description);
+        if (description.isAnimationEnabled) {
+            const int groupCount = resource.GetAnimGroupCount();
+            for (int i = 0; i < groupCount; ++i) {
+                anim::res::ResAnimGroup resAnimGroup = resource.GetAnimGroup(i);
+                if ((resAnimGroup.GetFlags() & anim::res::ResAnimGroupData::FLAG_DIRECT_RESULT) &&
+                    resAnimGroup.GetTargetType() == anim::res::ResAnimGroupData::TARGET_TYPE_SKELETON) {
+                    pSize->Add(sizeof(AnimGroup));
+                    AnimGroup::GetMemorySizeForInitialize(pSize, resAnimGroup, true);
+                    break;
+                }
+            }
+        }
+    }
 
     static const TypeInfo s_TypeInfo;
 

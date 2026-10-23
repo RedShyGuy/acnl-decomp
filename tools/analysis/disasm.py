@@ -39,6 +39,8 @@ def main():
     lo, hi = int(a.start, 16), int(a.end, 16)
     out = subprocess.run([objdump(), '-d', '-marm', f'--start-address={lo}', f'--stop-address={hi}', elf],
                          capture_output=True, text=True).stdout
+    # jump tables: `cmp rX, #N; ldrcc pc, [pc, rX, lsl #2]; b default` and N words of targets
+    last_cmp, table = None, None
     for line in out.splitlines():
         mm = re.match(r'\s+([0-9a-f]+):\s+([0-9a-f]{8})\s+(.*)', line)
         if not mm:
@@ -46,6 +48,14 @@ def main():
         addr, txt = int(mm.group(1), 16), mm.group(3)
         if addr in names:
             print(f'\n--- {addr:#x} {names[addr]}')
+        if table and table[0] <= addr < table[1]:
+            print(f'{addr:06x}: {".word":40s} case {(addr - table[0]) // 4}: {m.u32(addr):#x}')
+            continue
+        t = re.match(r'cmp\s+r\d+, #(\d+)', txt)
+        if t:
+            last_cmp = int(t.group(1))
+        if re.match(r'ldr[a-z]*\s+pc, \[pc, r\d+, lsl #2\]', txt) and last_cmp:
+            table = (addr + 8, addr + 8 + 4 * last_cmp)
         note = ''
         t = re.search(r'\b(?:bl|b|blx)[a-z]*\s+0x([0-9a-f]+)', txt)
         if t and int(t.group(1), 16) in names:

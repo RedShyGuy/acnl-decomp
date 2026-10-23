@@ -27,8 +27,8 @@ struct ResSceneObjectData
     ut::Offset userDataDic;    // 0x14
     u32 flags;                 // 0x18 Flag
     u32 m_Unknown0x1C;         // 0x1C
-    u32 m_Unknown0x20;         // 0x20
-    u32 m_Unknown0x24;         // 0x24
+    s32 childCount;            // 0x20
+    ut::Offset children;       // 0x24 the array of ut::Offset to the ResSceneObjectData of the children
     s32 animGroupCount;        // 0x28
     ut::Offset animGroupDic;   // 0x2C ResDicPatricia of the ResAnimGroupData
 };

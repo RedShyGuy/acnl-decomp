@@ -3,6 +3,7 @@
 #include "decomp.h"
 #include "nw/gfx/gfx_CalculatedTransform.h"
 #include "nw/gfx/gfx_Skeleton.h"
+#include "nw/os/os_MemorySizeCalculator.h"
 #include "nw/ut/ut_MoveArray.h"
 
 namespace nw {
@@ -40,6 +41,31 @@ public:
     // others start as identities (NULL: no memory)
     static StandardSkeleton* Create(res::ResSkeleton resSkeleton, int maxCallbacks, bool isFixedSizeMemory,
                                     TransformArray localTransforms, os::IAllocator* pAllocator); // 0x0049C520 | nintendogs:callseq [tier A]
+    // (inline) the memory Create takes (without the local transforms)
+    DECOMP_ALWAYS_INLINE static void GetMemorySizeInternal(os::MemorySizeCalculator* pSize, res::ResSkeleton resSkeleton, int maxCallbacks)
+    {
+        const int boneCount = resSkeleton.GetBoneCount();
+        pSize->Add(sizeof(StandardSkeleton));
+        const u32 alignment = pSize->GetAlignment();
+        pSize->SetAlignment(32);
+        pSize->Add(boneCount * sizeof(CalculatedTransform));
+        pSize->SetAlignment(alignment);
+        pSize->SetAlignment(32);
+        pSize->Add(boneCount * sizeof(nn::math::MTX34));
+        pSize->SetAlignment(alignment);
+        pSize->SetAlignment(32);
+        pSize->Add(boneCount * sizeof(nn::math::MTX34));
+        pSize->SetAlignment(alignment);
+
+        pSize->Add(sizeof(CallbackList));
+        if (maxCallbacks != 0) {
+            pSize->Add(maxCallbacks * sizeof(NodeCallback<Skeleton, int>*));
+        }
+        pSize->Add(sizeof(CallbackList));
+        if (maxCallbacks != 0) {
+            pSize->Add(maxCallbacks * sizeof(NodeCallback<Skeleton, int>*));
+        }
+    }
 
     static const TypeInfo s_TypeInfo;
 
