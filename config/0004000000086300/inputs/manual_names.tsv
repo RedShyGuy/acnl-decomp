@@ -117,3 +117,4 @@
 0x10147E	wcstombs	manual:ours	0x0	Thumb; nw::lyt DarcArchive converts the wide resource paths for its (removed) debug output with it
 0x100DC0	tolower	manual:ours	0x0	Thumb; nw::lyt DarcArchive::ConvertPathToEntryNum compares names case-insensitively with it
 0x101974	wcsicmp	manual:ours	0x0	Thumb; nw::lyt FindNameResourceIgnoreCase / DarcDir::ReadWithExtension compare wide names case-insensitively
+0x100D9C	strncat	manual:ours	0x0	Thumb; nw::snd SoundArchive::OpenExtStreamImpl appends the file path to the external file root with it

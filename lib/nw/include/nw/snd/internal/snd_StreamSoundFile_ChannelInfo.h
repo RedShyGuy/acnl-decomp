@@ -6,5 +6,8 @@
 class nw::snd::internal::StreamSoundFile::ChannelInfo
 {
 public:
-    void GetDspAdpcmChannelInfo() const; // 0x0073FBA0 | nintendogs:bytes [tier A]
+    // the DSP ADPCM state (NULL: another encoding)
+    const DspAdpcmChannelInfo* GetDspAdpcmChannelInfo() const; // 0x0073FBA0 | nintendogs:bytes [tier A]
+
+    BinaryReference adpcmInfo; // 0x0
 };

@@ -3,6 +3,7 @@
 namespace nw {
 namespace snd {
 namespace internal {
+
 } // namespace internal
 } // namespace snd
 } // namespace nw

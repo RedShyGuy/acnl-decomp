@@ -34,7 +34,7 @@ public:
     void SetSoundArchive(const nw::snd::SoundArchive*); // 0x004C8B2C | nintendogs:callgraph [tier A]
     void detail_LoadWaveArchiveByBankFile(const void*, nw::snd::SoundMemoryAllocatable*); // 0x004C8B34 | nintendogs:callseq [tier A]
     void detail_LoadWaveArchiveByWaveSoundFile(const void*, int, nw::snd::SoundMemoryAllocatable*); // 0x004C8C54 | nintendogs:bytes [tier A]
-    void detail_GetFileAddressByItemId(unsigned) const; // 0x007406F8 | nintendogs:callseq-callee [tier A]
+    const void* detail_GetFileAddressByItemId(u32 itemId) const; // 0x007406F8 | nintendogs:callseq-callee [tier A]
     void GetFileAddressFromSoundArchive(unsigned) const; // 0x007407DC | nintendogs:bytes [tier A]
 };
 } // namespace internal

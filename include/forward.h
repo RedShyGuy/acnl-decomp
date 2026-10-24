@@ -3700,12 +3700,12 @@ namespace nw { namespace snd {
     class SoundSystem;
     class StreamSoundHandle;
     class WaveSoundHandle;
-    struct AuxBus { u32 _unknown; }; // placeholder, real type unknown
-    struct OutputMode { u32 _unknown; }; // placeholder, real type unknown
-    struct PanCurve { u32 _unknown; }; // placeholder, real type unknown
-    struct PanMode { u32 _unknown; }; // placeholder, real type unknown
-    struct SampleFormat { u32 _unknown; }; // placeholder, real type unknown
-    struct SeqMute { u32 _unknown; }; // placeholder, real type unknown
+    enum AuxBus : u8; // nw/snd/snd_Global.h
+    enum OutputMode : u8; // nw/snd/snd_Global.h
+    enum PanCurve : u8; // nw/snd/snd_Global.h
+    enum PanMode : u8; // nw/snd/snd_Global.h
+    enum SampleFormat : u8; // nw/snd/snd_Global.h
+    enum SeqMute : u8; // nw/snd/snd_Global.h
     struct SequenceUserprocCallbackParam { u32 _unknown; }; // placeholder, real type unknown
     struct SoundActor { u32 _unknown; }; // placeholder, real type unknown
     struct SoundThreadProfile { u32 _unknown; }; // placeholder, real type unknown
@@ -3764,20 +3764,20 @@ namespace nw { namespace snd { namespace internal {
     class WaveSoundFileReader;
     struct DriverCommandStreamSoundLoadData { u32 _unknown; }; // placeholder, real type unknown
     struct DriverCommandStreamSoundLoadHeader { u32 _unknown; }; // placeholder, real type unknown
-    struct GroupItemLocationInfo { u32 _unknown; }; // placeholder, real type unknown
+    struct GroupItemLocationInfo; // nw/snd/internal/snd_GroupFile.h
     struct LoadDataParam { u32 _unknown; }; // placeholder, real type unknown
-    struct LoadItemInfo { u32 _unknown; }; // placeholder, real type unknown
-    struct VelocityRegionInfo { u32 _unknown; }; // placeholder, real type unknown
-    struct WaveInfo { u32 _unknown; }; // placeholder, real type unknown
-    struct WaveSoundInfo { u32 _unknown; }; // placeholder, real type unknown
-    struct WaveSoundNoteInfo { u32 _unknown; }; // placeholder, real type unknown
+    struct LoadItemInfo; // nw/snd/snd_Global.h
+    struct VelocityRegionInfo; // nw/snd/internal/snd_BankFile.h
+    struct WaveInfo; // nw/snd/internal/snd_WaveFileReader.h
+    struct WaveSoundInfo; // nw/snd/internal/snd_WaveSoundFile.h
+    struct WaveSoundNoteInfo; // nw/snd/internal/snd_WaveSoundFile.h
     template <typename T0> class LoaderManager;
     template <typename T0> struct SoundInstanceManager { u32 _unknown; }; // placeholder
 }}}
 
 namespace nw { namespace snd { namespace internal { namespace Util { 
     class BitFlag;
-    struct PanInfo { u32 _unknown; }; // placeholder, real type unknown
+    struct PanInfo; // nw/snd/internal/Util/Util_Api.h
 }}}}
 
 namespace nw { namespace snd { namespace internal { namespace driver { 

@@ -124,7 +124,7 @@ void nw::snd::internal::SoundArchiveLoader::detail_LoadWaveArchiveByWaveSoundFil
 }
 
 // 0x007406F8 | nintendogs:callseq-callee [tier A]
-void nw::snd::internal::SoundArchiveLoader::detail_GetFileAddressByItemId(unsigned) const
+const void* nw::snd::internal::SoundArchiveLoader::detail_GetFileAddressByItemId(u32) const
 {
 }
 

@@ -8,13 +8,16 @@ namespace snd {
 namespace internal {
 // RTTI N2nw3snd8internal18BiquadFilterBpf512E @ 0x008D09FC
 // vtable 0x00903244 (vptr 0x0090324C), offset_to_top 0, 3 entries
+// The built-in Bpf512 filter (the class name is from the reference symbols): coefficients from a
+// table, band-pass around 512 Hz: the width from value 0 to 1.
 class BiquadFilterBpf512 : public ::nw::snd::BiquadFilterCallback
 {
 public:
-    BiquadFilterBpf512(); // ctor address unknown
-    virtual void vf_0x00(); // 0x004C85D0 slot 0x00 | virtual slot, introduced by nw::snd::internal::BiquadFilterBpf512
-    virtual void vf_0x04(); // 0x004C85CC slot 0x04 | virtual slot, introduced by nw::snd::internal::BiquadFilterBpf512
-    virtual void GetCoefficients(int, float, nn::snd::CTR::BiquadFilterCoefficients*) const; // 0x00740568 slot 0x08 | nintendogs:bytes
+    // (inline)
+    BiquadFilterBpf512() {}
+    virtual ~BiquadFilterBpf512();
+
+    virtual void GetCoefficients(int type, f32 value, nn::snd::CTR::BiquadFilterCoefficients* pCoefficients) const;
 };
 } // namespace internal
 } // namespace snd

@@ -3,8 +3,11 @@
 #include "decomp.h"
 #include "nw/snd/internal/snd_BankFile.h"
 
-class nw::snd::internal::BankFile::FileHeader
+class nw::snd::internal::BankFile::FileHeader : public ::nw::ut::BinaryFileHeader
 {
 public:
-    void GetInfoBlock() const; // 0x0013D658 | nintendogs:bytes [tier A]
+    // the info block (NULL: none)
+    const void* GetInfoBlock() const; // 0x0013D658 | nintendogs:bytes [tier A]
+
+    BinaryReferenceWithSize blocks[1]; // 0x14
 };

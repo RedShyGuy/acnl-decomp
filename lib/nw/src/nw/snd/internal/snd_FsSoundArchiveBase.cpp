@@ -20,22 +20,22 @@ void nw::snd::internal::FsSoundArchiveBase::vf_0x04()
 }
 
 // 0x007406E8 slot 0x08 | slot vf_0x08 of nw::snd::SoundArchive
-void nw::snd::internal::FsSoundArchiveBase::vf_0x08()
+const void* nw::snd::internal::FsSoundArchiveBase::detail_GetFileAddress(u32) const
 {
 }
 
 // 0x007406F0 slot 0x0C | virtual slot, introduced by nw::snd::SoundArchive
-void nw::snd::internal::FsSoundArchiveBase::vf_0x0C()
+size_t nw::snd::internal::FsSoundArchiveBase::detail_GetRequiredStreamBufferSize() const
 {
 }
 
 // 0x004C867C slot 0x10 | fefates:bytes
-void nw::snd::internal::FsSoundArchiveBase::OpenStream(void*, int, unsigned int, unsigned int)
+nw::io::FileStream* nw::snd::internal::FsSoundArchiveBase::OpenStream(void*, int, u32, u32)
 {
 }
 
 // 0x007405CC slot 0x14 | fefates:bytes
-void nw::snd::internal::FsSoundArchiveBase::OpenExtStream(void*, int, const char*, void*, unsigned int, nw::snd::SoundArchive::FileStreamPriority) const
+nw::io::FileStream* nw::snd::internal::FsSoundArchiveBase::OpenExtStream(void*, int, const char*, void*, u32, FileStreamPriority) const
 {
 }
 

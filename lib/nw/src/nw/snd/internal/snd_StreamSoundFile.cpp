@@ -1,8 +1,3 @@
 #include "nw/snd/internal/snd_StreamSoundFile.h"
 
-namespace nw {
-namespace snd {
-namespace internal {
-} // namespace internal
-} // namespace snd
-} // namespace nw
+// The parts of a stream sound file are in snd_StreamSoundFile_*.cpp.

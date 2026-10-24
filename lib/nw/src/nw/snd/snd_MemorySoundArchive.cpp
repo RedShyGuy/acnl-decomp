@@ -19,22 +19,22 @@ void nw::snd::MemorySoundArchive::vf_0x04()
 }
 
 // 0x0073EFC0 slot 0x08 | nintendogs:callseq
-void nw::snd::MemorySoundArchive::vf_0x08()
+const void* nw::snd::MemorySoundArchive::detail_GetFileAddress(u32) const
 {
 }
 
 // 0x0073F0FC slot 0x0C | virtual slot, introduced by nw::snd::SoundArchive
-void nw::snd::MemorySoundArchive::vf_0x0C()
+size_t nw::snd::MemorySoundArchive::detail_GetRequiredStreamBufferSize() const
 {
 }
 
 // 0x004C0A00 slot 0x10 | slot vf_0x10 of nw::snd::SoundArchive
-void nw::snd::MemorySoundArchive::OpenStream(void*, int, unsigned int, unsigned int)
+nw::io::FileStream* nw::snd::MemorySoundArchive::OpenStream(void*, int, u32, u32)
 {
 }
 
 // 0x0073EEB0 slot 0x14 | slot vf_0x14 of nw::snd::SoundArchive
-void nw::snd::MemorySoundArchive::OpenExtStream(void*, int, const char*, void*, unsigned int, nw::snd::SoundArchive::FileStreamPriority) const
+nw::io::FileStream* nw::snd::MemorySoundArchive::OpenExtStream(void*, int, const char*, void*, u32, FileStreamPriority) const
 {
 }
 

@@ -6,5 +6,8 @@
 class nw::snd::internal::BankFile::Instrument
 {
 public:
-    void GetKeyRegion(unsigned) const; // 0x00742C84 | nintendogs:callseq-callee [tier A]
+    // the key region of a key (NULL: none)
+    const KeyRegion* GetKeyRegion(u32 key) const; // 0x00742C84 | nintendogs:bytes [tier A]
+
+    BinaryReference keyRegionTable; // 0x0
 };

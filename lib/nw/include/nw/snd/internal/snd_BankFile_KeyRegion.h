@@ -6,5 +6,8 @@
 class nw::snd::internal::BankFile::KeyRegion
 {
 public:
-    void GetVelocityRegion(unsigned) const; // 0x00742F4C | nintendogs:callseq-callee [tier A]
+    // the velocity region of a velocity (NULL: none)
+    const VelocityRegion* GetVelocityRegion(u32 velocity) const; // 0x00742F4C | nintendogs:bytes [tier A]
+
+    BinaryReference velocityRegionTable; // 0x0
 };

@@ -6,6 +6,9 @@ namespace nw {
 namespace snd {
 namespace internal {
 namespace driver {
+// 0x00AE4FC0
+HardwareManager HardwareManager::s_Instance;
+
 // 0x004CCE78 | nintendogs:bytes-fuzzy [tier A]
 void nw::snd::internal::driver::HardwareManager::ClearEffect(nw::snd::AuxBus, int)
 {

@@ -1,7 +1,14 @@
 #include "nw/snd/internal/snd_BankFile_KeyRegion.h"
 
-// 0x00742F4C | nintendogs:callseq-callee [tier A]
-void nw::snd::internal::BankFile::KeyRegion::GetVelocityRegion(unsigned) const
+namespace nw {
+namespace snd {
+namespace internal {
+// 0x00742F4C | nintendogs:bytes [tier A]
+const nw::snd::internal::BankFile::VelocityRegion* nw::snd::internal::BankFile::KeyRegion::GetVelocityRegion(u32 velocity) const
 {
+    return static_cast<const VelocityRegion*>(GetRegion(velocityRegionTable, this, velocity));
 }
 
+} // namespace internal
+} // namespace snd
+} // namespace nw

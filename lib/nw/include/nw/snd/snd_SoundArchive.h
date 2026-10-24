@@ -1,62 +1,258 @@
 #pragma once
 
 #include "decomp.h"
+#include "nn/os/os_CriticalSection.h"
+#include "nw/io/io_FileStream.h"
+#include "nw/snd/snd_Global.h"
 
 namespace nw {
 namespace snd {
+namespace internal {
+class SoundArchiveFileReader;
+template <typename T>
+struct BinaryTable;
+} // namespace internal
+
 // RTTI N2nw3snd12SoundArchiveE @ 0x008D08E0
 // vtable 0x00902EDC (vptr 0x00902EE4), offset_to_top 0, 6 entries
+// A sound archive (BCSAR): the information of its items read through the file reader, an optional
+// hook that can change it, and the streams of its files (the class, the info struct and the
+// function names are from the reference symbols; the members are ours).
 class SoundArchive
 {
 public:
+    // the kind of an item (the top byte of an item id; names are ours)
+    enum ItemType
+    {
+        ITEM_TYPE_SOUND = 1,
+        ITEM_TYPE_SOUND_GROUP = 2,
+        ITEM_TYPE_BANK = 3,
+        ITEM_TYPE_PLAYER = 4,
+        ITEM_TYPE_WAVE_ARCHIVE = 5,
+        ITEM_TYPE_GROUP = 6,
+    };
+    static const u32 INVALID_ID = 0xFFFFFFFF;
+
+    // (inline)
+    static u32 GetItemType(u32 id) { return id >> 24; }
+    static u32 GetItemIndex(u32 id) { return id & 0x00FFFFFF; }
+
+    enum SoundType
+    {
+        SOUND_TYPE_INVALID = 0,
+        SOUND_TYPE_SEQ = 1,
+        SOUND_TYPE_STRM = 2,
+        SOUND_TYPE_WAVE = 3,
+    };
+
+    // the priority of the file system requests of a stream (names are ours)
+    enum FileStreamPriority
+    {
+        FILE_STREAM_PRIORITY_HIGH = 0,
+        FILE_STREAM_PRIORITY_NORMAL = 1,
+        FILE_STREAM_PRIORITY_LOW = 2,
+    };
+
     class StreamTrackInfo;
-    struct BankInfo { u32 _unknown; }; // TODO: real type unknown (placeholder)
-    struct FileInfo { u32 _unknown; }; // TODO: real type unknown (placeholder)
-    struct FileStreamPriority { u32 _unknown; }; // TODO: real type unknown (placeholder)
-    struct GroupInfo { u32 _unknown; }; // TODO: real type unknown (placeholder)
-    struct PlayerInfo { u32 _unknown; }; // TODO: real type unknown (placeholder)
-    struct SequenceSoundInfo { u32 _unknown; }; // TODO: real type unknown (placeholder)
-    struct Sound3DInfo { u32 _unknown; }; // TODO: real type unknown (placeholder)
-    struct SoundArchivePlayerInfo { u32 _unknown; }; // TODO: real type unknown (placeholder)
-    struct SoundGroupInfo { u32 _unknown; }; // TODO: real type unknown (placeholder)
-    struct SoundInfo { u32 _unknown; }; // TODO: real type unknown (placeholder)
-    struct StreamSoundInfo { u32 _unknown; }; // TODO: real type unknown (placeholder)
-    struct StreamSoundInfo2 { u32 _unknown; }; // TODO: real type unknown (placeholder)
-    struct WaveArchiveInfo { u32 _unknown; }; // TODO: real type unknown (placeholder)
-    struct WaveSoundInfo { u32 _unknown; }; // TODO: real type unknown (placeholder)
-    virtual ~SoundArchive(); // 0x004C0348 slot 0x00 | fefates:callgraph
-    virtual void vf_0x04(); // 0x004C0338 slot 0x04 | virtual slot, introduced by nw::snd::SoundArchive
-    virtual void vf_0x08(); // 0x0011C12F slot 0x08 | slot vf_0x00 of ChangeRentalBase
-    virtual void vf_0x0C(); // 0x0011C12F slot 0x0C | slot vf_0x00 of ChangeRentalBase
-    virtual void OpenStream(void*, int, unsigned int, unsigned int); // 0x0011C12F slot 0x10 | slot vf_0x00 of ChangeRentalBase
-    virtual void OpenExtStream(void*, int, const char*, void*, unsigned int, nw::snd::SoundArchive::FileStreamPriority) const; // 0x0011C12F slot 0x14 | slot vf_0x00 of ChangeRentalBase
-    void IsAvailable() const; // 0x00139ACC | nintendogs:callseq-callee [tier A]
-    void GetSoundType(unsigned) const; // 0x00139D4C | nintendogs:callgraph [tier A]
-    void ReadBankInfo(unsigned, nw::snd::SoundArchive::BankInfo*) const; // 0x0013CF84 | nintendogs:callseq-callee [tier A]
-    void ReadSoundInfo(unsigned, nw::snd::SoundArchive::SoundInfo*) const; // 0x0013CFF0 | nintendogs:callseq-callee [tier A]
-    void ReadSequenceSoundInfo(unsigned, nw::snd::SoundArchive::SequenceSoundInfo*) const; // 0x0013D048 | nintendogs:callgraph [tier A]
-    void detail_ReadWaveSoundInfo(unsigned, nw::snd::SoundArchive::WaveSoundInfo*) const; // 0x0013D0A0 | nintendogs:callgraph [tier A]
-    void detail_ReadSoundGroupInfo(unsigned, nw::snd::SoundArchive::SoundGroupInfo*) const; // 0x0013D0F8 | nintendogs:callgraph [tier A]
-    void GetItemFileId(unsigned) const; // 0x0013D520 | nintendogs:callgraph [tier A]
-    void ReadWaveArchiveInfo(unsigned, nw::snd::SoundArchive::WaveArchiveInfo*) const; // 0x0013FA10 | nintendogs:callgraph [tier A]
-    void detail_ReadFileInfo(unsigned, nw::snd::SoundArchive::FileInfo*) const; // 0x0013FA68 | nintendogs:callgraph [tier A]
-    void detail_OpenFileStream(unsigned int, void*, int, void*, unsigned int, const char*, nw::snd::SoundArchive::FileStreamPriority); // 0x001410F4 | fefates:bytes [tier B]
-    void detail_GetWaveArchiveIdTable(unsigned) const; // 0x0014200C | nintendogs:callgraph [tier A]
-    void OpenExtStreamImpl(void*, int, const char*, unsigned, unsigned, nw::snd::SoundArchive::FileStreamPriority) const; // 0x00143980 | nintendogs:bytes-fuzzy [tier A]
-    void Initialize(nw::snd::internal::SoundArchiveFileReader*); // 0x004C01B4 | fefates:bytes [tier B]
-    void SetExternalFileRoot(const char*); // 0x004C022C | nintendogs:bytes-fuzzy [tier A]
-    void Finalize(); // 0x004C02EC | fefates:bytes [tier B]
+
+    struct SoundInfo
+    {
+        u32 fileId;            // 0x00
+        u32 playerId;          // 0x04
+        u32 actorPlayerId;     // 0x08
+        u32 playerPriority;    // 0x0C
+        u32 volume;            // 0x10
+        PanMode panMode;       // 0x14
+        PanCurve panCurve;     // 0x15
+        bool isFrontBypass;    // 0x16
+    };
+    struct SequenceSoundInfo
+    {
+        u32 startOffset;          // 0x00
+        u32 bankIds[4];           // 0x04
+        u32 allocateTrackFlags;   // 0x14
+        u8 channelPriority;       // 0x18
+        bool isReleasePriorityFix; // 0x19
+    };
+    struct WaveSoundInfo
+    {
+        u32 index;                // 0x0
+        u32 allocateTrackCount;   // 0x4
+        u8 channelPriority;       // 0x8
+        bool isReleasePriorityFix; // 0x9
+    };
+    struct BankInfo
+    {
+        u32 fileId; // 0x0
+    };
+    struct PlayerInfo
+    {
+        u32 playableSoundMax; // 0x0
+        u32 playerHeapSize;   // 0x4
+    };
+    struct SoundGroupInfo
+    {
+        u32 startId;                                // 0x0
+        u32 endId;                                  // 0x4
+        const internal::BinaryTable<u32>* pFileIdTable; // 0x8
+    };
+    struct GroupInfo
+    {
+        u32 fileId;   // 0x0
+        u32 fileSize; // 0x4 (-1: an external file)
+    };
+    struct WaveArchiveInfo
+    {
+        u32 fileId;             // 0x0
+        u32 waveCount;          // 0x4
+        bool isLoadIndividual;  // 0x8
+    };
+    struct FileInfo
+    {
+        u32 fileSize;                // 0x0
+        u32 offsetFromFileBlockHead; // 0x4 (-1: none)
+        const char* externalFilePath; // 0x8
+    };
+    struct Sound3DInfo
+    {
+        u32 flags;          // 0x0
+        f32 decayRatio;     // 0x4
+        u8 decayCurve;      // 0x8
+        u8 dopplerFactor;   // 0x9
+    };
+    struct SoundArchivePlayerInfo
+    {
+        u32 sequenceSoundMax;      // 0x00
+        u32 sequenceTrackMax;      // 0x04
+        u32 streamSoundMax;        // 0x08
+        u32 streamTrackMax;        // 0x0C
+        u32 streamChannelMax;      // 0x10
+        u32 waveSoundMax;          // 0x14
+        u32 waveTrackMax;          // 0x18
+        u32 streamBufferTimes;     // 0x1C (1 before version 2.3.2.0)
+    };
+    // a track of a stream sound
+    class StreamTrackInfo
+    {
+    public:
+        StreamTrackInfo(); // 0x004C01D8 | fefates:bytes [tier B]
+
+        u8 volume;             // 0x00
+        u8 pan;                // 0x01
+        u8 span;               // 0x02
+        u8 flags;              // 0x03
+        u8 mainSend;           // 0x04
+        u8 fxSend[2];          // 0x05
+        u8 lpfFreq;            // 0x07
+        u8 biquadType;         // 0x08
+        u8 biquadValue;        // 0x09
+        u8 channelCount;       // 0x0A
+        u8 globalChannelIndex[2]; // 0x0B
+    };
+    static const int STREAM_TRACK_MAX = 4;
+    struct StreamSoundInfo
+    {
+        u16 allocateTrackFlags;   // 0x00
+        u16 allocateChannelCount; // 0x02
+        StreamTrackInfo trackInfo[STREAM_TRACK_MAX]; // 0x04
+        f32 pitch;                // 0x38
+        u8 mainSend;              // 0x3C
+        u8 fxSend[2];             // 0x3D
+        u8 streamFileType;        // 0x3F
+        u32 prefetchFileId;       // 0x40
+    };
+    struct StreamSoundInfo2
+    {
+        bool isLoop;       // 0x0
+        u32 loopStartFrame; // 0x4
+        u32 loopEndFrame;   // 0x8
+    };
+
+    // Changes the information of the items (the class and its members are ours; only the slots are
+    // known): each Read function adds its result to the one of the file.
+    class InfoHook
+    {
+    public:
+        virtual ~InfoHook() {}
+        virtual bool IsTargetItem(u32 id) = 0;
+        virtual const char* GetItemLabel(u32 id) const = 0;
+        virtual u32 GetItemId(const char* pLabel) const = 0;
+        virtual void vf_0x14() = 0;
+        virtual bool ReadSoundInfo(u32 id, SoundInfo* pInfo) const = 0;
+        virtual bool ReadBankInfo(u32 id, BankInfo* pInfo) const = 0;
+        virtual bool ReadPlayerInfo(u32 id, PlayerInfo* pInfo) const = 0;
+        virtual bool ReadSoundGroupInfo(u32 id, SoundGroupInfo* pInfo) const = 0;
+        virtual bool ReadGroupInfo(u32 id, GroupInfo* pInfo) const = 0;
+        virtual bool ReadWaveArchiveInfo(u32 id, WaveArchiveInfo* pInfo) const = 0;
+        virtual bool ReadFileInfo(u32 id, FileInfo* pInfo, int index) const = 0;
+        virtual bool ReadSoundArchivePlayerInfo(SoundArchivePlayerInfo* pInfo) const = 0;
+        virtual bool ReadSound3DInfo(u32 id, Sound3DInfo* pInfo) const = 0;
+        virtual bool ReadSequenceSoundInfo(u32 id, SequenceSoundInfo* pInfo) const = 0;
+        virtual bool ReadStreamSoundInfo(u32 id, StreamSoundInfo* pInfo) const = 0;
+        virtual bool ReadStreamSoundInfo2(u32 id, StreamSoundInfo2* pInfo) const = 0;
+        virtual bool ReadWaveSoundInfo(u32 id, WaveSoundInfo* pInfo) const = 0;
+        virtual bool ReadSoundUserParam(u32 id, int index, u32& value) const = 0;
+
+        // (inline)
+        bool IsEnabled() const { return m_IsEnabled; }
+
+        bool m_IsEnabled; // 0x4
+    };
+
     SoundArchive(); // 0x004C0304 | fefates:bytes [tier B]
-    void GetItemLabel(unsigned int) const; // 0x0073EAF4 | fefates:bytes [tier B]
-    void ReadPlayerInfo(unsigned int, nw::snd::SoundArchive::PlayerInfo*) const; // 0x0073EB94 | fefates:bytes [tier B]
-    void ReadSound3DInfo(unsigned int, nw::snd::SoundArchive::Sound3DInfo*) const; // 0x0073EBEC | fefates:bytes [tier B]
-    void ReadSoundUserParam(unsigned int, int, unsigned int&) const; // 0x0073EC44 | fefates:bytes [tier B]
-    void ReadStreamSoundInfo(unsigned int, nw::snd::SoundArchive::StreamSoundInfo*) const; // 0x0073ECA4 | fefates:bytes [tier B]
-    void ReadSoundArchivePlayerInfo(nw::snd::SoundArchive::SoundArchivePlayerInfo*) const; // 0x0073ECFC | nintendogs:callgraph [tier A]
-    void detail_ReadStreamSoundInfo2(unsigned int, nw::snd::SoundArchive::StreamSoundInfo2*) const; // 0x0073ED4C | fefates:bytes [tier B]
-    void GetItemId(const char*) const; // 0x0073EDAC | fefates:bytes [tier B]
-    void detail_GetFileCount() const; // 0x00740C94 | nintendogs:callgraph [tier A]
-    void GetWaveArchiveCount() const; // 0x00740E78 | nintendogs:callseq-callee [tier A]
+    virtual ~SoundArchive(); // 0x004C0348 slot 0x00 | fefates:callgraph
+
+    // the memory of a file of the archive (NULL: not in memory)
+    virtual const void* detail_GetFileAddress(u32 fileId) const = 0; // slot 0x08
+    // the size of the buffer a stream of the archive needs (name is ours)
+    virtual size_t detail_GetRequiredStreamBufferSize() const = 0; // slot 0x0C
+    // a stream of a part of the archive in the buffer
+    virtual io::FileStream* OpenStream(void* pBuffer, int bufferSize, u32 begin, u32 length) = 0; // slot 0x10
+    // a stream of an external file in the buffer
+    virtual io::FileStream* OpenExtStream(void* pBuffer, int bufferSize, const char* pExtFilePath, void* pCacheBuffer,
+                                          u32 cacheSize, FileStreamPriority priority) const = 0; // slot 0x14
+
+    bool IsAvailable() const; // 0x00139ACC | nintendogs:callseq-callee [tier A]
+    SoundType GetSoundType(u32 soundId) const; // 0x00139D4C | nintendogs:callgraph [tier A]
+    bool ReadBankInfo(u32 bankId, BankInfo* pInfo) const; // 0x0013CF84 | nintendogs:callseq-callee [tier A]
+    bool ReadSoundInfo(u32 soundId, SoundInfo* pInfo) const; // 0x0013CFF0 | nintendogs:callseq-callee [tier A]
+    bool ReadSequenceSoundInfo(u32 soundId, SequenceSoundInfo* pInfo) const; // 0x0013D048 | nintendogs:callgraph [tier A]
+    bool detail_ReadWaveSoundInfo(u32 soundId, WaveSoundInfo* pInfo) const; // 0x0013D0A0 | nintendogs:callgraph [tier A]
+    bool detail_ReadSoundGroupInfo(u32 soundGroupId, SoundGroupInfo* pInfo) const; // 0x0013D0F8 | nintendogs:callgraph [tier A]
+    u32 GetItemFileId(u32 id) const; // 0x0013D520 | nintendogs:callgraph [tier A]
+    bool ReadWaveArchiveInfo(u32 waveArchiveId, WaveArchiveInfo* pInfo) const; // 0x0013FA10 | nintendogs:callgraph [tier A]
+    bool detail_ReadFileInfo(u32 fileId, FileInfo* pInfo) const; // 0x0013FA68 | nintendogs:callgraph [tier A]
+    io::FileStream* detail_OpenFileStream(u32 fileId, void* pBuffer, int bufferSize, void* pCacheBuffer, u32 cacheSize,
+                                          const char* pExtFilePath, FileStreamPriority priority); // 0x001410F4 | fefates:bytes [tier B]
+    const internal::BinaryTable<u32>* detail_GetWaveArchiveIdTable(u32 id) const; // 0x0014200C | nintendogs:callgraph [tier A]
+    io::FileStream* OpenExtStreamImpl(void* pBuffer, int bufferSize, const char* pExtFilePath, void* pCacheBuffer, u32 cacheSize,
+                                      FileStreamPriority priority) const; // 0x00143980 | nintendogs:bytes-fuzzy [tier A]
+    void Initialize(internal::SoundArchiveFileReader* pFileReader); // 0x004C01B4 | fefates:bytes [tier B]
+    void SetExternalFileRoot(const char* pExtFileRoot); // 0x004C022C | nintendogs:bytes-fuzzy [tier A]
+    void Finalize(); // 0x004C02EC | fefates:bytes [tier B]
+    const char* GetItemLabel(u32 id) const; // 0x0073EAF4 | fefates:bytes [tier B]
+    bool detail_ReadGroupInfo(u32 groupId, GroupInfo* pInfo) const; // 0x0073EB3C (name after the other Read functions)
+    bool ReadPlayerInfo(u32 playerId, PlayerInfo* pInfo) const; // 0x0073EB94 | fefates:bytes [tier B]
+    bool ReadSound3DInfo(u32 soundId, Sound3DInfo* pInfo) const; // 0x0073EBEC | fefates:bytes [tier B]
+    bool ReadSoundUserParam(u32 soundId, int index, u32& value) const; // 0x0073EC44 | fefates:bytes [tier B]
+    bool ReadStreamSoundInfo(u32 soundId, StreamSoundInfo* pInfo) const; // 0x0073ECA4 | fefates:bytes [tier B]
+    bool ReadSoundArchivePlayerInfo(SoundArchivePlayerInfo* pInfo) const; // 0x0073ECFC | nintendogs:callgraph [tier A]
+    bool detail_ReadStreamSoundInfo2(u32 soundId, StreamSoundInfo2* pInfo) const; // 0x0073ED4C | fefates:bytes [tier B]
+    u32 GetItemId(const char* pLabel) const; // 0x0073EDAC | fefates:bytes [tier B]
+    u32 detail_GetFileCount() const; // 0x00740C94 | nintendogs:callgraph [tier A]
+    u32 GetGroupCount() const; // 0x00740CEC | nintendogs:callgraph [tier C]
+    u32 GetSoundCount() const; // 0x00740D08 (name is ours)
+    u32 GetPlayerCount() const; // 0x00740DB0 (name after GetGroupCount)
+    u32 GetWaveArchiveCount() const; // 0x00740E78 | nintendogs:callseq-callee [tier A]
+
+    static const int FILENAME_MAX = 256;
+
+    internal::SoundArchiveFileReader* m_pFileReader; // 0x004
+    InfoHook* m_pInfoHook;                           // 0x008
+    char m_ExtFileRoot[FILENAME_MAX];                // 0x00C
+    u32 m_FileBlockOffset;                           // 0x10C
+    nn::os::CriticalSection m_FileOpenLock;          // 0x110
 };
+ASSERT_SIZE(SoundArchive, 0x11C);
 } // namespace snd
 } // namespace nw
