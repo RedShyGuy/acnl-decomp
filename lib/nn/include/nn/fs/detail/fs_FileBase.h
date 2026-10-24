@@ -58,6 +58,11 @@ public:
         return nn::Result();
     }
     s64 GetPosition() const { return mPosition; }
+    // (inline, nw::snd::internal::FileReader; name is ours)
+    nn::Result TrySetPriority(s32 priority)
+    {
+        return nn::fs::CTR::MPCore::detail::UserFileSystem::TrySetPriorityForFile(GetHandle(), priority);
+    }
 
 protected:
     // bit 0 of mHandle: data was written without a flush

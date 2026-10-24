@@ -420,7 +420,7 @@ const f32 s_PanTableLinearSurround[257] = {
     0.0f,
 };
 
-// the tables of the pan curves by PanCurve
+// the tables of the pan curves by PanCurveShape
 // 0x0097F694
 const f32* s_PanTables[3] = {s_PanTableSqrt, s_PanTableSinCos, s_PanTableLinear};
 // 0x0097F6A0

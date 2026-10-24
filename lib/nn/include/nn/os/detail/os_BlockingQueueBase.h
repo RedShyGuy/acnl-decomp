@@ -17,6 +17,8 @@ template <typename LockT>
 class BlockingQueueBase
 {
 public:
+    // (inline, e.g. nw::snd::internal::DriverCommandManager)
+    BlockingQueueBase() : mNumDequeueWaiters(0), mNumEnqueueWaiters(0) {}
     ~BlockingQueueBase();
 
     void Initialize(uptr* buffer, size_t size);

@@ -3791,7 +3791,8 @@ namespace nw { namespace snd { namespace internal { namespace driver {
     class MmlParser;
     class MmlSequenceTrack;
     class MmlSequenceTrackAllocator;
-    class MultiVoice;
+    class Voice;
+    typedef Voice MultiVoice; // nw/snd/internal/driver/snd_MultiVoice.h
     class NoteOnCallback;
     class SequenceSoundLoader;
     class SequenceSoundPlayer;

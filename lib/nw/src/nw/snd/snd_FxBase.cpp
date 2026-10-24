@@ -2,8 +2,8 @@
 
 namespace nw {
 namespace snd {
-// ctor address unknown
-nw::snd::FxBase::FxBase()
+// 0x004C3A34 slot 0x14
+void nw::snd::FxBase::OnChangeOutputMode()
 {
 }
 

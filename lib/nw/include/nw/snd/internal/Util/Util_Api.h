@@ -11,11 +11,19 @@ namespace internal {
 class SoundArchiveLoader;
 
 namespace Util {
+// the shapes of the pan curves (the tables of CalcPanRatio; names are ours)
+enum PanCurveShape : u8
+{
+    PAN_CURVE_SHAPE_SQRT = 0,
+    PAN_CURVE_SHAPE_SINCOS = 1,
+    PAN_CURVE_SHAPE_LINEAR = 2,
+};
+
 // how a pan position becomes the volume of a side (the struct name is from the reference symbols,
 // the members are ours)
 struct PanInfo
 {
-    PanCurve curve;          // 0x0
+    PanCurveShape curve;     // 0x0
     bool isCenterOne;        // 0x1 the volume is divided by the one of the center
     bool isClampedToOne;     // 0x2 at most 1 (else at most 2)
     bool isSurroundIgnored;  // 0x3 the stereo curves also in surround mode

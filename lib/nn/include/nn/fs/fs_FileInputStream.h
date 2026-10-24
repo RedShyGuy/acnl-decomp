@@ -17,6 +17,8 @@ public:
     // inline (e.g. in nn::ubl)
     FileInputStream() {}
     nn::Result TryInitialize(const wchar_t* path) { return FileBase::TryInitialize(path, OPEN_MODE_READ); }
+    // (inline, nw::snd::internal::FileReader) a path in the multibyte encoding of the C library
+    nn::Result TryInitialize(const char* path) { return FileBase::TryInitialize(path, OPEN_MODE_READ); }
 
     virtual ~FileInputStream(); // 0x0013E5F8 slot 0x00 (then 0x0013E600 | fefates:bytes [tier B])
     virtual nn::Result TrySeek(s64 offset, PositionBase base); // 0x00346380 slot 0x08

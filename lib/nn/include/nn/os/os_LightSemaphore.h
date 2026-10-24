@@ -10,6 +10,9 @@ namespace os {
 class LightSemaphore
 {
 public:
+    // (inline, e.g. nw::snd::internal::DriverCommandManager)
+    LightSemaphore() : mCount(0), mNumWaiters(0) {}
+
     // inline (e.g. in BlockingQueueBase::Initialize)
     void Initialize(s32 initialCount, s32 maxCount)
     {

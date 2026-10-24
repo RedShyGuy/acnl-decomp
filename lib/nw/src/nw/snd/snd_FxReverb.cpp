@@ -3,18 +3,14 @@
 
 namespace nw {
 namespace snd {
-// 0x004C4934 slot 0x00 | virtual slot, introduced by nw::snd::FxReverb
-void nw::snd::FxReverb::vf_0x00()
-{
-}
-
-// 0x004C48BC slot 0x04 | nintendogs:bytes
+// 0x004C4934 slot 0x00
+// 0x004C48BC (deleting dtor)
 nw::snd::FxReverb::~FxReverb()
 {
 }
 
 // 0x004C3F3C slot 0x08 | nintendogs:bytes
-void nw::snd::FxReverb::Initialize()
+bool nw::snd::FxReverb::Initialize()
 {
 }
 
@@ -25,11 +21,6 @@ void nw::snd::FxReverb::Finalize()
 
 // 0x004C4054 slot 0x10 | slot vf_0x10 of nw::snd::FxReverb
 void nw::snd::FxReverb::UpdateBuffer(int, nn::snd::CTR::AuxBusData*, int, nw::snd::SampleFormat, float, nw::snd::OutputMode)
-{
-}
-
-// 0x004C3A34 slot 0x14 | slot vf_0x14 of nw::snd::FxDelay
-void nw::snd::FxReverb::OnChangeOutputMode()
 {
 }
 

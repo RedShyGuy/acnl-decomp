@@ -4,7 +4,7 @@ namespace nw {
 namespace snd {
 namespace internal {
 // 0x004C7300 | nintendogs:callgraph [tier A]
-void nw::snd::internal::DriverCommand::ProcessCommandList(nw::snd::internal::DriverCommand*)
+void nw::snd::internal::DriverCommand::ProcessCommandList(DriverCommand*)
 {
 }
 

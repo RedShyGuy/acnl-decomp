@@ -22,11 +22,19 @@ public:
         return m_Origin + (m_Target - m_Origin) * m_Counter / m_Frame;
     }
     // from the current value to the target in frame frames
-    void SetTarget(TValue target, TCount frame)
+    DECOMP_NOINLINE void SetTarget(TValue target, TCount frame)
     {
         m_Origin = GetValue();
         m_Target = target;
         m_Frame = frame;
+        m_Counter = 0;
+    }
+    // (inline) at the value without moving (name is ours)
+    void InitValue(TValue value)
+    {
+        m_Origin = value;
+        m_Target = value;
+        m_Frame = 0;
         m_Counter = 0;
     }
     // (inline) the next frame
