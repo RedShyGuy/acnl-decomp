@@ -11,6 +11,8 @@ public:
     s64 DivideNanoSeconds(long long reciprocal, int shift) const; // 0x00134718 | fefates:bytes [tier B]
 
     s64 GetNanoSeconds() const { return mNanoSeconds; }
+    // inline (e.g. nw::snd::internal::driver::SoundThread; name is ours)
+    s64 GetMicroSeconds() const { return mNanoSeconds / 1000; }
     // inline (name is ours): nanoseconds / 1000000
     s64 GetMilliSeconds() const { return DivideNanoSeconds(0x431BDE82D7B634DBLL, 18); }
 

@@ -1,7 +1,15 @@
 #include "nw/snd/internal/driver/snd_SoundThread_SoundFrameCallback.h"
 
-// ctor address unknown
-nw::snd::internal::driver::SoundThread::SoundFrameCallback::SoundFrameCallback()
+namespace nw {
+namespace snd {
+namespace internal {
+namespace driver {
+// 0x004CBA14 slot 0x0C (name is ours)
+void nw::snd::internal::driver::SoundThread::SoundFrameCallback::OnEndSoundFrame()
 {
 }
 
+} // namespace driver
+} // namespace internal
+} // namespace snd
+} // namespace nw

@@ -3708,7 +3708,7 @@ namespace nw { namespace snd {
     enum SeqMute : u8; // nw/snd/snd_Global.h
     struct SequenceUserprocCallbackParam { u32 _unknown; }; // placeholder, real type unknown
     struct SoundActor { u32 _unknown; }; // placeholder, real type unknown
-    struct SoundThreadProfile { u32 _unknown; }; // placeholder, real type unknown
+    struct SoundThreadProfile; // nw/snd/internal/driver/snd_SoundThread.h
     struct StreamDataInfo { u32 _unknown; }; // placeholder, real type unknown
 }}
 

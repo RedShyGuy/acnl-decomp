@@ -16,8 +16,8 @@ const s64 ALLOC_RETRY_SLEEP_NS = 1000000;
 nw::snd::internal::DriverCommandManager& nw::snd::internal::DriverCommandManager::GetInstance()
 {
     // 0x00AF0988
-    static DriverCommandManager s_Instance;
-    return s_Instance;
+    static DriverCommandManager s_DriverCommandManager;
+    return s_DriverCommandManager;
 }
 
 // 0x00141618 | nintendogs:callgraph [tier A]

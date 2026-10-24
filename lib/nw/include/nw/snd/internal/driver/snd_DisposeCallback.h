@@ -1,21 +1,28 @@
 #pragma once
 
 #include "decomp.h"
+#include "nw/ut/internal/ut_LinkListImpl.h"
 
 namespace nw {
 namespace snd {
 namespace internal {
 namespace driver {
-// RTTI N2nw3snd8internal6driver15DisposeCallbackE @ 0x008D0A7C
-// vtable 0x00903320 (vptr 0x00903328), offset_to_top 0, 3 entries
+// Told when sound data in memory goes away (the class and InvalidateData are from the reference symbols,
+// the member is ours).
+// RTTI N2nw3snd8internal6driver15DisposeCallbackE
 class DisposeCallback
 {
 public:
-    DisposeCallback(); // ctor address unknown
-    virtual ~DisposeCallback(); // 0x004CCD88 slot 0x00 | slot vf_0x00 of nw::snd::internal::driver::DisposeCallback
-    virtual void vf_0x04(); // 0x004CCD84 slot 0x04 | virtual slot, introduced by nw::snd::internal::driver::DisposeCallback
-    virtual void InvalidateData(const void*, const void*); // 0x0011C12F slot 0x08 | slot vf_0x00 of ChangeRentalBase
+    // (inline)
+    DisposeCallback() {}
+    virtual ~DisposeCallback(); // 0x004CCD88 slot 0x00
+
+    // the data from pStart up to pEnd goes away
+    virtual void InvalidateData(const void* pStart, const void* pEnd) = 0; // slot 0x08
+
+    ut::LinkListNode m_Link; // 0x4 (DisposeCallbackManager)
 };
+ASSERT_SIZE(DisposeCallback, 0xC);
 } // namespace driver
 } // namespace internal
 } // namespace snd

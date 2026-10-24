@@ -1,20 +1,38 @@
 #pragma once
 
 #include "decomp.h"
+#include "nn/os/os_LightEvent.h"
+#include "nw/ut/internal/ut_LinkListImpl.h"
 
 namespace nw {
 namespace snd {
 namespace internal {
-// RTTI N2nw3snd8internal4TaskE @ 0x008D0A54
-// vtable 0x009032F8 (vptr 0x00903300), offset_to_top 0, 3 entries
+// A job of the task thread (loading sound data; the class name and Execute are from the reference
+// symbols, the members are ours). The event is signaled when the task is done or removed.
 class Task
 {
 public:
-    Task(); // ctor candidate(s) 0x004C9B60 (unverified)
-    virtual void vf_0x00(); // 0x004C9BBC slot 0x00 | fefates:callgraph
-    virtual void vf_0x04(); // 0x004C9BA8 slot 0x04 | virtual slot, introduced by nw::snd::internal::Task
-    virtual void Execute(); // 0x0011C12F slot 0x08 | slot vf_0x00 of ChangeRentalBase
+    // (names are ours)
+    enum Status : u8
+    {
+        STATUS_FREE = 0,
+        STATUS_APPEND = 1,
+        STATUS_EXECUTE = 2,
+        STATUS_DONE = 3,
+        STATUS_CANCEL = 4,
+    };
+
+    Task(); // 0x004C9B60 | fefates:bytes [tier B]
+    virtual ~Task(); // 0x004C9BBC slot 0x00 | fefates:callgraph
+
+    virtual void Execute() = 0; // slot 0x08
+
+    ut::LinkListNode m_Link;  // 0x04 (TaskManager)
+    nn::os::LightEvent m_Event; // 0x0C
+    Status m_Status;          // 0x14
+    u32 m_Id;                 // 0x18 (TaskManager::RemoveTaskById)
 };
+ASSERT_SIZE(Task, 0x1C);
 } // namespace internal
 } // namespace snd
 } // namespace nw

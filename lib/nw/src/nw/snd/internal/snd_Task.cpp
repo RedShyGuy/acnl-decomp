@@ -3,23 +3,16 @@
 namespace nw {
 namespace snd {
 namespace internal {
-// ctor candidate(s) 0x004C9B60 (unverified)
-nw::snd::internal::Task::Task()
+// 0x004C9B60 | fefates:bytes [tier B]
+nw::snd::internal::Task::Task() : m_Status(STATUS_FREE), m_Id(0)
 {
+    m_Event.Initialize(true);
+    m_Event.Signal();
 }
 
 // 0x004C9BBC slot 0x00 | fefates:callgraph
-void nw::snd::internal::Task::vf_0x00()
-{
-}
-
-// 0x004C9BA8 slot 0x04 | virtual slot, introduced by nw::snd::internal::Task
-void nw::snd::internal::Task::vf_0x04()
-{
-}
-
-// 0x0011C12F slot 0x08 | slot vf_0x00 of ChangeRentalBase
-void nw::snd::internal::Task::Execute()
+// 0x004C9BA8 (deleting dtor)
+nw::snd::internal::Task::~Task()
 {
 }
 

@@ -5,8 +5,11 @@ namespace snd {
 namespace internal {
 namespace driver {
 // 0x004CCB04 | fefates:bytes [tier B]
-void nw::snd::internal::driver::StreamChannel::AppendWaveBuffer(nn::snd::CTR::WaveBuffer*, bool)
+void nw::snd::internal::driver::StreamChannel::AppendWaveBuffer(nn::snd::CTR::WaveBuffer* pBuffer, bool isLast)
 {
+    if (m_pVoice != nullptr) {
+        m_pVoice->AppendWaveBuffer(0, pBuffer, isLast);
+    }
 }
 
 // 0x004CCB24 | fefates:bytes [tier B]

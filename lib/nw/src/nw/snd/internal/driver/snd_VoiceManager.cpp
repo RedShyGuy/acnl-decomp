@@ -2,6 +2,8 @@
 
 #include <new>
 
+#include "nw/snd/internal/driver/snd_SoundThread.h"
+
 namespace nw {
 namespace snd {
 namespace internal {
@@ -67,8 +69,8 @@ void nw::snd::internal::driver::VoiceManager::Initialize(void* pMemory, u32 size
 nw::snd::internal::driver::VoiceManager& nw::snd::internal::driver::VoiceManager::GetInstance()
 {
     // 0x00AF0CB4
-    static VoiceManager s_Instance;
-    return s_Instance;
+    static VoiceManager s_VoiceManager;
+    return s_VoiceManager;
 }
 
 // 0x004CE958 | nintendogs:bytes [tier A]
@@ -196,7 +198,14 @@ void nw::snd::internal::driver::VoiceManager::FreeVoice(Voice* pVoice)
 // 0x007414D8 | nintendogs:bytes [tier A]
 u32 nw::snd::internal::driver::VoiceManager::GetVoiceCount() const
 {
-    // (the original counts under the lock of the sound thread; written with SoundThread)
+    SoundThreadLock lock;
+    u32 count = 0;
+    for (ut::internal::LinkListImpl::iterator it = const_cast<VoiceList&>(m_VoiceList).begin(); it != const_cast<VoiceList&>(m_VoiceList).end();) {
+        const Voice* pVoice = VoiceList::GetPointerFromNode(it.GetNode());
+        ++it;
+        count += pVoice->m_VoiceCount;
+    }
+    return count;
 }
 
 } // namespace driver
