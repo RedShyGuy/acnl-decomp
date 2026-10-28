@@ -379,12 +379,12 @@ u32* nw::font::CharWriter::UseCommandBuffer(u32* pCommand, nw::font::RectDrawer*
     // the text colors as vertex shader uniforms (four colors, sixteen words, one word of padding)
     f32 vertexColors[VERTEX_COUNT][4];
     internal::GetVertexColors(vertexColors, m_TextColors, m_GradationMode);
-    const u32* pColorWords = reinterpret_cast<const u32*>(vertexColors);
+    const u8* pColorBytes = reinterpret_cast<const u8*>(vertexColors);
     *pCommand++ = UNIFORM_INDEX_TEXT_COLOR;
     *pCommand++ = HEADER_VSH_FLOAT_UNIFORM_INDEX;
-    *pCommand++ = pColorWords[0];
+    std::memcpy(pCommand++, pColorBytes, sizeof(u32));
     *pCommand++ = HEADER_VSH_FLOAT_UNIFORM_DATA_16;
-    std::memcpy(pCommand, pColorWords + 1, sizeof(vertexColors) - sizeof(u32));
+    std::memcpy(pCommand, pColorBytes + sizeof(u32), sizeof(vertexColors) - sizeof(u32));
     pCommand += sizeof(vertexColors) / sizeof(u32) - 1;
     *pCommand++ = 0;
 

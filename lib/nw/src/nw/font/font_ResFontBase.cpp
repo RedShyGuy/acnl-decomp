@@ -17,6 +17,7 @@ nw::font::ResFontBase::ResFontBase()
 // 0x004D88EC (deleting dtor)
 nw::font::ResFontBase::~ResFontBase()
 {
+    // empty (in the original too)
 }
 
 // 0x004D8788 (name is ours)

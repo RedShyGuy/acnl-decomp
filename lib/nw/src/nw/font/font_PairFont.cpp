@@ -11,6 +11,7 @@ nw::font::PairFont::PairFont(Font* pFirst, Font* pSecond) : m_pFirst(pFirst), m_
 // 0x004D9790 (deleting dtor)
 nw::font::PairFont::~PairFont()
 {
+    // empty (in the original too)
 }
 
 // (inline)

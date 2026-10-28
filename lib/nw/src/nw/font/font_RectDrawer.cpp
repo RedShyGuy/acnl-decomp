@@ -318,9 +318,9 @@ u32* nw::font::RectDrawer::AddUniformMtx(u32* pCommand)
 {
     UniformBlock<MTX_MAX>& block = m_MtxUniforms;
     const u32 count = m_MtxCount;
-    block.firstData = *reinterpret_cast<u32*>(&block.data[0][0]);
-    *reinterpret_cast<u32*>(&block.data[0][0]) = Header(REG_VSH_FLOATUNIFORM_DATA, 0xF, count * 4 - 1);
-    *reinterpret_cast<u32*>(&block.data[count][0]) = 0;
+    block.firstData = block.GetWord(0);
+    block.SetWord(0, Header(REG_VSH_FLOATUNIFORM_DATA, 0xF, count * 4 - 1));
+    block.SetWord(count, 0);
     const u32 size = count * 4 * sizeof(u32) + 16;
     std::memcpy(pCommand, &block, size);
     m_MtxCount = 0;
@@ -514,8 +514,8 @@ void nw::font::RectDrawer::InitializeCMD(void* pVertexBuffer, void* pCommandBuff
 u32* nw::font::RectDrawer::SetProjectionMtx(u32* pCommand, const nn::math::MTX44& mtx)
 {
     nn::math::ARMv6::MTX44CopyAsm(reinterpret_cast<nn::math::MTX44*>(m_ProjectionUniforms.data), &mtx);
-    m_ProjectionUniforms.firstData = *reinterpret_cast<u32*>(&m_ProjectionUniforms.data[0][0]);
-    *reinterpret_cast<u32*>(&m_ProjectionUniforms.data[0][0]) = Header(REG_VSH_FLOATUNIFORM_DATA, 0xF, 19);
+    m_ProjectionUniforms.firstData = m_ProjectionUniforms.GetWord(0);
+    m_ProjectionUniforms.SetWord(0, Header(REG_VSH_FLOATUNIFORM_DATA, 0xF, 19));
     m_ProjectionUniforms.padding = 0;
     std::memcpy(pCommand, &m_ProjectionUniforms, sizeof(m_ProjectionUniforms));
     return pCommand + sizeof(m_ProjectionUniforms) / sizeof(u32);
@@ -527,9 +527,9 @@ void nw::font::RectDrawer::FlushUniforms(DispStringBuffer* pBuffer)
     // the index vectors of the characters
     const u32 charCount = m_VertexIndexCount;
     const u32 vertexCount = charCount * 6;
-    m_VertexIndexUniforms.firstData = *reinterpret_cast<u32*>(&m_VertexIndexUniforms.data[0][0]);
-    *reinterpret_cast<u32*>(&m_VertexIndexUniforms.data[0][0]) = Header(REG_VSH_FLOATUNIFORM_DATA, 0xF, charCount * 4 - 1);
-    *reinterpret_cast<u32*>(&m_VertexIndexUniforms.data[charCount][0]) = 0;
+    m_VertexIndexUniforms.firstData = m_VertexIndexUniforms.GetWord(0);
+    m_VertexIndexUniforms.SetWord(0, Header(REG_VSH_FLOATUNIFORM_DATA, 0xF, charCount * 4 - 1));
+    m_VertexIndexUniforms.SetWord(charCount, 0);
     AddCommands(pBuffer, &m_VertexIndexUniforms, charCount * 4 * sizeof(u32) + 16);
     m_VertexIndexCount = 0;
 
@@ -537,9 +537,9 @@ void nw::font::RectDrawer::FlushUniforms(DispStringBuffer* pBuffer)
     // string starts at c39)
     if (m_IsColorUniformsSet) {
         const u32 colorCount = m_ColorCount;
-        m_ColorUniforms.firstData = *reinterpret_cast<u32*>(&m_ColorUniforms.data[0][0]);
-        *reinterpret_cast<u32*>(&m_ColorUniforms.data[0][0]) = Header(REG_VSH_FLOATUNIFORM_DATA, 0xF, colorCount * 4 - 1);
-        *reinterpret_cast<u32*>(&m_ColorUniforms.data[colorCount][0]) = 0;
+        m_ColorUniforms.firstData = m_ColorUniforms.GetWord(0);
+        m_ColorUniforms.SetWord(0, Header(REG_VSH_FLOATUNIFORM_DATA, 0xF, colorCount * 4 - 1));
+        m_ColorUniforms.SetWord(colorCount, 0);
         const u32 size = colorCount * 4 * sizeof(u32) + 16;
         if (pBuffer->m_Unknown0x24 != 0) {
             AddCommands(pBuffer, &m_ColorUniforms, size);
@@ -547,7 +547,7 @@ void nw::font::RectDrawer::FlushUniforms(DispStringBuffer* pBuffer)
             pBuffer->m_Unknown0x24 = pBuffer->m_CommandSize;
             if (m_ColorCount > 4) {
                 AddCommand(pBuffer, UniformIndex32(39), Header(REG_VSH_FLOATUNIFORM_INDEX));
-                AddCommand(pBuffer, *reinterpret_cast<u32*>(&m_ColorUniforms.data[4][0]),
+                AddCommand(pBuffer, m_ColorUniforms.GetWord(4),
                            Header(REG_VSH_FLOATUNIFORM_DATA, 0xF, (m_ColorCount - 4) * 4 - 1));
                 AddCommands(pBuffer, &m_ColorUniforms.data[4][1], size - 80);
             }
@@ -563,7 +563,7 @@ void nw::font::RectDrawer::FlushUniforms(DispStringBuffer* pBuffer)
             m_IsColorUniformsSet = true;
         } else {
             m_IsColorUniformsSet = false;
-            *reinterpret_cast<u32*>(&m_ColorUniforms.data[0][0]) = m_ColorUniforms.firstData;
+            m_ColorUniforms.SetWord(0, m_ColorUniforms.firstData);
         }
         m_VertexIndex[3] = 3.0f;
         m_ColorCount = 4;
@@ -572,9 +572,9 @@ void nw::font::RectDrawer::FlushUniforms(DispStringBuffer* pBuffer)
     // the texture coordinates
     if (m_TexCoordCount != 0) {
         const u32 count = m_TexCoordCount;
-        m_TexCoordUniforms.firstData = *reinterpret_cast<u32*>(&m_TexCoordUniforms.data[0][0]);
-        *reinterpret_cast<u32*>(&m_TexCoordUniforms.data[0][0]) = Header(REG_VSH_FLOATUNIFORM_DATA, 0xF, count * 4 - 1);
-        *reinterpret_cast<u32*>(&m_TexCoordUniforms.data[count][0]) = 0;
+        m_TexCoordUniforms.firstData = m_TexCoordUniforms.GetWord(0);
+        m_TexCoordUniforms.SetWord(0, Header(REG_VSH_FLOATUNIFORM_DATA, 0xF, count * 4 - 1));
+        m_TexCoordUniforms.SetWord(count, 0);
         AddCommands(pBuffer, &m_TexCoordUniforms, count * 4 * sizeof(u32) + 16);
         m_TexCoordCount = 0;
     }
@@ -667,7 +667,9 @@ void nw::font::RectDrawer::BuildTextCommand(nw::font::CharWriter* pWriter)
             }
             AddCommand(pBuffer, 0x00011001, Header(REG_TEXUNIT_CONFIG, 0x4));
             AddCommand(pBuffer, imageAddress, Header(REG_TEXUNIT0_ADDR1));
-            const u32 size = *reinterpret_cast<const u32*>(&pFirst->pTextureObject->m_Height);
+            // (the height and the width as one word)
+            u32 size;
+            std::memcpy(&size, &pFirst->pTextureObject->m_Height, sizeof(size));
             if (size != textureSize) {
                 textureSize = size;
                 AddCommand(pBuffer, size, Header(REG_TEXUNIT0_DIM));

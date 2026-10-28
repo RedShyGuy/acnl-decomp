@@ -17,6 +17,7 @@ const nw::io::TypeInfo* nw::io::FileStream::GetRuntimeTypeInfo() const
 // 0x0048B8C0
 void nw::io::FileStream::vf_0x44()
 {
+    // empty (in the original too)
 }
 
 // 0x0048B814

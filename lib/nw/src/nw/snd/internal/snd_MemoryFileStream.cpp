@@ -14,6 +14,7 @@ nw::snd::internal::MemoryFileStream::MemoryFileStream(const void* pData, u32 siz
 // 0x004C85C4 (deleting dtor)
 nw::snd::internal::MemoryFileStream::~MemoryFileStream()
 {
+    // empty (in the original too)
 }
 
 // 0x004C8510 slot 0x24 (name after the other streams)

@@ -15,6 +15,7 @@ void nw::snd::internal::driver::StreamChannel::AppendWaveBuffer(nn::snd::CTR::Wa
 // 0x004CCB24 | fefates:bytes [tier B]
 nw::snd::internal::driver::StreamChannel::StreamChannel()
 {
+    // (only the array of wave buffers is constructed)
 }
 
 } // namespace driver

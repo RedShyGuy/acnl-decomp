@@ -8,8 +8,16 @@ namespace internal {
 template nw::snd::internal::MoveValue<float, int>::MoveValue();
 // 0x00135B60 | nintendogs:bytes [tier B]
 template float nw::snd::internal::MoveValue<float, int>::GetValue() const;
+
 // 0x007E79A8 | nintendogs:bytes [tier A]
-template void nw::snd::internal::MoveValue<float, int>::SetTarget(float target, int frame);
+template <>
+void nw::snd::internal::MoveValue<float, int>::SetTarget(float target, int frame)
+{
+    m_Origin = GetValue();
+    m_Target = target;
+    m_Frame = frame;
+    m_Counter = 0;
+}
 } // namespace internal
 } // namespace snd
 } // namespace nw

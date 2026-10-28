@@ -49,6 +49,19 @@ public:
         ut::ResDicPatricia dic = {m_pData->animGroupDic.To<ut::ResDicPatricia::Data>()};
         return anim::res::ResAnimGroup(dic.GetDataByIndex(index));
     }
+    s32 GetUserDataCount() const { return m_pData->userDataCount; }
+    // the user data at index of the dictionary (the game reads them; names are ours)
+    DECOMP_EMIT_COPY void* GetUserData(int index) const // 0x004A6BE8 (name is ours)
+    {
+        ut::ResDicPatricia dic = {m_pData->userDataDic.To<ut::ResDicPatricia::Data>()};
+        return dic.GetDataByIndex(index);
+    }
+    // the index of the user data of the name (-1: none)
+    DECOMP_EMIT_COPY int GetUserDataIndex(const char* name) const // 0x0073C6B8 (name is ours)
+    {
+        ut::ResDicPatricia dic = {m_pData->userDataDic.To<ut::ResDicPatricia::Data>()};
+        return dic.GetIndex(name);
+    }
 
     const ResSceneObjectData* m_pData; // 0x0
 };

@@ -4,7 +4,8 @@
 #include "nw/snd/internal/snd_BinaryTypes.h"
 #include "nw/snd/internal/snd_SoundArchiveFile.h"
 
-// the names of the items: a string table and a patricia tree from names to item ids
+// the names of the items: a string table and a patricia tree from names to item ids (the class and
+// function names are from the reference symbols; enum, struct and member names are ours)
 class nw::snd::internal::SoundArchiveFile::StringBlockBody
 {
 public:

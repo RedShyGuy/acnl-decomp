@@ -23,6 +23,7 @@ const TypeInfo nw::gfx::SceneUpdater::s_TypeInfo(&ISceneUpdater::s_TypeInfo);
 // 0x00491CF4 (deleting dtor)
 nw::gfx::SceneUpdater::~SceneUpdater()
 {
+    // (only the members are destroyed)
 }
 
 // 0x00491B38 slot 0x14 (name is ours)

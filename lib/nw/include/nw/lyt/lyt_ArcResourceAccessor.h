@@ -33,7 +33,7 @@ class DarcArchive;
 struct DarcFileInfo
 {
     // the data of the file
-    const void* GetData() const; // 0x004B6D2C (name is ours)
+    DECOMP_NOINLINE const void* GetData() const; // 0x004B6D2C (name is ours)
 
     const DarcArchive* pArchive;    // 0x0
     u32 offset;                     // 0x4
@@ -55,7 +55,7 @@ ASSERT_SIZE(DarcDirEntry, 0x10);
 struct DarcDir
 {
     // the next entry (not "."); false at the end
-    bool Read(DarcDirEntry* pEntry); // 0x004B4A5C (name is ours)
+    DECOMP_NOINLINE bool Read(DarcDirEntry* pEntry); // 0x004B4A5C (name is ours)
     // the next entry whose name ends with ext (extLen characters, case-insensitive)
     bool ReadWithExtension(const wchar_t* ext, u32 extLen, DarcDirEntry* pEntry); // 0x004BBADC (name is ours)
 
@@ -72,18 +72,18 @@ public:
     static const s32 ENTRY_NUM_NONE = -1;
 
     // the archive at pArchive into pHandle (always true)
-    static bool Init(const void* pArchive, DarcArchive* pHandle); // 0x004B51CC (name is ours)
+    static DECOMP_NOINLINE bool Init(const void* pArchive, DarcArchive* pHandle); // 0x004B51CC (name is ours)
 
     // the entry of the path (relative to the current directory; "/", "." and ".." work; a name
     // that is not there is looked for without case); ENTRY_NUM_NONE if there is none
     s32 ConvertPathToEntryNum(const wchar_t* pPath) const; // 0x004B6DB4 (name is ours)
     // the current directory
-    bool ChangeDir(s32 entryNum); // 0x004B50D0 (name is ours)
-    bool ChangeDir(const wchar_t* pPath); // 0x004B5098 (name is ours)
-    bool OpenDir(const wchar_t* pPath, DarcDir* pDir) const; // 0x004B4A04 (name is ours)
+    DECOMP_NOINLINE bool ChangeDir(s32 entryNum); // 0x004B50D0 (name is ours)
+    DECOMP_NOINLINE bool ChangeDir(const wchar_t* pPath); // 0x004B5098 (name is ours)
+    DECOMP_NOINLINE bool OpenDir(const wchar_t* pPath, DarcDir* pDir) const; // 0x004B4A04 (name is ours)
     // the directory of the resource type (four characters) under the root path
     bool OpenTypeDir(const wchar_t* pRootPath, u32 resType, DarcDir* pDir); // 0x004BBA74 (name is ours)
-    bool OpenFile(s32 entryNum, DarcFileInfo* pFileInfo) const; // 0x004B4B2C (name is ours)
+    DECOMP_NOINLINE bool OpenFile(s32 entryNum, DarcFileInfo* pFileInfo) const; // 0x004B4B2C (name is ours)
     // the path of the entry (directories end with '/'); false if it does not fit
     bool GetPath(s32 entryNum, wchar_t* pPath, u32 maxLen) const; // 0x004B6D3C (name is ours)
 
@@ -129,10 +129,10 @@ ASSERT_SIZE(FontRefLink, 0x90);
 class FontRefLinkList : public ut::LinkList<FontRefLink, 0>
 {
 public:
-    ~FontRefLinkList(); // 0x004B5468 (name is ours)
+    DECOMP_NOINLINE ~FontRefLinkList(); // 0x004B5468 (name is ours)
 
     FontRefLink* Regist(const char* name, const font::Font* pFont, bool isOwned); // 0x004B5300 (name is ours)
-    void Unregist(FontRefLink* pLink); // 0x004B5398 (name is ours)
+    DECOMP_NOINLINE void Unregist(FontRefLink* pLink); // 0x004B5398 (name is ours)
     font::Font* Find(const char* name); // 0x004B5418 (name is ours)
 };
 
@@ -155,7 +155,7 @@ ASSERT_SIZE(TextureRefLink, 0x9C);
 class TextureRefLinkList : public ut::LinkList<TextureRefLink, 0>
 {
 public:
-    ~TextureRefLinkList(); // 0x004B6014 (name is ours)
+    DECOMP_NOINLINE ~TextureRefLinkList(); // 0x004B6014 (name is ours)
 
     TextureRefLink* Regist(const char* name, const TextureInfo& texInfo); // 0x004B5E88 (name is ours)
     TextureInfo Find(const char* name); // 0x004B5F30 (name is ours)
@@ -182,6 +182,8 @@ public:
 
     // the archive (rootDirectory: the root of the resources in it); false if it is not valid
     bool Attach(void* pArchive, const char* rootDirectory); // 0x004B6C20 (name is ours)
+    // the archive given to Attach (NULL: none); the accessor has no archive afterwards (name is ours)
+    void* Detach(); // 0x00137B04
     FontRefLink* RegistFont(const char* name, const font::Font* pFont); // 0x004B52F4 | libgarden [tier A]
     void UnregistFont(FontRefLink* pLink); // 0x004B5390 (name is ours)
 

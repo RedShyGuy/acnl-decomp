@@ -11,6 +11,9 @@ template <typename T, long TNodeOffset>
 class LinkList : public internal::LinkListImpl
 {
 public:
+    // (inline; ARMCC has copies of some types for arrays of lists)
+    LinkList() {}
+
     // the object of a node / the node of an object
     static T* GetPointerFromNode(LinkListNode* pNode)
     {

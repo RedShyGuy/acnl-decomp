@@ -21,7 +21,7 @@ public:
 
     // starts the thread on the stack; false on failure
     bool Create(int priority, ThreadStack& stack); // 0x004C5FEC | fefates:bytes [tier B]
-    void Destroy(); // 0x004C60B8 | mk7dlp:callseq-callee [tier A]
+    DECOMP_NOINLINE void Destroy(); // 0x004C60B8 | mk7dlp:callseq-callee [tier A]
 
     static void ThreadFunc(uptr arg); // 0x004C5EE4 | nintendogs:bytes [tier A]
 

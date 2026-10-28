@@ -16,11 +16,6 @@ const TypeInfo nw::gfx::TransformNode::s_TypeInfo(&SceneNode::s_TypeInfo);
 // sets s_TypeInfo
 // 0x0079C25C (static initializer)
 
-// ctor address unknown
-nw::gfx::TransformNode::TransformNode()
-{
-}
-
 // 0x004989E4 slot 0x24 | nintendogs:bytes
 u32 nw::gfx::TransformNode::Initialize(os::IAllocator* pAllocator)
 {

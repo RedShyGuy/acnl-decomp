@@ -115,6 +115,8 @@ public:
     void UpdateRotateFlags();
     void UpdateCompositeFlags();
     void UpdateTranslateFlags();
+    // all the flags of the scale, rotation and translation (the game calls it; name is ours)
+    void UpdateFlags(); // 0x0049FAAC
     // the rotation made orthonormal again; false if a row is too short
     bool NormalizeRotateMatrix();
     // the matrix of the quaternion that blending left in the rotation (x, y, z in the first row,

@@ -2,6 +2,7 @@
 
 #include "decomp.h"
 #include "nn/math/math_MTX34.h"
+#include "nn/math/math_Transform.h"
 #include "nn/math/math_Vector3.h"
 #include "nw/ut/ut_Offset.h"
 #include "nw/ut/ut_ResDicPatricia.h"
@@ -34,16 +35,13 @@ struct ResBoneData
     s32 parentId;             // 0x0C
     ut::Offset parent;        // 0x10
     u8 unknown0x14[0xC];      // 0x14
-    nn::math::VEC3_ scale;    // 0x20
-    nn::math::VEC3_ rotate;   // 0x2C angles in radians
-    nn::math::VEC3_ translate; // 0x38
+    nn::math::Transform3 transform; // 0x20 scale, rotate (angles in radians), translate
     nn::math::MTX34 localMatrix;        // 0x44
     nn::math::MTX34 worldMatrix;        // 0x74
     nn::math::MTX34 inverseBaseMatrix;  // 0xA4 the inverse of the bind pose
     u32 billboardMode;                  // 0xD4 ResBone::BillboardMode (low byte)
 };
-ASSERT_OFFSET(ResBoneData, scale, 0x20);
-ASSERT_OFFSET(ResBoneData, translate, 0x38);
+ASSERT_OFFSET(ResBoneData, transform, 0x20);
 ASSERT_OFFSET(ResBoneData, billboardMode, 0xD4);
 
 // the wrapper of a bone (passed by value like all resources)
@@ -107,6 +105,11 @@ public:
     {
         ut::ResDicPatricia dic = {m_pData->boneDic.To<ut::ResDicPatricia::Data>()};
         return ResBone(dic.GetDataByIndex(index));
+    }
+    // the local transform of the bone at index (the game reads it; name is ours)
+    DECOMP_EMIT_COPY const nn::math::Transform3& GetBoneTransform(int index) const // 0x0073C924 (name is ours)
+    {
+        return GetBone(index).ptr()->transform;
     }
 
     const ResSkeletonData* m_pData; // 0x0

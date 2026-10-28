@@ -50,9 +50,11 @@ def main():
 
     res_path = os.path.join(a.build_dir, 'check', 'results.json')
     results = {}
+    source_names = {}   # names from the sources (for starts that symbols.json leaves unnamed)
     if os.path.exists(res_path):
         for k, r in json.load(open(res_path, encoding='utf-8'))['functions'].items():
             if k.startswith('0x'):
+                source_names.setdefault(int(k, 16), re.sub(r' \[(?:deleting|thunk|deleting thunk)\]$', '', r['name']))
                 if r['status'] == 'match' or r.get('grade') == 'equivalent':
                     results[int(k, 16)] = 'done'
                 elif r.get('grade') == 'close':
@@ -69,7 +71,7 @@ def main():
     rows = []
     for i, addr in enumerate(starts):
         size = (starts[i + 1] if i + 1 < len(starts) else end) - addr
-        name = names.get(addr, '')
+        name = names.get(addr) or source_names.get(addr, '')
         unit = unit_of(name) if name else 'unnamed'
         status = results.get(addr, 'todo')
         total[unit] += size

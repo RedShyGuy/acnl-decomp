@@ -16,14 +16,11 @@ void sead::AudioSoundArchiveBaseCtr::vf_0x04()
 {
 }
 
-// 0x0054D63C slot 0x08 | virtual slot, introduced by sead::AudioSoundArchiveBaseCtr
-void sead::AudioSoundArchiveBaseCtr::vf_0x08()
+// 0x0054D63C slot 0x08
+// 0x0054D638 (deleting dtor)
+sead::AudioSoundArchiveBaseCtr::~AudioSoundArchiveBaseCtr()
 {
-}
-
-// 0x0054D638 slot 0x0C | virtual slot, introduced by sead::AudioSoundArchiveBaseCtr
-void sead::AudioSoundArchiveBaseCtr::vf_0x0C()
-{
+    // empty (in the original too)
 }
 
 // 0x0011C12F slot 0x10 | slot vf_0x00 of ChangeRentalBase

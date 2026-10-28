@@ -16,7 +16,7 @@ namespace local {
 namespace {
 // 0x0014EE54 | mk7dlp:bytes
 // the parent matrix times the scale and translation (the rotation is none)
-void MultMatrixSRTxST(nn::math::MTX34* pMtx, const nn::math::MTX34* pMtxParent, const nn::math::VEC2* pScale, const nn::math::VEC3* pTransform)
+DECOMP_NOINLINE void MultMatrixSRTxST(nn::math::MTX34* pMtx, const nn::math::MTX34* pMtxParent, const nn::math::VEC2* pScale, const nn::math::VEC3* pTransform)
 {
     f32 m00 = pMtxParent->m[0][0];
     f32 m01 = pMtxParent->m[0][1];

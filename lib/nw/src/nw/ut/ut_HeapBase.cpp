@@ -34,6 +34,7 @@ u32 g_HeapFillValues[HeapBase::FILL_TYPE_COUNT] = {0xC3C3C3C3, 0xF3F3F3F3, 0xD3D
 // 0x0048BA80 (deleting dtor)
 nw::ut::HeapBase::~HeapBase()
 {
+    // empty (in the original too)
 }
 
 // 0x0013EE80 | nintendogs:bytes [tier A]

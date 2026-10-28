@@ -194,21 +194,43 @@ inline void PutTextureUnitConfig(const res::ResMaterialData* pMaterial)
     nn::gx::detail::s_pCommandBufferCurrent = pCommand + 2;
 }
 
+// a float uniform of 1 to 4 vectors to the vertex shader (the original has all four cases where only
+// two are used; name is ours)
+inline void PutVertexUniformRows(u32 index, int rows, const f32* pValues)
+{
+    u32* pCommand = nn::gx::detail::s_pCommandBufferCurrent;
+    switch (rows) {
+    case 1:
+        pCommand[0] = FLOAT_UNIFORM_F32 + index;
+        pCommand[1] = Header(REG_VSH_FLOATUNIFORM_INDEX, 0xF, 4, true);
+        NWCopyVec4Reverse(reinterpret_cast<f32*>(pCommand + 2), pValues);
+        nn::gx::detail::s_pCommandBufferCurrent += 6;
+        break;
+    case 2:
+        pCommand[0] = FLOAT_UNIFORM_F32 + index;
+        pCommand[1] = Header(REG_VSH_FLOATUNIFORM_INDEX, 0xF, 8, true);
+        NWCopyMtx24Reverse(reinterpret_cast<f32*>(pCommand + 2), pValues);
+        nn::gx::detail::s_pCommandBufferCurrent += 10;
+        break;
+    case 3:
+        pCommand[0] = FLOAT_UNIFORM_F32 + index;
+        pCommand[1] = Header(REG_VSH_FLOATUNIFORM_INDEX);
+        NWCopyMtx34WithHeader(reinterpret_cast<f32*>(pCommand + 2), pValues, Header(REG_VSH_FLOATUNIFORM_DATA, 0xF, 11));
+        nn::gx::detail::s_pCommandBufferCurrent += 16;
+        break;
+    case 4:
+        pCommand[0] = FLOAT_UNIFORM_F32 + index;
+        pCommand[1] = Header(REG_VSH_FLOATUNIFORM_INDEX);
+        NWCopyMtx44WithHeader(reinterpret_cast<f32*>(pCommand + 2), pValues, Header(REG_VSH_FLOATUNIFORM_DATA, 0xF, 15));
+        nn::gx::detail::s_pCommandBufferCurrent += 20;
+        break;
+    }
+}
+
 // the matrix of a texture unit (the third unit has only two rows)
 inline void PutTextureMatrix(int unit, const nn::math::MTX34& matrix)
 {
-    u32* pCommand = nn::gx::detail::s_pCommandBufferCurrent;
-    pCommand[0] = FLOAT_UNIFORM_F32 + UNIFORM_TEXTURE_MATRIX0 + unit * 3;
-    if (unit == 2) {
-        pCommand[1] = Header(REG_VSH_FLOATUNIFORM_INDEX, 0xF, 8, true);
-        NWCopyMtx24Reverse(reinterpret_cast<f32*>(pCommand + 2), reinterpret_cast<const f32*>(&matrix));
-        nn::gx::detail::s_pCommandBufferCurrent += 10;
-    } else {
-        pCommand[1] = Header(REG_VSH_FLOATUNIFORM_INDEX);
-        NWCopyMtx34WithHeader(reinterpret_cast<f32*>(pCommand + 2), reinterpret_cast<const f32*>(&matrix),
-                              Header(REG_VSH_FLOATUNIFORM_DATA, 0xF, 11));
-        nn::gx::detail::s_pCommandBufferCurrent += 16;
-    }
+    PutVertexUniformRows(UNIFORM_TEXTURE_MATRIX0 + unit * 3, unit == 2 ? 2 : 3, reinterpret_cast<const f32*>(&matrix));
 }
 
 // a lighting lookup table loaded with its input settings (absolute value bit, select and scale at shift)
@@ -295,7 +317,8 @@ nn::math::MTX44* nw::gfx::internal::MaterialState::SetupTextureMatrix(nn::math::
         break;
     }
     default:
-        m = nn::math::MTX44::Identity();
+        // (ARMCC inlines MTX44SetIdentity here: the static identity copied with MTX44CopyAsm)
+        nn::math::MTX44SetIdentity(pMatrix);
         break;
     }
     return pMatrix;

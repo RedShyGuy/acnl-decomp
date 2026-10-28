@@ -819,6 +819,20 @@ void NWCopyMtx41WithHeader(float*, const float*, unsigned)
     );
 }
 
+// 0x0014E890 | nintendogs:bytes
+u32* FastWordCopyAsm_2(u32*, u32*)
+{
+    asm volatile(
+        "push {r4, r5, r9, sl, fp}\n"
+        "ldm r1!, {r2}\n"
+        "ldm r1!, {r3}\n"
+        "stmia r0!, {r2}\n"
+        "stmia r0!, {r3}\n"
+        "pop {r4, r5, r9, sl, fp}\n"
+        "bx lr\n"
+    );
+}
+
 // 0x0014E8AC | nintendogs:bytes [tier A]
 u32* FastWordCopyAsm_4(u32*, u32*)
 {

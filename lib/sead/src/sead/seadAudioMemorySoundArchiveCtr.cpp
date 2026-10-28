@@ -4,7 +4,8 @@
 
 namespace sead {
 // ctor candidate(s) 0x0054A580 (unverified)
-sead::AudioMemorySoundArchiveCtr::AudioMemorySoundArchiveCtr()
+// (the argument of the nw base is not checked yet; sead is not decompiled)
+sead::AudioMemorySoundArchiveCtr::AudioMemorySoundArchiveCtr() : nw::snd::MemorySoundArchive(false)
 {
 }
 
@@ -18,14 +19,15 @@ void sead::AudioMemorySoundArchiveCtr::vf_0x04()
 {
 }
 
-// 0x0054D9F0 slot 0x08 | virtual slot, introduced by sead::AudioSoundArchiveBaseCtr
-void sead::AudioMemorySoundArchiveCtr::vf_0x08()
+// 0x0054D9F0 slot 0x08
+// 0x0054D9AC (deleting dtor)
+// 0x00778ED0 (thunk)
+// 0x00778E8C (deleting thunk)
+sead::AudioMemorySoundArchiveCtr::~AudioMemorySoundArchiveCtr()
 {
-}
-
-// 0x0054D9AC slot 0x0C | virtual slot, introduced by sead::AudioSoundArchiveBaseCtr
-void sead::AudioMemorySoundArchiveCtr::vf_0x0C()
-{
+    if (IsAvailable()) {
+        Finalize();
+    }
 }
 
 // 0x0054D970 slot 0x10 | nintendogs:bytes

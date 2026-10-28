@@ -1,3 +1,5 @@
+#include <algorithm>
+
 #include "nw/gfx/gfx_AmbientLight.h"
 #include "nw/gfx/gfx_HemiSphereLight.h"
 #include "nw/gfx/gfx_Light.h"
@@ -14,6 +16,14 @@ inline bool IsLightEnabled(const Light* pLight)
     return static_cast<const res::ResLightData*>(pLight->GetResSceneObject().ptr())->isLightEnabled;
 }
 } // namespace
+
+// 0x0049BF7C (name is ours)
+void nw::gfx::SceneEnvironment::Clear()
+{
+    std::fill(m_Cameras.begin(), m_Cameras.end(), static_cast<Camera*>(nullptr));
+    std::fill(m_Fogs.begin(), m_Fogs.end(), static_cast<Fog*>(nullptr));
+    std::fill(m_LightSets.begin(), m_LightSets.end(), static_cast<LightSet*>(nullptr));
+}
 
 // 0x0049C040 | nintendogs:bytes [tier B]
 void nw::gfx::SceneEnvironment::SetActiveLightSet(int lightSetIndex)

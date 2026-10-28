@@ -1,28 +1,28 @@
-#include "nw/snd/internal/driver/snd_SequenceTrack.h"
 #include "nw/snd/internal/driver/snd_MmlSequenceTrack.h"
+
+#include "nw/snd/internal/driver/snd_MmlParser.h"
 
 namespace nw {
 namespace snd {
 namespace internal {
 namespace driver {
-// ctor candidate(s) 0x004CE60C (unverified)
+// 0x004CE60C | fefates:callgraph
 nw::snd::internal::driver::MmlSequenceTrack::MmlSequenceTrack()
 {
+    // (only the base and the vtable)
 }
 
-// 0x004CCA88 slot 0x00 | slot vf_0x00 of nw::snd::internal::driver::SequenceTrack
+// 0x004CCA88 slot 0x00
+// 0x004CE624 (deleting dtor)
 nw::snd::internal::driver::MmlSequenceTrack::~MmlSequenceTrack()
 {
-}
-
-// 0x004CE624 slot 0x04 | virtual slot, introduced by nw::snd::internal::driver::SequenceTrack
-void nw::snd::internal::driver::MmlSequenceTrack::vf_0x04()
-{
+    // empty (in the original too)
 }
 
 // 0x007425A4 slot 0x08 | fefates:bytes
-void nw::snd::internal::driver::MmlSequenceTrack::Parse(bool)
+nw::snd::internal::driver::SequenceTrack::ParseResult nw::snd::internal::driver::MmlSequenceTrack::Parse(bool doNoteOn)
 {
+    return m_pParser->Parse(this, doNoteOn);
 }
 
 } // namespace driver

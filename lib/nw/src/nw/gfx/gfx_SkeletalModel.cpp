@@ -90,7 +90,7 @@ u32 nw::gfx::SkeletalModel::CreateSkeletalAnimGroup(os::IAllocator* pAllocator)
         pAnimGroup->m_TargetObjects[i] = reinterpret_cast<void*>(boneIndex);
         ut::ResDicPatricia originalBones = {pOriginalBones->ptr()->boneDic.To<ut::ResDicPatricia::Data>()};
         const res::ResBoneData* pOriginalBone = static_cast<const res::ResBoneData*>(originalBones.GetDataByIndex(boneIndex));
-        pAnimGroup->m_OriginalValues[i] = const_cast<nn::math::VEC3_*>(&pOriginalBone->scale);
+        pAnimGroup->m_OriginalValues[i] = const_cast<nn::math::VEC3*>(&pOriginalBone->transform.scale);
 
         void* pTarget = nullptr;
         if (member.GetMemberType() == anim::res::ResAnimGroupMemberData::MEMBER_TYPE_TRANSFORM) {

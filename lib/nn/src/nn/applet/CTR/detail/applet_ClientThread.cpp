@@ -234,6 +234,14 @@ bool TryWaitForControlEvent()
 } // namespace detail
 } // namespace CTR
 } // namespace applet
+// the TypeInfo functions of the client thread (an int parameter)
+// 0x00128350 (name is ours)
+template void nn::os::Thread::TypeInfoOf<int>::Copy<int>(const void* src, void* dst);
+// 0x0012836C (name is ours)
+template void nn::os::Thread::TypeInfoOf<int>::Destroy(void* param);
+// 0x00128360 (name is ours)
+template void nn::os::Thread::TypeInfoOf<int>::Invoke(void (*f)(uptr), const void* param);
+
 } // namespace nn
 
 // ARMCC's static initializer of the file: the constructors of the globals above

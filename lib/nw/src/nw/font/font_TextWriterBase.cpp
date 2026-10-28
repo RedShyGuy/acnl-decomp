@@ -114,6 +114,7 @@ TextWriterBase<T>::TextWriterBase()
 template <typename T>
 TextWriterBase<T>::~TextWriterBase()
 {
+    // (only the base is destroyed)
 }
 
 template <typename T>

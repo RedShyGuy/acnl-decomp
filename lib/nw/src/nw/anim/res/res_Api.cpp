@@ -307,7 +307,7 @@ const Key* GetKeys(const typename Key::Header* pHeader)
 // the last key at or before the frame (the first key before the first one): from an index
 // estimated by the frame on
 template <typename Key>
-inline const Key* FindKey(const typename Key::Header* pHeader, f32 frame)
+inline const Key* FindKeyImpl(const typename Key::Header* pHeader, f32 frame)
 {
     const typename Key::Frame keyFrame = Key::QuantizeFrame(pHeader, frame);
     const Key* pKeys = GetKeys<Key>(pHeader);
@@ -330,6 +330,20 @@ inline const Key* FindKey(const typename Key::Header* pHeader, f32 frame)
     } while (keyFrame >= pKey->GetRawFrame());
     return pKey - 1;
 }
+template <typename Key>
+inline const Key* FindKey(const typename Key::Header* pHeader, f32 frame)
+{
+    return FindKeyImpl<Key>(pHeader, frame);
+}
+// the key search of the quantized formats is out of line in the original (definitions below)
+template <>
+DECOMP_NOINLINE const UnifiedHermiteKeyQ32* FindKey<UnifiedHermiteKeyQ32>(const QuantizedKeysHeader* pHeader, f32 frame);
+template <>
+DECOMP_NOINLINE const UnifiedHermiteKeyQ48* FindKey<UnifiedHermiteKeyQ48>(const QuantizedKeysHeader* pHeader, f32 frame);
+template <>
+DECOMP_NOINLINE const HermiteKeyQ48* FindKey<HermiteKeyQ48>(const QuantizedKeysHeader* pHeader, f32 frame);
+template <>
+DECOMP_NOINLINE const HermiteKeyQ64* FindKey<HermiteKeyQ64>(const QuantizedKeysHeader* pHeader, f32 frame);
 
 // the value of the key at or before the frame
 template <typename Key>
@@ -371,15 +385,30 @@ f32 CalcHermiteSegment(const void* pKeys, f32 frame)
                                           pNext->GetFrame(pHeader) - keyFrame);
 }
 
-// the key search of the quantized formats is out of line in the original
 // 0x007E7A18 (name is ours)
-template const UnifiedHermiteKeyQ32* FindKey<UnifiedHermiteKeyQ32>(const QuantizedKeysHeader* pHeader, f32 frame);
+template <>
+const UnifiedHermiteKeyQ32* FindKey<UnifiedHermiteKeyQ32>(const QuantizedKeysHeader* pHeader, f32 frame)
+{
+    return FindKeyImpl<UnifiedHermiteKeyQ32>(pHeader, frame);
+}
 // 0x007E7AC8 (name is ours)
-template const UnifiedHermiteKeyQ48* FindKey<UnifiedHermiteKeyQ48>(const QuantizedKeysHeader* pHeader, f32 frame);
+template <>
+const UnifiedHermiteKeyQ48* FindKey<UnifiedHermiteKeyQ48>(const QuantizedKeysHeader* pHeader, f32 frame)
+{
+    return FindKeyImpl<UnifiedHermiteKeyQ48>(pHeader, frame);
+}
 // 0x007E7B8C (name is ours)
-template const HermiteKeyQ48* FindKey<HermiteKeyQ48>(const QuantizedKeysHeader* pHeader, f32 frame);
+template <>
+const HermiteKeyQ48* FindKey<HermiteKeyQ48>(const QuantizedKeysHeader* pHeader, f32 frame)
+{
+    return FindKeyImpl<HermiteKeyQ48>(pHeader, frame);
+}
 // 0x007E7C44 (name is ours)
-template const HermiteKeyQ64* FindKey<HermiteKeyQ64>(const QuantizedKeysHeader* pHeader, f32 frame);
+template <>
+const HermiteKeyQ64* FindKey<HermiteKeyQ64>(const QuantizedKeysHeader* pHeader, f32 frame)
+{
+    return FindKeyImpl<HermiteKeyQ64>(pHeader, frame);
+}
 
 // the integer curves
 // 0x007E7D1C (name is ours)

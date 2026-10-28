@@ -7,6 +7,7 @@ namespace driver {
 // 0x004CB61C slot 0x0C
 void nw::snd::internal::driver::SoundThread::PlayerCallback::OnUpdateBuffer()
 {
+    // empty (in the original too)
 }
 
 } // namespace driver

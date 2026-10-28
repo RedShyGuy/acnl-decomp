@@ -6,10 +6,5 @@ namespace gfx {
 // 0x0097F49C
 const TypeInfo nw::gfx::SceneObject::s_TypeInfo(nullptr);
 
-// ctor address unknown
-nw::gfx::SceneObject::SceneObject()
-{
-}
-
 } // namespace gfx
 } // namespace nw

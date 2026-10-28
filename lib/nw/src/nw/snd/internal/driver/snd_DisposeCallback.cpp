@@ -8,6 +8,7 @@ namespace driver {
 // 0x004CCD84 (deleting dtor)
 nw::snd::internal::driver::DisposeCallback::~DisposeCallback()
 {
+    // empty (in the original too)
 }
 
 } // namespace driver

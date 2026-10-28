@@ -1,89 +1,139 @@
-#include "nw/snd/internal/snd_BasicSound.h"
-#include "nw/snd/internal/driver/snd_WaveSoundPlayer.h"
-#include "nw/snd/internal/driver/snd_WaveSoundLoader.h"
 #include "nw/snd/internal/snd_WaveSound.h"
+
+#include "nw/snd/internal/snd_DriverCommandManager.h"
+#include "nw/snd/internal/snd_DriverCommandPlayer.h"
 
 namespace nw {
 namespace snd {
 namespace internal {
-// ctor candidate(s) 0x004D4E54 (unverified)
-nw::snd::internal::WaveSound::WaveSound()
+// 0x0097F6AC
+const TypeInfo nw::snd::internal::WaveSound::s_TypeInfo(&BasicSound::s_TypeInfo);
+
+// sets s_TypeInfo
+// 0x00797CE0 (static initializer)
+
+// 0x004D4BEC slot 0x0C
+void nw::snd::internal::WaveSound::Initialize()
 {
+    BasicSound::Initialize();
+    m_pTempSpecialHandle = nullptr;
+    m_InitializeFlag = true;
+    m_PreparedFlag = false;
 }
 
-// 0x0074320C slot 0x00 | slot vf_0x00 of nw::snd::internal::BasicSound
-void nw::snd::internal::WaveSound::GetRuntimeTypeInfo() const
+// 0x004D4C10 slot 0x2C
+void nw::snd::internal::WaveSound::OnUpdateParam()
+{
+    // empty (in the original too)
+}
+
+// 0x004D4C14 | fefates:bytes [tier B]
+void nw::snd::internal::WaveSound::RegisterDataLoadTask(const driver::WaveSoundLoader::LoadInfo& loadInfo,
+                                                       const driver::WaveSoundPlayer::StartInfo& startInfo)
+{
+    DriverCommandManager& manager = DriverCommandManager::GetInstance();
+    DriverCommandWaveSoundLoad* pCommand = manager.AllocCommand<DriverCommandWaveSoundLoad>();
+    pCommand->id = DriverCommand::ID_WAVESOUND_LOAD;
+    pCommand->player = &m_WaveSoundPlayer;
+    pCommand->startInfo = startInfo;
+    pCommand->arg.soundDataManager = loadInfo.soundDataManager;
+    pCommand->arg.soundArchive = loadInfo.soundArchive;
+    pCommand->arg.soundPlayer = loadInfo.soundPlayer;
+    pCommand->arg.loadInfoWsd = *loadInfo.loadInfoWsd;
+    pCommand->arg.index = startInfo.index;
+    manager.PushCommand(pCommand);
+}
+
+// 0x004D4C94 | fefates:bytes [tier B]
+void nw::snd::internal::WaveSound::InitializeChannelParam(int priority, bool isReleasePriorityFix)
+{
+    DriverCommandManager& manager = DriverCommandManager::GetInstance();
+    DriverCommandWaveSoundChannelParam* pCommand = manager.AllocCommand<DriverCommandWaveSoundChannelParam>();
+    pCommand->id = DriverCommand::ID_WAVESOUND_CHANNEL_PARAM;
+    pCommand->player = &m_WaveSoundPlayer;
+    pCommand->priority = priority;
+    pCommand->isReleasePriorityFix = isReleasePriorityFix;
+    manager.PushCommand(pCommand);
+}
+
+// 0x004D4CE4 slot 0x24
+void nw::snd::internal::WaveSound::OnUpdatePlayerPriority()
+{
+    m_pManager->UpdatePriority(this, CalcCurrentPlayerPriority());
+}
+
+// 0x004D4D70 slot 0x1C
+void nw::snd::internal::WaveSound::DetachTempSpecialHandle()
+{
+    // empty (in the original too)
+}
+
+// 0x004D4D74 slot 0x20
+driver::BasicSoundPlayer* nw::snd::internal::WaveSound::GetBasicSoundPlayerHandle()
+{
+    return &m_WaveSoundPlayer;
+}
+
+// 0x004D4D7C slot 0x18
+bool nw::snd::internal::WaveSound::IsAttachedTempSpecialHandle()
+{
+    return m_pTempSpecialHandle != nullptr;
+}
+
+// 0x004D4D8C | fefates:bytes [tier B]
+void nw::snd::internal::WaveSound::Prepare(const void* pWaveSoundFile, const void* pWaveFile,
+                                          const driver::WaveSoundPlayer::StartInfo& startInfo, s8 waveType)
+{
+    DriverCommandManager& manager = DriverCommandManager::GetInstance();
+    DriverCommandWaveSoundPrepare* pCommand = manager.AllocCommand<DriverCommandWaveSoundPrepare>();
+    pCommand->id = DriverCommand::ID_WAVESOUND_PREPARE;
+    pCommand->player = &m_WaveSoundPlayer;
+    pCommand->startInfo = startInfo;
+    pCommand->arg.waveSoundFile = pWaveSoundFile;
+    pCommand->arg.waveFile = pWaveFile;
+    pCommand->arg.waveType = waveType;
+    manager.PushCommand(pCommand);
+    m_PreparedFlag = true;
+}
+
+// 0x004D4DF4 slot 0x10
+void nw::snd::internal::WaveSound::Finalize()
+{
+    if (!m_InitializeFlag) {
+        return;
+    }
+    m_InitializeFlag = false;
+    m_PreparedFlag = false;
+    BasicSound::Finalize();
+    m_pManager->Free(this);
+}
+
+// 0x004D4E54 | fefates:bytes [tier B]
+nw::snd::internal::WaveSound::WaveSound(WaveSoundInstanceManager& manager)
+    : m_pManager(&manager), m_InitializeFlag(false), m_PreparedFlag(false)
 {
 }
 
 // 0x004D4EBC slot 0x04 | fefates:bytes
+// 0x004D4E8C (deleting dtor)
 nw::snd::internal::WaveSound::~WaveSound()
 {
-}
-
-// 0x004D4E8C slot 0x08 | virtual slot, introduced by nw::snd::internal::BasicSound
-void nw::snd::internal::WaveSound::vf_0x08()
-{
-}
-
-// 0x004D4BEC slot 0x0C | slot vf_0x0C of nw::snd::internal::BasicSound
-void nw::snd::internal::WaveSound::Initialize()
-{
-}
-
-// 0x004D4DF4 slot 0x10 | slot vf_0x10 of nw::snd::internal::BasicSound
-void nw::snd::internal::WaveSound::Finalize()
-{
+    // (only the members and the base are destroyed)
 }
 
 // 0x007431D8 slot 0x14 | fefates:bytes
-void nw::snd::internal::WaveSound::IsPrepared() const
+bool nw::snd::internal::WaveSound::IsPrepared() const
 {
+    if (m_PreparedFlag) {
+        return true;
+    }
+    return m_IsPlayerAvailable && m_WaveSoundPlayer.m_ResState >= driver::WaveSoundPlayer::RES_STATE_PREPARED;
 }
 
-// 0x004D4D7C slot 0x18 | slot vf_0x18 of nw::snd::internal::BasicSound
-void nw::snd::internal::WaveSound::IsAttachedTempSpecialHandle()
+// 0x0074320C slot 0x00 (name after nw::gfx)
+const TypeInfo* nw::snd::internal::WaveSound::GetRuntimeTypeInfo() const
 {
-}
-
-// 0x004D4D70 slot 0x1C | slot vf_0x1C of nw::snd::internal::BasicSound
-void nw::snd::internal::WaveSound::DetachTempSpecialHandle()
-{
-}
-
-// 0x004D4D74 slot 0x20 | slot vf_0x20 of nw::snd::internal::BasicSound
-void nw::snd::internal::WaveSound::GetBasicSoundPlayerHandle()
-{
-}
-
-// 0x004D4CE4 slot 0x24 | slot vf_0x24 of nw::snd::internal::BasicSound
-void nw::snd::internal::WaveSound::OnUpdatePlayerPriority()
-{
-}
-
-// 0x004D4C10 slot 0x2C | slot vf_0x2C of nw::snd::internal::BasicSound
-void nw::snd::internal::WaveSound::OnUpdateParam()
-{
-}
-
-// 0x004D4C14 | fefates:bytes [tier B]
-void nw::snd::internal::WaveSound::RegisterDataLoadTask(const nw::snd::internal::driver::WaveSoundLoader::LoadInfo&, const nw::snd::internal::driver::WaveSoundPlayer::StartInfo&)
-{
-}
-
-// 0x004D4C94 | fefates:bytes [tier B]
-void nw::snd::internal::WaveSound::InitializeChannelParam(int, bool)
-{
-}
-
-// 0x004D4D8C | fefates:bytes [tier B]
-void nw::snd::internal::WaveSound::Prepare(const void*, const void*, const nw::snd::internal::driver::WaveSoundPlayer::StartInfo&, signed char)
-{
-}
-
-// 0x004D4E54 | fefates:bytes [tier B]
-nw::snd::internal::WaveSound::WaveSound(nw::snd::internal::SoundInstanceManager<nw::snd::internal::WaveSound>&)
-{
+    return &s_TypeInfo;
 }
 
 } // namespace internal

@@ -3706,10 +3706,10 @@ namespace nw { namespace snd {
     enum PanMode : u8; // nw/snd/snd_Global.h
     enum SampleFormat : u8; // nw/snd/snd_Global.h
     enum SeqMute : u8; // nw/snd/snd_Global.h
-    struct SequenceUserprocCallbackParam { u32 _unknown; }; // placeholder, real type unknown
-    struct SoundActor { u32 _unknown; }; // placeholder, real type unknown
+    struct SequenceUserprocCallbackParam; // nw/snd/internal/driver/snd_SequenceSoundPlayer.h
+    class SoundActor; // nw/snd/snd_SoundActor.h
     struct SoundThreadProfile; // nw/snd/internal/driver/snd_SoundThread.h
-    struct StreamDataInfo { u32 _unknown; }; // placeholder, real type unknown
+    struct StreamDataInfo; // nw/snd/snd_Global.h
 }}
 
 namespace nw { namespace snd { namespace internal { 
@@ -3762,17 +3762,17 @@ namespace nw { namespace snd { namespace internal {
     class WaveSound;
     class WaveSoundFile;
     class WaveSoundFileReader;
-    struct DriverCommandStreamSoundLoadData { u32 _unknown; }; // placeholder, real type unknown
-    struct DriverCommandStreamSoundLoadHeader { u32 _unknown; }; // placeholder, real type unknown
+    struct DriverCommandStreamSoundLoadData; // nw/snd/internal/snd_DriverCommandPlayer.h
+    struct DriverCommandStreamSoundLoadHeader; // nw/snd/internal/snd_DriverCommandPlayer.h
     struct GroupItemLocationInfo; // nw/snd/internal/snd_GroupFile.h
-    struct LoadDataParam { u32 _unknown; }; // placeholder, real type unknown
+    struct LoadDataParam; // nw/snd/internal/driver/snd_StreamSoundLoader.h
     struct LoadItemInfo; // nw/snd/snd_Global.h
     struct VelocityRegionInfo; // nw/snd/internal/snd_BankFile.h
     struct WaveInfo; // nw/snd/internal/snd_WaveFileReader.h
     struct WaveSoundInfo; // nw/snd/internal/snd_WaveSoundFile.h
     struct WaveSoundNoteInfo; // nw/snd/internal/snd_WaveSoundFile.h
     template <typename T0> class LoaderManager;
-    template <typename T0> struct SoundInstanceManager { u32 _unknown; }; // placeholder
+    template <typename T0> class SoundInstanceManager; // nw/snd/internal/snd_SoundInstanceManager.h
 }}}
 
 namespace nw { namespace snd { namespace internal { namespace Util { 
@@ -3807,8 +3807,8 @@ namespace nw { namespace snd { namespace internal { namespace driver {
     class VoiceManager;
     class WaveSoundLoader;
     class WaveSoundPlayer;
-    struct NoteOnInfo { u32 _unknown; }; // placeholder, real type unknown
-    struct StreamTrack { u32 _unknown; }; // placeholder, real type unknown
+    struct NoteOnInfo; // nw/snd/internal/driver/snd_NoteOnCallback.h
+    struct StreamTrack; // nw/snd/internal/driver/snd_StreamSoundPlayer.h
 }}}}
 
 namespace nw { namespace ut { 

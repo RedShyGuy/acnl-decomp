@@ -36,6 +36,8 @@ public:
     // (inline)
     static u32 GetItemType(u32 id) { return id >> 24; }
     static u32 GetItemIndex(u32 id) { return id & 0x00FFFFFF; }
+    // the id of the item of a type with an index (name is ours)
+    static u32 MakeItemId(ItemType type, u32 index) { return (static_cast<u32>(type) << 24) | index; }
 
     enum SoundType
     {
@@ -68,6 +70,14 @@ public:
     };
     struct SequenceSoundInfo
     {
+        // (inline)
+        SequenceSoundInfo() : startOffset(0), allocateTrackFlags(0), channelPriority(0), isReleasePriorityFix(false)
+        {
+            for (int i = 0; i < 4; ++i) {
+                bankIds[i] = 0xFFFFFFFF;
+            }
+        }
+
         u32 startOffset;          // 0x00
         u32 bankIds[4];           // 0x04
         u32 allocateTrackFlags;   // 0x14
@@ -76,6 +86,9 @@ public:
     };
     struct WaveSoundInfo
     {
+        // (inline)
+        WaveSoundInfo() : allocateTrackCount(0), channelPriority(0), isReleasePriorityFix(false) {}
+
         u32 index;                // 0x0
         u32 allocateTrackCount;   // 0x4
         u8 channelPriority;       // 0x8
@@ -83,6 +96,9 @@ public:
     };
     struct BankInfo
     {
+        // (inline)
+        BankInfo() : fileId(0xFFFFFFFF) {}
+
         u32 fileId; // 0x0
     };
     struct PlayerInfo
@@ -92,23 +108,35 @@ public:
     };
     struct SoundGroupInfo
     {
+        // (inline)
+        SoundGroupInfo() : startId(0xFFFFFFFF), endId(0xFFFFFFFF), pFileIdTable(nullptr) {}
+
         u32 startId;                                // 0x0
         u32 endId;                                  // 0x4
         const internal::BinaryTable<u32>* pFileIdTable; // 0x8
     };
     struct GroupInfo
     {
+        // (inline)
+        GroupInfo() : fileId(0xFFFFFFFF), fileSize(0) {}
+
         u32 fileId;   // 0x0
         u32 fileSize; // 0x4 (-1: an external file)
     };
     struct WaveArchiveInfo
     {
+        // (inline)
+        WaveArchiveInfo() : fileId(0xFFFFFFFF), isLoadIndividual(false) {}
+
         u32 fileId;             // 0x0
         u32 waveCount;          // 0x4
         bool isLoadIndividual;  // 0x8
     };
     struct FileInfo
     {
+        // (inline)
+        FileInfo() : fileSize(0xFFFFFFFF), offsetFromFileBlockHead(0xFFFFFFFF), externalFilePath(nullptr) {}
+
         u32 fileSize;                // 0x0
         u32 offsetFromFileBlockHead; // 0x4 (-1: none)
         const char* externalFilePath; // 0x8
@@ -152,6 +180,14 @@ public:
     static const int STREAM_TRACK_MAX = 4;
     struct StreamSoundInfo
     {
+        // (inline)
+        StreamSoundInfo() : allocateTrackFlags(0), allocateChannelCount(0), pitch(1.0f), mainSend(127), streamFileType(0),
+                            prefetchFileId(0xFFFFFFFF)
+        {
+            fxSend[0] = 0;
+            fxSend[1] = 0;
+        }
+
         u16 allocateTrackFlags;   // 0x00
         u16 allocateChannelCount; // 0x02
         StreamTrackInfo trackInfo[STREAM_TRACK_MAX]; // 0x04
@@ -163,6 +199,9 @@ public:
     };
     struct StreamSoundInfo2
     {
+        // (inline)
+        StreamSoundInfo2() : isLoop(false), loopStartFrame(0), loopEndFrame(0) {}
+
         bool isLoop;       // 0x0
         u32 loopStartFrame; // 0x4
         u32 loopEndFrame;   // 0x8
@@ -177,7 +216,8 @@ public:
         virtual bool IsTargetItem(u32 id) = 0;
         virtual const char* GetItemLabel(u32 id) const = 0;
         virtual u32 GetItemId(const char* pLabel) const = 0;
-        virtual void vf_0x14() = 0;
+        // the kind of the sound of a label (name is ours)
+        virtual SoundType GetSoundType(const char* pLabel) const = 0;
         virtual bool ReadSoundInfo(u32 id, SoundInfo* pInfo) const = 0;
         virtual bool ReadBankInfo(u32 id, BankInfo* pInfo) const = 0;
         virtual bool ReadPlayerInfo(u32 id, PlayerInfo* pInfo) const = 0;
@@ -220,6 +260,8 @@ public:
     bool detail_ReadWaveSoundInfo(u32 soundId, WaveSoundInfo* pInfo) const; // 0x0013D0A0 | nintendogs:callgraph [tier A]
     bool detail_ReadSoundGroupInfo(u32 soundGroupId, SoundGroupInfo* pInfo) const; // 0x0013D0F8 | nintendogs:callgraph [tier A]
     u32 GetItemFileId(u32 id) const; // 0x0013D520 | nintendogs:callgraph [tier A]
+    // the file of the prefetch data of a stream sound
+    u32 GetItemPrefetchFileId(u32 id) const; // 0x0013D5D8 (name after the InfoBlockBody)
     bool ReadWaveArchiveInfo(u32 waveArchiveId, WaveArchiveInfo* pInfo) const; // 0x0013FA10 | nintendogs:callgraph [tier A]
     bool detail_ReadFileInfo(u32 fileId, FileInfo* pInfo) const; // 0x0013FA68 | nintendogs:callgraph [tier A]
     io::FileStream* detail_OpenFileStream(u32 fileId, void* pBuffer, int bufferSize, void* pCacheBuffer, u32 cacheSize,

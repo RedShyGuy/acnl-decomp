@@ -45,7 +45,7 @@ public:
     {
         f32 load;        // 0x0
         u8 voiceCount;   // 0x4
-        u8 unknown5;     // 0x5
+        u8 noteOnCount;  // 0x5
         u8 padding[2];   // 0x6
     };
     ASSERT_SIZE(LoadProfile, 0x8);
@@ -55,7 +55,7 @@ public:
 
     SoundThread(); // 0x004CBB44 | nintendogs:bytes [tier A]
     // (inline; registered by the guard of GetInstance)
-    ~SoundThread() {} // 0x004CBBE4
+    DECOMP_EMIT_COPY ~SoundThread() {} // 0x004CBBE4
 
     static SoundThread& GetInstance(); // 0x004CB3E4 | nintendogs:callgraph [tier A]
 
@@ -104,7 +104,7 @@ public:
     bool m_IsEnableGetTick;                     // 0x1F6
     bool m_IsFinalizing;                        // 0x1F7
     LoadProfile* m_pLoadProfiles;               // 0x1F8
-    u32 m_FrameUnknownCount;                    // 0x1FC stored with each load profile, 0 after each frame
+    u32 m_NoteOnCount;                          // 0x1FC the note-ons of the frame (SequenceNoteOnCallback)
     int m_LoadProfileCount;                     // 0x200
     int m_LoadProfileIndex;                     // 0x204
 };

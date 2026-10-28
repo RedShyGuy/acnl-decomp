@@ -148,6 +148,8 @@ void NWCopyMtx31Reverse(float*, const float*) GFX_ASM; // 0x0014E778 | nintendog
 void NWCopyMtx31WithHeader(float*, const float*, unsigned) GFX_ASM; // 0x0014E7B4 | nintendogs:bytes [tier A]
 void NWCopyMtx41Reverse(float*, const float*) GFX_ASM; // 0x0014E7F4 | nintendogs:bytes [tier A]
 void NWCopyMtx41WithHeader(float*, const float*, unsigned) GFX_ASM; // 0x0014E840 | nintendogs:bytes [tier A]
+// (symbols.json names the start of the copy functions "copy_asm_declarations")
+u32* FastWordCopyAsm_2(u32*, u32*) GFX_ASM; // 0x0014E890 | nintendogs:bytes
 u32* FastWordCopyAsm_4(u32*, u32*) GFX_ASM; // 0x0014E8AC | nintendogs:bytes [tier A]
 u32* FastWordCopyAsm_6(u32*, u32*) GFX_ASM; // 0x0014E8C8 | nintendogs:bytes [tier A]
 u32* FastWordCopyAsm_8(u32*, u32*) GFX_ASM; // 0x0014E8E4 | nintendogs:bytes [tier A]

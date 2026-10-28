@@ -3,7 +3,7 @@
 namespace nw {
 namespace ut {
 namespace internal {
-// 0x00137580 (name is ours)
+// 0x00137580 | fefates:bytes
 nw::ut::internal::LinkListImpl::iterator nw::ut::internal::LinkListImpl::erase(nw::ut::internal::LinkListImpl::iterator it)
 {
     iterator next = it;

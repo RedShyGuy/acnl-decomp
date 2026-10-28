@@ -27,6 +27,15 @@ void nw::gfx::CalculatedTransform::SetRotateXYZ(f32 x, f32 y, f32 z)
     EnableFlags(FLAG_IS_DIRTY);
 }
 
+// 0x0049FAAC (name is ours)
+void nw::gfx::CalculatedTransform::UpdateFlags()
+{
+    UpdateScaleFlags();
+    UpdateRotateFlags();
+    UpdateTranslateFlags();
+    UpdateCompositeFlags();
+}
+
 // 0x0049FDE8 | nintendogs:bytes [tier A]
 void nw::gfx::CalculatedTransform::SetTransform(const nn::math::Transform3& transform)
 {
@@ -165,9 +174,9 @@ bool nw::gfx::CalculatedTransform::NormalizeRotateQuaternion()
 void nw::gfx::CalculatedTransform::SetTransform(res::ResBone bone)
 {
     const res::ResBoneData* pData = bone.ptr();
-    m_Scale = pData->scale;
-    nw::math::MTX34RotateXYZRad(&m_TransformMatrix, pData->rotate.x, pData->rotate.y, pData->rotate.z);
-    SetTranslate(pData->translate);
+    m_Scale = pData->transform.scale;
+    nw::math::MTX34RotateXYZRad(&m_TransformMatrix, pData->transform.rotate.x, pData->transform.rotate.y, pData->transform.rotate.z);
+    SetTranslate(pData->transform.translate);
     EnableFlags(FLAG_IS_DIRTY);
 
     bool isTranslateZero = false;

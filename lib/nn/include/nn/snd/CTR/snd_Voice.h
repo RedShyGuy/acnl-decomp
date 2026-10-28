@@ -44,6 +44,8 @@ public:
     void SetSampleFormat(SampleFormat format); // 0x00466CEC (name is ours)
     void UpdateWaveBuffer(WaveBuffer* buffer); // 0x00466DB4 (name is ours)
     void SetAdpcmParam(const AdpcmParam& param); // 0x00466A34 (name is ours)
+    // the sample the voice plays
+    u32 GetPlayPosition() const; // 0x007370EC (name is ours)
 
     s32 m_Id;                                   // 0x00
     u8 m_State;                                 // 0x04

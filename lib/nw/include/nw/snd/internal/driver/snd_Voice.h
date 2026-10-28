@@ -79,8 +79,8 @@ public:
     void SetFxSend(AuxBus bus, f32 send); // 0x004CB30C | nintendogs:bytes [tier A]
     void SetPriority(int priority); // 0x004CA3C8 | nintendogs:bytes [tier A]
     void SetFrontBypass(bool isBypass); // 0x004CA7A8 | fefates:bytes [tier B] (MultiVoice)
-    // (nintendogs calls this one SetFrontBypass; name after the call of nn::snd)
-    void Set3dSurroundPreprocessed(bool isPreprocessed); // 0x004CA9AC (name is ours)
+    // (nintendogs and mk7dlp call this one SetFrontBypass, too)
+    void SetSurroundPreProcessed(bool isPreProcessed); // 0x004CA9AC | fefates:bytes (MultiVoice)
     // 0 4-point, 1 linear, 2 none
     void SetInterpolationType(u8 type); // 0x004CA900 | nintendogs:bytes [tier A]
     void SetAdpcmParam(int channelIndex, const nn::snd::CTR::AdpcmParam& param); // 0x004CA79C | nintendogs:callseq-callee [tier A]
@@ -89,6 +89,8 @@ public:
     // the priority again to the voices of nn::snd
     void UpdateVoicesPriority(); // 0x004CA964 | nintendogs:bytes [tier A]
     bool IsRun() const; // 0x00741424 | nintendogs:bytes [tier A]
+    // the sample the voice plays (0: no voice)
+    u32 GetPlayPosition() const; // 0x00741410 (name is ours)
     SampleFormat GetFormat() const; // 0x00741444 | nintendogs:bytes [tier A]
 
     // the mix of a channel to the speakers and the buses

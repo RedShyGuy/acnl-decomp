@@ -35,6 +35,8 @@ public:
     bool SetResource(void* pBfnt); // 0x004D9368 (name is ours)
     // the resource (NULL: none)
     void* RemoveResource(); // 0x0013C4B8 (name is ours)
+    // the same, but only if there is a resource (the game calls it; name is ours)
+    void* ReleaseResource(); // 0x00138698
     // the old draw buffer
     void* SetDrawBuffer(void* pBuffer); // 0x0013C52C | nintendogs:bytes [tier A]
     // the size of the draw buffer of the resource (0: not valid)

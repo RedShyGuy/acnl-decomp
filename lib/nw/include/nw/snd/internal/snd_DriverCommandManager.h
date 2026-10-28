@@ -17,6 +17,14 @@ public:
     static const int SEND_QUEUE_SIZE = 32;
     static const int RECV_QUEUE_SIZE = 33;
 
+    // A queue that finalizes itself before the base destructor does it again (the destructor calls
+    // Finalize, then ~BlockingQueueBase, for each queue; name is ours).
+    class Queue : public nn::os::detail::BlockingQueueBase<nn::os::CriticalSection>
+    {
+    public:
+        ~Queue() { Finalize(); }
+    };
+
     static DriverCommandManager& GetInstance(); // 0x001415C0 | nintendogs:callgraph [tier A]
     static DriverCommandManager& GetInstanceForTaskThread(); // 0x004C9288 | nintendogs:callgraph [tier A]
 
@@ -67,9 +75,9 @@ public:
         }
     }
 
-    nn::os::detail::BlockingQueueBase<nn::os::CriticalSection> m_SendQueue; // 0x000
+    Queue m_SendQueue;                                                      // 0x000
     uptr m_SendQueueBuffer[SEND_QUEUE_SIZE];                                // 0x034
-    nn::os::detail::BlockingQueueBase<nn::os::CriticalSection> m_RecvQueue; // 0x0B4
+    Queue m_RecvQueue;                                                      // 0x0B4
     uptr m_RecvQueueBuffer[RECV_QUEUE_SIZE];                                // 0x0E8
     DriverCommand* m_pListHead;                                             // 0x16C the commands of the next flush
     DriverCommand* m_pListTail;                                             // 0x170

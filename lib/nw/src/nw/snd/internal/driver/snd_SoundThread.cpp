@@ -135,11 +135,11 @@ void nw::snd::internal::driver::SoundThread::CalcProcessCost(const nn::os::Tick&
     if (m_pLoadProfiles != nullptr && m_LoadProfileCount > m_LoadProfileIndex) {
         LoadProfile& profile = m_pLoadProfiles[m_LoadProfileIndex];
         profile.voiceCount = VoiceManager::GetInstance().GetVoiceCount();
-        profile.unknown5 = m_FrameUnknownCount;
+        profile.noteOnCount = m_NoteOnCount;
         profile.load = load;
         ++m_LoadProfileIndex;
     }
-    m_FrameUnknownCount = 0;
+    m_NoteOnCount = 0;
 }
 
 // 0x004CB854 | nintendogs:bytes [tier A]
@@ -249,7 +249,7 @@ void nw::snd::internal::driver::SoundThread::Finalize()
 nw::snd::internal::driver::SoundThread::SoundThread()
     : m_ProcessTick(0), m_ProcessCount(0), m_DspCycles(0), m_IsLoadStatEnabled(false), m_pProfiles(nullptr), m_ProfileCount(0), m_ProfileIndex(0),
       m_pUserCallback(nullptr), m_UserCallbackArg(0), m_CoreNo(0), m_IsCreated(false), m_Unknown0x1F5(false), m_IsEnableGetTick(false),
-      m_IsFinalizing(false), m_pLoadProfiles(nullptr), m_FrameUnknownCount(0), m_LoadProfileCount(0), m_LoadProfileIndex(0)
+      m_IsFinalizing(false), m_pLoadProfiles(nullptr), m_NoteOnCount(0), m_LoadProfileCount(0), m_LoadProfileIndex(0)
 {
     m_LoadStat.totalLoad = 0.0f;
     m_LoadStat.maxLoad = 0.0f;

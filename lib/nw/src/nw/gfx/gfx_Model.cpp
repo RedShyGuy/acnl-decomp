@@ -529,26 +529,6 @@ nw::gfx::Model* nw::gfx::Model::Create(SceneNode* pParent, res::ResSceneObject r
     return pModel;
 }
 
-// (inline in Create)
-nw::gfx::Model::Model(os::IAllocator* pAllocator, res::ResModel resource, const Description& description)
-    : TransformNode(pAllocator, resource, description), m_pMaterialAnimGroup(nullptr), m_MaterialAnimGroupIndex(0),
-      m_pVisibilityAnimGroup(nullptr), m_VisibilityAnimGroupIndex(0), m_pPreRenderCallbacks(nullptr),
-      m_pPostRenderCallbacks(nullptr), m_Materials(), m_ResMeshes(nullptr, 0), m_MeshNodeVisibilities(),
-      m_BufferOption(description.bufferOption), m_Unknown0x18C(nn::math::MTX34::Identity()),
-      m_NormalMatrix(nn::math::MTX34::Identity()), m_MaterialActivator(), m_LayerId(0), m_IsResourceVisible(true),
-      m_IsVisible(true),
-      m_SharingFlags((description.pSharedMaterialModel != nullptr ? SHARING_MATERIALS : 0) |
-                     (description.pSharedMeshNodeVisibilityModel != nullptr ? SHARING_MESH_NODE_VISIBILITIES : 0)),
-      m_MeshVisibilities(), m_MeshNodeVisibilityFlags(), m_pDescription(&description), m_Unknown0x21C(0)
-{
-    m_IsVisible = resource.ptr()->isVisible;
-}
-
-// ctor address unknown
-nw::gfx::Model::Model() : m_ResMeshes(nullptr, 0)
-{
-}
-
 // 0x004AC958 slot 0x00 | nintendogs:bytes
 // 0x004AC94C (deleting dtor)
 nw::gfx::Model::~Model()

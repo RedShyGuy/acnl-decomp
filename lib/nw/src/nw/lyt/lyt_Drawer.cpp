@@ -177,13 +177,13 @@ const u32 TEXENV_SOURCE_PASS = 0x0EEF0EEF;
 
 // 0x004D8484 (name is ours)
 // the current command list of gx
-u32* GetCommandBufferCurrent()
+DECOMP_NOINLINE u32* GetCommandBufferCurrent()
 {
     return nn::gx::detail::s_pCommandBufferCurrent;
 }
 
 // 0x004D84E4 (name is ours)
-void SetCommandBufferCurrent(u32* pCommand)
+DECOMP_NOINLINE void SetCommandBufferCurrent(u32* pCommand)
 {
     nn::gx::detail::s_pCommandBufferCurrent = pCommand;
 }
@@ -623,9 +623,9 @@ u32* nw::lyt::Drawer::UniformAndDraw(u32* pCommand)
 {
     // the index vectors of the quads
     const u32 count = m_VertexIndexCount;
-    m_VertexIndexUniforms.firstData = *reinterpret_cast<u32*>(&m_VertexIndexUniforms.data[0][0]);
-    *reinterpret_cast<u32*>(&m_VertexIndexUniforms.data[0][0]) = Header(REG_VSH_FLOATUNIFORM_DATA, 0xF, count * 4 - 1);
-    *reinterpret_cast<u32*>(&m_VertexIndexUniforms.data[count][0]) = 0;
+    m_VertexIndexUniforms.firstData = m_VertexIndexUniforms.GetWord(0);
+    m_VertexIndexUniforms.SetWord(0, Header(REG_VSH_FLOATUNIFORM_DATA, 0xF, count * 4 - 1));
+    m_VertexIndexUniforms.SetWord(count, 0);
     const u32 size = count * 4 * sizeof(u32) + 16;
     std::memcpy(pCommand, &m_VertexIndexUniforms, size);
     pCommand += size / sizeof(u32);
@@ -638,9 +638,9 @@ u32* nw::lyt::Drawer::UniformAndDraw(u32* pCommand)
     // the sizes and texture coordinates
     if (m_TexCoordCount != 0) {
         const u32 texCoordCount = m_TexCoordCount;
-        m_TexCoordUniforms.firstData = *reinterpret_cast<u32*>(&m_TexCoordUniforms.data[0][0]);
-        *reinterpret_cast<u32*>(&m_TexCoordUniforms.data[0][0]) = Header(REG_VSH_FLOATUNIFORM_DATA, 0xF, texCoordCount * 4 - 1);
-        *reinterpret_cast<u32*>(&m_TexCoordUniforms.data[texCoordCount][0]) = 0;
+        m_TexCoordUniforms.firstData = m_TexCoordUniforms.GetWord(0);
+        m_TexCoordUniforms.SetWord(0, Header(REG_VSH_FLOATUNIFORM_DATA, 0xF, texCoordCount * 4 - 1));
+        m_TexCoordUniforms.SetWord(texCoordCount, 0);
         const u32 texCoordSize = texCoordCount * 4 * sizeof(u32) + 16;
         std::memcpy(pCommand, &m_TexCoordUniforms, texCoordSize);
         pCommand += texCoordSize / sizeof(u32);

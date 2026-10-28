@@ -18,14 +18,13 @@ void sead::AudioFsSoundArchiveCtr::vf_0x04()
 {
 }
 
-// 0x0054B6D8 slot 0x08 | virtual slot, introduced by sead::AudioSoundArchiveBaseCtr
-void sead::AudioFsSoundArchiveCtr::vf_0x08()
+// 0x0054B6D8 slot 0x08
+// 0x0054B668 (deleting dtor)
+// 0x00778D44 (thunk)
+// 0x00778CD4 (deleting thunk)
+sead::AudioFsSoundArchiveCtr::~AudioFsSoundArchiveCtr()
 {
-}
-
-// 0x0054B668 slot 0x0C | virtual slot, introduced by sead::AudioSoundArchiveBaseCtr
-void sead::AudioFsSoundArchiveCtr::vf_0x0C()
-{
+    // (only the base is destroyed)
 }
 
 // 0x0054B5BC slot 0x10 | slot vf_0x10 of sead::AudioSoundArchiveBaseCtr

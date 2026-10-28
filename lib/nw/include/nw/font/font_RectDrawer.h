@@ -1,5 +1,7 @@
 #pragma once
 
+#include <cstring>
+
 #include "decomp.h"
 #include "nn/math/math_MTX44.h"
 #include "nw/font/font_DispStringBuffer.h"
@@ -30,6 +32,15 @@ public:
         u32 firstData;      // 0x8
         f32 data[N][4];     // 0xC (data[0][0] is the burst header while written)
         u32 padding;
+
+        // (inline; names are ours) the first word of a row as a command word
+        u32 GetWord(int row) const
+        {
+            u32 word;
+            std::memcpy(&word, &data[row][0], sizeof(word));
+            return word;
+        }
+        void SetWord(int row, u32 word) { std::memcpy(&data[row][0], &word, sizeof(word)); }
     };
 
     // the vertex shader registers and the batch sizes

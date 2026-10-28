@@ -36,6 +36,7 @@ inline ut::BinaryBlockHeader* GetNextBlock(ut::BinaryBlockHeader* pBlock)
 // 0x004D95D8 (name is ours)
 nw::font::ResFont::ResFont()
 {
+    // (only the base and the vtable)
 }
 
 // 0x001386B0 slot 0x00
@@ -45,6 +46,15 @@ nw::font::ResFont::~ResFont()
     if (m_pResource != nullptr) {
         RemoveResource();
     }
+}
+
+// 0x00138698 (name is ours)
+void* nw::font::ResFont::ReleaseResource()
+{
+    if (m_pResource == nullptr) {
+        return nullptr;
+    }
+    return RemoveResource();
 }
 
 // 0x0013C4B8 (name is ours)

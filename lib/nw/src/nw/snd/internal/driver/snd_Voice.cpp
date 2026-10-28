@@ -418,12 +418,12 @@ void nw::snd::internal::driver::Voice::UpdateVoicesPriority()
     }
 }
 
-// 0x004CA9AC (name is ours)
-void nw::snd::internal::driver::Voice::Set3dSurroundPreprocessed(bool isPreprocessed)
+// 0x004CA9AC | fefates:bytes (MultiVoice)
+void nw::snd::internal::driver::Voice::SetSurroundPreProcessed(bool isPreProcessed)
 {
     for (int i = 0; i < m_VoiceCount; ++i) {
         if (m_pVoices[i] != nullptr) {
-            m_pVoices[i]->Set3dSurroundPreprocessed(isPreprocessed);
+            m_pVoices[i]->Set3dSurroundPreprocessed(isPreProcessed);
         }
     }
 }
@@ -811,6 +811,15 @@ bool nw::snd::internal::driver::Voice::IsRun() const
         return false;
     }
     return m_pVoices[0]->m_State == nn::snd::CTR::Voice::STATE_PLAY;
+}
+
+// 0x00741410 (name is ours)
+u32 nw::snd::internal::driver::Voice::GetPlayPosition() const
+{
+    if (m_pVoices[0] == nullptr) {
+        return 0;
+    }
+    return m_pVoices[0]->GetPlayPosition();
 }
 
 // 0x00741444 | nintendogs:bytes [tier A]

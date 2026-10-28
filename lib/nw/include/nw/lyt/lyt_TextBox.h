@@ -79,7 +79,7 @@ public:
 
 private:
     void Init(u16 allocStrLen, u32 allocFlags); // 0x004BC3A4 (name is ours)
-    u16 SetStringImpl(const wchar_t* str, u16 dstIdx, u16 strLen); // 0x004BBFDC (name is ours)
+    DECOMP_NOINLINE u16 SetStringImpl(const wchar_t* str, u16 dstIdx, u16 strLen); // 0x004BBFDC (name is ours)
 
 public:
     static const PaneTypeInfo s_TypeInfo; // (name is ours)

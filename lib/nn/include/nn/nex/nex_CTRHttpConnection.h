@@ -47,7 +47,8 @@ public:
     // the result of nn::http as a result of nex
     static DECOMP_NOINLINE nn::nex::qResult ConvertResult(nn::Result result); // 0x00384F94
     // the thread (only a nop in the original that falls into Run)
-    static void ThreadProc(CTRHttpConnection* pConnection); // 0x003850C0
+    // (the parameter is the connection; uptr: the thread shares the TypeInfo of the uptr threads)
+    static void ThreadProc(uptr arg); // 0x003850C0
     void Run(); // 0x003850C4
 
     nn::http::Connection m_Connection;    // 0x0038

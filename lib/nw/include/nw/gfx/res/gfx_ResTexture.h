@@ -16,7 +16,8 @@ struct ResTextureData
     u32 signature;         // 0x04 "TXOB"
     u32 m_Unknown0x8;      // 0x08
     ut::Offset name;       // 0x0C
-    u32 m_Unknown0x10[2];  // 0x10
+    s32 userDataCount;     // 0x10
+    ut::Offset userDataDic; // 0x14
 };
 ASSERT_SIZE(ResTextureData, 0x18);
 
@@ -104,6 +105,9 @@ public:
     const ResTextureData* ptr() const { return m_pData; }
     bool IsValid() const { return m_pData != nullptr; }
     u32 GetTypeInfo() const { return m_pData->typeInfo; }
+    // the name (NULL: none) for a texture the game made; returns the texture (name is ours; the
+    // original loads the data pointer as the result and then the type word, which it does not use)
+    ResTexture SetName(const char* name); // 0x004A8718
 
     void Cleanup(); // 0x001375CC | nintendogs:bytes-fuzzy [tier A]
     u32 Setup(os::IAllocator* pAllocator, ResGraphicsFile graphicsFile); // 0x004A5AB8 | nintendogs:bytes [tier A]

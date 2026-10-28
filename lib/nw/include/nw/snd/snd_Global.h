@@ -59,10 +59,24 @@ struct DspAdpcmLoopParam
 };
 ASSERT_SIZE(DspAdpcmLoopParam, 0x6);
 
+// what the game can read of a playing stream (the struct name is from the reference symbols, the
+// members are ours)
+struct StreamDataInfo
+{
+    bool isLoop;        // 0x0
+    u32 sampleRate;     // 0x4
+    u32 loopStart;      // 0x8
+    u32 loopEnd;        // 0xC
+};
+ASSERT_SIZE(StreamDataInfo, 0x10);
+
 // an item of the sound archive and the address of its loaded file (the struct name is from the
 // reference symbols, the members are ours)
 struct LoadItemInfo
 {
+    // (inline; ARMCC's copy for array constructions)
+    DECOMP_EMIT_COPY LoadItemInfo() : itemId(0xFFFFFFFF), address(nullptr) {} // 0x004C72AC (name is ours)
+
     u32 itemId;           // 0x0 (-1: none)
     const void* address;  // 0x4 (NULL: not loaded)
 };
@@ -81,8 +95,13 @@ enum PanMode : u8
     PAN_MODE_DUAL = 0,    // each channel panned around its side
     PAN_MODE_BALANCE = 1, // the pan is the balance of the two channels
 };
+// the mute of sequence tracks (names are ours, values from SequenceTrack::SetMute)
 enum SeqMute : u8
 {
+    SEQ_MUTE_OFF = 0,       // playing
+    SEQ_MUTE_NO_STOP = 1,   // no new notes, the playing ones go on
+    SEQ_MUTE_RELEASE = 2,   // the playing notes are released
+    SEQ_MUTE_STOP = 3,      // the playing notes stop at once
 };
 } // namespace snd
 } // namespace nw

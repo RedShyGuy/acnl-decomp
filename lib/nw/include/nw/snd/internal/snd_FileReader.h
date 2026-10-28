@@ -13,9 +13,13 @@ namespace internal {
 class FileReader
 {
 public:
-    // the priority of the file system accesses (passed on to the file system; the values are not known)
+    // the priority of the file system accesses (passed on to the file system; the values are what the sound
+    // archives pass for their FileStreamPriority; names are ours)
     enum Priority
     {
+        PRIORITY_HIGH = -16,
+        PRIORITY_NORMAL = -8,
+        PRIORITY_LOW = 8,
     };
 
     // (inline)

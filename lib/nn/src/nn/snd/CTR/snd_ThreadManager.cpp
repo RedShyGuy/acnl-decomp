@@ -49,7 +49,7 @@ nn::Result nn::snd::CTR::ThreadManager::StartSoundThread(Callback userCallback, 
         priority = SYSTEM_APPLET_PRIORITY;
     }
     m_Lock.Initialize();
-    nn::Result result = m_Thread.TryStart(&SoundThreadFunc, static_cast<uptr>(0), stackBottom, priority, coreNo);
+    nn::Result result = m_Thread.TryStart(&SoundThreadFunc, 0, stackBottom, priority, coreNo);
     if (result.IsFailure()) {
         m_Lock.Finalize();
         return result;
@@ -186,7 +186,7 @@ nn::Result nn::snd::CTR::ThreadManager::StartUserSoundThread(uptr stackBuffer, u
     }
     m_DoneEvent.Initialize(false);
     m_UserThreadEvent.Initialize(false);
-    nn::Result result = m_UserThread.TryStart(&UserSoundThreadFunc, static_cast<uptr>(0), stackBuffer + stackSize, priority, 0);
+    nn::Result result = m_UserThread.TryStart(&UserSoundThreadFunc, 0, stackBuffer + stackSize, priority, 0);
     m_IsUserThreadStarted = result.IsSuccess();
     return result;
 }

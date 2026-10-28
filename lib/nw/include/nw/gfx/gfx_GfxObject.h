@@ -27,7 +27,6 @@ class GfxObject
 public:
     // (inline)
     explicit GfxObject(os::IAllocator* pAllocator) : m_pAllocator(pAllocator) {}
-    GfxObject(); // ctor address unknown
     virtual ~GfxObject() {}
     static void operator delete(void* /*p*/) {}
 

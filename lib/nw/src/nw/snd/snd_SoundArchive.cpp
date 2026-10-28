@@ -91,6 +91,12 @@ u32 nw::snd::SoundArchive::GetItemFileId(u32 id) const
     return m_pFileReader->GetItemFileId(id);
 }
 
+// 0x0013D5D8 (name after the InfoBlockBody)
+u32 nw::snd::SoundArchive::GetItemPrefetchFileId(u32 id) const
+{
+    return m_pFileReader->GetItemPrefetchFileId(id);
+}
+
 // 0x0013FA10 | nintendogs:callgraph [tier A]
 bool nw::snd::SoundArchive::ReadWaveArchiveInfo(u32 waveArchiveId, WaveArchiveInfo* pInfo) const
 {
@@ -117,7 +123,7 @@ bool nw::snd::SoundArchive::detail_ReadFileInfo(u32 fileId, FileInfo* pInfo) con
 nw::io::FileStream* nw::snd::SoundArchive::detail_OpenFileStream(u32 fileId, void* pBuffer, int bufferSize, void* pCacheBuffer,
                                                                  u32 cacheSize, const char* pExtFilePath, FileStreamPriority priority)
 {
-    FileInfo fileInfo = {SoundArchive::INVALID_ID, SoundArchive::INVALID_ID, nullptr};
+    FileInfo fileInfo;
     if (!m_pFileReader->ReadFileInfo(fileId, &fileInfo, 0)) {
         return nullptr;
     }
@@ -208,6 +214,7 @@ nw::snd::SoundArchive::SoundArchive() : m_pFileReader(nullptr), m_pInfoHook(null
 // 0x004C0338 (deleting dtor)
 nw::snd::SoundArchive::~SoundArchive()
 {
+    // empty (in the original too)
 }
 
 // 0x0073EAF4 | fefates:bytes [tier B]

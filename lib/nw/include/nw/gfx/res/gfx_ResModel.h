@@ -65,6 +65,13 @@ public:
     ResMaterial GetMaterial(const char* name) const; // 0x004AA41C (name is ours)
     // the material at index of the dictionary (name is ours)
     ResMaterial GetMaterial(int index) const; // 0x004AA48C (name is ours)
+    // (inline) the same code as GetMaterial(const char*): an inline function of the header whose copy
+    // ARMCC put with the other inline copies (GetMaterial is a function of ResModel.cpp); the game
+    // calls both (name is ours)
+    DECOMP_EMIT_COPY ResMaterial FindMaterial(const char* name) const // 0x0073C7B0 (name is ours)
+    {
+        return ResMaterial(ptr()->materials.GetData(name));
+    }
 };
 ASSERT_SIZE(ResModel, 0x4);
 } // namespace res

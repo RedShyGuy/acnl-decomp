@@ -33,6 +33,7 @@ const TypeInfo nw::gfx::SceneTraverser::s_TypeInfo(&ISceneVisitor::s_TypeInfo);
 // 0x0049A984 (deleting dtor)
 nw::gfx::SceneTraverser::~SceneTraverser()
 {
+    // empty (in the original too)
 }
 
 // 0x00499CCC slot 0x0C (name is ours)
@@ -165,12 +166,26 @@ void nw::gfx::SceneTraverser::Begin(SceneContext* pSceneContext)
 } // namespace gfx
 
 namespace ut {
-// (ARMCC calls these three out of line and inlines the others, GCC inlines them all)
+// (ARMCC calls these three out of line and inlines the others: specializations that are not inlined)
 // 0x007E6150 | nintendogs:callgraph [tier C]
-template bool MoveArray<nw::gfx::Light*>::push_back(nw::gfx::Light* const& value);
+template <>
+bool nw::ut::MoveArray<nw::gfx::Light*>::push_back(nw::gfx::Light* const& value)
+{
+    return PushBack(value);
+}
+
 // 0x007E6278 | nintendogs:callgraph [tier C]
-template bool MoveArray<nw::gfx::Model*>::push_back(nw::gfx::Model* const& value);
+template <>
+bool nw::ut::MoveArray<nw::gfx::Model*>::push_back(nw::gfx::Model* const& value)
+{
+    return PushBack(value);
+}
+
 // 0x007E63A0 | nintendogs:callgraph [tier C]
-template bool MoveArray<nw::gfx::SceneNode*>::push_back(nw::gfx::SceneNode* const& value);
+template <>
+bool nw::ut::MoveArray<nw::gfx::SceneNode*>::push_back(nw::gfx::SceneNode* const& value)
+{
+    return PushBack(value);
+}
 } // namespace ut
 } // namespace nw

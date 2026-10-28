@@ -45,7 +45,7 @@ public:
     static void GetMemorySizeInternal(os::MemorySizeCalculator* pSize, res::ResFragmentLight resLight, Description description); // 0x00492E04 | nintendogs:bytes [tier A]
     // a resource for a light without a file (all colors 0; the lookup tables are references without a name)
     static res::ResFragmentLightData* CreateResFragmentLight(os::IAllocator* pAllocator, const char* name); // 0x00492EFC | nintendogs:bytes-fuzzy [tier A]
-    static void DestroyResFragmentLight(os::IAllocator* pAllocator, res::ResFragmentLightData* pResource); // 0x0049319C | nintendogs:bytes [tier A]
+    static DECOMP_NOINLINE void DestroyResFragmentLight(os::IAllocator* pAllocator, res::ResFragmentLightData* pResource); // 0x0049319C | nintendogs:bytes [tier A]
     static FragmentLight* Create(SceneNode* pParent, res::ResSceneObject resObject, const Description& description,
                                  os::IAllocator* pAllocator); // 0x004932A0 | nintendogs:bytes [tier A]
 

@@ -15,6 +15,8 @@ template const TypeInfo RenderQueue::s_TypeInfo;
 // 0x007E67D8 (name is ours)
 // 0x007E6754 (deleting dtor)
 template nw::gfx::BasicRenderQueue<nw::gfx::BasicRenderElement<unsigned long long>, nw::ut::MoveArray<nw::gfx::BasicRenderElement<unsigned long long>>, nw::gfx::BasicRenderKeyFactory<unsigned long long>>::~BasicRenderQueue();
+// 0x00828048 slot 0x08
+template const nw::gfx::TypeInfo* nw::gfx::BasicRenderQueue<nw::gfx::BasicRenderElement<unsigned long long>, nw::ut::MoveArray<nw::gfx::BasicRenderElement<unsigned long long>>, nw::gfx::BasicRenderKeyFactory<unsigned long long>>::GetRuntimeTypeInfo() const;
 // 0x007E64C8 (name is ours)
 template nw::gfx::BasicRenderElement<unsigned long long>* nw::gfx::BasicRenderQueue<nw::gfx::BasicRenderElement<unsigned long long>, nw::ut::MoveArray<nw::gfx::BasicRenderElement<unsigned long long>>, nw::gfx::BasicRenderKeyFactory<unsigned long long>>::Enqueue(
     const nw::gfx::BasicRenderElement<unsigned long long>& element, f32 depth, u8 translucencyKind, u8 layer);

@@ -180,6 +180,12 @@ void nn::snd::CTR::Voice::SetVolume(float volume)
     m_Impl->SetVolume(volume);
 }
 
+// 0x007370EC (name is ours)
+u32 nn::snd::CTR::Voice::GetPlayPosition() const
+{
+    return m_Impl->GetPlayPosition();
+}
+
 } // namespace CTR
 } // namespace snd
 } // namespace nn

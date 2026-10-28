@@ -45,6 +45,12 @@ u32 nw::snd::internal::SoundArchiveFileReader::GetItemFileId(u32 id) const
     return m_pInfoBlockBody->GetItemFileId(id);
 }
 
+// 0x0013D5E0 (name after the InfoBlockBody)
+u32 nw::snd::internal::SoundArchiveFileReader::GetItemPrefetchFileId(u32 id) const
+{
+    return m_pInfoBlockBody->GetItemPrefetchFileId(id);
+}
+
 // 0x0013D530 | nintendogs:bytes [tier A]
 bool nw::snd::internal::SoundArchiveFileReader::ReadWaveSoundInfo(u32 soundId, SoundArchive::WaveSoundInfo* pInfo) const
 {

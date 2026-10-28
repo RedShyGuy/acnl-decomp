@@ -57,7 +57,7 @@ public:
     iterator erase(LinkListNode* pNode); // 0x00140F40 | nintendogs:bytes [confirmed by fefates, mk7dlp] [tier A]
     // (libgarden calls it erase(LinkListNode*) as well; the bytes names 0x00140F40 so, this one takes
     // the node as a position and erases up to the next one; name is ours)
-    iterator erase(iterator it); // 0x00137580 (name is ours)
+    iterator erase(iterator it); // 0x00137580 | fefates:bytes
     // the nodes from first up to last are taken out of the list; last
     iterator erase(iterator first, iterator last); // 0x00140EE8 | nintendogs:bytes [confirmed by fefates, mk7dlp] [tier A]
 

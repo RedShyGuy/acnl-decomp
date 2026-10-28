@@ -17,12 +17,14 @@ const CharStrmReader::ReadNextCharFunc s_ReadFuncs[] = {
 // 0x004D932C (name is ours)
 nw::font::Font::Font()
 {
+    // (only the vtable; a debug log is removed)
 }
 
 // 0x0013F638 slot 0x00
 // 0x004D9358 (deleting dtor)
 nw::font::Font::~Font()
 {
+    // empty (in the original too)
 }
 
 // 0x007452F0 | nintendogs:bytes [tier A]

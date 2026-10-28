@@ -225,4 +225,12 @@ nn::Result Finalize()
 }
 
 } // namespace srv
+// the TypeInfo functions of the dispatcher thread (a function as the parameter)
+// 0x00122B90 (name is ours)
+template void nn::os::Thread::TypeInfoOf<void (*)()>::Copy<void (*)()>(const void* src, void* dst);
+// 0x00122BAC (name is ours)
+template void nn::os::Thread::TypeInfoOf<void (*)()>::Destroy(void* param);
+// 0x00122BA0 (name is ours)
+template void nn::os::Thread::TypeInfoOf<void (*)()>::Invoke(void (*f)(uptr), const void* param);
+
 } // namespace nn

@@ -98,6 +98,7 @@ nw::gfx::ShaderProgram::ShaderProgram(os::IAllocator* pAllocator)
 // 0x00497800 (deleting dtor)
 nw::gfx::ShaderProgram::~ShaderProgram()
 {
+    // empty (in the original too)
 }
 
 } // namespace gfx

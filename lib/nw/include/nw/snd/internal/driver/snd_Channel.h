@@ -80,6 +80,14 @@ public:
     void SetSweepParam(f32 sweepPitch, int sweepTime, bool isAutoUpdate); // 0x004D3D8C | fefates:bytes [tier B]
     void UpdateSweep(int count); // 0x004D3CE4 | fefates:bytes [tier B]
     void SetBiquadFilter(int type, f32 value); // 0x004D3DA4 | fefates:bytes [tier B]
+    // (inline; name is ours) pauses or resumes the voice of a playing channel
+    void Pause(bool isPause)
+    {
+        if (m_ActiveFlag && m_PauseFlag != isPause) {
+            m_PauseFlag = isPause;
+            m_pVoice->Pause(isPause);
+        }
+    }
 
     nn::snd::CTR::WaveBuffer m_WaveBuffers[MultiVoice::CHANNEL_MAX][WAVE_BUFFER_COUNT]; // 0x000
     nn::snd::CTR::AdpcmContext m_AdpcmContexts[MultiVoice::CHANNEL_MAX];               // 0x060
@@ -122,14 +130,14 @@ public:
     int m_Length;                       // 0x190
     u8 m_Key;                           // 0x194
     u8 m_OriginalKey;                   // 0x195
-    u8 m_Unknown0x196;                  // 0x196
+    u8 m_KeyGroup;                      // 0x196 notes of a group release each other (name is ours)
     u8 m_InterpolationType;             // 0x197
     f32 m_InstrumentVolume;             // 0x198
     f32 m_Velocity;                     // 0x19C squared into the volume
     ChannelCallback m_pCallback;        // 0x1A0
     u32 m_CallbackUserData;             // 0x1A4
     MultiVoice* m_pVoice;               // 0x1A8
-    u32 m_Unknown0x1AC;                 // 0x1AC
+    Channel* m_pNextLink;               // 0x1AC the next channel of a sequence track (name is ours)
     ut::LinkListNode m_Link;            // 0x1B0 (ChannelManager)
 };
 ASSERT_SIZE(Channel, 0x1B8);

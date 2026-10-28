@@ -114,7 +114,7 @@ public:
     void SetCacheValid() { m_Flag |= FLAG_CACHE_VALID; }
 
 protected:
-    void Init(); // 0x004BE114 | nintendogs:bytes [tier A]
+    DECOMP_NOINLINE void Init(); // 0x004BE114 | nintendogs:bytes [tier A]
 
 public:
     AnimationList m_AnimList;               // 0x04

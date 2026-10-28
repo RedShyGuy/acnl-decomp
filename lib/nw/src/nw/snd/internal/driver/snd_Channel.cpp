@@ -375,12 +375,13 @@ void nw::snd::internal::driver::Channel::Disposer::InvalidateData(const void* pS
 // 0x004D46C0 (deleting dtor)
 nw::snd::internal::driver::Channel::Disposer::~Disposer()
 {
+    // empty (in the original too)
 }
 
 // 0x004D46C8 | fefates:bytes [tier B]
 void nw::snd::internal::driver::Channel::InitParam(ChannelCallback pCallback, u32 userData)
 {
-    m_Unknown0x1AC = 0;
+    m_pNextLink = nullptr;
     m_pCallback = pCallback;
     m_CallbackUserData = userData;
     m_PauseFlag = false;
@@ -419,7 +420,7 @@ void nw::snd::internal::driver::Channel::InitParam(ChannelCallback pCallback, u3
         m_Lfos[i].m_Param.Initialize();
         m_LfoTargets[i] = LFO_TARGET_PITCH;
     }
-    m_Unknown0x196 = 0;
+    m_KeyGroup = 0;
     u8 interpolationType = 0;
     switch (HardwareManager::GetInstance().GetInterpolationType()) {
     case 0:

@@ -41,7 +41,7 @@ public:
 
     // a resource for a fog without a file (an image lookup table of 128 entries, all 0)
     static res::ResFogData* CreateResFog(os::IAllocator* pAllocator, const char* name); // 0x004A4880 | nintendogs:bytes-fuzzy [tier A]
-    static void DestroyResFog(os::IAllocator* pAllocator, res::ResFogData* pResource); // 0x004A4B1C | nintendogs:bytes [tier A]
+    static DECOMP_NOINLINE void DestroyResFog(os::IAllocator* pAllocator, res::ResFogData* pResource); // 0x004A4B1C | nintendogs:bytes [tier A]
     // the animation group of the resource (only its fog members)
     u32 CreateAnimGroup(os::IAllocator* pAllocator); // 0x004A4CB0 | nintendogs:bytes [tier A]
     // the fog of 129 depths into the PICA commands of the lookup table (3dbrew "GPU/Internal Registers":

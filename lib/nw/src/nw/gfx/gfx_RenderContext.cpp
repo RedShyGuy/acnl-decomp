@@ -530,6 +530,7 @@ void nw::gfx::RenderContext::SetModelMatrixForSkeletalModel(SkeletalModel* pMode
 // 0x00497448 (deleting dtor)
 nw::gfx::RenderContext::~RenderContext()
 {
+    // (only the members are destroyed)
 }
 
 } // namespace gfx

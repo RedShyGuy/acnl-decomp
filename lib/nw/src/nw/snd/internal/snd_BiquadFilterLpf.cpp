@@ -126,6 +126,7 @@ const nn::snd::CTR::BiquadFilterCoefficients s_LpfCoefficientsTable[112] = {
 // 0x004C82B8 (deleting dtor)
 nw::snd::internal::BiquadFilterLpf::~BiquadFilterLpf()
 {
+    // empty (in the original too)
 }
 
 // 0x0073F9E4 slot 0x08 | nintendogs:bytes

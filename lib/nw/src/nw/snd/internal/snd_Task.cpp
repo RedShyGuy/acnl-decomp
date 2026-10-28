@@ -14,6 +14,7 @@ nw::snd::internal::Task::Task() : m_Status(STATUS_FREE), m_Id(0)
 // 0x004C9BA8 (deleting dtor)
 nw::snd::internal::Task::~Task()
 {
+    // empty (in the original too)
 }
 
 } // namespace internal

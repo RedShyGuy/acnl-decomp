@@ -119,6 +119,15 @@ nw::snd::internal::WaveArchiveFileReader::WaveArchiveFileReader()
 {
 }
 
+// 0x0013D508 (name is ours)
+u32 nw::snd::internal::WaveArchiveFileReader::GetWaveFileCount() const
+{
+    if (!m_IsInitialized) {
+        return 0;
+    }
+    return m_pInfoBlockBody->count;
+}
+
 } // namespace internal
 } // namespace snd
 } // namespace nw

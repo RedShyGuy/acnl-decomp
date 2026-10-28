@@ -5,6 +5,7 @@
 #include "nn/math/math_MTX34.h"
 #include "nw/anim/res/anim_ResAnimGroupMember.h"
 #include "nw/gfx/gfx_GfxObject.h"
+#include "nw/gfx/gfx_IMaterialActivator.h"
 #include "nw/gfx/gfx_NodeCallback.h"
 #include "nw/gfx/gfx_TransformNode.h"
 #include "nw/gfx/res/gfx_ResMesh.h"
@@ -47,8 +48,7 @@ public:
     // binary invokes them)
     typedef NodeCallbackList<Model> RenderCallbackList;
 
-    Model(os::IAllocator* pAllocator, res::ResModel resource, const Description& description); // (inline in Create)
-    Model(); // ctor address unknown (for the derived classes not written yet)
+    Model(os::IAllocator* pAllocator, res::ResModel resource, const Description& description); // (inline)
     virtual ~Model(); // 0x004AC958 slot 0x00 | nintendogs:bytes
 
     virtual const TypeInfo* GetRuntimeTypeInfo() const { return &s_TypeInfo; } // 0x0073C82C slot 0x08
@@ -98,8 +98,8 @@ public:
         virtual bool operator()(const Model* pModel) const = 0;
     };
 
-    // (inline) the copies of the meshes, else the meshes of the resource
-    ut::internal::ResArray<res::ResMesh, ut::internal::ResArrayClassTraits> GetResMeshes() const
+    // (inline) the copies of the meshes, else the meshes of the resource (the copy is for the game)
+    DECOMP_EMIT_COPY ut::internal::ResArray<res::ResMesh, ut::internal::ResArrayClassTraits> GetResMeshes() const // 0x004AAEAC (name is ours)
     {
         if (m_ResMeshes.m_pBegin != m_ResMeshes.m_pEnd) {
             return m_ResMeshes;
@@ -170,5 +170,20 @@ public:
     u32 m_Unknown0x21C;                                             // 0x21C
 };
 ASSERT_SIZE(Model, 0x220);
+
+// (no copy in the original: inlined in Model::Create and the constructors of the derived models)
+DECOMP_ALWAYS_INLINE nw::gfx::Model::Model(os::IAllocator* pAllocator, res::ResModel resource, const Description& description)
+    : TransformNode(pAllocator, resource, description), m_pMaterialAnimGroup(nullptr), m_MaterialAnimGroupIndex(0),
+      m_pVisibilityAnimGroup(nullptr), m_VisibilityAnimGroupIndex(0), m_pPreRenderCallbacks(nullptr),
+      m_pPostRenderCallbacks(nullptr), m_Materials(), m_ResMeshes(nullptr, 0), m_MeshNodeVisibilities(),
+      m_BufferOption(description.bufferOption), m_Unknown0x18C(nn::math::MTX34::Identity()),
+      m_NormalMatrix(nn::math::MTX34::Identity()), m_MaterialActivator(), m_LayerId(0), m_IsResourceVisible(true),
+      m_IsVisible(true),
+      m_SharingFlags((description.pSharedMaterialModel != nullptr ? SHARING_MATERIALS : 0) |
+                     (description.pSharedMeshNodeVisibilityModel != nullptr ? SHARING_MESH_NODE_VISIBILITIES : 0)),
+      m_MeshVisibilities(), m_MeshNodeVisibilityFlags(), m_pDescription(&description), m_Unknown0x21C(0)
+{
+    m_IsVisible = resource.ptr()->isVisible;
+}
 } // namespace gfx
 } // namespace nw

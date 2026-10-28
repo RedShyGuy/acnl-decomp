@@ -149,4 +149,12 @@ nn::os::ThreadPool::~ThreadPool()
 }
 
 } // namespace os
+// the TypeInfo functions of the threads of the pool
+// 0x007D3678 (name is ours)
+template void nn::os::Thread::TypeInfoOf<nn::os::ThreadPool*>::Copy<nn::os::ThreadPool*>(const void* src, void* dst);
+// 0x007D36C0 (name is ours)
+template void nn::os::Thread::TypeInfoOf<nn::os::ThreadPool*>::Destroy(void* param);
+// 0x007D36A8 (name is ours)
+template void nn::os::Thread::TypeInfoOf<nn::os::ThreadPool*>::Invoke(void (*f)(uptr), const void* param);
+
 } // namespace nn

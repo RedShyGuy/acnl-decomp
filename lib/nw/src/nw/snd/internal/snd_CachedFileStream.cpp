@@ -100,6 +100,7 @@ nw::snd::internal::CachedFileStream::CachedFileStream(nw::io::FileStream& stream
 // 0x004C8508 (deleting dtor)
 nw::snd::internal::CachedFileStream::~CachedFileStream()
 {
+    // empty (in the original too)
 }
 
 // 0x0073FC70 slot 0x54 | fefates:bytes

@@ -27,11 +27,13 @@ public:
         void (*invoke)(void (*f)(uptr), const void* param);     // f(*(T*)param)
     };
 
-    // the TypeInfo functions for T (shared by all types of one size in the binary, e.g.
-    // 0x007D3678 / 0x007D36C0 / 0x007D36A8 for 4 bytes; the name is ours)
+    // the TypeInfo functions for T: Copy constructs the T from the value passed to Start, whose type U
+    // may differ (snd passes 0 to a uptr: TypeInfoOf<uptr>::Copy<int>); one copy per type in the binary
+    // (the instances are next to their users; the names are ours)
     template <typename T>
     struct TypeInfoOf {
-        static void Copy(const void* src, void* dst) { new (dst) T(*static_cast<const T*>(src)); }
+        template <typename U>
+        static void Copy(const void* src, void* dst) { new (dst) T(*static_cast<const U*>(src)); }
         static void Destroy(void* param) { static_cast<T*>(param)->~T(); }
         static void Invoke(void (*f)(uptr), const void* param)
         {
@@ -51,10 +53,10 @@ public:
     explicit Thread(CurrentThreadTag);
 
     // starts f(param) on a new thread with the given stack, fatal on failure
-    template <typename T>
-    void Start(void (*f)(T), T param, uptr stackBottom, s32 priority, s32 coreNo = CORE_NO_DEFAULT)
+    template <typename T, typename U>
+    void Start(void (*f)(T), U param, uptr stackBottom, s32 priority, s32 coreNo = CORE_NO_DEFAULT)
     {
-        TypeInfo typeInfo = {sizeof(T), &TypeInfoOf<T>::Copy, &TypeInfoOf<T>::Destroy, &TypeInfoOf<T>::Invoke};
+        TypeInfo typeInfo = {sizeof(T), &TypeInfoOf<T>::template Copy<U>, &TypeInfoOf<T>::Destroy, &TypeInfoOf<T>::Invoke};
         nn::Result result = TryInitializeAndStartImpl(typeInfo, reinterpret_cast<void (*)(uptr)>(f), &param,
                                                       stackBottom, priority, coreNo, false);
         if (result.IsFailure()) {
@@ -63,11 +65,11 @@ public:
     }
 
     // the same, but a lack of resources is returned instead of being fatal (name is ours)
-    template <typename T>
-    nn::Result TryStart(void (*f)(T), T param, uptr stackBottom, s32 priority, s32 coreNo = CORE_NO_DEFAULT)
+    template <typename T, typename U>
+    nn::Result TryStart(void (*f)(T), U param, uptr stackBottom, s32 priority, s32 coreNo = CORE_NO_DEFAULT)
     {
         const bit32 SUMMARY_OUT_OF_RESOURCE = 3;
-        TypeInfo typeInfo = {sizeof(T), &TypeInfoOf<T>::Copy, &TypeInfoOf<T>::Destroy, &TypeInfoOf<T>::Invoke};
+        TypeInfo typeInfo = {sizeof(T), &TypeInfoOf<T>::template Copy<U>, &TypeInfoOf<T>::Destroy, &TypeInfoOf<T>::Invoke};
         nn::Result result = TryInitializeAndStartImpl(typeInfo, reinterpret_cast<void (*)(uptr)>(f), &param,
                                                       stackBottom, priority, coreNo, false);
         if (result.GetSummary() != SUMMARY_OUT_OF_RESOURCE && result.IsFailure()) {

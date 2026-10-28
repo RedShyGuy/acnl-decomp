@@ -10,7 +10,7 @@ namespace internal {
 struct CurveLfoParam
 {
     // (inline)
-    CurveLfoParam() { Initialize(); } // 0x004C72EC (name is ours)
+    DECOMP_EMIT_COPY CurveLfoParam() { Initialize(); } // 0x004C72EC (name is ours)
 
     // depth 0, 6.25 Hz, no delay, range 1, sine, phase 0
     void Initialize(); // 0x004C72BC | fefates:bytes [tier B]

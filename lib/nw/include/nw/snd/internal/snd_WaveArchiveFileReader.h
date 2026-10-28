@@ -29,8 +29,8 @@ public:
     u32 GetWaveFileSize(u32 waveIndex) const; // 0x00141F30 | fefates:bytes [tier B]
     u32 GetWaveFileOffsetFromFileHead(u32 waveIndex) const; // 0x00141F58 | fefates:bytes [tier B]
 
-    // (inline)
-    u32 GetWaveFileCount() const { return m_pInfoBlockBody->count; }
+    // the waves of the archive (0: not initialized)
+    u32 GetWaveFileCount() const; // 0x0013D508 (name is ours)
 
     const WaveArchiveFile::FileHeader* m_pHeader;          // 0x0
     const WaveArchiveFile::InfoBlockBody* m_pInfoBlockBody; // 0x4

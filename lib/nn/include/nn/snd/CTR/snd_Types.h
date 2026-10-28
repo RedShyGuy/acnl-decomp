@@ -79,6 +79,9 @@ struct WaveBuffer
         STATUS_TO_BE_DELETED = 4
     };
 
+    // empty, but out of line in the original (arrays of wave buffers are built with __aeabi_vec_ctor)
+    DECOMP_NOIPA WaveBuffer() {} // 0x00460CFC (name is ours)
+
     const void* m_BufferAddress;    // 0x00
     u32 m_SampleLength;             // 0x04
     AdpcmContext* m_AdpcmContext;   // 0x08, for ADPCM: the state at the start

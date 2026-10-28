@@ -38,6 +38,7 @@ inline void SetAxes(nn::math::MTX34* pMatrix, const nn::math::VEC3& x, const nn:
 // 0x0049BF74 (deleting dtor)
 nw::gfx::BillboardUpdater::~BillboardUpdater()
 {
+    // empty (in the original too)
 }
 
 // 0x0049BF3C | nintendogs:callgraph [tier A]

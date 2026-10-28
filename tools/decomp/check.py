@@ -97,6 +97,15 @@ def split_signature(sig):
         sig = sig[:sig.rindex('const')].rstrip()
     if not sig.endswith(')'):
         return None
+    # a function that returns a function pointer, as the demangler writes it:
+    # "void (*A::f<T>(int, bool))(X&)" -> "A::f<T>(int, bool)" (the return type does not count)
+    mp = re.match(r'^[^()<>]*\(\*', sig)
+    if mp:
+        depth, j = 0, mp.end() - 2
+        for k in range(j, len(sig)):
+            depth += {'(': 1, ')': -1}.get(sig[k], 0)
+            if depth == 0:
+                return split_signature(sig[mp.end():k])
     depth = 0
     for i in range(len(sig) - 1, -1, -1):
         depth += {')': 1, '(': -1}.get(sig[i], 0)
@@ -460,6 +469,11 @@ def header_addresses():
                     if not m or '(' not in decl or decl.startswith(('typedef', 'using', 'return')):
                         continue
                     decl = re.sub(r'^(?:(?:static|virtual|inline|explicit|extern\s+"C"|DECOMP_[A-Z_]+)\s+)+', '', decl)
+                    # a constructor with a member initializer list ("X() : a(1), b(2) {}"): the
+                    # declaration ends with the parameter list, not with the last initializer
+                    mi = re.search(r'\)\s*:\s*[A-Za-z_]', decl)
+                    if mi:
+                        decl = decl[:mi.start() + 1]
                     parsed = split_signature(decl)
                     if not parsed:
                         continue
@@ -828,10 +842,10 @@ def make_fuzzy_pair(mem, db, starts, names, by_source, by_name, variables=None):
         n = addr_name.get(key[1]) if key[0] == 'fn' else key[1] if key[0] == 'name' else None
         return is_ctor_dtor(n)
 
-    def pair(data, size, syminfo, addr, osize, name=None):
+    def pair(data, size, syminfo, addr, osize, name=None, this_offset=0):
         structor = is_ctor_dtor(name)
         f_mine = mine_features(data, size, syminfo, structor)
-        f_orig = orig_features(addr, osize, structor)
+        f_orig = orig_features(addr, osize, structor, this_offset)
         inline_expand(f_mine, f_orig)
         if name and '::~' in name:
             fuzzy.ignore_dtor_vptr(f_mine, f_orig)
@@ -971,7 +985,7 @@ def make_fuzzy_pair(mem, db, starts, names, by_source, by_name, variables=None):
             loaded.pop((ins >> 12) & 0xF, None)
         return out
 
-    def orig_features(addr, osize, structor=False):
+    def orig_features(addr, osize, structor=False, this_offset=0):
         n_orig = osize // 4
         pcrel = pc_relative_literals(addr, n_orig)
 
@@ -1026,7 +1040,7 @@ def make_fuzzy_pair(mem, db, starts, names, by_source, by_name, variables=None):
                              next_key=orig_fn(addr + n_orig * 4),
                              resolve_target=lambda v: orig_fn(v & ~1),
                              read_const=lambda a: orig_word(None, mem.u32(a)) if mem.ro[0] <= a < mem.ro[1] - 3 else 0,
-                             resolve_address=orig_text_string)
+                             resolve_address=orig_text_string, this_offset=this_offset)
 
     def orig_text_string(a):
         """a string ARMCC put into the code (addressed with add rX, pc, #imm)"""
@@ -1269,8 +1283,10 @@ def main():
             osize = orig_size(starts, addr, mem.text[1])
             # an empty body in the source is a (generated) stub; "bx lr" from a body that says it is
             # empty on purpose is only a stub if the original is more than that
+            # (armlink replaced calls of empty functions by nops: "nop; bx lr" is an empty body, too)
             if skey in empty_bodies or (tuple(mine) in STUB_WORDS and not (
-                    osize == size and [mem.u32(addr + o) for o in range(0, size, 4)] == mine)):
+                    osize is not None and [w for w in (mem.u32(addr + o) for o in range(0, osize, 4))
+                                           if w not in (0xE320F000, 0xE1A00000)] == mine)):
                 status = 'stub'
             elif osize != size:
                 status = 'size'
@@ -1314,13 +1330,18 @@ def main():
                 results[key].update(score=1.0, grade='equivalent', categories={})
             else:
                 fdata, fsize, fsyminfo = data, size, syminfo
+                this_offset = 0
                 if is_thunk and size == 8 and osize is not None and osize > 16:
-                    # GCC: "sub r0, r0, #n; b f"; ARMCC copied the body of f into the thunk
+                    # GCC: "sub r0, r0, #n; b f"; ARMCC copied the body of f into the thunk (where
+                    # r0 points to the secondary base, n bytes into the object)
                     target = funcs_by_symbol.get(re.sub(r'^_ZThn\d+_', '_Z', mangled))
                     if target is not None:
                         fdata, fsize, fsyminfo = target[2], target[3], target[5]
+                        mo = re.match(r'_ZThn(\d+)_', mangled)
+                        this_offset = int(mo.group(1)) if mo else 0
                 # prefix: the original range runs into the next (unknown) function
-                fz = fuzzy_pair(fdata, fsize, fsyminfo, addr, size if status == 'prefix' else osize, name)
+                fz = fuzzy_pair(fdata, fsize, fsyminfo, addr, size if status == 'prefix' else osize, name,
+                                this_offset)
                 score, cats = fuzzy.compare(*fz)
                 results[key].update(score=round(score, 3), grade=fuzzy.grade(score),
                                     categories={k: (round(v, 3) if v is not None else None)

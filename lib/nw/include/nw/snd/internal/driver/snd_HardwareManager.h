@@ -38,7 +38,7 @@ public:
         };
 
         // (inline)
-        DspEffect() : pEffect(nullptr), state(STATE_NONE) {} // 0x004CD1F4
+        DECOMP_EMIT_COPY DspEffect() : pEffect(nullptr), state(STATE_NONE) {} // 0x004CD1F4
 
         void* pEffect; // 0x0 nn::snd::CTR::DspFxDelay or DspFxReverb
         State state;   // 0x4

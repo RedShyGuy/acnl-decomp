@@ -35,6 +35,7 @@ public:
     u32 GetInfoBlockOffset() const { return m_Header.GetInfoBlockOffset(); }
     u32 GetStringBlockSize() const { return m_Header.GetStringBlockSize(); }
     u32 GetStringBlockOffset() const { return m_Header.GetStringBlockOffset(); }
+    u32 GetFileBlockOffset() const { return m_Header.GetFileBlockOffset(); }
 
     SoundArchive::SoundType GetSoundType(u32 soundId) const; // 0x00139D54 | nintendogs:bytes [tier A]
     bool ReadWaveSoundInfo(u32 soundId, SoundArchive::WaveSoundInfo* pInfo) const; // 0x0013D530 | nintendogs:bytes [tier A]
@@ -47,6 +48,7 @@ public:
     // the wave archives of a wave sound (by its sound group), a sound group or a bank (NULL: none)
     const BinaryTable<u32>* GetWaveArchiveIdTable(u32 id) const; // 0x00142014 | nintendogs:bytes [tier A]
     u32 GetItemFileId(u32 id) const; // 0x0013D528 (name after SoundArchive::GetItemFileId)
+    u32 GetItemPrefetchFileId(u32 id) const; // 0x0013D5E0 (name after the InfoBlockBody)
     const char* GetItemLabel(u32 id) const; // 0x00740CB0 | nintendogs:bytes [tier A]
     bool ReadGroupInfo(u32 groupId, SoundArchive::GroupInfo* pInfo) const; // 0x00740D24 | fefates:bytes [tier B]
     bool ReadPlayerInfo(u32 playerId, SoundArchive::PlayerInfo* pInfo) const; // 0x00740DCC | nintendogs:bytes [tier A]

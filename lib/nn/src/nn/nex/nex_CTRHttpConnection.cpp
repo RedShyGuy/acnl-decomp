@@ -167,7 +167,7 @@ nn::nex::qResult nn::nex::CTRHttpConnection::Start()
     // the buffers and the thread
     m_Data.reserve(m_BufferSize);
     m_pQueue = new qReservedQueue<u8>(m_BufferSize);
-    result = m_Thread.TryStart(&ThreadProc, this, reinterpret_cast<uptr>(m_Stack + STACK_SIZE), m_ThreadPriority, nn::os::Thread::CORE_NO_DEFAULT);
+    result = m_Thread.TryStart(&ThreadProc, reinterpret_cast<uptr>(this), reinterpret_cast<uptr>(m_Stack + STACK_SIZE), m_ThreadPriority, nn::os::Thread::CORE_NO_DEFAULT);
     if (result.IsFailure()) {
         m_Connection.Cancel();
         return ConvertResult(result);
@@ -351,9 +351,9 @@ nn::nex::qResult nn::nex::CTRHttpConnection::ConvertResult(nn::Result result)
 }
 
 // 0x003850C0
-void nn::nex::CTRHttpConnection::ThreadProc(CTRHttpConnection* pConnection)
+void nn::nex::CTRHttpConnection::ThreadProc(uptr arg)
 {
-    pConnection->Run();
+    reinterpret_cast<CTRHttpConnection*>(arg)->Run();
 }
 
 // 0x003850C4

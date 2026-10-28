@@ -22,7 +22,7 @@ bool EqualsResName(const char* name1, const char* name2)
 }
 
 // 0x004BEF48 | nintendogs:bytes [tier A]
-bool EqualsMaterialName(const char* name1, const char* name2)
+DECOMP_NOINLINE bool EqualsMaterialName(const char* name1, const char* name2)
 {
     return std::strncmp(name1, name2, res::MATERIAL_NAME_LENGTH) == 0;
 }
@@ -120,7 +120,7 @@ nw::lyt::internal::AnimPaneTree::AnimPaneTree(Pane* pTargetPane, const AnimResou
 }
 
 // (inline)
-u16 nw::lyt::internal::AnimPaneTree::FindAnimContent(const res::AnimationBlock* pAnimBlock, const char* animContName, u8 animContType)
+inline u16 nw::lyt::internal::AnimPaneTree::FindAnimContent(const res::AnimationBlock* pAnimBlock, const char* animContName, u8 animContType)
 {
     const u32* animContOffsets = reinterpret_cast<const u32*>(reinterpret_cast<uptr>(pAnimBlock) + pAnimBlock->animContOffsetsOffset);
     for (u16 i = 0; i < pAnimBlock->animContNum; ++i) {

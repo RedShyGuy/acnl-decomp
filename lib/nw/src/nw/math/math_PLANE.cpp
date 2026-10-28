@@ -20,6 +20,7 @@ void nw::math::PLANE::Set(const nn::math::VEC3* p0, const nn::math::VEC3* p1, co
 // 0x004D9D0C (name is ours)
 nw::math::PLANE::PLANE()
 {
+    // empty (in the original too)
 }
 
 } // namespace math

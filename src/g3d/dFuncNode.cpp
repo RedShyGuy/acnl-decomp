@@ -2,8 +2,9 @@
 #include "g3d/dFuncNode.h"
 
 namespace g3d {
-// ctor candidate(s) 0x004F1370 (unverified)
-g3d::FuncNode::FuncNode()
+// (inline in the creation function 0x004F1370; the members at 0x148-0x150 are set to 0 there)
+g3d::FuncNode::FuncNode(nw::os::IAllocator* pAllocator, const Description& description)
+    : nw::gfx::TransformNode(pAllocator, nw::gfx::res::ResTransformNode(), description)
 {
 }
 

@@ -24,6 +24,7 @@ const TypeInfo nw::gfx::SimpleMaterialActivator::s_TypeInfo(&IMaterialActivator:
 // 0x004A383C (deleting dtor)
 nw::gfx::SimpleMaterialActivator::~SimpleMaterialActivator()
 {
+    // empty (in the original too)
 }
 
 // 0x004A2AD8 slot 0x0C (name is ours)

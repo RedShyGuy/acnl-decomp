@@ -18,7 +18,7 @@ inline bool IsSameFrame(f32 frame1, f32 frame2)
 
 // 0x004B71C0 (name is ours)
 // the value of a Hermite curve at the frame
-f32 GetHermiteCurveValue(f32 frame, const res::HermiteKey* keys, u32 keySize)
+DECOMP_NOINLINE f32 GetHermiteCurveValue(f32 frame, const res::HermiteKey* keys, u32 keySize)
 {
     if (keySize == 1 || frame <= keys[0].frame) {
         return keys[0].value;

@@ -38,6 +38,14 @@ public:
     bool IsTrackInfoAvailable() const; // 0x00740C24 | fefates:bytes [tier B]
     // false if the channel has no DSP ADPCM state
     bool ReadDspAdpcmChannelInfo(DspAdpcmParam* pParam, DspAdpcmLoopParam* pLoopParam, int channelIndex) const; // 0x00740C44 | fefates:bytes [tier B]
+    // (inline; name is ours) the offset of the samples in the file (0: no file)
+    u32 GetSampleDataOffset() const
+    {
+        if (m_pHeader == nullptr) {
+            return 0;
+        }
+        return m_pInfoBlockBody->GetStreamSoundInfo()->sampleDataReference.offset + (m_pHeader->GetDataBlockOffset() + 8);
+    }
 
     const StreamSoundFile::FileHeader* m_pHeader;          // 0x0
     const StreamSoundFile::InfoBlockBody* m_pInfoBlockBody; // 0x4

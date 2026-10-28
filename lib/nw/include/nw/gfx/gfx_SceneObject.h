@@ -13,7 +13,6 @@ class SceneObject : public ::nw::gfx::GfxObject
 public:
     // (inline)
     SceneObject(os::IAllocator* pAllocator, res::ResSceneObject resObject) : GfxObject(pAllocator), m_ResSceneObject(resObject) {}
-    SceneObject(); // ctor address unknown (for the derived classes not written yet)
 
     virtual const TypeInfo* GetRuntimeTypeInfo() const = 0; // slot 0x08
 

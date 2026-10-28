@@ -63,6 +63,7 @@ public:
     void SetPitch(float pitch); // 0x00466F84 | nintendogs:bytes [confirmed by fefates] [tier A]
     void SetState(Voice::State state); // 0x00466FD8 | nintendogs:bytes [confirmed by fefates] [tier A]
     void SetVolume(float volume); // 0x00467050 | nintendogs:bytes [confirmed by fefates] [tier A]
+    u32 GetPlayPosition() const { return m_PlayPosition; } // 0x007370F4 (name is ours)
 
     s32 m_Id;                                   // 0x00
     s16 m_SyncCount;                            // 0x04, to match the status of the DSP

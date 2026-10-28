@@ -16,7 +16,7 @@ public:
     // (the name is ours)
     static const u32 TICKS_PER_SECOND = 268111856;
 
-    Tick() : mTick(0) {}
+    DECOMP_EMIT_COPY Tick() : mTick(0) {} // 0x00151B70 (name is ours)
     explicit Tick(s64 tick) : mTick(tick) {}
 
     operator s64() const { return mTick; }

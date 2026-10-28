@@ -1,5 +1,7 @@
 #include "nw/lyt/lyt_Material.h"
 
+#include <cstring>
+
 #include "nn/gx/gx_Api.h"
 #include "nn/math/math_Api.h"
 #include "nw/lyt/internal/internal_Api.h"
@@ -49,7 +51,7 @@ inline f32 DegToFIdx(f32 deg)
 // 0x004B5514 (name is ours)
 // the matrix of the texture coordinates (rotation and scale around the center, the part of the
 // texture the image covers, v upwards)
-void CalcTextureMtx(f32 (*pMtx)[3], const TexSRT& texSRT, const TexMap& texMap)
+DECOMP_NOINLINE void CalcTextureMtx(f32 (*pMtx)[3], const TexSRT& texSRT, const TexMap& texMap)
 {
     f32 sinR, cosR;
     nn::math::SinCosFIdx(&sinR, &cosR, DegToFIdx(texSRT.rotate));
@@ -83,7 +85,8 @@ nw::lyt::Material::Material(const res::Material* pRes, const ResBlockSet& resBlo
     }
 
     // the parts of the resource
-    const MemSize resNum = *reinterpret_cast<const MemSize*>(&pRes->flags);
+    MemSize resNum;
+    std::memcpy(&resNum, &pRes->flags, sizeof(resNum));
     const res::TexMap* pResTexMap = reinterpret_cast<const res::TexMap*>(pRes + 1);
     const TexSRT* pResTexSRT = reinterpret_cast<const TexSRT*>(pResTexMap + resNum.texMap);
     const TexCoordGen* pResTexCoordGen = reinterpret_cast<const TexCoordGen*>(pResTexSRT + resNum.texSRT);

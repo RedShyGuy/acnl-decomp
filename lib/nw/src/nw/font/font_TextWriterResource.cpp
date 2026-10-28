@@ -15,6 +15,7 @@ const GLuint SHADER_FRAGMENT_FIXED = 0xFFFFFFFF;
 // 0x004D993C (name is ours)
 DECOMP_NOINLINE nw::font::TextWriterResource::Vertex::Vertex()
 {
+    // (only the color: white by the default constructor of Color8)
 }
 
 // 0x004D9178 (name is ours)

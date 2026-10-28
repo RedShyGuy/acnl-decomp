@@ -1,5 +1,8 @@
 #include "nw/ut/ut_Api.h"
 
+#include <cstdarg>
+#include <cstdio>
+
 namespace nw {
 namespace ut {
 namespace {
@@ -13,6 +16,17 @@ inline u16 ReverseEndian(u16 value)
     return static_cast<u16>((value >> 8) | ((value & 0xFF) << 8));
 }
 } // namespace
+
+// 0x0048B8DC (name is ours)
+// vsnprintf with the arguments (the game calls it)
+int FormatString(char* pBuffer, size_t bufferSize, const char* format, ...)
+{
+    std::va_list args;
+    va_start(args, format);
+    const int result = std::vsnprintf(pBuffer, bufferSize, format, args);
+    va_end(args);
+    return result;
+}
 
 // 0x0048B900 | nintendogs:bytes [tier A]
 bool IsValidBinaryFile(const nw::ut::BinaryFileHeader* pHeader, u32 signature, u32 version, u16 minBlocks)

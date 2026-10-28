@@ -9,7 +9,8 @@ namespace g3d {
 class FuncNode : public ::nw::gfx::TransformNode
 {
 public:
-    FuncNode(); // ctor candidate(s) 0x004F1370 (unverified)
+    // (inline in the creation function 0x004F1370, which passes no resource; members not written yet)
+    FuncNode(nw::os::IAllocator* pAllocator, const Description& description);
     virtual ~FuncNode(); // 0x004F2DF4 slot 0x00 | slot vf_0x00 of nw::gfx::SceneNode
     virtual void vf_0x04(); // 0x004F2DE8 slot 0x04 | virtual slot, introduced by nw::gfx::SceneNode
     virtual const nw::gfx::TypeInfo* GetRuntimeTypeInfo() const; // 0x00747500 slot 0x08 | slot vf_0x08 of nw::gfx::SceneNode

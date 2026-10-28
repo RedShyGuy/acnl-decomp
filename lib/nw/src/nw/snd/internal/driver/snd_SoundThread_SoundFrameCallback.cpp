@@ -7,6 +7,7 @@ namespace driver {
 // 0x004CBA14 slot 0x0C (name is ours)
 void nw::snd::internal::driver::SoundThread::SoundFrameCallback::OnEndSoundFrame()
 {
+    // empty (in the original too)
 }
 
 } // namespace driver

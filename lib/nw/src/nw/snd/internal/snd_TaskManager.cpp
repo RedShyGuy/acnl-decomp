@@ -120,4 +120,9 @@ nw::snd::internal::TaskManager::~TaskManager()
 
 } // namespace internal
 } // namespace snd
+namespace ut {
+// (the copy for the array of the task lists)
+// 0x007E5E28 (name is ours)
+template nw::ut::LinkList<nw::snd::internal::Task, 4l>::LinkList();
+} // namespace ut
 } // namespace nw

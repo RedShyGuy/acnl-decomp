@@ -37,7 +37,7 @@ inline void CopyString(char* dst, u32 dstSize, const char* src)
 struct Size
 {
     // (inline)
-    Size() : width(0.0f), height(0.0f) {}
+    DECOMP_EMIT_COPY Size() : width(0.0f), height(0.0f) {} // 0x004B80A0 (name is ours)
     Size(f32 w, f32 h) : width(w), height(h) {}
 
     f32 width;  // 0x0

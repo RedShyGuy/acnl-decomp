@@ -107,6 +107,7 @@ const nn::snd::CTR::BiquadFilterCoefficients s_Bpf1024CoefficientsTable[93] = {
 // 0x004C8D08 (deleting dtor)
 nw::snd::internal::BiquadFilterBpf1024::~BiquadFilterBpf1024()
 {
+    // empty (in the original too)
 }
 
 // 0x007407F8 slot 0x08 (name after BiquadFilterBpf512)

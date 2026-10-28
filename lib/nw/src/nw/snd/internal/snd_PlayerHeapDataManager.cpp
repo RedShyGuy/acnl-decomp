@@ -1,53 +1,95 @@
-#include "nw/snd/internal/snd_SoundArchiveLoader.h"
-#include "nw/snd/internal/driver/snd_DisposeCallback.h"
 #include "nw/snd/internal/snd_PlayerHeapDataManager.h"
 
 namespace nw {
 namespace snd {
 namespace internal {
-// 0x004C94E0 slot 0x00 | fefates:bytes
-nw::snd::internal::PlayerHeapDataManager::~PlayerHeapDataManager()
+// 0x004C8ADC | nintendogs:bytes [tier A]
+void nw::snd::internal::PlayerHeapDataManager::Initialize(const SoundArchive* pSoundArchive)
 {
-}
-
-// 0x004C9488 slot 0x04 | virtual slot, introduced by nw::snd::internal::driver::DisposeCallback
-void nw::snd::internal::PlayerHeapDataManager::vf_0x04()
-{
+    if (m_IsInitialized) {
+        return;
+    }
+    m_IsInitialized = true;
+    m_IsFinalized = false;
+    for (int i = 0; i < FILE_ADDRESS_COUNT; ++i) {
+        m_FileAddressTable[i].fileId = 0xFFFFFFFF;
+        m_FileAddressTable[i].address = nullptr;
+    }
+    SetSoundArchive(pSoundArchive);
 }
 
 // 0x004C9378 slot 0x08 | nintendogs:bytes
 void nw::snd::internal::PlayerHeapDataManager::InvalidateData(const void*, const void*)
 {
+    for (int i = 0; i < FILE_ADDRESS_COUNT; ++i) {
+        m_FileAddressTable[i].fileId = 0xFFFFFFFF;
+        m_FileAddressTable[i].address = nullptr;
+    }
 }
 
-// 0x004C93AC slot 0x0C | virtual slot, introduced by nw::snd::internal::PlayerHeapDataManager
-void nw::snd::internal::PlayerHeapDataManager::vf_0x0C()
+// 0x004C93AC slot 0x0C
+// 0x0077437C (thunk)
+const void* nw::snd::internal::PlayerHeapDataManager::SetFileAddressToTable(u32 fileId, const void* pAddress)
 {
-}
-
-// 0x0074098C slot 0x10 | slot vf_0x10 of nw::snd::internal::PlayerHeapDataManager
-void nw::snd::internal::PlayerHeapDataManager::GetFileAddressFromTable(unsigned int) const
-{
-}
-
-// 0x00740980 slot 0x14 | virtual slot, introduced by nw::snd::internal::PlayerHeapDataManager
-void nw::snd::internal::PlayerHeapDataManager::vf_0x14()
-{
-}
-
-// 0x004C8ADC | nintendogs:bytes [tier A]
-void nw::snd::internal::PlayerHeapDataManager::Initialize(const nw::snd::SoundArchive*)
-{
+    for (int i = 0; i < FILE_ADDRESS_COUNT; ++i) {
+        if (m_FileAddressTable[i].fileId == fileId) {
+            const void* pOld = m_FileAddressTable[i].address;
+            m_FileAddressTable[i].address = pAddress;
+            return pOld;
+        }
+    }
+    for (int i = 0; i < FILE_ADDRESS_COUNT; ++i) {
+        if (m_FileAddressTable[i].fileId == 0xFFFFFFFF) {
+            m_FileAddressTable[i].fileId = fileId;
+            m_FileAddressTable[i].address = pAddress;
+            return nullptr;
+        }
+    }
+    return nullptr;
 }
 
 // 0x004C9418 | nintendogs:bytes [tier A]
 void nw::snd::internal::PlayerHeapDataManager::Finalize()
 {
+    if (m_IsFinalized) {
+        return;
+    }
+    m_IsInitialized = false;
+    m_IsFinalized = true;
+    SetSoundArchive(nullptr);
 }
 
 // 0x004C9444 | nintendogs:bytes [tier A]
-nw::snd::internal::PlayerHeapDataManager::PlayerHeapDataManager()
+nw::snd::internal::PlayerHeapDataManager::PlayerHeapDataManager() : m_IsInitialized(false), m_IsFinalized(true)
 {
+}
+
+// 0x004C94E0 slot 0x00 | fefates:bytes
+// 0x004C9488 (deleting dtor)
+// 0x00774450 (thunk)
+// 0x007743F8 (deleting thunk)
+nw::snd::internal::PlayerHeapDataManager::~PlayerHeapDataManager()
+{
+    Finalize();
+}
+
+// 0x00740980 slot 0x14
+// 0x00774624 (thunk)
+const void* nw::snd::internal::PlayerHeapDataManager::GetFileAddressImpl(u32 fileId) const
+{
+    return GetFileAddressFromTable(fileId);
+}
+
+// 0x0074098C slot 0x10
+// 0x00774630 (thunk)
+const void* nw::snd::internal::PlayerHeapDataManager::GetFileAddressFromTable(u32 fileId) const
+{
+    for (int i = 0; i < FILE_ADDRESS_COUNT; ++i) {
+        if (m_FileAddressTable[i].fileId == fileId) {
+            return m_FileAddressTable[i].address;
+        }
+    }
+    return nullptr;
 }
 
 } // namespace internal

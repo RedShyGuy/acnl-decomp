@@ -416,4 +416,9 @@ bool nw::snd::internal::driver::HardwareManager::IsEffectFinalized(AuxBus bus) c
 } // namespace driver
 } // namespace internal
 } // namespace snd
+namespace ut {
+// (the copy for the array of the effect lists)
+// 0x007E5DC8 (name is ours)
+template nw::ut::LinkList<nw::snd::FxBase, 4l>::LinkList();
+} // namespace ut
 } // namespace nw

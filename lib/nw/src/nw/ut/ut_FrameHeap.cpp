@@ -43,7 +43,7 @@ void* nw::ut::FrameHeap::Destroy()
 }
 
 // (inline)
-void* nw::ut::FrameHeap::AllocFromHead(u32 size, s32 alignment)
+inline void* nw::ut::FrameHeap::AllocFromHead(u32 size, s32 alignment)
 {
     void* pMemory = reinterpret_cast<void*>(RoundUp(reinterpret_cast<uptr>(m_pHeadAllocator), alignment));
     void* pEnd = static_cast<u8*>(pMemory) + size;
@@ -56,7 +56,7 @@ void* nw::ut::FrameHeap::AllocFromHead(u32 size, s32 alignment)
 }
 
 // (inline)
-void* nw::ut::FrameHeap::AllocFromTail(u32 size, s32 alignment)
+inline void* nw::ut::FrameHeap::AllocFromTail(u32 size, s32 alignment)
 {
     void* pMemory = reinterpret_cast<void*>(RoundDown(reinterpret_cast<uptr>(m_pTailAllocator) - size, alignment));
     if (m_pHeadAllocator > pMemory) {
@@ -143,6 +143,7 @@ bool nw::ut::FrameHeap::FreeByState(u32 tagName)
 // 0x0048BB44 (deleting dtor)
 nw::ut::FrameHeap::~FrameHeap()
 {
+    // empty (in the original too)
 }
 
 } // namespace ut

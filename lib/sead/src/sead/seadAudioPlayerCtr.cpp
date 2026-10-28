@@ -2,6 +2,9 @@
 #include "sead/hostio/seadNode.h"
 #include "nw/snd/snd_SoundArchivePlayer.h"
 #include "sead/seadAudioPlayerCtr.h"
+#include "sead/seadNew.h"
+#include "sead/seadAudioSoundDataMgrCtr.h"
+#include "sead/seadAudioSoundHeapCtr.h"
 
 namespace sead {
 // ctor candidate(s) 0x0012C814 (unverified)
@@ -19,9 +22,32 @@ void sead::AudioPlayerCtr::vf_0x04()
 {
 }
 
-// 0x00543978 slot 0x08 | slot vf_0x08 of sead::AudioPlayerCtr
+// 0x00543978 slot 0x08
+// 0x00543960 (deleting dtor)
+// 0x00543970 (thunk)
+// 0x00778358 (deleting thunk)
 sead::AudioPlayerCtr::~AudioPlayerCtr()
 {
+    if (m_pSetupBuffer != nullptr) {
+        delete[] m_pSetupBuffer;
+        m_pSetupBuffer = nullptr;
+    }
+    if (m_pStreamBuffer != nullptr) {
+        delete[] m_pStreamBuffer;
+        m_pStreamBuffer = nullptr;
+    }
+    if (m_pStreamCacheBuffer != nullptr) {
+        delete[] m_pStreamCacheBuffer;
+        m_pStreamCacheBuffer = nullptr;
+    }
+    if (m_pSoundHeap != nullptr) {
+        delete m_pSoundHeap;
+        m_pSoundHeap = nullptr;
+    }
+    if (m_pSoundDataMgr != nullptr) {
+        delete m_pSoundDataMgr;
+        m_pSoundDataMgr = nullptr;
+    }
 }
 
 // 0x00543294 slot 0x10 | virtual slot, introduced by sead::AudioPlayerCtr

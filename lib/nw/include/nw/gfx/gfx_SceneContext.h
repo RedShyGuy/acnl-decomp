@@ -86,4 +86,12 @@ ASSERT_OFFSET(SceneContext, m_Cameras, 0x48);
 ASSERT_OFFSET(SceneContext, m_AnimatableNodes, 0xE8);
 ASSERT_SIZE(SceneContext, 0xF8);
 } // namespace gfx
+
+namespace ut {
+// (out of line in the original, see gfx_SceneTraverser.cpp)
+template <>
+DECOMP_NOINLINE bool MoveArray<gfx::Light*>::push_back(gfx::Light* const& value);
+template <>
+DECOMP_NOINLINE bool MoveArray<gfx::Model*>::push_back(gfx::Model* const& value);
+} // namespace ut
 } // namespace nw

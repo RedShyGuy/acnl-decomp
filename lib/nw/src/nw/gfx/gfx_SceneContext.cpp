@@ -6,6 +6,7 @@ namespace gfx {
 // 0x00491080 (deleting dtor)
 nw::gfx::SceneContext::~SceneContext()
 {
+    // (only the members are destroyed)
 }
 
 } // namespace gfx

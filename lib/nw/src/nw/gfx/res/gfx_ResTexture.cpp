@@ -296,6 +296,13 @@ ReferenceTarget<ResTexture> GetReferenceTextureTarget(ResReferenceTexture textur
     return target;
 }
 
+// 0x004A8718 (name is ours)
+nw::gfx::res::ResTexture nw::gfx::res::ResTexture::SetName(const char* name)
+{
+    const_cast<ResTextureData*>(m_pData)->name.Set(name);
+    return *this;
+}
+
 // 0x004A72B0 (name is ours)
 nw::gfx::res::ResImageTexture nw::gfx::res::ResImageTexture::CreateDynamic(const DynamicDescription& description, os::IAllocator* pAllocator)
 {
@@ -305,8 +312,8 @@ nw::gfx::res::ResImageTexture nw::gfx::res::ResImageTexture::CreateDynamic(const
     pTexture->signature = SIGNATURE_IMAGE_TEXTURE;
     pTexture->m_Unknown0x8 = DYNAMIC_IMAGE_TEXTURE_REVISION;
     pTexture->name.Set(nullptr);
-    pTexture->m_Unknown0x10[0] = 0;
-    pTexture->m_Unknown0x10[1] = 0;
+    pTexture->userDataCount = 0;
+    pTexture->userDataDic.Set(nullptr);
     pTexture->height = description.height;
     pTexture->width = description.width;
     pTexture->glFormat = s_GlFormats[description.format];

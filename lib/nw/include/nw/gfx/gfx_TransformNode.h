@@ -24,7 +24,6 @@ public:
     };
 
     TransformNode(os::IAllocator* pAllocator, res::ResTransformNode resNode, const Description& description); // 0x0049926C | nintendogs:callgraph [tier A]
-    TransformNode(); // ctor address unknown (for the derived classes not written yet)
     virtual ~TransformNode();
 
     virtual const TypeInfo* GetRuntimeTypeInfo() const { return &s_TypeInfo; } // 0x00738B80 slot 0x08

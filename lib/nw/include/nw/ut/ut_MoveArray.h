@@ -126,7 +126,10 @@ public:
     }
 
     // the element added at the end (the capacity doubled when full); false if there is no room
-    bool push_back(const T& value)
+    // (ARMCC calls the ones of some types out of line: those are specializations that call PushBack)
+    bool push_back(const T& value) { return PushBack(value); }
+    // (inline; name is ours) the body of push_back
+    bool PushBack(const T& value)
     {
         bool isSuccess = true;
         if (capacity() <= size()) {

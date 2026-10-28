@@ -160,6 +160,7 @@ nw::gfx::MeshRenderer* nw::gfx::MeshRenderer::Create(os::IAllocator* pAllocator)
 // 0x0048EA30 (deleting dtor)
 nw::gfx::MeshRenderer::~MeshRenderer()
 {
+    // empty (in the original too)
 }
 
 // 0x00495E3C (name is ours)

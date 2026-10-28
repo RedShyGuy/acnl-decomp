@@ -136,6 +136,7 @@ const nn::snd::CTR::BiquadFilterCoefficients s_Bpf512CoefficientsTable[122] = {
 // 0x004C85CC (deleting dtor)
 nw::snd::internal::BiquadFilterBpf512::~BiquadFilterBpf512()
 {
+    // empty (in the original too)
 }
 
 // 0x00740568 slot 0x08 | nintendogs:bytes

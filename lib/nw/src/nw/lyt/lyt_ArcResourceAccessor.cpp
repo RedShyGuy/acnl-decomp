@@ -594,6 +594,14 @@ bool nw::lyt::ArcResourceAccessor::Attach(void* pArchive, const char* rootDirect
     return true;
 }
 
+// 0x00137B04 (name is ours)
+void* nw::lyt::ArcResourceAccessor::Detach()
+{
+    void* pArchive = m_pArchive;
+    m_pArchive = nullptr;
+    return pArchive;
+}
+
 // 0x004B6BCC slot 0x08 (name is ours)
 void* nw::lyt::ArcResourceAccessor::GetResource(u32 resType, const char* name, u32* pSize)
 {

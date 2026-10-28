@@ -16,6 +16,7 @@ const TypeInfo nw::gfx::ParticleMaterialActivator::s_TypeInfo(&IMaterialActivato
 // 0x004A438C (deleting dtor)
 nw::gfx::ParticleMaterialActivator::~ParticleMaterialActivator()
 {
+    // empty (in the original too)
 }
 
 // 0x004A3B58 slot 0x0C | nintendogs:callseq

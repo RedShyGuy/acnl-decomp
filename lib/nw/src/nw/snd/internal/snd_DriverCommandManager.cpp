@@ -102,6 +102,7 @@ nw::snd::internal::DriverCommandManager::DriverCommandManager() : m_IsInitialize
 // 0x00143B88 | nintendogs:bytes [tier A]
 nw::snd::internal::DriverCommandManager::~DriverCommandManager()
 {
+    // (only the queues are destroyed)
 }
 
 // 0x004C8E88 | nintendogs:callseq [tier A]

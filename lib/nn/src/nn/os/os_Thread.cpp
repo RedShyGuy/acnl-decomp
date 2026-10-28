@@ -121,6 +121,17 @@ nn::os::Thread::~Thread()
 }
 
 } // namespace os
+// the TypeInfo functions of the threads with a uptr parameter (gxlow, nex, nw, sead) and the copy of
+// the 0 that snd passes to its uptr
+// 0x0013A314 (name is ours)
+template void nn::os::Thread::TypeInfoOf<unsigned int>::Copy<unsigned int>(const void* src, void* dst);
+// 0x0013A330 (name is ours)
+template void nn::os::Thread::TypeInfoOf<unsigned int>::Destroy(void* param);
+// 0x0013A324 (name is ours)
+template void nn::os::Thread::TypeInfoOf<unsigned int>::Invoke(void (*f)(uptr), const void* param);
+// 0x007D3698 (name is ours)
+template void nn::os::Thread::TypeInfoOf<unsigned int>::Copy<int>(const void* src, void* dst);
+
 } // namespace nn
 
 // ARMCC's static initializer of the file: the constructor of the main thread above

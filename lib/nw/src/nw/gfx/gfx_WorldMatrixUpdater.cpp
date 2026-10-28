@@ -64,6 +64,7 @@ inline void CalculateWorldScale(nn::math::VEC3* pWorldScale, const CalculatedTra
 // 0x0049FAA4 (deleting dtor)
 nw::gfx::WorldMatrixUpdater::~WorldMatrixUpdater()
 {
+    // empty (in the original too)
 }
 
 // 0x0073A8AC | nintendogs:bytes-fuzzy [tier A]

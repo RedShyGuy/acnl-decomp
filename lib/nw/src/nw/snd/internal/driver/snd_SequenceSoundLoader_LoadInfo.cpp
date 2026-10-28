@@ -1,12 +1,3 @@
-#include "nw/snd/internal/driver/snd_SequenceSoundLoader_LoadInfo.h"
+#include "nw/snd/internal/driver/snd_SequenceSoundLoader.h"
 
-// TODO: default ctor added so derived stubs compile - may not exist
-nw::snd::internal::driver::SequenceSoundLoader::LoadInfo::LoadInfo()
-{
-}
-
-// 0x004D2694 | fefates:bytes [tier B]
-nw::snd::internal::driver::SequenceSoundLoader::LoadInfo::LoadInfo(const nw::snd::SoundArchive*, const nw::snd::SoundDataManager*, nw::snd::internal::LoadItemInfo*, nw::snd::internal::LoadItemInfo*, nw::snd::SoundPlayer*)
-{
-}
-
+// SequenceSoundLoader::LoadInfo is defined in snd_SequenceSoundLoader.cpp.

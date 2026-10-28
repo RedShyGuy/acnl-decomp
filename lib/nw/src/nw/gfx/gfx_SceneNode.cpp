@@ -8,11 +8,6 @@ const TypeInfo nw::gfx::SceneNode::s_TypeInfo(&SceneObject::s_TypeInfo);
 // sets s_TypeInfo
 // 0x00797ADC (static initializer)
 
-// ctor address unknown
-nw::gfx::SceneNode::SceneNode()
-{
-}
-
 // 0x004B39D0 slot 0x24 | nintendogs:bytes
 u32 nw::gfx::SceneNode::Initialize(os::IAllocator* pAllocator)
 {

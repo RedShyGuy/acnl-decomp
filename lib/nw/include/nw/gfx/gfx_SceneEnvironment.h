@@ -35,6 +35,9 @@ public:
     void SetActiveLightSet(int lightSetIndex); // 0x0049C040 | nintendogs:bytes [tier B]
     // no lights, no fog, no camera
     void Reset(); // 0x0049C138 | nintendogs:bytes [tier B]
+    // the cameras, fogs and light sets set to NULL (the arrays keep their size; the game calls it;
+    // name is ours)
+    void Clear(); // 0x0049BF7C
 
     AmbientLight* m_pAmbientLight;            // 0x00
     HemiSphereLight* m_pHemiSphereLight;      // 0x04

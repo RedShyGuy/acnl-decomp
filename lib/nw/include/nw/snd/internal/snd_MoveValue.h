@@ -22,7 +22,7 @@ public:
         return m_Origin + (m_Target - m_Origin) * m_Counter / m_Frame;
     }
     // from the current value to the target in frame frames
-    DECOMP_NOINLINE void SetTarget(TValue target, TCount frame)
+    void SetTarget(TValue target, TCount frame)
     {
         m_Origin = GetValue();
         m_Target = target;
@@ -53,6 +53,11 @@ public:
     TCount m_Frame;   // 0x8
     TCount m_Counter; // 0xC
 };
+
+// The driver calls the f32/int copy 0x007E79A8 (HardwareManager, Channel); the other value types have no
+// out-of-line copy (always inlined), so only this one is not inlined.
+template <>
+DECOMP_NOINLINE void MoveValue<f32, int>::SetTarget(f32 target, int frame);
 } // namespace internal
 } // namespace snd
 } // namespace nw

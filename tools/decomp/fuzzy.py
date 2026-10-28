@@ -184,7 +184,8 @@ def _arg_feature(words, pool, i, reg, resolve_word):
 
 
 def extract(words, base, resolve_call, resolve_word, returns_this=lambda key: False, structor=False,
-            next_key=None, resolve_target=lambda value: ('?',), read_const=None, resolve_address=None):
+            next_key=None, resolve_target=lambda value: ('?',), read_const=None, resolve_address=None,
+            this_offset=0):
     """Features of one ARM function.
 
     words           list of 32 bit words of the function (code + literal pool)
@@ -203,6 +204,8 @@ def extract(words, base, resolve_call, resolve_word, returns_this=lambda key: Fa
                     fold const objects of class type, e.g. a const nn::Handle)
     resolve_address address -> feature tuple or None, for "add rX, pc, #imm" (ARMCC puts short
                     strings into the code behind the function)
+    this_offset     offset of r0 from the object at the start (a thunk into which ARMCC copied the
+                    body of the function: r0 points to the secondary base)
     """
     n = len(words)
     pool = set()
@@ -277,6 +280,7 @@ def extract(words, base, resolve_call, resolve_word, returns_this=lambda key: Fa
         return ('v', fresh[0])
 
     regs = {r: (f'arg{r}', 0) for r in range(4)}
+    regs[0] = ('arg0', this_offset)
 
     def get(r):
         if r not in regs:

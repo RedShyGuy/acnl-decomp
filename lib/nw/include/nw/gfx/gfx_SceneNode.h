@@ -15,6 +15,17 @@
 
 namespace nw {
 namespace gfx {
+class SceneNode;
+} // namespace gfx
+namespace ut {
+// (out of line in the original, see gfx_SceneTraverser.cpp)
+template <>
+DECOMP_NOINLINE bool MoveArray<gfx::SceneNode*>::push_back(gfx::SceneNode* const& value);
+} // namespace ut
+} // namespace nw
+
+namespace nw {
+namespace gfx {
 class SceneContext;
 class WorldMatrixUpdater;
 
@@ -102,7 +113,6 @@ public:
             m_IsBranchVisible = resObject.GetFlags() & res::ResSceneObjectData::FLAG_IS_BRANCH_VISIBLE;
         }
     }
-    SceneNode(); // ctor address unknown (for the derived classes not written yet)
     virtual ~SceneNode();
 
     virtual const TypeInfo* GetRuntimeTypeInfo() const { return &s_TypeInfo; } // 0x0073C96C slot 0x08

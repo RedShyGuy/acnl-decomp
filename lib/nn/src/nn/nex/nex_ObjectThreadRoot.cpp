@@ -57,7 +57,7 @@ bool nn::nex::ObjectThreadRoot::LaunchImpl()
     }
     nn::os::Thread* pThread = m_pData->m_pThread;
     ObjectThreadRoot* pParam = this;
-    nn::os::Thread::TypeInfo typeInfo = {sizeof(ObjectThreadRoot*), &nn::os::Thread::TypeInfoOf<ObjectThreadRoot*>::Copy,
+    nn::os::Thread::TypeInfo typeInfo = {sizeof(ObjectThreadRoot*), &nn::os::Thread::TypeInfoOf<ObjectThreadRoot*>::Copy<ObjectThreadRoot*>,
                                          &nn::os::Thread::TypeInfoOf<ObjectThreadRoot*>::Destroy,
                                          &nn::os::Thread::TypeInfoOf<ObjectThreadRoot*>::Invoke};
     nn::Result result;
@@ -192,4 +192,12 @@ nn::nex::ObjectThreadRoot::~ObjectThreadRoot()
 }
 
 } // namespace nex
+// the TypeInfo functions of the object threads
+// 0x007D3688 (name is ours)
+template void nn::os::Thread::TypeInfoOf<nn::nex::ObjectThreadRoot*>::Copy<nn::nex::ObjectThreadRoot*>(const void* src, void* dst);
+// 0x007D36C4 (name is ours)
+template void nn::os::Thread::TypeInfoOf<nn::nex::ObjectThreadRoot*>::Destroy(void* param);
+// 0x007D36B4 (name is ours)
+template void nn::os::Thread::TypeInfoOf<nn::nex::ObjectThreadRoot*>::Invoke(void (*f)(uptr), const void* param);
+
 } // namespace nn
