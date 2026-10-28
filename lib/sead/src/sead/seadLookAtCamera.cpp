@@ -1,19 +1,10 @@
+#include "sead/RuntimeTypeInfo/seadDerive.h"
 #include "sead/seadCamera.h"
 #include "sead/seadLookAtCamera.h"
 
 namespace sead {
 // ctor candidate(s) 0x0054EBB0 (unverified)
 sead::LookAtCamera::LookAtCamera()
-{
-}
-
-// 0x0074AB68 slot 0x00 | virtual slot, introduced by sead::Camera
-void sead::LookAtCamera::vf_0x00()
-{
-}
-
-// 0x0074AB1C slot 0x04 | virtual slot, introduced by sead::Camera
-void sead::LookAtCamera::vf_0x04()
 {
 }
 
@@ -33,3 +24,7 @@ void sead::LookAtCamera::doUpdateMatrix(sead::Matrix34<float>*) const
 }
 
 } // namespace sead
+
+// the type information of the classes below Camera
+// 0x008296A8 (name is ours)
+template bool sead::RuntimeTypeInfo::Derive<sead::Camera>::isDerived(const sead::RuntimeTypeInfo::Interface*) const;

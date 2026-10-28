@@ -10,7 +10,8 @@ namespace pead {
 class ExpHeap : public ::pead::Heap
 {
 public:
-    ExpHeap(); // ctor candidate(s) 0x0053D59C (unverified)
+    struct FindMode { u32 _unknown; }; // TODO: real type unknown (placeholder)
+    ExpHeap(const pead::SafeStringBase<char>&, pead::Heap*, void*, unsigned, pead::Heap::HeapDirection, bool); // 0x0053D59C | nintendogs:bytes [tier A]
     virtual ~ExpHeap(); // 0x0053D66C slot 0x00 | slot vf_0x00 of pead::IDisposer
     // 0x0053D640 slot 0x04 | slot vf_0x04 of pead::IDisposer (deleting dtor)
     virtual void vf_0x08(); // 0x00749B70 slot 0x08 | virtual slot, introduced by pead::Heap
@@ -52,6 +53,18 @@ public:
     u8 mAllocMode;       // 0x70
     BlockList mFreeList; // 0x74
     BlockList mUseList;  // 0x84
+    void allocFromHead_(unsigned, int); // 0x0053C9AC | nintendogs:bytes [tier A]
+    void allocFromTail_(unsigned); // 0x0053CAAC | nintendogs:bytes [tier A]
+    void allocFromTail_(unsigned, int); // 0x0053CC14 | nintendogs:bytes [tier B]
+    void pushToFreeList_(pead::MemBlock*); // 0x0053CD1C | nintendogs:bytes [tier A]
+    void mergeFreeList_(); // 0x0053CDA4 | nintendogs:bytes [tier A]
+    void createMaxSizeFreeMemBlock_(pead::ExpHeap*); // 0x0053CE64 | nintendogs:bytes [tier A]
+    void tryCreate(void*, unsigned, const pead::SafeStringBase<char>&, bool); // 0x0053D400 | nintendogs:callseq [tier A]
+    void dumpUseList() const; // 0x007495CC | nintendogs:bytes [tier A]
+    void dumpFreeList() const; // 0x007496B8 | nintendogs:bytes [tier A]
+    void findFreeMemBlockFromHead_(unsigned, pead::ExpHeap::FindMode) const; // 0x00749928 | nintendogs:bytes [tier A]
+    void findFreeMemBlockFromHead_(unsigned, int, pead::ExpHeap::FindMode) const; // 0x007499C4 | nintendogs:bytes [tier A]
+    void findFreeMemBlockFromTail_(unsigned, int, pead::ExpHeap::FindMode) const; // 0x00749A90 | nintendogs:bytes [tier A]
 };
 ASSERT_SIZE(ExpHeap, 0x94);
 } // namespace pead

@@ -1,17 +1,8 @@
+#include "sead/RuntimeTypeInfo/seadDerive.h"
 #include "sead/seadAudioFx.h"
 #include "sead/seadAudioFxCtr.h"
 
 namespace sead {
-// 0x00749E14 slot 0x00 | virtual slot, introduced by sead::AudioFx
-void sead::AudioFxCtr::vf_0x00()
-{
-}
-
-// 0x00749DA0 slot 0x04 | virtual slot, introduced by sead::AudioFx
-void sead::AudioFxCtr::vf_0x04()
-{
-}
-
 // 0x00141B98 slot 0x08 | virtual slot, introduced by sead::AudioFx
 void sead::AudioFxCtr::vf_0x08()
 {
@@ -28,3 +19,7 @@ sead::AudioFxCtr::AudioFxCtr()
 }
 
 } // namespace sead
+
+// the type information of the classes below AudioFx
+// 0x0082971C (name is ours)
+template bool sead::RuntimeTypeInfo::Derive<sead::AudioFx>::isDerived(const sead::RuntimeTypeInfo::Interface*) const;

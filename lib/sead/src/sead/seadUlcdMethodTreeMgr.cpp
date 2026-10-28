@@ -1,17 +1,8 @@
+#include "sead/RuntimeTypeInfo/seadDerive.h"
 #include "sead/seadDualScreenMethodTreeMgr.h"
 #include "sead/seadUlcdMethodTreeMgr.h"
 
 namespace sead {
-// 0x0074C9BC slot 0x00 | virtual slot, introduced by sead::MethodTreeMgr
-void sead::UlcdMethodTreeMgr::vf_0x00()
-{
-}
-
-// 0x0074C970 slot 0x04 | virtual slot, introduced by sead::MethodTreeMgr
-void sead::UlcdMethodTreeMgr::vf_0x04()
-{
-}
-
 // 0x005492A0 slot 0x08 | slot vf_0x08 of sead::MethodTreeMgr
 sead::UlcdMethodTreeMgr::~UlcdMethodTreeMgr()
 {
@@ -38,3 +29,7 @@ sead::UlcdMethodTreeMgr::UlcdMethodTreeMgr()
 }
 
 } // namespace sead
+
+// the type information of the classes below DualScreenMethodTreeMgr
+// 0x008293F0 (name is ours)
+template bool sead::RuntimeTypeInfo::Derive<sead::DualScreenMethodTreeMgr>::isDerived(const sead::RuntimeTypeInfo::Interface*) const;

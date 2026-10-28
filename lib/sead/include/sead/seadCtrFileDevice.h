@@ -1,6 +1,7 @@
 #pragma once
 
 #include "decomp.h"
+#include "sead/RuntimeTypeInfo/seadDerive.h"
 #include "sead/seadCtrFileStreamFileDevice.h"
 
 namespace sead {
@@ -12,8 +13,25 @@ public:
     CtrFileDevice(); // ctor address unknown
     virtual ~CtrFileDevice(); // 0x0054224C slot 0x00 | slot vf_0x00 of sead::IDisposer
     // 0x0054223C slot 0x04 | slot vf_0x04 of sead::IDisposer (deleting dtor)
-    virtual void vf_0x08(); // 0x0074B744 slot 0x08 | virtual slot, introduced by sead::FileDevice
-    virtual void isMatchDevice_(const sead::HandleBase*) const; // 0x0074B6F8 slot 0x0C | slot vf_0x0C of sead::FileDevice
+    // whether the class is the one of typeInfo or derives from it
+    virtual bool isKindOf(const RuntimeTypeInfo::Interface* typeInfo) const // 0x0074B744 (name is ours)
+    {
+        if (typeInfo == getTypeInfoStatic()) {
+            return true;
+        }
+        return CtrFileStreamFileDevice::isKindOf(typeInfo);
+    }
+    virtual const RuntimeTypeInfo::Interface* getTypeInfo() const // 0x0074B6F8 (name is ours)
+    {
+        return getTypeInfoStatic();
+    }
+    // the type information of the class (inline everywhere; name is ours)
+    static const RuntimeTypeInfo::Interface* getTypeInfoStatic()
+    {
+        // 0x00983434 (guard 0x00983430)
+        static const RuntimeTypeInfo::Derive<CtrFileStreamFileDevice> s_TypeInfo;
+        return &s_TypeInfo;
+    }
     virtual void vf_0x74(); // 0x0074B6EC slot 0x74 | virtual slot, introduced by sead::CtrFileStreamFileDevice
 };
 } // namespace sead

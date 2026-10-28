@@ -1,19 +1,10 @@
+#include "sead/RuntimeTypeInfo/seadDerive.h"
 #include "sead/seadAudioResourceLoader.h"
 #include "sead/seadAudioResourceLoaderCtr.h"
 
 namespace sead {
 // ctor address unknown
 sead::AudioResourceLoaderCtr::AudioResourceLoaderCtr()
-{
-}
-
-// 0x0074DC94 slot 0x00 | virtual slot, introduced by sead::AudioResourceLoaderCtr
-void sead::AudioResourceLoaderCtr::vf_0x00()
-{
-}
-
-// 0x0074DC48 slot 0x04 | virtual slot, introduced by sead::AudioResourceLoaderCtr
-void sead::AudioResourceLoaderCtr::vf_0x04()
 {
 }
 
@@ -43,3 +34,7 @@ void sead::AudioResourceLoaderCtr::vf_0x18()
 }
 
 } // namespace sead
+
+// the type information of the classes below AudioResourceLoader
+// 0x00829224 (name is ours)
+template bool sead::RuntimeTypeInfo::Derive<sead::AudioResourceLoader>::isDerived(const sead::RuntimeTypeInfo::Interface*) const;

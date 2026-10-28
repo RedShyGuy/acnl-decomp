@@ -1,6 +1,7 @@
 #pragma once
 
 #include "decomp.h"
+#include "sead/RuntimeTypeInfo/seadDerive.h"
 #include "sead/seadTaskBase.h"
 
 namespace sead {
@@ -12,8 +13,25 @@ public:
     DualScreenTask(); // ctor address unknown
     virtual ~DualScreenTask(); // 0x00544F68 slot 0x00 | nintendogs:bytes
     // 0x00544EFC slot 0x04 | slot vf_0x04 of sead::IDisposer (deleting dtor)
-    virtual void vf_0x08(); // 0x0074BF14 slot 0x08 | virtual slot, introduced by sead::TaskBase
-    virtual void vf_0x0C(); // 0x0074BEC8 slot 0x0C | virtual slot, introduced by sead::TaskBase
+    // whether the class is the one of typeInfo or derives from it
+    virtual bool isKindOf(const RuntimeTypeInfo::Interface* typeInfo) const // 0x0074BF14 (name is ours)
+    {
+        if (typeInfo == getTypeInfoStatic()) {
+            return true;
+        }
+        return TaskBase::isKindOf(typeInfo);
+    }
+    virtual const RuntimeTypeInfo::Interface* getTypeInfo() const // 0x0074BEC8 (name is ours)
+    {
+        return getTypeInfoStatic();
+    }
+    // the type information of the class (inline everywhere; name is ours)
+    static const RuntimeTypeInfo::Interface* getTypeInfoStatic()
+    {
+        // 0x00983474 (guard 0x00983470)
+        static const RuntimeTypeInfo::Derive<TaskBase> s_TypeInfo;
+        return &s_TypeInfo;
+    }
     virtual void vf_0x10(); // 0x00544DB0 slot 0x10 | virtual slot, introduced by sead::TaskBase
     virtual void pauseDraw(bool); // 0x00544E18 slot 0x14 | nintendogs:bytes
     virtual void vf_0x18(); // 0x00544928 slot 0x18 | virtual slot, introduced by sead::TaskBase

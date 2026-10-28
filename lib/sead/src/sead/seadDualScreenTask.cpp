@@ -12,16 +12,6 @@ sead::DualScreenTask::~DualScreenTask()
 {
 }
 
-// 0x0074BF14 slot 0x08 | virtual slot, introduced by sead::TaskBase
-void sead::DualScreenTask::vf_0x08()
-{
-}
-
-// 0x0074BEC8 slot 0x0C | virtual slot, introduced by sead::TaskBase
-void sead::DualScreenTask::vf_0x0C()
-{
-}
-
 // 0x00544DB0 slot 0x10 | virtual slot, introduced by sead::TaskBase
 void sead::DualScreenTask::vf_0x10()
 {

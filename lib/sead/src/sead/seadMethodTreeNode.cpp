@@ -14,16 +14,6 @@ sead::MethodTreeNode::~MethodTreeNode()
 {
 }
 
-// 0x0074C368 slot 0x08 | virtual slot, introduced by sead::MethodTreeNode
-void sead::MethodTreeNode::vf_0x08()
-{
-}
-
-// 0x0074C31C slot 0x0C | virtual slot, introduced by sead::MethodTreeNode
-void sead::MethodTreeNode::vf_0x0C()
-{
-}
-
 // 0x0012C964 | nintendogs:callgraph [tier A]
 void sead::MethodTreeNode::lock_()
 {

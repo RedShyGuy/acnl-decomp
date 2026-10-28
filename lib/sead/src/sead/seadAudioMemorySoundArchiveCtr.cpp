@@ -9,16 +9,6 @@ sead::AudioMemorySoundArchiveCtr::AudioMemorySoundArchiveCtr() : nw::snd::Memory
 {
 }
 
-// 0x0074E320 slot 0x00 | virtual slot, introduced by sead::AudioSoundArchiveBaseCtr
-void sead::AudioMemorySoundArchiveCtr::vf_0x00()
-{
-}
-
-// 0x0074E2D4 slot 0x04 | virtual slot, introduced by sead::AudioSoundArchiveBaseCtr
-void sead::AudioMemorySoundArchiveCtr::vf_0x04()
-{
-}
-
 // 0x0054D9F0 slot 0x08
 // 0x0054D9AC (deleting dtor)
 // 0x00778ED0 (thunk)

@@ -13,16 +13,6 @@ sead::FileDevice::~FileDevice()
 {
 }
 
-// 0x0074A19C slot 0x08 | virtual slot, introduced by sead::FileDevice
-void sead::FileDevice::vf_0x08()
-{
-}
-
-// 0x0074A138 slot 0x0C | slot vf_0x0C of sead::FileDevice
-void sead::FileDevice::isMatchDevice_(const sead::HandleBase*) const
-{
-}
-
 // 0x0074A054 slot 0x10 | virtual slot, introduced by sead::FileDevice
 void sead::FileDevice::vf_0x10()
 {

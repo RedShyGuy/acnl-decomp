@@ -1,6 +1,7 @@
 #pragma once
 
 #include "decomp.h"
+#include "sead/RuntimeTypeInfo/seadRoot.h"
 #include "sead/seadIDisposer.h"
 #include "sead/seadTListNode.h"
 
@@ -16,8 +17,22 @@ public:
     FileDevice(); // ctor address unknown
     virtual ~FileDevice(); // 0x0053F01C slot 0x00 | nintendogs:bytes
     // 0x0053EFDC slot 0x04 | nintendogs:bytes (deleting dtor)
-    virtual void vf_0x08(); // 0x0074A19C slot 0x08 | virtual slot, introduced by sead::FileDevice
-    virtual void isMatchDevice_(const sead::HandleBase*) const; // 0x0074A138 slot 0x0C | slot vf_0x0C of sead::FileDevice
+    // whether the class is the one of typeInfo or derives from it
+    virtual bool isKindOf(const RuntimeTypeInfo::Interface* typeInfo) const // 0x0074A19C (name is ours)
+    {
+        return typeInfo == getTypeInfoStatic();
+    }
+    virtual const RuntimeTypeInfo::Interface* getTypeInfo() const // 0x0074A138 (name is ours)
+    {
+        return getTypeInfoStatic();
+    }
+    // the type information of the class (inline everywhere; name is ours)
+    static const RuntimeTypeInfo::Interface* getTypeInfoStatic()
+    {
+        // 0x009833AC (guard 0x009833A8)
+        static const RuntimeTypeInfo::Root s_TypeInfo;
+        return &s_TypeInfo;
+    }
     virtual void vf_0x10(); // 0x0074A054 slot 0x10 | virtual slot, introduced by sead::FileDevice
     virtual void vf_0x14(); // 0x0074A184 slot 0x14 | virtual slot, introduced by sead::FileDevice
     virtual void vf_0x18(); // 0x0074A12C slot 0x18 | virtual slot, introduced by sead::FileDevice

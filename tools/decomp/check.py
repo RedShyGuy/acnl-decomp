@@ -248,6 +248,8 @@ SOURCE_BY_TYPES = {}
 # "list<JobNATCheckBase::Request>" give the same key), so these are told apart by the class-qualified
 # names the source spells out
 DUP_CANDIDATES = {}
+# address -> the 'A::B' pairs of the signature of its definition in the sources
+ADDR_SCOPES = {}
 
 
 def scoped_names(text):
@@ -263,6 +265,18 @@ def resolve_dup(key, demangled):
     return hits.pop() if len(hits) == 1 else None
 
 
+def scope_conflict(tkey, addr, demangled):
+    """the scopes of the types are dropped in the keys: "operator new(unsigned, pead::Heap*, int)" must
+    not take the definition with "sead::Heap*" (a scope pair of the source that the demangled name
+    spells with another scope)"""
+    if not tkey[0].startswith('operator'):
+        return False                # (only the global operators of pead and sead share their names)
+    names = scoped_names(demangled)
+    tails = {pair.split('::')[-1] for pair in names}
+    pairs = ADDR_SCOPES.get(addr, ())
+    return any(p not in names and p.split('::')[-1] in tails for p in pairs)
+
+
 def source_by_types(parsed, demangled):
     """the address of the definition with the same parameter types"""
     tkey = typed_key(*parsed)
@@ -272,7 +286,7 @@ def source_by_types(parsed, demangled):
             return addr
     addr = SOURCE_BY_TYPES.get(tkey)
     if addr is not None:
-        return addr
+        return None if scope_conflict(tkey, addr, demangled) else addr
     # a parameter type the source spells with a typedef of a class ("AnimationList*" for
     # "LinkList<AnimationLink,0l>*"): the overload that agrees in the most other parameters, if
     # exactly one does
@@ -286,7 +300,8 @@ def source_by_types(parsed, demangled):
         elif n == best_n:
             best.add(a)
     if len(best) == 1 and best_n >= len(tkey[1]) - 1:
-        return best.pop()
+        addr = best.pop()
+        return None if scope_conflict(tkey, addr, demangled) else addr
     return None
 
 
@@ -406,6 +421,7 @@ def source_addresses():
                         out[key] = pending_addr
                         tkey = typed_key(full, params, const)
                         DUP_CANDIDATES.setdefault(tkey, []).append((scoped_names(full + '(' + ','.join(params) + ')'), pending_addr))
+                        ADDR_SCOPES[pending_addr] = scoped_names(full + '(' + ','.join(params) + ')')
                         SOURCE_BY_TYPES[tkey] = pending_addr
                     # a constructor with an initializer list does something even with an empty body
                     has_init_list = re.search(r'\)\s*:(?!:)', sig_text.split('{')[0]) is not None
@@ -759,6 +775,8 @@ def make_fuzzy_pair(mem, db, starts, names, by_source, by_name, variables=None):
             return ('svc', inline_svc[dn.split('(')[0]])
         parsed = split_signature(dn)
         addr = by_source.get(sig_key(*parsed)) if parsed else None
+        if addr is not None and scope_conflict(typed_key(*parsed), addr, dn):
+            addr = None
         if addr is None and parsed:
             addr = source_by_types(parsed, dn)       # overloads with as many parameters
         if addr is None and not parsed:
@@ -900,9 +918,14 @@ def make_fuzzy_pair(mem, db, starts, names, by_source, by_name, variables=None):
                 return ('rodata',)
             if secname.startswith(('.data', '.bss')) or typ == 1:
                 return ('data',)
+            if (typ == 3 and secname.startswith('.text') and 0 <= value + w < size
+                    and bytes(secdata[:len(data)]) == bytes(data)):
+                return ('self',)                           # data in the function (hand-written assembly)
             return mine_key(info) or ('data',)
 
-        f_mine = fuzzy.extract(mine_words, 0, mine_call, mine_word, returns_this, structor)
+        f_mine = fuzzy.extract(mine_words, 0, mine_call, mine_word, returns_this, structor,
+                               read_word=lambda a: int.from_bytes(data[a:a + 4], 'little')
+                               if 0 <= a <= len(data) - 4 else 0)
         if depth < 4:
             merge_part_clones(f_mine, syminfo, depth)
         return f_mine
@@ -1002,6 +1025,8 @@ def make_fuzzy_pair(mem, db, starts, names, by_source, by_name, variables=None):
             return orig_fn(target & ~1)
 
         def orig_word(j, w):
+            if addr <= w < addr + n_orig * 4 and w % 4 == 0 and j is not None:
+                return ('self',)                           # data in the function (hand-written assembly)
             if j is not None and j in pcrel:
                 # an offset to the pc: the address of a variable (or a part of one) of the sources
                 a = (w + pcrel[j]) & 0xFFFFFFFF
@@ -1040,7 +1065,8 @@ def make_fuzzy_pair(mem, db, starts, names, by_source, by_name, variables=None):
                              next_key=orig_fn(addr + n_orig * 4),
                              resolve_target=lambda v: orig_fn(v & ~1),
                              read_const=lambda a: orig_word(None, mem.u32(a)) if mem.ro[0] <= a < mem.ro[1] - 3 else 0,
-                             resolve_address=orig_text_string, this_offset=this_offset)
+                             resolve_address=orig_text_string, this_offset=this_offset,
+                             read_word=lambda a: mem.u32(a) if mem.in_text(a) else 0)
 
     def orig_text_string(a):
         """a string ARMCC put into the code (addressed with add rX, pc, #imm)"""

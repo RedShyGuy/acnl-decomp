@@ -156,6 +156,12 @@ extern "C" void OsSleepThread(s64 nanoSeconds)
     svcSleepThread(nanoSeconds);
 }
 
+// 0x00128430 (name is ours)
+void nn::os::YieldThread()
+{
+    svcSleepThread(0);
+}
+
 // 0x007B2C28 (name is ours)
 extern "C" void OsYieldThread()
 {

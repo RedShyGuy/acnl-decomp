@@ -114,4 +114,24 @@ void pead::Heap::vf_0x54()
 {
 }
 
+// 0x0053B3D0 | nintendogs:bytes [tier A]
+void pead::Heap::appendDisposer_(pead::IDisposer*)
+{
+}
+
+// 0x0053B440 | nintendogs:bytes [tier A]
+void pead::Heap::removeDisposer_(pead::IDisposer*)
+{
+}
+
+// 0x0053B59C | nintendogs:bytes [tier A]
+void pead::Heap::dispose_(const void*, const void*)
+{
+}
+
+// 0x0053B63C | nintendogs:bytes [tier A]
+void pead::Heap::destruct_()
+{
+}
+
 } // namespace pead

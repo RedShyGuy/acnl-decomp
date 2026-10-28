@@ -5,7 +5,7 @@
 
 namespace pead {
 namespace RuntimeTypeInfo {
-// The type information of a class below BaseType (BaseType::getRuntimeTypeInfoStatic gives the
+// The type information of a class below BaseType (BaseType::getTypeInfoStatic gives the
 // one of the base).
 //
 // Instantiations found in the binary:
@@ -21,7 +21,7 @@ public:
         if (this == typeInfo) {
             return true;
         }
-        return BaseType::getRuntimeTypeInfoStatic()->isDerived(typeInfo);
+        return BaseType::getTypeInfoStatic()->isDerived(typeInfo);
     }
 };
 } // namespace RuntimeTypeInfo

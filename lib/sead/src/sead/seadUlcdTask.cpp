@@ -1,3 +1,4 @@
+#include "sead/RuntimeTypeInfo/seadDerive.h"
 #include "sead/seadDualScreenTask.h"
 #include "sead/seadUlcdTask.h"
 
@@ -9,16 +10,6 @@ sead::UlcdTask::UlcdTask()
 
 // 0x00561968 slot 0x00 | nintendogs:bytes
 sead::UlcdTask::~UlcdTask()
-{
-}
-
-// 0x0074FA80 slot 0x08 | virtual slot, introduced by sead::TaskBase
-void sead::UlcdTask::vf_0x08()
-{
-}
-
-// 0x0074FA34 slot 0x0C | virtual slot, introduced by sead::TaskBase
-void sead::UlcdTask::vf_0x0C()
 {
 }
 
@@ -68,3 +59,7 @@ void sead::UlcdTask::vf_0x68()
 }
 
 } // namespace sead
+
+// the type information of the classes below DualScreenTask
+// 0x00828EF8 (name is ours)
+template bool sead::RuntimeTypeInfo::Derive<sead::DualScreenTask>::isDerived(const sead::RuntimeTypeInfo::Interface*) const;

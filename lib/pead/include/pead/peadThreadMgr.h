@@ -12,7 +12,7 @@ class ThreadMgr : public ::pead::hostio::Node
 {
 public:
     class SingletonDisposer_;
-    ThreadMgr(); // ctor candidate(s) 0x0053DE74 (unverified)
+    ThreadMgr(); // 0x0053DE74 | nintendogs:bytes [tier A]
     virtual ~ThreadMgr(); // 0x0053DEBC slot 0x00 | nintendogs:bytes
     // 0x0053DEAC slot 0x04 | slot vf_0x04 of pead::ThreadMgr (deleting dtor)
     static ThreadMgr* s_pInstance; // 0x0097E43C

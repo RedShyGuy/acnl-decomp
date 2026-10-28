@@ -1,6 +1,7 @@
 #pragma once
 
 #include "decomp.h"
+#include "sead/RuntimeTypeInfo/seadRoot.h"
 
 namespace sead {
 // RTTI N4sead9FrameworkE @ 0x008D2374
@@ -9,8 +10,22 @@ class Framework
 {
 public:
     Framework(); // ctor address unknown
-    virtual void vf_0x00(); // 0x007508E8 slot 0x00 | virtual slot, introduced by sead::Framework
-    virtual void vf_0x04(); // 0x0075089C slot 0x04 | virtual slot, introduced by sead::Framework
+    // whether the class is the one of typeInfo or derives from it
+    virtual bool isKindOf(const RuntimeTypeInfo::Interface* typeInfo) const // 0x007508E8 (name is ours)
+    {
+        return typeInfo == getTypeInfoStatic();
+    }
+    virtual const RuntimeTypeInfo::Interface* getTypeInfo() const // 0x0075089C (name is ours)
+    {
+        return getTypeInfoStatic();
+    }
+    // the type information of the class (inline everywhere; name is ours)
+    static const RuntimeTypeInfo::Interface* getTypeInfoStatic()
+    {
+        // 0x009835F4 (guard 0x009835F0)
+        static const RuntimeTypeInfo::Root s_TypeInfo;
+        return &s_TypeInfo;
+    }
     virtual ~Framework(); // 0x005627B4 slot 0x08 | slot vf_0x08 of sead::Framework
     // 0x005627A4 slot 0x0C | slot vf_0x0C of sead::Framework (deleting dtor)
     virtual void vf_0x10(); // 0x005626B0 slot 0x10 | virtual slot, introduced by sead::Framework

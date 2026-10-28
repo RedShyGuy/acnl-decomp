@@ -1,3 +1,4 @@
+#include "sead/RuntimeTypeInfo/seadDerive.h"
 #include "sead/seadTaskBase.h"
 #include "sead/seadCalculateTask.h"
 
@@ -9,16 +10,6 @@ sead::CalculateTask::CalculateTask()
 
 // 0x00541B18 slot 0x00 | nintendogs:bytes
 sead::CalculateTask::~CalculateTask()
-{
-}
-
-// 0x0074B304 slot 0x08 | virtual slot, introduced by sead::TaskBase
-void sead::CalculateTask::vf_0x08()
-{
-}
-
-// 0x0074B2B8 slot 0x0C | virtual slot, introduced by sead::TaskBase
-void sead::CalculateTask::vf_0x0C()
 {
 }
 
@@ -93,3 +84,7 @@ sead::CalculateTask::CalculateTask(const sead::TaskConstructArg&, const char*)
 }
 
 } // namespace sead
+
+// the type information of the classes below TaskBase
+// 0x00829878 (name is ours)
+template bool sead::RuntimeTypeInfo::Derive<sead::TaskBase>::isDerived(const sead::RuntimeTypeInfo::Interface*) const;

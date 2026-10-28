@@ -1,19 +1,10 @@
+#include "sead/RuntimeTypeInfo/seadDerive.h"
 #include "sead/seadLogicalFrameBuffer.h"
 #include "sead/seadFrameBuffer.h"
 
 namespace sead {
 // ctor address unknown
 sead::FrameBuffer::FrameBuffer()
-{
-}
-
-// 0x0074A640 slot 0x00 | virtual slot, introduced by sead::LogicalFrameBuffer
-void sead::FrameBuffer::vf_0x00()
-{
-}
-
-// 0x0074A5F0 slot 0x04 | virtual slot, introduced by sead::LogicalFrameBuffer
-void sead::FrameBuffer::vf_0x04()
 {
 }
 
@@ -48,3 +39,7 @@ void sead::FrameBuffer::bindImpl_() const
 }
 
 } // namespace sead
+
+// the type information of the classes below LogicalFrameBuffer
+// 0x008291B0 (name is ours)
+template bool sead::RuntimeTypeInfo::Derive<sead::LogicalFrameBuffer>::isDerived(const sead::RuntimeTypeInfo::Interface*) const;

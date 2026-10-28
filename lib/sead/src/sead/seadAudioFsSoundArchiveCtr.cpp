@@ -1,3 +1,4 @@
+#include "sead/RuntimeTypeInfo/seadDerive.h"
 #include "sead/seadAudioDeviceSoundArchiveBaseCtr.h"
 #include "nw/snd/snd_FsSoundArchive.h"
 #include "sead/seadAudioFsSoundArchiveCtr.h"
@@ -5,16 +6,6 @@
 namespace sead {
 // ctor candidate(s) 0x0054A2D8 (unverified)
 sead::AudioFsSoundArchiveCtr::AudioFsSoundArchiveCtr()
-{
-}
-
-// 0x0074DB94 slot 0x00 | virtual slot, introduced by sead::AudioSoundArchiveBaseCtr
-void sead::AudioFsSoundArchiveCtr::vf_0x00()
-{
-}
-
-// 0x0074DB48 slot 0x04 | virtual slot, introduced by sead::AudioSoundArchiveBaseCtr
-void sead::AudioFsSoundArchiveCtr::vf_0x04()
 {
 }
 
@@ -33,3 +24,7 @@ void sead::AudioFsSoundArchiveCtr::open(const void*)
 }
 
 } // namespace sead
+
+// the type information of the classes below AudioSoundArchiveBaseCtr
+// 0x00829464 (name is ours)
+template bool sead::RuntimeTypeInfo::Derive<sead::AudioSoundArchiveBaseCtr>::isDerived(const sead::RuntimeTypeInfo::Interface*) const;

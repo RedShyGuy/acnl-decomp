@@ -12,16 +12,6 @@ sead::CtrFileStreamFileDevice::~CtrFileStreamFileDevice()
 {
 }
 
-// 0x0074E078 slot 0x08 | virtual slot, introduced by sead::FileDevice
-void sead::CtrFileStreamFileDevice::vf_0x08()
-{
-}
-
-// 0x0074E02C slot 0x0C | slot vf_0x0C of sead::FileDevice
-void sead::CtrFileStreamFileDevice::isMatchDevice_(const sead::HandleBase*) const
-{
-}
-
 // 0x0074DF48 slot 0x24 | nintendogs:bytes-fuzzy
 void sead::CtrFileStreamFileDevice::doIsAvailable_() const
 {

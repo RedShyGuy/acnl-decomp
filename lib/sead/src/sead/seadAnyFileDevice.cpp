@@ -1,3 +1,4 @@
+#include "sead/RuntimeTypeInfo/seadDerive.h"
 #include "sead/seadFileDevice.h"
 #include "sead/seadAnyFileDevice.h"
 
@@ -9,16 +10,6 @@ sead::AnyFileDevice::AnyFileDevice()
 
 // 0x00541754 slot 0x00 | nintendogs:bytes
 sead::AnyFileDevice::~AnyFileDevice()
-{
-}
-
-// 0x0074B044 slot 0x08 | virtual slot, introduced by sead::FileDevice
-void sead::AnyFileDevice::vf_0x08()
-{
-}
-
-// 0x0074AEA4 slot 0x0C | slot vf_0x0C of sead::FileDevice
-void sead::AnyFileDevice::isMatchDevice_(const sead::HandleBase*) const
 {
 }
 
@@ -143,3 +134,7 @@ void sead::AnyFileDevice::findFileDeviceByFile_(const sead::SafeStringBase<char>
 }
 
 } // namespace sead
+
+// the type information of the classes below FileDevice
+// 0x008288A4 (name is ours)
+template bool sead::RuntimeTypeInfo::Derive<sead::FileDevice>::isDerived(const sead::RuntimeTypeInfo::Interface*) const;

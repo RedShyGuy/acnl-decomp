@@ -1,6 +1,7 @@
 #pragma once
 
 #include "decomp.h"
+#include "sead/RuntimeTypeInfo/seadDerive.h"
 #include "sead/seadFileDevice.h"
 
 namespace sead {
@@ -12,8 +13,25 @@ public:
     CtrFileStreamFileDevice(); // ctor address unknown
     virtual ~CtrFileStreamFileDevice(); // 0x0054CB40 slot 0x00 | slot vf_0x00 of sead::IDisposer
     // 0x0054CB30 slot 0x04 | slot vf_0x04 of sead::IDisposer (deleting dtor)
-    virtual void vf_0x08(); // 0x0074E078 slot 0x08 | virtual slot, introduced by sead::FileDevice
-    virtual void isMatchDevice_(const sead::HandleBase*) const; // 0x0074E02C slot 0x0C | slot vf_0x0C of sead::FileDevice
+    // whether the class is the one of typeInfo or derives from it
+    virtual bool isKindOf(const RuntimeTypeInfo::Interface* typeInfo) const // 0x0074E078 (name is ours)
+    {
+        if (typeInfo == getTypeInfoStatic()) {
+            return true;
+        }
+        return FileDevice::isKindOf(typeInfo);
+    }
+    virtual const RuntimeTypeInfo::Interface* getTypeInfo() const // 0x0074E02C (name is ours)
+    {
+        return getTypeInfoStatic();
+    }
+    // the type information of the class (inline everywhere; name is ours)
+    static const RuntimeTypeInfo::Interface* getTypeInfoStatic()
+    {
+        // 0x0098355C (guard 0x00983558)
+        static const RuntimeTypeInfo::Derive<FileDevice> s_TypeInfo;
+        return &s_TypeInfo;
+    }
     virtual void doIsAvailable_() const; // 0x0074DF48 slot 0x24 | nintendogs:bytes-fuzzy
     virtual void doOpen_(sead::FileHandle*, const sead::SafeStringBase<char>&, sead::FileDevice::FileOpenFlag); // 0x0054C83C slot 0x30 | nintendogs:bytes-fuzzy
     virtual void doClose_(sead::FileHandle*); // 0x0054CA34 slot 0x34 | slot vf_0x34 of sead::FileDevice

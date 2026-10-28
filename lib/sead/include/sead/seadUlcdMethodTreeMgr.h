@@ -1,6 +1,7 @@
 #pragma once
 
 #include "decomp.h"
+#include "sead/RuntimeTypeInfo/seadDerive.h"
 #include "sead/seadDualScreenMethodTreeMgr.h"
 
 namespace sead {
@@ -9,8 +10,25 @@ namespace sead {
 class UlcdMethodTreeMgr : public ::sead::DualScreenMethodTreeMgr
 {
 public:
-    virtual void vf_0x00(); // 0x0074C9BC slot 0x00 | virtual slot, introduced by sead::MethodTreeMgr
-    virtual void vf_0x04(); // 0x0074C970 slot 0x04 | virtual slot, introduced by sead::MethodTreeMgr
+    // whether the class is the one of typeInfo or derives from it
+    virtual bool isKindOf(const RuntimeTypeInfo::Interface* typeInfo) const // 0x0074C9BC (name is ours)
+    {
+        if (typeInfo == getTypeInfoStatic()) {
+            return true;
+        }
+        return DualScreenMethodTreeMgr::isKindOf(typeInfo);
+    }
+    virtual const RuntimeTypeInfo::Interface* getTypeInfo() const // 0x0074C970 (name is ours)
+    {
+        return getTypeInfoStatic();
+    }
+    // the type information of the class (inline everywhere; name is ours)
+    static const RuntimeTypeInfo::Interface* getTypeInfoStatic()
+    {
+        // 0x009834CC (guard 0x009834C8)
+        static const RuntimeTypeInfo::Derive<DualScreenMethodTreeMgr> s_TypeInfo;
+        return &s_TypeInfo;
+    }
     virtual ~UlcdMethodTreeMgr(); // 0x005492A0 slot 0x08 | slot vf_0x08 of sead::MethodTreeMgr
     // 0x0054921C slot 0x0C | slot vf_0x0C of sead::MethodTreeMgr (deleting dtor)
     virtual void attachMethod(int, sead::MethodTreeNode*); // 0x0054CB44 slot 0x10 | nintendogs:callseq

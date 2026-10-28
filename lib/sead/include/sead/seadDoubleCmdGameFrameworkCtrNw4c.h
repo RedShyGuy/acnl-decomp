@@ -1,6 +1,7 @@
 #pragma once
 
 #include "decomp.h"
+#include "sead/RuntimeTypeInfo/seadDerive.h"
 #include "sead/seadGameFrameworkCtrNw4c.h"
 
 namespace sead {
@@ -10,8 +11,25 @@ class DoubleCmdGameFrameworkCtrNw4c : public ::sead::GameFrameworkCtrNw4c
 {
 public:
     DoubleCmdGameFrameworkCtrNw4c(); // ctor candidate(s) 0x00120A64 (unverified)
-    virtual void vf_0x00(); // 0x0074E45C slot 0x00 | virtual slot, introduced by sead::Framework
-    virtual void vf_0x04(); // 0x0074E410 slot 0x04 | virtual slot, introduced by sead::Framework
+    // whether the class is the one of typeInfo or derives from it
+    virtual bool isKindOf(const RuntimeTypeInfo::Interface* typeInfo) const // 0x0074E45C (name is ours)
+    {
+        if (typeInfo == getTypeInfoStatic()) {
+            return true;
+        }
+        return GameFrameworkCtrNw4c::isKindOf(typeInfo);
+    }
+    virtual const RuntimeTypeInfo::Interface* getTypeInfo() const // 0x0074E410 (name is ours)
+    {
+        return getTypeInfoStatic();
+    }
+    // the type information of the class (inline everywhere; name is ours)
+    static const RuntimeTypeInfo::Interface* getTypeInfoStatic()
+    {
+        // 0x00983584 (guard 0x00983580)
+        static const RuntimeTypeInfo::Derive<GameFrameworkCtrNw4c> s_TypeInfo;
+        return &s_TypeInfo;
+    }
     virtual ~DoubleCmdGameFrameworkCtrNw4c(); // 0x0054DF60 slot 0x08 | slot vf_0x08 of sead::Framework
     // 0x0054DF1C slot 0x0C | slot vf_0x0C of sead::Framework (deleting dtor)
     virtual void mainLoop_(); // 0x0054DEE4 slot 0x60 | slot vf_0x60 of sead::GameFrameworkCtrNw4c

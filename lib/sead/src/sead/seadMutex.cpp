@@ -1,15 +1,17 @@
-#include "sead/seadIDisposer.h"
 #include "sead/seadMutex.h"
 
 namespace sead {
-// ctor candidate(s) 0x0055D158 (unverified)
-sead::Mutex::Mutex()
+// 0x0055D158 (name is ours)
+sead::Mutex::Mutex() : IDisposer()
 {
+    mMutex.Initialize(false);
 }
 
 // 0x0055D1EC slot 0x00 | slot vf_0x00 of sead::IDisposer
+// 0x0055D1A8 (deleting dtor)
 sead::Mutex::~Mutex()
 {
+    mMutex.Finalize();
 }
 
 } // namespace sead

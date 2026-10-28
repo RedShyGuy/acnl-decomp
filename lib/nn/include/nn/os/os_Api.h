@@ -19,6 +19,8 @@ void Initialize(); // 0x0011DF04 | fefates:bytes [tier B]
 size_t GetDeviceMemorySize(); // 0x0013E878 | nintendogs:callgraph [tier A]
 uptr GetDeviceMemoryAddress(); // 0x00140690 | nintendogs:callgraph [tier A]
 nn::os::Tick GetCreationTime(); // 0x0034C074 | fefates:bytes [tier B]
+// gives up the rest of the time slice (a sleep of 0; sead::ThreadMgr waits with it; name is ours)
+void YieldThread(); // 0x00128430
 } // namespace os
 } // namespace nn
 

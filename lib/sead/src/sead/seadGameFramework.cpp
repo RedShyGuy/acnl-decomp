@@ -1,19 +1,10 @@
+#include "sead/RuntimeTypeInfo/seadDerive.h"
 #include "sead/seadFramework.h"
 #include "sead/seadGameFramework.h"
 
 namespace sead {
 // ctor address unknown
 sead::GameFramework::GameFramework()
-{
-}
-
-// 0x0074B89C slot 0x00 | virtual slot, introduced by sead::Framework
-void sead::GameFramework::vf_0x00()
-{
-}
-
-// 0x0074B850 slot 0x04 | virtual slot, introduced by sead::Framework
-void sead::GameFramework::vf_0x04()
 {
 }
 
@@ -73,3 +64,7 @@ void sead::GameFramework::waitStartDisplayLoop_()
 }
 
 } // namespace sead
+
+// the type information of the classes below Framework
+// 0x008298EC (name is ours)
+template bool sead::RuntimeTypeInfo::Derive<sead::Framework>::isDerived(const sead::RuntimeTypeInfo::Interface*) const;

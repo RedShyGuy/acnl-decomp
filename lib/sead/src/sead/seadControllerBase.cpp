@@ -6,16 +6,6 @@ sead::ControllerBase::ControllerBase()
 {
 }
 
-// 0x0074BD64 slot 0x00 | virtual slot, introduced by sead::ControllerBase
-void sead::ControllerBase::vf_0x00()
-{
-}
-
-// 0x0074BD18 slot 0x04 | virtual slot, introduced by sead::ControllerBase
-void sead::ControllerBase::vf_0x04()
-{
-}
-
 // 0x00544264 | nintendogs:bytes [tier A]
 void sead::ControllerBase::getStickHold_(unsigned, const sead::Vector2<float>&, float, float, int)
 {

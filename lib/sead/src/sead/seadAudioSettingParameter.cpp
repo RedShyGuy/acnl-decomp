@@ -1,17 +1,8 @@
+#include "sead/RuntimeTypeInfo/seadDerive.h"
 #include "sead/seadTaskParameter.h"
 #include "sead/seadAudioSettingParameter.h"
 
 namespace sead {
-// 0x0074D4D8 slot 0x00 | virtual slot, introduced by sead::AudioSettingParameter
-void sead::AudioSettingParameter::vf_0x00()
-{
-}
-
-// 0x0074D48C slot 0x04 | virtual slot, introduced by sead::AudioSettingParameter
-void sead::AudioSettingParameter::vf_0x04()
-{
-}
-
 // 0x0054B178 slot 0x08 | virtual slot, introduced by sead::AudioSettingParameter
 void sead::AudioSettingParameter::vf_0x08()
 {
@@ -33,3 +24,7 @@ sead::AudioSettingParameter::AudioSettingParameter()
 }
 
 } // namespace sead
+
+// the type information of the classes below TaskParameter
+// 0x00828D9C (name is ours)
+template bool sead::RuntimeTypeInfo::Derive<sead::TaskParameter>::isDerived(const sead::RuntimeTypeInfo::Interface*) const;

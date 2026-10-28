@@ -1,19 +1,10 @@
+#include "sead/RuntimeTypeInfo/seadDerive.h"
 #include "sead/seadProjection.h"
 #include "sead/seadOrthoProjection.h"
 
 namespace sead {
 // ctor candidate(s) 0x005461D0, 0x00546290 (unverified)
 sead::OrthoProjection::OrthoProjection()
-{
-}
-
-// 0x0074C614 slot 0x00 | virtual slot, introduced by sead::Projection
-void sead::OrthoProjection::vf_0x00()
-{
-}
-
-// 0x0074C568 slot 0x04 | virtual slot, introduced by sead::Projection
-void sead::OrthoProjection::vf_0x04()
 {
 }
 
@@ -43,3 +34,7 @@ void sead::OrthoProjection::vf_0x1C()
 }
 
 } // namespace sead
+
+// the type information of the classes below Projection
+// 0x00828914 (name is ours)
+template bool sead::RuntimeTypeInfo::Derive<sead::Projection>::isDerived(const sead::RuntimeTypeInfo::Interface*) const;

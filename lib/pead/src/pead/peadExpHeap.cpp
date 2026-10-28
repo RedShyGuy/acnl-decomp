@@ -2,11 +2,6 @@
 #include "pead/peadExpHeap.h"
 
 namespace pead {
-// ctor candidate(s) 0x0053D59C (unverified)
-pead::ExpHeap::ExpHeap()
-{
-}
-
 // 0x0053D66C slot 0x00 | slot vf_0x00 of pead::IDisposer
 pead::ExpHeap::~ExpHeap()
 {
@@ -119,6 +114,71 @@ void pead::ExpHeap::vf_0x58()
 
 // 0x00749724 slot 0x5C | virtual slot, introduced by pead::ExpHeap
 void pead::ExpHeap::vf_0x5C()
+{
+}
+
+// 0x0053C9AC | nintendogs:bytes [tier A]
+void pead::ExpHeap::allocFromHead_(unsigned, int)
+{
+}
+
+// 0x0053CAAC | nintendogs:bytes [tier A]
+void pead::ExpHeap::allocFromTail_(unsigned)
+{
+}
+
+// 0x0053CC14 | nintendogs:bytes [tier B]
+void pead::ExpHeap::allocFromTail_(unsigned, int)
+{
+}
+
+// 0x0053CD1C | nintendogs:bytes [tier A]
+void pead::ExpHeap::pushToFreeList_(pead::MemBlock*)
+{
+}
+
+// 0x0053CDA4 | nintendogs:bytes [tier A]
+void pead::ExpHeap::mergeFreeList_()
+{
+}
+
+// 0x0053CE64 | nintendogs:bytes [tier A]
+void pead::ExpHeap::createMaxSizeFreeMemBlock_(pead::ExpHeap*)
+{
+}
+
+// 0x0053D400 | nintendogs:callseq [tier A]
+void pead::ExpHeap::tryCreate(void*, unsigned, const pead::SafeStringBase<char>&, bool)
+{
+}
+
+// 0x0053D59C | nintendogs:bytes [tier A]
+pead::ExpHeap::ExpHeap(const pead::SafeStringBase<char>&, pead::Heap*, void*, unsigned, pead::Heap::HeapDirection, bool)
+{
+}
+
+// 0x007495CC | nintendogs:bytes [tier A]
+void pead::ExpHeap::dumpUseList() const
+{
+}
+
+// 0x007496B8 | nintendogs:bytes [tier A]
+void pead::ExpHeap::dumpFreeList() const
+{
+}
+
+// 0x00749928 | nintendogs:bytes [tier A]
+void pead::ExpHeap::findFreeMemBlockFromHead_(unsigned, pead::ExpHeap::FindMode) const
+{
+}
+
+// 0x007499C4 | nintendogs:bytes [tier A]
+void pead::ExpHeap::findFreeMemBlockFromHead_(unsigned, int, pead::ExpHeap::FindMode) const
+{
+}
+
+// 0x00749A90 | nintendogs:bytes [tier A]
+void pead::ExpHeap::findFreeMemBlockFromTail_(unsigned, int, pead::ExpHeap::FindMode) const
 {
 }
 

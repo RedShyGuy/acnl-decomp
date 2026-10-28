@@ -1,19 +1,10 @@
+#include "sead/RuntimeTypeInfo/seadDerive.h"
 #include "sead/seadGameFramework.h"
 #include "sead/seadGameFrameworkCtrNw4c.h"
 
 namespace sead {
 // ctor candidate(s) 0x00125BAC (unverified)
 sead::GameFrameworkCtrNw4c::GameFrameworkCtrNw4c()
-{
-}
-
-// 0x0074D388 slot 0x00 | virtual slot, introduced by sead::Framework
-void sead::GameFrameworkCtrNw4c::vf_0x00()
-{
-}
-
-// 0x0074D204 slot 0x04 | virtual slot, introduced by sead::Framework
-void sead::GameFrameworkCtrNw4c::vf_0x04()
 {
 }
 
@@ -148,3 +139,7 @@ void sead::GameFrameworkCtrNw4c::requestTransferRenderImage_(unsigned, const nn:
 }
 
 } // namespace sead
+
+// the type information of the classes below GameFramework
+// 0x00828CB4 (name is ours)
+template bool sead::RuntimeTypeInfo::Derive<sead::GameFramework>::isDerived(const sead::RuntimeTypeInfo::Interface*) const;

@@ -1,3 +1,4 @@
+#include "sead/RuntimeTypeInfo/seadDerive.h"
 #include "sead/seadAudioPlayer.h"
 #include "sead/hostio/seadNode.h"
 #include "nw/snd/snd_SoundArchivePlayer.h"
@@ -9,16 +10,6 @@
 namespace sead {
 // ctor candidate(s) 0x0012C814 (unverified)
 sead::AudioPlayerCtr::AudioPlayerCtr()
-{
-}
-
-// 0x0074BB34 slot 0x00 | virtual slot, introduced by sead::AudioPlayerCtr
-void sead::AudioPlayerCtr::vf_0x00()
-{
-}
-
-// 0x0074BAE8 slot 0x04 | virtual slot, introduced by sead::AudioPlayerCtr
-void sead::AudioPlayerCtr::vf_0x04()
 {
 }
 
@@ -106,3 +97,7 @@ void sead::AudioPlayerCtr::vf_0x38()
 }
 
 } // namespace sead
+
+// the type information of the classes below AudioPlayer
+// 0x008289FC (name is ours)
+template bool sead::RuntimeTypeInfo::Derive<sead::AudioPlayer>::isDerived(const sead::RuntimeTypeInfo::Interface*) const;

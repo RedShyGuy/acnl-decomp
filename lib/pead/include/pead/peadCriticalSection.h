@@ -9,7 +9,7 @@ namespace pead {
 class CriticalSection : public ::pead::IDisposer
 {
 public:
-    CriticalSection(); // ctor candidate(s) 0x00538928 (unverified)
+    CriticalSection(); // 0x00538928 | nintendogs:callgraph [tier A]
     virtual ~CriticalSection(); // 0x00538970 slot 0x00 | nintendogs:callgraph
     // 0x00538954 slot 0x04 | slot vf_0x04 of pead::IDisposer (deleting dtor)
 };

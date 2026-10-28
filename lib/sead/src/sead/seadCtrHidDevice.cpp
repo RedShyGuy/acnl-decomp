@@ -1,19 +1,10 @@
+#include "sead/RuntimeTypeInfo/seadDerive.h"
 #include "sead/seadControlDevice.h"
 #include "sead/seadCtrHidDevice.h"
 
 namespace sead {
 // ctor candidate(s) 0x00540D28 (unverified)
 sead::CtrHidDevice::CtrHidDevice()
-{
-}
-
-// 0x0074A928 slot 0x00 | virtual slot, introduced by sead::CtrHidDevice
-void sead::CtrHidDevice::vf_0x00()
-{
-}
-
-// 0x0074A8DC slot 0x04 | virtual slot, introduced by sead::CtrHidDevice
-void sead::CtrHidDevice::vf_0x04()
 {
 }
 
@@ -38,3 +29,7 @@ sead::CtrHidDevice::CtrHidDevice(sead::ControllerMgr*)
 }
 
 } // namespace sead
+
+// the type information of the classes below ControlDevice
+// 0x00828C40 (name is ours)
+template bool sead::RuntimeTypeInfo::Derive<sead::ControlDevice>::isDerived(const sead::RuntimeTypeInfo::Interface*) const;

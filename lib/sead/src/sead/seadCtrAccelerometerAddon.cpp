@@ -1,19 +1,10 @@
+#include "sead/RuntimeTypeInfo/seadDerive.h"
 #include "sead/seadAccelerometerAddon.h"
 #include "sead/seadCtrAccelerometerAddon.h"
 
 namespace sead {
 // ctor candidate(s) 0x0054B400 (unverified)
 sead::CtrAccelerometerAddon::CtrAccelerometerAddon()
-{
-}
-
-// 0x0074D6D8 slot 0x00 | virtual slot, introduced by sead::CtrAccelerometerAddon
-void sead::CtrAccelerometerAddon::vf_0x00()
-{
-}
-
-// 0x0074D68C slot 0x04 | virtual slot, introduced by sead::CtrAccelerometerAddon
-void sead::CtrAccelerometerAddon::vf_0x04()
 {
 }
 
@@ -38,3 +29,7 @@ sead::CtrAccelerometerAddon::CtrAccelerometerAddon(sead::Controller*)
 }
 
 } // namespace sead
+
+// the type information of the classes below AccelerometerAddon
+// 0x0082913C (name is ours)
+template bool sead::RuntimeTypeInfo::Derive<sead::AccelerometerAddon>::isDerived(const sead::RuntimeTypeInfo::Interface*) const;

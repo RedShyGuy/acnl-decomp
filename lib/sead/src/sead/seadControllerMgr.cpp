@@ -1,3 +1,4 @@
+#include "sead/RuntimeTypeInfo/seadDerive.h"
 #include "sead/seadCalculateTask.h"
 #include "sead/seadControllerMgr.h"
 
@@ -9,16 +10,6 @@ sead::ControllerMgr::ControllerMgr()
 
 // 0x00541E54 slot 0x00 | nintendogs:bytes
 sead::ControllerMgr::~ControllerMgr()
-{
-}
-
-// 0x0074B498 slot 0x08 | virtual slot, introduced by sead::TaskBase
-void sead::ControllerMgr::vf_0x08()
-{
-}
-
-// 0x0074B44C slot 0x0C | virtual slot, introduced by sead::TaskBase
-void sead::ControllerMgr::vf_0x0C()
 {
 }
 
@@ -43,3 +34,7 @@ void sead::ControllerMgr::getControlDevice(sead::ControllerDefine::DeviceId) con
 }
 
 } // namespace sead
+
+// the type information of the classes below CalculateTask
+// 0x00828BCC (name is ours)
+template bool sead::RuntimeTypeInfo::Derive<sead::CalculateTask>::isDerived(const sead::RuntimeTypeInfo::Interface*) const;

@@ -3874,6 +3874,8 @@ namespace pead {
     class PrintStreamSrc;
     class StreamFormat;
     class StreamSrc;
+    class StringUtil; // pead/peadStringUtil.h
+    struct MemBlock; // a block of pead::ExpHeap (layout not needed yet)
     class TextStreamFormat;
     class Thread;
     class ThreadMgr;
@@ -4180,7 +4182,6 @@ namespace sead {
     class StreamFormat;
     class StreamSrc;
     class StringPrintOutput;
-    class StringUtil;
     class TaskBase;
     class TaskClassID;
     class TaskEvent;
@@ -4203,10 +4204,10 @@ namespace sead {
     struct HeapArray { u32 _unknown; }; // placeholder, real type unknown
     struct MemBlock { u32 _unknown; }; // placeholder, real type unknown
     struct TaskConstructArg { u32 _unknown; }; // placeholder, real type unknown
-    template <auto T0> class FixedSafeString;
-    template <auto T0> class FormatFixedSafeString;
-    template <auto T0> class WFixedSafeString;
-    template <typename T0, auto T1> class FixedSafeStringBase;
+    template <int N> class FixedSafeString; // sead/seadFixedSafeString.h
+    template <int N> class FormatFixedSafeString; // sead/seadFormatFixedSafeString.h
+    template <int N> class WFixedSafeString; // sead/seadWFixedSafeString.h
+    template <typename T, int N> class FixedSafeStringBase; // sead/seadFixedSafeStringBase.h
     template <typename T0, typename T1, typename T2, typename T3> class Delegate2R;
     template <typename T0, typename T1, typename T2> class Delegate2;
     template <typename T0, typename T1, typename T2> class DelegateBase;
@@ -4233,8 +4234,8 @@ namespace sead {
     template <typename T0> class Vector3;
     template <typename T0> struct Matrix34 { u32 _unknown; }; // placeholder
     template <typename T0> struct Matrix44 { u32 _unknown; }; // placeholder
-    template <typename T0> struct Segment { u32 _unknown; }; // placeholder
-    template <typename T0> struct TList { u32 _unknown; }; // placeholder
+    template <typename T> class Segment; // sead/seadGeometry.h
+    template <typename T> class TList; // sead/seadTListNode.h
     template <typename T0> struct Vector2 { u32 _unknown; }; // placeholder
 }
 

@@ -1,19 +1,10 @@
+#include "sead/RuntimeTypeInfo/seadDerive.h"
 #include "sead/seadControllerWrapperBase.h"
 #include "sead/seadControllerWrapper.h"
 
 namespace sead {
 // ctor candidate(s) 0x00548E10 (unverified)
 sead::ControllerWrapper::ControllerWrapper()
-{
-}
-
-// 0x0074C86C slot 0x00 | virtual slot, introduced by sead::ControllerBase
-void sead::ControllerWrapper::vf_0x00()
-{
-}
-
-// 0x0074C820 slot 0x04 | virtual slot, introduced by sead::ControllerBase
-void sead::ControllerWrapper::vf_0x04()
 {
 }
 
@@ -33,3 +24,7 @@ void sead::ControllerWrapper::vf_0x10()
 }
 
 } // namespace sead
+
+// the type information of the classes below ControllerWrapperBase
+// 0x0082930C (name is ours)
+template bool sead::RuntimeTypeInfo::Derive<sead::ControllerWrapperBase>::isDerived(const sead::RuntimeTypeInfo::Interface*) const;

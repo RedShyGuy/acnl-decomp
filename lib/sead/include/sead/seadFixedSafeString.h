@@ -1,6 +1,7 @@
 #pragma once
 
 #include "decomp.h"
+#include "sead/seadFixedSafeStringBase.h"
 
 namespace sead {
 // Instantiations found in the binary:
@@ -23,10 +24,13 @@ namespace sead {
 //   sead::FixedSafeString<80>  typeinfo 0x008D1868  vtable 0x00905AB0
 //   sead::FixedSafeString<8>  typeinfo 0x008D1874  vtable 0x00905AC4
 //   sead::FixedSafeString<96>  typeinfo 0x008D1880  vtable 0x00905AD8
-template <auto T0>
-class FixedSafeString
+//
+// A string of up to N - 1 characters with its own buffer.
+template <int N>
+class FixedSafeString : public FixedSafeStringBase<char, N>
 {
 public:
-    // TODO: members unknown
+    FixedSafeString() {}
+    virtual ~FixedSafeString() {}
 };
 } // namespace sead

@@ -6,16 +6,6 @@ sead::MethodTreeMgr::MethodTreeMgr()
 {
 }
 
-// 0x0074B99C slot 0x00 | virtual slot, introduced by sead::MethodTreeMgr
-void sead::MethodTreeMgr::vf_0x00()
-{
-}
-
-// 0x0074B950 slot 0x04 | virtual slot, introduced by sead::MethodTreeMgr
-void sead::MethodTreeMgr::vf_0x04()
-{
-}
-
 // 0x00543200 slot 0x08 | slot vf_0x08 of sead::MethodTreeMgr
 sead::MethodTreeMgr::~MethodTreeMgr()
 {

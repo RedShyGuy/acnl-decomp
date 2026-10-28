@@ -29,7 +29,7 @@ class PacketAnalyzer;
 // of the received packets (iteration over the messages of one protocol). The checks of the
 // packets and messages are for the derived classes (StationPacketHandler). The base of a pead
 // runtime type hierarchy. Layout from the constructor, InitializeCore and StartupCore; the member
-// names, the names of the unnamed slots and getRuntimeTypeInfoStatic are ours.
+// names, the names of the unnamed slots and of the type information (isKindOf, getTypeInfo, getTypeInfoStatic) are ours.
 class PacketHandler : public ::nn::pia::common::RootObject
 {
 public:
@@ -38,8 +38,8 @@ public:
     class Iterator;
 
     PacketHandler(); // 0x0044ED18 | fefates:bytes [tier B]
-    virtual bool checkDerivedRuntimeTypeInfo(const pead::RuntimeTypeInfo::Interface* typeInfo) const; // 0x00734CE0 slot 0x00
-    virtual const pead::RuntimeTypeInfo::Interface* getRuntimeTypeInfo() const; // 0x00734BEC slot 0x04
+    virtual bool isKindOf(const pead::RuntimeTypeInfo::Interface* typeInfo) const; // 0x00734CE0 slot 0x00
+    virtual const pead::RuntimeTypeInfo::Interface* getTypeInfo() const; // 0x00734BEC slot 0x04
     virtual ~PacketHandler(); // 0x0044ED8C slot 0x08 | fefates:bytes
     // 0x0044ED64 slot 0x0C (deleting dtor)
     // a writer for a message of size bytes of payload; null if there is no room. isOwnPacket: the
@@ -80,7 +80,7 @@ public:
     nn::Result GetPacketAnalysisData(nn::pia::transport::PacketAnalysisData* pSendData, nn::pia::transport::PacketAnalysisData* pReceiveData) const; // 0x00734C44 | fefates:bytes [tier B]
 
     // (inline everywhere)
-    static const pead::RuntimeTypeInfo::Interface* getRuntimeTypeInfoStatic()
+    static const pead::RuntimeTypeInfo::Interface* getTypeInfoStatic()
     {
         // 0x009832A0 (guard 0x0098329C)
         static const pead::RuntimeTypeInfo::Root s_TypeInfo;

@@ -4,6 +4,14 @@
 #include "nw/snd/snd_RomSoundArchive.h"
 
 namespace sead {
+// 0x00829C84 slot 0x00 (name is ours)
+template bool sead::AudioDeviceSoundArchiveBaseCtr<nw::snd::FsSoundArchive>::isKindOf(const sead::RuntimeTypeInfo::Interface* typeInfo) const;
+// 0x00829C38 slot 0x04 (name is ours)
+template const sead::RuntimeTypeInfo::Interface* sead::AudioDeviceSoundArchiveBaseCtr<nw::snd::FsSoundArchive>::getTypeInfo() const;
+// 0x00829D84 slot 0x00 (name is ours)
+template bool sead::AudioDeviceSoundArchiveBaseCtr<nw::snd::RomSoundArchive>::isKindOf(const sead::RuntimeTypeInfo::Interface* typeInfo) const;
+// 0x00829D38 slot 0x04 (name is ours)
+template const sead::RuntimeTypeInfo::Interface* sead::AudioDeviceSoundArchiveBaseCtr<nw::snd::RomSoundArchive>::getTypeInfo() const;
 // 0x00813348 slot 0x08
 // 0x008132D8 (deleting dtor)
 // 0x00778F80 (thunk)

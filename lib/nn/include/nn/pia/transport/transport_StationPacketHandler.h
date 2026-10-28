@@ -25,13 +25,13 @@ class RelayRouteManager;
 // stations (relay routes) or through the relay node, with sequence ids and keep alive messages;
 // the received messages are checked against the local station. Its members start in the tail
 // padding of PacketHandler. Layout from the constructor and Startup; the member names, the names
-// of the unnamed slots and getRuntimeTypeInfoStatic are ours.
+// of the unnamed slots and of the type information (isKindOf, getTypeInfo, getTypeInfoStatic) are ours.
 class StationPacketHandler : public ::nn::pia::transport::PacketHandler
 {
 public:
     StationPacketHandler(); // 0x0045A0FC | fefates:bytes [tier B]
-    virtual bool checkDerivedRuntimeTypeInfo(const pead::RuntimeTypeInfo::Interface* typeInfo) const; // 0x007360FC slot 0x00
-    virtual const pead::RuntimeTypeInfo::Interface* getRuntimeTypeInfo() const; // 0x007360B0 slot 0x04
+    virtual bool isKindOf(const pead::RuntimeTypeInfo::Interface* typeInfo) const; // 0x007360FC slot 0x00
+    virtual const pead::RuntimeTypeInfo::Interface* getTypeInfo() const; // 0x007360B0 slot 0x04
     virtual ~StationPacketHandler(); // 0x0045A16C slot 0x08
     // 0x0045A12C slot 0x0C | fefates:bytes (deleting dtor)
     virtual ProtocolMessageWriter* AssignByStationIndex(const nn::pia::transport::ProtocolId& protocolId, nn::pia::StationIndex stationIndex, unsigned int size, bool isOwnPacket); // 0x00459974 slot 0x10 | fefates:bytes
@@ -63,7 +63,7 @@ public:
     bool AssignRelayStationMessage(nn::pia::StationIndex relayStationIndex, unsigned int stationBitmap, unsigned int messageSize, unsigned int sizeLimit, bool isOwnPacket); // 0x00459C48 | fefates:bytes [tier B]
 
     // (inline everywhere)
-    static const pead::RuntimeTypeInfo::Interface* getRuntimeTypeInfoStatic()
+    static const pead::RuntimeTypeInfo::Interface* getTypeInfoStatic()
     {
         // 0x009832A8 (guard 0x009832A4)
         static const pead::RuntimeTypeInfo::Derive<PacketHandler> s_TypeInfo;

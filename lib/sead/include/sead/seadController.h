@@ -1,6 +1,7 @@
 #pragma once
 
 #include "decomp.h"
+#include "sead/RuntimeTypeInfo/seadDerive.h"
 #include "sead/seadControllerBase.h"
 
 namespace sead {
@@ -10,8 +11,25 @@ class Controller : public ::sead::ControllerBase
 {
 public:
     Controller(); // ctor candidate(s) 0x0053E5D0 (unverified)
-    virtual void vf_0x00(); // 0x00749F1C slot 0x00 | virtual slot, introduced by sead::ControllerBase
-    virtual void vf_0x04(); // 0x00749ED0 slot 0x04 | virtual slot, introduced by sead::ControllerBase
+    // whether the class is the one of typeInfo or derives from it
+    virtual bool isKindOf(const RuntimeTypeInfo::Interface* typeInfo) const // 0x00749F1C (name is ours)
+    {
+        if (typeInfo == getTypeInfoStatic()) {
+            return true;
+        }
+        return ControllerBase::isKindOf(typeInfo);
+    }
+    virtual const RuntimeTypeInfo::Interface* getTypeInfo() const // 0x00749ED0 (name is ours)
+    {
+        return getTypeInfoStatic();
+    }
+    // the type information of the class (inline everywhere; name is ours)
+    static const RuntimeTypeInfo::Interface* getTypeInfoStatic()
+    {
+        // 0x009833A4 (guard 0x009833A0)
+        static const RuntimeTypeInfo::Derive<ControllerBase> s_TypeInfo;
+        return &s_TypeInfo;
+    }
     virtual void vf_0x08(); // 0x0053E640 slot 0x08 | virtual slot, introduced by sead::Controller
     virtual void vf_0x0C(); // 0x0053E63C slot 0x0C | virtual slot, introduced by sead::Controller
     virtual void vf_0x10(); // 0x0053E490 slot 0x10 | virtual slot, introduced by sead::Controller

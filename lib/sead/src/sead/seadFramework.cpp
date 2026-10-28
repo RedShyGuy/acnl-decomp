@@ -6,16 +6,6 @@ sead::Framework::Framework()
 {
 }
 
-// 0x007508E8 slot 0x00 | virtual slot, introduced by sead::Framework
-void sead::Framework::vf_0x00()
-{
-}
-
-// 0x0075089C slot 0x04 | virtual slot, introduced by sead::Framework
-void sead::Framework::vf_0x04()
-{
-}
-
 // 0x005627B4 slot 0x08 | slot vf_0x08 of sead::Framework
 sead::Framework::~Framework()
 {

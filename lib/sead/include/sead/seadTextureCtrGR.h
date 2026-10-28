@@ -1,6 +1,7 @@
 #pragma once
 
 #include "decomp.h"
+#include "sead/RuntimeTypeInfo/seadDerive.h"
 #include "sead/seadTextureCtr.h"
 
 namespace sead {
@@ -9,8 +10,25 @@ namespace sead {
 class TextureCtrGR : public ::sead::TextureCtr
 {
 public:
-    virtual void vf_0x00(); // 0x0074AC80 slot 0x00 | virtual slot, introduced by sead::TextureCtr
-    virtual void vf_0x04(); // 0x0074AC34 slot 0x04 | virtual slot, introduced by sead::TextureCtr
+    // whether the class is the one of typeInfo or derives from it
+    virtual bool isKindOf(const RuntimeTypeInfo::Interface* typeInfo) const // 0x0074AC80 (name is ours)
+    {
+        if (typeInfo == getTypeInfoStatic()) {
+            return true;
+        }
+        return TextureCtr::isKindOf(typeInfo);
+    }
+    virtual const RuntimeTypeInfo::Interface* getTypeInfo() const // 0x0074AC34 (name is ours)
+    {
+        return getTypeInfoStatic();
+    }
+    // the type information of the class (inline everywhere; name is ours)
+    static const RuntimeTypeInfo::Interface* getTypeInfoStatic()
+    {
+        // 0x009833F4 (guard 0x009833F0)
+        static const RuntimeTypeInfo::Derive<TextureCtr> s_TypeInfo;
+        return &s_TypeInfo;
+    }
     virtual void vf_0x08(); // 0x0053FD80 slot 0x08 | virtual slot, introduced by sead::TextureCtr
     virtual void vf_0x0C(); // 0x00541308 slot 0x0C | virtual slot, introduced by sead::TextureCtr
     virtual void vf_0x10(); // 0x0074AD84 slot 0x10 | virtual slot, introduced by sead::TextureCtr

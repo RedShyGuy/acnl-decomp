@@ -1,6 +1,7 @@
 #pragma once
 
 #include "decomp.h"
+#include "sead/RuntimeTypeInfo/seadDerive.h"
 #include "nw/snd/snd_SoundArchivePlayer.h"
 #include "sead/hostio/seadNode.h"
 #include "sead/seadAudioPlayer.h"
@@ -18,8 +19,25 @@ class AudioPlayerCtr : public ::sead::AudioPlayer, public ::nw::snd::SoundArchiv
 {
 public:
     AudioPlayerCtr(); // ctor candidate(s) 0x0012C814 (unverified)
-    virtual void vf_0x00(); // 0x0074BB34 slot 0x00 | virtual slot, introduced by sead::AudioPlayerCtr
-    virtual void vf_0x04(); // 0x0074BAE8 slot 0x04 | virtual slot, introduced by sead::AudioPlayerCtr
+    // whether the class is the one of typeInfo or derives from it
+    virtual bool isKindOf(const RuntimeTypeInfo::Interface* typeInfo) const // 0x0074BB34 (name is ours)
+    {
+        if (typeInfo == getTypeInfoStatic()) {
+            return true;
+        }
+        return AudioPlayer::isKindOf(typeInfo);
+    }
+    virtual const RuntimeTypeInfo::Interface* getTypeInfo() const // 0x0074BAE8 (name is ours)
+    {
+        return getTypeInfoStatic();
+    }
+    // the type information of the class (inline everywhere; name is ours)
+    static const RuntimeTypeInfo::Interface* getTypeInfoStatic()
+    {
+        // 0x00983454 (guard 0x00983450)
+        static const RuntimeTypeInfo::Derive<AudioPlayer> s_TypeInfo;
+        return &s_TypeInfo;
+    }
     virtual ~AudioPlayerCtr(); // 0x00543978 slot 0x08
     virtual void vf_0x10(); // 0x00543294 slot 0x10 | virtual slot, introduced by sead::AudioPlayerCtr
     virtual void vf_0x14(); // 0x00543854 slot 0x14 | virtual slot, introduced by sead::AudioPlayerCtr

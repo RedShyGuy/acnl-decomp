@@ -1,3 +1,4 @@
+#include "sead/RuntimeTypeInfo/seadDerive.h"
 #include "sead/seadCtrFileStreamFileDevice.h"
 #include "sead/seadCtrBackupFileDevice.h"
 
@@ -12,19 +13,13 @@ sead::CtrBackupFileDevice::~CtrBackupFileDevice()
 {
 }
 
-// 0x0074CD30 slot 0x08 | virtual slot, introduced by sead::FileDevice
-void sead::CtrBackupFileDevice::vf_0x08()
-{
-}
-
-// 0x0074CCE4 slot 0x0C | slot vf_0x0C of sead::FileDevice
-void sead::CtrBackupFileDevice::isMatchDevice_(const sead::HandleBase*) const
-{
-}
-
 // 0x0074CCD4 slot 0x74 | virtual slot, introduced by sead::CtrFileStreamFileDevice
 void sead::CtrBackupFileDevice::vf_0x74()
 {
 }
 
 } // namespace sead
+
+// the type information of the classes below CtrFileStreamFileDevice
+// 0x00829380 (name is ours)
+template bool sead::RuntimeTypeInfo::Derive<sead::CtrFileStreamFileDevice>::isDerived(const sead::RuntimeTypeInfo::Interface*) const;

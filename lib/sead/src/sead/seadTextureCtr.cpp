@@ -1,19 +1,10 @@
+#include "sead/RuntimeTypeInfo/seadDerive.h"
 #include "sead/seadTexture.h"
 #include "sead/seadTextureCtr.h"
 
 namespace sead {
 // ctor candidate(s) 0x0053FD6C (unverified)
 sead::TextureCtr::TextureCtr()
-{
-}
-
-// 0x0074A53C slot 0x00 | virtual slot, introduced by sead::TextureCtr
-void sead::TextureCtr::vf_0x00()
-{
-}
-
-// 0x0074A4F0 slot 0x04 | virtual slot, introduced by sead::TextureCtr
-void sead::TextureCtr::vf_0x04()
 {
 }
 
@@ -53,3 +44,7 @@ void sead::TextureCtr::vf_0x20()
 }
 
 } // namespace sead
+
+// the type information of the classes below Texture
+// 0x00829790 (name is ours)
+template bool sead::RuntimeTypeInfo::Derive<sead::Texture>::isDerived(const sead::RuntimeTypeInfo::Interface*) const;

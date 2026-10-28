@@ -1,6 +1,7 @@
 #pragma once
 
 #include "decomp.h"
+#include "sead/RuntimeTypeInfo/seadDerive.h"
 #include "sead/hostio/seadNode.h"
 #include "sead/seadAudioSystem.h"
 
@@ -12,8 +13,25 @@ class AudioSystemCtr : public ::sead::AudioSystem, public ::sead::hostio::Node
 {
 public:
     AudioSystemCtr(); // ctor candidate(s) 0x0012C8A0 (unverified)
-    virtual void vf_0x00(); // 0x0074BC64 slot 0x00 | virtual slot, introduced by sead::AudioSystemCtr
-    virtual void vf_0x04(); // 0x0074BC18 slot 0x04 | virtual slot, introduced by sead::AudioSystemCtr
+    // whether the class is the one of typeInfo or derives from it
+    virtual bool isKindOf(const RuntimeTypeInfo::Interface* typeInfo) const // 0x0074BC64 (name is ours)
+    {
+        if (typeInfo == getTypeInfoStatic()) {
+            return true;
+        }
+        return AudioSystem::isKindOf(typeInfo);
+    }
+    virtual const RuntimeTypeInfo::Interface* getTypeInfo() const // 0x0074BC18 (name is ours)
+    {
+        return getTypeInfoStatic();
+    }
+    // the type information of the class (inline everywhere; name is ours)
+    static const RuntimeTypeInfo::Interface* getTypeInfoStatic()
+    {
+        // 0x0098345C (guard 0x00983458)
+        static const RuntimeTypeInfo::Derive<AudioSystem> s_TypeInfo;
+        return &s_TypeInfo;
+    }
     virtual void vf_0x08(); // 0x00544094 slot 0x08 | virtual slot, introduced by sead::AudioSystemCtr
     virtual void vf_0x0C(); // 0x0054406C slot 0x0C | virtual slot, introduced by sead::AudioSystemCtr
     virtual void vf_0x10(); // 0x00543A30 slot 0x10 | virtual slot, introduced by sead::AudioSystemCtr

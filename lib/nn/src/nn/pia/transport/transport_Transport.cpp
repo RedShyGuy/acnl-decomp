@@ -76,11 +76,11 @@ nn::Result nn::pia::transport::Transport::initialize(const nn::pia::transport::T
     if (pPacketHandler == nullptr) {
         return common::RESULT_INVALID_ARGUMENT;
     }
-    if (!pPacketHandler->checkDerivedRuntimeTypeInfo(StationPacketHandler::getRuntimeTypeInfoStatic())) {
+    if (!pPacketHandler->isKindOf(StationPacketHandler::getTypeInfoStatic())) {
         delete pPacketHandler;
         return common::RESULT_INVALID_ARGUMENT;
     }
-    m_pPacketHandler = pPacketHandler->checkDerivedRuntimeTypeInfo(StationPacketHandler::getRuntimeTypeInfoStatic())
+    m_pPacketHandler = pPacketHandler->isKindOf(StationPacketHandler::getTypeInfoStatic())
                            ? static_cast<StationPacketHandler*>(pPacketHandler)
                            : nullptr;
     u32 headerSize = pFactory->GetPacketHeaderSize();

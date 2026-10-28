@@ -6,16 +6,6 @@ sead::Projection::Projection()
 {
 }
 
-// 0x0074A494 slot 0x00 | virtual slot, introduced by sead::Projection
-void sead::Projection::vf_0x00()
-{
-}
-
-// 0x0074A1F8 slot 0x04 | virtual slot, introduced by sead::Projection
-void sead::Projection::vf_0x04()
-{
-}
-
 // 0x0053F248 slot 0x08 | virtual slot, introduced by sead::Projection
 void sead::Projection::vf_0x08()
 {

@@ -1,117 +1,41 @@
-#include "sead/seadINamable.h"
-#include "sead/seadIDisposer.h"
-#include "sead/hostio/seadReflexible.h"
 #include "sead/seadHeap.h"
+#include "sead/seadBufferedSafeStringBase.h"
+#include "sead/seadHeapMgr.h"
 
 namespace sead {
-// ctor address unknown
-sead::Heap::Heap()
+// 0x0013334C (name is ours)
+sead::Heap::Heap(const SafeStringBase<char>& name, Heap* parent, void* start, u32 size, HeapDirection direction,
+                 bool enableLock)
+    : IDisposer(parent, HEAP_NULL_OPTION_FIND_CONTAIN_HEAP), INamable(name), mStart(start), mSize(size), mParent(parent),
+      mDirection(direction), mCS(parent), mFlag(FLAG_DEFAULT), mHeapId(HeapMgr::s_HeapIdCounter.increment())
 {
+    if (enableLock) {
+        mFlag |= FLAG_ENABLE_LOCK;
+    } else {
+        mFlag &= ~FLAG_ENABLE_LOCK;
+    }
+    ConditionalScopedLock lock(&mCS, isEnableLock());
+    mChildren.initOffset(offsetof(Heap, mListNode));
+    mDisposerList.initOffset(offsetof(IDisposer, mListNode));
 }
 
 // 0x0054E424 slot 0x00 | slot vf_0x00 of sead::IDisposer
+// 0x0054E3F8 (deleting dtor)
 sead::Heap::~Heap()
 {
+    // empty (in the original too: the derived heaps call destruct_)
 }
 
-// 0x0074E804 slot 0x08 | virtual slot, introduced by sead::Heap
-void sead::Heap::vf_0x08()
+// 0x0054E1D8 (name is ours)
+void* sead::Heap::tryRealloc(void*, u32, s32)
 {
+    return nullptr;
 }
 
-// 0x0074E7B8 slot 0x0C | virtual slot, introduced by sead::Heap
-void sead::Heap::vf_0x0C()
+// 0x0074E860 (name is ours)
+void sead::Heap::dump() const
 {
-}
-
-// 0x0011C12F slot 0x10 | slot vf_0x00 of ChangeRentalBase
-void sead::Heap::vf_0x10()
-{
-}
-
-// 0x0011C12F slot 0x14 | slot vf_0x00 of ChangeRentalBase
-void sead::Heap::vf_0x14()
-{
-}
-
-// 0x0011C12F slot 0x18 | slot vf_0x00 of ChangeRentalBase
-void sead::Heap::vf_0x18()
-{
-}
-
-// 0x0011C12F slot 0x1C | slot vf_0x00 of ChangeRentalBase
-void sead::Heap::vf_0x1C()
-{
-}
-
-// 0x0011C12F slot 0x20 | slot vf_0x00 of ChangeRentalBase
-void sead::Heap::vf_0x20()
-{
-}
-
-// 0x0011C12F slot 0x24 | slot vf_0x00 of ChangeRentalBase
-void sead::Heap::vf_0x24()
-{
-}
-
-// 0x0054E1D8 slot 0x28 | virtual slot, introduced by sead::Heap
-void sead::Heap::vf_0x28()
-{
-}
-
-// 0x0011C12F slot 0x2C | slot vf_0x00 of ChangeRentalBase
-void sead::Heap::vf_0x2C()
-{
-}
-
-// 0x0011C12F slot 0x30 | slot vf_0x00 of ChangeRentalBase
-void sead::Heap::vf_0x30()
-{
-}
-
-// 0x0011C12F slot 0x34 | slot vf_0x00 of ChangeRentalBase
-void sead::Heap::vf_0x34()
-{
-}
-
-// 0x0011C12F slot 0x38 | slot vf_0x00 of ChangeRentalBase
-void sead::Heap::vf_0x38()
-{
-}
-
-// 0x0011C12F slot 0x3C | slot vf_0x00 of ChangeRentalBase
-void sead::Heap::vf_0x3C()
-{
-}
-
-// 0x0011C12F slot 0x40 | slot vf_0x00 of ChangeRentalBase
-void sead::Heap::vf_0x40()
-{
-}
-
-// 0x0011C12F slot 0x44 | slot vf_0x00 of ChangeRentalBase
-void sead::Heap::vf_0x44()
-{
-}
-
-// 0x0011C12F slot 0x48 | slot vf_0x00 of ChangeRentalBase
-void sead::Heap::vf_0x48()
-{
-}
-
-// 0x0011C12F slot 0x4C | slot vf_0x00 of ChangeRentalBase
-void sead::Heap::vf_0x4C()
-{
-}
-
-// 0x0011C12F slot 0x50 | slot vf_0x00 of ChangeRentalBase
-void sead::Heap::vf_0x50()
-{
-}
-
-// 0x0074E860 slot 0x54 | virtual slot, introduced by sead::Heap
-void sead::Heap::vf_0x54()
-{
+    // empty (in the original too)
 }
 
 // 0x0074E864 slot 0x58 | virtual slot, introduced by sead::Heap
@@ -119,34 +43,86 @@ void sead::Heap::vf_0x58()
 {
 }
 
-// 0x0054E1E4 slot 0x5C | virtual slot, introduced by sead::Heap
+// 0x0054E1E4
 void sead::Heap::vf_0x5C()
 {
+    // empty (in the original too)
 }
 
-// 0x0054E1E8 slot 0x60 | virtual slot, introduced by sead::Heap
-void sead::Heap::vf_0x60()
+// 0x0054E1E8 (name is ours)
+s32 sead::Heap::formatMetaName(BufferedSafeStringBase<char>* name) const
 {
+    f32 free = static_cast<f32>(getFreeSize());
+    f32 size = static_cast<f32>(getSize());
+    s32 used = static_cast<s32>((1.0f - free / size) * 10.0f);
+    return name->format("$SEAD_META_HEAP_%03d", used * 10);
 }
 
-// 0x0053B3D0 | nintendogs:bytes [tier A]
-void sead::Heap::appendDisposer_(sead::IDisposer*)
+// 0x00138D80 (name after pead::Heap)
+void sead::Heap::appendDisposer_(IDisposer* disposer)
 {
+    ConditionalScopedLock lock(&mCS, isEnableLock());
+    mDisposerList.pushBack(disposer);
 }
 
-// 0x0053B440 | nintendogs:bytes [tier A]
-void sead::Heap::removeDisposer_(sead::IDisposer*)
+// 0x00141CBC (name after pead::Heap)
+void sead::Heap::removeDisposer_(IDisposer* disposer)
 {
+    ConditionalScopedLock lock(&mCS, isEnableLock());
+    mDisposerList.erase(disposer);
 }
 
-// 0x0053B59C | nintendogs:bytes [tier A]
-void sead::Heap::dispose_(const void*, const void*)
+// 0x0054E280 (name after pead::Heap)
+void sead::Heap::dispose_(const void* begin, const void* end)
 {
+    mFlag |= FLAG_DISPOSING;
+    IDisposer* disposer = mDisposerList.front();
+    while (disposer != mDisposerList.endObj()) {
+        if (disposer->mDisposerHeap != nullptr &&
+            ((begin == nullptr && end == nullptr) || (begin <= disposer && disposer < end))) {
+            // the destructor takes the disposer out of the list
+            disposer->~IDisposer();
+            disposer = mDisposerList.front();
+        } else {
+            disposer = mDisposerList.next(disposer);
+        }
+    }
+    mFlag &= ~FLAG_DISPOSING;
 }
 
-// 0x0053B63C | nintendogs:bytes [tier A]
+// 0x0054E320 (name after pead::Heap)
 void sead::Heap::destruct_()
 {
+    ConditionalScopedLock lock(&mCS, isEnableLock());
+    dispose_(nullptr, nullptr);
+    HeapMgr::removeFromFindContainHeapCache_(this);
+    if (mParent != nullptr) {
+        ScopedLock treeLock(HeapMgr::getHeapTreeLockCS_());
+        ConditionalScopedLock parentLock(&mParent->mCS, mParent->isEnableLock());
+        mParent->mChildren.erase(this);
+    }
+}
+
+// 0x001332D4 (name is ours)
+void sead::Heap::pushBackChild_(Heap* child)
+{
+    ScopedLock treeLock(HeapMgr::getHeapTreeLockCS_());
+    ConditionalScopedLock lock(&mCS, isEnableLock());
+    mChildren.pushBack(child);
+}
+
+// 0x0013C6B8 (name is ours)
+sead::Heap* sead::Heap::findContainHeap_(const void* ptr)
+{
+    if (!isInclude(ptr)) {
+        return nullptr;
+    }
+    for (Heap* child = mChildren.front(); child != mChildren.endObj(); child = mChildren.next(child)) {
+        if (child->isInclude(ptr)) {
+            return child->findContainHeap_(ptr);
+        }
+    }
+    return this;
 }
 
 } // namespace sead

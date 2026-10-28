@@ -1,19 +1,10 @@
+#include "sead/RuntimeTypeInfo/seadDerive.h"
 #include "sead/seadDirectResource.h"
 #include "sead/seadGraphicsFileResNw4c.h"
 
 namespace sead {
 // ctor candidate(s) 0x0054A180 (unverified)
 sead::GraphicsFileResNw4c::GraphicsFileResNw4c()
-{
-}
-
-// 0x0074CE88 slot 0x00 | virtual slot, introduced by sead::DirectResource
-void sead::GraphicsFileResNw4c::vf_0x00()
-{
-}
-
-// 0x0074CE34 slot 0x04 | virtual slot, introduced by sead::DirectResource
-void sead::GraphicsFileResNw4c::vf_0x04()
 {
 }
 
@@ -38,3 +29,7 @@ void sead::GraphicsFileResNw4c::vf_0x14()
 }
 
 } // namespace sead
+
+// the type information of the classes below DirectResource
+// 0x00828E84 (name is ours)
+template bool sead::RuntimeTypeInfo::Derive<sead::DirectResource>::isDerived(const sead::RuntimeTypeInfo::Interface*) const;

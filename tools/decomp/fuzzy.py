@@ -185,7 +185,7 @@ def _arg_feature(words, pool, i, reg, resolve_word):
 
 def extract(words, base, resolve_call, resolve_word, returns_this=lambda key: False, structor=False,
             next_key=None, resolve_target=lambda value: ('?',), read_const=None, resolve_address=None,
-            this_offset=0):
+            this_offset=0, read_word=None):
     """Features of one ARM function.
 
     words           list of 32 bit words of the function (code + literal pool)
@@ -206,6 +206,9 @@ def extract(words, base, resolve_call, resolve_word, returns_this=lambda key: Fa
                     strings into the code behind the function)
     this_offset     offset of r0 from the object at the start (a thunk into which ARMCC copied the
                     body of the function: r0 points to the secondary base)
+    read_word       address -> word, for literals outside the (truncated) function: hand-written
+                    assembly loads from the literal pool of the function before it, and the
+                    assembler puts the pool of "ldr rX, =imm" at the end of the section
     """
     n = len(words)
     pool = set()
@@ -466,8 +469,8 @@ def extract(words, base, resolve_call, resolve_word, returns_this=lambda key: Fa
                         (words[k] & 0xFFFFFFF0) == 0xE12FFF10 and words[k] & 0xF != LR
                         for k in range(i + 1, min(n, i + 5)) if k not in pool):
                     lr_literal = words[j]                                 # "ldr lr, =f2 ; bx rX"
-                elif 0 <= j < n:
-                    key = resolve_word(j, words[j])
+                elif 0 <= j < n or read_word is not None:
+                    key = resolve_word(j, words[j] if 0 <= j < n else read_word(base + 4 * j))
                     if key[0] == 'rconst' and read_const is not None:
                         regs[rd] = (('r', key[1]), 0)
                         shape.append('lit')
@@ -543,8 +546,9 @@ def extract(words, base, resolve_call, resolve_word, returns_this=lambda key: Fa
             if rn == PC:
                 off = (w & 0xFF) * 4 * (1 if w & (1 << 23) else -1)
                 j = i + 2 + off // 4
-                if load and not w & 0x100 and 0 <= j < n and words[j]:   # 0.0 is everywhere
-                    consts[('k', words[j])] += 1
+                lit = words[j] if 0 <= j < n else read_word(base + 4 * j) if read_word is not None else 0
+                if load and not w & 0x100 and lit:                            # 0.0 is everywhere
+                    consts[('k', lit)] += 1
                 shape.append('lit')
                 continue
             if rn != SP and get(rn)[0] != 'sp':
@@ -700,6 +704,25 @@ def extract(words, base, resolve_call, resolve_word, returns_this=lambda key: Fa
             continue
         shape.append('other')
         if (w & 0x0F000010) == 0x0E000000:                                # vfp data processing
+            continue
+        if (w & 0x0FC000F0) == 0x00000090:                                # mul / mla: Rd in bits 16-19
+            dst = (w >> 16) & 0xF                                         # (bits 12-15 are 0 or the addend)
+            if w & (1 << 21):
+                # mla rd, rn, rs, ra = &ra[rn * rs] (ARMCC indexes rows this way): like add rd, ra, rm
+                array = get(rd)
+                if isinstance(array[0], tuple) and array[0][0] == 'g' or \
+                        isinstance(array[0], str) and array[0].startswith('arg'):
+                    regs[dst] = (array[0], array[1])
+                else:
+                    base_off = array[1] if isinstance(array[0], tuple) and array[0][0] == 'v' else 0
+                    regs[dst] = (('idx', fresh[0] + 1), base_off)
+                    fresh[0] += 1
+            else:
+                regs.pop(dst, None)
+            continue
+        if (w & 0x0F8000F0) == 0x00800090:                                # umull / smull / umlal / smlal
+            regs.pop((w >> 16) & 0xF, None)
+            regs.pop(rd, None)
             continue
         if rd != PC:
             regs.pop(rd, None)

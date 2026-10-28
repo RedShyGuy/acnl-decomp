@@ -34,6 +34,7 @@ public:
     static Heap* getRootHeap(int index) { return sRootHeaps.at(index); }
 
     static PtrArray<Heap> sRootHeaps; // 0x00AE82B4 (name is ours)
+    void getCurrentHeap() const; // 0x00749CC8 | nintendogs:bytes [tier A]
 };
 
 // allocation with a heap (the current one if heap is null) and release to the heap that contains

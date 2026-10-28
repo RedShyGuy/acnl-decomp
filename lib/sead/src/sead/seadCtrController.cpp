@@ -1,19 +1,10 @@
+#include "sead/RuntimeTypeInfo/seadDerive.h"
 #include "sead/seadController.h"
 #include "sead/seadCtrController.h"
 
 namespace sead {
 // ctor candidate(s) 0x00542208 (unverified)
 sead::CtrController::CtrController()
-{
-}
-
-// 0x0074B5E8 slot 0x00 | virtual slot, introduced by sead::ControllerBase
-void sead::CtrController::vf_0x00()
-{
-}
-
-// 0x0074B59C slot 0x04 | virtual slot, introduced by sead::ControllerBase
-void sead::CtrController::vf_0x04()
 {
 }
 
@@ -38,3 +29,7 @@ sead::CtrController::CtrController(sead::ControllerMgr*)
 }
 
 } // namespace sead
+
+// the type information of the classes below Controller
+// 0x00828830 (name is ours)
+template bool sead::RuntimeTypeInfo::Derive<sead::Controller>::isDerived(const sead::RuntimeTypeInfo::Interface*) const;

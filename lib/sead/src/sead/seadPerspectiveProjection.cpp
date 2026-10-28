@@ -7,16 +7,6 @@ sead::PerspectiveProjection::PerspectiveProjection()
 {
 }
 
-// 0x0074D9C4 slot 0x00 | virtual slot, introduced by sead::Projection
-void sead::PerspectiveProjection::vf_0x00()
-{
-}
-
-// 0x0074D8F0 slot 0x04 | virtual slot, introduced by sead::Projection
-void sead::PerspectiveProjection::vf_0x04()
-{
-}
-
 // 0x0054B5B8 slot 0x08 | virtual slot, introduced by sead::Projection
 void sead::PerspectiveProjection::vf_0x08()
 {

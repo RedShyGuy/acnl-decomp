@@ -14,16 +14,6 @@ sead::TaskBase::~TaskBase()
 {
 }
 
-// 0x0074F9D8 slot 0x08 | virtual slot, introduced by sead::TaskBase
-void sead::TaskBase::vf_0x08()
-{
-}
-
-// 0x0074F98C slot 0x0C | virtual slot, introduced by sead::TaskBase
-void sead::TaskBase::vf_0x0C()
-{
-}
-
 // 0x0011C12F slot 0x10 | slot vf_0x00 of ChangeRentalBase
 void sead::TaskBase::vf_0x10()
 {

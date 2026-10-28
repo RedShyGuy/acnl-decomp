@@ -1,6 +1,7 @@
 #pragma once
 
 #include "decomp.h"
+#include "sead/RuntimeTypeInfo/seadDerive.h"
 #include "sead/seadFramework.h"
 
 namespace sead {
@@ -10,8 +11,25 @@ class GameFramework : public ::sead::Framework
 {
 public:
     GameFramework(); // ctor address unknown
-    virtual void vf_0x00(); // 0x0074B89C slot 0x00 | virtual slot, introduced by sead::Framework
-    virtual void vf_0x04(); // 0x0074B850 slot 0x04 | virtual slot, introduced by sead::Framework
+    // whether the class is the one of typeInfo or derives from it
+    virtual bool isKindOf(const RuntimeTypeInfo::Interface* typeInfo) const // 0x0074B89C (name is ours)
+    {
+        if (typeInfo == getTypeInfoStatic()) {
+            return true;
+        }
+        return Framework::isKindOf(typeInfo);
+    }
+    virtual const RuntimeTypeInfo::Interface* getTypeInfo() const // 0x0074B850 (name is ours)
+    {
+        return getTypeInfoStatic();
+    }
+    // the type information of the class (inline everywhere; name is ours)
+    static const RuntimeTypeInfo::Interface* getTypeInfoStatic()
+    {
+        // 0x0098343C (guard 0x00983438)
+        static const RuntimeTypeInfo::Derive<Framework> s_TypeInfo;
+        return &s_TypeInfo;
+    }
     virtual ~GameFramework(); // 0x00543170 slot 0x08 | slot vf_0x08 of sead::Framework
     // 0x00543110 slot 0x0C | slot vf_0x0C of sead::Framework (deleting dtor)
     virtual void vf_0x14(); // 0x00542ED4 slot 0x14 | virtual slot, introduced by sead::Framework

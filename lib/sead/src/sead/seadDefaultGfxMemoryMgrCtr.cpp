@@ -1,19 +1,10 @@
+#include "sead/RuntimeTypeInfo/seadDerive.h"
 #include "sead/seadGfxMemoryMgrCtr.h"
 #include "sead/seadDefaultGfxMemoryMgrCtr.h"
 
 namespace sead {
 // ctor candidate(s) 0x0011EBAC (unverified)
 sead::DefaultGfxMemoryMgrCtr::DefaultGfxMemoryMgrCtr()
-{
-}
-
-// 0x0074DD94 slot 0x00 | virtual slot, introduced by sead::DefaultGfxMemoryMgrCtr
-void sead::DefaultGfxMemoryMgrCtr::vf_0x00()
-{
-}
-
-// 0x0074DD48 slot 0x04 | virtual slot, introduced by sead::DefaultGfxMemoryMgrCtr
-void sead::DefaultGfxMemoryMgrCtr::vf_0x04()
 {
 }
 
@@ -38,3 +29,7 @@ void sead::DefaultGfxMemoryMgrCtr::vf_0x14()
 }
 
 } // namespace sead
+
+// the type information of the classes below GfxMemoryMgrCtr
+// 0x00828FE0 (name is ours)
+template bool sead::RuntimeTypeInfo::Derive<sead::GfxMemoryMgrCtr>::isDerived(const sead::RuntimeTypeInfo::Interface*) const;

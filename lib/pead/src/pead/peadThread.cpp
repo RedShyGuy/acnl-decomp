@@ -90,4 +90,14 @@ void pead::Thread::vf_0x40()
 {
 }
 
+// 0x0053C04C | nintendogs:bytes [tier A]
+void pead::Thread::ctrThreadFunc_(unsigned)
+{
+}
+
+// 0x0053C138 | nintendogs:bytes [tier A]
+void pead::Thread::run_()
+{
+}
+
 } // namespace pead

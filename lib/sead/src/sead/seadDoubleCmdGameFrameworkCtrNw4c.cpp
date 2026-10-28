@@ -1,19 +1,10 @@
+#include "sead/RuntimeTypeInfo/seadDerive.h"
 #include "sead/seadGameFrameworkCtrNw4c.h"
 #include "sead/seadDoubleCmdGameFrameworkCtrNw4c.h"
 
 namespace sead {
 // ctor candidate(s) 0x00120A64 (unverified)
 sead::DoubleCmdGameFrameworkCtrNw4c::DoubleCmdGameFrameworkCtrNw4c()
-{
-}
-
-// 0x0074E45C slot 0x00 | virtual slot, introduced by sead::Framework
-void sead::DoubleCmdGameFrameworkCtrNw4c::vf_0x00()
-{
-}
-
-// 0x0074E410 slot 0x04 | virtual slot, introduced by sead::Framework
-void sead::DoubleCmdGameFrameworkCtrNw4c::vf_0x04()
 {
 }
 
@@ -63,3 +54,7 @@ void sead::DoubleCmdGameFrameworkCtrNw4c::vf_0x8C()
 }
 
 } // namespace sead
+
+// the type information of the classes below GameFrameworkCtrNw4c
+// 0x00829298 (name is ours)
+template bool sead::RuntimeTypeInfo::Derive<sead::GameFrameworkCtrNw4c>::isDerived(const sead::RuntimeTypeInfo::Interface*) const;

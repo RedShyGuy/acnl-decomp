@@ -1,3 +1,4 @@
+#include "sead/RuntimeTypeInfo/seadDerive.h"
 #include "sead/seadAudioSystem.h"
 #include "sead/hostio/seadNode.h"
 #include "sead/seadAudioSystemCtr.h"
@@ -5,16 +6,6 @@
 namespace sead {
 // ctor candidate(s) 0x0012C8A0 (unverified)
 sead::AudioSystemCtr::AudioSystemCtr()
-{
-}
-
-// 0x0074BC64 slot 0x00 | virtual slot, introduced by sead::AudioSystemCtr
-void sead::AudioSystemCtr::vf_0x00()
-{
-}
-
-// 0x0074BC18 slot 0x04 | virtual slot, introduced by sead::AudioSystemCtr
-void sead::AudioSystemCtr::vf_0x04()
 {
 }
 
@@ -94,3 +85,7 @@ void sead::AudioSystemCtr::finalizeDsp_()
 }
 
 } // namespace sead
+
+// the type information of the classes below AudioSystem
+// 0x00828A70 (name is ours)
+template bool sead::RuntimeTypeInfo::Derive<sead::AudioSystem>::isDerived(const sead::RuntimeTypeInfo::Interface*) const;

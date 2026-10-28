@@ -1,19 +1,10 @@
+#include "sead/RuntimeTypeInfo/seadDerive.h"
 #include "sead/seadDebugMenuSkinBase.h"
 #include "sead/seadDebugMenuSkinDefault.h"
 
 namespace sead {
 // ctor address unknown
 sead::DebugMenuSkinDefault::DebugMenuSkinDefault()
-{
-}
-
-// 0x0074D148 slot 0x00 | virtual slot, introduced by sead::DebugMenuSkinDefault
-void sead::DebugMenuSkinDefault::vf_0x00()
-{
-}
-
-// 0x0074D0FC slot 0x04 | virtual slot, introduced by sead::DebugMenuSkinDefault
-void sead::DebugMenuSkinDefault::vf_0x04()
 {
 }
 
@@ -108,3 +99,7 @@ void sead::DebugMenuSkinDefault::vf_0x4C()
 }
 
 } // namespace sead
+
+// the type information of the classes below DebugMenuSkinBase
+// 0x008290C8 (name is ours)
+template bool sead::RuntimeTypeInfo::Derive<sead::DebugMenuSkinBase>::isDerived(const sead::RuntimeTypeInfo::Interface*) const;

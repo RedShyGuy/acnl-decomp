@@ -1,6 +1,7 @@
 #pragma once
 
 #include "decomp.h"
+#include "sead/RuntimeTypeInfo/seadRoot.h"
 
 namespace sead {
 // RTTI N4sead10ProjectionE @ 0x008D13CC
@@ -9,8 +10,22 @@ class Projection
 {
 public:
     Projection(); // ctor address unknown
-    virtual void vf_0x00(); // 0x0074A494 slot 0x00 | virtual slot, introduced by sead::Projection
-    virtual void vf_0x04(); // 0x0074A1F8 slot 0x04 | virtual slot, introduced by sead::Projection
+    // whether the class is the one of typeInfo or derives from it
+    virtual bool isKindOf(const RuntimeTypeInfo::Interface* typeInfo) const // 0x0074A494 (name is ours)
+    {
+        return typeInfo == getTypeInfoStatic();
+    }
+    virtual const RuntimeTypeInfo::Interface* getTypeInfo() const // 0x0074A1F8 (name is ours)
+    {
+        return getTypeInfoStatic();
+    }
+    // the type information of the class (inline everywhere; name is ours)
+    static const RuntimeTypeInfo::Interface* getTypeInfoStatic()
+    {
+        // 0x009833B4 (guard 0x009833B0)
+        static const RuntimeTypeInfo::Root s_TypeInfo;
+        return &s_TypeInfo;
+    }
     virtual void vf_0x08(); // 0x0053F248 slot 0x08 | virtual slot, introduced by sead::Projection
     virtual void vf_0x0C(); // 0x0053F244 slot 0x0C | virtual slot, introduced by sead::Projection
     virtual void vf_0x10(); // 0x0011C12F slot 0x10 | slot vf_0x00 of ChangeRentalBase

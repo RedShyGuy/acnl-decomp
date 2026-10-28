@@ -1,6 +1,7 @@
 #pragma once
 
 #include "decomp.h"
+#include "sead/RuntimeTypeInfo/seadDerive.h"
 #include "nw/snd/snd_RomSoundArchive.h"
 #include "sead/seadAudioDeviceSoundArchiveBaseCtr.h"
 
@@ -12,8 +13,25 @@ class AudioRomSoundArchiveCtr : public ::sead::AudioDeviceSoundArchiveBaseCtr<nw
 {
 public:
     AudioRomSoundArchiveCtr(); // ctor candidate(s) 0x0054A430 (unverified)
-    virtual void vf_0x00(); // 0x0074DE94 slot 0x00 | virtual slot, introduced by sead::AudioSoundArchiveBaseCtr
-    virtual void vf_0x04(); // 0x0074DE48 slot 0x04 | virtual slot, introduced by sead::AudioSoundArchiveBaseCtr
+    // whether the class is the one of typeInfo or derives from it
+    virtual bool isKindOf(const RuntimeTypeInfo::Interface* typeInfo) const // 0x0074DE94 (name is ours)
+    {
+        if (typeInfo == getTypeInfoStatic()) {
+            return true;
+        }
+        return AudioSoundArchiveBaseCtr::isKindOf(typeInfo);
+    }
+    virtual const RuntimeTypeInfo::Interface* getTypeInfo() const // 0x0074DE48 (name is ours)
+    {
+        return getTypeInfoStatic();
+    }
+    // the type information of the class (inline everywhere; name is ours)
+    static const RuntimeTypeInfo::Interface* getTypeInfoStatic()
+    {
+        // 0x00983554 (guard 0x00983550)
+        static const RuntimeTypeInfo::Derive<AudioSoundArchiveBaseCtr> s_TypeInfo;
+        return &s_TypeInfo;
+    }
     virtual ~AudioRomSoundArchiveCtr(); // 0x0054BD7C slot 0x08
     virtual void open(const void*); // 0x0054BC60 slot 0x10 | slot vf_0x10 of sead::AudioSoundArchiveBaseCtr
 };

@@ -1,9 +1,14 @@
 #pragma once
 
 #include "decomp.h"
+#include "sead/RuntimeTypeInfo/seadInterface.h"
 
 namespace sead {
 namespace RuntimeTypeInfo {
+// The type information of a class below BaseType (BaseType::getTypeInfoStatic gives the one of the
+// base). The copies of isDerived are with the other template instances (0x8288A4..); they are
+// instantiated next to the class that derives from BaseType.
+//
 // Instantiations found in the binary:
 //   sead::RuntimeTypeInfo::Derive<sead::AccelerometerAddon>  typeinfo 0x008D19CC  vtable 0x00905C54
 //   sead::RuntimeTypeInfo::Derive<sead::AudioFx>  typeinfo 0x008D1A68  vtable 0x00905CF0
@@ -43,11 +48,18 @@ namespace RuntimeTypeInfo {
 //   sead::RuntimeTypeInfo::Derive<sead::Texture>  typeinfo 0x008D1A74  vtable 0x00905CFC
 //   sead::RuntimeTypeInfo::Derive<sead::TextureCtr>  typeinfo 0x008D1900  vtable 0x00905B88
 //   sead::RuntimeTypeInfo::Derive<sead::UlcdDoubleCmdGameFrameworkCtrNw4c>  typeinfo 0x008D1A44  vtable 0x00905CCC
-template <typename T0>
-class Derive
+template <typename BaseType>
+class Derive : public Interface
 {
 public:
-    // TODO: members unknown
+    Derive() {}
+    virtual bool isDerived(const Interface* typeInfo) const
+    {
+        if (this == typeInfo) {
+            return true;
+        }
+        return BaseType::getTypeInfoStatic()->isDerived(typeInfo);
+    }
 };
 } // namespace RuntimeTypeInfo
 } // namespace sead

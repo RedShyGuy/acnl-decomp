@@ -1,6 +1,7 @@
 #pragma once
 
 #include "decomp.h"
+#include "sead/RuntimeTypeInfo/seadRoot.h"
 #include "sead/seadIDisposer.h"
 #include "sead/seadINamable.h"
 #include "sead/seadTTreeNode.h"
@@ -14,8 +15,22 @@ public:
     MethodTreeNode(); // TODO: default ctor added so derived stubs compile - may not exist
     virtual ~MethodTreeNode(); // 0x00545410 slot 0x00 | slot vf_0x00 of sead::IDisposer
     // 0x005453E4 slot 0x04 | slot vf_0x04 of sead::IDisposer (deleting dtor)
-    virtual void vf_0x08(); // 0x0074C368 slot 0x08 | virtual slot, introduced by sead::MethodTreeNode
-    virtual void vf_0x0C(); // 0x0074C31C slot 0x0C | virtual slot, introduced by sead::MethodTreeNode
+    // whether the class is the one of typeInfo or derives from it
+    virtual bool isKindOf(const RuntimeTypeInfo::Interface* typeInfo) const // 0x0074C368 (name is ours)
+    {
+        return typeInfo == getTypeInfoStatic();
+    }
+    virtual const RuntimeTypeInfo::Interface* getTypeInfo() const // 0x0074C31C (name is ours)
+    {
+        return getTypeInfoStatic();
+    }
+    // the type information of the class (inline everywhere; name is ours)
+    static const RuntimeTypeInfo::Interface* getTypeInfoStatic()
+    {
+        // 0x00983484 (guard 0x00983480)
+        static const RuntimeTypeInfo::Root s_TypeInfo;
+        return &s_TypeInfo;
+    }
     void lock_(); // 0x0012C964 | nintendogs:callgraph [tier A]
     void unlock_(); // 0x0012C9E0 | nintendogs:callgraph [tier A]
     MethodTreeNode(sead::CriticalSection*); // 0x0012C9F4 | nintendogs:bytes [tier A]

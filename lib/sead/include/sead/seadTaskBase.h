@@ -1,6 +1,7 @@
 #pragma once
 
 #include "decomp.h"
+#include "sead/RuntimeTypeInfo/seadRoot.h"
 #include "sead/seadIDisposer.h"
 #include "sead/seadINamable.h"
 #include "sead/seadTTreeNode.h"
@@ -16,8 +17,22 @@ public:
     TaskBase(); // ctor address unknown
     virtual ~TaskBase(); // 0x00561508 slot 0x00 | nintendogs:bytes
     // 0x00561478 slot 0x04 | slot vf_0x04 of sead::IDisposer (deleting dtor)
-    virtual void vf_0x08(); // 0x0074F9D8 slot 0x08 | virtual slot, introduced by sead::TaskBase
-    virtual void vf_0x0C(); // 0x0074F98C slot 0x0C | virtual slot, introduced by sead::TaskBase
+    // whether the class is the one of typeInfo or derives from it
+    virtual bool isKindOf(const RuntimeTypeInfo::Interface* typeInfo) const // 0x0074F9D8 (name is ours)
+    {
+        return typeInfo == getTypeInfoStatic();
+    }
+    virtual const RuntimeTypeInfo::Interface* getTypeInfo() const // 0x0074F98C (name is ours)
+    {
+        return getTypeInfoStatic();
+    }
+    // the type information of the class (inline everywhere; name is ours)
+    static const RuntimeTypeInfo::Interface* getTypeInfoStatic()
+    {
+        // 0x009835D4 (guard 0x009835D0)
+        static const RuntimeTypeInfo::Root s_TypeInfo;
+        return &s_TypeInfo;
+    }
     virtual void vf_0x10(); // 0x0011C12F slot 0x10 | slot vf_0x00 of ChangeRentalBase
     virtual void pauseDraw(bool); // 0x0011C12F slot 0x14 | slot vf_0x00 of ChangeRentalBase
     virtual void vf_0x18(); // 0x0011C12F slot 0x18 | slot vf_0x00 of ChangeRentalBase

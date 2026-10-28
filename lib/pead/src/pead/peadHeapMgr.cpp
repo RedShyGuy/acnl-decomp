@@ -20,4 +20,9 @@ void pead::HeapMgr::vf_0x04()
 {
 }
 
+// 0x00749CC8 | nintendogs:bytes [tier A]
+void pead::HeapMgr::getCurrentHeap() const
+{
+}
+
 } // namespace pead

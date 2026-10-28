@@ -493,9 +493,9 @@ bool nn::pia::transport::PacketHandler::IsEndIteration() const
 }
 
 // 0x00734BEC
-const pead::RuntimeTypeInfo::Interface* nn::pia::transport::PacketHandler::getRuntimeTypeInfo() const
+const pead::RuntimeTypeInfo::Interface* nn::pia::transport::PacketHandler::getTypeInfo() const
 {
-    return getRuntimeTypeInfoStatic();
+    return getTypeInfoStatic();
 }
 
 // 0x00734C38 | fefates:bytes [tier B]
@@ -529,9 +529,9 @@ nn::Result nn::pia::transport::PacketHandler::GetPacketAnalysisData(nn::pia::tra
 }
 
 // 0x00734CE0
-bool nn::pia::transport::PacketHandler::checkDerivedRuntimeTypeInfo(const pead::RuntimeTypeInfo::Interface* typeInfo) const
+bool nn::pia::transport::PacketHandler::isKindOf(const pead::RuntimeTypeInfo::Interface* typeInfo) const
 {
-    return typeInfo == getRuntimeTypeInfoStatic();
+    return typeInfo == getTypeInfoStatic();
 }
 
 } // namespace transport

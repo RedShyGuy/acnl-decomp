@@ -1,19 +1,10 @@
+#include "sead/RuntimeTypeInfo/seadDerive.h"
 #include "sead/seadControllerBase.h"
 #include "sead/seadController.h"
 
 namespace sead {
 // ctor candidate(s) 0x0053E5D0 (unverified)
 sead::Controller::Controller()
-{
-}
-
-// 0x00749F1C slot 0x00 | virtual slot, introduced by sead::ControllerBase
-void sead::Controller::vf_0x00()
-{
-}
-
-// 0x00749ED0 slot 0x04 | virtual slot, introduced by sead::ControllerBase
-void sead::Controller::vf_0x04()
 {
 }
 
@@ -53,3 +44,7 @@ void sead::Controller::vf_0x20()
 }
 
 } // namespace sead
+
+// the type information of the classes below ControllerBase
+// 0x00828E10 (name is ours)
+template bool sead::RuntimeTypeInfo::Derive<sead::ControllerBase>::isDerived(const sead::RuntimeTypeInfo::Interface*) const;

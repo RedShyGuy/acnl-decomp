@@ -44,6 +44,10 @@ public:
     // 0x10, members of INamable / hostio::Reflexible and of the heap itself, not decompiled yet
     // (the derived ExpHeap starts at 0x70: its constructor 0x0053D59C)
     u8 mHeapData[0x60];
+    void appendDisposer_(pead::IDisposer*); // 0x0053B3D0 | nintendogs:bytes [tier A]
+    void removeDisposer_(pead::IDisposer*); // 0x0053B440 | nintendogs:bytes [tier A]
+    void dispose_(const void*, const void*); // 0x0053B59C | nintendogs:bytes [tier A]
+    void destruct_(); // 0x0053B63C | nintendogs:bytes [tier A]
 };
 ASSERT_SIZE(Heap, 0x70);
 } // namespace pead

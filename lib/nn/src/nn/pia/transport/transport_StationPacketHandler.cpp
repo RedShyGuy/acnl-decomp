@@ -738,18 +738,18 @@ nn::pia::transport::StationPacketHandler::~StationPacketHandler()
 }
 
 // 0x007360B0
-const pead::RuntimeTypeInfo::Interface* nn::pia::transport::StationPacketHandler::getRuntimeTypeInfo() const
+const pead::RuntimeTypeInfo::Interface* nn::pia::transport::StationPacketHandler::getTypeInfo() const
 {
-    return getRuntimeTypeInfoStatic();
+    return getTypeInfoStatic();
 }
 
 // 0x007360FC
-bool nn::pia::transport::StationPacketHandler::checkDerivedRuntimeTypeInfo(const pead::RuntimeTypeInfo::Interface* typeInfo) const
+bool nn::pia::transport::StationPacketHandler::isKindOf(const pead::RuntimeTypeInfo::Interface* typeInfo) const
 {
-    if (typeInfo == getRuntimeTypeInfoStatic()) {
+    if (typeInfo == getTypeInfoStatic()) {
         return true;
     }
-    return PacketHandler::checkDerivedRuntimeTypeInfo(typeInfo);
+    return PacketHandler::isKindOf(typeInfo);
 }
 
 } // namespace transport

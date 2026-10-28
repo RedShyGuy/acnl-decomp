@@ -1,6 +1,7 @@
 #pragma once
 
 #include "decomp.h"
+#include "sead/seadBufferedSafeStringBase.h"
 
 namespace sead {
 // Instantiations found in the binary:
@@ -41,10 +42,18 @@ namespace sead {
 //   sead::FixedSafeStringBase<wchar_t, 6>  typeinfo 0x008D1E04  vtable 0x009063C0
 //   sead::FixedSafeStringBase<wchar_t, 7>  typeinfo 0x008D1E10
 //   sead::FixedSafeStringBase<wchar_t, 9>  typeinfo 0x008D1E1C
-template <typename T0, auto T1>
-class FixedSafeStringBase
+//
+// A string with a buffer of N characters of its own (empty at first). The member name is ours.
+template <typename T, int N>
+class FixedSafeStringBase : public BufferedSafeStringBase<T>
 {
 public:
-    // TODO: members unknown
+    FixedSafeStringBase() : BufferedSafeStringBase<T>(mBuffer, N)
+    {
+        this->getMutableStringTop()[0] = SafeStringBase<T>::s_NullChar;
+    }
+    virtual ~FixedSafeStringBase() {}
+
+    T mBuffer[N]; // 0x0C
 };
 } // namespace sead

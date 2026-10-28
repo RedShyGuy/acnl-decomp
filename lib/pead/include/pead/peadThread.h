@@ -34,6 +34,8 @@ public:
     // 0x10, members of INamable / hostio::Reflexible and of the thread, not decompiled yet
     // (DelegateThread adds its delegate at 0x88: constructor 0x00538788)
     u8 mThreadData[0x78];
+    void ctrThreadFunc_(unsigned); // 0x0053C04C | nintendogs:bytes [tier A]
+    void run_(); // 0x0053C138 | nintendogs:bytes [tier A]
 };
 ASSERT_SIZE(Thread, 0x88);
 } // namespace pead

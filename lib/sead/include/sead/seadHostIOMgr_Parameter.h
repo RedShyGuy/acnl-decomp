@@ -1,6 +1,7 @@
 #pragma once
 
 #include "decomp.h"
+#include "sead/RuntimeTypeInfo/seadDerive.h"
 #include "sead/seadHostIOMgr.h"
 #include "sead/seadTaskParameter.h"
 
@@ -10,6 +11,23 @@ class sead::HostIOMgr::Parameter : public ::sead::TaskParameter
 {
 public:
     Parameter(); // ctor address unknown
-    virtual void vf_0x00(); // 0x0075099C slot 0x00 | virtual slot, introduced by sead::HostIOMgr::Parameter
-    virtual void vf_0x04(); // 0x00750950 slot 0x04 | virtual slot, introduced by sead::HostIOMgr::Parameter
+    // whether the class is the one of typeInfo or derives from it
+    virtual bool isKindOf(const RuntimeTypeInfo::Interface* typeInfo) const // 0x0075099C (name is ours)
+    {
+        if (typeInfo == getTypeInfoStatic()) {
+            return true;
+        }
+        return TaskParameter::isKindOf(typeInfo);
+    }
+    virtual const RuntimeTypeInfo::Interface* getTypeInfo() const // 0x00750950 (name is ours)
+    {
+        return getTypeInfoStatic();
+    }
+    // the type information of the class (inline everywhere; name is ours)
+    static const RuntimeTypeInfo::Interface* getTypeInfoStatic()
+    {
+        // 0x009835FC (guard 0x009835F8)
+        static const RuntimeTypeInfo::Derive<TaskParameter> s_TypeInfo;
+        return &s_TypeInfo;
+    }
 };
