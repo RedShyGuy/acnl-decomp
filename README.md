@@ -27,9 +27,9 @@ This includes nn, nw, pead, sead, mw, libms, imgdb and cfl.
 | | |
 |---|---|
 | nn | ✅ done |
-| nw | ❌ WIP |
+| nw | ✅ done |
+| sead | ❌ WIP |
 | pead | ❌ not done |
-| sead | ❌ not done |
 | mw | ❌ not done |
 | libms | ❌ not done |
 | imgdb | ❌ not done |
