@@ -4,17 +4,6 @@
 
 namespace sead {
 namespace {
-// sead::Vector3<f32> is laid out like nn::math::VEC3, the type of the CalcCtr functions
-inline nn::math::VEC3& toVEC3(Vector3<f32>& v)
-{
-    return reinterpret_cast<nn::math::VEC3&>(v);
-}
-
-inline const nn::math::VEC3& toVEC3(const Vector3<f32>& v)
-{
-    return reinterpret_cast<const nn::math::VEC3&>(v);
-}
-
 inline f32 dot(const Vector3<f32>& a, const Vector3<f32>& b)
 {
     return a.x * b.x + a.y * b.y + a.z * b.z;

@@ -7,10 +7,12 @@
 namespace sead {
 // RTTI N4sead33UlcdDoubleCmdGameFrameworkCtrNw4cE @ 0x008D1FD0
 // vtable 0x0090697C (vptr 0x00906984), offset_to_top 0, 38 entries
+// The framework with the stereoscopic top screen: a second top image for the right eye with its own
+// display buffers. Members and unnamed slots are ours.
 class UlcdDoubleCmdGameFrameworkCtrNw4c : public ::sead::DoubleCmdGameFrameworkCtrNw4c
 {
 public:
-    UlcdDoubleCmdGameFrameworkCtrNw4c(); // ctor candidate(s) 0x0011EC54 (unverified)
+    explicit UlcdDoubleCmdGameFrameworkCtrNw4c(const CreateArg& arg); // 0x0011EC54
     // whether the class is the one of typeInfo or derives from it
     virtual bool isKindOf(const RuntimeTypeInfo::Interface* typeInfo) const // 0x0074E614 (name is ours)
     {
@@ -30,15 +32,20 @@ public:
         static const RuntimeTypeInfo::Derive<DoubleCmdGameFrameworkCtrNw4c> s_TypeInfo;
         return &s_TypeInfo;
     }
-    virtual ~UlcdDoubleCmdGameFrameworkCtrNw4c(); // 0x0054DF5C slot 0x08 | slot vf_0x08 of sead::Framework
-    // 0x0054E1B4 slot 0x0C | slot vf_0x0C of sead::Framework (deleting dtor)
-    virtual void vf_0x18(); // 0x0074E5FC slot 0x18 | virtual slot, introduced by sead::Framework
-    virtual void createMethodTreeMgr_(sead::Heap*); // 0x00549000 slot 0x30 | slot vf_0x30 of sead::Framework
+    // (the original falls into the destructor of DoubleCmdGameFrameworkCtrNw4c with a nop)
+    virtual ~UlcdDoubleCmdGameFrameworkCtrNw4c(); // 0x0054DF5C slot 0x08
+    // 0x0054E1B4 slot 0x0C (deleting dtor)
+    virtual FrameBuffer* getMethodFrameBuffer(s32 methodType) const; // 0x0074E5FC slot 0x18
+    virtual MethodTreeMgr* createMethodTreeMgr_(Heap* heap); // 0x00549000 slot 0x30
     virtual void procDraw_(); // 0x0054E098 slot 0x68 | slot vf_0x68 of sead::GameFrameworkCtrNw4c
     virtual void swapBuffer_(); // 0x0054DF94 slot 0x78 | nintendogs:callseq
-    virtual void vf_0x88(); // 0x0054E094 slot 0x88 | virtual slot, introduced by sead::GameFrameworkCtrNw4c
-    virtual void vf_0x90(); // 0x0054E050 slot 0x90 | virtual slot, introduced by sead::UlcdDoubleCmdGameFrameworkCtrNw4c
-    virtual void vf_0x94(); // 0x0054E05C slot 0x94 | virtual slot, introduced by sead::UlcdDoubleCmdGameFrameworkCtrNw4c
-    void setUlcdEnable(bool); // 0x0011EC38 | nintendogs:bytes [tier A]
+    virtual void vf_0x88(); // 0x0054E094 slot 0x88
+    virtual void presentTopLeft_(); // 0x0054E050 slot 0x90
+    virtual void presentTopRight_(); // 0x0054E05C slot 0x94
+
+    // the 3D mode of the top screen
+    void setUlcdEnable(bool enable); // 0x0011EC38 | nintendogs:bytes [tier A]
+
+    GLuint mRightDisplayBuffers[3]; // 0x15C
 };
 } // namespace sead

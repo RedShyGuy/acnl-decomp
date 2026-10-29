@@ -31,10 +31,18 @@ namespace sead {
 //   sead::DelegateBase<svnpc::Animal, void (svnpc::Animal::*)(script::Phrase*), sead::IDelegate1<script::Phrase*> >  typeinfo 0x008D151C  vtable 0x0090517C
 //   sead::DelegateBase<svqst::TimeCapsule, void (svqst::TimeCapsule::*)(script::Phrase*), sead::IDelegate1<script::Phrase*> >  typeinfo 0x008D1528  vtable 0x0090518C
 //   sead::DelegateBase<ugc::Text, void (ugc::Text::*)(sead::Thread*, int), sead::IDelegate2<sead::Thread*, int> >  typeinfo 0x008D1504  vtable 0x0090515C
+//
+// The object and the member function of a delegate (member names are ours).
 template <typename T0, typename T1, typename T2>
-class DelegateBase
+class DelegateBase : public T2
 {
 public:
-    // TODO: members unknown
+    typedef T1 MethodType;
+
+    DelegateBase() : mObject(nullptr), mMethod(nullptr) {}
+    DelegateBase(T0* object, T1 method) : mObject(object), mMethod(method) {}
+
+    T0* mObject; // 0x04
+    T1 mMethod;  // 0x08
 };
 } // namespace sead

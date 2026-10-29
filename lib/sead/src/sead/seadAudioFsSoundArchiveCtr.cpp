@@ -4,11 +4,6 @@
 #include "sead/seadAudioFsSoundArchiveCtr.h"
 
 namespace sead {
-// ctor candidate(s) 0x0054A2D8 (unverified)
-sead::AudioFsSoundArchiveCtr::AudioFsSoundArchiveCtr()
-{
-}
-
 // 0x0054B6D8 slot 0x08
 // 0x0054B668 (deleting dtor)
 // 0x00778D44 (thunk)
@@ -18,11 +13,12 @@ sead::AudioFsSoundArchiveCtr::~AudioFsSoundArchiveCtr()
     // (only the base is destroyed)
 }
 
-// 0x0054B5BC slot 0x10 | slot vf_0x10 of sead::AudioSoundArchiveBaseCtr
-void sead::AudioFsSoundArchiveCtr::open(const void*)
-{
-}
 
+// 0x0054B5BC slot 0x10
+bool sead::AudioFsSoundArchiveCtr::open(const void* arg)
+{
+    return openDevice_(arg);
+}
 } // namespace sead
 
 // the type information of the classes below AudioSoundArchiveBaseCtr

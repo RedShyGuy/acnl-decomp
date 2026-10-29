@@ -3,10 +3,5 @@
 
 namespace sead {
 namespace hostio {
-// ctor address unknown
-sead::hostio::PropertyEventListener::PropertyEventListener()
-{
-}
-
 } // namespace hostio
 } // namespace sead

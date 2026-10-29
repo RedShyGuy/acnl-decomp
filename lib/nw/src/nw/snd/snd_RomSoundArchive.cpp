@@ -15,7 +15,7 @@ nw::snd::RomSoundArchive::~RomSoundArchive()
 }
 
 // 0x004C85D4 | mk7dlp:callseq [tier A]
-bool nw::snd::RomSoundArchive::LoadHeader(void* pBuffer, u32 size)
+bool nw::snd::internal::FsSoundArchiveBase::LoadHeader(void* pBuffer, u32 size)
 {
     const u32 offset = m_ArchiveFileReader.GetInfoBlockOffset();
     const u32 blockSize = m_ArchiveFileReader.GetInfoBlockSize();
@@ -39,7 +39,7 @@ bool nw::snd::RomSoundArchive::LoadHeader(void* pBuffer, u32 size)
 }
 
 // 0x004C86E4 | mk7dlp:callseq [tier A]
-bool nw::snd::RomSoundArchive::LoadLabelStringData(void* pBuffer, u32 size)
+bool nw::snd::internal::FsSoundArchiveBase::LoadLabelStringData(void* pBuffer, u32 size)
 {
     const u32 offset = m_ArchiveFileReader.GetStringBlockOffset();
     const u32 blockSize = m_ArchiveFileReader.GetStringBlockSize();

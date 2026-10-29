@@ -10,6 +10,5 @@ class AcNpcSpTourDesk::AsyncAction : public ::sead::IDelegateR<bool>
 {
 public:
     AsyncAction(); // ctor address unknown
-    virtual void vf_0x00(); // 0x00282F8C slot 0x00 | virtual slot, introduced by AcNpcSpTourDesk::AsyncAction
-    virtual void vf_0x04(); // 0x00828360 slot 0x04 | virtual slot, introduced by AcNpcSpTourDesk::AsyncAction
+    virtual bool invoke(); // 0x00282F8C slot 0x00
 };

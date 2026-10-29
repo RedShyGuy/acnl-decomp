@@ -1,0 +1,68 @@
+; The stripes (PtclRenderer::renderStripe): position, texture coordinate and direction per vertex,
+; c0-c3 the billboard matrix, c12 the texture scroll and c13 the color of the stripe (written by the CPU).
+;
+; Written from the original binary (DVLB after 3dbrew SHBIN) as picasso source; the build assembles it
+; with picasso (tools/build/pica_build.py) into the array of the symbol below. Names with "__" become "."
+; in the symbol table (picasso does not accept "."; the code looks the names up with the dot). The _pad
+; uniforms only place the named ones at the registers of the original, which has no names for the
+; registers the CPU writes directly. Equal to the original in every instruction and table (checked with
+; the operands the instructions read); the bytes differ in the layout picasso chooses.
+;
+; symbol: sead::ptcl::s_StripeShaderBinary
+; (0x008BB280 in the original)
+
+.fvec _pad0[8]
+.fvec user[3]
+.fvec _pad1[75]
+.fvec proj[4]
+.fvec view[3]
+
+.setf c84 (2.0, 0.00999999046, 2.0, 2.0)
+.setf c85 (0.0, 0.5, 1.0, 3.0)
+
+.in Dir__xyzw v2
+.in Position__xyz v0
+.in TexCoord0__xyz v1
+
+.out - position
+.out - texcoord0.xy
+.out - color
+
+.proc main
+    mov r0.w, c85.zzzz
+    mov r1.w, c85.zzzz
+    mov r10, c85.xxxx
+    cmp c13.wwww, eq, eq, r10
+    ifc cmp.x
+        mul r13.xyz, -c3.yzxx, v2.zxyy
+        mad r13.xyz, v2.yzxx, c3.zxyy, r13
+        dp3 r11.x, r13.xyzz, r13.xyzz
+        cmp c84.yyyy, ge, ge, r11.xxxx
+        ifc cmp.x
+            mov r11.x, c85.xxxx
+        .else
+            rsq r11.x, r11.xxxx
+        .end
+        mul r14.xyz, r13.xyzz, r11.xxxx
+        mov r10, v2.wwww
+        mad r0.xyz, r14.xyzz, r10.xyzz, v0.xyzz
+    .else
+        mov r0.xyz, v0
+    .end
+    dp4 r1.x, view[0], r0
+    dp4 r1.y, view[1], r0
+    dp4 r1.z, view[2], r0
+    dp4 o0.x, proj[0], r1
+    dp4 o0.y, proj[1], r1
+    dp4 o0.z, proj[2], r1
+    dp4 o0.w, proj[3], r1
+    mul r10.xy, c12.xyyy, v1.xyyy
+    add r11.xy, c12.zwww, r10.xyyy
+    mov o1.x, r11.xxxx
+    add o1.y, c85.zzzz, -r11.yyyy
+    mov o1.zw, c85.zzzz
+    mov o2.xyz, c13.xyzz
+    mov o2.w, v1.zzzz
+    end
+    nop
+.end

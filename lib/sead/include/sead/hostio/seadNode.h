@@ -9,7 +9,7 @@ namespace hostio {
 class Node : public ::sead::hostio::Reflexible
 {
 public:
-    Node(); // ctor address unknown
+    Node() {}
 };
 } // namespace hostio
 } // namespace sead

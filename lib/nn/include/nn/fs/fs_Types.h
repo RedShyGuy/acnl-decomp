@@ -77,6 +77,7 @@ enum PositionBase : u8 {
 // how a file is opened (bits; the names are ours)
 const u32 OPEN_MODE_READ = 1 << 0;
 const u32 OPEN_MODE_WRITE = 1 << 1;
+const u32 OPEN_MODE_CREATE = 1 << 2;
 
 // ARMCC lays out some s64 members on 4 bytes (detail::FileBase: +0x04, +0x0C); a typedef may
 // lower the alignment with GCC (name is ours)

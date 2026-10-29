@@ -5,6 +5,7 @@
 
 #include <cstring>
 #include <new>
+#include "sead/seadFixedSafeString.h"
 
 namespace sead {
 // 0x00133578 (name is ours)
@@ -703,9 +704,27 @@ void sead::ExpHeap::dump() const
     dumpFreeList();
 }
 
-// 0x0074F670 slot 0x58 | virtual slot, introduced by sead::Heap
-void sead::ExpHeap::vf_0x58()
+// 0x0074F670 slot 0x58 (name is ours)
+void sead::ExpHeap::dumpYAML(Stream* stream, s32 indent) const
 {
+    ConditionalScopedLock lock(const_cast<CriticalSection*>(&mCS), isEnableLock());
+    Heap::dumpYAML(stream, indent);
+    FixedSafeString<128> str(SafeStringBase<char>(""));
+    str.append(' ', indent);
+    str.appendWithFormat("  heap_type: ExpHeap\n");
+    stream->writeDecorationText(str);
+    str.clear();
+    str.append(' ', indent);
+    str.appendWithFormat("  alloc_mode: %s\n", getAllocMode() == FIND_MODE_FIRST_FIT ? "First Fit" : "Best Fit");
+    stream->writeDecorationText(str);
+    str.clear();
+    str.append(' ', indent);
+    str.appendWithFormat("  use_list_size: %d\n", mUseList.mCount);
+    stream->writeDecorationText(str);
+    str.clear();
+    str.append(' ', indent);
+    str.appendWithFormat("  free_list_size: %d\n", mFreeList.mCount);
+    stream->writeDecorationText(str);
 }
 
 // 0x0054E1E0 slot 0x5C

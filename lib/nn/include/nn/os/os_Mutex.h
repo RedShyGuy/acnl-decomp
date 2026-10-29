@@ -41,6 +41,14 @@ public:
         }
     }
 
+    void Unlock()
+    {
+        nn::Result result = nn::svc::ReleaseMutex(mHandle);
+        if (result.IsFailure()) {
+            CTR::detail::HandleInternalError(result);
+        }
+    }
+
     void Finalize() { Close(); }
 
     // the mutex already has a handle (level 28, summary invalid state, module os, description 59)

@@ -1,0 +1,121 @@
+; The quads of the CPU particles (PtclRenderer::beginCalc and the EmitterCalc block writers): eight
+; particles per draw, the vertex index v1.z selects the block of the particle. Uniforms written by the
+; CPU: c0-c3 the billboard matrix, c4 the billboard settings of the emitter (type, parameters, c5-c7 the
+; rotation of the emitter), c8 + 9 * quad the blocks of the particles (position, scale, alpha, texture
+; scale/offset, color and rotation rows).
+;
+; Written from the original binary (DVLB after 3dbrew SHBIN) as picasso source; the build assembles it
+; with picasso (tools/build/pica_build.py) into the array of the symbol below. Names with "__" become "."
+; in the symbol table (picasso does not accept "."; the code looks the names up with the dot). The _pad
+; uniforms only place the named ones at the registers of the original, which has no names for the
+; registers the CPU writes directly. Equal to the original in every instruction and table (checked with
+; the operands the instructions read); the bytes differ in the layout picasso chooses.
+;
+; symbol: sead::ptcl::s_PtclShaderBinary
+; (0x008BAE80 in the original)
+
+.fvec _pad0[86]
+.fvec proj[4]
+.fvec view[3]
+
+.setf c84 (0.0, 0.5, 1.0, 3.0)
+.setf c85 (2.0, 0.000999987125, -1.0, 2.0)
+
+.in Position__xyz v0
+.in TexCoord0__xyz v1
+
+.out - position
+.out - color
+.out - texcoord0.xy
+.out - normalquat
+.out - view
+
+.proc main
+    mova a0.y, c5.wwww
+    mov r6, c0[a0.y]
+    mova a0.x, v1.zzzz
+    mov r14, c84.xxxz
+    mov r15, c84.xxxz
+    mov r10, c84.xxxz
+    mov r11, c84.xxxz
+    mova a0.y, c8[a0.x].wwww
+    add r12.xy, c4.xyyy, v0.xyyy
+    mov r12.z, c84.xxxx
+    mul r13.xyz, c9[a0.x].zwww, r12.xyzz
+    mov r10.x, r13.xxxx
+    mov r12, c85.xxxx
+    cmp c4.zzzz, eq, eq, r12
+    ifc cmp.x || cmp.y
+        mov r10.y, c84.xxxx
+        mul r10.z, c85.zzzz, r13.yyyy
+    .else
+        mov r10.y, r13.yyyy
+        mov r10.z, c84.xxxx
+    .end
+    dp3 r11.x, c11[a0.x], r10
+    dp3 r11.y, c12[a0.x], r10
+    dp3 r11.z, c13[a0.x], r10
+    mov r12, c84.wwww
+    cmp c4.zzzz, ge, ge, r12
+    ifc cmp.x || cmp.y
+        mov r13, c0[a0.y]
+        dp3 r10.x, r13, r13
+        cmp c85.yyyy, ge, ge, r10.xxxx
+        ifc cmp.x
+            mov r8.xyz, c84.xxxx
+        .else
+            rsq r10.x, r10.xxxx
+            mul r8.xyz, c0[a0.y].xyzz, r10.xxxx
+        .end
+        mov r12.xyz, r6
+        mul r13.xyz, r12.yzxx, r8.zxyy
+        mad r13.xyz, -r8.yzxx, r12.zxyy, r13
+        dp3 r10.x, r13, r13
+        cmp c85.yyyy, ge, ge, r10.xxxx
+        ifc cmp.x
+            mov r7.xyz, c84.xxxx
+        .else
+            rsq r10.x, r10.xxxx
+            mul r7.xyz, r13.xyzz, r10.xxxx
+        .end
+        mul r12.xyz, r7.yzxx, r8.zxyy
+        mad r12.xyz, -r8.yzxx, r7.zxyy, r12
+        dp3 r10.x, r12, r12
+        cmp c85.yyyy, ge, ge, r10.xxxx
+        ifc cmp.x
+            mov r9.xyz, c84.xxxx
+        .else
+            rsq r10.x, r10.xxxx
+            mul r9.xyz, r12.xyzz, r10.xxxx
+        .end
+        mul r10.xyz, r11.xxxx, r7.xyzz
+        mad r10.xyz, r11.yyyy, r8.xyzz, r10.xyzz
+        mad r10.xyz, r11.zzzz, r9.xyzz, r10.xyzz
+    .else
+        dp3 r10.x, c0[a0.y], r11
+        dp3 r10.y, c1[a0.y], r11
+        dp3 r10.z, c2[a0.y], r11
+    .end
+    add r15.xyz, c8[a0.x].xyzz, r10.xyzz
+    dp4 r14.x, view[0], r15
+    dp4 r14.y, view[1], r15
+    dp4 r14.z, view[2], r15
+    mov r14.w, c84.zzzz
+    dp4 o0.x, proj[0], r14
+    dp4 o0.y, proj[1], r14
+    dp4 o0.z, proj[2], r14
+    dp4 o0.w, proj[3], r14
+    mov o4, -r14
+    mov o1.x, c11[a0.x].wwww
+    mov o1.y, c12[a0.x].wwww
+    mov o1.z, c13[a0.x].wwww
+    mov o1.w, c9[a0.x].yyyy
+    mul r10.xy, c10[a0.x].zwww, v1.xyyy
+    add r11.xy, c10[a0.x].xyyy, r10.xyyy
+    mov o2.x, r11.xxxx
+    add o2.y, c84.zzzz, -r11.yyyy
+    mov o2.zw, c84.zzzz
+    mov o3, c84.xxxz
+    end
+    nop
+.end

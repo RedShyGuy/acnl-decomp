@@ -3,6 +3,7 @@
 #include "decomp.h"
 
 namespace sead {
+class Heap;
 class Random;
 
 // An array of pointers with a fixed capacity (as pead::PtrArrayImpl). The class name and
@@ -15,6 +16,8 @@ public:
 
     // the memory of the pointers (name is ours)
     void setBuffer(s32 ptrNumMax, void* buffer); // 0x005412B4
+    // the memory of the pointers from heap (nothing if it fails; name is ours)
+    void allocBuffer(s32 ptrNumMax, Heap* heap, s32 alignment); // 0x001257D0
     // frees the memory of the pointers (allocated with new[])
     void freeBuffer(); // 0x00541110 | nintendogs:bytes [tier A]
     // puts the pointers into a random order
@@ -35,12 +38,15 @@ public:
     T** begin() const { return reinterpret_cast<T**>(mPtrs); }
     T** end() const { return reinterpret_cast<T**>(mPtrs) + mPtrNum; }
 
-    void pushBack(T* ptr)
+    // false if the array is full
+    bool pushBack(T* ptr)
     {
-        if (mPtrNum < mPtrNumMax) {
-            mPtrs[mPtrNum] = ptr;
-            mPtrNum++;
+        if (mPtrNum >= mPtrNumMax) {
+            return false;
         }
+        mPtrs[mPtrNum] = ptr;
+        mPtrNum++;
+        return true;
     }
 };
 

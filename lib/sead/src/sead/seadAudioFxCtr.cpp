@@ -1,23 +1,23 @@
 #include "sead/RuntimeTypeInfo/seadDerive.h"
 #include "sead/seadAudioFx.h"
 #include "sead/seadAudioFxCtr.h"
+#include "sead/seadAudioFxHolder.h"
 
 namespace sead {
-// 0x00141B98 slot 0x08 | virtual slot, introduced by sead::AudioFx
-void sead::AudioFxCtr::vf_0x08()
-{
-}
-
-// 0x0053E214 slot 0x0C | nintendogs:bytes
-void sead::AudioFxCtr::vf_0x0C()
-{
-}
-
 // 0x00132CEC | nintendogs:bytes [tier B]
-sead::AudioFxCtr::AudioFxCtr()
+sead::AudioFxCtr::AudioFxCtr() : AudioFx(), mDspParam(nullptr), mType(TYPE_NW)
 {
 }
 
+// 0x00141B98 slot 0x08
+// 0x0053E214 | nintendogs:bytes (deleting dtor)
+sead::AudioFxCtr::~AudioFxCtr()
+{
+    if (mHolder != nullptr) {
+        delete mHolder;
+        mHolder = nullptr;
+    }
+}
 } // namespace sead
 
 // the type information of the classes below AudioFx

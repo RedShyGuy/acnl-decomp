@@ -14,6 +14,8 @@ class Mutex : public ::sead::IDisposer
 public:
     Mutex(); // 0x0055D158 (name is ours)
     virtual ~Mutex(); // 0x0055D1EC slot 0x00 | slot vf_0x00 of sead::IDisposer
+    void lock(); // 0x0055D110 (name is ours)
+    void unlock(); // 0x0055D138 (name is ours)
     // 0x0055D1A8 slot 0x04 | slot vf_0x04 of sead::IDisposer (deleting dtor)
 
     nn::os::Mutex mMutex; // 0x10

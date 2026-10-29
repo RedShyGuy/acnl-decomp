@@ -9,7 +9,7 @@ namespace hostio {
 class NodeEventListener : public ::sead::hostio::PropertyEventListener
 {
 public:
-    NodeEventListener(); // ctor address unknown
+    NodeEventListener() {}
 };
 } // namespace hostio
 } // namespace sead

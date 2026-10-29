@@ -15,6 +15,16 @@ class DirectoryBase : public ::nn::fs::detail::DirectoryBaseImpl
 public:
     DirectoryBase() : mHandle(0) {}
 
+    // inline (sead::CtrFileStreamFileDevice; names are ours)
+    nn::Result TryInitialize(const wchar_t* path)
+    {
+        return nn::fs::CTR::MPCore::detail::UserFileSystem::TryOpenDirectory(&mHandle, path);
+    }
+    nn::Result TryRead(s32* readCount, nn::fs::DirectoryEntry* entries, s32 count)
+    {
+        return nn::fs::CTR::MPCore::detail::UserFileSystem::TryReadDirectory(readCount, mHandle, entries, count);
+    }
+
     // inline (in ~Directory)
     void Finalize()
     {

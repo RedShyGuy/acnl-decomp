@@ -1,9 +1,5 @@
 #include "sead/seadControllerAddon.h"
 
+// (ControllerAddon has only inline functions)
 namespace sead {
-// ctor address unknown
-sead::ControllerAddon::ControllerAddon()
-{
-}
-
 } // namespace sead

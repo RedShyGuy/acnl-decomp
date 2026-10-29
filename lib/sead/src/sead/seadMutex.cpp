@@ -1,6 +1,18 @@
 #include "sead/seadMutex.h"
 
 namespace sead {
+// 0x0055D110 (name is ours)
+void sead::Mutex::lock()
+{
+    mMutex.Lock();
+}
+
+// 0x0055D138 (name is ours)
+void sead::Mutex::unlock()
+{
+    mMutex.Unlock();
+}
+
 // 0x0055D158 (name is ours)
 sead::Mutex::Mutex() : IDisposer()
 {

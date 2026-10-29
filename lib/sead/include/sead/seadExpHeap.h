@@ -98,7 +98,7 @@ public:
     virtual bool isResizable() const; // 0x0074F020 slot 0x4C
     virtual bool isAdjustable() const; // 0x0074F0A4 slot 0x50
     virtual void dump() const; // 0x0074F60C slot 0x54
-    virtual void vf_0x58(); // 0x0074F670 slot 0x58 | virtual slot, introduced by sead::Heap
+    virtual void dumpYAML(Stream* stream, s32 indent) const; // 0x0074F670 slot 0x58
     virtual void vf_0x5C(); // 0x0054E1E0 slot 0x5C
     virtual void setAllocMode(FindMode mode); // 0x0055E710 slot 0x64
     virtual FindMode getAllocMode() const; // 0x0074F09C slot 0x68

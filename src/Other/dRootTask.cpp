@@ -2,7 +2,7 @@
 #include "Other/dRootTask.h"
 
 // ctor address unknown
-RootTask::RootTask()
+RootTask::RootTask(const sead::TaskConstructArg& arg, const char* name) : sead::UlcdTask(arg, name)
 {
 }
 
@@ -22,7 +22,7 @@ void RootTask::enter()
 }
 
 // 0x006B2600 slot 0x58 | virtual slot, introduced by sead::DualScreenTask
-void RootTask::vf_0x58()
+void RootTask::calc()
 {
 }
 

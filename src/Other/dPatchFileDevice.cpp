@@ -2,7 +2,7 @@
 #include "Other/dPatchFileDevice.h"
 
 // ctor address unknown
-PatchFileDevice::PatchFileDevice()
+PatchFileDevice::PatchFileDevice(const sead::SafeStringBase<char>& driveName) : CtrFileStreamFileDevice(driveName)
 {
 }
 
@@ -11,18 +11,18 @@ PatchFileDevice::~PatchFileDevice()
 {
 }
 
-// 0x0071CB04 slot 0x08 | virtual slot, introduced by sead::FileDevice
-void PatchFileDevice::vf_0x08()
+// 0x0071CB04 slot 0x08
+bool PatchFileDevice::isKindOf(const sead::RuntimeTypeInfo::Interface*) const
 {
 }
 
-// 0x0071CAB8 slot 0x0C | slot vf_0x0C of sead::FileDevice
-void PatchFileDevice::isMatchDevice_(const sead::HandleBase*) const
+// 0x0071CAB8 slot 0x0C
+const sead::RuntimeTypeInfo::Interface* PatchFileDevice::getTypeInfo() const
 {
 }
 
-// 0x0071CAA8 slot 0x74 | virtual slot, introduced by sead::CtrFileStreamFileDevice
-void PatchFileDevice::vf_0x74()
+// 0x0071CAA8 slot 0x74 (name is ours)
+const char* PatchFileDevice::getMountName() const
 {
+    return "patch";
 }
-

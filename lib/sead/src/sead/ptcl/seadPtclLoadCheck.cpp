@@ -1,17 +1,18 @@
-#include "sead/hostio/seadNode.h"
 #include "sead/ptcl/seadPtclLoadCheck.h"
+
+#include <string.h>
 
 namespace sead {
 namespace ptcl {
-// ctor candidate(s) 0x00557EC8 (unverified)
-sead::ptcl::PtclLoadCheck::PtclLoadCheck()
+// 0x00557EC8 (name is ours)
+sead::ptcl::PtclLoadCheck::PtclLoadCheck(PtclProject* project, PtclSystem* system, s32 resId, u8 groupId)
+    : hostio::Node(), mProject(project), mSystem(system), mIsRunning(false), mInterval(180), mResId(resId),
+      mGroupID(groupId), mDuration(30000)
 {
+    memset(mEntries, 0, sizeof(mEntries));
+    for (s32 i = 0; i < 64; i++) {
+        mEntries[i].field_0x08 = 1;
+    }
 }
-
-// 0x0074EE78 slot 0x00 | virtual slot, introduced by (anonymous namespace)::EditHostIO
-void sead::ptcl::PtclLoadCheck::vf_0x00()
-{
-}
-
 } // namespace ptcl
 } // namespace sead

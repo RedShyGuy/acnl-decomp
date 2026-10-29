@@ -1,6 +1,9 @@
 #pragma once
 
 #include "decomp.h"
+#include "sead/seadDelegateBase.h"
+#include "sead/seadIDelegate1.h"
+#include "sead/seadNew.h"
 
 namespace sead {
 // Instantiations found in the binary:
@@ -15,10 +18,24 @@ namespace sead {
 //   sead::Delegate1<svfscnve::FishingBbsNotice, script::Phrase*>  typeinfo 0x008D22E4  vtable 0x00906F98
 //   sead::Delegate1<svnpc::Animal, script::Phrase*>  typeinfo 0x008D22CC  vtable 0x00906F78
 //   sead::Delegate1<svqst::TimeCapsule, script::Phrase*>  typeinfo 0x008D22D8  vtable 0x00906F88
+//
+// Calls a member function of an object; clone copies the delegate onto a heap.
 template <typename T0, typename T1>
-class Delegate1
+class Delegate1 : public DelegateBase<T0, void (T0::*)(T1), IDelegate1<T1>>
 {
 public:
-    // TODO: members unknown
+    typedef DelegateBase<T0, void (T0::*)(T1), IDelegate1<T1>> Base;
+
+    Delegate1() : Base() {}
+    Delegate1(T0* object, typename Base::MethodType method) : Base(object, method) {}
+
+    // (DECOMP_EMIT_COPY: GCC drops the explicit instances with a class of an unnamed namespace of the game)
+    DECOMP_EMIT_COPY virtual void invoke(T1 arg)
+    {
+        if (this->mObject != nullptr && this->mMethod != nullptr) {
+            (this->mObject->*this->mMethod)(arg);
+        }
+    }
+    DECOMP_EMIT_COPY virtual IDelegate1<T1>* clone(Heap* heap) const { return new (heap, 4) Delegate1(*this); }
 };
 } // namespace sead

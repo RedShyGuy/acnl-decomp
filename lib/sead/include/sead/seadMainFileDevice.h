@@ -5,12 +5,18 @@
 #include "sead/seadFileDevice.h"
 
 namespace sead {
+class Heap;
+}
+
+namespace sead {
 // RTTI N4sead14MainFileDeviceE @ 0x008D1710
 // vtable 0x00905858 (vptr 0x00905860), offset_to_top 0, 29 entries
+//
+// The device "main": forwards everything to a CtrFileDevice. Slot names as in FileDevice.
 class MainFileDevice : public ::sead::FileDevice
 {
 public:
-    MainFileDevice(); // ctor address unknown
+    explicit MainFileDevice(Heap* heap); // 0x00132F94 (name is ours)
     virtual ~MainFileDevice(); // 0x005450CC slot 0x00 | nintendogs:bytes
     // 0x00545080 slot 0x04 | nintendogs:bytes (deleting dtor)
     // whether the class is the one of typeInfo or derives from it
@@ -32,26 +38,31 @@ public:
         static const RuntimeTypeInfo::Derive<FileDevice> s_TypeInfo;
         return &s_TypeInfo;
     }
-    virtual void vf_0x10(); // 0x0074C188 slot 0x10 | virtual slot, introduced by sead::FileDevice
-    virtual void vf_0x14(); // 0x0074C204 slot 0x14 | virtual slot, introduced by sead::FileDevice
-    virtual void vf_0x18(); // 0x0074C1A8 slot 0x18 | virtual slot, introduced by sead::FileDevice
-    virtual void vf_0x1C(); // 0x0074C214 slot 0x1C | virtual slot, introduced by sead::FileDevice
-    virtual void vf_0x20(); // 0x0074C198 slot 0x20 | slot vf_0x20 of sead::FileDevice (was isMatchDevice_)
-    virtual void doIsAvailable_() const; // 0x00749FD0 slot 0x24 | slot vf_0x24 of sead::FileDevice
-    virtual void doOpen_(sead::FileHandle*, const sead::SafeStringBase<char>&, sead::FileDevice::FileOpenFlag); // 0x00545028 slot 0x30 | slot vf_0x30 of sead::FileDevice
-    virtual void doClose_(sead::FileHandle*); // 0x00545060 slot 0x34 | slot vf_0x34 of sead::FileDevice
-    virtual void doRead_(unsigned*, sead::FileHandle*, unsigned char*, unsigned); // 0x00545040 slot 0x38 | slot vf_0x38 of sead::FileDevice
-    virtual void doWrite_(unsigned*, sead::FileHandle*, const unsigned char*, unsigned); // 0x00545068 slot 0x3C | slot vf_0x3C of sead::FileDevice
-    virtual void doSeek_(sead::FileHandle*, int, sead::FileDevice::SeekOrigin); // 0x00545058 slot 0x40 | slot vf_0x40 of sead::FileDevice
-    virtual void vf_0x44(); // 0x00545020 slot 0x44 | virtual slot, introduced by sead::FileDevice
-    virtual void doGetFileSize_(unsigned*, const sead::SafeStringBase<char>&); // 0x0053E67C slot 0x48 | slot vf_0x48 of sead::FileDevice
-    virtual void vf_0x4C(); // 0x00545000 slot 0x4C | virtual slot, introduced by sead::FileDevice
-    virtual void doIsExistFile_(bool*, const sead::SafeStringBase<char>&); // 0x0053E6A8 slot 0x50 | slot vf_0x50 of sead::FileDevice
-    virtual void vf_0x54(); // 0x0053E850 slot 0x54 | virtual slot, introduced by sead::FileDevice
-    virtual void vf_0x58(); // 0x0053E6FC slot 0x58 | virtual slot, introduced by sead::FileDevice
-    virtual void vf_0x5C(); // 0x0053E7E0 slot 0x5C | virtual slot, introduced by sead::FileDevice
-    virtual void vf_0x60(); // 0x00545008 slot 0x60 | virtual slot, introduced by sead::FileDevice
-    virtual void vf_0x64(); // 0x0053E6D4 slot 0x64 | virtual slot, introduced by sead::FileDevice
-    virtual void doGetLastRawError_() const; // 0x0074A118 slot 0x68 | slot vf_0x68 of sead::FileDevice
+    // the slots forward to mFileDevice
+    virtual void resolvePathOfFile(const SafeStringBase<char>& path) const; // 0x0074C188 slot 0x10
+    virtual void resolvePathOfDirectory(const SafeStringBase<char>& path) const; // 0x0074C204 slot 0x14
+    virtual void resolvePathOfFile(BufferedSafeStringBase<char>* out, const SafeStringBase<char>& path) const; // 0x0074C1A8 slot 0x18
+    virtual void resolvePathOfDirectory(BufferedSafeStringBase<char>* out, const SafeStringBase<char>& path) const; // 0x0074C214 slot 0x1C
+    virtual bool isMatchDevice_(const HandleBase* handle) const; // 0x0074C198 slot 0x20
+    virtual bool doIsAvailable_() const; // 0x00749FD0 slot 0x24
+    virtual FileDevice* doOpen_(FileHandle* handle, const SafeStringBase<char>& path, FileOpenFlag flag); // 0x00545028 slot 0x30
+    virtual bool doClose_(FileHandle* handle); // 0x00545060 slot 0x34
+    virtual bool doRead_(u32* readSize, FileHandle* handle, u8* buffer, u32 size); // 0x00545040 slot 0x38
+    virtual bool doWrite_(u32* writtenSize, FileHandle* handle, const u8* buffer, u32 size); // 0x00545068 slot 0x3C
+    virtual bool doSeek_(FileHandle* handle, s32 offset, SeekOrigin origin); // 0x00545058 slot 0x40
+    virtual bool doGetCurrentSeekPos_(u32* pos, FileHandle* handle); // 0x00545020 slot 0x44
+    virtual bool doGetFileSize_(u32* size, const SafeStringBase<char>& path); // 0x0053E67C slot 0x48
+    virtual bool doGetFileSize_(u32* size, FileHandle* handle); // 0x00545000 slot 0x4C
+    virtual bool doIsExistFile_(bool* isExist, const SafeStringBase<char>& path); // 0x0053E6A8 slot 0x50
+    virtual bool doIsExistDirectory_(bool* isExist, const SafeStringBase<char>& path); // 0x0053E850 slot 0x54
+    virtual FileDevice* doOpenDirectory_(HandleBase* handle, const SafeStringBase<char>& path); // 0x0053E6FC slot 0x58
+    virtual bool doCloseDirectory_(HandleBase* handle); // 0x0053E7E0 slot 0x5C
+    virtual bool doReadDirectory_(u32* readNum, HandleBase* handle, DirectoryEntry* entries, u32 num); // 0x00545008 slot 0x60
+    virtual bool doMakeDirectory_(const SafeStringBase<char>& path, u32 permission); // 0x0053E6D4 slot 0x64
+    virtual s32 doGetLastRawError_() const; // 0x0074A118 slot 0x68
+
+    // the device of the files (a CtrFileDevice "ctr")
+    FileDevice* mFileDevice; // 0x50
 };
+ASSERT_SIZE(MainFileDevice, 0x54);
 } // namespace sead

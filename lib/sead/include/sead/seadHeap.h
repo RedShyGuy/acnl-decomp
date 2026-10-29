@@ -6,6 +6,7 @@
 #include "sead/seadCriticalSection.h"
 #include "sead/seadIDisposer.h"
 #include "sead/seadINamable.h"
+#include "sead/seadStream.h"
 #include "sead/seadListImpl.h"
 
 namespace sead {
@@ -86,7 +87,9 @@ public:
     virtual bool isAdjustable() const = 0;
     // (empty in the release build; name is ours)
     virtual void dump() const; // 0x0074E860
-    virtual void vf_0x58(); // 0x0074E864 slot 0x58 | virtual slot, introduced by sead::Heap
+    // writes the properties of the heap as YAML lines (indented by indent spaces) to the stream
+    // (name is ours)
+    virtual void dumpYAML(Stream* stream, s32 indent) const; // 0x0074E864 slot 0x58
     // (empty; name unknown)
     virtual void vf_0x5C(); // 0x0054E1E4 slot 0x5C
     // the name "$SEAD_META_HEAP_%03d" with the used part in 10 percent steps (name is ours)

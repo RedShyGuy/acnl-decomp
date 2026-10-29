@@ -4201,9 +4201,9 @@ namespace sead {
     class UlcdTask;
     class UnitHeap;
     class Viewport;
-    struct HeapArray { u32 _unknown; }; // placeholder, real type unknown
+    class HeapArray; // sead/seadHeapArray.h
     struct MemBlock { u32 _unknown; }; // placeholder, real type unknown
-    struct TaskConstructArg { u32 _unknown; }; // placeholder, real type unknown
+    struct TaskConstructArg; // sead/seadTaskConstructArg.h
     template <int N> class FixedSafeString; // sead/seadFixedSafeString.h
     template <int N> class FormatFixedSafeString; // sead/seadFormatFixedSafeString.h
     template <int N> class WFixedSafeString; // sead/seadWFixedSafeString.h
@@ -4232,19 +4232,19 @@ namespace sead {
     template <typename T0> class TTreeNode;
     template <typename T0> class TreeMapNode;
     template <typename T0> class Vector3;
-    template <typename T0> struct Matrix34 { u32 _unknown; }; // placeholder
-    template <typename T0> struct Matrix44 { u32 _unknown; }; // placeholder
+    template <typename T> class Matrix34; // sead/seadMatrix.h
+    template <typename T> class Matrix44; // sead/seadMatrix.h
     template <typename T> class Segment; // sead/seadGeometry.h
     template <typename T> class TList; // sead/seadTListNode.h
-    template <typename T0> struct Vector2 { u32 _unknown; }; // placeholder
+    template <typename T> class Vector2; // sead/seadVector2.h
 }
 
 namespace sead { namespace AudioGlobal { 
-    struct AuxBus { u32 _unknown; }; // placeholder, real type unknown
+    enum AuxBus : s8; // sead/seadAudioGlobal.h
 }}
 
 namespace sead { namespace ControllerDefine { 
-    struct DeviceId { u32 _unknown; }; // placeholder, real type unknown
+    enum DeviceId : u8; // sead/seadControllerDefine.h
 }}
 
 namespace sead { namespace RuntimeTypeInfo { 
@@ -4285,11 +4285,11 @@ namespace sead { namespace ptcl {
     class PtclResource;
     class PtclSystem;
     class TextureData;
-    struct EmitterTblData { u32 _unknown; }; // placeholder, real type unknown
-    struct Handle { u32 _unknown; }; // placeholder, real type unknown
-    struct PtclStripe { u32 _unknown; }; // placeholder, real type unknown
-    struct ResourceBind { u32 _unknown; }; // placeholder, real type unknown
-    struct SimpleEmitterData { u32 _unknown; }; // placeholder, real type unknown
+    struct EmitterTblData; // see sead/ptcl/seadPtclResource.h
+    struct Handle; // see sead/ptcl/seadEmitterSet.h
+    struct PtclStripe; // see sead/ptcl/seadPtclStripe.h
+    struct ResourceBind; // see sead/ptcl/seadPtclResource.h
+    struct SimpleEmitterData; // see sead/ptcl/seadEmitterData.h
 }}
 
 namespace secretaryceremony { 

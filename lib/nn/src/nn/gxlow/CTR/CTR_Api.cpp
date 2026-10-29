@@ -143,6 +143,12 @@ void SetAppletMode()
     s_IsAppletMode = true;
 }
 
+// 0x001247D4 (name is ours)
+void StartLcdDisplayEntry()
+{
+    StartLcdDisplay();
+}
+
 // 0x001247D8 | nintendogs:bytes [tier A]
 void StartLcdDisplay()
 {

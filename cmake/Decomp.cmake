@@ -18,6 +18,26 @@ function(decomp_add_unit target src_dir kind)
     if(NOT sources)
         return()
     endif()
+    # PICA200 shaders (<name>.v.pica, optionally with <name>.g.pica): assembled with picasso into a C++ array
+    file(GLOB_RECURSE shaders CONFIGURE_DEPENDS "${src_dir}/*.v.pica")
+    foreach(vsh ${shaders})
+        if(NOT DECOMP_PICASSO)
+            message(FATAL_ERROR "picasso (devkitPro's PICA200 shader assembler) is needed for ${vsh}")
+        endif()
+        string(REGEX REPLACE "\\.v\\.pica$" "" base "${vsh}")
+        set(inputs "${vsh}")
+        if(EXISTS "${base}.g.pica")
+            list(APPEND inputs "${base}.g.pica")
+        endif()
+        get_filename_component(name "${base}" NAME)
+        set(out "${CMAKE_BINARY_DIR}/shaders/${target}/${name}.shbin.cpp")
+        add_custom_command(OUTPUT "${out}"
+            COMMAND Python3::Interpreter "${CMAKE_SOURCE_DIR}/tools/build/pica_build.py"
+                    --picasso "${DECOMP_PICASSO}" -o "${out}" ${inputs}
+            DEPENDS ${inputs} "${CMAKE_SOURCE_DIR}/tools/build/pica_build.py"
+            COMMENT "Assembling the shader ${name}")
+        list(APPEND sources "${out}")
+    endforeach()
     add_library(${target} OBJECT ${sources})
     set_target_properties(${target} PROPERTIES DECOMP_KIND ${kind})
     target_compile_definitions(${target} PRIVATE DECOMP_UNIT_${kind}=1)

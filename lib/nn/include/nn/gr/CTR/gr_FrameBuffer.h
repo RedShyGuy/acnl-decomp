@@ -3,6 +3,8 @@
 #include "decomp.h"
 #include "nn/gr/CTR/gr_Types.h"
 
+#include <cstring>
+
 namespace nn {
 namespace gr {
 namespace CTR {
@@ -23,6 +25,17 @@ public:
             : m_VirtualAddr(0), m_Format(static_cast<PicaDataColor>(0)), m_Unknown5(0), m_Width(240), m_Height(400),
               m_ClearColorR(0.0f), m_ClearColorG(0.0f), m_ClearColorB(0.0f), m_ClearColorA(0.0f), m_FrameBuffer(frameBuffer)
         {
+        }
+        // copies all but the frame buffer it belongs to (inline in sead::FrameBufferCtr)
+        ColorBuffer& operator=(const ColorBuffer& other)
+        {
+            m_VirtualAddr = other.m_VirtualAddr;
+            m_Format = other.m_Format;
+            m_Unknown5 = other.m_Unknown5;
+            m_Width = other.m_Width;
+            m_Height = other.m_Height;
+            std::memcpy(&m_ClearColorR, &other.m_ClearColorR, sizeof(f32) * 4);
+            return *this;
         }
 
         u32 m_VirtualAddr;          // 0x00
@@ -45,6 +58,17 @@ public:
               m_ClearStencil(0), m_FrameBuffer(frameBuffer)
         {
         }
+        // copies all but the frame buffer it belongs to
+        DepthStencilBuffer& operator=(const DepthStencilBuffer& other)
+        {
+            m_VirtualAddr = other.m_VirtualAddr;
+            m_Format = other.m_Format;
+            m_Width = other.m_Width;
+            m_Height = other.m_Height;
+            m_ClearDepth = other.m_ClearDepth;
+            m_ClearStencil = other.m_ClearStencil;
+            return *this;
+        }
 
         u32 m_VirtualAddr;          // 0x00
         PicaDataDepth m_Format;     // 0x04
@@ -56,6 +80,14 @@ public:
     };
 
     FrameBuffer(); // 0x00123B90 | fefates:bytes [tier B]
+    FrameBuffer& operator=(const FrameBuffer& other)
+    {
+        m_ColorBuffer = other.m_ColorBuffer;
+        m_DepthStencilBuffer = other.m_DepthStencilBuffer;
+        m_Width = other.m_Width;
+        m_Height = other.m_Height;
+        return *this;
+    }
 
     u32* MakeCommand(u32* command, u32 bufferMask, bool isFlush) const; // 0x00726A44 | nintendogs:callseq-callee [confirmed by fefates, mk7dlp] [tier A]
     void MakeClearRequest(u32 bufferMask, bool isSplitDrawCmdlist) const; // 0x00726BB0 | fefates:bytes [tier B]

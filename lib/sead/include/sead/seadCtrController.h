@@ -7,10 +7,11 @@
 namespace sead {
 // RTTI N4sead13CtrControllerE @ 0x008D1614
 // vtable 0x00905414 (vptr 0x0090541C), offset_to_top 0, 9 entries
+// The controller of the 3DS: the buttons, the circle pad and the touch panel of the HID device.
 class CtrController : public ::sead::Controller
 {
 public:
-    CtrController(); // ctor candidate(s) 0x00542208 (unverified)
+    explicit CtrController(ControllerMgr* mgr); // 0x00542208 | nintendogs:bytes [tier A]
     // whether the class is the one of typeInfo or derives from it
     virtual bool isKindOf(const RuntimeTypeInfo::Interface* typeInfo) const // 0x0074B5E8 (name is ours)
     {
@@ -30,9 +31,11 @@ public:
         static const RuntimeTypeInfo::Derive<Controller> s_TypeInfo;
         return &s_TypeInfo;
     }
-    virtual void vf_0x08(); // 0x00542238 slot 0x08 | virtual slot, introduced by sead::Controller
-    virtual void vf_0x0C(); // 0x00542234 slot 0x0C | virtual slot, introduced by sead::Controller
-    virtual void vf_0x18(); // 0x00541F3C slot 0x18 | nintendogs:callseq
-    CtrController(sead::ControllerMgr*); // 0x00542208 | nintendogs:bytes [tier A]
+    virtual ~CtrController(); // 0x00542238 slot 0x08
+    // 0x00542234 slot 0x0C (deleting dtor)
+    virtual void calcImpl_(); // 0x00541F3C slot 0x18 | nintendogs:callseq
+
+    // the scale of the circle pad (name is ours)
+    void setNormalizeStickScaleSettings(f32 scale, s16 threshold); // 0x00541E84
 };
 } // namespace sead

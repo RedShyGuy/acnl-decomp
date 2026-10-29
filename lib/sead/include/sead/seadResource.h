@@ -5,10 +5,13 @@
 
 namespace sead {
 // RTTI N4sead8ResourceE @ 0x008D2208
+//
+// A resource made by a ResourceFactory (only the type information; no vtable of its own in the
+// binary).
 class Resource
 {
 public:
-    Resource(); // ctor address unknown
+    Resource() {}
     // whether the class is the one of typeInfo or derives from it
     virtual bool isKindOf(const RuntimeTypeInfo::Interface* typeInfo) const // (name is ours)
     {
@@ -25,5 +28,6 @@ public:
         static const RuntimeTypeInfo::Root s_TypeInfo;
         return &s_TypeInfo;
     }
+    // (no virtual destructor: the one of DirectResource is its first slot after the type information)
 };
 } // namespace sead

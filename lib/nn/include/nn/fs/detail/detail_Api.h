@@ -33,6 +33,10 @@ public:
     {
         return nn::fs::CTR::MPCore::detail::UserFileSystem::TryCreateFile(path, size);
     }
+    nn::Result TryCreateDirectory(const wchar_t* path)
+    {
+        return nn::fs::CTR::MPCore::detail::UserFileSystem::TryCreateDirectory(path);
+    }
 
 private:
     nn::fs::CTR::MPCore::detail::UserFileSystem* mFileSystem;

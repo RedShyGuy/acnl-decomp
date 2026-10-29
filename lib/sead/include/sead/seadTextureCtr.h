@@ -10,7 +10,7 @@ namespace sead {
 class TextureCtr : public ::sead::Texture
 {
 public:
-    TextureCtr(); // ctor candidate(s) 0x0053FD6C (unverified)
+    TextureCtr(); // 0x0053FD6C
     // whether the class is the one of typeInfo or derives from it
     virtual bool isKindOf(const RuntimeTypeInfo::Interface* typeInfo) const // 0x0074A53C (name is ours)
     {
@@ -30,12 +30,13 @@ public:
         static const RuntimeTypeInfo::Derive<Texture> s_TypeInfo;
         return &s_TypeInfo;
     }
-    virtual void vf_0x08(); // 0x0053FD84 slot 0x08 | virtual slot, introduced by sead::TextureCtr
-    virtual void vf_0x0C(); // 0x0053FD7C slot 0x0C | virtual slot, introduced by sead::TextureCtr
-    virtual void vf_0x10(); // 0x0011C12F slot 0x10 | slot vf_0x00 of ChangeRentalBase
-    virtual void vf_0x14(); // 0x0011C12F slot 0x14 | slot vf_0x00 of ChangeRentalBase
-    virtual void vf_0x18(); // 0x0011C12F slot 0x18 | slot vf_0x00 of ChangeRentalBase
-    virtual void vf_0x1C(); // 0x0011C12F slot 0x1C | slot vf_0x00 of ChangeRentalBase
-    virtual void vf_0x20(); // 0x0011C12F slot 0x20 | slot vf_0x00 of ChangeRentalBase
+    virtual ~TextureCtr(); // 0x0053FD84 slot 0x08
+    // 0x0053FD7C slot 0x0C (deleting dtor)
+    // (names are ours)
+    virtual u32 getWidth() const = 0; // slot 0x10
+    virtual u32 getHeight() const = 0; // slot 0x14
+    virtual u32 vf_0x18() const = 0; // slot 0x18
+    virtual u8 vf_0x1C() const = 0; // slot 0x1C
+    virtual u8 vf_0x20() const = 0; // slot 0x20
 };
 } // namespace sead

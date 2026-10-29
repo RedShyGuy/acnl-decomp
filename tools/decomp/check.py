@@ -250,6 +250,8 @@ SOURCE_BY_TYPES = {}
 DUP_CANDIDATES = {}
 # address -> the 'A::B' pairs of the signature of its definition in the sources
 ADDR_SCOPES = {}
+# key -> [(qualified names, address)] of the deleting destructors named in the sources
+DELETING_CANDIDATES = {}
 
 
 def scoped_names(text):
@@ -295,6 +297,11 @@ def source_by_types(parsed, demangled):
         if key[0] != tkey[0] or key[2] != tkey[2] or len(key[1]) != len(tkey[1]):
             continue
         n = sum(x == y for x, y in zip(key[1], tkey[1]))
+        if key in DUP_CANDIDATES:
+            # (an instance of a template for several argument types: the one whose scopes match)
+            a = resolve_dup(key, demangled)
+            if a is None:
+                continue
         if n > best_n:
             best, best_n = {a}, n
         elif n == best_n:
@@ -307,6 +314,8 @@ def source_by_types(parsed, demangled):
 
 # (key, deleting) -> address of the this-adjusting thunk named in the sources ("(thunk)" lines)
 THUNKS = {}
+# key -> addresses of further identical copies of the function ("// 0x... (copy)" lines)
+COPIES = {}
 # symbol -> (data, size, syminfo) of GCC's "f.part.N" clones in the object being compared (ipa-split:
 # GCC moved a part of f there and calls it from f): counted as part of the body of f
 PART_CLONES = {}
@@ -326,6 +335,7 @@ def source_addresses():
             pending_local = None
             pending_symbol = None
             pending_thunks = []
+            pending_copies = []
             text = open(path, encoding='utf-8', errors='replace').read()
             # explicit instantiations ("template class X<arg>;"): a member defined as X<T>::f under
             # "template <typename T>" is compared as X<arg>::f
@@ -356,6 +366,12 @@ def source_addresses():
                         # with two secondary bases the line names the this-adjustment ("(thunk 92)")
                         mo = re.search(r'thunk\s+(\d+)', st)
                         pending_thunks.append(('deleting' in st, int(m.group(1), 16) & ~1, int(mo.group(1)) if mo else None))
+                        if pending is None:
+                            pending, sig = -1, ''
+                    elif re.search(r'\(copy\)', st):
+                        # another copy of the same function in the original (ARMCC emitted it in
+                        # several objects); compared with the same GCC function
+                        pending_copies.append(int(m.group(1), 16) & ~1)
                         if pending is None:
                             pending, sig = -1, ''
                     elif 'deleting' in st:
@@ -396,6 +412,7 @@ def source_addresses():
                     pending_addr, pending, sig = pending, None, None
                     del_addr, pending_del = pending_del, None
                     thunk_addrs, pending_thunks = pending_thunks, []
+                    copy_addrs, pending_copies = pending_copies, []
                     if not parsed:
                         continue
                     name, params, const = parsed
@@ -413,6 +430,9 @@ def source_addresses():
                     key = sig_key(full, params, const)
                     if del_addr is not None:
                         deleting[key] = del_addr
+                        DELETING_CANDIDATES.setdefault(key, []).append((scoped_names(full), del_addr))
+                    if copy_addrs:
+                        COPIES.setdefault(key, []).extend(copy_addrs)
                     for is_del, t_addr, t_off in thunk_addrs:
                         THUNKS[(key, is_del, t_off)] = t_addr
                     if pending_addr >= 0:
@@ -457,7 +477,8 @@ def header_addresses():
             for line in open(path, encoding='utf-8', errors='replace'):
                 code, _, comment = line.partition('//')
                 st = code.strip()
-                m = re.match(r'(?:namespace|class|struct)\s+(\w*)', st)
+                # (a class defined with its qualified name: "class sead::HostIOMgr::Parameter")
+                m = re.match(r'(?:namespace|class|struct)\s+((?:\w+::)*\w*)', st)
                 if m and not st.endswith(';'):
                     pending_scope = m.group(1) or '@anon'
                 if st and not st.startswith('#'):
@@ -511,7 +532,7 @@ def header_addresses():
 VARIABLE_RE = re.compile(r'([A-Za-z_]\w*(?:<[^<>;=]*(?:<[^<>;=]*>[^<>;=]*)*>)?(?:::[A-Za-z_]\w*(?:<[^<>;=]*(?:<[^<>;=]*>[^<>;=]*)*>)?)*)\s*(?:\[[^\]]*\]\s*)*\s*(?:\)\s*\(.*\))?\s*(?:=.*)?;\s*(?://.*)?$')
 # a variable with constructor arguments ("Heap s_Heap(16, buffer, size);"), tried when VARIABLE_RE
 # does not match (a function pointer declarator would match this, too)
-VARIABLE_INIT_RE = re.compile(r'([A-Za-z_]\w*(?:::[A-Za-z_]\w*)*)\s*\(.*\);\s*(?://.*)?$')
+VARIABLE_INIT_RE = re.compile(r'([A-Za-z_]\w*(?:<[^<>;=()]*>)?(?:::[A-Za-z_]\w*(?:<[^<>;=()]*>)?)*)\s*\(.*\);\s*(?://.*)?$')
 
 
 # GCC's vtable address points by vtable symbol (filled by main)
@@ -527,26 +548,29 @@ def header_statics():
     for d in ('lib', 'src', 'modules', 'include'):
         paths += glob.glob(os.path.join(ROOT, d, '**', '*.h'), recursive=True)
     for path in paths:
-        scopes, pending_scope, pending, guard = [], None, None, None
+        scopes, pending_scope, pending = [], None, []
         for line in open(path, encoding='utf-8', errors='replace'):
             st = line.split('//')[0].strip() if not line.strip().startswith('//') else ''
             raw = line.strip()
-            m = re.match(r'//\s*0x([0-9A-Fa-f]{6,8})\s*(\(.*\))?\s*$', raw)
+            # the static of a class template: one line per instance, "// 0x... (guard 0x...) [<args>]"
+            m = re.match(r'//\s*0x([0-9A-Fa-f]{6,8})\s*(\(.*?\))?\s*(?:\[(<.*>)\])?\s*$', raw)
             if m:
-                pending = int(m.group(1), 16)
                 g = re.search(r'guard\s+0x([0-9A-Fa-f]{6,8})', m.group(2) or '')
-                guard = int(g.group(1), 16) if g else None
+                pending.append((int(m.group(1), 16), int(g.group(1), 16) if g else None, m.group(3)))
                 continue
-            if pending is not None and st:
+            if pending and st:
                 if st.startswith('static ') and st.endswith(';'):
                     vm = VARIABLE_RE.search(st) or VARIABLE_INIT_RE.search(st)
                     if vm:
-                        names = [s[1] for s in scopes if s[0] in ('ns', 'cls')]
-                        full = '::'.join(names + [vm.group(1)])
-                        out[norm(full)] = pending
-                        if guard is not None:
-                            out['guard variable for ' + norm(full)] = guard
-                pending = None
+                        for address, guard, targs in pending:
+                            names = [s[1] for s in scopes if s[0] in ('ns', 'cls')]
+                            if targs and names:
+                                names[-1] += targs
+                            full = '::'.join(names + [vm.group(1)])
+                            out[norm(full)] = address
+                            if guard is not None:
+                                out['guard variable for ' + norm(full)] = guard
+                pending = []
             if not st:
                 continue
             m = re.match(r'(?:namespace\s*(\w*)|(?:class|struct)\s+(\w+)[^;]*)$', st.split('{')[0].strip())
@@ -590,6 +614,8 @@ def source_variables():
                     continue
                 if pending is None or not st or st.startswith('//'):
                     continue
+                if re.match(r'template\s*<\s*>$', st):
+                    continue                      # an explicit specialization: the definition follows
                 # a declaration over several lines (constructor arguments)
                 decl = (decl + ' ' + st).strip()
                 if not decl.endswith(';') and '{' not in decl and decl.count('(') > decl.count(')'):
@@ -599,6 +625,9 @@ def source_variables():
                     continue
                 st, decl = decl, ''
                 address, pending = pending, None
+                st = re.sub(r'^template\s*<\s*>\s*', '', st)
+                if st.startswith('template'):
+                    continue                      # an explicit instantiation (a function)
                 # a brace before "=" is a function body, after it an initializer list
                 if '{' in st.split('=')[0] or st.startswith('extern "C"'):
                     continue
@@ -1250,7 +1279,13 @@ def main():
     for f in funcs:
         if re.search(r'\.part\.\d+$', f[1]):
             part_clones.setdefault(f[0], {})[f[1]] = (f[2], f[3], f[5])
-    for obj, mangled, data, size, rel, syminfo in funcs:
+    # the functions, plus one more round for each "(copy)" address of a function
+    work = [(f, None) for f in funcs]
+    copies_added = set()
+    wi = 0
+    while wi < len(work):
+        (obj, mangled, data, size, rel, syminfo), copy_addr = work[wi]
+        wi += 1
         if re.search(r'\.part\.\d+$', mangled):
             continue                              # counted with the function it was split off
         PART_CLONES.clear()
@@ -1281,6 +1316,13 @@ def main():
         elif is_deleting:
             # only compared where the source names the address of the deleting destructor
             addr = by_source_deleting.get(skey)
+            cands = {x for _, x in DELETING_CANDIDATES.get(skey, ())}
+            if len(cands) > 1:
+                # instances whose template arguments differ only in their scopes (nn::snd::CTR::FxDelay
+                # and nw::snd::FxDelay): the one whose qualified names all occur in the demangled name
+                names_d = scoped_names(name)
+                hits = {x for pairs, x in DELETING_CANDIDATES[skey] if pairs <= names_d}
+                addr = hits.pop() if len(hits) == 1 else None
             if addr is None:
                 continue
             name += ' [deleting]'
@@ -1302,6 +1344,11 @@ def main():
                 addr = next((a for k, a in by_source.items() if k[0] == cname), None)
         if addr is None:
             addr = by_name.get(norm(name))
+        if copy_addr is not None:
+            addr = copy_addr
+        elif addr is not None and not is_thunk and not is_deleting and skey in COPIES and skey not in copies_added:
+            copies_added.add(skey)
+            work.extend(((obj, mangled, data, size, rel, syminfo), c) for c in COPIES[skey])
         mine = masked_words(data, rel, size)
         if addr is None:
             status, osize = 'unknown', None

@@ -9,7 +9,7 @@ namespace hostio {
 class Reflexible : public ::sead::hostio::NodeEventListener
 {
 public:
-    Reflexible(); // ctor address unknown
+    Reflexible() {}
 };
 } // namespace hostio
 } // namespace sead

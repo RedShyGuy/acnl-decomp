@@ -8,7 +8,7 @@
 class UlcdFramework : public ::sead::UlcdDoubleCmdGameFrameworkCtrNw4c
 {
 public:
-    UlcdFramework(); // ctor candidate(s) 0x0011D148 (unverified)
+    explicit UlcdFramework(const CreateArg& arg); // ctor candidate(s) 0x0011D148 (unverified)
     virtual void vf_0x00(); // 0x00718F28 slot 0x00 | virtual slot, introduced by sead::Framework
     virtual void vf_0x04(); // 0x00718EDC slot 0x04 | virtual slot, introduced by sead::Framework
     virtual ~UlcdFramework(); // 0x0024F380 slot 0x08 | mk7dlp:bytes

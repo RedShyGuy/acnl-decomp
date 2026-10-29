@@ -2,6 +2,7 @@
 #include "sead/seadHeapMgr.h"
 
 #include <new>
+#include "sead/seadFixedSafeString.h"
 
 namespace sead {
 namespace {
@@ -249,9 +250,27 @@ void sead::UnitHeap::dump() const
     ConditionalScopedLock lock(const_cast<CriticalSection*>(&mCS), isEnableLock());
 }
 
-// 0x0074FD68 slot 0x58 | virtual slot, introduced by sead::Heap
-void sead::UnitHeap::vf_0x58()
+// 0x0074FD68 slot 0x58 (name is ours)
+void sead::UnitHeap::dumpYAML(Stream* stream, s32 indent) const
 {
+    ConditionalScopedLock lock(const_cast<CriticalSection*>(&mCS), isEnableLock());
+    Heap::dumpYAML(stream, indent);
+    FixedSafeString<128> str(SafeStringBase<char>(""));
+    str.append(' ', indent);
+    str.appendWithFormat("  heap_type: UnitHeap\n");
+    stream->writeDecorationText(str);
+    str.clear();
+    str.append(' ', indent);
+    str.appendWithFormat("  block_size: %d\n", mBlockSize);
+    stream->writeDecorationText(str);
+    str.clear();
+    str.append(' ', indent);
+    str.appendWithFormat("  area_start: 0x%08X\n", reinterpret_cast<uptr>(mAreaPtr));
+    stream->writeDecorationText(str);
+    str.clear();
+    str.append(' ', indent);
+    str.appendWithFormat("  area_size: %d\n", mAreaSize);
+    stream->writeDecorationText(str);
 }
 
 // 0x00561A08 slot 0x5C

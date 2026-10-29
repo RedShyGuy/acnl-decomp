@@ -1,6 +1,13 @@
 #include "sead/seadRandom.h"
+#include "sead/seadTickTime.h"
 
 namespace sead {
+// 0x00139138 (name after pead::Random::init)
+void sead::Random::init()
+{
+    init(static_cast<u32>(TickTime().mTick));
+}
+
 // 0x0055D5A4 | nintendogs:bytes [tier A]
 void sead::Random::init(u32 seed)
 {

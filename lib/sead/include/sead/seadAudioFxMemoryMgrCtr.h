@@ -9,8 +9,9 @@ namespace sead {
 class AudioFxMemoryMgrCtr : public ::sead::AudioFxMemoryMgr
 {
 public:
-    AudioFxMemoryMgrCtr(); // ctor candidate(s) 0x00138D5C (unverified)
-    virtual void vf_0x00(); // 0x00546624 slot 0x00 | virtual slot, introduced by sead::AudioFxMemoryMgr
-    virtual void vf_0x04(); // 0x0054A140 slot 0x04 | virtual slot, introduced by sead::AudioFxMemoryMgr
+    AudioFxMemoryMgrCtr(); // 0x00138D5C
+    // (the original falls into the destructor of AudioFxMemoryMgr with a nop)
+    virtual ~AudioFxMemoryMgrCtr(); // 0x00546624 slot 0x00
+    // 0x0054A140 slot 0x04 (deleting dtor)
 };
 } // namespace sead

@@ -19,4 +19,16 @@ public:
     virtual bool isDerived(const Interface* typeInfo) const = 0;
 };
 } // namespace RuntimeTypeInfo
+
+// obj as T if it is one (else NULL; the type information is fetched before the null test, as the
+// inline copies of the original do; name is ours)
+template <typename T, typename U>
+inline T* DynamicCast(U* obj)
+{
+    const RuntimeTypeInfo::Interface* typeInfo = T::getTypeInfoStatic();
+    if (obj != nullptr && obj->isKindOf(typeInfo)) {
+        return static_cast<T*>(obj);
+    }
+    return nullptr;
+}
 } // namespace sead

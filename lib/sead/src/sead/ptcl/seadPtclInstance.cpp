@@ -5,6 +5,7 @@ namespace ptcl {
 // 0x00555B48 | mk7dlp:bytes [tier B]
 sead::ptcl::PtclInstance::PtclInstance()
 {
+    // (only the members are constructed)
 }
 
 } // namespace ptcl

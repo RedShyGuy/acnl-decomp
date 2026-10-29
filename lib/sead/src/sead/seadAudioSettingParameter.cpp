@@ -1,28 +1,27 @@
 #include "sead/RuntimeTypeInfo/seadDerive.h"
-#include "sead/seadTaskParameter.h"
 #include "sead/seadAudioSettingParameter.h"
+#include "sead/seadTaskParameter.h"
 
 namespace sead {
-// 0x0054B178 slot 0x08 | virtual slot, introduced by sead::AudioSettingParameter
-void sead::AudioSettingParameter::vf_0x08()
-{
-}
-
-// 0x0054B174 slot 0x0C | virtual slot, introduced by sead::AudioSettingParameter
-void sead::AudioSettingParameter::vf_0x0C()
-{
-}
-
 // 0x00125C20 | nintendogs:bytes [tier A]
-void sead::AudioSettingParameter::appendSubset(sead::AudioSubsetBase*)
+void sead::AudioSettingParameter::appendSubset(AudioSubsetBase* subset)
 {
+    mSubsets.pushBack(subset);
 }
 
-// 0x0012CBD0 | nintendogs:bytes [tier A]
+// 0x0012CBD0
 sead::AudioSettingParameter::AudioSettingParameter()
+    : TaskParameter(), mSystem(nullptr), mResetter(nullptr), mPlayer(nullptr), mResourceLoader(nullptr), mSubsets()
 {
+    mSubsets.initOffset(offsetof(AudioSubsetBase, mNode));
 }
 
+// 0x0054B178 slot 0x08
+// 0x0054B174 (deleting dtor)
+sead::AudioSettingParameter::~AudioSettingParameter()
+{
+    // empty (in the original too)
+}
 } // namespace sead
 
 // the type information of the classes below TaskParameter

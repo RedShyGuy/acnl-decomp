@@ -1,9 +1,8 @@
 #include "sead/seadTaskClassID.h"
 
 namespace sead {
-// 0x0074A86C | nintendogs:bytes [tier A]
-void sead::TaskClassID::create(const sead::TaskConstructArg&) const
-{
-}
-
+// 0x00982D88
+TaskClassID::StringFactoryFunc TaskClassID::s_StringFactory = nullptr;
+// 0x00982D8C
+TaskClassID::IntFactoryFunc TaskClassID::s_IntFactory = nullptr;
 } // namespace sead

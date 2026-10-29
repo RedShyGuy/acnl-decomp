@@ -2,7 +2,7 @@
 #include "Other/dSystemTask.h"
 
 // ctor candidate(s) 0x001B74C4 (unverified)
-SystemTask::SystemTask()
+SystemTask::SystemTask(const sead::TaskConstructArg& arg, const char* name) : sead::UlcdTask(arg, name)
 {
 }
 
@@ -27,22 +27,22 @@ void SystemTask::exit()
 }
 
 // 0x001B6C28 slot 0x58 | virtual slot, introduced by sead::DualScreenTask
-void SystemTask::vf_0x58()
+void SystemTask::calc()
 {
 }
 
 // 0x001B7134 slot 0x60 | virtual slot, introduced by sead::DualScreenTask
-void SystemTask::vf_0x60()
+void SystemTask::drawBtm()
 {
 }
 
 // 0x001B7268 slot 0x64 | virtual slot, introduced by sead::UlcdTask
-void SystemTask::vf_0x64()
+void SystemTask::drawTopLeft()
 {
 }
 
 // 0x001B7388 slot 0x68 | virtual slot, introduced by sead::UlcdTask
-void SystemTask::vf_0x68()
+void SystemTask::drawTopRight()
 {
 }
 

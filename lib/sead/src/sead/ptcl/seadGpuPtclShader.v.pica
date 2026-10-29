@@ -1,0 +1,205 @@
+; The GPU particles (GpuPtcle::Draw, EmitterSimpleGPUCalc::calcCTR): the particle of each vertex is
+; calculated from the frame (time) and the emission parameters; the random vertices of
+; sGpuParticlePrimitive (Position, Uv0, Uv1) give the random values. c93-c95: the coefficients of the
+; Taylor series of sin and cos for rotateZ.
+;
+; Written from the original binary (DVLB after 3dbrew SHBIN) as picasso source; the build assembles it
+; with picasso (tools/build/pica_build.py) into the array of the symbol below. Names with "__" become "."
+; in the symbol table (picasso does not accept "."; the code looks the names up with the dot). The _pad
+; uniforms only place the named ones at the registers of the original, which has no names for the
+; registers the CPU writes directly. Equal to the original in every instruction and table (checked with
+; the operands the instructions read); the bytes differ in the layout picasso chooses.
+;
+; symbol: sead::ptcl::s_GpuPtclShaderBinary
+; (0x008BB500 in the original)
+
+.fvec _pad0[25]
+.fvec user[3]
+.fvec time
+.fvec scaleParam
+.fvec scaleAnm
+.fvec emitterVel
+.fvec spreadVec
+.fvec gravity
+.fvec color
+.fvec alphaAnm
+.fvec rotateZ
+.fvec colorPk
+.fvec colorEd
+.fvec colorAnm
+.fvec _pad1[46]
+.fvec proj[4]
+.fvec view[3]
+
+.setf c56 (0.159198761, 0.159198761, 0.159198761, 1.0)
+.setf c57 (6.28295898, 6.28295898, 6.28295898, 1.0)
+.setf c58 (0.5, 0.5, 0.5, 1.0)
+.setf c59 (-2.0, 0.0, 0.0, 2.71826172)
+.setf c60 (0.0, 0.5, 1.0, 3.0)
+.setf c93 (-0.5, -0.166666031, 1.0, 1.0)
+.setf c94 (-0.00138887763, -0.000198412687, 0.0416665077, 0.00833332539)
+.setf c95 (-2.75569619e-07, -2.50520316e-08, 2.48015858e-05, 2.75572529e-06)
+
+.in Position__xyzw v0
+.in Uv0__xyzw v1
+.in Uv1__xyzw v2
+
+.out - position
+.out - dummy
+.out - texcoord0.xy
+.out - color
+
+.proc main
+    mul r0.x, time.wwww, v0.wwww
+    flr r0.x, r0.xxxx
+    mul r0.x, time.zzzz, r0.xxxx
+    add r10.x, time.xxxx, -r0.xxxx
+    mul r0.x, gravity.wwww, v2.zzzz
+    add r0.x, c60.zzzz, -r0.xxxx
+    add r1.x, time.yyyy, -r0.xxxx
+    slt r8.x, c60.xxxx, r10.xxxx
+    slt r0.x, r10.xxxx, r1.xxxx
+    mul r8.x, r8.xxxx, r0.xxxx
+    rcp r0.x, r1.xxxx
+    mul r10.w, r10.xxxx, r0.xxxx
+    mov r0.x, spreadVec.wwww
+    cmp c60.zzzz, eq, eq, r0.xxxx
+    ifc cmp.x
+        mov r10.y, r10.xxxx
+        mul r9.w, r10.yyyy, r10.yyyy
+        mul r9.xyz, gravity.xyzz, r9.wwww
+    .else
+        lg2 r0.x, spreadVec.wwww
+        mul r0.x, r0.xxxx, r10.xxxx
+        ex2 r0.x, r0.xxxx
+        add r0.y, c60.zzzz, -r0.xxxx
+        mov r0.z, spreadVec.wwww
+        add r0.z, c60.zzzz, -r0.zzzz
+        rcp r0.w, r0.zzzz
+        mul r10.y, r0.yyyy, r0.wwww
+        mov r0.x, spreadVec.wwww
+        add r2.x, c60.zzzz, -r0.xxxx
+        rcp r2.y, r2.xxxx
+        mul r0.x, -r2.xxxx, r10.xxxx
+        lg2 r1.x, c59.wwww
+        mul r1.x, r1.xxxx, r0.xxxx
+        ex2 r1.x, r1.xxxx
+        add r0.x, c60.zzzz, -r1.xxxx
+        mul r0.x, r2.yyyy, r0.xxxx
+        add r0.x, r0.xxxx, -r10.xxxx
+        mul r0.x, r2.yyyy, r0.xxxx
+        mul r9.xyz, gravity.xyzz, r0.xxxx
+        mul r9.xyz, c59.xxxx, r9.xyzz
+    .end
+    mul r0.x, emitterVel.wwww, v1.wwww
+    add r0.y, c60.zzzz, -r0.xxxx
+    mul r10.z, r10.yyyy, r0.yyyy
+    mul r0.x, scaleParam.wwww, r10.zzzz
+    mul r14.xyz, v0.xyzz, r0.xxxx
+    mul r1.xyz, emitterVel.xyzz, r10.zzzz
+    add r14.xyz, r14.xyzz, r1.xyzz
+    mul r1.xyz, spreadVec.xyzz, v1.xyzz
+    mul r1.xyz, r1.xyzz, r10.yyyy
+    add r14.xyz, r14.xyzz, r1.xyzz
+    add r14.xyz, r14.xyzz, r9.xyzz
+    mov r14.w, c60.zzzz
+    mov r15.w, c60.zzzz
+    dp4 r15.x, user[0], r14
+    dp4 r15.y, user[1], r14
+    dp4 r15.z, user[2], r14
+    dp4 r14.x, view[0], r15
+    dp4 r14.y, view[1], r15
+    dp4 r14.z, view[2], r15
+    mov r13, color
+    mul r0.x, colorAnm.zzzz, r10.wwww
+    flr r2.x, r0.xxxx
+    add r2.x, r0.xxxx, -r2
+    cmp colorPk.wwww, gt, eq, r2.xxxx
+    ifc cmp.x
+        add r0.x, -colorAnm.xxxx, r2.xxxx
+        max r0.x, c60.xxxx, r0.xxxx
+        mul r0.x, colorAnm.yyyy, r0.xxxx
+        mov r1.xyz, colorPk.xyzz
+        add r13.xyz, -color.xyzz, r1.xyzz
+        mad r13.xyz, r13, r0.xxxx, color.xyzz
+    .else
+        add r0.x, -colorPk.wwww, r2.xxxx
+        mul r0.x, colorEd.wwww, r0.xxxx
+        min r0.x, c60.zzzz, r0.xxxx
+        mov r1.xyz, colorEd.xyzz
+        add r13.xyz, -colorPk.xyzz, r1.xyzz
+        mad r13.xyz, r13, r0.xxxx, colorPk.xyzz
+    .end
+    min r1.x, alphaAnm.xxxx, r10.wwww
+    rcp r0.x, alphaAnm.xxxx
+    mul r1.x, r1.xxxx, r0.xxxx
+    mov r0.x, alphaAnm.yyyy
+    add r1.z, c60.zzzz, -r0.xxxx
+    add r1.w, -alphaAnm.yyyy, r10.wwww
+    min r1.y, r1.wwww, r1.zzzz
+    max r1.y, c60.xxxx, r1.yyyy
+    rcp r0.x, r1.zzzz
+    mul r1.y, r1.yyyy, r0.xxxx
+    mul r2.x, alphaAnm.zzzz, r1.xxxx
+    mul r2.y, alphaAnm.wwww, r1.yyyy
+    add r13.w, r13.wwww, r2.xxxx
+    add r13.w, r13.wwww, r2.yyyy
+    dp4 o0.x, proj[0], r14
+    dp4 o0.y, proj[1], r14
+    dp4 o0.z, proj[2], r14
+    dp4 o0.w, proj[3], r14
+    min r1.x, scaleAnm.xxxx, r10.wwww
+    rcp r0.x, scaleAnm.xxxx
+    mul r1.x, r1.xxxx, r0.xxxx
+    mov r0.x, scaleAnm.yyyy
+    add r1.z, c60.zzzz, -r0.xxxx
+    add r1.w, -scaleAnm.yyyy, r10.wwww
+    min r1.y, r1.wwww, r1.zzzz
+    max r1.y, c60.xxxx, r1.yyyy
+    rcp r0.x, r1.zzzz
+    mul r1.y, r1.yyyy, r0.xxxx
+    mul r2.x, scaleAnm.zzzz, r1.xxxx
+    mul r2.y, scaleAnm.wwww, r1.yyyy
+    add r2.z, r2.xxxx, r2.yyyy
+    add r0.xy, scaleParam.xyyy, r2.zzzz
+    mul r1.x, scaleParam.zzzz, v2.wwww
+    add r1.y, c60.zzzz, -r1.xxxx
+    mul r0.xy, r0.xyyy, r1.yyyy
+    mul r7.xy, r0.xyyy, r8.xxxx
+    mul r0.x, rotateZ.yyyy, v2.xxxx
+    add r1.x, rotateZ.xxxx, r0.xxxx
+    mul r0.x, rotateZ.wwww, v2.yyyy
+    add r0.x, rotateZ.zzzz, r0.xxxx
+    mul r1.y, r0.xxxx, r10.xxxx
+    add r1.x, r1.xxxx, r1.yyyy
+    mul r1, c56, r1
+    add r1, c58, r1
+    flr r0, r1
+    add r0, r1, -r0
+    add r0, -c58, r0
+    mul r1, c57, r0
+    mov r2, c95
+    mov r3, c94
+    mul r4.z, r1.xxxx, r1.xxxx
+    mad r4.xy, r4.zzzz, r2.xyyy, r2.zwww
+    mad r4.xy, r4.zzzz, r4.xyyy, r3.xyyy
+    mad r4.xy, r4.zzzz, r4.xyyy, r3.zwww
+    mov r2, c93
+    mad r4.xy, r4.zzzz, r4.xyyy, r2.xyyy
+    mad r4.xy, r4.zzzz, r4.xyyy, r2.zwww
+    mul r4.y, r4.yyyy, r1.xxxx
+    mov r2.xy, r7.xyyy
+    mul r0.x, r2.xxxx, r4.xxxx
+    mul r1.x, r2.yyyy, r4.yyyy
+    mul r0.y, r2.xxxx, -r4.yyyy
+    mul r1.y, r2.yyyy, r4.xxxx
+    add r0.xy, r0.xyyy, r1.xyyy
+    mov r7, r0
+    mov r7.z, c60.zzzz
+    mov r7.w, c60.zzzz
+    mov o1, r7
+    mov o2, v0.xyyy
+    mov o3, r13
+    end
+    nop
+.end

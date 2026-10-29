@@ -1,9 +1,3 @@
 #include "sead/seadStreamSrc.h"
 
-namespace sead {
-// ctor address unknown
-sead::StreamSrc::StreamSrc()
-{
-}
-
-} // namespace sead
+// (StreamSrc is an interface without code)

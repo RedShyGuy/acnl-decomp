@@ -16,8 +16,6 @@ public:
     // 0x004C0598 (deleting dtor)
     virtual ~RomSoundArchive(); // 0x004C05A8 slot 0x00
 
-    bool LoadHeader(void* pBuffer, u32 size); // 0x004C85D4 | mk7dlp:callseq [tier A]
-    bool LoadLabelStringData(void* pBuffer, u32 size); // 0x004C86E4 | mk7dlp:callseq [tier A]
 };
 } // namespace snd
 } // namespace nw

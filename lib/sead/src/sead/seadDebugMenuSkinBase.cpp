@@ -1,9 +1,1 @@
-#include "sead/seadDebugMenuSkinBase.h"
-
-namespace sead {
-// ctor address unknown
-sead::DebugMenuSkinBase::DebugMenuSkinBase()
-{
-}
-
-} // namespace sead
+// sead::DebugMenuSkinBase is an interface without out-of-line functions (seadDebugMenuSkinBase.h).

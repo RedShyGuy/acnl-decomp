@@ -10,8 +10,7 @@ namespace {
 class SimpleFuncDelegate : public sead::IDelegate1<script::Phrase*>
 {
 public:
-    virtual void vf_0x00() {} // 0x004DC2AC slot 0x00 | virtual slot, introduced by (anonymous namespace)::SimpleFuncDelegate
-    virtual void vf_0x04() {} // 0x00828348 slot 0x04 | virtual slot, introduced by (anonymous namespace)::SimpleFuncDelegate
+    virtual void invoke(script::Phrase*) {} // 0x004DC2AC slot 0x00
 };
 
 } // namespace

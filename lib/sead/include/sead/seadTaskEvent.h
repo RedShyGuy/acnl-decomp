@@ -9,7 +9,8 @@ namespace sead {
 class TaskEvent
 {
 public:
-    TaskEvent(); // ctor candidate(s) 0x00542610 (unverified)
+    // (inline; the type is a number the tasks agree on, name is ours)
+    explicit TaskEvent(u8 type) : mType(type) {}
     // whether the class is the one of typeInfo or derives from it
     virtual bool isKindOf(const RuntimeTypeInfo::Interface* typeInfo) const // 0x00750AA4 (name is ours)
     {
@@ -26,5 +27,8 @@ public:
         static const RuntimeTypeInfo::Root s_TypeInfo;
         return &s_TypeInfo;
     }
+
+    u8 mType; // 0x4
 };
+ASSERT_SIZE(TaskEvent, 0x8);
 } // namespace sead

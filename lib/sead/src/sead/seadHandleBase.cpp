@@ -1,9 +1,3 @@
 #include "sead/seadHandleBase.h"
 
-namespace sead {
-// ctor address unknown
-sead::HandleBase::HandleBase()
-{
-}
-
-} // namespace sead
+// (HandleBase has only inline functions)

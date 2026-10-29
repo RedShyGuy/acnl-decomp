@@ -2,14 +2,28 @@
 
 #include "decomp.h"
 #include "sead/hostio/seadNode.h"
+#include "sead/seadCriticalSection.h"
 
 namespace sead {
-// RTTI N4sead15DrawLockContextE @ 0x008D179C
-// vtable 0x00905964 (vptr 0x0090596C), offset_to_top 0, 1 entries
+class Thread;
+
+// RTTI N4sead13DrawLockContextE
+//
+// A lock of the drawing that the thread holding it may take again (it counts). symbols.json had the
+// names Graphics::lockDrawContext/unlockDrawContext on lock/unlock; those are the Graphics functions
+// right in front of them. Names are ours.
 class DrawLockContext : public ::sead::hostio::Node
 {
 public:
-    DrawLockContext(); // ctor candidate(s) 0x001208F4 (unverified)
-    virtual void vf_0x00(); // 0x0074EE78 slot 0x00 | virtual slot, introduced by (anonymous namespace)::EditHostIO
+    DrawLockContext(); // 0x001208F4
+
+    void lock(); // 0x00133148
+    void unlock(); // 0x001331B8
+
+    u32 field_0x04;              // 0x04 (0)
+    CriticalSection mCriticalSection; // 0x08
+    Thread* mOwner;              // 0x24
+    s32 mLockCount;              // 0x28
 };
+ASSERT_SIZE(DrawLockContext, 0x2C);
 } // namespace sead

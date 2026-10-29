@@ -4,11 +4,14 @@
 #include "sead/RuntimeTypeInfo/seadRoot.h"
 
 namespace sead {
+class AudioMgr;
+
 // RTTI N4sead19AudioResourceLoaderE @ 0x008D1C58
+// What the AudioMgr loads its sound archive with (an interface).
 class AudioResourceLoader
 {
 public:
-    AudioResourceLoader(); // ctor address unknown
+    AudioResourceLoader() {}
     // whether the class is the one of typeInfo or derives from it
     virtual bool isKindOf(const RuntimeTypeInfo::Interface* typeInfo) const // (name is ours)
     {
@@ -25,5 +28,11 @@ public:
         static const RuntimeTypeInfo::Root s_TypeInfo;
         return &s_TypeInfo;
     }
+    virtual ~AudioResourceLoader() {}
+    // (the names of the slots are ours)
+    virtual void initialize(AudioMgr* mgr) = 0; // slot 0x10
+    // after the subsets: the buffers of the player
+    virtual void setupPlayer() = 0; // slot 0x14
+    virtual void finalize() = 0; // slot 0x18
 };
 } // namespace sead

@@ -1,155 +1,58 @@
-#include "sead/seadIDisposer.h"
 #include "sead/seadGraphics.h"
+#include "sead/seadDrawLockContext.h"
+#include "sead/seadFrameBuffer.h"
 
 namespace sead {
-// ctor candidate(s) 0x00120AAC (unverified)
-sead::Graphics::Graphics()
+// 0x00976348
+Graphics::DevicePosture Graphics::s_DefaultDevicePosture = Graphics::DEVICE_POSTURE_ROTATE_90;
+// 0x0097634C
+f32 Graphics::s_DefaultDeviceZScale = -1.0f;
+// 0x00976350
+f32 Graphics::s_DefaultDeviceZOffset = 0.0f;
+// 0x00976344
+Graphics* Graphics::s_pInstance = nullptr;
+
+// 0x00120AAC (name is ours)
+DECOMP_NOINLINE sead::Graphics::Graphics() : IDisposer(), mLockFunction(nullptr), mDrawLockContext(nullptr)
 {
 }
 
 // 0x0013F6DC slot 0x00 | slot vf_0x00 of sead::IDisposer
+// 0x0056105C (deleting dtor)
 sead::Graphics::~Graphics()
 {
+    // (only the bases are destroyed)
 }
 
-// 0x00545BA8 slot 0x08 | virtual slot, introduced by sead::Graphics
-void sead::Graphics::vf_0x08()
+// 0x00545BA8 slot 0x08 (name is ours)
+sead::DrawLockContext* sead::Graphics::getDrawLockContext() const
 {
+    return mDrawLockContext;
 }
 
-// 0x0011C12F slot 0x0C | slot vf_0x00 of ChangeRentalBase
-void sead::Graphics::vf_0x0C()
-{
-}
-
-// 0x0011C12F slot 0x10 | slot vf_0x00 of ChangeRentalBase
-void sead::Graphics::vf_0x10()
-{
-}
-
-// 0x0011C12F slot 0x14 | slot vf_0x00 of ChangeRentalBase
-void sead::Graphics::setScissorImpl(float, float, float, float)
-{
-}
-
-// 0x0011C12F slot 0x18 | slot vf_0x00 of ChangeRentalBase
-void sead::Graphics::vf_0x18()
-{
-}
-
-// 0x0011C12F slot 0x1C | slot vf_0x00 of ChangeRentalBase
-void sead::Graphics::vf_0x1C()
-{
-}
-
-// 0x0011C12F slot 0x20 | slot vf_0x00 of ChangeRentalBase
-void sead::Graphics::vf_0x20()
-{
-}
-
-// 0x0011C12F slot 0x24 | slot vf_0x00 of ChangeRentalBase
-void sead::Graphics::vf_0x24()
-{
-}
-
-// 0x0011C12F slot 0x28 | slot vf_0x00 of ChangeRentalBase
-void sead::Graphics::vf_0x28()
-{
-}
-
-// 0x0011C12F slot 0x2C | slot vf_0x00 of ChangeRentalBase
-void sead::Graphics::vf_0x2C()
-{
-}
-
-// 0x0011C12F slot 0x30 | slot vf_0x00 of ChangeRentalBase
-void sead::Graphics::vf_0x30()
-{
-}
-
-// 0x0011C12F slot 0x34 | slot vf_0x00 of ChangeRentalBase
-void sead::Graphics::vf_0x34()
-{
-}
-
-// 0x0011C12F slot 0x38 | slot vf_0x00 of ChangeRentalBase
-void sead::Graphics::vf_0x38()
-{
-}
-
-// 0x0011C12F slot 0x3C | slot vf_0x00 of ChangeRentalBase
-void sead::Graphics::vf_0x3C()
-{
-}
-
-// 0x0011C12F slot 0x40 | slot vf_0x00 of ChangeRentalBase
-void sead::Graphics::vf_0x40()
-{
-}
-
-// 0x0011C12F slot 0x44 | slot vf_0x00 of ChangeRentalBase
-void sead::Graphics::vf_0x44()
-{
-}
-
-// 0x0011C12F slot 0x48 | slot vf_0x00 of ChangeRentalBase
-void sead::Graphics::vf_0x48()
-{
-}
-
-// 0x0011C12F slot 0x4C | slot vf_0x00 of ChangeRentalBase
-void sead::Graphics::vf_0x4C()
-{
-}
-
-// 0x0011C12F slot 0x50 | slot vf_0x00 of ChangeRentalBase
-void sead::Graphics::vf_0x50()
-{
-}
-
-// 0x0011C12F slot 0x54 | slot vf_0x00 of ChangeRentalBase
-void sead::Graphics::vf_0x54()
-{
-}
-
-// 0x0011C12F slot 0x58 | slot vf_0x00 of ChangeRentalBase
-void sead::Graphics::vf_0x58()
-{
-}
-
-// 0x0011C12F slot 0x5C | slot vf_0x00 of ChangeRentalBase
-void sead::Graphics::vf_0x5C()
-{
-}
-
-// 0x0011C12F slot 0x60 | slot vf_0x00 of ChangeRentalBase
-void sead::Graphics::vf_0x60()
-{
-}
-
-// 0x0011C12F slot 0x64 | slot vf_0x00 of ChangeRentalBase
-void sead::Graphics::vf_0x64()
-{
-}
-
-// 0x0011C12F slot 0x68 | slot vf_0x00 of ChangeRentalBase
-void sead::Graphics::vf_0x68()
-{
-}
-
-// 0x0011C12F slot 0x6C | slot vf_0x00 of ChangeRentalBase
-void sead::Graphics::vf_0x6C()
-{
-}
-
-// 0x00133148 | nintendogs:callseq [tier A]
+// 0x0013312C | nintendogs:callseq [tier A]
 void sead::Graphics::lockDrawContext()
 {
+    if (mLockFunction != nullptr) {
+        mLockFunction(true);
+    } else {
+        mDrawLockContext->lock();
+    }
 }
 
-// 0x001331B8 | nintendogs:callseq [tier A]
+// 0x0013319C | nintendogs:callseq [tier A]
 void sead::Graphics::unlockDrawContext()
 {
+    if (mLockFunction != nullptr) {
+        mLockFunction(false);
+    } else {
+        mDrawLockContext->unlock();
+    }
 }
-
+// 0x00561044 (name is ours)
+void sead::Graphics::clearFrameBuffer(u32 flags, const Color4f& color, f32 depth, u8 stencil)
+{
+    // (the bound frame buffer is kept const, clearing changes its clear values)
+    const_cast<FrameBuffer*>(FrameBuffer::s_pBoundFrameBuffer)->clearImpl_(flags, color, depth, stencil);
+}
 } // namespace sead

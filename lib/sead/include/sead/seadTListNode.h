@@ -18,6 +18,7 @@ class TListNode : public ListNode
 {
 public:
     TListNode() : ListNode(), mData(), mList(nullptr) {}
+    explicit TListNode(T data) : ListNode(), mData(data), mList(nullptr) {}
 
     T mData;         // 0x8
     TList<T>* mList; // 0xC, the list the node is in

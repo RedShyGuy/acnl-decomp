@@ -1,0 +1,67 @@
+; The geometry shader of the GPU particles: a point sprite (a quad of four vertices around each point,
+; scaled by dmp_Point.viewport).
+;
+; Written from the original binary (DVLB after 3dbrew SHBIN) as picasso source; the build assembles it
+; with picasso (tools/build/pica_build.py) into the array of the symbol below. Names with "__" become "."
+; in the symbol table (picasso does not accept "."; the code looks the names up with the dot). The _pad
+; uniforms only place the named ones at the registers of the original, which has no names for the
+; registers the CPU writes directly. Equal to the original in every instruction and table (checked with
+; the operands the instructions read); the bytes differ in the layout picasso chooses.
+
+.gsh point c0
+
+.fvec _pad0[67]
+.fvec dmp_Point__viewport__xy
+.bool dmp_Point__distanceAttenuation
+
+.setf c76 (0.0, 1.0, 0.25, 0.0)
+
+.in dmp_Point__PointSize v1
+.in dmp_Point__Position v0
+
+.out - position
+.out - dummy
+.out - dummy
+.out - dummy
+.out - dummy
+.out - dummy
+.out - dummy
+
+.entry gmain
+.proc gmain
+    mov r9.xyz, c76.xxxx
+    mov r9.w, -v0.wwww
+    mov r4.x, v1.zzzz
+    mov r4.y, v1.wwww
+    mov o2, v3
+    mov r5.xy, v1.xyyy
+    mov o1, c76.yxxx
+    setemit 0
+    mov o0.zw, v0
+    mul r2.xy, c67.xyyy, -r5.xyyy
+    add o0.xy, v0, r2.xyyy
+    emit
+    mov o2, v3
+    mov o1, c76.yyyy
+    setemit 1
+    mov o0.zw, v0
+    mov r6.x, r5.yyyy
+    mov r6.y, -r5.xxxx
+    mul r2.xy, c67.xyyy, r6.xyyy
+    add o0.xy, v0, r2.xyyy
+    emit
+    mov o1, c76.xxxx
+    setemit 2, prim
+    mul r2.xy, c67.xyyy, -r6.xyyy
+    add o0.xy, v0, r2.xyyy
+    emit
+    mov o1, c76.xyyy
+    setemit 0, prim inv
+    mul r2.xy, c67.xyyy, r5.xyyy
+    add o0.xy, v0, r2.xyyy
+    emit
+    nop
+    nop
+    end
+    nop
+.end

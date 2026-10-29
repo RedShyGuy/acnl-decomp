@@ -32,6 +32,8 @@ if(NOT EXISTS "${DECOMP_ORIG}/code.elf")
 endif()
 
 find_package(Python3 REQUIRED COMPONENTS Interpreter)
+# devkitPro's PICA200 shader assembler (the shaders of the libraries are picasso sources)
+find_program(DECOMP_PICASSO picasso HINTS "$ENV{DEVKITPRO}/tools/bin" "C:/devkitPro/tools/bin" "/opt/devkitpro/tools/bin")
 include(cmake/Decomp.cmake)
 
 decomp_global_includes()

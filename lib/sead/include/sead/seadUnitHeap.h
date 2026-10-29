@@ -66,7 +66,7 @@ public:
     virtual bool isResizable() const; // 0x0074FBE0 slot 0x4C
     virtual bool isAdjustable() const; // 0x0074FBE8 slot 0x50
     virtual void dump() const; // 0x0074FD1C slot 0x54
-    virtual void vf_0x58(); // 0x0074FD68 slot 0x58 | virtual slot, introduced by sead::Heap
+    virtual void dumpYAML(Stream* stream, s32 indent) const; // 0x0074FD68 slot 0x58
     virtual void vf_0x5C(); // 0x00561A08 slot 0x5C | virtual slot, introduced by sead::Heap
 
     // the free blocks as a list through their first words (inline; name is ours)

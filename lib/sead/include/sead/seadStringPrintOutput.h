@@ -15,7 +15,8 @@ class BufferedSafeStringBase;
 class StringPrintOutput : public ::sead::PrintOutput
 {
 public:
-    virtual ~StringPrintOutput() {} // 0x00548F88 slot 0x00
+    virtual ~StringPrintOutput(); // 0x00548F88 slot 0x00
+    // 0x00548F84 slot 0x04 (deleting dtor)
     // 0x00548F84 slot 0x04 (deleting dtor)
     virtual void write(const char* str, s32 length); // 0x00548E5C slot 0x08 (name is ours)
 

@@ -1,9 +1,1 @@
-#include "sead/seadFontBase.h"
-
-namespace sead {
-// ctor address unknown
-sead::FontBase::FontBase()
-{
-}
-
-} // namespace sead
+// sead::FontBase is an interface without out-of-line functions (seadFontBase.h).

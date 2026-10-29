@@ -8,4 +8,10 @@ void sead::StringPrintOutput::write(const char* str, s32 length)
     mPosition += mString->copyAt(mPosition, SafeStringBase<char>(str), length);
 }
 
+// 0x00548F88 slot 0x00
+// 0x00548F84 (deleting dtor)
+sead::StringPrintOutput::~StringPrintOutput()
+{
+    // empty (in the original too)
+}
 } // namespace sead

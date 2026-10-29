@@ -10,6 +10,5 @@ class NpcTalkRecept::AsyncSaveHandleHook : public ::sead::IDelegateR<bool>
 {
 public:
     AsyncSaveHandleHook(); // ctor address unknown
-    virtual void vf_0x00(); // 0x00237928 slot 0x00 | virtual slot, introduced by NpcTalkRecept::AsyncSaveHandleHook
-    virtual void vf_0x04(); // 0x00828360 slot 0x04 | virtual slot, introduced by AcNpcSpTourDesk::AsyncAction
+    virtual bool invoke(); // 0x00237928 slot 0x00
 };

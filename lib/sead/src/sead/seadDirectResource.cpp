@@ -1,33 +1,27 @@
 #include "sead/RuntimeTypeInfo/seadDerive.h"
-#include "sead/seadResource.h"
 #include "sead/seadDirectResource.h"
 
 namespace sead {
-// ctor candidate(s) 0x005448A8 (unverified)
-sead::DirectResource::DirectResource()
+// (newResource_ of the factory falls into it)
+// 0x005448A8
+DECOMP_NOINLINE sead::DirectResource::DirectResource() : Resource(), mData(nullptr), mSize(0), mBufferSize(0), mFlags(0)
 {
 }
 
-// 0x005448FC slot 0x08 | virtual slot, introduced by sead::DirectResource
-void sead::DirectResource::vf_0x08()
+// 0x005448FC slot 0x08
+// 0x005448CC (deleting dtor)
+sead::DirectResource::~DirectResource()
 {
+    if (mFlags & FLAG_NEED_DELETE) {
+        delete[] mData;
+    }
 }
 
-// 0x005448CC slot 0x0C | virtual slot, introduced by sead::DirectResource
-void sead::DirectResource::vf_0x0C()
+// 0x00544890 slot 0x14
+void sead::DirectResource::doCreate_(u8*, u32, Heap*)
 {
+    // empty (in the original too)
 }
-
-// 0x0074BE0C slot 0x10 | virtual slot, introduced by sead::DirectResource
-void sead::DirectResource::vf_0x10()
-{
-}
-
-// 0x00544890 slot 0x14 | virtual slot, introduced by sead::DirectResource
-void sead::DirectResource::vf_0x14()
-{
-}
-
 } // namespace sead
 
 // the type information of the classes below Resource

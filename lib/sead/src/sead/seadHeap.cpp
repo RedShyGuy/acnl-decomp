@@ -1,6 +1,7 @@
 #include "sead/seadHeap.h"
 #include "sead/seadBufferedSafeStringBase.h"
 #include "sead/seadHeapMgr.h"
+#include "sead/seadFixedSafeString.h"
 
 namespace sead {
 // 0x0013334C (name is ours)
@@ -38,9 +39,42 @@ void sead::Heap::dump() const
     // empty (in the original too)
 }
 
-// 0x0074E864 slot 0x58 | virtual slot, introduced by sead::Heap
-void sead::Heap::vf_0x58()
+// 0x0074E864 slot 0x58 (name is ours)
+void sead::Heap::dumpYAML(Stream* stream, s32 indent) const
 {
+    ConditionalScopedLock lock(const_cast<CriticalSection*>(&mCS), isEnableLock());
+    FixedSafeString<128> str(SafeStringBase<char>(""));
+    str.append(' ', indent);
+    str.appendWithFormat("- name: \"%s\"\n", getName().getCString());
+    stream->writeDecorationText(str);
+    str.clear();
+    str.append(' ', indent);
+    str.appendWithFormat("  start_address: 0x%08X\n", reinterpret_cast<uptr>(getStartAddress()));
+    stream->writeDecorationText(str);
+    str.clear();
+    str.append(' ', indent);
+    str.appendWithFormat("  end_address: 0x%08X\n", reinterpret_cast<uptr>(getEndAddress()));
+    stream->writeDecorationText(str);
+    str.clear();
+    str.append(' ', indent);
+    str.appendWithFormat("  parent: %s\n", mParent != nullptr ? mParent->getName().getCString() : "--");
+    stream->writeDecorationText(str);
+    str.clear();
+    str.append(' ', indent);
+    str.appendWithFormat("  direction: %s\n", mDirection == 1 ? "Forward" : "Reverse");
+    stream->writeDecorationText(str);
+    str.clear();
+    str.append(' ', indent);
+    str.appendWithFormat("  size: %d\n", getSize());
+    stream->writeDecorationText(str);
+    str.clear();
+    str.append(' ', indent);
+    str.appendWithFormat("  free_size: %d\n", getFreeSize());
+    stream->writeDecorationText(str);
+    str.clear();
+    str.append(' ', indent);
+    str.appendWithFormat("  max_allocatable_size: %d\n", getMaxAllocatableSize(4));
+    stream->writeDecorationText(str);
 }
 
 // 0x0054E1E4

@@ -1,7 +1,22 @@
 #include "sead/seadPtrArrayImpl.h"
+#include "sead/seadNew.h"
 #include "sead/seadRandom.h"
 
 namespace sead {
+// 0x001257D0 (name is ours)
+void sead::PtrArrayImpl::allocBuffer(s32 ptrNumMax, Heap* heap, s32 alignment)
+{
+    if (ptrNumMax <= 0) {
+        return;
+    }
+    void* buffer = ::operator new(ptrNumMax * sizeof(void*), heap, alignment, std::nothrow);
+    if (buffer != nullptr) {
+        mPtrs = static_cast<void**>(buffer);
+        mPtrNum = 0;
+        mPtrNumMax = ptrNumMax;
+    }
+}
+
 // 0x005412B4 (name is ours)
 void sead::PtrArrayImpl::setBuffer(s32 ptrNumMax, void* buffer)
 {

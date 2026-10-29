@@ -65,6 +65,18 @@ void* operator new[](size_t size)
     return sead::allocFromHeap_(nullptr, size, 4, true);
 }
 
+// 0x0013A008 (name after the C++ operator)
+void* operator new(size_t size, const std::nothrow_t&) noexcept
+{
+    return sead::allocFromHeap_(nullptr, size, 4, false);
+}
+
+// 0x0077A51C (name after the C++ operator)
+void* operator new[](size_t size, const std::nothrow_t&) noexcept
+{
+    return sead::allocFromHeap_(nullptr, size, 4, false);
+}
+
 // 0x002FF7F8
 void operator delete(void* p)
 {

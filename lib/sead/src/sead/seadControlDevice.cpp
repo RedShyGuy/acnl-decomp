@@ -1,9 +1,5 @@
 #include "sead/seadControlDevice.h"
 
+// (ControlDevice has only inline functions)
 namespace sead {
-// ctor address unknown
-sead::ControlDevice::ControlDevice()
-{
-}
-
 } // namespace sead

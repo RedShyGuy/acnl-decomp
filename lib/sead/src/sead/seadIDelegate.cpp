@@ -1,9 +1,3 @@
 #include "sead/seadIDelegate.h"
 
-namespace sead {
-// ctor address unknown
-sead::IDelegate::IDelegate()
-{
-}
-
-} // namespace sead
+// (IDelegate has only inline functions)

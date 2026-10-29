@@ -16,16 +16,49 @@ template const char* sead::SafeStringBase<char>::getCString() const;
 template void sead::SafeStringBase<char>::assureTerminationImpl_() const;
 // 0x00828738 slot 0x08
 template void sead::SafeStringBase<wchar_t>::assureTerminationImpl_() const;
+// (0x00828328 is a second copy, from the object that defines s_NullChar: ARMCC stores the constant 0
+// there; GCC emits no copy in seadSafeStringBase.cpp, so it is compared with this one)
 // 0x00829C00 slot 0x08
+// 0x00828328 (copy)
 template void sead::BufferedSafeStringBase<char>::assureTerminationImpl_() const;
 // 0x00829C1C slot 0x08
 template void sead::BufferedSafeStringBase<wchar_t>::assureTerminationImpl_() const;
 
 // the constructors that are not inline in their callers
 // 0x00812000 | nintendogs:callgraph
-template sead::FixedSafeString<32>::FixedSafeString();
+template <>
+sead::FixedSafeString<32>::FixedSafeString()
+{
+    // (only the bases are constructed)
+}
+// 0x00135B04 (name is ours)
+template <>
+sead::FixedSafeString<256>::FixedSafeString()
+{
+    // (only the bases are constructed)
+}
+// 0x00812148 (name is ours)
+template <>
+sead::FixedSafeString<64>::FixedSafeString()
+{
+    // (only the bases are constructed)
+}
+// 0x008122EC (name is ours)
+template <>
+sead::FixedSafeString<96>::FixedSafeString()
+{
+    // (only the bases are constructed)
+}
 // 0x00812638
 template sead::WFixedSafeString<5>::WFixedSafeString();
+// 0x00812E50 (name is ours)
+template s32 sead::BufferedSafeStringBase<char>::append(char c, s32 num);
+// 0x0013DAA4 (name is ours)
+template s32 sead::BufferedSafeStringBase<char>::copy(const SafeStringBase<char>& src, s32 length);
+// 0x0013DB58 (name is ours)
+template sead::SafeStringBase<char> sead::SafeStringBase<char>::getPart(s32 index) const;
+// 0x0013DBE4 (name is ours)
+template s32 sead::SafeStringBase<char>::findIndex(const SafeStringBase<char>& str) const;
 
 // the destructors of the instances (empty; the Thumb copies are from Thumb code of the game)
 // 0x00813040

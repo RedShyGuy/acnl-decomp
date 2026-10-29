@@ -1,19 +1,15 @@
 #include "sead/seadAudioFx.h"
 
 namespace sead {
-// 0x0014397C slot 0x08 | virtual slot, introduced by sead::AudioFx
-void sead::AudioFx::vf_0x08()
-{
-}
-
-// 0x0055DF98 slot 0x0C | virtual slot, introduced by sead::AudioFx
-void sead::AudioFx::vf_0x0C()
-{
-}
-
 // 0x001391DC | nintendogs:bytes [tier B]
-sead::AudioFx::AudioFx()
+sead::AudioFx::AudioFx() : mMemoryMgr(nullptr), mHolder(nullptr), mBus(AudioGlobal::AUX_BUS_NONE), mNode()
 {
 }
 
+// 0x0014397C slot 0x08
+// 0x0055DF98 (deleting dtor)
+sead::AudioFx::~AudioFx()
+{
+    // empty (in the original too)
+}
 } // namespace sead

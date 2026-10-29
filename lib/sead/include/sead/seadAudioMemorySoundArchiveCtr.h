@@ -12,7 +12,7 @@ namespace sead {
 class AudioMemorySoundArchiveCtr : public ::sead::AudioSoundArchiveBaseCtr, public ::nw::snd::MemorySoundArchive
 {
 public:
-    AudioMemorySoundArchiveCtr(); // ctor candidate(s) 0x0054A580 (unverified)
+    AudioMemorySoundArchiveCtr() : AudioSoundArchiveBaseCtr(1), nw::snd::MemorySoundArchive(true) {}
     // whether the class is the one of typeInfo or derives from it
     virtual bool isKindOf(const RuntimeTypeInfo::Interface* typeInfo) const // 0x0074E320 (name is ours)
     {
@@ -33,8 +33,9 @@ public:
         return &s_TypeInfo;
     }
     virtual ~AudioMemorySoundArchiveCtr(); // 0x0054D9F0 slot 0x08
-    virtual void open(const void*); // 0x0054D970 slot 0x10 | nintendogs:bytes
-    virtual void vf_0x14(); // 0x0054D984 slot 0x14 | virtual slot, introduced by sead::AudioSoundArchiveBaseCtr
+    // arg: the data of the archive
+    virtual bool open(const void* arg); // 0x0054D970 slot 0x10 | nintendogs:bytes
+    virtual void close(); // 0x0054D984 slot 0x14
 };
 ASSERT_SIZE(AudioMemorySoundArchiveCtr, 0x180);
 } // namespace sead

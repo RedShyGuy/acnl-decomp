@@ -2,15 +2,22 @@
 
 #include "decomp.h"
 #include "sead/RuntimeTypeInfo/seadDerive.h"
+#include "sead/seadAudioSubsetBase.h"
+#include "sead/seadListImpl.h"
 #include "sead/seadTaskParameter.h"
 
 namespace sead {
+class AudioPlayer;
+class AudioResetter;
+class AudioResourceLoader;
+class AudioSystem;
+
 // RTTI N4sead21AudioSettingParameterE @ 0x008D1E58
 // vtable 0x0090651C (vptr 0x00906524), offset_to_top 0, 4 entries
 class AudioSettingParameter : public ::sead::TaskParameter
 {
 public:
-    // whether the class is the one of typeInfo or derives from it
+    AudioSettingParameter(); // 0x0012CBD0
     virtual bool isKindOf(const RuntimeTypeInfo::Interface* typeInfo) const // 0x0074D4D8 (name is ours)
     {
         if (typeInfo == getTypeInfoStatic()) {
@@ -29,9 +36,17 @@ public:
         static const RuntimeTypeInfo::Derive<TaskParameter> s_TypeInfo;
         return &s_TypeInfo;
     }
-    virtual void vf_0x08(); // 0x0054B178 slot 0x08 | virtual slot, introduced by sead::AudioSettingParameter
-    virtual void vf_0x0C(); // 0x0054B174 slot 0x0C | virtual slot, introduced by sead::AudioSettingParameter
-    void appendSubset(sead::AudioSubsetBase*); // 0x00125C20 | nintendogs:bytes [tier A]
-    AudioSettingParameter(); // 0x0012CBD0 | nintendogs:bytes [tier A]
+    virtual ~AudioSettingParameter(); // 0x0054B178 slot 0x08
+    // 0x0054B174 slot 0x0C (deleting dtor)
+
+    void appendSubset(AudioSubsetBase* subset); // 0x00125C20 | nintendogs:bytes [tier A]
+
+    // what the AudioMgr is made with (NULL: its own; names are ours)
+    AudioSystem* mSystem;                  // 0x04
+    AudioResetter* mResetter;              // 0x08
+    AudioPlayer* mPlayer;                  // 0x0C
+    AudioResourceLoader* mResourceLoader;  // 0x10
+    OffsetList<AudioSubsetBase> mSubsets;  // 0x14
 };
+ASSERT_SIZE(AudioSettingParameter, 0x24);
 } // namespace sead

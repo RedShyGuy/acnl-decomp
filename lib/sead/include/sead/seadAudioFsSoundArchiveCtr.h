@@ -12,7 +12,7 @@ namespace sead {
 class AudioFsSoundArchiveCtr : public ::sead::AudioDeviceSoundArchiveBaseCtr<nw::snd::FsSoundArchive>
 {
 public:
-    AudioFsSoundArchiveCtr(); // ctor candidate(s) 0x0054A2D8 (unverified)
+    explicit AudioFsSoundArchiveCtr(Heap* heap) : AudioDeviceSoundArchiveBaseCtr<nw::snd::FsSoundArchive>(2, heap) {}
     // whether the class is the one of typeInfo or derives from it
     virtual bool isKindOf(const RuntimeTypeInfo::Interface* typeInfo) const // 0x0074DB94 (name is ours)
     {
@@ -33,6 +33,6 @@ public:
         return &s_TypeInfo;
     }
     virtual ~AudioFsSoundArchiveCtr(); // 0x0054B6D8 slot 0x08
-    virtual void open(const void*); // 0x0054B5BC slot 0x10 | slot vf_0x10 of sead::AudioSoundArchiveBaseCtr
+    virtual bool open(const void* arg); // 0x0054B5BC slot 0x10
 };
 } // namespace sead

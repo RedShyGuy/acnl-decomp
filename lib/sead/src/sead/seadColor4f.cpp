@@ -15,6 +15,22 @@ inline f32 clamp01(f32 value)
 }
 } // namespace
 
+// 0x00AE6548
+const Color4f Color4f::white = {1.0f, 1.0f, 1.0f, 1.0f};
+// 0x008A4BCC
+const f32 Color4f::cElementMax = 1.0f;
+// 0x008A4BD0
+const f32 Color4f::cElementMin = 0.0f;
+
+// 0x00560CA0 (name is ours)
+void sead::Color4u8::setColor4f(Color4f color)
+{
+    r = static_cast<u32>(clamp01(color.r) * 255.0f);
+    g = static_cast<u32>(clamp01(color.g) * 255.0f);
+    b = static_cast<u32>(clamp01(color.b) * 255.0f);
+    a = static_cast<u32>(clamp01(color.a) * 255.0f);
+}
+
 // 0x0055DFF8 | nintendogs:bytes [tier A]
 void sead::Color4f::adjustOverflow_()
 {

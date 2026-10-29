@@ -51,7 +51,7 @@ You need your own dump of the game. Nothing from the game is in this repository.
 4. Install:
    - Python 3.10+;
    - CMake 3.20+ and Ninja (both ship with CLion);
-   - [devkitARM](https://devkitpro.org).
+   - [devkitARM](https://devkitpro.org), with devkitPro's PICA200 shader assembler `picasso` (part of the 3DS tools; the shaders of the libraries are picasso sources).
 
 ## Building
 
@@ -102,6 +102,7 @@ orig/0004000000086300/       your dump: code.elf, cro/*.cro  (ignored by git)
 ghidra/             symbols, data types and scripts for Ghidra (ghidra/README.md)
 tools/analysis/     binary analysis: RTTI, vtables, xrefs, CRO parsing, hand named symbols, disassembly
 tools/decomp/       check, score diff, progress, syntax check, linker script, data extraction, Ghidra export
+tools/build/        build steps (pica_build.py: picasso shader sources into C++ arrays)
 cmake/              toolchain (devkitarm) and build helpers
 docs/               naming.md, cro.md, save_format.md
 ```

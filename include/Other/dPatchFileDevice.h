@@ -8,10 +8,10 @@
 class PatchFileDevice : public ::sead::CtrFileStreamFileDevice
 {
 public:
-    PatchFileDevice(); // ctor address unknown
+    explicit PatchFileDevice(const sead::SafeStringBase<char>& driveName); // ctor address unknown
     virtual ~PatchFileDevice(); // 0x0053F018 slot 0x00 | slot vf_0x00 of sead::IDisposer
     // 0x0029EF9C slot 0x04 | slot vf_0x04 of sead::IDisposer (deleting dtor)
-    virtual void vf_0x08(); // 0x0071CB04 slot 0x08 | virtual slot, introduced by sead::FileDevice
-    virtual void isMatchDevice_(const sead::HandleBase*) const; // 0x0071CAB8 slot 0x0C | slot vf_0x0C of sead::FileDevice
-    virtual void vf_0x74(); // 0x0071CAA8 slot 0x74 | virtual slot, introduced by sead::CtrFileStreamFileDevice
+    virtual bool isKindOf(const sead::RuntimeTypeInfo::Interface* typeInfo) const; // 0x0071CB04 slot 0x08
+    virtual const sead::RuntimeTypeInfo::Interface* getTypeInfo() const; // 0x0071CAB8 slot 0x0C
+    virtual const char* getMountName() const; // 0x0071CAA8 slot 0x74
 };

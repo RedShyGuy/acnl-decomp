@@ -3,12 +3,6 @@
 #include "sead/seadAudioMemorySoundArchiveCtr.h"
 
 namespace sead {
-// ctor candidate(s) 0x0054A580 (unverified)
-// (the argument of the nw base is not checked yet; sead is not decompiled)
-sead::AudioMemorySoundArchiveCtr::AudioMemorySoundArchiveCtr() : nw::snd::MemorySoundArchive(false)
-{
-}
-
 // 0x0054D9F0 slot 0x08
 // 0x0054D9AC (deleting dtor)
 // 0x00778ED0 (thunk)
@@ -21,13 +15,18 @@ sead::AudioMemorySoundArchiveCtr::~AudioMemorySoundArchiveCtr()
 }
 
 // 0x0054D970 slot 0x10 | nintendogs:bytes
-void sead::AudioMemorySoundArchiveCtr::open(const void*)
+bool sead::AudioMemorySoundArchiveCtr::open(const void* arg)
 {
+    Initialize(arg);
+    return true;
 }
 
-// 0x0054D984 slot 0x14 | virtual slot, introduced by sead::AudioSoundArchiveBaseCtr
-void sead::AudioMemorySoundArchiveCtr::vf_0x14()
+// 0x0054D984 slot 0x14 (name is ours)
+void sead::AudioMemorySoundArchiveCtr::close()
 {
+    if (IsAvailable()) {
+        Finalize();
+    }
 }
 
 } // namespace sead

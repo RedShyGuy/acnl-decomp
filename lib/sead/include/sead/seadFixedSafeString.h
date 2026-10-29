@@ -31,6 +31,19 @@ class FixedSafeString : public FixedSafeStringBase<char, N>
 {
 public:
     FixedSafeString() {}
+    explicit FixedSafeString(const SafeStringBase<char>& str) : FixedSafeStringBase<char, N>(str) {}
     virtual ~FixedSafeString() {}
 };
+
+// called, not inlined, in the original (TextStreamFormat)
+template <>
+DECOMP_NOINLINE FixedSafeString<32>::FixedSafeString();
+// called in FileDeviceMgr
+template <>
+DECOMP_NOINLINE FixedSafeString<256>::FixedSafeString();
+// built by __aeabi_vec_ctor in ptcl::PtclEditorSetting
+template <>
+DECOMP_NOINLINE FixedSafeString<64>::FixedSafeString();
+template <>
+DECOMP_NOINLINE FixedSafeString<96>::FixedSafeString();
 } // namespace sead

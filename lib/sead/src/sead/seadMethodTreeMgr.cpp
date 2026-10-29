@@ -1,34 +1,16 @@
 #include "sead/seadMethodTreeMgr.h"
 
 namespace sead {
-// ctor candidate(s) 0x005431C4 (unverified)
-sead::MethodTreeMgr::MethodTreeMgr()
+// (out of line: the derived constructors call it)
+// 0x005431C4 (name is ours)
+DECOMP_NOINLINE sead::MethodTreeMgr::MethodTreeMgr() : mCriticalSection()
 {
 }
 
-// 0x00543200 slot 0x08 | slot vf_0x08 of sead::MethodTreeMgr
+// 0x00543200 slot 0x08
+// 0x005431E0 (deleting dtor)
 sead::MethodTreeMgr::~MethodTreeMgr()
 {
+    // (only the members are destroyed)
 }
-
-// 0x0011C12F slot 0x10 | slot vf_0x00 of ChangeRentalBase
-void sead::MethodTreeMgr::attachMethod(int, sead::MethodTreeNode*)
-{
-}
-
-// 0x0011C12F slot 0x14 | slot vf_0x00 of ChangeRentalBase
-void sead::MethodTreeMgr::vf_0x14()
-{
-}
-
-// 0x0011C12F slot 0x18 | slot vf_0x00 of ChangeRentalBase
-void sead::MethodTreeMgr::pauseAll(bool)
-{
-}
-
-// 0x0011C12F slot 0x1C | slot vf_0x00 of ChangeRentalBase
-void sead::MethodTreeMgr::vf_0x1C()
-{
-}
-
 } // namespace sead

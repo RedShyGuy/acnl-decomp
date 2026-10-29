@@ -80,4 +80,28 @@ public:
     AllocFailedCallback* mAllocFailedCallback; // 0x4
 };
 ASSERT_SIZE(HeapMgr, 0x8);
+
+// Makes heap the current heap for its lifetime (nothing for NULL; inline, e.g. in the constructor of
+// ptcl::PtclSystem; the name is ours).
+class ScopedCurrentHeapSetter
+{
+public:
+    explicit ScopedCurrentHeapSetter(Heap* heap)
+    {
+        if (heap != nullptr) {
+            mPrevHeap = HeapMgr::s_pInstance->setCurrentHeap_(heap);
+        } else {
+            mPrevHeap = reinterpret_cast<Heap*>(1);
+        }
+    }
+    ~ScopedCurrentHeapSetter()
+    {
+        if (mPrevHeap != reinterpret_cast<Heap*>(1)) {
+            HeapMgr::s_pInstance->setCurrentHeap_(mPrevHeap);
+        }
+    }
+
+private:
+    Heap* mPrevHeap;
+};
 } // namespace sead

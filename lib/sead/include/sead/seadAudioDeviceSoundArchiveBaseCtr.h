@@ -36,13 +36,54 @@ public:
         static const RuntimeTypeInfo::Derive<AudioSoundArchiveBaseCtr> s_TypeInfo;
         return &s_TypeInfo;
     }
+    // (inline in the creation functions of AudioSoundDataMgrCtr)
+    AudioDeviceSoundArchiveBaseCtr(u8 type, Heap* heap)
+        : AudioSoundArchiveBaseCtr(type), T(), m_pHeap(heap), m_pHeaderBuffer(nullptr), m_pLabelStringBuffer(nullptr),
+          m_IsLoadLabelString(false)
+    {
+    }
     virtual ~AudioDeviceSoundArchiveBaseCtr();
+    // the header and the label strings into buffers of the heap (inline in open of the derived classes)
+    bool openDevice_(const void* arg);
+    virtual void close()
+    {
+        if (this->IsAvailable()) {
+            T::Close();
+        }
+    }
 
     Heap* m_pHeap;               // 0x19C of the buffers
     u8* m_pHeaderBuffer;         // 0x1A0
     u8* m_pLabelStringBuffer;    // 0x1A4
     bool m_IsLoadLabelString;    // 0x1A8
 };
+
+template <typename T>
+inline bool AudioDeviceSoundArchiveBaseCtr<T>::openDevice_(const void* arg)
+{
+    if (!T::Open(static_cast<const char*>(arg))) {
+        return false;
+    }
+    u32 headerSize = this->m_ArchiveFileReader.GetInfoBlockSize();
+    m_pHeaderBuffer = new (m_pHeap, 32) u8[headerSize];
+    if (m_pHeaderBuffer == nullptr) {
+        return false;
+    }
+    if (!T::LoadHeader(m_pHeaderBuffer, headerSize)) {
+        return false;
+    }
+    if (m_IsLoadLabelString) {
+        u32 labelSize = this->m_ArchiveFileReader.GetStringBlockSize();
+        m_pLabelStringBuffer = new (m_pHeap, 32) u8[labelSize];
+        if (m_pLabelStringBuffer == nullptr) {
+            return false;
+        }
+        if (!T::LoadLabelStringData(m_pLabelStringBuffer, labelSize)) {
+            return false;
+        }
+    }
+    return true;
+}
 
 template <typename T>
 AudioDeviceSoundArchiveBaseCtr<T>::~AudioDeviceSoundArchiveBaseCtr()

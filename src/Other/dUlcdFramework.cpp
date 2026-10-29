@@ -2,7 +2,7 @@
 #include "Other/dUlcdFramework.h"
 
 // ctor candidate(s) 0x0011D148 (unverified)
-UlcdFramework::UlcdFramework()
+UlcdFramework::UlcdFramework(const CreateArg& arg) : sead::UlcdDoubleCmdGameFrameworkCtrNw4c(arg)
 {
 }
 

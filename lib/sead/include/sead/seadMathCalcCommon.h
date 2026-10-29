@@ -73,6 +73,11 @@ public:
         const MathSinCosEntry& entry = s_MathSinCosTable[idx >> 24];
         return entry.sinValue + entry.sinDelta * (static_cast<T>(idx & 0xFFFFFF) * (1.0f / 0x1000000));
     }
+    static T cosIdx(u32 idx)
+    {
+        const MathSinCosEntry& entry = s_MathSinCosTable[idx >> 24];
+        return entry.cosValue + entry.cosDelta * (static_cast<T>(idx & 0xFFFFFF) * (1.0f / 0x1000000));
+    }
     // the angle index of acos(x) for x in [-1, 1]
     static u32 acosIdx(T x)
     {
@@ -86,6 +91,35 @@ public:
             return 0x80000000 - atanIdx_(-sqrtf(1 - x * x) / x);
         }
         return 0x40000000 + atanIdx_(-x / sqrtf(1 - x * x));
+    }
+    // the angle index of the direction (x, y), 0 for (0, 0)
+    static u32 atan2Idx(T y, T x)
+    {
+        if (x == 0 && y == 0) {
+            return 0;
+        }
+        if (x >= 0) {
+            if (y >= 0) {
+                if (x >= y) {
+                    return atanIdx_(y / x);
+                }
+                return 0x40000000 - atanIdx_(x / y);
+            }
+            if (x >= -y) {
+                return -atanIdx_(-y / x);
+            }
+            return atanIdx_(x / -y) + 0xC0000000;
+        }
+        if (y >= 0) {
+            if (-x >= y) {
+                return 0x80000000 - atanIdx_(y / -x);
+            }
+            return atanIdx_(-x / y) + 0x40000000;
+        }
+        if (x <= y) {
+            return atanIdx_(y / x) + 0x80000000;
+        }
+        return 0xC0000000 - atanIdx_(x / y);
     }
 };
 template <>
@@ -178,6 +212,22 @@ public:
     // the rotations about x, y and z (radians; no translation)
     static void makeR(nn::math::MTX34& o, const nn::math::VEC3& r);
     static void makeSRT(nn::math::MTX34& o, const nn::math::VEC3& s, const nn::math::VEC3& r, const nn::math::VEC3& t);
+    // the scale s, then the translation t (name is ours)
+    static void makeST(nn::math::MTX34& o, const nn::math::VEC3& s, const nn::math::VEC3& t)
+    {
+        o.m[0][0] = s.x;
+        o.m[1][0] = 0;
+        o.m[2][0] = 0;
+        o.m[0][1] = 0;
+        o.m[1][1] = s.y;
+        o.m[2][1] = 0;
+        o.m[0][2] = 0;
+        o.m[1][2] = 0;
+        o.m[2][2] = s.z;
+        o.m[0][3] = t.x;
+        o.m[1][3] = t.y;
+        o.m[2][3] = t.z;
+    }
 };
 
 template <typename T>

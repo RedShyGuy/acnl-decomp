@@ -1,15 +1,32 @@
-#include "sead/hostio/seadNode.h"
 #include "sead/seadDrawLockContext.h"
+#include "sead/seadThreadMgr.h"
 
 namespace sead {
-// ctor candidate(s) 0x001208F4 (unverified)
-sead::DrawLockContext::DrawLockContext()
+// 0x001208F4 (name is ours)
+sead::DrawLockContext::DrawLockContext() : hostio::Node(), field_0x04(0), mCriticalSection(), mOwner(nullptr), mLockCount(0)
 {
 }
 
-// 0x0074EE78 slot 0x00 | virtual slot, introduced by (anonymous namespace)::EditHostIO
-void sead::DrawLockContext::vf_0x00()
+// 0x00133148 (name is ours; symbols.json: Graphics::lockDrawContext)
+void sead::DrawLockContext::lock()
 {
+    Thread* current = ThreadMgr::s_pInstance->getCurrentThread();
+    if (mOwner == current && mLockCount > 0) {
+        mLockCount++;
+        return;
+    }
+    mCriticalSection.lock();
+    mOwner = current;
+    mLockCount = 1;
 }
 
+// 0x001331B8 (name is ours; symbols.json: Graphics::unlockDrawContext)
+void sead::DrawLockContext::unlock()
+{
+    ThreadMgr::s_pInstance->getCurrentThread();
+    if (--mLockCount == 0) {
+        mOwner = nullptr;
+        mCriticalSection.unlock();
+    }
+}
 } // namespace sead

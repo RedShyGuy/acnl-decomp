@@ -1,40 +1,47 @@
-#include "sead/seadStreamSrc.h"
 #include "sead/seadPrintStreamSrc.h"
 
 namespace sead {
-// ctor candidate(s) 0x0079A3E4 (unverified)
-sead::PrintStreamSrc::PrintStreamSrc()
+// a global instance that nothing in the binary refers to (name is ours)
+// 0x0097F878
+PrintStreamSrc s_PrintStreamSrc;
+
+// constructs s_PrintStreamSrc (GCC initializes it constantly)
+// 0x0079A3E4 (static initializer)
+
+// 0x00545B44 slot 0x00
+u32 sead::PrintStreamSrc::read(void*, u32)
 {
+    return 0;
 }
 
-// 0x00545B44 slot 0x00 | virtual slot, introduced by sead::PrintStreamSrc
-void sead::PrintStreamSrc::vf_0x00()
+// 0x00545B5C slot 0x04
+u32 sead::PrintStreamSrc::write(const void*, u32 size)
 {
+    return size;
 }
 
-// 0x00545B5C slot 0x04 | virtual slot, introduced by sead::PrintStreamSrc
-void sead::PrintStreamSrc::vf_0x04()
+// 0x00545B4C slot 0x08
+u32 sead::PrintStreamSrc::skip(s32)
 {
+    return 0;
 }
 
-// 0x00545B4C slot 0x08 | virtual slot, introduced by sead::PrintStreamSrc
-void sead::PrintStreamSrc::vf_0x08()
+// 0x00545B64 slot 0x0C
+void sead::PrintStreamSrc::rewind()
 {
+    // empty (in the original too)
 }
 
-// 0x00545B64 slot 0x0C | virtual slot, introduced by sead::PrintStreamSrc
-void sead::PrintStreamSrc::vf_0x0C()
+// 0x00545B54 slot 0x10
+bool sead::PrintStreamSrc::isEOF()
 {
+    return false;
 }
 
-// 0x00545B54 slot 0x10 | virtual slot, introduced by sead::PrintStreamSrc
-void sead::PrintStreamSrc::vf_0x10()
+// 0x00562A54 slot 0x14
+bool sead::PrintStreamSrc::flush()
 {
-}
-
-// 0x00562A54 slot 0x14 | virtual slot, introduced by sead::PrintStreamSrc
-void sead::PrintStreamSrc::vf_0x14()
-{
+    return true;
 }
 
 } // namespace sead

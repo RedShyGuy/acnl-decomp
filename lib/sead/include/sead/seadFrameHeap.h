@@ -63,7 +63,7 @@ public:
     virtual bool isResizable() const; // 0x007502A4 slot 0x4C
     virtual bool isAdjustable() const; // 0x007502AC slot 0x50
     virtual void dump() const; // 0x0075044C slot 0x54
-    virtual void vf_0x58(); // 0x00750498 slot 0x58 | virtual slot, introduced by sead::Heap
+    virtual void dumpYAML(Stream* stream, s32 indent) const; // 0x00750498 slot 0x58
     virtual void vf_0x5C(); // 0x00561F80 slot 0x5C | virtual slot, introduced by sead::Heap
 
     // the free area: all the memory behind the heap object (inline)

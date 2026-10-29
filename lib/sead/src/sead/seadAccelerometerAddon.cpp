@@ -1,13 +1,9 @@
 #include "sead/RuntimeTypeInfo/seadDerive.h"
-#include "sead/seadControllerAddon.h"
 #include "sead/seadAccelerometerAddon.h"
+#include "sead/seadControllerAddon.h"
 
+// (AccelerometerAddon has only inline functions)
 namespace sead {
-// ctor address unknown
-sead::AccelerometerAddon::AccelerometerAddon()
-{
-}
-
 } // namespace sead
 
 // the type information of the classes below ControllerAddon

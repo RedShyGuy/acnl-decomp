@@ -33,6 +33,10 @@ public:
     // opens the archive and reads its header; the directory of the archive is the root of the external files
     bool Open(const char* pPath); // 0x004C87C4 | fefates:bytes [tier B]
     void Close(); // 0x004C8910 | fefates:bytes-fuzzy [tier B]
+    // the info block / the label strings into the buffer (the reference symbols name the one copy
+    // RomSoundArchive::LoadHeader/LoadLabelStringData; FsSoundArchive calls the same code)
+    bool LoadHeader(void* pBuffer, u32 size); // 0x004C85D4 | mk7dlp:callseq [tier A]
+    bool LoadLabelStringData(void* pBuffer, u32 size); // 0x004C86E4 | mk7dlp:callseq [tier A]
     // the file streams report their errors
     static void FsErrorCallbackHandler(nn::Result result, void* pArg); // 0x004C8794 | fefates:bytes [tier B]
 

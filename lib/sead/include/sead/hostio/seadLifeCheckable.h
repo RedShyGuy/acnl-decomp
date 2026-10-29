@@ -8,7 +8,7 @@ namespace hostio {
 class LifeCheckable
 {
 public:
-    LifeCheckable(); // ctor address unknown
+    LifeCheckable() {}
     // (the vtables of hostio::Node in the binary have one slot; not decompiled yet)
     virtual void vf_0x00() {}
 };

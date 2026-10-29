@@ -19,10 +19,16 @@ extern bool s_IsDeleteFromCurrentHeapFirst;
 // The global new and delete operators of sead. The delete operators look for the heap that holds the
 // memory; the two copies are equal (0x002F8958 is the one of delete[]; libgarden calls it
 // "operator delete(void*, unsigned int)", probably folded with it there).
-void* operator new(size_t size, sead::Heap* heap, int alignment); // 0x002FD0BC (name after symbols_us)
+// (ARMCC does not test the result: the operator is not "throw()", a failure stops in the heap; GCC's
+// -fcheck-new would test it)
+__attribute__((returns_nonnull)) void* operator new(size_t size, sead::Heap* heap, int alignment); // 0x002FD0BC (name after symbols_us)
 void* operator new[](size_t size, sead::Heap* heap, int alignment); // 0x0012E3C0 (name after symbols_us)
 // (symbols_us gives 0x001328D8 both of the names above; it is the nothrow variant)
 void* operator new(size_t size, sead::Heap* heap, int alignment, const std::nothrow_t&); // 0x001328D8
 void* operator new[](size_t size); // 0x002FF7DC (name after the C++ operator)
+// the nothrow operators (the callers test the result; symbols.json calls 0x0013A008 "operator new(unsigned int)"
+// and 0x0077A51C "malloc")
+void* operator new(size_t size, const std::nothrow_t&) noexcept; // 0x0013A008 (name after the C++ operator)
+void* operator new[](size_t size, const std::nothrow_t&) noexcept; // 0x0077A51C (name after the C++ operator)
 void operator delete(void* p); // 0x002FF7F8
 void operator delete[](void* p); // 0x002F8958

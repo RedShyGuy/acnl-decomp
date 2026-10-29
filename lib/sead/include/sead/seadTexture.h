@@ -8,7 +8,7 @@ namespace sead {
 class Texture
 {
 public:
-    Texture(); // ctor address unknown
+    Texture() {}
     // whether the class is the one of typeInfo or derives from it
     virtual bool isKindOf(const RuntimeTypeInfo::Interface* typeInfo) const // (name is ours)
     {

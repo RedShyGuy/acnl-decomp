@@ -59,6 +59,8 @@ struct FramebufferInfoQueue
 void SetAppletMode(); // 0x001200F8 | nintendogs:callgraph [tier C]
 void Initialize(); // 0x0012A9E0 | mk7dlp:callseq [tier A]
 void StartLcdDisplay(); // 0x001247D8 | nintendogs:bytes [tier A]
+// right in front of StartLcdDisplay, only a nop left (a removed tail call; sead calls it; name is ours)
+void StartLcdDisplayEntry(); // 0x001247D4 (name is ours)
 void StopLcdDisplay(); // 0x001311A4 | fefates:bytes [tier B]
 nn::Result AcquireGpuRight(); // 0x0012AB24 | nintendogs:bytes [tier A]
 nn::Result ReleaseGpuRight(); // 0x0012AB8C | nintendogs:bytes [tier A]

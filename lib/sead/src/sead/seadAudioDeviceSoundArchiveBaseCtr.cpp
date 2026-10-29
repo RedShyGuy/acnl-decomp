@@ -26,3 +26,8 @@ template sead::AudioDeviceSoundArchiveBaseCtr<nw::snd::RomSoundArchive>::~AudioD
 ASSERT_SIZE(AudioDeviceSoundArchiveBaseCtr<nw::snd::FsSoundArchive>, 0x1AC);
 ASSERT_SIZE(AudioDeviceSoundArchiveBaseCtr<nw::snd::RomSoundArchive>, 0x1AC);
 } // namespace sead
+
+// 0x008132B0 (name is ours)
+template void sead::AudioDeviceSoundArchiveBaseCtr<nw::snd::FsSoundArchive>::close();
+// 0x008133B4 (name is ours)
+template void sead::AudioDeviceSoundArchiveBaseCtr<nw::snd::RomSoundArchive>::close();

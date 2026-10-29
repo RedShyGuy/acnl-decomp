@@ -3,10 +3,5 @@
 
 namespace sead {
 namespace hostio {
-// ctor address unknown
-sead::hostio::Reflexible::Reflexible()
-{
-}
-
 } // namespace hostio
 } // namespace sead

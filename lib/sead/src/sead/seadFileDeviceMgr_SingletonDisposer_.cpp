@@ -1,13 +1,13 @@
-#include "sead/seadIDisposer.h"
 #include "sead/seadFileDeviceMgr_SingletonDisposer_.h"
 
-// ctor candidate(s) 0x0012C540 (unverified)
-sead::FileDeviceMgr::SingletonDisposer_::SingletonDisposer_()
-{
-}
-
 // 0x00542DA8 slot 0x00 | nintendogs:bytes
+// 0x00542D28 (deleting dtor)
 sead::FileDeviceMgr::SingletonDisposer_::~SingletonDisposer_()
 {
+    if (this != FileDeviceMgr::s_pSingletonDisposer) {
+        return;
+    }
+    FileDeviceMgr::s_pSingletonDisposer = nullptr;
+    FileDeviceMgr::s_pInstance->~FileDeviceMgr();
+    FileDeviceMgr::s_pInstance = nullptr;
 }
-

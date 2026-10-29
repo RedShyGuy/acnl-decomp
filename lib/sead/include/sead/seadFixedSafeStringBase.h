@@ -52,6 +52,10 @@ public:
     {
         this->getMutableStringTop()[0] = SafeStringBase<T>::s_NullChar;
     }
+    explicit FixedSafeStringBase(const SafeStringBase<T>& str) : BufferedSafeStringBase<T>(mBuffer, N)
+    {
+        this->copy(str);
+    }
     virtual ~FixedSafeStringBase() {}
 
     T mBuffer[N]; // 0x0C

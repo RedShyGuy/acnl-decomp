@@ -28,6 +28,15 @@ public:
     // (the struct name is from the reference symbols, the members are ours)
     struct SoundSystemParam
     {
+        // the defaults (inline in sead::AudioSystemCtr)
+        SoundSystemParam()
+            : soundThreadPriority(4), soundThreadCoreNo(0), soundThreadStackSize(16384),
+              soundThreadCommandBufferSize(128 * 1024), taskThreadPriority(3), taskThreadStackSize(16384),
+              taskThreadCommandBufferSize(8 * 1024), enableSoundThread(true), enableGetSoundThreadTick(false),
+              enableUserThread(true), soundThreadProfileCount(-1)
+        {
+        }
+
         int soundThreadPriority;            // 0x00
         int soundThreadCoreNo;              // 0x04
         u32 soundThreadStackSize;           // 0x08
