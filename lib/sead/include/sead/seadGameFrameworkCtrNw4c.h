@@ -85,6 +85,8 @@ public:
     virtual void vf_0x88(); // 0x0054AD14 slot 0x88
 
     // the command list (returns its name)
+    // GameFramework::initialize (name is ours; a removed call before it)
+    static void initialize(const InitializeArg& arg); // 0x0011EC14
     static GLuint createCmdlist_(u32 bufferSize, u32 requestCount); // 0x0011E9F4 | nintendogs:bytes [tier A]
     // a frame buffer with color and depth buffers from the graphics memory manager
     static void createFramebuffer_(nn::gr::CTR::FrameBuffer* frameBuffer, int width, int height, u32 colorArea,

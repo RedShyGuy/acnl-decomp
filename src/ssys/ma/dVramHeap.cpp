@@ -3,11 +3,6 @@
 
 namespace ssys {
 namespace ma {
-// ctor address unknown
-ssys::ma::VramHeap::VramHeap()
-{
-}
-
 // 0x0011C12F slot 0x00 | slot vf_0x00 of ChangeRentalBase
 void ssys::ma::VramHeap::vf_0x00()
 {

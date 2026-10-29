@@ -15,6 +15,12 @@ namespace sead {
 // 0x0097630C
 GfxMemoryMgrCtr* GameFrameworkCtrNw4c::s_pGfxMemoryMgr = nullptr;
 
+// 0x0011EC14 (name is ours)
+void sead::GameFrameworkCtrNw4c::initialize(const InitializeArg& arg)
+{
+    GameFramework::initialize(arg);
+}
+
 // 0x0011E9F4 | nintendogs:bytes [tier A]
 GLuint sead::GameFrameworkCtrNw4c::createCmdlist_(u32 bufferSize, u32 requestCount)
 {

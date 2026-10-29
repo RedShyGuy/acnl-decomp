@@ -24,6 +24,11 @@ void sead::AudioFxMemoryMgr::dispose()
     }
 }
 
+sead::AudioFxMemoryMgr::AudioFxMemoryMgr() : mFxMgr(nullptr), mHeap(nullptr)
+{
+    // (only the members are initialized)
+}
+
 // 0x00546628 slot 0x00
 // 0x00546620 (deleting dtor)
 sead::AudioFxMemoryMgr::~AudioFxMemoryMgr()

@@ -10,7 +10,6 @@ namespace nfp {
 class Thread : public ::sead::Thread
 {
 public:
-    Thread(); // ctor address unknown
     virtual ~Thread(); // 0x0051BA64 slot 0x00 | slot vf_0x00 of sead::IDisposer
     // 0x0051BA38 slot 0x04 | slot vf_0x04 of sead::IDisposer (deleting dtor)
     virtual void vf_0x40(); // 0x0051B9E8 slot 0x40 | virtual slot, introduced by sead::Thread

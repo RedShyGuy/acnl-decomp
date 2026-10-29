@@ -13,7 +13,7 @@ struct SimpleEmitterData;
 // A point of the path of a stripe (member names are ours).
 struct StripeHistory
 {
-    StripeHistory() {} // 0x0055898C (empty; ARMCC builds the array with it)
+    DECOMP_EMIT_COPY StripeHistory() {} // 0x0055898C (empty; ARMCC builds the array with it)
 
     Vector3<f32> pos;   // 0x00
     f32 scale;          // 0x0C

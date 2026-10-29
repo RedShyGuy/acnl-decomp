@@ -37,6 +37,15 @@ public:
     // 0x00548E4C slot 0x0C (deleting dtor)
     virtual void calc(u32 prevHold, bool prevPointerOn); // 0x00548CA0 slot 0x10
 
+    // the order of padBitMax pad bits (at most 32; the bits of the stick crosses only with
+    // useStickCross, the touch bit always)
+    void setPadConfig(s32 padBitMax, const u8* padConfig, bool useStickCross); // 0x00548BF8 (name is ours)
+
+    // the bits of the controller the wrapper looks for (names are ours)
+    static const u8 TOUCH_KEY_BIT = 15;
+    static const u8 LEFT_STICK_CROSS_START_BIT = 20;
+    static const u8 RIGHT_STICK_CROSS_START_BIT = 24;
+
     // the default order: bit i is bit i of the controller
     static const u8 s_DefaultPadConfig[28];
 

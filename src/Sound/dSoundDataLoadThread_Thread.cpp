@@ -1,11 +1,6 @@
 #include "sead/seadThread.h"
 #include "Sound/dSoundDataLoadThread_Thread.h"
 
-// ctor address unknown
-SoundDataLoadThread::Thread::Thread()
-{
-}
-
 // 0x002FF098 slot 0x00 | slot vf_0x00 of sead::IDisposer
 SoundDataLoadThread::Thread::~Thread()
 {

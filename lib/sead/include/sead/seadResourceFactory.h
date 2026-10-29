@@ -48,4 +48,12 @@ public:
     FixedSafeString<32> mName; // 0x20
 };
 ASSERT_SIZE(ResourceFactory, 0x4C);
+
+inline ResourceMgr::~ResourceMgr()
+{
+    if (mNullFactory != nullptr) {
+        delete mNullFactory;
+        mNullFactory = nullptr;
+    }
+}
 } // namespace sead

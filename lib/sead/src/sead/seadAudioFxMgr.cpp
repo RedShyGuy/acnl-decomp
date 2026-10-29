@@ -45,13 +45,7 @@ void sead::AudioFxMgr::dispose(AudioFxMemoryMgr* memoryMgr)
         if ((busMask & (1 << i)) == 0) {
             continue;
         }
-        AudioGlobal::AuxBus bus = static_cast<AudioGlobal::AuxBus>(i);
-        AudioMgr::s_pInstance->mSystem->clearEffect(bus, 0);
-        for (AudioFx* fx = mList.front(); fx != mList.endObj(); fx = mList.next(fx)) {
-            if (fx->mBus == bus) {
-                fx->mBus = AudioGlobal::AUX_BUS_NONE;
-            }
-        }
+        clearBus(static_cast<AudioGlobal::AuxBus>(i), 0);
     }
     AudioFx* fx = mList.front();
     while (fx != mList.endObj()) {
@@ -62,6 +56,17 @@ void sead::AudioFxMgr::dispose(AudioFxMemoryMgr* memoryMgr)
             mList.erase(fx);
         }
         fx = next;
+    }
+}
+
+// 0x00143910 (name is ours)
+void sead::AudioFxMgr::clearBus(AudioGlobal::AuxBus bus, s32 fadeFrames)
+{
+    AudioMgr::s_pInstance->mSystem->clearEffect(bus, fadeFrames);
+    for (AudioFx* fx = mList.front(); fx != mList.endObj(); fx = mList.next(fx)) {
+        if (fx->mBus == bus) {
+            fx->mBus = AudioGlobal::AUX_BUS_NONE;
+        }
     }
 }
 } // namespace sead

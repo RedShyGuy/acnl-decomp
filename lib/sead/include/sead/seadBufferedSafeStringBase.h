@@ -3,6 +3,7 @@
 #include "decomp.h"
 #include "sead/seadSafeStringBase.h"
 
+#include <cstdarg>
 #include <cstring>
 
 namespace sead {
@@ -29,6 +30,8 @@ public:
     // replaces the string by the formatted one (cut at the end of the buffer); the length or the
     // cut length
     s32 format(const T* fmt, ...);
+    // format with the arguments of a va_list (name is ours)
+    s32 formatV(const T* fmt, std::va_list args);
     // appends the formatted string; the new length
     s32 appendWithFormat(const T* fmt, ...);
 
@@ -185,6 +188,8 @@ template <>
 s32 BufferedSafeStringBase<char>::format(const char* fmt, ...);
 template <>
 s32 BufferedSafeStringBase<char>::appendWithFormat(const char* fmt, ...);
+template <>
+s32 BufferedSafeStringBase<char>::formatV(const char* fmt, std::va_list args);
 template <>
 s32 BufferedSafeStringBase<wchar_t>::format(const wchar_t* fmt, ...);
 } // namespace sead

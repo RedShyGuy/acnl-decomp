@@ -91,6 +91,8 @@ public:
     void attachCalcDraw(); // 0x0056128C (name is ours)
     // adjusts all heaps of the task (under the lock of the task manager)
     void adjustHeapAll(); // 0x00561200 (name is ours)
+    // a task of the task manager (falls into TaskMgr::createTaskSync in the original; name is ours)
+    TaskBase* createTaskSync(const CreateArg& arg); // 0x0055F8F8
     void attachMethodWithCheck(s32 methodType, MethodTreeNode* node); // 0x00561350 | nintendogs:callseq-callee [tier A]
     void adjustHeapWithSlackWithoutLock_(s32 index, u32 slackSize); // 0x00561368 | nintendogs:bytes-fuzzy [tier A]
 

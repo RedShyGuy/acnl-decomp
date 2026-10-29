@@ -1,11 +1,30 @@
 #include "sead/seadFramework.h"
 #include "sead/seadExpHeap.h"
 #include "sead/seadMethodTreeMgr.h"
+#include "sead/seadGlobalRandom.h"
+#include "sead/seadHeapMgr.h"
 #include "sead/seadTaskMgr.h"
+#include "sead/seadThreadMgr.h"
 
 namespace sead {
+// 0x0012D0FC (name is ours)
+void sead::Framework::initialize(const InitializeArg& arg)
+{
+    if (arg.arena != nullptr) {
+        HeapMgr::initialize(arg.arena);
+    } else {
+        HeapMgr::initialize(arg.heapSize);
+    }
+    Heap* root = HeapMgr::s_RootHeaps.size() > 0 ? HeapMgr::s_RootHeaps.at(0) : nullptr;
+    ExpHeap* heap = ExpHeap::create(0, "sead::ThreadMgr", root, Heap::HEAP_DIRECTION_FORWARD, false);
+    ThreadMgr::createInstance(heap);
+    ThreadMgr::s_pInstance->initialize(heap);
+    heap->adjust();
+    GlobalRandom::createInstance(root);
+}
+
 // (out of line: the derived constructors call it)
-// 0x0013374C (name is ours)
+// 0x0013374C | mk7dlp:bytes
 DECOMP_NOINLINE sead::Framework::Framework()
     : mResetRequested(false), mResetParameter(nullptr), mResetEvent(), mTaskMgr(nullptr), mMethodTreeMgr(nullptr),
       mMethodTreeMgrHeap(nullptr)

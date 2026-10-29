@@ -8,7 +8,7 @@ void sead::UlcdMethodTreeMgr::pauseAll(bool pause)
     mRightRootDraw.pause(pause);
 }
 
-// 0x00549018 (name is ours)
+// 0x00549018 | mk7dlp:bytes
 sead::UlcdMethodTreeMgr::UlcdMethodTreeMgr()
     : DualScreenMethodTreeMgr(), mRightRootDraw(&mCriticalSection), mRightSysDraw(&mCriticalSection),
       mRightAppDraw(&mCriticalSection), mRightAppDrawFinal(&mCriticalSection)

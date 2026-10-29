@@ -4,7 +4,7 @@
 
 namespace sead {
 // (out of line: TextureCtrGR calls it)
-// 0x0053FD6C (name is ours)
+// 0x0053FD6C | mk7dlp:callgraph
 DECOMP_NOINLINE sead::TextureCtr::TextureCtr() : Texture()
 {
 }

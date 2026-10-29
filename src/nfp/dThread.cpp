@@ -2,11 +2,6 @@
 #include "nfp/dThread.h"
 
 namespace nfp {
-// ctor address unknown
-nfp::Thread::Thread()
-{
-}
-
 // 0x0051BA64 slot 0x00 | slot vf_0x00 of sead::IDisposer
 nfp::Thread::~Thread()
 {

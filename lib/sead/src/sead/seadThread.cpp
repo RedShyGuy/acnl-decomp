@@ -13,12 +13,6 @@ namespace {
 const nn::Handle CURRENT_THREAD(nn::PSEUDO_HANDLE_CURRENT_THREAD);
 } // namespace
 
-// ctor address unknown (for the derived classes of the game that are not decompiled yet)
-sead::Thread::Thread() : INamable(), mStackSize(0), mCurrentHeap(nullptr), mFindContainHeapCache(0), mBlockType(0),
-    mQuitMessage(0), mId(0), mState(STATE_INITIALIZED), mThreadInner(nullptr), mStack(nullptr), mPriority(0), mCoreNo(0)
-{
-}
-
 // 0x00125D9C (name is ours)
 sead::Thread::Thread(const SafeStringBase<char>& name, Heap* heap, s32 priority, MessageQueue::BlockType blockType,
                      MessageQueue::Element quitMessage, s32 stackSize, s32 messageQueueSize)

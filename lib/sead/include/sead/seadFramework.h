@@ -8,6 +8,7 @@
 #include "sead/RuntimeTypeInfo/seadRoot.h"
 
 namespace sead {
+class Arena;
 class Heap;
 class MethodTreeMgr;
 class TaskMgr;
@@ -36,6 +37,16 @@ public:
         TickSpan span;  // 0x08
         s32 stackSize;  // 0x10 (4096)
     };
+
+    // the memory of the program (names are ours)
+    struct InitializeArg
+    {
+        u32 heapSize; // 0x0, the size of the root heap in the device memory
+        Arena* arena; // 0x4, NULL: the device memory
+    };
+
+    // the root heap and the thread manager and random generator on a heap of their own (name is ours)
+    static void initialize(const InitializeArg& arg); // 0x0012D0FC
 
     Framework(); // 0x0013374C
     // whether the class is the one of typeInfo or derives from it

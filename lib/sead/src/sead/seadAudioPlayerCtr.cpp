@@ -104,6 +104,7 @@ void sead::AudioPlayerCtr::initializeAfterSoundSystem()
 }
 
 // 0x00543458 slot 0x38 (name of the reference symbols)
+// 0x007782E8 (thunk)
 nw::snd::SoundStartable::StartResult sead::AudioPlayerCtr::detail_SetupSound(nw::snd::SoundHandle* pHandle,
                                                                              u32 soundId, bool isHold,
                                                                              const StartInfo* pStartInfo)

@@ -57,15 +57,15 @@ sead::FileDevice* sead::CtrFileStreamFileDevice::doOpen_(FileHandle* handle, con
 {
     u32 mode = nn::fs::OPEN_MODE_READ;
     switch (flag) {
-    case 0:
+    case FILE_OPEN_FLAG_READ_ONLY:
         break;
-    case 1:
+    case FILE_OPEN_FLAG_WRITE_ONLY:
         mode = nn::fs::OPEN_MODE_WRITE | nn::fs::OPEN_MODE_CREATE;
         break;
-    case 2:
+    case FILE_OPEN_FLAG_READ_WRITE:
         mode = nn::fs::OPEN_MODE_READ | nn::fs::OPEN_MODE_WRITE;
         break;
-    case 3:
+    case FILE_OPEN_FLAG_CREATE:
         mode = nn::fs::OPEN_MODE_WRITE | nn::fs::OPEN_MODE_CREATE;
         break;
     }

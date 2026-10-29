@@ -17,8 +17,9 @@ const PicaDataVertexAttrType ATTR_FLOAT4 = static_cast<PicaDataVertexAttrType>(1
 // 0x00982D1C (name is ours)
 u32 s_RandomSeed = 0x50000;
 
-// a random number in [0, 1] (a linear congruential generator of 28 bits)
-f32 rand_()
+// a random number in [0, 1] (a linear congruential generator of 28 bits; called, not inlined)
+// 0x0055C530 (name is ours)
+DECOMP_NOINLINE f32 rand_()
 {
     s_RandomSeed = s_RandomSeed * 0xFD43FD + 0xC39EC3;
     f32 value = static_cast<s32>(s_RandomSeed & 0x0FFFFFFF) * (1.0f / 0x10000000);

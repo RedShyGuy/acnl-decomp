@@ -54,6 +54,10 @@ public:
 
     // the lock function of the drawing: the draw lock of the graphics (name is ours)
     static void lockDrawContext_(bool lock); // 0x00132BB8
+    // Framework::initialize and the resource and file device managers (names are ours; initialize falls into
+    // initialize_ in the original, the tail call became a nop)
+    static void initialize(const InitializeArg& arg); // 0x00125814
+    static void initialize_(const InitializeArg& arg); // 0x00125818
 
     // 0 before the display, 1 started by waitStartDisplayLoop_, 2 the LCDs are on
     u8 mDisplayState;                         // 0x28

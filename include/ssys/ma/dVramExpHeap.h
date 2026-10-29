@@ -10,7 +10,7 @@ namespace ma {
 class VramExpHeap : public ::ssys::ma::VramHeap
 {
 public:
-    VramExpHeap(); // ctor candidate(s) 0x00120C6C (unverified)
+    // the constructor is 0x00120C6C (name, then parameters not known yet; not decompiled)
     virtual void vf_0x00(); // 0x00567928 slot 0x00 | virtual slot, introduced by ssys::ma::VramHeap
     virtual void vf_0x04(); // 0x00567768 slot 0x04 | virtual slot, introduced by ssys::ma::VramHeap
     virtual void vf_0x08(); // 0x00567474 slot 0x08 | virtual slot, introduced by ssys::ma::VramHeap

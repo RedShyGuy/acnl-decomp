@@ -42,6 +42,29 @@ public:
     virtual void doUpdateMatrix(Matrix44<f32>* dst) const; // 0x0074D7DC slot 0x14
     virtual void doScreenPosToCameraPosTo(Vector3<f32>* dst, const Vector2<f32>& screenPos) const; // 0x0074D93C slot 0x1C
 
+    // the clip planes, the field of view and the aspect ratio (name is ours)
+    void set(f32 near, f32 far, f32 fovy, f32 aspect); // 0x0054B474
+    // the edges of the near plane with the offset (inline; the copies are called; names are ours)
+    DECOMP_EMIT_COPY f32 getTop() const // 0x0074DA78
+    {
+        f32 height = mNear * mTanFovyHalf * 2.0f;
+        return mOffset.y * height + height * 0.5f;
+    }
+    DECOMP_EMIT_COPY f32 getBottom() const // 0x0074DB18
+    {
+        f32 height = mNear * mTanFovyHalf * 2.0f;
+        return mOffset.y * height - height * 0.5f;
+    }
+    DECOMP_EMIT_COPY f32 getLeft() const // 0x0074DAA8
+    {
+        f32 width = mNear * mTanFovyHalf * 2.0f * mAspect;
+        return mOffset.x * width - width * 0.5f;
+    }
+    DECOMP_EMIT_COPY f32 getRight() const // 0x0074DAE0
+    {
+        f32 width = mNear * mTanFovyHalf * 2.0f * mAspect;
+        return mOffset.x * width + width * 0.5f;
+    }
     // the vertical field of view (radians)
     void setFovy(f32 fovy)
     {

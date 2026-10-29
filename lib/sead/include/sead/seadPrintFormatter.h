@@ -18,6 +18,12 @@ public:
     // the longest format mark
     static const s32 MARK_LENGTH_MAX = 32;
 
+    // a formatter without format for output (inline in StringFormatter; name is ours)
+    explicit PrintFormatter(PrintOutput* output)
+        : mFormat(nullptr), mOutput(output), mPosition(0), mFormatLength(0), mIsPlain(false)
+    {
+    }
+
     // the text up to the next format mark; true with the mark (empty for a plain argument) if there
     // is one
     bool proceedToFormatMark_(char* mark); // 0x00545508 | nintendogs:bytes [tier B]

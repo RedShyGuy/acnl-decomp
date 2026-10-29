@@ -22,6 +22,14 @@ public:
     void freeBuffer(); // 0x00541110 | nintendogs:bytes [tier A]
     // puts the pointers into a random order
     void shuffle(Random* random); // 0x00541268 | mk7dlp:bytes [tier B]
+    // the order of cmp (a bubble sort in both directions; name is ours)
+    typedef s32 (*CompareCallback)(const void* a, const void* b);
+    void sort(CompareCallback cmp); // 0x0054113C
+    // ptr at pos, the pointers behind it move back (nothing if the array is full or pos is outside; name is
+    // ours)
+    void insert(s32 pos, void* ptr); // 0x00541204
+    // takes count pointers out at pos (name is ours)
+    void erase(s32 pos, s32 count); // 0x00138C60
 
     s32 mPtrNum;    // 0x0
     s32 mPtrNumMax; // 0x4

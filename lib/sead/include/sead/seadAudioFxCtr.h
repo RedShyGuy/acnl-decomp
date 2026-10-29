@@ -45,6 +45,13 @@ public:
     virtual ~AudioFxCtr(); // 0x00141B98 slot 0x08
     // 0x0053E214 slot 0x0C | nintendogs:bytes (deleting dtor)
 
+    // whether the effect is no effect of nn::snd (those take a bus alone)
+    DECOMP_EMIT_COPY bool isNw() const // 0x00749DEC (name is ours)
+    {
+        return mType != TYPE_FX_REVERB && mType != TYPE_FX_DELAY && mType != TYPE_DSP_FX_REVERB &&
+               mType != TYPE_DSP_FX_DELAY;
+    }
+
     const void* mDspParam; // 0x18, the parameters of a DSP effect
     Type mType;            // 0x1C
 };

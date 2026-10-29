@@ -3,9 +3,11 @@
 #include "decomp.h"
 
 namespace sead {
+// Helpers for bit masks (the class and function names are ours).
 class BitFlagUtil
 {
 public:
-    void findOnBitFromRight(unsigned, int); // the function of the binary is pead::BitFlagUtil::findOnBitFromRight
+    // the number of set bits
+    static s32 countOnBit(u32 x); // 0x0053FD88
 };
 } // namespace sead

@@ -28,7 +28,21 @@ NN_C_FUNCTION = re.compile(r'nn(gx|gxlow|cx|init|dbg|nstd|os)[A-Z_]|nexZlib_|gl[
 def unit_of(name):
     if NN_C_FUNCTION.match(name):
         return 'nn'
-    top = re.split(r'::|\(', name.replace('(anonymous namespace)::', ''), maxsplit=1)[0]
+    name = name.replace('(anonymous namespace)::', '')
+    # a template function with its return type in the name ("void sead::PrintFormatter::out<int>(...)"): the
+    # qualified name is the last word before the parameters (outside of template arguments)
+    head = name.split('(', 1)[0]
+    depth, cut = 0, -1
+    for i, ch in enumerate(head):
+        if ch == '<':
+            depth += 1
+        elif ch == '>':
+            depth -= 1
+        elif ch == ' ' and depth == 0 and not head.startswith('operator', i + 1):
+            cut = i
+    if cut >= 0 and not head[:cut].endswith('operator'):
+        name = name[cut + 1:]
+    top = re.split(r'::|\(', name, maxsplit=1)[0]
     return top if top in LIBRARIES else 'game'
 
 
@@ -72,6 +86,10 @@ def main():
     for i, addr in enumerate(starts):
         size = (starts[i + 1] if i + 1 < len(starts) else end) - addr
         name = names.get(addr) or source_names.get(addr, '')
+        # a placeholder or guessed name of symbols.json ("sub_125D9C", "X::X() [ctor?]") gives way to the
+        # name of the sources
+        if addr in source_names and (re.fullmatch(r'sub_[0-9A-Fa-f]+', name) or name.endswith('[ctor?]')):
+            name = source_names[addr]
         unit = unit_of(name) if name else 'unnamed'
         status = results.get(addr, 'todo')
         total[unit] += size

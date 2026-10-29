@@ -10,6 +10,34 @@ namespace sead {
 const u8 ControllerWrapper::s_DefaultPadConfig[28] = {0,  1,  2,  3,  4,  5,  6,  7,  8,  9,  10, 11, 12, 13,
                                                       14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27};
 
+// 0x00548BF8 (name is ours)
+void sead::ControllerWrapper::setPadConfig(s32 padBitMax, const u8* padConfig, bool useStickCross)
+{
+    if (padBitMax > 32) {
+        return;
+    }
+    mPadBitMax = padBitMax;
+    std::memcpy(mPadConfig, padConfig, padBitMax);
+    mLeftStickCrossStartBit = -1;
+    mRightStickCrossStartBit = -1;
+    if (useStickCross) {
+        for (s32 i = 0; i < padBitMax; i++) {
+            if (padConfig[i] == LEFT_STICK_CROSS_START_BIT) {
+                mLeftStickCrossStartBit = i;
+            } else if (padConfig[i] == RIGHT_STICK_CROSS_START_BIT) {
+                mRightStickCrossStartBit = i;
+            }
+        }
+    }
+    mTouchKeyBit = -1;
+    for (s32 i = 0; i < padBitMax; i++) {
+        if (padConfig[i] == TOUCH_KEY_BIT) {
+            mTouchKeyBit = i;
+            return;
+        }
+    }
+}
+
 // 0x00548CA0 slot 0x10
 void sead::ControllerWrapper::calc(u32 prevHold, bool prevPointerOn)
 {

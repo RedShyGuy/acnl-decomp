@@ -11,7 +11,6 @@ namespace sead {
 class INamable
 {
 public:
-    INamable(); // ctor address unknown (for the classes that are not decompiled yet)
     explicit INamable(const SafeStringBase<char>& name) : mINamableName(name) {}
 
     const SafeStringBase<char>& getName() const { return mINamableName; }

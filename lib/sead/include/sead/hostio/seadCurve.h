@@ -104,7 +104,7 @@ public:
 
     struct Point
     {
-        Point() {} // 0x0055DAFC (empty; ARMCC builds the array with it)
+        DECOMP_EMIT_COPY Point() {} // 0x0055DAFC (empty; ARMCC builds the array with it)
 
         Vec4 pos;      // 0x00
         Vec4 tangent;  // 0x10

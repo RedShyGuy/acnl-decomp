@@ -25,6 +25,8 @@ public:
     {
         FILE_OPEN_FLAG_READ_ONLY = 0,
         FILE_OPEN_FLAG_WRITE_ONLY = 1,
+        FILE_OPEN_FLAG_READ_WRITE = 2,    // (names of 2 and 3 are ours)
+        FILE_OPEN_FLAG_CREATE = 3,
     };
     enum SeekOrigin
     {

@@ -22,6 +22,12 @@ void sead::TaskBase::vf_0x54()
     mInternalFlag |= 4;
 }
 
+// 0x0055F8F8 (name is ours)
+sead::TaskBase* sead::TaskBase::createTaskSync(const CreateArg& arg)
+{
+    return mTaskMgr->createTaskSync(arg);
+}
+
 // 0x0056119C slot 0x2C | slot vf_0x2C of sead::TaskBase
 void sead::TaskBase::enterCommon()
 {

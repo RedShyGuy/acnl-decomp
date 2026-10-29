@@ -3,6 +3,17 @@
 #include <cmath>
 
 namespace sead {
+// 0x0054B474 (name is ours)
+void sead::PerspectiveProjection::set(f32 near, f32 far, f32 fovy, f32 aspect)
+{
+    mNear = near;
+    mFar = far;
+    mDirty = true;
+    setFovy(fovy);
+    mAspect = aspect;
+    mDirty = true;
+}
+
 // 0x0054B4D8 (name is ours)
 sead::PerspectiveProjection::PerspectiveProjection()
     : Projection(), mNear(1.0f), mFar(10000.0f), mAspect(4.0f / 3.0f), mOffset(Vector2<f32>::zero)

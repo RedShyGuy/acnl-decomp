@@ -41,6 +41,19 @@ DECOMP_NOINLINE FixedSafeString<32>::FixedSafeString();
 // called in FileDeviceMgr
 template <>
 DECOMP_NOINLINE FixedSafeString<256>::FixedSafeString();
+// called by the game
+template <>
+DECOMP_NOINLINE FixedSafeString<17>::FixedSafeString();
+template <>
+DECOMP_NOINLINE FixedSafeString<8>::FixedSafeString();
+template <>
+DECOMP_NOINLINE FixedSafeString<7>::FixedSafeString(const SafeStringBase<char>& str);
+template <>
+DECOMP_NOINLINE FixedSafeString<20>::FixedSafeString(const SafeStringBase<char>& str);
+template <>
+DECOMP_NOINLINE FixedSafeString<32>::FixedSafeString(const SafeStringBase<char>& str);
+template <>
+DECOMP_NOINLINE FixedSafeString<64>::FixedSafeString(const SafeStringBase<char>& str);
 // built by __aeabi_vec_ctor in ptcl::PtclEditorSetting
 template <>
 DECOMP_NOINLINE FixedSafeString<64>::FixedSafeString();

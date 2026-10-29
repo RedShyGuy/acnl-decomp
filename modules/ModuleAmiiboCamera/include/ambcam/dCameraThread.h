@@ -9,7 +9,6 @@ namespace ambcam {
 class CameraThread : public ::sead::Thread
 {
 public:
-    CameraThread(); // ctor address unknown
     virtual ~CameraThread(); // ModuleAmiiboCamera.cro +0x010DFC slot 0x00
 };
 } // namespace ambcam

@@ -232,7 +232,7 @@ void sead::FaderTaskBase::pauseCalc(bool pause)
 }
 
 // (out of line: the derived constructors call it)
-// 0x00542A1C (name is ours)
+// 0x00542A1C | mk7dlp:bytes
 DECOMP_NOINLINE sead::FaderTaskBase::FaderTaskBase(const TaskConstructArg& arg, const char* name)
     : TaskBase(arg, name), mTransition(TRANSITION_NONE), mFromTask(nullptr), mCreateArg(), mToTask(nullptr),
       mCreatedSlot(this, &FaderTaskBase::onCreateTask_), mCalcNode(nullptr), mCalcCoreNode(nullptr), mFrame(0),

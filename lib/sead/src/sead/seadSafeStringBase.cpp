@@ -58,6 +58,20 @@ s32 sead::BufferedSafeStringBase<char>::appendWithFormat(const char* fmt, ...)
     return length + oldLength;
 }
 
+// 0x0054BA20 (name is ours)
+template <>
+s32 sead::BufferedSafeStringBase<char>::formatV(const char* fmt, std::va_list args)
+{
+    char* top = getMutableStringTop();
+    s32 size = mBufferSize;
+    s32 length = std::vsnprintf(top, size, fmt, args);
+    if (length < 0 || length >= size) {
+        top[size - 1] = '\0';
+        length = size - 1;
+    }
+    return length;
+}
+
 // 0x0054BA64 (name after the char version)
 template <>
 s32 sead::BufferedSafeStringBase<wchar_t>::format(const wchar_t* fmt, ...)

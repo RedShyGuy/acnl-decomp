@@ -12,7 +12,8 @@ class Heap;
 class AudioFxMemoryMgr
 {
 public:
-    AudioFxMemoryMgr() : mFxMgr(nullptr), mHeap(nullptr) {}
+    // called by AudioFxMemoryMgrCtr (out of line in the original)
+    DECOMP_NOINLINE AudioFxMemoryMgr(); // 0x0013C69C (name is ours)
     virtual ~AudioFxMemoryMgr(); // 0x00546628 slot 0x00
     // 0x00546620 slot 0x04 (deleting dtor)
 

@@ -1,10 +1,14 @@
 #include "sead/RuntimeTypeInfo/seadDerive.h"
 #include "sead/seadControllerMgr.h"
+#include "sead/seadExpHeap.h"
+#include "sead/seadFileDeviceMgr.h"
 #include "sead/seadFramework.h"
 #include "sead/seadGameFramework.h"
 #include "sead/seadGraphics.h"
 #include "sead/seadMethodTreeMgr.h"
+#include "sead/seadHeapMgr.h"
 #include "sead/seadProcessMeter.h"
+#include "sead/seadResourceMgr.h"
 #include "sead/seadTaskBase_CreateArg.h"
 #include "sead/seadTaskMgr.h"
 #include "sead/seadThread.h"
@@ -16,6 +20,36 @@ DECOMP_NOINLINE sead::GameFramework::GameFramework()
     : Framework(), mDisplayState(0), mString0(""), mString1(""), mString2(""), mThread(nullptr),
       mDrawLockFunction(&lockDrawContext_), field_0x4C(0)
 {
+}
+
+// 0x00125814 (name is ours)
+void sead::GameFramework::initialize(const InitializeArg& arg)
+{
+    initialize_(arg);
+}
+
+// 0x00125818 (name is ours)
+void sead::GameFramework::initialize_(const InitializeArg& arg)
+{
+    Framework::initialize(arg);
+    Heap* root = HeapMgr::s_RootHeaps.size() > 0 ? HeapMgr::s_RootHeaps.at(0) : nullptr;
+    ExpHeap* heap = ExpHeap::create(root->getMaxAllocatableSize(4), "sead::SystemManagers", root,
+                                    Heap::HEAP_DIRECTION_FORWARD, false);
+    {
+        ExpHeap* resourceHeap = ExpHeap::create(heap->getMaxAllocatableSize(4), "sead::ResourceMgr", heap,
+                                                Heap::HEAP_DIRECTION_FORWARD, false);
+        ScopedCurrentHeapSetter setter(resourceHeap);
+        ResourceMgr::createInstance(resourceHeap);
+        resourceHeap->adjust();
+    }
+    {
+        ExpHeap* fileHeap = ExpHeap::create(heap->getMaxAllocatableSize(4), "sead::FileDeviceMgr", heap,
+                                            Heap::HEAP_DIRECTION_FORWARD, false);
+        ScopedCurrentHeapSetter setter(fileHeap);
+        FileDeviceMgr::createInstance(fileHeap);
+        fileHeap->adjust();
+    }
+    heap->adjust();
 }
 
 // 0x00132BB8 (name is ours)

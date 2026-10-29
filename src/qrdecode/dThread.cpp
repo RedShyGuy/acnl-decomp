@@ -2,11 +2,6 @@
 #include "qrdecode/dThread.h"
 
 namespace qrdecode {
-// ctor address unknown
-qrdecode::Thread::Thread()
-{
-}
-
 // 0x006CAD0C slot 0x00 | slot vf_0x00 of sead::IDisposer
 qrdecode::Thread::~Thread()
 {

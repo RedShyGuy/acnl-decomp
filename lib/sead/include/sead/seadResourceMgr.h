@@ -48,13 +48,9 @@ public:
     };
 
     ResourceMgr(); // 0x00132D30
-    ~ResourceMgr() // (inline in deleteInstance and ~SingletonDisposer_)
-    {
-        if (mNullFactory != nullptr) {
-            delete mNullFactory;
-            mNullFactory = nullptr;
-        }
-    }
+    // (inline in deleteInstance and ~SingletonDisposer_; defined in seadResourceFactory.h, where the factory is
+    // complete and its virtual destructor is called)
+    inline ~ResourceMgr();
 
     static ResourceMgr* createInstance(Heap* heap); // 0x0012C43C
     static void deleteInstance(); // 0x0012C4A0

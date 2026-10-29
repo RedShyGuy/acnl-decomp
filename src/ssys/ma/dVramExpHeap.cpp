@@ -3,11 +3,6 @@
 
 namespace ssys {
 namespace ma {
-// ctor candidate(s) 0x00120C6C (unverified)
-ssys::ma::VramExpHeap::VramExpHeap()
-{
-}
-
 // 0x00567928 slot 0x00 | virtual slot, introduced by ssys::ma::VramHeap
 void ssys::ma::VramExpHeap::vf_0x00()
 {

@@ -133,7 +133,7 @@ void sead::DualScreenMethodTreeMgr::pauseAll(bool pause)
     mBtmRootDraw.pause(pause);
 }
 
-// 0x0054CFF8 (name is ours)
+// 0x0054CFF8 | mk7dlp:bytes
 sead::DualScreenMethodTreeMgr::DualScreenMethodTreeMgr()
     : MethodTreeMgr(), mRootCalc(&mCriticalSection), mSysCalc(&mCriticalSection), mAppCalc(&mCriticalSection),
       mTopRootDraw(&mCriticalSection), mTopSysDraw(&mCriticalSection), mTopAppDraw(&mCriticalSection),

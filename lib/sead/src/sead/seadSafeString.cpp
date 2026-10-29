@@ -49,6 +49,79 @@ sead::FixedSafeString<96>::FixedSafeString()
 {
     // (only the bases are constructed)
 }
+// 0x00811DCC (name is ours)
+template <>
+sead::FixedSafeString<17>::FixedSafeString()
+{
+    // (only the bases are constructed)
+}
+// 0x00812290 (name is ours)
+template <>
+sead::FixedSafeString<8>::FixedSafeString()
+{
+    // (only the bases are constructed)
+}
+// 0x008121A4 (name is ours)
+template <>
+sead::FixedSafeString<7>::FixedSafeString(const SafeStringBase<char>& str) : FixedSafeStringBase<char, 7>(str)
+{
+    // (only the bases are constructed)
+}
+// 0x00811E28 (name is ours)
+template <>
+sead::FixedSafeString<20>::FixedSafeString(const SafeStringBase<char>& str) : FixedSafeStringBase<char, 20>(str)
+{
+    // (only the bases are constructed)
+}
+// 0x00811F14 (name is ours)
+// 0x00545BEC (copy)
+template <>
+sead::FixedSafeString<32>::FixedSafeString(const SafeStringBase<char>& str) : FixedSafeStringBase<char, 32>(str)
+{
+    // (only the bases are constructed)
+}
+// 0x0081205C (name is ours)
+template <>
+sead::FixedSafeString<64>::FixedSafeString(const SafeStringBase<char>& str) : FixedSafeStringBase<char, 64>(str)
+{
+    // (only the bases are constructed)
+}
+// 0x00812B38 (name is ours)
+template <>
+sead::FormatFixedSafeString<128>::FormatFixedSafeString(const char* fmt, ...) : FixedSafeString<128>()
+{
+    std::va_list args;
+    va_start(args, fmt);
+    formatV(fmt, args);
+    va_end(args);
+}
+// 0x00812BB8 (name is ours)
+template <>
+sead::FormatFixedSafeString<32>::FormatFixedSafeString(const char* fmt, ...) : FixedSafeString<32>()
+{
+    std::va_list args;
+    va_start(args, fmt);
+    formatV(fmt, args);
+    va_end(args);
+}
+// 0x00812C38 (name is ours)
+template <>
+sead::FormatFixedSafeString<64>::FormatFixedSafeString(const char* fmt, ...) : FixedSafeString<64>()
+{
+    std::va_list args;
+    va_start(args, fmt);
+    formatV(fmt, args);
+    va_end(args);
+}
+// 0x00812CB8 (name is ours)
+template <>
+sead::FormatFixedSafeString<6>::FormatFixedSafeString(const char* fmt, ...) : FixedSafeString<6>()
+{
+    std::va_list args;
+    va_start(args, fmt);
+    formatV(fmt, args);
+    va_end(args);
+}
 // 0x00812638
 template sead::WFixedSafeString<5>::WFixedSafeString();
 // 0x00812E50 (name is ours)

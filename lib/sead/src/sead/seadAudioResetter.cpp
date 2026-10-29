@@ -4,7 +4,7 @@
 
 namespace sead {
 // (out of line: the derived constructors call it)
-// 0x00132F80 (name is ours)
+// 0x00132F80 | mk7dlp:callgraph
 DECOMP_NOINLINE sead::AudioResetter::AudioResetter() : mMgr(nullptr)
 {
 }

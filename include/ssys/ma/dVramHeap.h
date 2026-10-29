@@ -10,7 +10,8 @@ namespace ma {
 class VramHeap : public ::sead::INamable
 {
 public:
-    VramHeap(); // ctor address unknown
+    // (inline in the constructor of VramExpHeap 0x00120C6C)
+    explicit VramHeap(const sead::SafeStringBase<char>& name) : sead::INamable(name) {}
     virtual void vf_0x00(); // 0x0011C12F slot 0x00 | slot vf_0x00 of ChangeRentalBase
     virtual void vf_0x04(); // 0x0011C12F slot 0x04 | slot vf_0x00 of ChangeRentalBase
     virtual void vf_0x08(); // 0x0011C12F slot 0x08 | slot vf_0x00 of ChangeRentalBase

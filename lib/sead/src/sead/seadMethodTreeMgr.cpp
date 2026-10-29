@@ -2,7 +2,7 @@
 
 namespace sead {
 // (out of line: the derived constructors call it)
-// 0x005431C4 (name is ours)
+// 0x005431C4 | mk7dlp:callgraph
 DECOMP_NOINLINE sead::MethodTreeMgr::MethodTreeMgr() : mCriticalSection()
 {
 }

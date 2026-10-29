@@ -21,6 +21,9 @@ public:
     bool append(AudioGlobal::AuxBus bus, AudioFx* fx); // 0x0053E2F4 | nintendogs:bytes-fuzzy [tier B]
     // clears the buses of the effects of memoryMgr and takes them out
     void dispose(AudioFxMemoryMgr* memoryMgr); // 0x0053E348 | nintendogs:callseq [tier A]
+    // clears the effects of bus in the AudioSystem (fading out over fadeFrames) and takes the bus from
+    // the effects that were on it (inline in dispose)
+    void clearBus(AudioGlobal::AuxBus bus, s32 fadeFrames); // 0x00143910 (name is ours)
 
     OffsetList<AudioFx> mList; // 0x0
 };

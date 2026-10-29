@@ -9,7 +9,6 @@ namespace hostio {
 class PaletteEventListener : public ::sead::hostio::LifeCheckable
 {
 public:
-    PaletteEventListener(); // ctor address unknown
 };
 } // namespace hostio
 } // namespace sead

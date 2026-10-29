@@ -39,7 +39,6 @@ public:
         STATE_RELEASED = 4, // waited for
     };
 
-    Thread(); // ctor address unknown (for the derived classes of the game that are not decompiled yet)
     Thread(const SafeStringBase<char>& name, Heap* heap, s32 priority, MessageQueue::BlockType blockType,
            MessageQueue::Element quitMessage, s32 stackSize, s32 messageQueueSize); // 0x00125D9C (name is ours)
     // the thread that runs main (its system thread exists already; name "sead::MainThread")
