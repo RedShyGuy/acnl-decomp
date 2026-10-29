@@ -28,8 +28,8 @@ This includes nn, nw, pead, sead, mw, libms, imgdb and cfl.
 |---|---|
 | nn | ✅ done |
 | nw | ✅ done |
-| sead | ❌ WIP |
-| pead | ❌ not done |
+| sead | ✅ done |
+| pead | ❌ WIP |
 | mw | ❌ not done |
 | libms | ❌ not done |
 | imgdb | ❌ not done |
