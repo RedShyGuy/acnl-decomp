@@ -1,5 +1,6 @@
 #include "oml/framework/dProcess.h"
 
+#include <new>
 #include <stdlib.h>
 #include <string.h>
 
@@ -103,7 +104,8 @@ void oml::framework::Process::Destroy(oml::framework::Process*)
 // 0x0052A488 | libgarden [tier A]
 void* oml::framework::Process::operator new(unsigned int size)
 {
-    void* p = malloc(size);
+    // the nothrow array operator of sead (0x0077A51C; libgarden calls it "malloc")
+    void* p = ::operator new[](size, std::nothrow);
     if (p) {
         memset(p, 0, size);
     }

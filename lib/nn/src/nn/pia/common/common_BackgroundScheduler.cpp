@@ -11,7 +11,7 @@ namespace pia {
 namespace common {
 namespace {
 // the arguments of the thread (block type, quit message, stack size, message queue size)
-const int THREAD_BLOCK_TYPE = 1;
+const pead::MessageQueue::BlockType THREAD_BLOCK_TYPE = pead::MessageQueue::BLOCK_TYPE_NO_BLOCK;
 const int THREAD_QUIT_MESSAGE = 0x7FFFFFFF;
 const int THREAD_STACK_SIZE = 0x1000;
 const int THREAD_MESSAGE_QUEUE_SIZE = 32;

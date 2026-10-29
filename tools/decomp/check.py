@@ -92,7 +92,8 @@ def split_signature(sig):
     sig = sig.strip().replace('(anonymous namespace)', '@anon')
     sig = re.sub(r'^extern\s+"C"\s+', '', sig)        # a C function defined with its linkage
     sig = re.sub(r'(?<=>)\s+(?=>)', '', sig)          # "X<Y<Z> >" (demangler) == "X<Y<Z>>"
-    const = sig.endswith(' const') or sig.endswith(')const')
+    sig = re.sub(r'\s*\bnoexcept$', '', sig)            # a definition with noexcept (not in the mangled name)
+    const =sig.endswith(' const') or sig.endswith(')const')
     if const:
         sig = sig[:sig.rindex('const')].rstrip()
     if not sig.endswith(')'):

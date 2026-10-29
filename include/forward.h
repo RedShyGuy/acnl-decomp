@@ -3879,8 +3879,8 @@ namespace pead {
     class TextStreamFormat;
     class Thread;
     class ThreadMgr;
-    template <auto T0> class FixedSafeString;
-    template <typename T0, auto T1> class FixedSafeStringBase;
+    template <int N> class FixedSafeString; // pead/peadFixedSafeString.h
+    template <typename T, int N> class FixedSafeStringBase; // pead/peadFixedSafeStringBase.h
     template <typename T0, typename T1, typename T2> class Delegate2;
     template <typename T0, typename T1, typename T2> class DelegateBase;
     template <typename T0, typename T1> class IDelegate2;

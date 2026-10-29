@@ -9,7 +9,7 @@ namespace hostio {
 class Node : public ::pead::hostio::Reflexible
 {
 public:
-    Node(); // ctor address unknown
+    Node() {}
 };
 } // namespace hostio
 } // namespace pead

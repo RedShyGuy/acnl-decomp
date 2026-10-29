@@ -60,6 +60,16 @@ public:
 
     void insert(s32 index, T* ptr) { PtrArrayImpl::insert(index, ptr); }
 
+    T** begin() const { return reinterpret_cast<T**>(mPtrs); }
+    T** end() const { return reinterpret_cast<T**>(mPtrs) + mPtrNum; }
+    // drops the last pointer (name is ours)
+    void popBack()
+    {
+        if (mPtrNum > 0) {
+            mPtrNum--;
+        }
+    }
+
     void clear() { mPtrNum = 0; }
 };
 

@@ -6,38 +6,39 @@
 namespace pead {
 // RTTI N4pead18BinaryStreamFormatE @ 0x008D1210
 // vtable 0x00904B9C (vptr 0x00904BA4), offset_to_top 0, 29 entries
+//
+// Values as their bytes in the given byte order.
 class BinaryStreamFormat : public ::pead::StreamFormat
 {
 public:
-    BinaryStreamFormat(); // ctor candidate(s) 0x00791108 (unverified)
-    virtual void vf_0x00(); // 0x0053AC44 slot 0x00 | virtual slot, introduced by pead::BinaryStreamFormat
-    virtual void vf_0x04(); // 0x0053AE84 slot 0x04 | virtual slot, introduced by pead::BinaryStreamFormat
-    virtual void vf_0x08(); // 0x0053AED8 slot 0x08 | virtual slot, introduced by pead::BinaryStreamFormat
-    virtual void vf_0x0C(); // 0x0053AF2C slot 0x0C | virtual slot, introduced by pead::BinaryStreamFormat
-    virtual void vf_0x10(); // 0x0053ABF0 slot 0x10 | virtual slot, introduced by pead::BinaryStreamFormat
-    virtual void vf_0x14(); // 0x0053AD74 slot 0x14 | virtual slot, introduced by pead::BinaryStreamFormat
-    virtual void vf_0x18(); // 0x0053ADD0 slot 0x18 | virtual slot, introduced by pead::BinaryStreamFormat
-    virtual void vf_0x1C(); // 0x0053AE24 slot 0x1C | virtual slot, introduced by pead::BinaryStreamFormat
-    virtual void vf_0x20(); // 0x0053AD1C slot 0x20 | virtual slot, introduced by pead::BinaryStreamFormat
-    virtual void vf_0x24(); // 0x0053ACA4 slot 0x24 | virtual slot, introduced by pead::BinaryStreamFormat
-    virtual void vf_0x28(); // 0x0053A9B8 slot 0x28 | virtual slot, introduced by pead::BinaryStreamFormat
-    virtual void vf_0x2C(); // 0x0053AB88 slot 0x2C | virtual slot, introduced by pead::BinaryStreamFormat
-    virtual void vf_0x30(); // 0x0053AFE0 slot 0x30 | virtual slot, introduced by pead::BinaryStreamFormat
-    virtual void vf_0x34(); // 0x0053B1E4 slot 0x34 | virtual slot, introduced by pead::BinaryStreamFormat
-    virtual void vf_0x38(); // 0x0053B238 slot 0x38 | virtual slot, introduced by pead::BinaryStreamFormat
-    virtual void vf_0x3C(); // 0x0053B28C slot 0x3C | virtual slot, introduced by pead::BinaryStreamFormat
-    virtual void vf_0x40(); // 0x0053AF8C slot 0x40 | virtual slot, introduced by pead::BinaryStreamFormat
-    virtual void vf_0x44(); // 0x0053B0E8 slot 0x44 | virtual slot, introduced by pead::BinaryStreamFormat
-    virtual void vf_0x48(); // 0x0053B140 slot 0x48 | virtual slot, introduced by pead::BinaryStreamFormat
-    virtual void vf_0x4C(); // 0x0053B194 slot 0x4C | virtual slot, introduced by pead::BinaryStreamFormat
-    virtual void vf_0x50(); // 0x0053B08C slot 0x50 | virtual slot, introduced by pead::BinaryStreamFormat
-    virtual void vf_0x54(); // 0x0053B030 slot 0x54 | virtual slot, introduced by pead::BinaryStreamFormat
-    virtual void vf_0x58(); // 0x0053AAC8 slot 0x58 | virtual slot, introduced by pead::BinaryStreamFormat
-    virtual void vf_0x5C(); // 0x0053ABAC slot 0x5C | virtual slot, introduced by pead::BinaryStreamFormat
-    virtual void vf_0x60(); // 0x0053ABD4 slot 0x60 | virtual slot, introduced by pead::BinaryStreamFormat
-    virtual void vf_0x64(); // 0x0053ABD0 slot 0x64 | virtual slot, introduced by pead::BinaryStreamFormat
-    virtual void vf_0x68(); // 0x0053ABD8 slot 0x68 | virtual slot, introduced by pead::BinaryStreamFormat
-    virtual void vf_0x6C(); // 0x0053ABEC slot 0x6C | virtual slot, introduced by pead::BinaryStreamFormat
-    virtual void vf_0x70(); // 0x0053AC94 slot 0x70 | virtual slot, introduced by pead::BinaryStreamFormat
+    virtual u8 readU8(StreamSrc* src, Endian::Types endian); // 0x0053AC44 slot 0x00
+    virtual u16 readU16(StreamSrc* src, Endian::Types endian); // 0x0053AE84 slot 0x04
+    virtual u32 readU32(StreamSrc* src, Endian::Types endian); // 0x0053AED8 slot 0x08
+    virtual u64 readU64(StreamSrc* src, Endian::Types endian); // 0x0053AF2C slot 0x0C
+    virtual s8 readS8(StreamSrc* src, Endian::Types endian); // 0x0053ABF0 slot 0x10
+    virtual s16 readS16(StreamSrc* src, Endian::Types endian); // 0x0053AD74 slot 0x14
+    virtual s32 readS32(StreamSrc* src, Endian::Types endian); // 0x0053ADD0 slot 0x18
+    virtual s64 readS64(StreamSrc* src, Endian::Types endian); // 0x0053AE24 slot 0x1C
+    virtual f32 readF32(StreamSrc* src, Endian::Types endian); // 0x0053AD1C slot 0x20
+    virtual void readBit(StreamSrc* src, void* dst, u32 bitNum); // 0x0053ACA4 slot 0x24
+    virtual void readString(StreamSrc* src, BufferedSafeStringBase<char>* dst, u32 size); // 0x0053A9B8 slot 0x28
+    virtual u32 readMemBlock(StreamSrc* src, void* dst, u32 size); // 0x0053AB88 slot 0x2C
+    virtual void writeU8(StreamSrc* src, Endian::Types endian, u8 value); // 0x0053AFE0 slot 0x30
+    virtual void writeU16(StreamSrc* src, Endian::Types endian, u16 value); // 0x0053B1E4 slot 0x34
+    virtual void writeU32(StreamSrc* src, Endian::Types endian, u32 value); // 0x0053B238 slot 0x38
+    virtual void writeU64(StreamSrc* src, Endian::Types endian, u64 value); // 0x0053B28C slot 0x3C
+    virtual void writeS8(StreamSrc* src, Endian::Types endian, s8 value); // 0x0053AF8C slot 0x40
+    virtual void writeS16(StreamSrc* src, Endian::Types endian, s16 value); // 0x0053B0E8 slot 0x44
+    virtual void writeS32(StreamSrc* src, Endian::Types endian, s32 value); // 0x0053B140 slot 0x48
+    virtual void writeS64(StreamSrc* src, Endian::Types endian, s64 value); // 0x0053B194 slot 0x4C
+    virtual void writeF32(StreamSrc* src, Endian::Types endian, f32 value); // 0x0053B08C slot 0x50
+    virtual void writeBit(StreamSrc* src, const void* data, u32 bitNum); // 0x0053B030 slot 0x54
+    virtual void writeString(StreamSrc* src, const SafeStringBase<char>& str, u32 size); // 0x0053AAC8 slot 0x58
+    virtual void writeMemBlock(StreamSrc* src, const void* data, u32 size); // 0x0053ABAC slot 0x5C
+    virtual void writeDecorationText(StreamSrc* src, const SafeStringBase<char>& text); // 0x0053ABD4 slot 0x60
+    virtual void writeNullChar(StreamSrc* src); // 0x0053ABD0 slot 0x64
+    virtual void skip(StreamSrc* src, u32 size); // 0x0053ABD8 slot 0x68
+    virtual void flush(StreamSrc* src); // 0x0053ABEC slot 0x6C
+    virtual void rewind(StreamSrc* src); // 0x0053AC94 slot 0x70
 };
 } // namespace pead

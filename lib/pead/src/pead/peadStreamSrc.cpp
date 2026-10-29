@@ -1,9 +1,1 @@
-#include "pead/peadStreamSrc.h"
-
-namespace pead {
-// ctor address unknown
-pead::StreamSrc::StreamSrc()
-{
-}
-
-} // namespace pead
+// (empty: pead::StreamSrc is an interface without functions of its own)

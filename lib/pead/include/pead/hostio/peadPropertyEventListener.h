@@ -9,7 +9,7 @@ namespace hostio {
 class PropertyEventListener : public ::pead::hostio::LifeCheckable
 {
 public:
-    PropertyEventListener(); // ctor address unknown
+    PropertyEventListener() {}
 };
 } // namespace hostio
 } // namespace pead

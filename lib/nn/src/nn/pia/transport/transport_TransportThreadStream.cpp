@@ -129,7 +129,8 @@ nn::Result nn::pia::transport::TransportThreadStream::InitializeCore(const char*
     pead::Heap* pHeap = common::HeapManager::GetHeap();
     void* pBuffer = pead::AllocMemory(sizeof(pead::DelegateThread), common::HeapManager::GetHeap());
     if (pBuffer != nullptr) {
-        pBuffer = ::new (pBuffer) pead::DelegateThread(pead::SafeStringBase<char>(pName), &m_Delegate, pHeap, priority, 1, 0x7FFFFFFF,
+        pBuffer = ::new (pBuffer) pead::DelegateThread(pead::SafeStringBase<char>(pName), &m_Delegate, pHeap, priority,
+                                                       pead::MessageQueue::BLOCK_TYPE_NO_BLOCK, 0x7FFFFFFF,
                                                        THREAD_STACK_SIZE, THREAD_MESSAGE_QUEUE_SIZE);
     }
     m_pThread = static_cast<pead::DelegateThread*>(pBuffer);

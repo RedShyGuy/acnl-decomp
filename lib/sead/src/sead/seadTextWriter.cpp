@@ -18,18 +18,65 @@ class DummyFont : public sead::FontBase
 public:
     virtual ~DummyFont(); // 0x00528F08 slot 0x00
     // 0x00528F04 slot 0x04 (deleting dtor)
-    virtual f32 getHeight() const { return 16.0f; } // 0x00748CFC slot 0x08
-    virtual f32 getWidth() const { return 12.0f; } // 0x00748CF0 slot 0x0C
-    virtual f32 getCharWidth(wchar_t) const { return 12.0f; } // 0x00748CD0 slot 0x10
-    virtual s32 getEncoding() const { return 2; } // 0x00748CC8 slot 0x14
-    virtual s32 getMaxDrawNum() const { return 128; } // 0x00748CDC slot 0x18
-    virtual void begin() const {} // 0x00748CE8 slot 0x1C
-    virtual void end() const {} // 0x00748CE4 slot 0x20
+    virtual f32 getHeight() const; // 0x00748CFC slot 0x08
+    virtual f32 getWidth() const; // 0x00748CF0 slot 0x0C
+    virtual f32 getCharWidth(wchar_t) const; // 0x00748CD0 slot 0x10
+    virtual s32 getEncoding() const; // 0x00748CC8 slot 0x14
+    virtual s32 getMaxDrawNum() const; // 0x00748CDC slot 0x18
+    virtual void begin() const; // 0x00748CE8 slot 0x1C
+    virtual void end() const; // 0x00748CE4 slot 0x20
     virtual void print(const sead::Projection*, const sead::Camera*, const sead::Matrix34<f32>&, const sead::Color4f&,
-                       const wchar_t*, s32) const // 0x00748CEC slot 0x24
-    {
-    }
+                       const wchar_t*, s32) const; // 0x00748CEC slot 0x24
 };
+
+// 0x00748CFC slot 0x08
+inline f32 DummyFont::getHeight() const
+{
+    return 16.0f;
+}
+
+// 0x00748CF0 slot 0x0C
+inline f32 DummyFont::getWidth() const
+{
+    return 12.0f;
+}
+
+// 0x00748CD0 slot 0x10
+inline f32 DummyFont::getCharWidth(wchar_t) const
+{
+    return 12.0f;
+}
+
+// 0x00748CC8 slot 0x14
+inline s32 DummyFont::getEncoding() const
+{
+    return 2;
+}
+
+// 0x00748CDC slot 0x18
+inline s32 DummyFont::getMaxDrawNum() const
+{
+    return 128;
+}
+
+// 0x00748CE8 slot 0x1C
+inline void DummyFont::begin() const
+{
+    // empty (in the original too)
+}
+
+// 0x00748CE4 slot 0x20
+inline void DummyFont::end() const
+{
+    // empty (in the original too)
+}
+
+// 0x00748CEC slot 0x24
+inline void DummyFont::print(const sead::Projection*, const sead::Camera*, const sead::Matrix34<f32>&,
+                             const sead::Color4f&, const wchar_t*, s32) const
+{
+    // empty (in the original too)
+}
 
 // 0x00528F08 slot 0x00
 // 0x00528F04 (deleting dtor)

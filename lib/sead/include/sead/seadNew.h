@@ -26,8 +26,9 @@ void* operator new[](size_t size, sead::Heap* heap, int alignment); // 0x0012E3C
 // (symbols_us gives 0x001328D8 both of the names above; it is the nothrow variant)
 void* operator new(size_t size, sead::Heap* heap, int alignment, const std::nothrow_t&); // 0x001328D8
 void* operator new[](size_t size); // 0x002FF7DC (name after the C++ operator)
-// the nothrow operators (the callers test the result; symbols.json calls 0x0013A008 "operator new(unsigned int)"
-// and 0x0077A51C "malloc")
+// the nothrow operators (the callers test the result and pass a second argument in r1, scalar objects go to
+// 0x0013A008, arrays to 0x0077A51C; libgarden calls the two byte-identical wrappers "operator new(unsigned int)" and
+// "malloc", which take one argument, and cannot tell them apart; corrected in symbols.json)
 void* operator new(size_t size, const std::nothrow_t&) noexcept; // 0x0013A008 (name after the C++ operator)
 void* operator new[](size_t size, const std::nothrow_t&) noexcept; // 0x0077A51C (name after the C++ operator)
 void operator delete(void* p); // 0x002FF7F8

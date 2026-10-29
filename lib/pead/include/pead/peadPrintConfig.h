@@ -4,6 +4,7 @@
 // RTTI (pead::IDelegate1<pead::PrintConfig::PrintEventArg const&>); the rest is ours.
 
 #include "decomp.h"
+#include "pead/peadDelegateEvent.h"
 #include "pead/peadIDelegate1.h"
 
 namespace pead {
@@ -24,6 +25,13 @@ void SetPrintDelegate(IDelegate1<const PrintEventArg&>* delegate); // 0x00538354
 void PrintDefault(const char* str, s32 length); // 0x0053C6EC
 // prints through the delegate (name is ours)
 void Print(const char* str, s32 length); // 0x0053C6D0
+// fires the output event, then gives arg to the delegate (or to PrintDefault without one; name is ours)
+void PrintArg(const PrintEventArg& arg); // 0x005382D4
+
+// the output event (its slots get every text; name is ours)
+extern DelegateEvent<const PrintEventArg&> s_PrintEvent;
+// the delegate of SetPrintDelegate (name is ours)
+extern IDelegate1<const PrintEventArg&>* s_pPrintDelegate;
 
 } // namespace PrintConfig
 } // namespace pead
