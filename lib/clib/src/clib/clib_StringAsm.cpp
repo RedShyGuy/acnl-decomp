@@ -193,13 +193,21 @@ extern "C" __attribute__((naked)) void* memmoveWithResult(void* destination, con
         "pop {r0, pc}\n");
 }
 
-// (memcpy that returns destination)
+// (falls into memcpyWithResult; the game calls this entry, the Thumb code the one behind it)
 // 0x002F88D8 (name is ours)
+extern "C" __attribute__((naked)) void* memcpyWithResultEntry(void* destination, const void* source, size_t size)
+{
+    asm volatile(
+        ".syntax unified\n"
+        "b memcpyWithResult\n");
+}
+
+// (memcpy that returns destination)
+// 0x002F88DC (name is ours)
 extern "C" __attribute__((naked)) void* memcpyWithResult(void* destination, const void* source, size_t size)
 {
     asm volatile(
         ".syntax unified\n"
-        "nop\n"
         "push {r0, lr}\n"
         "bl memcpy\n"
         "pop {r0, pc}\n");

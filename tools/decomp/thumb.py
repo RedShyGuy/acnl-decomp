@@ -26,6 +26,7 @@ class Translation:
         self.calls = {}           # ARM index -> (Thumb offset of the instruction, target address or None)
         self.literals = {}        # ARM index of an appended literal -> Thumb offset of the literal
         self.pcrel = {}           # ARM index of an appended literal -> pc that "add rX, pc" adds to it
+        self.adrs = {}            # ARM index of an appended address ("adr rX, label": data in the code) -> address
         self.offsets = []         # ARM index -> Thumb offset (code words only)
 
 
@@ -180,8 +181,9 @@ def translate(read_half, start, size, read_word=None, calls_at=()):
     if read_word is None:
         def read_word(o):
             return read_half(o) | (read_half(o + 2) << 16)
-    # pass 1: the literals and the data behind the code (from the first literal on)
+    # pass 1: the literals (data in the code) and the targets of the branches inside the function
     data = set()
+    targets = set()
     o = 0
     while o < size:
         h = read_half(o)
@@ -189,17 +191,31 @@ def translate(read_half, start, size, read_word=None, calls_at=()):
             lit = ((start + o + 4) & ~3) + (h & 0xFF) * 4 - start
             if 0 <= lit < size:
                 data.update((lit, lit + 2))
+        elif (h >> 12) == 0xD and ((h >> 8) & 15) < 14 or (h >> 11) == 0x1C:
+            kind, _, target = _decode(h, None, start + o)
+            if kind == 'branch' and start <= target < start + size:
+                targets.add(target - start)
         o += 4 if (h >> 11 == 0x1E and o + 2 < size and read_half(o + 2) >> 11 in (0x1F, 0x1D)) else 2
-    first_data = min(data) if data else size
     # pass 2: translate the code; branch targets are fixed up afterwards
     t = Translation()
     index_of = {}
     fixups = []
     literal_index = {}
     pending_literals = []
-    last_literal = {}                                             # register -> literal address loaded
+    last_literal = {}                                             # register -> ARM index of its literal load
+    pc_of_load = {}                                               # ARM index of a load -> pc of its "add rX, pc"
     o = 0
-    while o < min(size, first_data):
+    while o < size:
+        if o in data or (o % 4 == 2 and o + 2 in data and read_half(o) == 0):
+            # a literal pool (with the padding before it): the code goes on behind it only when a branch leads
+            # there (GCC places pools inside long functions); otherwise the rest is data
+            behind = o
+            while behind < size and (behind in data or (behind % 4 == 2 and behind + 2 in data)):
+                behind += 2
+            if any(target >= behind for target in targets):
+                o = behind
+                continue
+            break
         h = read_half(o)
         h2 = read_half(o + 2) if o + 2 < size else None
         addr = start + o
@@ -231,15 +247,15 @@ def translate(read_half, start, size, read_word=None, calls_at=()):
         elif kind in ('literal', 'adr'):
             rd, address = extra
             pending_literals.append((len(t.words), rd, address, kind))
-            t.words.append(0)
             if kind == 'literal':
-                last_literal[rd] = address
+                last_literal[rd] = len(t.words)
             else:
                 last_literal.pop(rd, None)
+            t.words.append(0)
         elif kind == 'addpc':
             rd = extra
             if rd in last_literal:
-                pending_literals.append((None, rd, last_literal.pop(rd), addr + 4))
+                pc_of_load[last_literal.pop(rd)] = addr + 4
             t.words.append(word)
         else:
             t.words.append(NEUTRAL)
@@ -250,24 +266,19 @@ def translate(read_half, start, size, read_word=None, calls_at=()):
         if j is None:
             j = index_of.get(target_off - 2, n_code)
         t.words[i] = (cond << 28) | 0x0A000000 | ((j - i - 2) & 0xFFFFFF)
-    # the literals behind the code
-    pc_of = {}
+    # the literals behind the code (one per literal and pc it is added to)
     for i, rd, address, kind in pending_literals:
-        if i is None:
-            pc_of[address] = kind                                 # (kind is the pc of "add rX, pc")
-            continue
-    for i, rd, address, kind in pending_literals:
-        if i is None:
-            continue
-        key = (address, kind)
+        pc = pc_of_load.get(i)
+        key = (address, kind, pc)
         if key not in literal_index:
             literal_index[key] = len(t.words)
             if kind == 'literal':
-                t.words.append(read_word(address - start) if 0 <= address - start <= size - 4 else 0)
+                t.words.append(read_word(address - start))  # (a pool can lie behind the function: shared)
                 t.literals[literal_index[key]] = address - start
-                if address in pc_of:
-                    t.pcrel[literal_index[key]] = pc_of[address]
+                if pc is not None:
+                    t.pcrel[literal_index[key]] = pc
             else:
+                t.adrs[literal_index[key]] = address
                 t.words.append(address)                           # adr: the address itself
         j = literal_index[key]
         t.words[i] = 0xE59F0000 | (rd << 12) | ((j - i - 2) * 4)  # ldr rd, [pc, #...]

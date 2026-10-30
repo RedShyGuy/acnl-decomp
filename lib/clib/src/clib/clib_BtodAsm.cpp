@@ -5,6 +5,78 @@
 
 #include "types.h"
 
+// (a double (high word in r0) as an extended precision number in r0-r2: sign and exponent, the
+// mantissa with its leading one; denormals are normalized)
+// 0x001511EC (name is ours)
+extern "C" __attribute__((naked)) void __btod_d2e(u32 high, u32 low)
+{
+    asm volatile(
+        ".syntax unified\n"
+        "lsls ip, r0, #1\n"
+        "teqeq r1, #0\n"
+        "lsr r0, ip, #20\n"
+        "lsl r3, ip, #10\n"
+        "lsl r2, r1, #11\n"
+        "addne r0, r0, #30720\n"
+        "orr r1, r3, r1, lsr #21\n"
+        "rrx r0, r0\n"
+        "orrne r1, r1, #-2147483648\n"
+        "asrs ip, ip, #21\n"
+        "beq .L151278\n"
+        "cmn ip, #1\n"
+        "orreq r0, r0, #1073741824\n"
+        "bx lr\n"
+        ".L151224:\n"
+        "lsrs r3, r2, #16\n"
+        "lsleq r2, r2, #16\n"
+        "moveq ip, #16\n"
+        "movne ip, #0\n"
+        "sub r0, r0, #31\n"
+        "lsrs r3, r2, #24\n"
+        "lsleq r2, r2, #8\n"
+        "addeq ip, ip, #8\n"
+        "lsrs r3, r2, #28\n"
+        "lsleq r2, r2, #4\n"
+        "addeq ip, ip, #4\n"
+        "lsrs r3, r2, #30\n"
+        "lsleq r2, r2, #2\n"
+        "addeq ip, ip, #2\n"
+        "lsrs r3, r2, #31\n"
+        "lsleq r2, r2, #1\n"
+        "addeq ip, ip, #1\n"
+        "mov r1, r2\n"
+        "mov r2, #0\n"
+        "sub r0, r0, ip\n"
+        "bx lr\n"
+        ".L151278:\n"
+        "tst r1, #-2147483648\n"
+        "bxeq lr\n"
+        "bics r1, r1, #-2147483648\n"
+        "beq .L151224\n"
+        "lsrs r3, r1, #16\n"
+        "lsleq r1, r1, #16\n"
+        "moveq ip, #16\n"
+        "movne ip, #0\n"
+        "lsrs r3, r1, #24\n"
+        "lsleq r1, r1, #8\n"
+        "addeq ip, ip, #8\n"
+        "lsrs r3, r1, #28\n"
+        "lsleq r1, r1, #4\n"
+        "addeq ip, ip, #4\n"
+        "lsrs r3, r1, #30\n"
+        "lsleq r1, r1, #2\n"
+        "addeq ip, ip, #2\n"
+        "lsrs r3, r1, #31\n"
+        "addeq ip, ip, #1\n"
+        "rsb r3, ip, #32\n"
+        "lsleq r1, r1, #1\n"
+        "orr r1, r1, r2, lsr r3\n"
+        "lsl r2, r2, ip\n"
+        "sub r0, r0, ip\n"
+        "add r0, r0, #1\n"
+        "bx lr\n");
+}
+
 // (divides two extended precision numbers: sign and exponent in r0/r3, the 64 bit mantissas in
 // r1:r2 and r4:r5; the first quotient digit comes from the reciprocal table of 128 bytes behind
 // the code, indexed by the top byte of the divisor)

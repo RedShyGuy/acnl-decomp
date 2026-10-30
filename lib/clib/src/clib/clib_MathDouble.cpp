@@ -4,6 +4,7 @@
 
 #include "decomp.h"
 #include "types.h"
+#include "clib/clib_Btod.h"
 
 namespace {
 // the values of errno (names are ours)
@@ -30,11 +31,25 @@ inline f64 SetHighWord(f64 value, u32 high)
 }
 } // namespace
 
+namespace clib {
+// +infinity (HUGE_VAL), read by the Thumb code of scanf
+// 0x00945410 (name is ours)
+extern const DoubleWords s_Infinity = {0, 0x7FF00000};
+} // namespace clib
+
 extern "C" {
 
 void __set_errno(int value);
 f64 __mathlib_dbl_underflow();
 __attribute__((pcs("aapcs"))) f64 __ARM_scalbn(f64 value, int exponent);
+
+// the floating point status (rounding mode in bits 22-23): without a floating point environment always 0 (round to
+// nearest); the printf conversion asks it with (0, 0)
+// 0x002F89EC (name is ours)
+u32 __fp_status(u32 mask, u32 flags)
+{
+    return 0;
+}
 
 // 0x007A7408 (name is ours)
 DECOMP_NOINLINE __attribute__((pcs("aapcs"))) f64 __softfp_frexp(f64 x, int* exponent)

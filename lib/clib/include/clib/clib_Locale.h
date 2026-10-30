@@ -46,7 +46,7 @@ struct NumericData
 // the locale state of the C library (only the categories known)
 struct CLibraryLocale
 {
-    u32 _unknown0x0;
+    const s32* m_pCollate;          // 0x0 (its first word: the offset of the collation table from it, 0 = none)
     const u8* m_pCtypeClasses;      // 0x4 (from the class of EOF on: indexed by the character)
     u32 _unknown0x8;
     const NumericData* m_pNumeric;  // 0xC

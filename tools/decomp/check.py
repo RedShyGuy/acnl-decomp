@@ -791,6 +791,33 @@ def orig_call_count(mem, addr):
     return _BL_COUNTS['counts'][addr]
 
 
+def veneer_target(mem, target):
+    """the function behind armlink's veneers: ARM to Thumb ("add ip, pc, #1 ; bx ip", or #n to a function
+    further on), long ones ("ldr pc, [pc, #-4]; .word f"), and a plain "b" to such a veneer"""
+    for _ in range(3):
+        if not mem.in_text(target):
+            break
+        w = mem.u32(target)
+        if (w & 0xFFFFFF01) == 0xE28FC001 and mem.u32(target + 4) == 0xE12FFF1C:
+            target = (target + 8 + (w & 0xFE)) & ~1
+        elif w == 0xE51FF004 and mem.in_text(mem.u32(target + 4) & ~1):
+            target = mem.u32(target + 4) & ~1
+        elif w in (0xE320F000, 0xE1A00000) and (mem.u32(target + 4) & 0xFFFFFF01) == 0xE28FC001:
+            target += 4                                     # a nop that falls into a veneer
+        elif (w & 0xFF000000) == 0xEA000000:
+            t = target + 8 + fuzzy._sext24(w & 0xFFFFFF) * 4
+            tw = mem.u32(t) if mem.in_text(t) else 0
+            if tw == 0xE51FF004 or ((tw & 0xFFFFFF01) == 0xE28FC001 and mem.u32(t + 4) == 0xE12FFF1C) or (
+                    (tw & 0xFF000000) == 0xEA000000 and veneer_target(mem, t) != t):
+                # (a branch to a veneer, or to another branch that ends in one)
+                target = t
+            else:
+                break
+        else:
+            break
+    return target
+
+
 def make_fuzzy_pair(mem, db, starts, names, by_source, by_name, variables=None):
     """-> f(data, size, syminfo, addr, orig_size) = (features of the object function,
     features of the original), both with call targets / literals in the same terms:
@@ -860,9 +887,7 @@ def make_fuzzy_pair(mem, db, starts, names, by_source, by_name, variables=None):
         return ('name', norm(dn))
 
     def orig_fn(target):
-        if mem.in_text(target) and (mem.u32(target) & 0xFFFFFF01) == 0xE28FC001 and mem.u32(target + 4) == 0xE12FFF1C:
-            # ARM to Thumb veneer ("add ip, pc, #1 ; bx ip", or #n to a function further on): the function behind it
-            target += 8 + (mem.u32(target) & 0xFE)
+        target = veneer_target(mem, target)
         fam = fuzzy.runtime_family(addr_name.get(target))
         if fam:
             return ('rt', fam)
@@ -937,7 +962,8 @@ def make_fuzzy_pair(mem, db, starts, names, by_source, by_name, variables=None):
         if is_thumb:
             # Thumb code (the C library): compared as its ARM translation; relocated branches are calls
             tr = thumb.translate(lambda o: int.from_bytes(data[o:o + 2], 'little') if o + 2 <= len(data) else 0,
-                                 0, size, calls_at=set(syminfo))
+                                 0, size, calls_at=set(syminfo),
+                                 read_word=lambda o: int.from_bytes(data[o:o + 4], 'little') if 0 <= o <= len(data) - 4 else 0)
             mine_words = tr.words
 
         def word_info(j):
@@ -1135,6 +1161,9 @@ def make_fuzzy_pair(mem, db, starts, names, by_source, by_name, variables=None):
             return orig_fn(target & ~1)
 
         def orig_word(j, w):
+            if tr is not None and j in tr.adrs:
+                # "adr rX, label" in Thumb code: data in the code (a short string)
+                return orig_text_string(tr.adrs[j]) or ('k', w)
             if addr <= w < addr + n_orig * 4 and w % 4 == 0 and j is not None:
                 return ('self',)                           # data in the function (hand-written assembly)
             if j is not None and j in pcrel:
@@ -1438,9 +1467,12 @@ def main():
             addr = by_name.get(norm(name))
         if copy_addr is not None:
             addr = copy_addr
-        elif addr is not None and not is_thunk and not is_deleting and skey in COPIES and skey not in copies_added:
-            copies_added.add(skey)
-            work.extend(((obj, mangled, data, size, rel, syminfo), c) for c in COPIES[skey])
+        elif addr is not None and not is_thunk and not is_deleting and (skey if skey in COPIES else name) not in copies_added and (
+                skey in COPIES or any(k[0] == name for k in COPIES)):
+            # (a C function: its object name has no parameter list, the key of the sources has)
+            copies_added.add(skey if skey in COPIES else name)
+            keys = [skey] if skey in COPIES else [k for k in COPIES if k[0] == name]
+            work.extend(((obj, mangled, data, size, rel, syminfo), c) for k in keys for c in COPIES[k])
         mine = masked_words(data, rel, size)
         if addr is None:
             status, osize = 'unknown', None
@@ -1516,6 +1548,15 @@ def main():
             wanted = True
         if wanted:
             details.append((name, addr, mine, size, fz))
+
+    # armlink's veneers (ARM to Thumb, long ones, a "b" to them) have no source: they share the result of the
+    # Thumb function behind them
+    for s in starts:
+        t = veneer_target(mem, s)
+        if t != s and f'0x{s:08X}' not in results:
+            target = results.get(f'0x{t:08X}')
+            if target is not None and target.get('status') != 'stub':
+                results[f'0x{s:08X}'] = dict(target, name=target['name'] + ' [veneer]', size=8, orig_size=8)
 
     out_dir = os.path.join(a.build_dir, 'check')
     os.makedirs(out_dir, exist_ok=True)

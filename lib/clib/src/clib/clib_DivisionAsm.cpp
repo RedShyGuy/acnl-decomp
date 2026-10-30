@@ -294,6 +294,58 @@ extern "C" __attribute__((naked)) u64 _ll_udiv10(u64 dividend)
         "pop {r4, r5, pc}\n");
 }
 
+// (value / 10 in r0, value % 10 in r1: multiplication by the reciprocal, corrected by one)
+// 0x002F7DBC (name is ours)
+extern "C" __attribute__((naked)) u64 _udiv10(u32 value)
+{
+    asm volatile(
+        ".syntax unified\n"
+        "sub r1, r0, #10\n"
+        "sub r0, r0, r0, lsr #2\n"
+        "add r0, r0, r0, lsr #4\n"
+        "add r0, r0, r0, lsr #8\n"
+        "add r0, r0, r0, lsr #16\n"
+        "lsr r0, r0, #3\n"
+        "add r2, r0, r0, lsl #2\n"
+        "subs r1, r1, r2, lsl #1\n"
+        "addpl r0, r0, #1\n"
+        "addmi r1, r1, #10\n"
+        "bx lr\n");
+}
+
+// (the low 64 bits of the product)
+// 0x002F94C8 (name is ours, after the ARM run-time ABI)
+extern "C" __attribute__((naked)) u64 __aeabi_lmul(u64 a, u64 b)
+{
+    asm volatile(
+        ".syntax unified\n"
+        "stmfd sp!, {lr}\n"
+        "mov lr, r0\n"
+        "umull r0, ip, r2, lr\n"
+        "mla r1, r2, r1, ip\n"
+        "mla r1, r3, lr, r1\n"
+        "ldmfd sp!, {pc}\n");
+}
+
+// (value << shift; a shift of 64 or more gives 0)
+// 0x002FA9F8 (name is ours, after the ARM run-time ABI)
+extern "C" __attribute__((naked)) u64 __aeabi_llsl(u64 value, int shift)
+{
+    asm volatile(
+        ".syntax unified\n"
+        "subs r3, r2, #32\n"
+        "bpl 1f\n"
+        "rsb r3, r2, #32\n"
+        "lsl r1, r1, r2\n"
+        "orr r1, r1, r0, lsr r3\n"
+        "lsl r0, r0, r2\n"
+        "bx lr\n"
+        "1:\n"
+        "lsl r1, r0, r3\n"
+        "mov r0, #0\n"
+        "bx lr\n");
+}
+
 // (also __aeabi_uidivmod: the remainder in r1; goes on in the shared loop of __aeabi_idiv)
 // 0x002F88A8 | nintendogs:bytes [tier A]
 extern "C" __attribute__((naked)) u32 __aeabi_uidiv(u32 dividend, u32 divisor)
