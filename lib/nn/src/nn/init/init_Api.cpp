@@ -49,3 +49,18 @@ void InitializeAllocator(uptr address, size_t size)
 
 } // namespace init
 } // namespace nn
+
+// malloc and free of the C library allocate from the heap above
+// 0x002F7460 | nintendogs:bytes [tier B]
+extern "C" void* malloc(size_t size)
+{
+    return nn::init::s_AllocatorState.pHeap->Allocate(size, 4);
+}
+
+// 0x002F8518 | fefates:callgraph [tier C]
+extern "C" void free(void* p)
+{
+    if (p != NULL) {
+        nn::init::s_AllocatorState.pHeap->Free(p);
+    }
+}

@@ -1,0 +1,335 @@
+// The string functions of the ARM C library: hand-written assembly for ARMv6 in the original (aligned strings by
+// words, uqsub8 or the "(x - 0x01010101) & ~x & 0x80808080" test to find the terminating zero), so the bodies are
+// copied from ACNL USA 1.5 (orig/0004000000086300/code.elf) as naked functions (see clib_MemoryAsm.cpp).
+
+#include <cstddef>
+
+// (aligned strings by words: uqsub8 finds the terminating zero)
+// 0x00150F90 | nintendogs:callgraph [tier A]
+extern "C" __attribute__((naked)) int strncmp(const char* a, const char* b, size_t size)
+{
+    asm volatile(
+        ".syntax unified\n"
+        "orr r3, r0, r1\n"
+        "push {r4, lr}\n"
+        "tst r3, #3\n"
+        "ldreq r4, [pc, #216]\n"
+        "bne .L151028\n"
+        ".L150fa4:\n"
+        "cmp r2, #4\n"
+        "bcc .L151028\n"
+        "ldr r3, [r0], #4\n"
+        "ldr ip, [r1], #4\n"
+        "sub r2, r2, #4\n"
+        "uqsub8 lr, r4, r3\n"
+        "cmp lr, #0\n"
+        "beq .L151008\n"
+        "and r0, r3, #255\n"
+        "and r1, ip, #255\n"
+        "sub r0, r0, r1\n"
+        "orrs r1, r0, lr, lsl #24\n"
+        "popne {r4, pc}\n"
+        "uxth r0, r3\n"
+        "uxth r1, ip\n"
+        "sub r0, r0, r1\n"
+        "orrs r1, r0, lr, lsl #16\n"
+        "popne {r4, pc}\n"
+        "bic r0, r3, #-16777216\n"
+        "bic r1, ip, #-16777216\n"
+        "sub r0, r0, r1\n"
+        "orrs r1, r0, lr, lsl #8\n"
+        "lsreq r0, r3, #24\n"
+        "subeq r0, r0, ip, lsr #24\n"
+        "pop {r4, pc}\n"
+        ".L151008:\n"
+        "cmp r3, ip\n"
+        "beq .L150fa4\n"
+        "rev r0, r3\n"
+        "rev r1, ip\n"
+        "cmp r0, r1\n"
+        "mvnls r0, #0\n"
+        "movhi r0, #1\n"
+        "pop {r4, pc}\n"
+        ".L151028:\n"
+        "cmp r2, #0\n"
+        "moveq r0, #0\n"
+        "popeq {r4, pc}\n"
+        ".L151034:\n"
+        "ldrb r3, [r0], #1\n"
+        "ldrb ip, [r1], #1\n"
+        "cmp r3, #0\n"
+        "beq .L151074\n"
+        "cmp r3, ip\n"
+        "bne .L151074\n"
+        "subs r2, r2, #1\n"
+        "beq .L151074\n"
+        "ldrb r3, [r0], #1\n"
+        "ldrb ip, [r1], #1\n"
+        "cmp r3, #0\n"
+        "beq .L151074\n"
+        "cmp r3, ip\n"
+        "bne .L151074\n"
+        "subs r2, r2, #1\n"
+        "bne .L151034\n"
+        ".L151074:\n"
+        "sub r0, r3, ip\n"
+        "pop {r4, pc}\n"
+        ".word 0x01010101\n");
+}
+
+// (returns the length of source)
+// 0x00151080 | nintendogs:callgraph [tier A]
+extern "C" __attribute__((naked)) size_t strlcpy(char* destination, const char* source, size_t size)
+{
+    asm volatile(
+        ".syntax unified\n"
+        "add r2, r2, r0\n"
+        "ldr ip, [pc, #184]\n"
+        "sub r3, r2, #1\n"
+        "orr r2, r0, r1\n"
+        "push {r4, r5, lr}\n"
+        "mov lr, r1\n"
+        "mov r5, #0\n"
+        "tst r2, #3\n"
+        "beq .L1510e0\n"
+        ".L1510a4:\n"
+        "cmp r3, r0\n"
+        "bls .L1510c0\n"
+        "ldrb r2, [r1]\n"
+        "cmp r2, #0\n"
+        "addne r1, r1, #1\n"
+        "strbne r2, [r0], #1\n"
+        "bne .L1510a4\n"
+        ".L1510c0:\n"
+        "cmp r0, r3\n"
+        "strbls r5, [r0]\n"
+        ".L1510c8:\n"
+        "ldrb r0, [r1]\n"
+        "cmp r0, #0\n"
+        "addne r1, r1, #1\n"
+        "bne .L1510c8\n"
+        ".L1510d8:\n"
+        "sub r0, r1, lr\n"
+        "pop {r4, r5, pc}\n"
+        ".L1510e0:\n"
+        "ldr r2, [r1]\n"
+        "add r4, r0, #4\n"
+        "cmp r4, r3\n"
+        "uqsub8ls r4, ip, r2\n"
+        "cmpls r4, #0\n"
+        "addeq r1, r1, #4\n"
+        "streq r2, [r0], #4\n"
+        "beq .L1510e0\n"
+        ".L151100:\n"
+        "ldr r4, [r1]\n"
+        "uqsub8 r4, ip, r4\n"
+        "cmp r4, #0\n"
+        "addeq r1, r1, #4\n"
+        "beq .L151100\n"
+        ".L151114:\n"
+        "ldrb ip, [r1]\n"
+        "cmp ip, #0\n"
+        "addne r1, r1, #1\n"
+        "bne .L151114\n"
+        ".L151124:\n"
+        "cmp r0, r3\n"
+        "strbeq r5, [r0]\n"
+        "bcs .L1510d8\n"
+        "ands ip, r2, #255\n"
+        "lsrne r2, r2, #8\n"
+        "strb ip, [r0], #1\n"
+        "bne .L151124\n"
+        "b .L1510d8\n"
+        ".word 0x01010101\n");
+}
+
+// (clears the rest of destination with __rt_memclr)
+// 0x00151174 | nintendogs:bytes [tier A]
+extern "C" __attribute__((naked)) char* strncpy(char* destination, const char* source, size_t size)
+{
+    asm volatile(
+        ".syntax unified\n"
+        "tst r0, #3\n"
+        "push {r4, lr}\n"
+        "mov r4, r0\n"
+        "tsteq r1, #3\n"
+        "bne .L1511b4\n"
+        "ldr lr, [pc, #76]\n"
+        ".L15118c:\n"
+        "subs r2, r2, #4\n"
+        "blt .L1511b0\n"
+        "ldr r3, [r1], #4\n"
+        "sub ip, r3, lr\n"
+        "bic ip, ip, r3\n"
+        "ands ip, ip, lr, lsl #7\n"
+        "streq r3, [r0], #4\n"
+        "beq .L15118c\n"
+        "sub r1, r1, #4\n"
+        ".L1511b0:\n"
+        "add r2, r2, #4\n"
+        ".L1511b4:\n"
+        "subs r2, r2, #1\n"
+        "blt .L1511d4\n"
+        "ldrb r3, [r1], #1\n"
+        "cmp r3, #0\n"
+        "strb r3, [r0], #1\n"
+        "bne .L1511b4\n"
+        "mov r1, r2\n"
+        "bl __rt_memclr\n"
+        ".L1511d4:\n"
+        "mov r0, r4\n"
+        "pop {r4, pc}\n"
+        ".word 0x01010101\n");
+}
+
+// (__rt_memmove that returns destination)
+// 0x001511E0 (name is ours)
+extern "C" __attribute__((naked)) void* memmoveWithResult(void* destination, const void* source, size_t size)
+{
+    asm volatile(
+        ".syntax unified\n"
+        "push {r0, lr}\n"
+        "bl __rt_memmove\n"
+        "pop {r0, pc}\n");
+}
+
+// (memcpy that returns destination)
+// 0x002F88D8 (name is ours)
+extern "C" __attribute__((naked)) void* memcpyWithResult(void* destination, const void* source, size_t size)
+{
+    asm volatile(
+        ".syntax unified\n"
+        "nop\n"
+        "push {r0, lr}\n"
+        "bl memcpy\n"
+        "pop {r0, pc}\n");
+}
+
+// 0x002FA8D4 | nintendogs:bytes-fuzzy [tier A]
+extern "C" __attribute__((naked)) int strcmp(const char* a, const char* b)
+{
+    asm volatile(
+        ".syntax unified\n"
+        "tst r0, #3\n"
+        "tsteq r1, #3\n"
+        "bne .L2fa95c\n"
+        "stmfd sp!, {lr}\n"
+        "ldr lr, [pc, #160]\n"
+        ".L2fa8e8:\n"
+        "ldr r2, [r0], #4\n"
+        "ldr r3, [r1], #4\n"
+        "sub ip, r2, lr\n"
+        "bic ip, ip, r2\n"
+        "ands ip, ip, lr, lsl #7\n"
+        "cmpeq r2, r3\n"
+        "bne .L2fa920\n"
+        "ldr r2, [r0], #4\n"
+        "ldr r3, [r1], #4\n"
+        "sub ip, r2, lr\n"
+        "bic ip, ip, r2\n"
+        "ands ip, ip, lr, lsl #7\n"
+        "cmpeq r2, r3\n"
+        "beq .L2fa8e8\n"
+        ".L2fa920:\n"
+        "ldmfd sp!, {lr}\n"
+        "lsl r0, r3, #24\n"
+        "subs r0, r0, r2, lsl #24\n"
+        "tsteq ip, #4080\n"
+        "bne .L2fa954\n"
+        "lsl r0, r3, #16\n"
+        "subs r0, r0, r2, lsl #16\n"
+        "tsteq ip, #65280\n"
+        "bne .L2fa954\n"
+        "lsl r0, r3, #8\n"
+        "subs r0, r0, r2, lsl #8\n"
+        "tsteq ip, #16711680\n"
+        "subseq r0, r3, r2\n"
+        ".L2fa954:\n"
+        "rrxne r0, r0\n"
+        "bx lr\n"
+        ".L2fa95c:\n"
+        "ldrb r2, [r0], #1\n"
+        "ldrb r3, [r1], #1\n"
+        "cmp r2, #1\n"
+        "cmpcs r2, r3\n"
+        "bne .L2fa984\n"
+        "ldrb r2, [r0], #1\n"
+        "ldrb r3, [r1], #1\n"
+        "cmp r2, #1\n"
+        "cmpcs r2, r3\n"
+        "beq .L2fa95c\n"
+        ".L2fa984:\n"
+        "sub r0, r2, r3\n"
+        "bx lr\n"
+        ".word 0x01010101\n");
+}
+
+// 0x002FA998 | nintendogs:callgraph [tier A]
+extern "C" __attribute__((naked)) size_t strlen(const char* string)
+{
+    asm volatile(
+        ".syntax unified\n"
+        "add r3, r0, #1\n"
+        "b .L2fa9b0\n"
+        ".L2fa9a0:\n"
+        "ldrb r1, [r0], #1\n"
+        "cmp r1, #0\n"
+        "subeq r0, r0, r3\n"
+        "bxeq lr\n"
+        ".L2fa9b0:\n"
+        "tst r0, #3\n"
+        "ldreq r2, [pc, #56]\n"
+        "bne .L2fa9a0\n"
+        ".L2fa9bc:\n"
+        "ldr r1, [r0], #4\n"
+        "uqsub8 r1, r2, r1\n"
+        "cmp r1, #0\n"
+        "beq .L2fa9bc\n"
+        "lsls r2, r1, #24\n"
+        "sub r0, r0, r3\n"
+        "subne r0, r0, #3\n"
+        "bxne lr\n"
+        "lsls r2, r1, #16\n"
+        "subne r0, r0, #2\n"
+        "bxne lr\n"
+        "lsls r1, r1, #8\n"
+        "subne r0, r0, #1\n"
+        "bx lr\n"
+        ".word 0x01010101\n");
+}
+
+// 0x003079A0 | nintendogs:callgraph [tier C]
+extern "C" __attribute__((naked)) char* strcpy(char* destination, const char* source)
+{
+    asm volatile(
+        ".syntax unified\n"
+        "orr r3, r0, r1\n"
+        "mov r2, r0\n"
+        "tst r3, #3\n"
+        "ldreq ip, [pc, #80]\n"
+        "push {lr}\n"
+        "bne .L3079e0\n"
+        ".L3079b8:\n"
+        "ldr r3, [r1], #4\n"
+        "uqsub8 lr, ip, r3\n"
+        "cmp lr, #0\n"
+        "streq r3, [r2], #4\n"
+        "beq .L3079b8\n"
+        ".L3079cc:\n"
+        "ands r1, r3, #255\n"
+        "lsrne r3, r3, #8\n"
+        "strb r1, [r2], #1\n"
+        "bne .L3079cc\n"
+        "pop {pc}\n"
+        ".L3079e0:\n"
+        "ldrb r3, [r1], #1\n"
+        "cmp r3, #0\n"
+        "strb r3, [r2], #1\n"
+        "popeq {pc}\n"
+        "ldrb r3, [r1], #1\n"
+        "cmp r3, #0\n"
+        "strb r3, [r2], #1\n"
+        "bne .L3079e0\n"
+        "pop {pc}\n"
+        ".word 0x01010101\n");
+}

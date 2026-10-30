@@ -41,6 +41,7 @@ sys.path.insert(0, os.path.join(ROOT, 'tools', 'analysis'))
 import elf32                                    # noqa: E402
 import elfmem                                   # noqa: E402
 import fuzzy                                    # noqa: E402
+import thumb                                    # noqa: E402
 
 # the largest callee (bytes) that inline_expand treats as inlined by ARMCC
 INLINE_SIZE_MAX = 1024
@@ -795,6 +796,7 @@ def make_fuzzy_pair(mem, db, starts, names, by_source, by_name, variables=None):
     features of the original), both with call targets / literals in the same terms:
     ('fn', address) ('addr', vptr) ('str', text) ('k', value) ('data',) ('rodata',) ('name', n)"""
     start_set = set(starts)
+    thumb_starts = {s & ~1 for s in db['function_starts'] if s & 1}
     # functions the sources name by address (e.g. Thumb veneers like nnosDefaultUnexpectedHandler)
     source_set = {a for a in by_source.values() if a >= 0}
     addr_name = {}
@@ -858,8 +860,9 @@ def make_fuzzy_pair(mem, db, starts, names, by_source, by_name, variables=None):
         return ('name', norm(dn))
 
     def orig_fn(target):
-        if mem.in_text(target) and mem.u32(target) == 0xE28FC001 and mem.u32(target + 4) == 0xE12FFF1C:
-            target += 8                 # ARM to Thumb veneer ("add ip, pc, #1 ; bx ip"): the function behind it
+        if mem.in_text(target) and (mem.u32(target) & 0xFFFFFF01) == 0xE28FC001 and mem.u32(target + 4) == 0xE12FFF1C:
+            # ARM to Thumb veneer ("add ip, pc, #1 ; bx ip", or #n to a function further on): the function behind it
+            target += 8 + (mem.u32(target) & 0xFE)
         fam = fuzzy.runtime_family(addr_name.get(target))
         if fam:
             return ('rt', fam)
@@ -916,27 +919,54 @@ def make_fuzzy_pair(mem, db, starts, names, by_source, by_name, variables=None):
         n = addr_name.get(key[1]) if key[0] == 'fn' else key[1] if key[0] == 'name' else None
         return is_ctor_dtor(n)
 
-    def pair(data, size, syminfo, addr, osize, name=None, this_offset=0):
+    def pair(data, size, syminfo, addr, osize, name=None, this_offset=0, is_thumb=False):
         structor = is_ctor_dtor(name)
-        f_mine = mine_features(data, size, syminfo, structor)
-        f_orig = orig_features(addr, osize, structor, this_offset)
+        f_mine = mine_features(data, size, syminfo, structor, is_thumb=is_thumb)
+        f_orig = orig_features(addr, osize, structor, this_offset, f_mine['calls'])
         inline_expand(f_mine, f_orig)
         if name and '::~' in name:
             fuzzy.ignore_dtor_vptr(f_mine, f_orig)
         ignore_static_init(f_mine, f_orig)
         return f_mine, f_orig
 
-    def mine_features(data, size, syminfo, structor=False, depth=0):
+    def mine_features(data, size, syminfo, structor=False, depth=0, is_thumb=False):
         """the features of a function of our object (and of the parts GCC split off it)"""
         n_mine = size // 4
         mine_words = [int.from_bytes(data[o:o + 4], 'little') for o in range(0, n_mine * 4, 4)]
+        tr = None
+        if is_thumb:
+            # Thumb code (the C library): compared as its ARM translation; relocated branches are calls
+            tr = thumb.translate(lambda o: int.from_bytes(data[o:o + 2], 'little') if o + 2 <= len(data) else 0,
+                                 0, size, calls_at=set(syminfo))
+            mine_words = tr.words
+
+        def word_info(j):
+            if tr is None:
+                return syminfo.get(j * 4)
+            off = tr.literals.get(j)
+            return syminfo.get(off) if off is not None else None
 
         def mine_call(i, w):
+            if tr is not None:
+                call = tr.calls.get(i)
+                info = syminfo.get(call[0]) if call else None
+                return mine_key(info, is_call=True) if info else None
             info = syminfo.get(i * 4)
-            return mine_key(info, is_call=True) if info else None
+            if not info:
+                return None
+            name, typ, secname, _, value = info
+            if secname.startswith('.text.') and (typ == 3 or typ == 0 and value):
+                # hand-written assembly branching into the middle of another function (a local label
+                # there or its section symbol): that function's address plus the offset
+                fn = names.get(secname[6:], secname[6:])
+                base = by_name.get(norm(fn))
+                if base is not None:
+                    off = (value if typ != 3 else 0) + fuzzy._sext24(w & 0xFFFFFF) * 4 + 8
+                    return orig_fn((base & ~1) + off)
+            return mine_key(info, is_call=True)
 
         def mine_word(j, w):
-            info = syminfo.get(j * 4)
+            info = word_info(j)
             if not info:
                 return ('k', w)
             name, typ, secname, secdata, value = info
@@ -980,9 +1010,13 @@ def make_fuzzy_pair(mem, db, starts, names, by_source, by_name, variables=None):
                 return ('self',)                           # data in the function (hand-written assembly)
             return mine_key(info) or ('data',)
 
-        f_mine = fuzzy.extract(mine_words, 0, mine_call, mine_word, returns_this, structor,
-                               read_word=lambda a: int.from_bytes(data[a:a + 4], 'little')
-                               if 0 <= a <= len(data) - 4 else 0)
+        if tr is not None:
+            def read_mine(a):
+                return tr.words[a // 4] if 0 <= a // 4 < len(tr.words) else 0
+        else:
+            def read_mine(a):
+                return int.from_bytes(data[a:a + 4], 'little') if 0 <= a <= len(data) - 4 else 0
+        f_mine = fuzzy.extract(mine_words, 0, mine_call, mine_word, returns_this, structor, read_word=read_mine)
         if depth < 4:
             merge_part_clones(f_mine, syminfo, depth)
         return f_mine
@@ -1018,11 +1052,15 @@ def make_fuzzy_pair(mem, db, starts, names, by_source, by_name, variables=None):
         __aeabi_atexit by nops (their arguments stay: the destructor and __dso_handle), GCC calls
         them (atexit with a __tcf_ helper). Such calls that only GCC has are dropped."""
         removable = ('__cxa_guard_release', 'atexit', '__aeabi_atexit', '__cxa_atexit')
-        extra = Counter(k for k in f_mine['calls'] if k[0] == 'name' and k[1] in removable) - \
-            Counter(k for k in f_orig['calls'] if k[0] == 'name' and k[1] in removable)
+        def is_removable(k):
+            # by name, or by address once the C library defines it (__aeabi_atexit 0x2FE980)
+            return k[0] == 'name' and k[1] in removable or k[0] == 'fn' and addr_name.get(k[1]) in removable
+        extra = Counter(k for k in f_mine['calls'] if is_removable(k)) - \
+            Counter(k for k in f_orig['calls'] if is_removable(k))
         if not extra:
             return
-        atexits = sum(n for k, n in extra.items() if k[1] != '__cxa_guard_release')
+        atexits = sum(n for k, n in extra.items()
+                      if (k[1] if k[0] == 'name' else addr_name.get(k[1])) != '__cxa_guard_release')
         calls, call_this = [], []
         for key, this_off in zip(f_mine['calls'], f_mine.get('call_this') or [None] * len(f_mine['calls'])):
             if extra[key] > 0:
@@ -1062,14 +1100,29 @@ def make_fuzzy_pair(mem, db, starts, names, by_source, by_name, variables=None):
                 if other is not None and other in loaded:
                     out[loaded.pop(other)] = addr + i * 4 + 8
                     continue
+            if (ins & 0x0C000000) == 0x0C000000 and (ins & 0x0F100F10) != 0x0E100A10:
+                continue                                     # VFP / coprocessor (but vmov rX, sN): no core register
             loaded.pop((ins >> 12) & 0xF, None)
         return out
 
-    def orig_features(addr, osize, structor=False, this_offset=0):
+    def orig_features(addr, osize, structor=False, this_offset=0, mine_calls=()):
         n_orig = osize // 4
-        pcrel = pc_relative_literals(addr, n_orig)
+        tr = None
+        if addr in thumb_starts:
+            # Thumb code: compared as its ARM translation (thumb.py)
+            tr = thumb.translate(lambda o: (mem.u32((addr + o) & ~3) >> (16 * (((addr + o) >> 1) & 1))) & 0xFFFF,
+                                 addr, osize, read_word=lambda o: mem.u32(addr + o))
+            n_orig = len(tr.words)
+            pcrel = tr.pcrel
+        else:
+            pcrel = pc_relative_literals(addr, n_orig)
 
         def orig_call(i, w):
+            if tr is not None:
+                call = tr.calls.get(i)
+                if call is None or call[1] is None or not mem.in_text(call[1] & ~1):
+                    return None
+                return orig_fn(call[1] & ~1)
             target = addr + i * 4 + 8 + fuzzy._sext24(w & 0xFFFFFF) * 4
             if w >> 28 == 0xF:
                 target |= (w >> 23) & 2                     # blx: H bit
@@ -1117,13 +1170,17 @@ def make_fuzzy_pair(mem, db, starts, names, by_source, by_name, variables=None):
                 return ('gaddr', w)
             return ('k', w)
 
-        orig_words = [mem.u32(addr + k * 4) for k in range(n_orig)]
+        orig_words = tr.words if tr is not None else [mem.u32(addr + k * 4) for k in range(n_orig)]
+        next_key = orig_fn(addr + osize)
         return fuzzy.extract(orig_words, addr, orig_call, orig_word, returns_this, structor,
-                             next_key=orig_fn(addr + n_orig * 4),
+                             next_key=next_key if tr is None else None,
+                             # (hand-written assembly running on into the next piece: our copy branches there)
+                             fall_any=next_key in mine_calls,
                              resolve_target=lambda v: orig_fn(v & ~1),
                              read_const=lambda a: orig_word(None, mem.u32(a)) if mem.ro[0] <= a < mem.ro[1] - 3 else 0,
                              resolve_address=orig_text_string, this_offset=this_offset,
-                             read_word=lambda a: mem.u32(a) if mem.in_text(a) else 0)
+                             read_word=(lambda a: mem.u32(a) if mem.in_text(a) else 0) if tr is None else
+                             (lambda a: tr.words[(a - addr) // 4] if 0 <= (a - addr) // 4 < len(tr.words) else 0))
 
     def orig_text_string(a):
         """a string ARMCC put into the code (addressed with add rX, pc, #imm)"""
@@ -1255,6 +1312,7 @@ def main():
         raise SystemExit(f'no objects in {a.build_dir} - build first')
 
     funcs = []                                    # (obj, mangled, section, value, size, relocs)
+    thumb_symbols = set()                         # our functions in Thumb code
     # GCC's address point of each vtable (offset of the first function pointer): behind the
     # typeinfo pointer; with virtual bases there are more entries before it than ARMCC's 8 bytes
     VTABLE_ADDRESS_POINTS.clear()
@@ -1273,6 +1331,8 @@ def main():
         for s in e.symbols:
             if s.type == elf32.STT_FUNC and 0 < s.shndx < len(e.sections):
                 per_section.setdefault(s.shndx, []).append(s)
+                if s.value & 1:
+                    thumb_symbols.add(s.name)
         for shndx, syms in per_section.items():
             sec = e.sections[shndx]
             relocs = e.relocations(sec)
@@ -1428,8 +1488,8 @@ def main():
             results[key]['first_difference'] = diff * 4
         fz = None
         if status in ('differs', 'size', 'prefix', 'match'):
-            if addr in thumb:
-                results[key]['grade'] = 'thumb'
+            if addr in thumb and mangled not in thumb_symbols:
+                results[key]['grade'] = 'thumb'             # the original is Thumb, ours is ARM
             elif is_thunk and status == 'match' and (osize != size or mine != theirs):
                 # the fall-through thunk (see above): nothing left to compare
                 results[key].update(score=1.0, grade='equivalent', categories={})
@@ -1446,7 +1506,7 @@ def main():
                         this_offset = int(mo.group(1)) if mo else 0
                 # prefix: the original range runs into the next (unknown) function
                 fz = fuzzy_pair(fdata, fsize, fsyminfo, addr, size if status == 'prefix' else osize, name,
-                                this_offset)
+                                this_offset, is_thumb=mangled in thumb_symbols)
                 score, cats = fuzzy.compare(*fz)
                 results[key].update(score=round(score, 3), grade=fuzzy.grade(score),
                                     categories={k: (round(v, 3) if v is not None else None)

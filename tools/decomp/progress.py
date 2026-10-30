@@ -18,7 +18,16 @@ import argparse, bisect, collections, csv, json, os, re, sys
 HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.normpath(os.path.join(HERE, '..', '..'))
 
-LIBRARIES = ('nn', 'nw', 'sead', 'pead', 'imgdb', 'mw', 'libms', 'cfl', 'std', '__rw', '__cxxabiv1')
+LIBRARIES = ('nn', 'nw', 'sead', 'pead', 'imgdb', 'mw', 'libms', 'cfl', 'clib', 'std', '__rw', '__cxxabiv1')
+
+# the ARM C library of the game (lib/clib): compiler helpers, C functions and the C++ ABI helpers of the
+# ARM runtime
+CLIB_FUNCTION = re.compile(
+    r'(__aeabi_|__rt_|_ll_|__ARM_|__hardfp_|__softfp_|__fpl_|__mathlib_|__btod_|__support_|__memmove_|_memcpy_|__cxa_|__I\$)'
+    r'|(_memset|_e2d|_e2e|_frem|bsearch|wcslen|mbsinit|mbrlen|mbrtowc|memcmp|memcpy|memset|strncat|tolower|towupper'
+    r'|snprintf|sprintf|vsprintf|vsnprintf|swprintf|vswprintf|strtoull|wcstoul|wcstombs|wcscpy|wcsncpy|wmemcpy'
+    r'|wmemmove|wcscat|wcscmp|wcsncmp|wcsstr|wcsicmp|strcat|strncmp|strlcpy|strncpy|strcmp|strlen|strcpy'
+    r'|abort|memmoveWithResult|memcpyWithResult|__read_errno|__set_errno)$')
 
 
 # the C functions of nn (nngxInitialize, nncxZlib_deflate, nninitSetup, nndbgPanic, ...)
@@ -28,6 +37,8 @@ NN_C_FUNCTION = re.compile(r'nn(gx|gxlow|cx|init|dbg|nstd|os)[A-Z_]|nexZlib_|gl[
 def unit_of(name):
     if NN_C_FUNCTION.match(name):
         return 'nn'
+    if CLIB_FUNCTION.match(name):
+        return 'clib'
     name = name.replace('(anonymous namespace)::', '')
     # a template function with its return type in the name ("void sead::PrintFormatter::out<int>(...)"): the
     # qualified name is the last word before the parameters (outside of template arguments)

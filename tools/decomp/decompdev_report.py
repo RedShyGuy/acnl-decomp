@@ -44,7 +44,15 @@ REPORT_VERSION = 2
 TEXT_BASE = 0x00100000
 
 # libraries with their own directory under lib/ (and their top-level namespaces)
-LIBRARIES = ("nn", "nw", "sead", "pead", "imgdb", "mw", "libms", "cfl")
+LIBRARIES = ("nn", "nw", "sead", "pead", "imgdb", "mw", "libms", "cfl", "clib")
+# the ARM C library of the game (lib/clib): compiler helpers, C functions and the C++ ABI helpers of the
+# ARM runtime
+CLIB_FUNCTION = re.compile(
+    r'(__aeabi_|__rt_|_ll_|__ARM_|__hardfp_|__softfp_|__fpl_|__mathlib_|__btod_|__support_|__memmove_|_memcpy_|__cxa_|__I\$)'
+    r'|(_memset|_e2d|_e2e|_frem|bsearch|wcslen|mbsinit|mbrlen|mbrtowc|memcmp|memcpy|memset|strncat|tolower|towupper'
+    r'|snprintf|sprintf|vsprintf|vsnprintf|swprintf|vswprintf|strtoull|wcstoul|wcstombs|wcscpy|wcsncpy|wmemcpy'
+    r'|wmemmove|wcscat|wcscmp|wcsncmp|wcsstr|wcsicmp|strcat|strncmp|strlcpy|strncpy|strcmp|strlen|strcpy'
+    r'|abort|memmoveWithResult|memcpyWithResult|__read_errno|__set_errno)$')
 # runtime and C++ library namespaces that have no source directory of their own
 RUNTIME_NAMESPACES = ("std", "__rw", "__cxxabiv1")
 CATEGORY_NAMES = {
@@ -57,6 +65,7 @@ CATEGORY_NAMES = {
     "mw": "mw",
     "libms": "libms",
     "cfl": "cfl",
+    "clib": "ARM C library (clib)",
     "runtime": "Runtime / C++ library",
     "codebin": "code.bin (all)",
     "modules": "CRO modules",
@@ -132,6 +141,8 @@ def category_of(unit: str, name: str) -> str:
     # the C functions of nn (nngxInitialize, nncxZlib_deflate, nninitSetup, nndbgPanic, ...)
     if re.match(r"nn(gx|gxlow|cx|init|dbg|nstd|os)[A-Z_]|nexZlib_|gl[A-Z]|__(sta|fb|fbv|vb|vbv|shm|shv|tx|txv|vldtr|sys|cb|mem|srf)_", name):
         return "nn"
+    if CLIB_FUNCTION.match(name):
+        return "clib"
     top = namespace_of(name)
     if top in LIBRARIES:
         return top
@@ -147,6 +158,8 @@ def unit_of(result: dict[str, Any] | None, name: str) -> str:
         m = re.match(r"(?:.*/)?CMakeFiles/[^/]+\.dir/(.+?)\.obj$", obj) or re.match(r"(?:.*/)?CMakeFiles/[^/]+\.dir/(.+?)\.o$", obj)
         if m:
             return m.group(1)
+    if CLIB_FUNCTION.match(name):
+        return "unassigned/clib"
     top = namespace_of(name)
     if not top or top.startswith("FUN_") or top.startswith("sub_"):
         top = "unnamed"

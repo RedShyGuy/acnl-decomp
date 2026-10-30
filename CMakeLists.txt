@@ -61,6 +61,16 @@ foreach(dir ${module_dirs})
     endif()
 endforeach()
 
+# the C library defines memcpy, strlen, ... itself: GCC must not turn its loops into calls of the builtins
+if(TARGET lib_clib)
+    target_compile_options(lib_clib PRIVATE -fno-builtin -ffreestanding)
+    # the Thumb part of the C library (*Thumb.cpp): Thumb-1 has no VFP, so the original passes floats in
+    # integer registers (the base procedure call standard, softfp); the files mark themselves as compatible
+    # with both float ABIs (Tag_ABI_VFP_args 3)
+    file(GLOB clib_thumb_sources "${CMAKE_SOURCE_DIR}/lib/clib/src/*/*Thumb.cpp")
+    set_source_files_properties(${clib_thumb_sources} PROPERTIES COMPILE_OPTIONS "-mthumb;-mfloat-abi=softfp")
+endif()
+
 get_property(units GLOBAL PROPERTY DECOMP_UNITS)
 
 # --------------------------------------------------------------- link

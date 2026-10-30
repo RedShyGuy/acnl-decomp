@@ -33,6 +33,11 @@ RUNTIME_FAMILIES = {
     'udiv': ('uidiv', 'udiv', 'uidivmod'),
     'ldiv': ('ldivmod', 'sdiv64', 'divdi3', 'll_sdiv'),
     'uldiv': ('uldivmod', 'udiv64', 'udivdi3', 'll_udiv'),
+    # conversions between floats and 64 bit integers: ARMCC's fplib names and the run-time ABI names of GCC
+    'l2f': ('l2f', 'll_sto_f'),
+    'ul2f': ('ul2f', 'll_uto_f'),
+    'f2ulz': ('f2ulz', 'll_ufrom_f'),
+    'f2uiz': ('f2uiz', 'ffixu'),
     'strcmp': ('strcmp',),
     'strlen': ('strlen',),
     # ARMCC constructs an array of class objects with this helper (array, ctor, size, count);
@@ -77,6 +82,8 @@ def runtime_family(name):
         if core.startswith(p):
             core = core[len(p):]
             break
+    if core.endswith('div0'):
+        return None                                   # the division-by-zero handlers (__aeabi_idiv0)
     core = core.rstrip('0123456789').removesuffix('_w')
     if base == core and base not in _PLAIN_RUNTIME and base not in RUNTIME_FAMILIES['ctype']:
         return None                                   # plain names other than the C library ones
@@ -84,6 +91,17 @@ def runtime_family(name):
         if core in members:
             return fam
     return None
+
+
+def _is_terminator(w):
+    """an unconditional instruction that does not run on into the next word"""
+    return w >> 28 == 0xE and ((w & 0x0F000000) == 0x0A000000             # b
+                               or (w & 0x0FFFFFF0) == 0x012FFF10          # bx
+                               or (w & 0x0E108000) == 0x08108000          # ldm/pop {.., pc}
+                               or (w & 0x0FFFF000) == 0x049DF000          # ldr pc, [sp], #4
+                               or (w & 0x0DEFF000) == 0x01A0F000)         # mov pc, ...
+
+
 SP, LR, PC = 13, 14, 15
 COND_AL = 0xE
 
@@ -185,7 +203,7 @@ def _arg_feature(words, pool, i, reg, resolve_word):
 
 def extract(words, base, resolve_call, resolve_word, returns_this=lambda key: False, structor=False,
             next_key=None, resolve_target=lambda value: ('?',), read_const=None, resolve_address=None,
-            this_offset=0, read_word=None):
+            this_offset=0, read_word=None, fall_any=False):
     """Features of one ARM function.
 
     words           list of 32 bit words of the function (code + literal pool)
@@ -198,6 +216,8 @@ def extract(words, base, resolve_call, resolve_word, returns_this=lambda key: Fa
                     member ctor / dtor, which returns this (ARMCC chains r0 through those calls)
     next_key        key of the function right after this one: armlink replaces a tail call to the
                     next function by a nop, so a nop as the last instruction is that tail call
+    fall_any        any last instruction that runs on is that tail call, too (hand-written assembly
+                    whose pieces armlink placed one after the other; not data or a noreturn call)
     resolve_target  address -> call key; for ARMCC's "ldr lr, =f2 ; bx r3" (call r3, then f2)
     read_const      address -> word, for literals that point to read-only data (resolve_word gives
                     ('rconst', address)): a word loaded from there is a constant (ARMCC does not
@@ -234,6 +254,11 @@ def extract(words, base, resolve_call, resolve_word, returns_this=lambda key: Fa
                 for k in (j, j + 1):
                     if i < k < n:
                         pool.add(k)
+                indexed = any((u & 0x0E500010) == 0x06100000 and (u >> 16) & 0xF == rx    # ldr rY, [rX, rZ, ...]
+                              for u in words[i + 1:i + 4])
+                if indexed and i < j < n and _is_terminator(words[j - 1]):
+                    # a table behind the last instruction (hand-written assembly, _ll_udiv): all data
+                    pool.update(range(j, n))
             elif resolve_address is not None and imm % 4 == 0:
                 # a string ARMCC put into the code (between the code or after it): its words are
                 # data, not instructions
@@ -272,6 +297,11 @@ def extract(words, base, resolve_call, resolve_word, returns_this=lambda key: Fa
     words = words[:n]
     code = [i for i in range(n) if i not in pool]
     fallthrough = next_key is not None and code and words[code[-1]] == NOP and code[-1] == n - 1
+    if fall_any and next_key is not None and code and code[-1] == n - 1 and not fallthrough:
+        # hand-written assembly that runs on into the piece right behind it (armlink placed the pieces
+        # of the ARM C library one after the other without a branch): the same as a nop
+        # (a conditional instruction or a call at the end runs on, too)
+        fallthrough = not _is_terminator(words[code[-1]])
     calls, mem, consts, flow, shape = [], [], Counter(), Counter(), []     # mem: (origin, L/S, width, offset)
     call_this = []                        # per call: offset of r0 from this (arg0), 'sp', or None
     lr_literal = None                     # value of a literal loaded into lr (return address trick)
@@ -665,6 +695,11 @@ def extract(words, base, resolve_call, resolve_word, returns_this=lambda key: Fa
                 regs[rd] = (org, o + (val if opc == 4 else -val))
             elif opc == 4 and not imm and rn == rm:
                 regs[rd] = (new(), 0)                                     # add r1, r1, r1, lsl #1: a multiplication
+            elif opc == 4 and not imm and not w & 0xFF0 and PC in (rn, rm) and \
+                    isinstance(get(rm if rn == PC else rn)[0], tuple) and get(rm if rn == PC else rn)[0][0] == 'g':
+                # ARMCC's position independent addressing (the C library): "ldr rX, =offset; add rY, pc, rX",
+                # the offset literal is already the address
+                regs[rd] = get(rm if rn == PC else rn)
             elif opc == 4 and not imm and (w >> 4) & 0x9 != 0x9:            # add rd, rn, rm (lsl #n): &array[i]
                 array = get(rn)
                 # GCC adds a constant offset to the index before scaling it ((i + K) << 2, then
