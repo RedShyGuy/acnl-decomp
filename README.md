@@ -1,5 +1,4 @@
 # acnl-decomp
-[![Listed on PlayPorted](https://playported.com/badge.svg)](https://playported.com/ports/723-animal-crossing-new-leaf/)
 [![Match](https://decomp.dev/RedShyGuy/acnl-decomp/0004000000086300.svg?mode=shield&label=Match&color=%2324aa27&measure=matched_code_percent)](https://decomp.dev/RedShyGuy/acnl-decomp)
 [![Fuzzy](https://decomp.dev/RedShyGuy/acnl-decomp/0004000000086300.svg?mode=shield&label=Fuzzy+Match&measure=fuzzy_match_percent)](https://decomp.dev/RedShyGuy/acnl-decomp)
 
