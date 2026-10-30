@@ -25,7 +25,8 @@ __attribute__((returns_nonnull)) void* operator new(size_t size, sead::Heap* hea
 void* operator new[](size_t size, sead::Heap* heap, int alignment); // 0x0012E3C0 (name after symbols_us)
 // (symbols_us gives 0x001328D8 both of the names above; it is the nothrow variant)
 void* operator new(size_t size, sead::Heap* heap, int alignment, const std::nothrow_t&); // 0x001328D8
-void* operator new[](size_t size); // 0x002FF7DC (name after the C++ operator)
+void* operator new(size_t size); // 0x002FF7DC (name after the C++ operator)
+void* operator new[](size_t size); // 0x003075E0 (name after the C++ operator)
 // the nothrow operators (the callers test the result and pass a second argument in r1, scalar objects go to
 // 0x0013A008, arrays to 0x0077A51C; libgarden calls the two byte-identical wrappers "operator new(unsigned int)" and
 // "malloc", which take one argument, and cannot tell them apart; corrected in symbols.json)

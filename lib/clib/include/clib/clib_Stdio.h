@@ -10,6 +10,7 @@ namespace clib {
 // the flags of a stream
 const u32 FILE_READ = 0x1;
 const u32 FILE_WRITE = 0x2;
+const u32 FILE_BINARY = 0x4;
 const u32 FILE_SEEKED = 0x10;               // m_BufferPosition was moved: the next write seeks first
 const u32 FILE_SEEK_PENDING = 0x20;         // fseek only noted m_SeekPosition
 const u32 FILE_ERROR = 0x80;
@@ -22,7 +23,7 @@ const u32 FILE_APPEND = 0x8000;
 const u32 FILE_DIRTY = 0x10000;             // the buffer holds bytes that are not written yet
 const u32 FILE_SEEK_BEFORE_WRITE = 0x20000;
 const u32 FILE_TEXT_POSITION = 0x80000;     // ftell counts one byte less
-const u32 FILE_WRITTEN = 0x400000;          // (set by __flsbuf)
+const u32 FILE_ACCESSED = 0x400000;         // a read or write happened (setvbuf is no longer allowed)
 const u32 FILE_ABORT_WRITE = 0x800000;      // __flsbuf drops the buffer and returns -2
 
 struct File
@@ -43,7 +44,7 @@ struct File
     u8 m_HasPushback;       // 0x44 (ungetc)
     u8 m_PushbackCount;     // 0x45
     u8 _unknown0x46[6];
-    uptr m_Next;            // 0x4C (the next stream; bit 0: a static stream)
+    uptr m_Next;            // 0x4C (the next stream of the list; bit 0: this stream is open)
 };
 ASSERT_SIZE(File, 0x50);
 } // namespace clib
@@ -53,4 +54,11 @@ int fputc(int c, clib::File* pStream);
 int ferror(clib::File* pStream);
 long ftell(clib::File* pStream);
 int __flsbuf(int c, clib::File* pStream);
+int fclose(clib::File* pStream);
+clib::File* freopen(const char* pName, const char* pMode, clib::File* pStream);
+
+// the standard streams (the first three of the list of streams)
+extern clib::File __stdin;
+extern clib::File __stdout;
+extern clib::File __stderr;
 }

@@ -31,6 +31,13 @@ int __stdio_is_terminal(int handle);
 int __stdio_file_length(int handle);
 int __stdio_seek(int handle, s32 position);
 int __stdio_write_file(int handle, const u8* pData, int size, u32 flags);
+int __stdio_open(const char* pName, u32 mode);
+int __stdio_close(int handle);
+void __raise_signal(int signal, const char* pMessage);
+void free(void* pMemory);
+void __rt_memclr_w(void* destination, size_t size);
+int __fseek(File* pStream, long offset, int whence);
+int __stdio_flush(File* pStream);
 
 // into the buffer while there is room, else through __flsbuf
 // 0x0011C1AC (name is ours, after the C standard)
@@ -53,7 +60,7 @@ int ferror(File* pStream)
 
 // the stream is unusable until it is reopened
 // 0x002F99D0 (name is ours)
-void __stdio_set_error(File* pStream)
+DECOMP_NOINLINE void __stdio_set_error(File* pStream)
 {
     pStream->m_Flags = (pStream->m_Flags | FILE_ERROR) & ~0x200000;
     pStream->m_Available = 0;
@@ -62,7 +69,7 @@ void __stdio_set_error(File* pStream)
 
 // writes size bytes at the position of the buffer (seeks first when it was moved); 0 or -1
 // 0x002F99E4 (name is ours)
-int __stdio_write(const u8* pData, int size, File* pStream)
+DECOMP_NOINLINE int __stdio_write(const u8* pData, int size, File* pStream)
 {
     u32 flags = pStream->m_Flags;
     int handle = pStream->m_Handle;
@@ -86,7 +93,7 @@ int __stdio_write(const u8* pData, int size, File* pStream)
 
 // writes the bytes of the buffer that are not written yet; 0 or -1
 // 0x002F9A30 (name is ours)
-int __stdio_flush(File* pStream)
+DECOMP_NOINLINE int __stdio_flush(File* pStream)
 {
     u8* pBuffer = pStream->m_pBuffer;
     u8* pEnd = EndOfData(pStream);
@@ -105,7 +112,7 @@ int __stdio_flush(File* pStream)
 
 // carries out a seek that fseek only noted: the buffer moves to the new position
 // 0x002F9A7C (name is ours)
-void __stdio_apply_seek(File* pStream)
+DECOMP_NOINLINE void __stdio_apply_seek(File* pStream)
 {
     pStream->m_Flags &= ~FILE_SEEK_PENDING;
     if (pStream->m_BufferPosition != pStream->m_SeekPosition) {
@@ -215,7 +222,7 @@ int __fseek(File* pStream, long offset, int whence)
 // 0x001037E8 | manual:ours [tier B]
 int __flsbuf(int c, File* pStream)
 {
-    pStream->m_Flags = (pStream->m_Flags & ~(FILE_ABORT_WRITE | 0x80000)) | FILE_WRITTEN;
+    pStream->m_Flags = (pStream->m_Flags & ~(FILE_ABORT_WRITE | 0x80000)) | FILE_ACCESSED;
     if ((pStream->m_Flags & FILE_SEEK_PENDING) != 0) {
         __stdio_apply_seek(pStream);
     }
@@ -331,6 +338,171 @@ int __flsbuf(int c, File* pStream)
         return -2;
     }
     return byte;
+}
+
+// ---- opening and closing
+
+// the standard streams; further streams are allocated and linked behind them
+// 0x00AF86DC
+File __stdin;
+// 0x00AF872C
+File __stdout;
+// 0x00AF877C
+File __stderr;
+
+// 0x002F8224 (name is ours, after the C standard)
+int fclose(File* pStream)
+{
+    int handle = pStream->m_Handle;
+    u8* pBuffer = pStream->m_pBuffer;
+    u32 flags = pStream->m_Flags;
+    int result = 0;
+    if ((flags & (FILE_READ | FILE_WRITE)) == 0) {
+        return -1;
+    }
+    __stdio_flush(pStream);
+    if (__stdio_close(handle) < 0) {
+        return -1;
+    }
+    if ((flags & FILE_BUFFER_ALLOCATED) != 0) {
+        free(pBuffer);
+    }
+    // (all but the link to the next stream)
+    __rt_memclr_w(pStream, 0x48);
+    pStream->m_Next &= ~1;
+    return result;
+}
+
+// mode: "r", "w" or "a", then '+' (read and write), 'b' (binary) or 't'
+// 0x002F8418 (name is ours, after the C standard)
+File* freopen(const char* pName, const char* pMode, File* pStream)
+{
+    fclose(pStream);
+    u32 flags;
+    u32 openMode;   // (for __stdio_open: 1 binary, 2 update, 4 write, 8 append, 16 text)
+    switch (*pMode++) {
+    case 'r':
+        flags = FILE_READ;
+        openMode = 0;
+        break;
+    case 'w':
+        flags = FILE_WRITE;
+        openMode = 4;
+        break;
+    case 'a':
+        flags = FILE_APPEND | FILE_WRITE;
+        openMode = 8;
+        break;
+    default:
+        return NULL;
+    }
+    for (;;) {
+        char c = *pMode++;
+        if (c == '+') {
+            flags |= FILE_READ | FILE_WRITE;
+            openMode |= 2;
+        } else if (c == 'b') {
+            flags |= FILE_BINARY;
+            openMode |= 1;
+        } else {
+            if (c == 't') {
+                openMode |= 16;
+            }
+            break;
+        }
+    }
+    int handle = __stdio_open(pName, openMode);
+    if (handle == -1) {
+        return NULL;
+    }
+    pStream->m_pBuffer = NULL;
+    pStream->m_pCurrent = NULL;
+    pStream->m_Flags = flags;
+    pStream->m_BufferSize = 0x200;
+    pStream->m_Handle = handle;
+    if ((openMode & 8) != 0) {
+        __fseek(pStream, 0, 2);
+    }
+    pStream->m_Next |= 1;
+    return pStream;
+}
+
+// the first stream of the list that is not open, else a new one at the end of the list
+// 0x002F84AC (name is ours, after the C standard)
+File* fopen(const char* pName, const char* pMode)
+{
+    File* pStream = &__stdin;
+    for (;;) {
+        uptr next = pStream->m_Next;
+        if ((next & 1) == 0) {
+            break;
+        }
+        if ((next >> 1) == 0) {
+            File* pNew = static_cast<File*>(malloc(sizeof(File)));
+            if (pNew == NULL) {
+                return NULL;
+            }
+            pStream->m_Next |= (reinterpret_cast<uptr>(pNew) & ~1) | 1;
+            __rt_memclr_w(pNew, sizeof(File));
+            pStream = pNew;
+            break;
+        }
+        pStream = reinterpret_cast<File*>(next & ~1);
+    }
+    return freopen(pName, pMode, pStream);
+}
+
+// mode: FILE_FULL_BUFFERING or FILE_LINE_BUFFERING with a buffer of 1 to 2^24 - 1 bytes, or FILE_UNBUFFERED; only
+// before the first access; 0 or 1
+// 0x002F9B98 (name is ours, after the C standard)
+int setvbuf(File* pStream, char* pBuffer, int mode, size_t size)
+{
+    u32 flags = pStream->m_Flags;
+    if ((flags & (FILE_READ | FILE_WRITE)) == 0 || (flags & FILE_ACCESSED) != 0) {
+        return 1;
+    }
+    switch (mode) {
+    case FILE_FULL_BUFFERING:
+    case FILE_LINE_BUFFERING:
+        if (size - 1 >= 0xFFFFFF) {
+            return 1;
+        }
+        break;
+    case FILE_UNBUFFERED:
+        pBuffer = reinterpret_cast<char*>(pStream->m_SingleByte);
+        size = 1;
+        break;
+    default:
+        return 1;
+    }
+    pStream->m_pBuffer = reinterpret_cast<u8*>(pBuffer);
+    pStream->m_BufferSize = size;
+    pStream->m_pCurrent = reinterpret_cast<u8*>(pBuffer);
+    pStream->m_Flags = (flags & ~(FILE_FULL_BUFFERING | FILE_LINE_BUFFERING | FILE_UNBUFFERED | FILE_BUFFER_ALLOCATED)) | mode;
+    return 0;
+}
+
+// (a failure while the standard streams are set up)
+// 0x002F9B8C (name is ours)
+void __stdio_raise_error(const char* pMessage)
+{
+    __raise_signal(8, pMessage);
+}
+
+// at the end of the program: closes the standard streams and closes and frees the others
+// 0x00102478 (name is ours)
+void __stdio_exit()
+{
+    File* pStream = reinterpret_cast<File*>(__stderr.m_Next & ~1);
+    fclose(&__stdin);
+    fclose(&__stdout);
+    fclose(&__stderr);
+    while (pStream != NULL) {
+        File* pNext = reinterpret_cast<File*>(pStream->m_Next & ~1);
+        fclose(pStream);
+        free(pStream);
+        pStream = pNext;
+    }
 }
 
 } // extern "C"

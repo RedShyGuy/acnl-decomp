@@ -1,7 +1,7 @@
 {
   "report_version": 2,
   "game_version": "0004000000086300",
-  "source_fingerprint": "73bb110baf4535c5ba2b19f4165cd31aeb91ed3d286fe7e82abaa51e5990ee16",
-  "report_sha256": "2c1879c64b7d36f17bf2270b3e35e42d334c26ef254860d12d77cf5d522e8731",
+  "source_fingerprint": "c90e92273fa17c14cb88e523f3331f7f1b92dfaadefc4b6558ebfe83f34cbf52",
+  "report_sha256": "e544e0ee5ddac15dfcdb83e4ec83960761388dbe3f29d46b51fa0af2f9b792bf",
   "note": "Fuzzy scores are ACNL's compiler-independent structural similarity scores (check.py), mapped to objdiff's fuzzy_match_percent. Only grade=equivalent or byte status=match counts as matched."
 }

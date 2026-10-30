@@ -791,9 +791,10 @@ def orig_call_count(mem, addr):
     return _BL_COUNTS['counts'][addr]
 
 
-def veneer_target(mem, target):
+def veneer_target(mem, target, plain_branch=False):
     """the function behind armlink's veneers: ARM to Thumb ("add ip, pc, #1 ; bx ip", or #n to a function
-    further on), long ones ("ldr pc, [pc, #-4]; .word f"), and a plain "b" to such a veneer"""
+    further on), long ones ("ldr pc, [pc, #-4]; .word f"), and a plain "b" to such a veneer; plain_branch: also a
+    "b f" to any function (a branch island between other functions; for call targets, the same on both sides)"""
     for _ in range(3):
         if not mem.in_text(target):
             break
@@ -808,7 +809,8 @@ def veneer_target(mem, target):
             t = target + 8 + fuzzy._sext24(w & 0xFFFFFF) * 4
             tw = mem.u32(t) if mem.in_text(t) else 0
             if tw == 0xE51FF004 or ((tw & 0xFFFFFF01) == 0xE28FC001 and mem.u32(t + 4) == 0xE12FFF1C) or (
-                    (tw & 0xFF000000) == 0xEA000000 and veneer_target(mem, t) != t):
+                    (tw & 0xFF000000) == 0xEA000000 and veneer_target(mem, t) != t) or (
+                    plain_branch and mem.in_text(t)):
                 # (a branch to a veneer, or to another branch that ends in one)
                 target = t
             else:
@@ -887,7 +889,9 @@ def make_fuzzy_pair(mem, db, starts, names, by_source, by_name, variables=None):
         return ('name', norm(dn))
 
     def orig_fn(target):
-        target = veneer_target(mem, target)
+        # (only unnamed branch islands: a named function made of one "b" stays itself, and a Thumb function read
+        # as ARM words may look like a "b")
+        target = veneer_target(mem, target, plain_branch=target not in thumb_starts and target not in addr_name)
         fam = fuzzy.runtime_family(addr_name.get(target))
         if fam:
             return ('rt', fam)

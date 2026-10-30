@@ -59,7 +59,14 @@ void* operator new(size_t size, sead::Heap* heap, int alignment, const std::noth
     return sead::allocFromHeap_(heap, size, alignment, false);
 }
 
+// (the two copies are equal; the C++ library calls 0x002FF7DC for single objects and 0x003075E0 for arrays)
 // 0x002FF7DC (name after the C++ operator)
+void* operator new(size_t size)
+{
+    return sead::allocFromHeap_(nullptr, size, 4, true);
+}
+
+// 0x003075E0 (name after the C++ operator)
 void* operator new[](size_t size)
 {
     return sead::allocFromHeap_(nullptr, size, 4, true);

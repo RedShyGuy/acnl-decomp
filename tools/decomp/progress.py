@@ -27,7 +27,7 @@ CLIB_FUNCTION = re.compile(
     r'|(_memset|_e2d|_e2e|_frem|bsearch|wcslen|mbsinit|mbrlen|mbrtowc|memcmp|memcpy|memset|strncat|tolower|towupper'
     r'|snprintf|sprintf|vsprintf|vsnprintf|swprintf|vswprintf|strtoull|wcstoul|wcstombs|wcscpy|wcsncpy|wmemcpy'
     r'|wmemmove|wcscat|wcscmp|wcsncmp|wcsstr|wcsicmp|strcat|strncmp|strlcpy|strncpy|strcmp|strlen|strcpy'
-    r'|abort|memmoveWithResult|memcpyWithResult|memcpyWithResultEntry|__read_errno|__set_errno|wcstok|wmemset|memchr|towlower|__mbrtowc_byte|__cpp_initialize__aeabi_|__printf_\w+|_udiv10|__wcrtomb_char|__isdigit|ferror|printf|__vfprintf|_btod_etento|__fp_status|fputc|__flsbuf|__digit_value|__strtoul_core|__wcstoul_core|__strtoull_core|strtol|atoi|strtoul|__strtoull|__wctype_classes|iswspace|llabs|__scanf_\w+|sscanf|__stdio_\w+|__qsort_partitions|qsort|strchr|strstr|strrchr|strcoll|ftell|__fseek|wcrtomb)$')
+    r'|abort|memmoveWithResult|memcpyWithResult|memcpyWithResultEntry|__read_errno|__set_errno|wcstok|wmemset|memchr|towlower|__mbrtowc_byte|__cpp_initialize__aeabi_|__printf_\w+|_udiv10|__wcrtomb_char|__isdigit|ferror|printf|__vfprintf|_btod_etento|__fp_status|fputc|__flsbuf|__digit_value|__strtoul_core|__wcstoul_core|__strtoull_core|strtol|atoi|strtoul|__strtoull|__wctype_classes|iswspace|llabs|__scanf_\w+|sscanf|__stdio_\w+|__qsort_partitions|qsort|strchr|strstr|strrchr|strcoll|ftell|__fseek|wcrtomb|fclose|freopen|fopen|setvbuf|__raise_signal|__stdin|__stdout|__stderr)$')
 
 
 # the C functions of nn (nngxInitialize, nncxZlib_deflate, nninitSetup, nndbgPanic, ...)
