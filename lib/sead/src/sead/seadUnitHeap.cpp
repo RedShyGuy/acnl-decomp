@@ -22,7 +22,14 @@ u32 alignUp(u32 value, u32 alignment)
 }
 } // namespace
 
-// 0x0012CFA8 (name is ours; symbols.json: PFID_FaceDetection)
+// 0x001261E0 (name is ours)
+sead::UnitHeap* sead::UnitHeap::create(u32 size, const SafeStringBase<char>& name, u32 blockSize, s32 alignment,
+                                       Heap* parent, bool enableLock)
+{
+    return tryCreate(size, name, blockSize, alignment, parent, enableLock);
+}
+
+// 0x0012CFA8 (name is ours)
 sead::UnitHeap* sead::UnitHeap::tryCreate(u32 size, const SafeStringBase<char>& name, u32 blockSize, s32 alignment,
                                           Heap* parent, bool enableLock)
 {

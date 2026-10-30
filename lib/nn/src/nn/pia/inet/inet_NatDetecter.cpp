@@ -21,6 +21,9 @@ const u16 PORT_TRY_NUM = 100;
 // 0x00AF5B80
 pead::Random s_Random;
 
+// seeds s_Random (pead::Random's constructor calls init)
+// 0x0079B64C (static initializer)
+
 // the addresses of the NAT check servers (inline; name is ours)
 inline common::SimpleContainer<common::InetAddress, 4>& GetServerAddresses()
 {

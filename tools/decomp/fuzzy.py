@@ -240,7 +240,8 @@ def extract(words, base, resolve_call, resolve_word, returns_this=lambda key: Fa
                 key = resolve_address(base + (i + 2) * 4 + imm)
                 if key is not None and key[0] == 'str':
                     j = i + 2 + imm // 4
-                    for k in range(j, j + (len(key[1]) + 4) // 4):
+                    size = len(key[1].encode('shift_jis'))       # bytes (Shift-JIS text: 2 per character)
+                    for k in range(j, j + (size + 4) // 4):
                         if i < k < n:
                             pool.add(k)
         elif (w & 0x0FFFFFF0) == 0x079FF100:                              # ldrcc pc, [pc, rX, lsl #2]

@@ -2008,11 +2008,6 @@ namespace mutil {
     template <typename T0, auto T1> class BaseResourceMgr;
 }
 
-namespace mw { namespace pfid { namespace pfid { 
-    struct t_FaceDetect { u32 _unknown; }; // placeholder, real type unknown
-    struct t_FacePosition { u32 _unknown; }; // placeholder, real type unknown
-}}}
-
 namespace mw { namespace qrd { 
     class QRDecoder;
 }}

@@ -21,7 +21,10 @@ public:
     // a heap of size bytes of parent with blocks of blockSize (the current heap for NULL; all that
     // parent can give for size 0)
     static UnitHeap* tryCreate(u32 size, const SafeStringBase<char>& name, u32 blockSize, s32 alignment, Heap* parent,
-                               bool enableLock); // 0x0012CFA8 (name is ours; symbols.json: PFID_FaceDetection)
+                               bool enableLock); // 0x0012CFA8 (name is ours)
+    // tryCreate under the name of the variant that must not fail (as ExpHeap::create; name is ours)
+    static UnitHeap* create(u32 size, const SafeStringBase<char>& name, u32 blockSize, s32 alignment, Heap* parent,
+                            bool enableLock); // 0x001261E0 (name is ours)
     // a heap with blockNum blocks of blockSize
     static UnitHeap* tryCreateWithBlockNum(u32 blockSize, u32 blockNum, const SafeStringBase<char>& name, s32 alignment,
                                            Heap* parent, bool enableLock); // 0x002F6FC0 | manual:ref-verified

@@ -118,3 +118,5 @@
 0x100DC0	tolower	manual:ours	0x0	Thumb; nw::lyt DarcArchive::ConvertPathToEntryNum compares names case-insensitively with it
 0x101974	wcsicmp	manual:ours	0x0	Thumb; nw::lyt FindNameResourceIgnoreCase / DarcDir::ReadWithExtension compare wide names case-insensitively
 0x100D9C	strncat	manual:ours	0x0	Thumb; nw::snd SoundArchive::OpenExtStreamImpl appends the file path to the external file root with it
+0x100EF4	sprintf	manual:ours	0x0	Thumb; formats into the buffer and terminates it; mw::qre Encoder writes its error messages with it
+0x1019C0	strcat	manual:ours	0x0	Thumb, ARM veneer at 0x1019B8; mw::qre Encoder::SetErrorMessage appends the detail with it

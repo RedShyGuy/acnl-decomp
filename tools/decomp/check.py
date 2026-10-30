@@ -745,6 +745,32 @@ def orig_size(starts, addr, limit):
     return nxt - addr
 
 
+def decode_text(b, controls=True):
+    """the bytes of a C string as text: printable ASCII (with tab / line breaks unless not
+    controls), or Shift-JIS with Japanese characters (the error messages of mw::qre); None for
+    other data"""
+    if not b or any(c < 0x20 and not (controls and c in (9, 10, 13)) for c in b) or 0x7F in b:
+        return None
+    if all(c < 0x80 for c in b):
+        return b.decode('ascii')
+    try:
+        s = b.decode('shift_jis')
+    except UnicodeDecodeError:
+        return None
+    return s if any(ord(c) >= 0x3000 for c in s) else None
+
+
+def mem_cstr(mem, a, maxlen=512):
+    """the C string at a in the original (see decode_text)"""
+    if not mem.valid(a):
+        return None
+    o = a - mem.base
+    e = mem.mem.find(b'\0', o, o + maxlen)
+    # no control characters: data of the original that only looks like text ("CWAT" + 0x0A is a
+    # char[4] magic followed by other data)
+    return decode_text(bytes(mem.mem[o:e]), controls=False) if e >= 0 else None
+
+
 _BL_COUNTS = {}
 
 
@@ -943,8 +969,9 @@ def make_fuzzy_pair(mem, db, starts, names, by_source, by_name, variables=None):
                 text = secdata[off:end] if end >= 0 else b''
                 if end == off:
                     return ('str', '')                     # "" (a string literal of its own)
-                if text and all(0x20 <= c < 0x7F or c in (9, 10, 13) for c in text):
-                    return ('str', text.decode('ascii'))
+                text = decode_text(bytes(text))
+                if text:
+                    return ('str', text)
                 return ('rodata',)
             if secname.startswith(('.data', '.bss')) or typ == 1:
                 return ('data',)
@@ -1082,7 +1109,7 @@ def make_fuzzy_pair(mem, db, starts, names, by_source, by_name, variables=None):
                     # a table of function pointers (the step tables of the StepSequenceJobs):
                     # "2C 30 44 00" is not the string ",0D"
                     return ('rconst', w)
-                s = mem.cstr(w)
+                s = mem_cstr(mem, w)
                 if not s and mem.mem[w - mem.base] == 0:
                     return ('str', '')                     # ""
                 return ('str', s) if s else ('rconst', w)
@@ -1102,8 +1129,10 @@ def make_fuzzy_pair(mem, db, starts, names, by_source, by_name, variables=None):
         """a string ARMCC put into the code (addressed with add rX, pc, #imm)"""
         if not mem.in_text(a):
             return None
-        s = mem.cstr(a)
-        return ('str', s) if s and all(0x20 <= ord(c) < 0x7F for c in s) else None
+        if a % 4 == 0 and mem.u32(a) == 0:
+            return ('str', '')                             # "" (ARMCC: a word of zeros)
+        s = mem_cstr(mem, a)
+        return ('str', s) if s else None
 
     def expand(f, surplus, label):
         """replace calls in f (as many as surplus says) by the original body of the callee; its
@@ -1198,6 +1227,8 @@ def make_fuzzy_pair(mem, db, starts, names, by_source, by_name, variables=None):
 
 
 def main():
+    # strings of the binary can be Shift-JIS text: never fail on a console without those characters
+    sys.stdout.reconfigure(errors='backslashreplace')
     ap = argparse.ArgumentParser()
     ap.add_argument('--build-dir', default=os.path.join(ROOT, 'build', 'gcc'))
     ap.add_argument('--version', default='0004000000086300')

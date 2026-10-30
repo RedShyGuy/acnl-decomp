@@ -65,10 +65,14 @@ def main():
     res_path = os.path.join(a.build_dir, 'check', 'results.json')
     results = {}
     source_names = {}   # names from the sources (for starts that symbols.json leaves unnamed)
+    source_units = {}   # the library whose sources define the function (lib_<unit>.dir of the object)
     if os.path.exists(res_path):
         for k, r in json.load(open(res_path, encoding='utf-8'))['functions'].items():
             if k.startswith('0x'):
                 source_names.setdefault(int(k, 16), re.sub(r' \[(?:deleting|thunk|deleting thunk)\]$', '', r['name']))
+                mo = re.search(r'lib_(\w+)\.dir', r.get('object') or '')
+                if mo and mo.group(1) in LIBRARIES:
+                    source_units.setdefault(int(k, 16), mo.group(1))
                 if r['status'] == 'match' or r.get('grade') == 'equivalent':
                     results[int(k, 16)] = 'done'
                 elif r.get('grade') == 'close':
@@ -91,6 +95,10 @@ def main():
         if addr in source_names and (re.fullmatch(r'sub_[0-9A-Fa-f]+', name) or name.endswith('[ctor?]')):
             name = source_names[addr]
         unit = unit_of(name) if name else 'unnamed'
+        # a name outside the namespaces of the libraries (global operators of sead/pead): the library whose
+        # sources define it
+        if unit == 'game' and addr in source_units:
+            unit = source_units[addr]
         status = results.get(addr, 'todo')
         total[unit] += size
         total['all'] += size

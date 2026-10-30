@@ -200,7 +200,9 @@ def code_symbols(version, analysis_dir, build_dir):
                 continue
             if parts[2] == 'l':
                 add(parts[0], int(parts[1], 16))
-            elif int(parts[1], 16) not in funcs:      # hand named functions symbols.json lacks
+            # hand named functions symbols.json lacks; the function names of analyze.py are an old
+            # snapshot of symbols.json and would bring back names removed from it since
+            elif src == 'manual_ghidra_symbols.txt' and int(parts[1], 16) not in funcs:
                 funcs[int(parts[1], 16)] = parts[0]
                 lines.append(line.strip())
     import check
