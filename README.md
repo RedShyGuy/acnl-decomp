@@ -31,9 +31,9 @@ This includes nn, nw, pead, sead, mw, libms, imgdb, clib and cfl.
 | pead | ✅ done |
 | mw | ✅ done |
 | libms | ✅ done |
-| imgdb | ❌ WIP |
+| imgdb | ✅ done |
+| clib | ❌ WIP |
 | cfl | ❌ not done |
-| clib | ❌ not done |
 
 "done" means that every known function of that library is decompiled.
 If new functions are found that do belong to said library, they will also be decompiled.
