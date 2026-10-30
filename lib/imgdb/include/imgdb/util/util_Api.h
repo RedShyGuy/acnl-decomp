@@ -1,56 +1,92 @@
 #pragma once
 
-#include "decomp.h"
+// the helpers of imgdb (names from the reference symbols of nintendogs; "(name is ours)" in util_Api.cpp)
+
+#include "imgdb/imgdb_Types.h"
 
 namespace imgdb {
+
+class ImageInfo;
+class ImageDbRecordParam;
+class JpegMpBaseDecoder;
+class PictureTableRecord;
+
 namespace util {
-void IsExistDir(imgdb::StorageType, const wchar_t*); // 0x005AC08C | nintendogs:bytes [tier B]
-void DeleteImage(imgdb::StorageType, const imgdb::ImageInfo&, bool); // 0x005AC0F4 | nintendogs:bytes [tier B]
-void SaveImageMp(imgdb::StorageType, const imgdb::ImageInfo&, const void*, unsigned, const void*, unsigned); // 0x005AC378 | nintendogs:bytes [tier B]
-void GetOwnBodyId(); // 0x005AC654 | nintendogs:bytes [tier B]
-void EnumImageFile(imgdb::DynamicArray<imgdb::util::FileIndexInfo, imgdb::XAllocator<imgdb::util::FileIndexInfo>>&, imgdb::StorageType, const wchar_t*, imgdb::ImageKindBit, bool); // 0x005AC688 | nintendogs:bytes-fuzzy [tier B]
-void EnumImageFile(imgdb::DynamicArray<imgdb::util::FileIndexInfo, imgdb::XAllocator<imgdb::util::FileIndexInfo>>&, imgdb::StorageType, const wchar_t*, imgdb::ImageKind, bool); // 0x005ACB34 | nintendogs:bytes [tier B]
-void SaveImageJpeg(imgdb::StorageType, const imgdb::ImageInfo&, const void*, unsigned); // 0x005ACB54 | nintendogs:bytes [tier B]
-void CreateImagePath(wchar_t*, int, imgdb::StorageType, imgdb::ImageKind, const imgdb::IndexInfo&, bool); // 0x005ACFDC | nintendogs:bytes-fuzzy [tier B]
-void CreateImagePath(wchar_t*, int, imgdb::StorageType, const imgdb::ImageInfo&, bool); // 0x005AD0C4 | nintendogs:bytes-fuzzy [tier B]
-void IsDbFileReadOnly(imgdb::StorageType); // 0x005AD164 | nintendogs:bytes-fuzzy [tier B]
-void EnumImageDirectory(imgdb::DynamicArray<int, imgdb::XAllocator<int>>&, imgdb::StorageType, const wchar_t*, bool); // 0x005AD2B4 | nintendogs:bytes-fuzzy [tier B]
-void GetStorageFreeSize(imgdb::StorageType, bool); // 0x005AD684 | nintendogs:bytes [tier B]
-void GetPictureDbFileDir(imgdb::StorageType); // 0x005AD7B8 | nintendogs:bytes-fuzzy [tier B]
-void GetPictureDbFilePath(imgdb::StorageType); // 0x005AD8D0 | nintendogs:bytes-fuzzy [tier B]
-void GetSdDriveNameLength(); // 0x005AD980 | nintendogs:bytes-fuzzy [tier B]
-void IsAvailableIndexInfo(imgdb::StorageType, const imgdb::IndexInfo&, bool); // 0x005AD9EC | nintendogs:bytes [tier B]
-void CreateTwlJpegFromJpeg(void*&, unsigned&, const void*, unsigned); // 0x005ADB50 | nintendogs:bytes [tier B]
-void CreateTwlJpegFromJpeg(void*&, unsigned&, const void*, unsigned, const imgdb::DateTimeSeconds&); // 0x005ADB9C | nintendogs:bytes [tier B]
-void CreateImageDirectoryName(wchar_t*, int, const imgdb::IndexInfo&, bool); // 0x005AE140 | nintendogs:bytes-fuzzy [tier B]
-void CreateImageDirectoryPath(wchar_t*, int, imgdb::StorageType, const imgdb::ImageInfo&, bool); // 0x005AE178 | nintendogs:bytes-fuzzy [tier B]
-void CreateImageDirectoryPath(wchar_t*, int, imgdb::StorageType, const imgdb::IndexInfo&, bool); // 0x005AE1C0 | nintendogs:bytes-fuzzy [tier B]
-void EstimateRemainPictureNum(imgdb::StorageType, unsigned, bool); // 0x005AE450 | nintendogs:bytes [tier B]
-void GetFileNoFromDcfFileName(const char*); // 0x005AE488 | nintendogs:bytes [tier B]
-void GetFileNoFromDcfFileName(const wchar_t*); // 0x005AE53C | nintendogs:bytes [tier B]
-void IsExistImageDataEvidence(imgdb::StorageType); // 0x005AE778 | nintendogs:bytes [tier B]
-void GetCtrNandDriveNameLength(); // 0x005AE864 | nintendogs:bytes-fuzzy [tier B]
-void GetLegacyPictureDbFileDir(imgdb::StorageType); // 0x005AE8D0 | nintendogs:bytes-fuzzy [tier B]
-void GetTwlNandDriveNameLength(); // 0x005AEA04 | nintendogs:bytes-fuzzy [tier B]
-void ExtractPictureInfoFromExif(imgdb::PictureTableRecord&, const imgdb::JpegMpBaseDecoder&); // 0x005AEA70 | nintendogs:bytes [tier B]
-void ExtractPictureInfoFromFile(imgdb::PictureTableRecord&, imgdb::StorageType, const imgdb::ImageInfo&, bool); // 0x005AEDA0 | nintendogs:bytes [tier B]
-void GetLegacyPictureDbFilePath(imgdb::StorageType); // 0x005AEF54 | nintendogs:bytes-fuzzy [tier B]
-void CreateImageRootDirectoryPath(wchar_t*, int, imgdb::StorageType, bool); // 0x005AF004 | nintendogs:bytes-fuzzy [tier B]
-void ThrowFatalErrByNandOperation(nn::Result); // 0x005AF5C0 | nintendogs:bytes-fuzzy [tier B]
-void ValidateDcfFileNameWithoutLength(const char*, int*); // 0x005AF82C | nintendogs:bytes [tier B]
-void ValidateDcfFileNameWithoutLength(const wchar_t*, int*); // 0x005AF94C | nintendogs:bytes [tier B]
-void StoreImageDbRecordParam2ImageInfo(imgdb::ImageInfo&, const imgdb::ImageDbRecordParam&); // 0x005AFA28 | nintendogs:bytes [tier B]
-void GetDirectoryNoFromDcfDirectoryName(const char*); // 0x005AFAD8 | nintendogs:bytes [tier B]
-void EstimateRemainPictureNumWithFreeSize(imgdb::StorageType, long long, unsigned, bool); // 0x005AFB34 | nintendogs:bytes [tier B]
-void ValidateDcfDirectoryNameWithoutLength(const char*, int*); // 0x005AFC24 | nintendogs:bytes [tier B]
-void ValidateDcfDirectoryNameWithoutLength(const wchar_t*, int*); // 0x005AFD70 | nintendogs:bytes [tier B]
-void DeleteImageCtr(imgdb::StorageType, const imgdb::ImageInfo&, bool); // 0x005AFEBC | nintendogs:bytes [tier B]
-void AToI(int&, const char*, int); // 0x005B01C4 | nintendogs:bytes [tier B]
-void AToI(int&, const wchar_t*, int); // 0x005B0230 | nintendogs:bytes [tier B]
-void WStricmp(const wchar_t*, const wchar_t*); // 0x005B029C | nintendogs:bytes [tier B]
-void SaveImage(imgdb::StorageType, const imgdb::ImageInfo&, const void*, unsigned, const void*, unsigned); // 0x005B0310 | nintendogs:bytes [tier B]
-void GenerateImageInfoFromImageInfo(imgdb::ImageInfo&, const imgdb::ImageInfo&, bool); // 0x005B0E8C | nintendogs:bytes [tier B]
-void GenerateImageInfoFromImageInfo(imgdb::ImageInfo&, const imgdb::ImageInfo&, imgdb::ImageKind, bool); // 0x005B1008 | nintendogs:bytes [tier B]
-void CreateImageDirectoryName(wchar_t*, int, const imgdb::ImageInfo&); // 0x0075650C | nintendogs:bytes [tier B]
+
+// a file of a DCF directory: its number (1-9999) and kind
+struct FileIndexInfo
+{
+    u32 m_FileNo : 14;
+    u32 m_ImageKind : 3;
+    u32 : 15;
+
+    bool operator<(const FileIndexInfo& other) const { return m_FileNo < other.m_FileNo; }
+};
+ASSERT_SIZE(FileIndexInfo, 0x4);
+
+Result DeleteFile(StorageType storage, const wchar_t* path);
+bool IsExistDir(StorageType storage, const wchar_t* path);
+Result DeleteImage(StorageType storage, const ImageInfo& info, bool isForce);
+s64 GetFileSize(StorageType storage, const wchar_t* path, bool* isExist);
+Result SaveImageMp(StorageType storage, const ImageInfo& info, const void* mpData, u32 mpSize, const void* jpegData, u32 jpegSize);
+u32 GetOwnBodyId();
+void EnumImageFile(DynamicArray<FileIndexInfo, XAllocator<FileIndexInfo> >& files, StorageType storage, const wchar_t* path, ImageKindBit kinds, bool isLegacy);
+void EnumImageFile(DynamicArray<FileIndexInfo, XAllocator<FileIndexInfo> >& files, StorageType storage, const wchar_t* path, ImageKind kind, bool isLegacy);
+Result SaveImageJpeg(StorageType storage, const ImageInfo& info, const void* data, u32 size);
+Result DeleteImageTwl(StorageType storage, const ImageInfo& info, bool isForce);
+Result CreateDirectory(StorageType storage, const wchar_t* path, Allocator* allocator);
+int CreateImagePath(wchar_t* buffer, int size, StorageType storage, ImageKind kind, const IndexInfo& index, bool isLegacy);
+int CreateImagePath(wchar_t* buffer, int size, StorageType storage, const ImageInfo& info, bool isLegacy);
+bool IsDbFileReadOnly(StorageType storage);
+void EnumImageDirectory(DynamicArray<int, XAllocator<int> >& directories, StorageType storage, const wchar_t* path, bool isLegacy);
+s64 GetStorageFreeSize(StorageType storage, bool isLegacy);
+int CreateImageFileName(wchar_t* buffer, int size, const IndexInfo& index, bool isLegacy);
+const wchar_t* GetPictureDbFileDir(StorageType storage);
+const wchar_t* GetPictureDbFilePath(StorageType storage);
+int GetSdDriveNameLength();
+bool IsAvailableIndexInfo(StorageType storage, const IndexInfo& index, bool isLegacy);
+bool CreateTwlJpegFromJpeg(void*& twlData, u32& twlSize, const void* data, u32 size);
+bool CreateTwlJpegFromJpeg(void*& twlData, u32& twlSize, const void* data, u32 size, const DateTimeSeconds& dateTime);
+bool FindAvailableIndexInfo(IndexInfo& index, StorageType storage, bool isLegacy, const IndexInfo& start);
+int ConvertRealToVirtualPath(wchar_t* buffer, int size, const wchar_t* path);
+int CreateImageDirectoryName(wchar_t* buffer, int size, const IndexInfo& index, bool isLegacy);
+int CreateImageDirectoryPath(wchar_t* buffer, int size, StorageType storage, const ImageInfo& info, bool isLegacy);
+int CreateImageDirectoryPath(wchar_t* buffer, int size, StorageType storage, const IndexInfo& index, bool isLegacy);
+Result DeleteDirectory(StorageType storage, const wchar_t* path);
+int EstimateRemainPictureNum(StorageType storage, u32 pictureSize, bool isLegacy);
+int GetFileNoFromDcfFileName(const char* name);
+int GetFileNoFromDcfFileName(const wchar_t* name);
+bool IsAvailableIndexInfoFile(StorageType storage, const IndexInfo& index, bool isLegacy);
+bool IsExistImageDataEvidence(StorageType storage);
+bool ValidateDcfDirectoryName(const wchar_t* name, int* no);
+int GetCtrNandDriveNameLength();
+const wchar_t* GetLegacyPictureDbFileDir(StorageType storage);
+int GetTwlNandDriveNameLength();
+void ExtractPictureInfoFromExif(PictureTableRecord& record, const JpegMpBaseDecoder& decoder);
+bool ExtractPictureInfoFromFile(PictureTableRecord& record, StorageType storage, const ImageInfo& info, bool isLegacy);
+const wchar_t* GetLegacyPictureDbFilePath(StorageType storage);
+int CreateImageRootDirectoryPath(wchar_t* buffer, int size, StorageType storage, bool isLegacy);
+bool FindAvailableIndexInfoInNand(IndexInfo& index, const IndexInfo& start);
+nn::Result ThrowFatalErrByNandOperation(nn::Result result);
+void CreateDirectoryPathFromFilePath(wchar_t* buffer, int size, const wchar_t* path);
+void GetImageDirectoryFlags(u8* flags, StorageType storage, bool isLegacy);
+bool ValidateDcfFileNameWithoutLength(const char* name, int* no);
+bool ValidateDcfFileName(const wchar_t* name, int* no);
+bool ValidateDcfFileNameWithoutLength(const wchar_t* name, int* no);
+void StoreImageDbRecordParam2ImageInfo(ImageInfo& info, const ImageDbRecordParam& param);
+int GetDirectoryNoFromDcfDirectoryName(const char* name);
+int EstimateRemainPictureNumWithFreeSize(StorageType storage, s64 freeSize, u32 pictureSize, bool isLegacy);
+bool ValidateDcfDirectoryNameWithoutLength(const char* name, int* no);
+bool ValidateDcfDirectoryNameWithoutLength(const wchar_t* name, int* no);
+Result DeleteImageCtr(StorageType storage, const ImageInfo& info, bool isForce);
+Result DeleteImageFile(StorageType storage, const ImageInfo& info, bool isLegacy, bool isDeleteEmptyDirectory);
+bool AToI(int& value, const char* string, int length);
+bool AToI(int& value, const wchar_t* string, int length);
+int WStricmp(const wchar_t* a, const wchar_t* b);
+Result SaveImage(StorageType storage, const ImageInfo& info, const void* data, u32 size, const void* subData, u32 subSize);
+void GenerateImageInfoFromImageInfo(ImageInfo& info, const ImageInfo& source, bool isLegacy);
+void GenerateImageInfoFromImageInfo(ImageInfo& info, const ImageInfo& source, ImageKind kind, bool isLegacy);
+int CreateImageDirectoryName(wchar_t* buffer, int size, const ImageInfo& info);
+
 } // namespace util
 } // namespace imgdb

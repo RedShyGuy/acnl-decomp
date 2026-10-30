@@ -1,19 +1,33 @@
 #pragma once
 
-#include "decomp.h"
 #include "imgdb/JpegMpBaseEncoder.h"
 #include "nn/util/ADLFireWall/util_NonCopyable.h"
 
 namespace imgdb {
+
+// encodes an image as a JPEG file of at most 200 KB (member names are ours)
 // RTTI N5imgdb11JpegEncoderE @ 0x008D2AC4
 // vtable 0x00908ED0 (vptr 0x00908ED8), offset_to_top 0, 2 entries
-class JpegEncoder : public ::imgdb::JpegMpBaseEncoder, public ::nn::util::ADLFireWall::NonCopyable<imgdb::JpegEncoder>
+class JpegEncoder : public JpegMpBaseEncoder, private nn::util::ADLFireWall::NonCopyable<JpegEncoder>
 {
 public:
-    JpegEncoder(); // ctor candidate(s) 0x005A5478 (unverified)
-    virtual ~JpegEncoder(); // 0x005A5594 slot 0x00 | nintendogs:bytes
-    virtual void vf_0x04(); // 0x005A5550 slot 0x04 | virtual slot, introduced by imgdb::JpegMpBaseEncoder
-    void Encode(bool); // 0x005A50B0 | nintendogs:bytes-fuzzy [tier B]
-    JpegEncoder(const void*, nn::jpeg::CTR::PixelFormat, int, int); // 0x005A5478 | nintendogs:bytes [tier B]
+    JpegEncoder(const void* data, nn::jpeg::CTR::PixelFormat format, int width, int height);
+    virtual ~JpegEncoder();
+
+    // isTwl: a JPEG for the DSi camera (smaller than 200 KB, a thumbnail and empty Nintendo data instead of the
+    // maker notes)
+    bool Encode(bool isTwl);
+
+    Result m_Result;                       // +0x79
+    bool m_IsRetryable;                    // +0x7A, a lower quality when the file gets too large
+    const void* m_pData;                   // +0x7C
+    nn::jpeg::CTR::PixelFormat m_Format;   // +0x80
+    s32 m_Width;                           // +0x84
+    s32 m_Height;                          // +0x88
+    void* m_pOutput;                       // +0x8C
+    u32 m_OutputSize;                      // +0x90
+    u32 m_EncodedSize;                     // +0x94
 };
+ASSERT_SIZE(JpegEncoder, 0x98);
+
 } // namespace imgdb

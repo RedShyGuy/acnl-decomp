@@ -1,11 +1,18 @@
 #pragma once
 
-#include "decomp.h"
+#include "imgdb/imgdb_Types.h"
 
 namespace imgdb {
+
+// only its limit is in the binary (no RTTI, no other function)
 class JpegInMJpegFileReader
 {
 public:
-    void SetDefaultLimitFileSize(unsigned); // 0x005AB628 | nintendogs:bytes [tier B]
+    static void SetDefaultLimitFileSize(u32 size);
+
+private:
+    static bool s_IsDefaultLimitFileSizeSet;
+    static u32 s_DefaultLimitFileSize;
 };
+
 } // namespace imgdb

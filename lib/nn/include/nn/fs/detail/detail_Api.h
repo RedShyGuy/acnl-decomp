@@ -37,6 +37,10 @@ public:
     {
         return nn::fs::CTR::MPCore::detail::UserFileSystem::TryCreateDirectory(path);
     }
+    nn::Result TryDeleteDirectory(const wchar_t* path)
+    {
+        return nn::fs::CTR::MPCore::detail::UserFileSystem::TryDeleteDirectory(path);
+    }
 
 private:
     nn::fs::CTR::MPCore::detail::UserFileSystem* mFileSystem;

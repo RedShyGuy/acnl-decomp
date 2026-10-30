@@ -1,30 +1,30 @@
-#include "imgdb/PhotoHeaderFileReader.h"
 #include "imgdb/PhotoHeaderImageInfoReader.h"
+#include "imgdb/util/util_Api.h"
 
 namespace imgdb {
-// ctor candidate(s) 0x005ABE70 (unverified)
-imgdb::PhotoHeaderImageInfoReader::PhotoHeaderImageInfoReader()
-{
-}
 
-// 0x005ABF1C slot 0x00 | virtual slot, introduced by imgdb::FileReader
-void imgdb::PhotoHeaderImageInfoReader::vf_0x00()
-{
-}
-
-// 0x005ABEC4 slot 0x04 | virtual slot, introduced by imgdb::FileReader
-void imgdb::PhotoHeaderImageInfoReader::vf_0x04()
-{
-}
-
+// (reads the file without the size check of PhotoHeaderFileReader)
 // 0x005ABE1C | nintendogs:bytes [tier B]
-void imgdb::PhotoHeaderImageInfoReader::ReadImage()
+imgdb::Result imgdb::PhotoHeaderImageInfoReader::ReadImage()
 {
+    wchar_t path[44];
+    util::CreateImagePath(path, 44, static_cast<StorageType>(m_Storage), *m_pInfo, m_IsLegacy);
+    FileReader::Read(static_cast<StorageType>(m_Storage), path, 0, 0);
+    return GetResult();
 }
 
 // 0x005ABE70 | nintendogs:bytes [tier B]
-imgdb::PhotoHeaderImageInfoReader::PhotoHeaderImageInfoReader(imgdb::Allocator&, imgdb::StorageType, const imgdb::ImageInfo&, bool)
+imgdb::PhotoHeaderImageInfoReader::PhotoHeaderImageInfoReader(Allocator& allocator, StorageType storage,
+                                                              const ImageInfo& info, bool isLegacy)
+    : PhotoHeaderFileReader(allocator), m_Storage(storage), m_pInfo(&info), m_IsLegacy(isLegacy)
 {
+}
+
+// 0x005ABF1C
+// 0x005ABEC4 (deleting dtor)
+imgdb::PhotoHeaderImageInfoReader::~PhotoHeaderImageInfoReader()
+{
+    // (only the base is destroyed)
 }
 
 } // namespace imgdb

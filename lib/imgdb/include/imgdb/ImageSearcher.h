@@ -1,16 +1,59 @@
 #pragma once
 
-#include "decomp.h"
+#include "imgdb/Directory.h"
+#include "imgdb/ImageInfo.h"
 
 namespace imgdb {
+
+// walks the DCF directories of a storage and their image files, one entry per call (member names are ours)
 class ImageSearcher
 {
 public:
-    void Initialize(imgdb::Allocator&, imgdb::StorageType); // 0x005A7354 | nintendogs:bytes [tier B]
-    void SearchFile(); // 0x005A73D0 | nintendogs:bytes-fuzzy [tier B]
-    void SearchDirectory(); // 0x005A7524 | nintendogs:bytes-fuzzy [tier B]
-    ImageSearcher(); // 0x005A7674 | nintendogs:bytes [tier B]
-    ~ImageSearcher(); // 0x005A76A4 | nintendogs:bytes [tier B]
-    void IsNintendoDirectoryName(int*) const; // 0x007554C0 | nintendogs:bytes-fuzzy [tier B]
+    enum SearchResult
+    {
+        SEARCH_RESULT_END,    // no more entries
+        SEARCH_RESULT_FOUND,  // m_ImageInfo has the entry
+        SEARCH_RESULT_SKIP,   // an entry that is no DCF directory or image
+    };
+
+    ImageSearcher();
+    ~ImageSearcher();
+
+    void Initialize(Allocator& allocator, StorageType storage);
+    // the next image file of the current directory
+    SearchResult SearchFile();
+    // the next DCF directory, its files are searched next
+    SearchResult SearchDirectory();
+    // a directory "nnnNINxx" of a Nintendo console; xx
+    bool IsNintendoDirectoryName(int* no) const;
+
+private:
+    void DeleteDirectory(Directory*& directory)
+    {
+        if (directory != NULL)
+        {
+            Allocator* allocator = m_pAllocator;
+            directory->~Directory();
+            allocator->Free(directory);
+            directory = NULL;
+        }
+    }
+    Directory* CreateDirectory(const wchar_t* path, int maxEntryNum)
+    {
+        void* buffer = m_pAllocator->Allocate(sizeof(Directory), 4);
+        Directory* directory = buffer != NULL ? new (buffer) Directory() : NULL;
+        directory->Initialize(*m_pAllocator, m_Storage, path, maxEntryNum);
+        return directory;
+    }
+
+    Allocator* m_pAllocator;        // +0x00
+    StorageType m_Storage;          // +0x04
+    Directory* m_pRootDirectory;    // +0x08
+    Directory* m_pDirectory;        // +0x0C, the current DCF directory
+
+public:
+    ImageInfo m_ImageInfo;          // +0x10
 };
+ASSERT_SIZE(ImageSearcher, 0x60);
+
 } // namespace imgdb

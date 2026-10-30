@@ -1799,23 +1799,23 @@ namespace imgdb {
     class SysMakerNote;
     class TwlNandArchiveMounter;
     class ValidityStateTable;
-    struct Allocator { u32 _unknown; }; // placeholder, real type unknown
-    struct BodyIdType { u32 _unknown; }; // placeholder, real type unknown
-    struct DistinctionTypeBit { u32 _unknown; }; // placeholder, real type unknown
-    struct HandleTypeBit { u32 _unknown; }; // placeholder, real type unknown
-    struct ImageKind { u32 _unknown; }; // placeholder, real type unknown
-    struct ImageKindBit { u32 _unknown; }; // placeholder, real type unknown
-    struct Result { u32 _unknown; }; // placeholder, real type unknown
-    struct SaveProcessType { u32 _unknown; }; // placeholder, real type unknown
-    struct ShootingType { u32 _unknown; }; // placeholder, real type unknown
-    struct StorageType { u32 _unknown; }; // placeholder, real type unknown
-    template <typename T0, typename T1> struct DynamicArray { u32 _unknown; }; // placeholder
+    class Allocator; // imgdb/imgdb_Types.h
+    enum BodyIdType : u8; // imgdb/imgdb_Types.h
+    enum DistinctionTypeBit : u8; // imgdb/imgdb_Types.h
+    enum HandleTypeBit : u8; // imgdb/imgdb_Types.h
+    enum ImageKind : u8; // imgdb/imgdb_Types.h
+    enum ImageKindBit : u8; // imgdb/imgdb_Types.h
+    enum Result : s8; // imgdb/imgdb_Types.h
+    enum SaveProcessType : u8; // imgdb/imgdb_Types.h
+    enum ShootingType : u8; // imgdb/imgdb_Types.h
+    enum StorageType : u8; // imgdb/imgdb_Types.h
+    template <typename T0, typename T1> class DynamicArray; // imgdb/imgdb_Types.h
     template <typename T0> class Singleton;
-    template <typename T0> struct XAllocator { u32 _unknown; }; // placeholder
+    template <typename T0> class XAllocator; // imgdb/imgdb_Types.h
 }
 
 namespace imgdb { namespace util { 
-    struct FileIndexInfo { u32 _unknown; }; // placeholder, real type unknown
+    struct FileIndexInfo; // imgdb/util/util_Api.h
 }}
 
 namespace indoor { 
@@ -3836,7 +3836,7 @@ namespace objctrl {
 namespace oml { namespace framework { 
     class Process;
     class ProcessManager;
-    struct Result { u32 _unknown; }; // placeholder, real type unknown
+    enum Result : s8; // imgdb/imgdb_Types.h
 }}
 
 namespace palloncino { 

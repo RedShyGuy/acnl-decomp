@@ -1,9 +1,13 @@
 #pragma once
 
-#include "decomp.h"
+#include "imgdb/imgdb_Types.h"
 
 namespace imgdb {
 namespace mnt {
-void MountSdmc(); // 0x005ABF98 | nintendogs:bytes [tier B]
+
+// the SD card archive of the images (SdArchiveMounter)
+bool MountSdmc();
+void UnmountSdmc();
+
 } // namespace mnt
 } // namespace imgdb

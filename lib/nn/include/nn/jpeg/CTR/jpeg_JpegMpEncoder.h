@@ -1,5 +1,7 @@
 #pragma once
 
+#include <cstring>
+
 #include "decomp.h"
 #include "nn/jpeg/CTR/detail/jpeg_EncoderWork.h"
 #include "nn/jpeg/CTR/jpeg_Types.h"
@@ -12,6 +14,43 @@ namespace CTR {
 class JpegMpEncoder
 {
 public:
+    // (inline: imgdb builds and finalizes encoders and sets the Exif data, names are ours)
+    JpegMpEncoder() : m_IsInitialized(false) {}
+    ~JpegMpEncoder() { Finalize(); }
+    void Finalize() { m_IsInitialized = false; }
+    // "YYYY:MM:DD hh:mm:ss"
+    void SetDateTime(const char* dateTime)
+    {
+        if (m_IsInitialized)
+        {
+            std::memcpy(m_Settings.m_DateTime, dateTime, sizeof(m_Settings.m_DateTime));
+            m_Settings.m_DateTime[sizeof(m_Settings.m_DateTime) - 1] = '\0';
+            m_Settings.m_HasDateTime = true;
+        }
+    }
+    void SetSoftware(const char* software)
+    {
+        if (m_IsInitialized)
+        {
+            m_Settings.m_Software = software;
+        }
+    }
+    void SetNintendoData(const u8* data)
+    {
+        if (m_IsInitialized)
+        {
+            m_Settings.m_NintendoData = data;
+        }
+    }
+    void SetThumbnailSize(u32 width, u32 height, PixelSampling sampling)
+    {
+        if (m_IsInitialized)
+        {
+            m_Settings.m_ThumbnailWidth = width;
+            m_Settings.m_ThumbnailHeight = height;
+            m_Settings.m_ThumbnailSampling = sampling;
+        }
+    }
     // the size of the work memory for MP files of up to maxImages images (0: plain JPEG)
     static size_t GetWorkBufferSize(size_t maxImages); // 0x004707F0 (name is ours)
 

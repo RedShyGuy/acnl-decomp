@@ -1,25 +1,24 @@
-#include "imgdb/FileReader.h"
 #include "imgdb/PhotoFileReader.h"
 
 namespace imgdb {
-// ctor address unknown
-imgdb::PhotoFileReader::PhotoFileReader()
-{
-}
 
-// 0x005A9D38 slot 0x00 | nintendogs:callgraph
-void imgdb::PhotoFileReader::vf_0x00()
-{
-}
-
-// 0x005A9CE0 slot 0x04 | virtual slot, introduced by imgdb::FileReader
-void imgdb::PhotoFileReader::vf_0x04()
-{
-}
+// 0x009826C8
+bool imgdb::PhotoFileReader::s_IsDefaultLimitFileSizeSet;
+// 0x009826CC
+u32 imgdb::PhotoFileReader::s_DefaultLimitFileSize;
 
 // 0x005A9CC8 | nintendogs:bytes [tier B]
-void imgdb::PhotoFileReader::SetDefaultLimitFileSize(unsigned)
+void imgdb::PhotoFileReader::SetDefaultLimitFileSize(u32 size)
 {
+    s_DefaultLimitFileSize = size;
+    s_IsDefaultLimitFileSizeSet = true;
+}
+
+// 0x005A9D38 | nintendogs:callgraph [tier C]
+// 0x005A9CE0 (deleting dtor)
+imgdb::PhotoFileReader::~PhotoFileReader()
+{
+    // (only the base is destroyed)
 }
 
 } // namespace imgdb

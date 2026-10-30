@@ -1,9 +1,3 @@
 #include "imgdb/ImageDbRecord.h"
 
-namespace imgdb {
-// ctor address unknown
-imgdb::ImageDbRecord::ImageDbRecord()
-{
-}
-
-} // namespace imgdb
+// (ImageDbRecord is an interface without code)

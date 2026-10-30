@@ -1,18 +1,30 @@
 #pragma once
 
-#include "decomp.h"
+#include "imgdb/ImageInfo.h"
 #include "imgdb/PhotoFileReader.h"
 
 namespace imgdb {
-// RTTI N5imgdb20PhotoImageInfoReaderE @ 0x008D2B7C
-// vtable 0x00908FC0 (vptr 0x00908FC8), offset_to_top 0, 4 entries
-class PhotoImageInfoReader : public ::imgdb::PhotoFileReader
+
+// RTTI N5imgdb20PhotoImageInfoReaderE
+// vtable 0x00908FC0 (vptr 0x00908FC8), 4 entries
+// reads the image file of an ImageInfo
+class PhotoImageInfoReader : private PhotoFileReader
 {
 public:
-    PhotoImageInfoReader(); // ctor candidate(s) 0x005AB458 (unverified)
-    virtual void vf_0x00(); // 0x005AB504 slot 0x00 | virtual slot, introduced by imgdb::FileReader
-    virtual void vf_0x04(); // 0x005AB4AC slot 0x04 | virtual slot, introduced by imgdb::FileReader
-    void ReadImage(); // 0x005AB3FC | nintendogs:bytes [tier B]
-    PhotoImageInfoReader(imgdb::Allocator&, imgdb::StorageType, const imgdb::ImageInfo&, bool); // 0x005AB458 | nintendogs:bytes [tier B]
+    PhotoImageInfoReader(Allocator& allocator, StorageType storage, const ImageInfo& info, bool isLegacy);
+    virtual ~PhotoImageInfoReader();
+
+    Result ReadImage();
+
+    using FileReader::GetData;
+    using FileReader::GetDataSize;
+    using FileReader::GetFileSize;
+
+private:
+    u8 m_Storage;                 // +0x34 StorageType
+    const ImageInfo* m_pInfo;     // +0x38
+    bool m_IsLegacy;              // +0x3C
 };
+ASSERT_SIZE(PhotoImageInfoReader, 0x40);
+
 } // namespace imgdb

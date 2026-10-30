@@ -1,9 +1,8 @@
 #include "imgdb/ArchiveMounter.h"
 
 namespace imgdb {
-// ctor address unknown
-imgdb::ArchiveMounter::ArchiveMounter()
-{
-}
+
+// 0x0097F0C4
+const char* s_MountNames[3] = {"$phtsd:", "$_phtsh:", "twlp:"};
 
 } // namespace imgdb

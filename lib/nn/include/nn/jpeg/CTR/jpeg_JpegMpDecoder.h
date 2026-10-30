@@ -12,6 +12,22 @@ namespace CTR {
 class JpegMpDecoder
 {
 public:
+    // (inline: imgdb builds and finalizes decoders, names are ours)
+    JpegMpDecoder() : m_IsInitialized(false) {}
+    ~JpegMpDecoder() { Finalize(); }
+    void Finalize() { m_IsInitialized = false; }
+    // pixels per output line of the next decode (larger than 65536: the width)
+    void SetDstStride(u32 stride)
+    {
+        if (m_IsInitialized)
+        {
+            m_Settings.m_Flags = 1;
+            if (stride <= 65536)
+            {
+                m_Settings.m_Stride = stride;
+            }
+        }
+    }
     static size_t GetWorkBufferSize(); // 0x00470374
     static size_t GetDstBufferSize(u32 width, u32 height, PixelFormat format); // 0x00470218
 

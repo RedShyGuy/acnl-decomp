@@ -1,15 +1,36 @@
 #pragma once
 
-#include "decomp.h"
+#include <cstring>
+
+#include "imgdb/imgdb_Types.h"
 
 namespace imgdb {
+
+// a reference to a record of the database, sortable by the days of the image
 class ImageDbRecordLink
 {
 public:
-    void SetImageKind(imgdb::ImageKind); // 0x005AAF48 | nintendogs:bytes [tier B]
-    void SetIndexInfo(const imgdb::IndexInfo&); // 0x005AAF64 | nintendogs:bytes [tier B]
-    void SetStorageType(imgdb::StorageType); // 0x005AAFA4 | nintendogs:bytes [tier B]
-    void SetDbRecordIndex(int); // 0x005AAFBC | nintendogs:bytes [tier B]
-    void SetDays(int); // 0x005AAFD4 | nintendogs:bytes [tier B]
+    DECOMP_EMIT_COPY ImageDbRecordLink() { std::memset(this, 0, sizeof(*this)); } // 0x0013F9A0 | nintendogs:callgraph [tier C]
+
+    void Initialize();
+    void SetImageKind(ImageKind kind);
+    void SetIndexInfo(const IndexInfo& index);
+    void SetStorageType(StorageType type);
+    void SetDbRecordIndex(int index);
+    void SetDays(int days);
+    StorageType GetStorageType() const;
+    int GetDbRecordIndex() const;
+    int GetDays() const;
+    ImageKind GetImageKind() const;
+
+    s32 m_Days : 18;               // +0x00
+    u32 m_DbRecordIndex : 14;
+    u32 m_StorageType : 2;         // +0x04
+    u32 m_ImageKind : 3;
+    u32 m_DirectoryIndex : 10;
+    u32 m_FileIndex : 14;
+    u32 : 3;
 };
+ASSERT_SIZE(ImageDbRecordLink, 0x8);
+
 } // namespace imgdb
