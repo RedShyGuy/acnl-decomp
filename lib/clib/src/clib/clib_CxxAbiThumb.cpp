@@ -5,6 +5,8 @@
 #include "decomp.h"
 #include "clib/clib_Thumb.h"
 
+void operator delete[](void* p);
+
 namespace {
 // the exception state of a thread (names are ours)
 struct ExceptionGlobals
@@ -155,13 +157,20 @@ void* __aeabi_vec_dtor(void* array, void* (*destroy)(void*), size_t size, size_t
 
 // destroys an array with a cookie (element size and count in the two words in front of it)
 // 0x0011C112 (name is ours, after the ARM run-time ABI)
-void* __aeabi_vec_dtor_cookie(void* array, void* (*destroy)(void*))
+DECOMP_NOINLINE void* __aeabi_vec_dtor_cookie(void* array, void* (*destroy)(void*))
 {
     if (array == NULL) {
         return NULL;
     }
     const size_t* cookie = static_cast<const size_t*>(array) - 2;
     return __aeabi_vec_dtor(array, destroy, cookie[0], cookie[1]);
+}
+
+// destroys and frees an array with a cookie
+// 0x003078D4 (name is ours, after the ARM run-time ABI)
+void __aeabi_vec_delete(void* array, void* (*destroy)(void*))
+{
+    operator delete[](__aeabi_vec_dtor_cookie(array, destroy));
 }
 
 // destroys the elements from the last one on; returns the address of the cookie in front of the array

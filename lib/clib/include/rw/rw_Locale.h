@@ -5,6 +5,7 @@
 // are ours. This header must not be used together with the headers of GCC's C++ library.
 
 #include "types.h"
+#include "rw/rw_String.h"
 
 namespace std {
 class locale;
@@ -32,6 +33,59 @@ class __rw_ctype_helper<char>
 {
 protected:
     u32 _unknown0x0;
+};
+
+// the punctuation of numbers
+template <typename T>
+class __rw_punct_data;
+
+template <>
+class __rw_punct_data<char>
+{
+public:
+    ~__rw_punct_data();
+
+protected:
+    char m_DecimalPoint;    // 0x0
+    char m_ThousandsSep;    // 0x1
+    std::string m_Grouping; // 0x4
+};
+
+class __rw_numpunct_impl_base
+{
+};
+
+template <typename T>
+class __rw_numpunct_impl_data;
+
+template <>
+class __rw_numpunct_impl_data<char> : public __rw_numpunct_impl_base, public __rw_punct_data<char>
+{
+public:
+    ~__rw_numpunct_impl_data();
+
+protected:
+    std::string m_TrueName;     // 0x8
+    std::string m_FalseName;    // 0xC
+};
+
+template <typename T>
+class __rw_numpunct_impl;
+
+template <>
+class __rw_numpunct_impl<char> : public __rw_numpunct_impl_data<char>
+{
+protected:
+    // the names of the bool values for the input of numbers
+    struct BoolName
+    {
+        const char* m_pName;
+        int m_Value;
+    };
+
+    BoolName m_BoolNames[2];    // 0x10
+    int m_BoolNameCount;        // 0x20
+    const void* m_pPunct;       // 0x24 (the data above)
 };
 } // namespace __rw
 
@@ -111,5 +165,23 @@ private:
     u32 m_UpperLast;        // 0x28
     char* m_pToUpper;       // 0x2C (indexed by c - m_LowerFirst)
     char* m_pToLower;       // 0x30 (indexed by c - m_UpperFirst)
+};
+
+template <typename T>
+class numpunct;
+
+template <>
+class numpunct<char> : public locale::facet, public __rw::__rw_numpunct_impl<char>
+{
+public:
+    virtual ~numpunct();
+    virtual void Initialize(const locale& loc);
+
+protected:
+    virtual char do_decimal_point() const;
+    virtual char do_thousands_sep() const;
+    virtual string do_grouping() const;
+    virtual string do_truename() const;
+    virtual string do_falsename() const;
 };
 } // namespace std

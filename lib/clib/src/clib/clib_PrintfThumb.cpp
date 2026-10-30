@@ -745,7 +745,7 @@ int vswprintf(wchar_t* pDestination, size_t size, const wchar_t* pFormat, va_lis
 
 // the format first, then the stream (the order of the C library's internal vfprintf)
 // 0x002F7B7C (name is ours)
-int __vfprintf(const char* pFormat, File* pStream, va_list arguments)
+DECOMP_NOINLINE int __vfprintf(const char* pFormat, File* pStream, va_list arguments)
 {
     int count = __printf_narrow(pFormat, pStream, Arguments(arguments), reinterpret_cast<PrintfPutChar>(fputc));
     if (ferror(pStream) != 0) {
@@ -760,6 +760,14 @@ int printf(const char* pFormat, ...)
     va_list arguments;
     va_start(arguments, pFormat);
     return __vfprintf(pFormat, &__stdout, arguments);
+}
+
+// 0x00307A0C (name is ours, after the C standard)
+int fprintf(File* pStream, const char* pFormat, ...)
+{
+    va_list arguments;
+    va_start(arguments, pFormat);
+    return __vfprintf(pFormat, pStream, arguments);
 }
 
 // 0x00100EF4 | manual:ours [tier A]
