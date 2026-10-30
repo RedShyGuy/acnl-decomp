@@ -1,20 +1,18 @@
-#include "libms/FlowNode.h"
 #include "libms/FlowNodeMessage.h"
 
 namespace libms {
-// ctor candidate(s) 0x005B221C (unverified)
-libms::FlowNodeMessage::FlowNodeMessage()
+
+// the node as its type (a copy of the generic node)
+// 0x005B221C (name is ours)
+libms::FlowNodeMessage::FlowNodeMessage(const FlowNode& node) : FlowNode(node)
 {
 }
 
-// 0x005B2244 slot 0x00 | virtual slot, introduced by libms::FlowNode
-void libms::FlowNodeMessage::vf_0x00()
+// 0x005B2244
+// 0x005B2240 (deleting dtor)
+libms::FlowNodeMessage::~FlowNodeMessage()
 {
-}
-
-// 0x005B2240 slot 0x04 | virtual slot, introduced by libms::FlowNode
-void libms::FlowNodeMessage::vf_0x04()
-{
+    // empty (in the original too)
 }
 
 } // namespace libms

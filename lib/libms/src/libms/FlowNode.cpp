@@ -1,19 +1,17 @@
 #include "libms/FlowNode.h"
 
 namespace libms {
-// ctor candidate(s) 0x005B22C8 (unverified)
-libms::FlowNode::FlowNode()
+
+// 0x005B22C8 (name is ours)
+libms::FlowNode::FlowNode(const LMS_FlowNode* node) : m_pNode(node)
 {
 }
 
-// 0x005B22E0 slot 0x00 | virtual slot, introduced by libms::FlowNode
-void libms::FlowNode::vf_0x00()
+// 0x005B22E0
+// 0x005B22DC (deleting dtor)
+libms::FlowNode::~FlowNode()
 {
-}
-
-// 0x005B22DC slot 0x04 | virtual slot, introduced by libms::FlowNode
-void libms::FlowNode::vf_0x04()
-{
+    // empty (in the original too)
 }
 
 } // namespace libms
