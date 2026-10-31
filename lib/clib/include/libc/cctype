@@ -1,0 +1,20 @@
+#pragma once
+
+// <cctype> of the C library of the program (the ARM C library ARMCC linked in, decompiled in lib/clib). This directory
+// comes before the system headers: the decompiled code must not use the C or C++ library of GCC.
+
+#include <ctype.h>
+
+namespace std {
+using ::isalnum;
+using ::isalpha;
+using ::iscntrl;
+using ::isdigit;
+using ::islower;
+using ::ispunct;
+using ::isspace;
+using ::isupper;
+using ::isxdigit;
+using ::tolower;
+using ::toupper;
+} // namespace std

@@ -1,0 +1,24 @@
+#pragma once
+
+// <cstdio> of the C library of the program (the ARM C library ARMCC linked in, decompiled in lib/clib). This directory
+// comes before the system headers: the decompiled code must not use the C or C++ library of GCC.
+
+#include <stdio.h>
+
+namespace std {
+using ::fclose;
+using ::ferror;
+using ::fopen;
+using ::fprintf;
+using ::fputc;
+using ::freopen;
+using ::ftell;
+using ::printf;
+using ::setvbuf;
+using ::snprintf;
+using ::sprintf;
+using ::sscanf;
+using ::vsnprintf;
+using ::vsprintf;
+using ::FILE;
+} // namespace std

@@ -2,6 +2,7 @@
 // (catopen/catgets/catclose; in this program catopen always fails) and the error messages from the catalog
 // "rwstderr". See rw/rw_Locale.h.
 
+#include <new>
 #include "decomp.h"
 #include "rw/rw_Exception.h"
 #include "rw/rw_Locale.h"
@@ -15,10 +16,6 @@ int sscanf(const char* pString, const char* pFormat, ...);
 void* operator new(size_t size);
 void operator delete(void* p);
 
-inline void* operator new(size_t, void* p)
-{
-    return p;
-}
 
 namespace __rw {
 // an open catalog file of the C library (name is ours; the implementation of the program has none)

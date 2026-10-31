@@ -3,7 +3,6 @@
 // (the assembly writes whole MCUs only), the "Shrink" functions when the image is scaled down;
 // they take every (1 << shrink)-th sample. The functions are listed in the order of the binary.
 
-#include <arm_acle.h>
 #include "nn/jpeg/CTR/detail/detail_Api.h"
 
 namespace nn {
@@ -50,12 +49,12 @@ inline int ToBlue(int y, int cb)
 // (the saturation is the usat instruction, also with the shift of the 5/6 bit values)
 inline u8 Saturate(int value)
 {
-    return __usat(value, 8);
+    return __builtin_arm_usat(value, 8);
 }
 
 inline u16 ToRgb565(int y, int cb, int cr)
 {
-    return __usat(ToRed(y, cr) >> 3, 5) << 11 | __usat(ToGreen(y, cb, cr) >> 2, 6) << 5 | __usat(ToBlue(y, cb) >> 3, 5);
+    return __builtin_arm_usat(ToRed(y, cr) >> 3, 5) << 11 | __builtin_arm_usat(ToGreen(y, cb, cr) >> 2, 6) << 5 | __builtin_arm_usat(ToBlue(y, cb) >> 3, 5);
 }
 
 // The output formats. GetMcu returns where the MCU (or the scaled down MCU at sx, sy) starts,

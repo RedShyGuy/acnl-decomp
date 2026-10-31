@@ -3,7 +3,7 @@
 #include "decomp.h"
 #include "nn/nex/nex_MemAllocator.h"
 #include "nn/nex/nex_MemoryManager.h"
-#include <bits/stl_function.h>
+#include <functional>
 #include <new>
 #include <utility>
 

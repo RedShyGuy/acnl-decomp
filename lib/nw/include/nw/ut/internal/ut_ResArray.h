@@ -1,5 +1,6 @@
 #pragma once
 
+#include <stdint.h>
 #include "decomp.h"
 #include "nw/ut/ut_Offset.h"
 

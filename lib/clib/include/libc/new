@@ -1,0 +1,6 @@
+#pragma once
+
+// <new> of the C++ library of the program (Rogue Wave, lib/clib/include/rw); this directory comes before the system
+// headers: the decompiled code must not use the C++ library of GCC.
+
+#include "rw/rw_New.h"

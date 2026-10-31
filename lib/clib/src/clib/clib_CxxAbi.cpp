@@ -1,6 +1,7 @@
 // The C++ run-time support of the ARM C library (the parts in ARM code; the guard functions and the array
 // constructors are Thumb code).
 
+#include <new>
 #include "decomp.h"
 #include "nn/os/os_ThreadLocalRegion.h"
 
@@ -18,3 +19,6 @@ extern "C" void** __cxa_eh_globals_slot()
 {
     return reinterpret_cast<void**>(reinterpret_cast<u8*>(nn::os::detail::GetThreadLocalRegion()) + 0x5C);
 }
+
+// the argument of the nothrow new operators (an empty object; the callers never load its address)
+const std::nothrow_t std::nothrow = std::nothrow_t();

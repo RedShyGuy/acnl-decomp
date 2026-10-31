@@ -1,0 +1,31 @@
+#pragma once
+
+// <cmath> of the C library of the program (the ARM C library ARMCC linked in, decompiled in lib/clib). This directory
+// comes before the system headers: the decompiled code must not use the C or C++ library of GCC.
+
+#include <math.h>
+
+namespace std {
+inline float sin(float x) { return ::sinf(x); }
+inline float cos(float x) { return ::cosf(x); }
+inline float tan(float x) { return ::tanf(x); }
+inline float asin(float x) { return ::asinf(x); }
+inline float acos(float x) { return ::acosf(x); }
+inline float atan2(float y, float x) { return ::atan2f(y, x); }
+inline float exp(float x) { return ::expf(x); }
+inline float log(float x) { return ::logf(x); }
+inline float log10(float x) { return ::log10f(x); }
+inline float pow(float x, float y) { return ::powf(x, y); }
+inline float ceil(float x) { return ::ceilf(x); }
+inline float floor(float x) { return ::floorf(x); }
+inline float fmod(float x, float y) { return ::fmodf(x, y); }
+inline float modf(float x, float* integralPart) { return ::modff(x, integralPart); }
+inline float sqrt(float x) { return ::sqrtf(x); }
+inline float fabs(float x) { return ::fabsf(x); }
+using ::cosf;
+using ::fabs;
+using ::fabsf;
+using ::sinf;
+using ::sqrt;
+using ::sqrtf;
+} // namespace std

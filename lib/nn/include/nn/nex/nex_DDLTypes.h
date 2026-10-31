@@ -7,7 +7,7 @@
 #include "nn/nex/nex_qList.h"
 #include "nn/nex/nex_qMap.h"
 #include "nn/nex/nex_qVector.h"
-#include <bits/stl_algobase.h>
+#include <algorithm>
 
 namespace nn {
 namespace nex {

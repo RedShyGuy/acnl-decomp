@@ -1,0 +1,13 @@
+#pragma once
+
+// <cwctype> of the C library of the program (the ARM C library ARMCC linked in, decompiled in lib/clib). This directory
+// comes before the system headers: the decompiled code must not use the C or C++ library of GCC.
+
+#include <wctype.h>
+
+namespace std {
+using ::iswspace;
+using ::towlower;
+using ::towupper;
+using ::wint_t;
+} // namespace std

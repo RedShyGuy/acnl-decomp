@@ -1,5 +1,6 @@
 // The exceptions and the error reporting of the C++ library (Thumb code in the original). See rw/rw_Exception.h.
 
+#include <new>
 #include "decomp.h"
 #include "rw/rw_Exception.h"
 #include "rw/rw_String.h"
@@ -15,10 +16,6 @@ int fprintf(clib::File* pStream, const char* pFormat, ...);
 void abort();
 }
 
-inline void* operator new(size_t, void* p)
-{
-    return p;
-}
 
 namespace __rw {
 // 0x008C9418 (name is ours)

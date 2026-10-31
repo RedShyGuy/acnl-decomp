@@ -8,6 +8,9 @@ function(decomp_global_includes)
     file(GLOB mod_includes LIST_DIRECTORIES true "${CMAKE_SOURCE_DIR}/modules/*/include")
     list(APPEND dirs ${lib_includes} ${mod_includes})
     include_directories(${dirs})
+    # the C and C++ library headers of the program (lib/clib) come before the system headers: the decompiled code
+    # uses the library ARMCC linked in, never the one of GCC
+    include_directories(BEFORE SYSTEM "${CMAKE_SOURCE_DIR}/lib/clib/include/libc")
 endfunction()
 
 # decomp_add_unit(<target> <source dir> <kind>)

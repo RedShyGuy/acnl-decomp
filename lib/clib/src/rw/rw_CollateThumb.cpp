@@ -10,8 +10,6 @@ extern "C" {
 void* memcpy(void* destination, const void* source, size_t size);
 int strcoll(const char* a, const char* b);
 size_t strxfrm(char* pDestination, const char* pSource, size_t size);
-size_t wcrtomb(char* pDestination, wchar_t c, mbstate_t* pState);
-size_t mbrtowc(wchar_t* pDestination, const char* pSource, size_t size, mbstate_t* pState);
 int __mb_cur_max();
 }
 

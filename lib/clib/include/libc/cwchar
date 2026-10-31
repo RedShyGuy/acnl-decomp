@@ -1,0 +1,29 @@
+#pragma once
+
+// <cwchar> of the C library of the program (the ARM C library ARMCC linked in, decompiled in lib/clib). This directory
+// comes before the system headers: the decompiled code must not use the C or C++ library of GCC.
+
+#include <wchar.h>
+
+namespace std {
+using ::mbrlen;
+using ::mbrtowc;
+using ::mbsinit;
+using ::mbstate_t;
+using ::swprintf;
+using ::vswprintf;
+using ::wcrtomb;
+using ::wcscat;
+using ::wcscmp;
+using ::wcscpy;
+using ::wcslen;
+using ::wcsncmp;
+using ::wcsncpy;
+using ::wcsstr;
+using ::wcstok;
+using ::wcstombs;
+using ::wcstoul;
+using ::wmemcpy;
+using ::wmemmove;
+using ::wmemset;
+} // namespace std

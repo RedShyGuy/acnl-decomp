@@ -1,5 +1,6 @@
 #pragma once
 
+#include <stdint.h>
 #include "decomp.h"
 #include "nw/gfx/gfx_BasicRenderKeyFactory.h"
 #include "nw/gfx/gfx_Material.h"
