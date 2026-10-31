@@ -44,4 +44,13 @@ extern const LocaleBlock<NumericData> s_NumericLocale = {
     -8,
     {offsetof(NumericData, m_Strings), offsetof(NumericData, m_Strings) + 2, offsetof(NumericData, m_Strings) + 3, {'.', '\0', '\0', '\0'}},
 };
+
+// (name is ours)
+// 0x00945544
+extern const LocaleBlock<CollateData> s_CollateLocale = {
+    sizeof(LocaleBlock<CollateData>),
+    "C",
+    -8,
+    {0},
+};
 } // namespace clib

@@ -11,6 +11,7 @@ void* memmoveWithResult(void* destination, const void* source, size_t size);
 void _memset_w(void* destination, size_t size, int value);
 wchar_t towlower(wchar_t c);
 int strcmp(const char* a, const char* b);
+size_t strlen(const char* string);
 
 // 0x001007DC | manual:ours [tier A]
 void* bsearch(const void* key, const void* base, size_t count, size_t size, int (*compare)(const void*, const void*))
@@ -539,5 +540,34 @@ int strcoll(const char* a, const char* b)
     return weightA - weightB;
 }
 
+// through the collation table of the locale (none in the "C" locale: a copy); the length of the whole result
+// 0x0031B5F0 (name is ours, after the C standard)
+size_t strxfrm(char* pDestination, const char* pSource, size_t size)
+{
+    size_t length = strlen(pSource);
+    const s32* pCollate = GetCLibraryLocale()->m_pCollate;
+    if (*pCollate != 0) {
+        const u8* pTable = reinterpret_cast<const u8*>(pCollate) + *pCollate;
+        for (; size != 0; size--) {
+            u8 c = *pSource++;
+            if (c == 0) {
+                *pDestination = '\0';
+                break;
+            }
+            *pDestination++ = pTable[c];
+        }
+    } else {
+        for (; size != 0; size--) {
+            u8 c = *pSource++;
+            *pDestination++ = c;
+            if (c == 0) {
+                break;
+            }
+        }
+    }
+    return length;
+}
+
 } // extern "C"
+
 

@@ -43,23 +43,35 @@ struct NumericData
     char m_Strings[4];              // 0xC (".", then the empty separator and grouping)
 };
 
-// the locale state of the C library (only the categories known)
+// the collation: the offset of a table from the data (0: none, the "C" locale)
+struct CollateData
+{
+    s32 m_TableOffset;
+};
+
+// the locale state of the C library: one word per category (LC_COLLATE, LC_CTYPE, LC_MONETARY, LC_NUMERIC, LC_TIME);
+// setlocale can give them out as one name ("*" and their hexadecimal values)
 struct CLibraryLocale
 {
     const s32* m_pCollate;          // 0x0 (its first word: the offset of the collation table from it, 0 = none)
     const u8* m_pCtypeClasses;      // 0x4 (from the class of EOF on: indexed by the character)
-    u32 _unknown0x8;
+    const void* m_pMonetary;        // 0x8
     const NumericData* m_pNumeric;  // 0xC
+    const void* m_pTime;            // 0x10
 };
 
 extern const LocaleBlock<CtypeData> s_CtypeLocale;
 extern const LocaleBlock<NumericData> s_NumericLocale;
+extern const LocaleBlock<CollateData> s_CollateLocale;
 extern CLibraryLocale s_CLibraryLocale;
 } // namespace clib
 
 extern "C" {
 clib::CLibraryLocale* GetCLibraryLocale(); // 0x002F922C (name is ours)
-const u8* GetCtypeLocale(int category, const char* pName); // 0x00142770 (name is ours)
-const clib::NumericData* GetNumericLocale(int category, const char* pName); // 0x0011DC08 (name is ours)
+// the data of a category for a locale name, NULL if there is none (only "C"; pDefault: a string setlocale passes,
+// not used)
+const u8* GetCtypeLocale(const char* pDefault, const char* pName); // 0x00142770 (name is ours)
+const clib::NumericData* GetNumericLocale(const char* pDefault, const char* pName); // 0x0011DC08 (name is ours)
+const clib::CollateData* GetCollateLocale(const char* pDefault, const char* pName); // 0x007C6D88 (name is ours)
 const u8** __rt_ctype_table(); // 0x002F7A54 | manual:abi [tier B]
 }

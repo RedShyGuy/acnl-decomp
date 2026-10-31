@@ -191,6 +191,11 @@ def translate(read_half, start, size, read_word=None, calls_at=()):
             lit = ((start + o + 4) & ~3) + (h & 0xFF) * 4 - start
             if 0 <= lit < size:
                 data.update((lit, lit + 2))
+        elif (h >> 11) == 0x14:
+            # "adr rX, label": data in the code (strings, tables)
+            lit = ((start + o + 4) & ~3) + (h & 0xFF) * 4 - start
+            if 0 <= lit < size:
+                data.update((lit, lit + 2))
         elif (h >> 12) == 0xD and ((h >> 8) & 15) < 14 or (h >> 11) == 0x1C:
             kind, _, target = _decode(h, None, start + o)
             if kind == 'branch' and start <= target < start + size:

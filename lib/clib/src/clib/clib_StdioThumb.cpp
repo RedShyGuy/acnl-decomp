@@ -505,4 +505,48 @@ void __stdio_exit()
     }
 }
 
+// pointers to the standard streams
+// 0x00982FAC (name is ours)
+File* s_pStandardInput;
+// 0x00982FB0 (name is ours)
+File* s_pStandardOutput;
+// 0x00982FB4 (name is ours)
+File* s_pStandardError;
+
+// opens the standard streams (on the terminal the program does not have, so __stdio_open fails) and makes them line
+// buffered. The arguments of __stdio_raise_error point into the merged string pool right in front of the empty
+// names; what the strings were meant to be is unknown, they are written as the bytes found there.
+// 0x001023A0 (name is ours)
+void __stdio_initialize()
+{
+    __rt_memclr_w(&__stdin, sizeof(File));
+    __rt_memclr_w(&__stdout, sizeof(File));
+    __rt_memclr_w(&__stderr, sizeof(File));
+    s_pStandardInput = &__stdin;
+    s_pStandardOutput = &__stdout;
+    s_pStandardError = &__stderr;
+    __stdin.m_Next = reinterpret_cast<uptr>(&__stdout) + 1;
+    __stdout.m_Next = reinterpret_cast<uptr>(&__stderr) + 1;
+    __stderr.m_Next = 1;
+    if (freopen("", "r", &__stdin) == NULL) {
+        __stdio_raise_error("s://");
+    }
+    if (freopen("", "w", &__stdout) == NULL) {
+        __stdio_raise_error("://");
+    }
+    if (freopen("", "w", &__stderr) == NULL) {
+        __stdio_raise_error("//");
+    }
+    if (setvbuf(&__stdin, NULL, FILE_LINE_BUFFERING, 64) != 0) {
+        __stdio_raise_error("\xFF\xFF");
+    }
+    if (setvbuf(&__stdout, NULL, FILE_LINE_BUFFERING, 64) != 0) {
+        __stdio_raise_error("\xFF");
+    }
+    if (setvbuf(&__stderr, NULL, FILE_LINE_BUFFERING, 16) != 0) {
+        __stdio_raise_error("");
+    }
+}
+
 } // extern "C"
+

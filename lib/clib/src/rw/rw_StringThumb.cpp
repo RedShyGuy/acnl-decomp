@@ -113,6 +113,48 @@ DECOMP_NOINLINE void std::basic_string<char, std::char_traits<char>, std::alloca
     __rw::RawFree(Rep(), Rep()->m_Capacity + sizeof(__rw::StringRep) + 2, NULL);
 }
 
+// 0x002FAE9C (name after the C++ standard)
+DECOMP_NOINLINE std::basic_string<char, std::char_traits<char>, std::allocator<char> >::basic_string(const allocator<char>& alloc)
+{
+    m_pData = __rw::s_EmptyString.m_Data;
+}
+
+// 0x00103A02 (name after the C++ standard)
+std::basic_string<char, std::char_traits<char>, std::allocator<char> >::basic_string() : basic_string(allocator<char>())
+{
+}
+
+// 0x0031B644 (name after the C++ standard)
+std::basic_string<char, std::char_traits<char>, std::allocator<char> >::basic_string(const char* pString, size_t length, const allocator<char>& alloc)
+{
+    if (length > MAX_SIZE) {
+        __rw::ThrowError(__rw::ERROR_LENGTH, "", "", length, MAX_SIZE);
+    }
+    const size_t MIN_CAPACITY = 32;
+    m_pData = (length != 0 ? GetRep(max(MIN_CAPACITY, length), length) : &__rw::s_EmptyString.m_Rep)->Data();
+    if (pString != NULL) {
+        char_traits<char>::copy(m_pData, pString, length);
+    }
+}
+
+// a shared header is copied first; afterwards the header is not shareable
+// 0x0031B6A4 (name after the C++ standard)
+char* std::basic_string<char, std::char_traits<char>, std::allocator<char> >::begin()
+{
+    __rw::StringRep* pRep = Rep();
+    if (static_cast<u32>(pRep->m_RefCount + 1) > 1) {
+        size_t length = pRep->m_Length;
+        char* pData = GetRep(length, length < ~static_cast<size_t>(0) ? length : ~static_cast<size_t>(0))->Data();
+        char_traits<char>::copy(pData, m_pData, Rep()->m_Length);
+        Unlink();
+        m_pData = pData;
+    }
+    if (Rep() != &__rw::s_EmptyString.m_Rep) {
+        Rep()->m_RefCount = -1;
+    }
+    return m_pData;
+}
+
 // 0x00307668 (name after the C++ standard)
 std::basic_string<char, std::char_traits<char>, std::allocator<char> >::basic_string(const char* pString, const allocator<char>& alloc)
 {

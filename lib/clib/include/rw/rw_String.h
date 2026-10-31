@@ -10,11 +10,14 @@
 namespace __rw {
 // the errors of ThrowError (the values the library passes; names are ours)
 const int ERROR_BAD_ALLOC = 3;
+const int ERROR_BAD_CAST = 4;
 const int ERROR_LENGTH = 8;
 const int ERROR_OUT_OF_RANGE = 9;
 
-// reports an error of the library to the handler the program set (without one nothing happens)
+// reports an error of the library to the handler (s_pErrorHandler; the message is formatted for ids above 3)
 void ThrowError(int id, ...);
+// the handler: the error id and the message (allocated with new[], or NULL)
+extern void (*s_pErrorHandler)(int id, char* pMessage);
 
 // raw memory of the containers
 void* RawAllocate(size_t size, const void* pHint);
@@ -67,7 +70,10 @@ public:
     // the largest capacity (the header and the terminator must fit into size_t)
     static const size_t MAX_SIZE = ~static_cast<size_t>(14);
 
+    basic_string();
+    explicit basic_string(const allocator<char>& alloc);
     basic_string(const char* pString, const allocator<char>& alloc = allocator<char>());
+    basic_string(const char* pString, size_t length, const allocator<char>& alloc = allocator<char>());
     basic_string(const basic_string& other);
     ~basic_string();
 
@@ -75,6 +81,8 @@ public:
     basic_string& operator=(const char* pString);
     basic_string& replace(size_t position, size_t count, const char* pString, size_t length);
 
+    // the characters for changing them (the string no longer shares its header)
+    char* begin();
     const char* c_str() const { return m_pData; }
     size_t size() const { return Rep()->m_Length; }
 

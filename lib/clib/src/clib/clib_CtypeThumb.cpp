@@ -221,5 +221,17 @@ size_t wcrtomb(char* pDestination, wchar_t c, mbstate_t* pState)
     return count;
 }
 
+// MB_CUR_MAX: the longest multibyte character of the locale (1 without multibyte characters)
+// 0x0031B580 (name is ours)
+int __mb_cur_max()
+{
+    const u8* pClasses = *__rt_ctype_table();
+    if (pClasses[0x101] != 1) {
+        return 1;
+    }
+    return *reinterpret_cast<const int*>(pClasses + 0x10B);
+}
+
 } // extern "C"
+
 

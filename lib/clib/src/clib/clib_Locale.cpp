@@ -27,7 +27,7 @@ const u8** __rt_ctype_table()
 
 // the character classes of a locale (only "C"; an empty name or none is "C")
 // 0x00142770 (name is ours)
-const u8* GetCtypeLocale(int category, const char* pName)
+const u8* GetCtypeLocale(const char* pDefault, const char* pName)
 {
     if (pName != nullptr && pName[0] != '\0' && strcmp(s_CtypeLocale.m_Name, pName) != 0) {
         return nullptr;
@@ -37,11 +37,21 @@ const u8* GetCtypeLocale(int category, const char* pName)
 
 // the numeric formats of a locale (only "C")
 // 0x0011DC08 (name is ours)
-const NumericData* GetNumericLocale(int category, const char* pName)
+const NumericData* GetNumericLocale(const char* pDefault, const char* pName)
 {
     if (pName != nullptr && pName[0] != '\0' && strcmp(s_NumericLocale.m_Name, pName) != 0) {
         return nullptr;
     }
     return &s_NumericLocale.m_Data;
+}
+
+// the collation of a locale (only "C", without a table)
+// 0x007C6D88 (name is ours)
+const CollateData* GetCollateLocale(const char* pDefault, const char* pName)
+{
+    if (pName != nullptr && pName[0] != '\0' && strcmp(s_CollateLocale.m_Name, pName) != 0) {
+        return nullptr;
+    }
+    return &s_CollateLocale.m_Data;
 }
 } // extern "C"

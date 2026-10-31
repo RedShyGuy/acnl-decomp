@@ -5,7 +5,9 @@
 #include "decomp.h"
 #include "clib/clib_Thumb.h"
 
+void* operator new[](size_t size);
 void operator delete[](void* p);
+extern "C" void __raise_signal(int signal, const char* pMessage);
 
 namespace {
 // the exception state of a thread (names are ours)
@@ -199,4 +201,88 @@ void __cpp_initialize__aeabi_()
     }
 }
 
+// (the program has one thread: nothing to release; armlink replaced the calls by nops)
+// 0x0011C12C (name after the C++ ABI)
+void __cxa_guard_release(int* guard)
+{
+    // empty (in the original too)
+}
+
+// signal 12 of the library
+// 0x001024DC (name is ours)
+void __raise_pure_virtual(const char* pMessage)
+{
+    __raise_signal(12, pMessage);
+}
+
+// the slot of a pure virtual function
+// 0x0011C12E (name after the C++ ABI)
+void __cxa_pure_virtual()
+{
+    __raise_pure_virtual(NULL);
+}
+
+// destroys the count elements in front of pEnd, the last first
+// 0x001039DE (name is ours)
+void __vec_destroy_before(void* pEnd, size_t count, size_t size, void* (*destroy)(void*))
+{
+    u8* element = static_cast<u8*>(pEnd) - size;
+    while (count-- != 0) {
+        destroy(element);
+        element -= size;
+    }
+}
+
+// (the end of the exception handler of __cxa_vec_new3: armlink replaced the rethrow by an undefined instruction)
+// 0x001039DC (name is ours)
+__attribute__((naked)) void __vec_new_rethrow()
+{
+    asm volatile(".hword 0xDE00\n");
+}
+
+// an array with padding bytes in front of it (the cookie: element size and count in the last two words);
+// alloc NULL: operator new[]. The exception handler of the original (destroying the elements made so far and
+// freeing the memory through dealloc) has no counterpart here: the program has no exceptions.
+// 0x0011C044 (name after the C++ ABI)
+void* __cxa_vec_new3(size_t count, size_t size, size_t padding, void* (*construct)(void*), void* (*destroy)(void*),
+                     void* (*alloc)(size_t), void (*dealloc)(void*, size_t))
+{
+    size_t total = count * size;
+    if (total == 0) {
+        total = 1;
+    }
+    u8* pMemory = static_cast<u8*>(alloc != NULL ? alloc(total + padding) : operator new[](total + padding));
+    u8* pArray = pMemory != NULL ? pMemory + padding : NULL;
+    if (pArray != NULL) {
+        if (padding != 0) {
+            reinterpret_cast<size_t*>(pArray)[-2] = size;
+            reinterpret_cast<size_t*>(pArray)[-1] = count;
+        }
+        if (construct != NULL) {
+            u8* element = pArray;
+            for (int i = 0; i < static_cast<int>(count); i++) {
+                construct(element);
+                element += size;
+            }
+        }
+    }
+    return pArray;
+}
+
+// 0x0011C138 (name after the C++ ABI)
+void* __cxa_vec_new(size_t count, size_t size, size_t padding, void* (*construct)(void*), void* (*destroy)(void*))
+{
+    // (operator delete[] as the deallocation; it ignores the size)
+    void (*deleteArray)(void*) = operator delete[];
+    return __cxa_vec_new3(count, size, padding, construct, destroy, NULL,
+                          reinterpret_cast<void (*)(void*, size_t)>(deleteArray));
+}
+
+// 0x00307884 (name after the ARM run-time ABI)
+void* __aeabi_vec_new_cookie(size_t size, size_t count, void* (*construct)(void*), void* (*destroy)(void*))
+{
+    return __cxa_vec_new(count, size, 8, construct, destroy);
+}
+
 } // extern "C"
+
