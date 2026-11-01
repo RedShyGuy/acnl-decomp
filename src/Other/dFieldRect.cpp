@@ -10,3 +10,7 @@ void FieldRect::begin() const
 {
 }
 
+// 0x00748EA4 | libgarden [tier A]
+void operator!=(FieldRect::iterator const&, FieldRect::iterator const&)
+{
+}

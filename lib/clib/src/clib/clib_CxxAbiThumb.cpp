@@ -244,7 +244,7 @@ __attribute__((naked)) void __vec_new_rethrow()
 // alloc NULL: operator new[]. The exception handler of the original (destroying the elements made so far and
 // freeing the memory through dealloc) has no counterpart here: the program has no exceptions.
 // 0x0011C044 (name after the C++ ABI)
-void* __cxa_vec_new3(size_t count, size_t size, size_t padding, void* (*construct)(void*), void* (*destroy)(void*),
+DECOMP_NOINLINE DECOMP_NOIPA void* __cxa_vec_new3(size_t count, size_t size, size_t padding, void* (*construct)(void*), void* (*destroy)(void*),
                      void* (*alloc)(size_t), void (*dealloc)(void*, size_t))
 {
     size_t total = count * size;
@@ -270,7 +270,7 @@ void* __cxa_vec_new3(size_t count, size_t size, size_t padding, void* (*construc
 }
 
 // 0x0011C138 (name after the C++ ABI)
-void* __cxa_vec_new(size_t count, size_t size, size_t padding, void* (*construct)(void*), void* (*destroy)(void*))
+DECOMP_NOINLINE DECOMP_NOIPA void* __cxa_vec_new(size_t count, size_t size, size_t padding, void* (*construct)(void*), void* (*destroy)(void*))
 {
     // (operator delete[] as the deallocation; it ignores the size)
     void (*deleteArray)(void*) = operator delete[];

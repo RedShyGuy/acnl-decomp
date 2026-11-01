@@ -45,21 +45,21 @@ private:
 
 // 0x00300748 (name after the RTTI)
 // 0x00106BE8 (deleting dtor)
-__class_type_info::~__class_type_info()
+DECOMP_NOINLINE DECOMP_NOIPA __class_type_info::~__class_type_info()
 {
     // (only the base is destroyed)
 }
 
 // 0x00106BF8 (name after the RTTI)
 // 0x00106BF0 (deleting dtor)
-__si_class_type_info::~__si_class_type_info()
+DECOMP_NOINLINE DECOMP_NOIPA __si_class_type_info::~__si_class_type_info()
 {
     // (only the base is destroyed)
 }
 
 // 0x00106C08 (name after the RTTI)
 // 0x00106C00 (deleting dtor)
-__vmi_class_type_info::~__vmi_class_type_info()
+DECOMP_NOINLINE DECOMP_NOIPA __vmi_class_type_info::~__vmi_class_type_info()
 {
     // (only the base is destroyed)
 }

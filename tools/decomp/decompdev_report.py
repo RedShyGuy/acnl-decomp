@@ -143,6 +143,11 @@ def category_of(unit: str, name: str) -> str:
         return "nn"
     if CLIB_FUNCTION.match(name):
         return "clib"
+    # Nintendo's face library (the game's cfl:: wrapper is game code)
+    if re.match(r"CFL_|CFLi_|CFLi[A-Z]|CFL[A-Z][a-z]", name):
+        return "cfl"
+    if name.startswith("cfl::"):
+        return "game"
     top = namespace_of(name)
     if top in LIBRARIES:
         return top

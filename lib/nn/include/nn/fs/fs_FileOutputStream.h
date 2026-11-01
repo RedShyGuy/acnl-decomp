@@ -17,6 +17,8 @@ public:
     // inline (e.g. in nn::ubl)
     FileOutputStream() {}
     nn::Result TryInitialize(const wchar_t* path) { return FileBase::TryInitialize(path, OPEN_MODE_WRITE); }
+    // (inline, cfl) a path in the multibyte encoding of the C library
+    nn::Result TryInitialize(const char* path) { return FileBase::TryInitialize(path, OPEN_MODE_WRITE); }
 
     virtual ~FileOutputStream(); // 0x00346510 slot 0x00
     virtual nn::Result TrySeek(s64 offset, PositionBase base); // 0x00346498 slot 0x08

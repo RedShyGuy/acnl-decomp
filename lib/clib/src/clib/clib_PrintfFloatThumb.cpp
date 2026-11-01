@@ -13,6 +13,13 @@
 using namespace clib;
 
 namespace {
+// a double as its two words (low, high)
+union DoubleBits
+{
+    f64 m_Value;
+    u32 m_Words[2];
+};
+
 // a power of ten with the correction of its last bit for the rounding direction that it was rounded against
 struct ExtendedPower
 {
@@ -271,8 +278,11 @@ void __printf_float_special(PrintfState* pState, int c, int category, int sign)
 int __printf_float(PrintfState* pState, int c, const u8* pArguments)
 {
     const u32* pAligned = reinterpret_cast<const u32*>((reinterpret_cast<uptr>(pArguments) + 7) >> 3 << 3);
-    u32 value[2] = {pAligned[0], pAligned[1]};
-    int category = __ARM_fpclassify(*reinterpret_cast<const f64*>(value));
+    DoubleBits bits;
+    bits.m_Words[0] = pAligned[0];
+    bits.m_Words[1] = pAligned[1];
+    const u32* value = bits.m_Words;
+    int category = __ARM_fpclassify(bits.m_Value);
     int sign;
     if ((value[1] >> 31) != 0) {
         sign = '-';
@@ -405,8 +415,11 @@ int __printf_hexfloat(PrintfState* pState, int c, const u8* pArguments)
     const u32* pAligned = reinterpret_cast<const u32*>((reinterpret_cast<uptr>(pArguments) + 7) >> 3 << 3);
     u32 high = pAligned[1];
     u32 low = pAligned[0];
-    u32 value[2] = {low, high};
-    int category = __ARM_fpclassify(*reinterpret_cast<const f64*>(value));
+    DoubleBits bits;
+    bits.m_Words[0] = low;
+    bits.m_Words[1] = high;
+    const u32* value = bits.m_Words;
+    int category = __ARM_fpclassify(bits.m_Value);
     int sign;
     if ((high >> 31) != 0) {
         sign = '-';

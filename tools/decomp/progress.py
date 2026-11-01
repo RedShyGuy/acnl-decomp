@@ -34,9 +34,17 @@ CLIB_FUNCTION = re.compile(
 NN_C_FUNCTION = re.compile(r'nn(gx|gxlow|cx|init|dbg|nstd|os)[A-Z_]|nexZlib_|gl[A-Z]|__(sta|fb|fbv|vb|vbv|shm|shv|tx|txv|vldtr|sys|cb|mem|srf)_')
 
 
+# Nintendo's face library (CFL): the C API and its C++ classes (the game's cfl:: wrapper is game code)
+CFL_FUNCTION = re.compile(r'CFL_|CFLi_|CFLi[A-Z]|CFL[A-Z][a-z]')
+
+
 def unit_of(name):
     if NN_C_FUNCTION.match(name):
         return 'nn'
+    if CFL_FUNCTION.match(name):
+        return 'cfl'
+    if name.startswith('cfl::'):
+        return 'game'
     if CLIB_FUNCTION.match(name):
         return 'clib'
     name = name.replace('(anonymous namespace)::', '')

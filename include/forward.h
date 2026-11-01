@@ -649,9 +649,6 @@ class ButtonActionControlTouchOkAnmSwitch;
 class ButtonActionCstmNode;
 class ButtonActionNode;
 class ButtonActionNodeEx;
-class CFLiRecentDBFile;
-class CFLiResShape;
-class CFLiTexHandle;
 class Cabinet;
 class CafeArbeitSeqTalkRecept;
 class CameraBase;
@@ -1130,10 +1127,6 @@ class WanderSearchMaxMinCandCB;
 class WaterCurtain;
 class Wipe;
 class dLoadSplit;
-struct CFLProgramContext { u32 _unknown; }; // placeholder, real type unknown
-struct CFLTexFmt { u32 _unknown; }; // placeholder, real type unknown
-struct CFLTexWrap { u32 _unknown; }; // placeholder, real type unknown
-struct CFLiTexHeader { u32 _unknown; }; // placeholder, real type unknown
 struct FieldName { u32 _unknown; }; // placeholder, real type unknown
 enum PicaDataColor : u8; // nn/gr/CTR/gr_Types.h
 enum PicaDataDepth : u8; // nn/gr/CTR/gr_Types.h
