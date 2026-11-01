@@ -285,7 +285,7 @@ DECOMP_NOINLINE void CFLi_PutTexEnv(const CFLProgramContext* context, int mode, 
     if (mode == 0) {
         nngxAdd3DCommand(s_TexEnvNone, sizeof(s_TexEnvNone), true);
     } else if (mode == 3) {
-        u32 commands[4] = {0x0EE00EEE | (context->textureUnitIndex << 16), Header(REG_TEXENV0_SOURCE, 0xF, 2, true),
+        u32 commands[4] = {0x0EE00EEE | (static_cast<u32>(context->textureUnitIndex) << 16), Header(REG_TEXENV0_SOURCE, 0xF, 2, true),
                            0, 0};
         nngxAdd3DCommand(commands, sizeof(commands), true);
     } else {
@@ -928,7 +928,7 @@ DECOMP_NOINLINE s32 CFL_MakeIconWithModel(GLuint texture, const CFLCharModel* mo
     CFLi_GetIconMtx(&projection, &view, param->width, param->height);
     CFLi_SetUniformMtx44(&projection.m[0][0]);
     CFLCharModel icon;
-    std::memcpy(&icon, model, sizeof(icon));
+    std::memcpy(static_cast<void*>(&icon), model, sizeof(icon));
     s32 expressionBefore = icon.expression;
     CFL_SetExpression(&icon, expression);
     if (s_ProgramContext.normalIndex != s_ProgramContext.modelViewIndex) {

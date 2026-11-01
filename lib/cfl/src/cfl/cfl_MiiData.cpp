@@ -576,8 +576,9 @@ DECOMP_NOINLINE bool CFLi_ReplaceProhibitedCharInfo(CFLiCharInfo* info)
         if (CFLi_IsHomeAuthorID(&info->authorID)) {
             return false;
         }
-        CFLiAuthorID author = info->authorID;
-        if (nn::ubl::IsExist(*reinterpret_cast<u64*>(&author), 0, 0)) {
+        u64 author;
+        std::memcpy(&author, &info->authorID, sizeof(author));
+        if (nn::ubl::IsExist(author, 0, 0)) {
             goto replace;
         }
         return false;

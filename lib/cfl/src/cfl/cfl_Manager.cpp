@@ -11,7 +11,7 @@ bool s_HDMode = false;
 // 0x00976295
 bool s_RandomInitialized = false;
 // 0x00976298
-s32 s_AsyncStatus = 0;
+s32 s_AsyncStatus = CFL_RESULT_NOT_AVAILABLE;
 // 0x0097629C
 s32 s_LastReason = 0;
 // 0x009762A0

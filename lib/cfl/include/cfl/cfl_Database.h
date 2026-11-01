@@ -140,7 +140,7 @@ struct CFLiDatabase
 ASSERT_SIZE(CFLiDatabase, 0xE560);
 
 // globals of the database (names are ours)
-extern bool s_DatabaseLoaded;
+extern bool s_DatabaseRepairable;
 extern bool s_NetMagicN;
 extern bool s_DatabaseMounted;
 extern bool s_Restoring;
@@ -184,7 +184,7 @@ void CFLi_SequenceCloseStep(CFLiDevice* device, s32 unused);    // 0x00140398
 s32 CFLi_CopyFile(const char* dst, const char* src, s32 maxSize);  // 0x0013A594
 s32 CFLi_MountNandContent();                                    // 0x00155B94
 bool CFLi_IsNandSharedExtMounted();                                  // 0x00155648
-bool CFLi_IsDatabaseLoaded();                                   // 0x001555B0
+bool CFLi_IsDatabaseRepairable();                                   // 0x001555B0
 s32 CFLi_DeleteFile(const char* path);                          // 0x00154568
 void CFLi_InitializeModelAxis();                                     // 0x001554F0
 void CFLi_DrawDoneDefault();                                    // 0x00181498

@@ -13,8 +13,9 @@ using namespace cfl::detail;
 // the globals of the database (names are ours)
 // 0x009761AC
 bool s_EnableSpecialMii = false;
+// a missing or broken database may be restored or formatted (nothing in the program clears it)
 // 0x009761AD
-bool s_DatabaseLoaded = false;
+bool s_DatabaseRepairable = true;
 // 0x009761AE
 bool s_NetMagicN = false;
 // 0x009761AF
@@ -168,9 +169,9 @@ DECOMP_NOINLINE bool CFLi_IsNandSharedExtMounted()
 }
 
 // 0x001555B0 (name is ours)
-DECOMP_NOINLINE bool CFLi_IsDatabaseLoaded()
+DECOMP_NOINLINE bool CFLi_IsDatabaseRepairable()
 {
-    return s_DatabaseLoaded;
+    return s_DatabaseRepairable;
 }
 
 // 0x00155B94 (name is ours)
@@ -522,7 +523,7 @@ void CFLi_BootLoadDatabaseOpened(CFLiDevice* device, s32)
         } else if (reason != CFL_REASON_NOT_FOUND) {
             CFLi_GetManager()->status = CFL_RESULT_4;
             CFLi_SetFileBroken(1);
-        } else if (!s_DatabaseLoaded) {
+        } else if (!s_DatabaseRepairable) {
             CFLi_GetManager()->status = CFL_RESULT_INVALID_DATA;
             CFLi_SetFileBroken(1);
         } else if (CFLi_FileExists(OLD_DATABASE_PATH) || s_Restoring) {
@@ -625,7 +626,7 @@ void CFLi_BootLoadDatabaseChecked(CFLiDevice* device, u16 crc)
 void CFLi_BootLoadDatabaseCallback(CFLiDevice*, s32)
 {
     s32 status = CFL_GetAsyncStatus();
-    if (!CFLi_IsDatabaseLoaded() && (status == CFL_RESULT_4 || status == CFL_RESULT_FILE_ERROR)) {
+    if (!CFLi_IsDatabaseRepairable() && (status == CFL_RESULT_4 || status == CFL_RESULT_FILE_ERROR)) {
         CFLi_GetManager()->status = CFL_RESULT_INVALID_DATA;
     }
     status = CFL_GetAsyncStatus();
@@ -1126,6 +1127,23 @@ void CFLi_FormatReloaded(CFLiDevice* device, s32)
     }
 }
 
+namespace {
+// whether the ID is one of the default Miis (inline; name is ours)
+inline bool IsDefaultMiiID(const CFLiCreateID* id)
+{
+    if (id != NULL) {
+        for (int i = 0; i < 6; i++) {
+            CFLiCreateID defaultID;
+            CFLi_GetDefaultCreateIDonCTR(&defaultID, i);
+            if (CFLi_IsSameMiiID(&defaultID, id)) {
+                return true;
+            }
+        }
+    }
+    return false;
+}
+} // namespace
+
 extern "C" {
 // adds a Mii of another console to the recently used ones
 // 0x0015421C | nintendogs:bytes-fuzzy [confirmed by mk7dlp] [tier A]
@@ -1143,14 +1161,8 @@ DECOMP_NOINLINE s32 CFLi_AddRecentDBData(const CFLiMiiDataCore* data)
         CFLi_IsNullAuthorID(&data->authorID) || CFLi_IsHomeAuthorID(&data->authorID)) {
         return CFL_RESULT_SUCCESS;
     }
-    if (&data->createID != NULL) {
-        for (int i = 0; i < 6; i++) {
-            CFLiCreateID id;
-            CFLi_GetDefaultCreateIDonCTR(&id, i);
-            if (CFLi_IsSameMiiID(&id, &data->createID)) {
-                return CFL_RESULT_SUCCESS;
-            }
-        }
+    if (IsDefaultMiiID(&data->createID)) {
+        return CFL_RESULT_SUCCESS;
     }
     if (CFL_SearchOfficialData(NULL, &data->createID)) {
         return CFL_RESULT_SUCCESS;

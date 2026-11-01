@@ -248,6 +248,7 @@ inline void ReplaceNonAsciiCharacters(u16* name)
 
 // the name shown for Miis with the profanity flag of other consoles (names are ours)
 namespace {
+// 0x0093718E
 const u16 s_NGWordString[] = {'?', '?', '?', 0};
 } // namespace
 
