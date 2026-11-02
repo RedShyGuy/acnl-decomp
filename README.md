@@ -22,21 +22,12 @@ For the current numbers run the `check` target and then the `progress` target (s
 
 The first step was to fully decompile any standard libraries used in ACNL.
 This includes nn, nw, pead, sead, mw, libms, imgdb, clib and cfl.
-
-| | |
-|---|---|
-| nn | ✅ done |
-| nw | ✅ done |
-| sead | ✅ done |
-| pead | ✅ done |
-| mw | ✅ done |
-| libms | ✅ done |
-| imgdb | ✅ done |
-| clib | ✅ done |
-| cfl | ✅ done |
+All are "done"!
 
 "done" means that every known function of that library is decompiled.
 If new functions are found that do belong to said library, they will also be decompiled.
+
+Next step is to decompile each game library one by one.
 
 ## Setup
 
