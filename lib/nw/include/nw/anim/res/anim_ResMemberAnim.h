@@ -18,6 +18,8 @@ enum PrimitiveType
     PRIMITIVE_TRANSFORM = 5,
     PRIMITIVE_RGBA_COLOR = 6,
     PRIMITIVE_TEXTURE = 7,
+    PRIMITIVE_BAKED_TRANSFORM = 8,      // (names of these two are ours)
+    PRIMITIVE_FULL_BAKED_TRANSFORM = 9,
 };
 
 // The animation of one member: the curves of its components, each one a constant or an Offset to

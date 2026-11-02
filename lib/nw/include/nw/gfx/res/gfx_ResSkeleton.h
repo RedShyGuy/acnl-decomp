@@ -34,7 +34,9 @@ struct ResBoneData
     s32 jointId;              // 0x08
     s32 parentId;             // 0x0C
     ut::Offset parent;        // 0x10
-    u8 unknown0x14[0xC];      // 0x14
+    ut::Offset firstChild;    // 0x14 the first child bone (names are ours)
+    u32 unknown0x18;          // 0x18
+    ut::Offset nextSibling;   // 0x1C the next bone with the same parent
     nn::math::Transform3 transform; // 0x20 scale, rotate (angles in radians), translate
     nn::math::MTX34 localMatrix;        // 0x44
     nn::math::MTX34 worldMatrix;        // 0x74

@@ -3,6 +3,7 @@
 #include "ssys/ma/dFlushCache.h"
 #include "nn/gx/gx_Api.h"
 #include "nn/gx/detail/gx_Context.h"
+#include "nw/lyt/lyt_ResourceFormat.h"
 #include "nw/ut/ut_Api.h"
 
 #include <new>
@@ -73,7 +74,7 @@ nw::lyt::TextureInfo ssys::ma::lyt::ArcResourceAccessorVRAM::LoadTextureImage(co
     nw::ut::BinaryFileHeader* header = reinterpret_cast<nw::ut::BinaryFileHeader*>(
         const_cast<u8*>(static_cast<const u8*>(data)) + nw::ut::RoundUp(imageSize, 4));
     nw::lyt::TextureInfo info;
-    if (!nw::ut::IsValidBinaryFile(header, 'CLIM', 0x02020000, 1)) {
+    if (!nw::ut::IsValidBinaryFile(header, nw::lyt::res::FILE_SIGNATURE_IMAGE, nw::lyt::res::FILE_VERSION, 1)) {
         info.texObject = 0;
         info.physicalAddress = 0;
         return info;
@@ -82,7 +83,7 @@ nw::lyt::TextureInfo ssys::ma::lyt::ArcResourceAccessorVRAM::LoadTextureImage(co
     nw::ut::BinaryBlockHeader* block = NULL;
     for (int i = 0; i < header->dataBlocks; i++) {
         block = nw::ut::GetNextBinaryBlockHeader(header, block);
-        if (block->kind == 'imag') {
+        if (block->kind == nw::lyt::res::BLOCK_KIND_IMAGE) {
             image = block;
         }
     }

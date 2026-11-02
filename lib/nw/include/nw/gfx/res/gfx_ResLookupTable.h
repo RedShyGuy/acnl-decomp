@@ -18,7 +18,7 @@ struct ResLookupTableData
 
 struct ResImageLookupTableData : public ResLookupTableData
 {
-    u32 m_Unknown0x4;     // 0x4
+    ut::Offset name;      // 0x4 (the name of the table in its LUTS)
     bool isAbsolute;      // 0x8 the input is the absolute value (3dbrew: LIGHTING_LUTINPUT_ABS)
     u32 commandSize;      // 0xC bytes
     ut::Offset commands;  // 0x10

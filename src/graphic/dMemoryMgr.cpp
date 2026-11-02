@@ -2,6 +2,9 @@
 #include "graphic/dMemoryMgr.h"
 
 namespace graphic {
+// 0x00953B9C
+MemoryMgr* MemoryMgr::s_pInstance = NULL;
+
 // ctor address unknown
 graphic::MemoryMgr::MemoryMgr()
 {

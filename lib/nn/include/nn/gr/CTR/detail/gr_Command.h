@@ -16,7 +16,7 @@ namespace CTR {
 namespace detail {
 const u32 DUMMY_COMMAND = 0xEAD0FEAD; // padding word
 
-inline u32 CommandHeader(u32 reg, u32 mask = 0xF, u32 extraCount = 0, bool isConsecutive = false)
+constexpr u32 CommandHeader(u32 reg, u32 mask = 0xF, u32 extraCount = 0, bool isConsecutive = false)
 {
     return reg | (mask << 16) | (extraCount << 20) | (isConsecutive ? 0x80000000 : 0);
 }

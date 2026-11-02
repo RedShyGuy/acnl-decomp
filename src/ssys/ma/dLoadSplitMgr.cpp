@@ -4,6 +4,7 @@
 #include "nn/os/detail/detail_Api.h"
 #include "sead/seadExpHeap.h"
 #include "sead/seadNew.h"
+#include "sead/seadThread.h"
 
 namespace ssys {
 namespace ma {
@@ -23,14 +24,24 @@ LoadSplitMgr::Thread* LoadSplitMgr::s_pThread = NULL;
 sead::ExpHeap* LoadSplitMgr::s_pHeap = NULL;
 // 0x00976C64
 u32 LoadSplitMgr::s_LoadCount = 0;
+// 0x00976C68
+s32 LoadSplitMgr::s_LowThreadPriority = sead::Thread::DEFAULT_PRIORITY + 2;
+// 0x00976C6C
+s32 LoadSplitMgr::s_HighThreadPriority = sead::Thread::DEFAULT_PRIORITY - 2;
 // 0x00976C70
-s32 LoadSplitMgr::s_ThreadPriority = 0;
+s32 LoadSplitMgr::s_ThreadPriority = sead::Thread::DEFAULT_PRIORITY - 2;
+// 0x00976C78
+nn::fnd::TimeSpan LoadSplitMgr::s_ShortWait = nn::fnd::TimeSpan::FromMilliSeconds(1);
+// 0x00976C80
+nn::fnd::TimeSpan LoadSplitMgr::s_FrameTime = nn::fnd::TimeSpan::FromMicroSeconds(16666);
 // 0x00AE67D4
 ::ssys::st::List LoadSplitMgr::s_Queue;
 // 0x00AE67E0
 sead::CriticalSection LoadSplitMgr::s_QueueCriticalSection;
 // 0x00AE67FC
 sead::CriticalSection LoadSplitMgr::s_OpenFileCriticalSection;
+// the times, the priorities, the queue and the locks
+// 0x00790BF4 (static initializer)
 
 // 0x00567AA4 (name is ours)
 void ssys::ma::LoadSplitMgr::Initialize(sead::Heap* heap)

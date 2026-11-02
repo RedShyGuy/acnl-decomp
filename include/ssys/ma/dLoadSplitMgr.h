@@ -1,6 +1,7 @@
 #pragma once
 
 #include "decomp.h"
+#include "nn/fnd/fnd_TimeSpan.h"
 #include "ssys/st/dList.h"
 #include "sead/seadCriticalSection.h"
 
@@ -38,7 +39,12 @@ public:
     static Thread* s_pThread;
     static sead::ExpHeap* s_pHeap;
     static u32 s_LoadCount;               // pieces read since the last wake
-    static s32 s_ThreadPriority;
+    // priorities and times that nothing reads (names are ours)
+    static s32 s_LowThreadPriority;
+    static s32 s_HighThreadPriority;
+    static s32 s_ThreadPriority;          // the priority of the thread
+    static nn::fnd::TimeSpan s_ShortWait;  // 1 ms
+    static nn::fnd::TimeSpan s_FrameTime;  // a frame of 60 Hz
     static ::ssys::st::List s_Queue;
     static sead::CriticalSection s_QueueCriticalSection;
     static sead::CriticalSection s_OpenFileCriticalSection;

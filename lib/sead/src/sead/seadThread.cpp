@@ -13,6 +13,9 @@ namespace {
 const nn::Handle CURRENT_THREAD(nn::PSEUDO_HANDLE_CURRENT_THREAD);
 } // namespace
 
+// 0x008AF124
+const s32 Thread::DEFAULT_PRIORITY = 16;
+
 // 0x00125D9C (name is ours)
 sead::Thread::Thread(const SafeStringBase<char>& name, Heap* heap, s32 priority, MessageQueue::BlockType blockType,
                      MessageQueue::Element quitMessage, s32 stackSize, s32 messageQueueSize)

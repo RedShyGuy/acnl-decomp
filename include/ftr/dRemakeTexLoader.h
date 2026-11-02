@@ -10,7 +10,7 @@ class RemakeTexLoader : public ::item::ResLoader
 {
 public:
     RemakeTexLoader(); // ctor candidate(s) 0x004E39B4 (unverified)
-    virtual void vf_0x00(); // 0x005378C4 slot 0x00 | virtual slot, introduced by g3d::ResourceSet
-    virtual void vf_0x04(); // 0x004E39CC slot 0x04 | virtual slot, introduced by g3d::ResourceSet
+    virtual ~RemakeTexLoader(); // 0x005378C4 slot 0x00
+    // 0x004E39CC (deleting dtor)
 };
 } // namespace ftr

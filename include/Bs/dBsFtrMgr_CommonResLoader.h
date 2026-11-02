@@ -10,6 +10,6 @@ class BsFtrMgr::CommonResLoader : public ::g3d::ResourceLoader
 {
 public:
     CommonResLoader(); // ctor candidate(s) 0x0078656C (unverified)
-    virtual void vf_0x00(); // 0x00692290 slot 0x00 | virtual slot, introduced by g3d::ResourceSet
-    virtual void vf_0x04(); // 0x00692280 slot 0x04 | virtual slot, introduced by g3d::ResourceSet
+    virtual ~CommonResLoader(); // 0x00692290 slot 0x00
+    // 0x00692280 (deleting dtor)
 };

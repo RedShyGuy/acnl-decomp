@@ -3,7 +3,9 @@
 #include "decomp.h"
 
 namespace stage {
-void GetCurrent(); // 0x002F7384 | libgarden [tier A]
+stage::Name GetCurrent(); // 0x002F7384 | libgarden [tier A]
+// whether the world of the stage is curved (a flag of the stage table; name is ours)
+bool HasWorldCurve(stage::Name name); // 0x005B577C
 void IsKind(stage::Kind, stage::Name); // 0x002F7414 | libgarden [tier A]
 void GetField(stage::FieldName); // 0x002FE95C | libgarden [tier A]
 void Transition(stage::Name, unsigned char, unsigned char, unsigned char, unsigned char); // 0x00304A60 | libgarden [tier A]

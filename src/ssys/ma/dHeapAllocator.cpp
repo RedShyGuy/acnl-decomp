@@ -6,6 +6,19 @@
 
 namespace ssys {
 namespace ma {
+// 0x00317B74 (name is ours)
+bool ssys::ma::HeapAllocator::CreateExpHeap(u32 size, sead::Heap* parent, const sead::SafeStringBase<char>& name,
+                                            sead::Heap::HeapDirection direction, bool enableLock)
+{
+    DestroyHeap();
+    sead::ExpHeap* heap = sead::ExpHeap::create(size, name, parent, direction, enableLock);
+    if (heap == NULL) {
+        return false;
+    }
+    m_pHeap = heap;
+    return true;
+}
+
 // 0x00567DC8 (name is ours)
 u32 ssys::ma::HeapAllocator::Adjust()
 {

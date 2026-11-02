@@ -7,13 +7,9 @@ item::ResLoader::ResLoader()
 {
 }
 
-// 0x005378C8 slot 0x00 | virtual slot, introduced by g3d::ResourceSet
-void item::ResLoader::vf_0x00()
-{
-}
-
-// 0x005378B4 slot 0x04 | virtual slot, introduced by g3d::ResourceSet
-void item::ResLoader::vf_0x04()
+// 0x005378C8 slot 0x00
+// 0x005378B4 (deleting dtor)
+item::ResLoader::~ResLoader()
 {
 }
 

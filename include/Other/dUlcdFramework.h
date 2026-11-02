@@ -20,4 +20,9 @@ public:
     virtual void swapBuffer_(); // 0x0024EFF4 slot 0x78 | slot vf_0x78 of sead::GameFrameworkCtrNw4c
     virtual void waitForVBlank_(); // 0x0024F18C slot 0x7C | slot vf_0x7C of sead::GameFrameworkCtrNw4c
     virtual void clearFrameBuffers_(int); // 0x0024F1C0 slot 0x80 | slot vf_0x80 of sead::GameFrameworkCtrNw4c
+
+    // (names are ours) the instance
+    static UlcdFramework* GetInstance(); // 0x0024F17C
+
+    bool m_IsRendering3D; // 0x168 set by g3d::BeginRender
 };

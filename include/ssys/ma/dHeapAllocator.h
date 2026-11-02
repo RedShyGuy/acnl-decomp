@@ -23,8 +23,19 @@ public:
     // replaces the heap by a new FrameHeap
     bool CreateFrameHeap(u32 size, sead::Heap* parent, const sead::SafeStringBase<char>& name,
                          sead::Heap::HeapDirection direction); // 0x00567E50
+    // replaces the heap by a new ExpHeap
+    bool CreateExpHeap(u32 size, sead::Heap* parent, const sead::SafeStringBase<char>& name,
+                       sead::Heap::HeapDirection direction, bool enableLock); // 0x00317B74
     // adjusts the heap if it is an ExpHeap
     u32 Adjust(); // 0x00567DC8
+    // destroys the heap
+    DECOMP_EMIT_COPY void DestroyHeap() // 0x002F72D4
+    {
+        if (m_pHeap != NULL) {
+            m_pHeap->destroy();
+            m_pHeap = NULL;
+        }
+    }
 };
 ASSERT_SIZE(HeapAllocator, 0x8);
 } // namespace ma

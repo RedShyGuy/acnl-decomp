@@ -4,6 +4,7 @@
 #include "nw/gfx/res/gfx_ResCommon.h"
 #include "nw/gfx/res/gfx_ResFragmentLightingTable.h"
 #include "nw/gfx/res/gfx_ResGraphicsFile.h"
+#include "nw/ut/ut_FloatColor.h"
 
 namespace nw {
 namespace gfx {
@@ -56,8 +57,7 @@ public:
 // a fragment shader of a material (only the fields known so far; names are ours)
 struct ResFragmentShaderData
 {
-    u32 typeInfo;                     // 0x00
-    u32 m_Unknown0x4[3];              // 0x04
+    ut::FloatColor bufferColor;       // 0x00 the color of the combiner buffer (packed in bufferColorCommand[0])
     ResFragmentLightingData lighting; // 0x10
     ut::Offset lightingTable;         // 0x28 ResFragmentLightingTableData
     ResTextureCombinerData combiners[6]; // 0x2C

@@ -88,6 +88,8 @@ public:
     static void ctrThreadFunc_(uptr arg); // 0x0055D728 | nintendogs:bytes (name after pead::Thread)
     // sleeps the calling thread
     static void sleep(TickSpan span); // 0x00139190
+    // the standard priority of the threads of the game (read from memory by the game and ssys; name is ours)
+    static const s32 DEFAULT_PRIORITY;
 
     MessageQueue mMessageQueue;     // 0x1C
     s32 mStackSize;                 // 0x54

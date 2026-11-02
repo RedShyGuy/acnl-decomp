@@ -15,4 +15,9 @@ public:
     virtual void Finalize(); // 0x002C9870 slot 0x18 | slot vf_0x18 of oml::framework::Process
     virtual void Calc(); // 0x002C9834 slot 0x24 | slot vf_0x24 of oml::framework::Process
     virtual void Draw(); // 0x002C96C8 slot 0x30 | slot vf_0x30 of oml::framework::Process
+
+    // (names are ours) the instance (NULL: none)
+    static BsSeadParticleMgr* GetInstance(); // 0x002C96B8
+    // (empty: armlink removed the call in g3d::Render)
+    void DrawScene(u32 /*drawMode*/) {}
 };

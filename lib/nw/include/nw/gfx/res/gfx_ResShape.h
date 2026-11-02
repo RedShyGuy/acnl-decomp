@@ -33,6 +33,8 @@ ASSERT_SIZE(ResShapeData, 0x2C);
 
 struct ResSeparateDataShapeData : public ResShapeData
 {
+    static const u32 TYPE = 0x10000001; // (name is ours)
+
     ResArrayInfo primitiveSets;     // 0x2C ResPrimitiveSetData
     u32 vertexBufferBase;           // 0x34 the physical address the stream offsets count from (VRAM A)
     ResArrayInfo vertexAttributes;  // 0x38 ResVertexAttributeData

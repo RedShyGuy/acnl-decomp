@@ -2,7 +2,7 @@
 
 namespace stage {
 // 0x002F7384 | libgarden [tier A]
-void GetCurrent()
+stage::Name GetCurrent()
 {
 }
 

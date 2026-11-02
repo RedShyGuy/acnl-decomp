@@ -10,7 +10,7 @@ class ResLoader : public ::g3d::ResourceLoader
 {
 public:
     ResLoader(); // ctor candidate(s) 0x004EAB00 (unverified)
-    virtual void vf_0x00(); // 0x00318010 slot 0x00 | virtual slot, introduced by g3d::ResourceSet
-    virtual void vf_0x04(); // 0x004EAB18 slot 0x04 | virtual slot, introduced by g3d::ResourceSet
+    virtual ~ResLoader(); // 0x00318010 slot 0x00
+    // 0x004EAB18 (deleting dtor)
 };
 } // namespace ftr

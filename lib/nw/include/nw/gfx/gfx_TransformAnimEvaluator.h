@@ -1,5 +1,7 @@
 #pragma once
 
+#include <new>
+
 #include "decomp.h"
 #include "nn/math/math_Transform.h"
 #include "nw/anim/res/anim_ResAnim.h"
@@ -20,6 +22,8 @@ namespace gfx {
 class TransformAnimEvaluator : public BaseAnimEvaluator
 {
 public:
+    class Builder;
+
     explicit TransformAnimEvaluator(os::IAllocator* pAllocator);
     virtual ~TransformAnimEvaluator();
 
@@ -79,5 +83,50 @@ public:
 };
 ASSERT_OFFSET(TransformAnimEvaluator, m_IsScaleDisabled, 0x5B);
 ASSERT_SIZE(TransformAnimEvaluator, 0x70);
+
+// (inline) builds an evaluator: the members are set one after the other on the stack and Create allocates and
+// initializes it (the game code uses it; class and member names are ours)
+class TransformAnimEvaluator::Builder
+{
+public:
+    Builder() : m_MaxMembers(0), m_MaxMemberAnims(0), m_AllocateCache(false) {}
+
+    Builder& AnimData(const anim::res::ResAnim& animData)
+    {
+        m_AnimData = animData;
+        return *this;
+    }
+    Builder& MaxMembers(int maxMembers)
+    {
+        m_MaxMembers = maxMembers;
+        return *this;
+    }
+    Builder& MaxMemberAnims(int maxMemberAnims)
+    {
+        m_MaxMemberAnims = maxMemberAnims;
+        return *this;
+    }
+    Builder& AllocateCache(bool allocateCache)
+    {
+        m_AllocateCache = allocateCache;
+        return *this;
+    }
+    // the evaluator (NULL: no memory; the result of Initialize is not checked)
+    TransformAnimEvaluator* Create(os::IAllocator* pAllocator)
+    {
+        void* pMemory = pAllocator->Alloc(sizeof(TransformAnimEvaluator), 4);
+        if (pMemory == nullptr) {
+            return nullptr;
+        }
+        TransformAnimEvaluator* pEvaluator = new (pMemory) TransformAnimEvaluator(pAllocator);
+        pEvaluator->Initialize(m_AnimData, m_MaxMembers, m_MaxMemberAnims, m_AllocateCache);
+        return pEvaluator;
+    }
+
+    anim::res::ResAnim m_AnimData; // 0x0
+    int m_MaxMembers;              // 0x4
+    int m_MaxMemberAnims;          // 0x8
+    bool m_AllocateCache;          // 0xC
+};
 } // namespace gfx
 } // namespace nw

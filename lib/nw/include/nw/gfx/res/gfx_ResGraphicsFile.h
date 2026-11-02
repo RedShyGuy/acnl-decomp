@@ -49,6 +49,8 @@ public:
     // the texture at index of the dictionary (for the game; name is ours, after GetModels of the
     // reference symbols)
     void* GetTextures(int index) const; // 0x004A6CEC (name is ours)
+    // (inline; a copy for the game; name is ours) the model at index
+    DECOMP_EMIT_COPY void* GetModels(int index) const { return m_pData->models.GetData(index); } // 0x00317EB0
     // the skeletal animation of the name (for the game; NULL: none; name is ours)
     void* GetSkeletalAnims(const char* name) const; // 0x004A6D24 (name is ours)
 
