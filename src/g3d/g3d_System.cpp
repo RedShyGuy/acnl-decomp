@@ -425,7 +425,8 @@ void BeginScenes()
         s_pSceneTraversers[i]->Begin(s_pSceneContexts[i]);
         s_pSceneContexts[i]->Clear();
     }
-    for (SortMeshGroup* group = GetSortMeshGroups(); group < GetSortMeshGroups() + SORT_MESH_GROUP_COUNT; group++) {
+    SortMeshGroup* groups = GetSortMeshGroups();
+    for (SortMeshGroup* group = groups; group < groups + SORT_MESH_GROUP_COUNT; group++) {
         group->Clear();
     }
 }

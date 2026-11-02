@@ -9,6 +9,6 @@ class ExpHeap;
 // the heaps of the game made at the start (HeapInit::Create*Heap; the variable names after the heap names; only the
 // ones decompiled code uses)
 namespace HeapInit {
-// "ModelEffectResHeap" (0x00953C84, set by HeapInit::CreateModelEffectResHeap)
+// "ModelEffectResHeap" (set by HeapInit::CreateModelEffectResHeap)
 extern sead::ExpHeap* s_pModelEffectResHeap;
 } // namespace HeapInit

@@ -73,8 +73,8 @@ void g3d::SkeletalModel::CopyWorldPose(const SkeletalModel& other)
     const nw::gfx::Skeleton::MatrixArray* otherMatrices =
         static_cast<const nw::gfx::Skeleton*>(other.GetSkeletalModel()->GetSkeleton())->GetWorldMatrices();
     // (only 36 bytes of each transform: so in the original)
-    std::memcpy(transforms->begin(), otherTransforms->begin(), transforms->size() * WORLD_TRANSFORM_COPY_SIZE);
-    std::memcpy(matrices->begin(), otherMatrices->begin(), transforms->size() * sizeof(nn::math::MTX34));
+    std::memcpy(static_cast<void*>(transforms->begin()), otherTransforms->begin(), transforms->size() * WORLD_TRANSFORM_COPY_SIZE);
+    std::memcpy(static_cast<void*>(matrices->begin()), otherMatrices->begin(), transforms->size() * sizeof(nn::math::MTX34));
 }
 
 // 0x004EDE00 (name is ours)

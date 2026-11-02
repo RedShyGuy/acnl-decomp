@@ -70,10 +70,11 @@ ssys::ma::HeapAllocator* GetHeapAllocator()
 // 0x004EBCC8 (name is ours)
 bool Create(ModelEffectHandle* handle, u8 resourceIdx, const nn::math::MTX34& matrix, const char* modelName, const char* animName)
 {
-    if (BsModelEffectMgr::GetInstance() == NULL) {
+    BsModelEffectMgr* mgr = BsModelEffectMgr::GetInstance();
+    if (mgr == NULL) {
         return false;
     }
-    if (!BsModelEffectMgr::GetInstance()->CreateEffect(handle, resourceIdx, modelName, animName)) {
+    if (!mgr->CreateEffect(handle, resourceIdx, modelName, animName)) {
         return false;
     }
     if (handle != NULL) {

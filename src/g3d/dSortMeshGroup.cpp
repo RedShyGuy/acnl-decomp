@@ -28,7 +28,7 @@ inline void* AllocBuffer(sead::Heap* heap, u32 size)
 // 0x009CAF00
 SortMeshGroup s_SortMeshGroups[SORT_MESH_GROUP_COUNT];
 
-// constructs s_SortMeshGroups
+// constructs s_SortMeshGroups (and registers their destruction, a helper of the compiler at 0x4EF450)
 // 0x0079BE60 (static initializer)
 
 // 0x004EE410 (name is ours)

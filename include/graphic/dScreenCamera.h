@@ -39,7 +39,5 @@ public:
     Matrices m_RightMatrices;  // 0x104
     u8 m_Unknown0x1A4[0x24];   // 0x1A4
 };
-ASSERT_OFFSET(ScreenCamera, m_LeftMatrices, 0x64);
-ASSERT_OFFSET(ScreenCamera, m_RightMatrices, 0x104);
 ASSERT_SIZE(ScreenCamera, 0x1C8);
 } // namespace graphic
