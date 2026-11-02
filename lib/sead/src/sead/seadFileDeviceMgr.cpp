@@ -125,6 +125,12 @@ sead::FileDevice* sead::FileDeviceMgr::findDeviceFromPath(const SafeStringBase<c
     return device;
 }
 
+// 0x002FF7F0 (name is ours)
+void sead::FileDeviceMgr::unload(u8* data)
+{
+    ::operator delete(data);
+}
+
 // 0x0012C6D8 (name is ours)
 u8* sead::FileDeviceMgr::tryLoad(FileDevice::LoadArg& arg)
 {

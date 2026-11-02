@@ -10,7 +10,7 @@ class Layout : public ::ssys::ma::lyt::Layout
 public:
     virtual ~Layout(); // 0x005C0214 slot 0x00 | libgarden
     // 0x005C01E4 slot 0x04 | slot vf_0x04 of ssys::st::ListNode (deleting dtor)
-    virtual void vf_0x14(); // 0x00569D98 slot 0x14 | virtual slot, introduced by ssys::ma::lyt::Layout
-    virtual void vf_0x18(); // 0x005C004C slot 0x18 | virtual slot, introduced by ssys::ma::lyt::Layout
+    void DrawSave() override; // 0x00569D98 slot 0x14 (falls into ssys::ma::lyt::Layout::DrawSave)
+    void UpdateProj() override; // 0x005C004C slot 0x18
     Layout(); // 0x00126550 | libgarden [tier A]
 };

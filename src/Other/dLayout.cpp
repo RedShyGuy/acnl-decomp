@@ -6,13 +6,14 @@ Layout::~Layout()
 {
 }
 
-// 0x00569D98 slot 0x14 | virtual slot, introduced by ssys::ma::lyt::Layout
-void Layout::vf_0x14()
+// 0x00569D98 slot 0x14 (falls into ssys::ma::lyt::Layout::DrawSave)
+void Layout::DrawSave()
 {
+    ssys::ma::lyt::Layout::DrawSave();
 }
 
-// 0x005C004C slot 0x18 | virtual slot, introduced by ssys::ma::lyt::Layout
-void Layout::vf_0x18()
+// 0x005C004C slot 0x18
+void Layout::UpdateProj()
 {
 }
 

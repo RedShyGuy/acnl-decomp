@@ -8,7 +8,7 @@ class Color4f
 {
 public:
     // black (from the two constants below, like the original)
-    Color4f() : r(cElementMin), g(cElementMin), b(cElementMin), a(cElementMax) {}
+    DECOMP_EMIT_COPY Color4f() : r(cElementMin), g(cElementMin), b(cElementMin), a(cElementMax) {} // 0x0056B19C
     constexpr Color4f(f32 r_, f32 g_, f32 b_, f32 a_) : r(r_), g(g_), b(b_), a(a_) {}
 
     // clamps the components to [0, 1]

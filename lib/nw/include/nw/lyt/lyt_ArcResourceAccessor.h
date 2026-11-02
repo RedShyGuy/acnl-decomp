@@ -134,6 +134,8 @@ public:
     FontRefLink* Regist(const char* name, const font::Font* pFont, bool isOwned); // 0x004B5300 (name is ours)
     DECOMP_NOINLINE void Unregist(FontRefLink* pLink); // 0x004B5398 (name is ours)
     font::Font* Find(const char* name); // 0x004B5418 (name is ours)
+    // removes and deletes all links (used by ssys::ma::lyt::ArcResAccReader::Clear)
+    void Clear(); // 0x00137A5C (name is ours)
 };
 
 // a texture the accessor keeps

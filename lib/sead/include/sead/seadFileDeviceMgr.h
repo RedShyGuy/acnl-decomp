@@ -32,6 +32,8 @@ public:
     FileDevice* findDeviceFromPath(const SafeStringBase<char>& path, BufferedSafeStringBase<char>* noDrivePath) const; // 0x00134C3C
     // loads path ("<drive>:<path>") with its device
     u8* tryLoad(FileDevice::LoadArg& arg); // 0x0012C6D8
+    // frees a buffer of tryLoad (falls into operator delete in the original; name is ours)
+    void unload(u8* data); // 0x002FF7F0
     // opens path ("<drive>:<path>") with its device
     FileDevice* tryOpen(FileHandle* handle, const SafeStringBase<char>& path, FileDevice::FileOpenFlag flag,
                         u32 divSize); // 0x00542E20

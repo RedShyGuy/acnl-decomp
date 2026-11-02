@@ -13,12 +13,7 @@ fgobj::ObjectBase::~ObjectBase()
 }
 
 // 0x005908B0 slot 0x08 | virtual slot, introduced by fgobj::ObjectBase
-void fgobj::ObjectBase::vf_0x08()
-{
-}
-
-// 0x0056B88C slot 0x0C | virtual slot, introduced by demo::Order
-void fgobj::ObjectBase::vf_0x0C()
+bool fgobj::ObjectBase::IsBefore(const ::ssys::st::ListNode*) const
 {
 }
 

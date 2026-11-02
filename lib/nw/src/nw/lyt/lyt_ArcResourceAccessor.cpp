@@ -491,6 +491,16 @@ nw::lyt::FontRefLinkList::~FontRefLinkList()
     }
 }
 
+// 0x00137A5C (name is ours)
+void nw::lyt::FontRefLinkList::Clear()
+{
+    while (!empty()) {
+        FontRefLink* pLink = GetPointerFromNode(begin().GetNode());
+        Erase(pLink);
+        Layout::DeleteObj(pLink);
+    }
+}
+
 // 0x004B5300 (name is ours)
 FontRefLink* nw::lyt::FontRefLinkList::Regist(const char* name, const font::Font* pFont, bool isOwned)
 {

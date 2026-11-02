@@ -45,6 +45,18 @@ public:
     f32 GetParallaxLimitOnScreen() const; // 0x0073751C (name is ours)
     f32 GetParallaxScale() const; // 0x00737560 (name is ours)
 
+    // (inline; names are ours)
+    f32 GetBasePlaneDistance() const { return m_BasePlaneDistance; }
+    void SetBaseFrustum(f32 left, f32 right, f32 bottom, f32 top, f32 near, f32 far)
+    {
+        m_BaseFrustum.left = left;
+        m_BaseFrustum.right = right;
+        m_BaseFrustum.bottom = bottom;
+        m_BaseFrustum.top = top;
+        m_BaseFrustum.near = near;
+        m_BaseFrustum.far = far;
+    }
+
     struct Frustum
     {
         f32 left;       // 0x00

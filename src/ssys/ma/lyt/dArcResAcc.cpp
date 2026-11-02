@@ -1,27 +1,41 @@
-#include "ssys/ma/lyt/dResAccInterface.h"
 #include "ssys/ma/lyt/dArcResAcc.h"
+#include "sead/seadFixedSafeString.h"
 
 namespace ssys {
 namespace ma {
 namespace lyt {
-// ctor address unknown
-ssys::ma::lyt::ArcResAcc::ArcResAcc()
+// 0x0056A3C4 (name is ours)
+bool ssys::ma::lyt::ArcResAcc::LoadTextures()
 {
+    nw::lyt::DarcArchive archive;
+    nw::lyt::DarcArchive::Init(m_pData, &archive);
+    nw::lyt::DarcDir dir;
+    if (!archive.OpenTypeDir(L"/", 'timg', &dir)) {
+        return false;
+    }
+    sead::FixedSafeString<64> name;
+    nw::lyt::DarcDirEntry entry;
+    while (dir.ReadWithExtension(L".bclim", 6, &entry)) {
+        if (entry.isDir) {
+            continue;
+        }
+        name.copyFromWideChar(sead::SafeStringBase<wchar_t>(entry.name));
+        m_ArcResourceAccessor.nw::lyt::ArcResourceAccessor::GetTexture(name.getCString());
+    }
+    return true;
 }
 
-// 0x0056A610 slot 0x00 | slot vf_0x00 of ssys::ma::lyt::ArcResAcc
+// 0x0056A5A0
+ssys::ma::lyt::ArcResAcc::ArcResAcc() : ResAccInterface(&m_ArcResourceAccessor)
+{
+    // (only the base and the members are constructed)
+}
+
+// 0x0056A610 slot 0x00
+// 0x0056A5F0 (deleting dtor)
 ssys::ma::lyt::ArcResAcc::~ArcResAcc()
 {
-}
-
-// 0x0056A5F0 slot 0x04 | virtual slot, introduced by ssys::ma::lyt::ArcResAcc
-void ssys::ma::lyt::ArcResAcc::vf_0x04()
-{
-}
-
-// 0x0056A580 | libgarden [tier A]
-void ssys::ma::lyt::ArcResAcc::SetData(void const*, char const*)
-{
+    // (only the members are destroyed)
 }
 
 } // namespace lyt

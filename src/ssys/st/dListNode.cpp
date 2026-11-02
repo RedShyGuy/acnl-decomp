@@ -2,14 +2,11 @@
 
 namespace ssys {
 namespace st {
-// ctor candidate(s) 0x00133B64 (unverified)
-ssys::st::ListNode::ListNode()
-{
-}
-
-// 0x0056BF98 slot 0x00 | slot vf_0x00 of ssys::st::ListNode
+// 0x0056BF98 slot 0x00
+// 0x0056BF94 (deleting dtor)
 ssys::st::ListNode::~ListNode()
 {
+    // empty (in the original too)
 }
 
 } // namespace st

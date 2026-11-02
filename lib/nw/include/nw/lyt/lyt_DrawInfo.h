@@ -3,6 +3,7 @@
 #include "decomp.h"
 #include "nn/math/math_MTX34.h"
 #include "nn/math/math_MTX44.h"
+#include "nn/math/math_ARMv6.h"
 #include "nn/math/math_Vector2.h"
 
 namespace nw {
@@ -29,6 +30,12 @@ public:
     DrawInfo(); // 0x00132304
     virtual ~DrawInfo(); // 0x004BC8FC slot 0x00 (name is ours)
     // 0x004BC8F8 (deleting dtor)
+
+    // (a copy out of line for the game: an entry that falls into MTX44CopyAsm; name is ours)
+    DECOMP_EMIT_COPY DECOMP_NOINLINE void SetProjectionMtx(const nn::math::MTX44& mtx) // 0x00148D3C
+    {
+        nn::math::ARMv6::MTX44CopyAsm(&m_ProjMtx, &mtx);
+    }
 
     nn::math::MTX44 m_ProjMtx;                  // 0x04
     nn::math::MTX34 m_ViewMtx;                  // 0x44

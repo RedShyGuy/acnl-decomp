@@ -1,26 +1,32 @@
-#include "ssys/st/dListNodePriorityBase.h"
 #include "ssys/ma/dVramMemBlock.h"
 
 namespace ssys {
 namespace ma {
-// ctor candidate(s) 0x00120BF4, 0x0056788C (unverified)
-ssys::ma::VramMemBlock::VramMemBlock()
+// 0x00567D7C slot 0x08
+bool ssys::ma::VramMemBlock::IsBefore(const ::ssys::st::ListNode* other) const
 {
+    return m_Address < static_cast<const VramMemBlock*>(other)->m_Address;
 }
 
-// 0x00567DC4 slot 0x00 | slot vf_0x00 of ssys::st::ListNode
+// the first block from start on behind this one
+// 0x00567D94 slot 0x0C
+::ssys::st::ListNode* ssys::ma::VramMemBlock::FindInsertPosition(::ssys::st::ListNode* start) const
+{
+    ::ssys::st::ListNode* node = start;
+    while (node != NULL) {
+        if (static_cast<VramMemBlock*>(node)->m_Address > m_Address) {
+            break;
+        }
+        node = node->m_pNext;
+    }
+    return node;
+}
+
+// 0x00567DC4 slot 0x00
+// 0x00567DC0 (deleting dtor)
 ssys::ma::VramMemBlock::~VramMemBlock()
 {
-}
-
-// 0x00567D7C slot 0x08 | virtual slot, introduced by ssys::ma::VramMemBlock
-void ssys::ma::VramMemBlock::vf_0x08()
-{
-}
-
-// 0x00567D94 slot 0x0C | virtual slot, introduced by ssys::ma::VramMemBlock
-void ssys::ma::VramMemBlock::vf_0x0C()
-{
+    // empty (in the original too)
 }
 
 } // namespace ma

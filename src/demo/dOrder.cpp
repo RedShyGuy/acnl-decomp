@@ -13,12 +13,7 @@ demo::Order::~Order()
 }
 
 // 0x002BB2B8 slot 0x08 | virtual slot, introduced by demo::Order
-void demo::Order::vf_0x08()
-{
-}
-
-// 0x0056B88C slot 0x0C | virtual slot, introduced by demo::Order
-void demo::Order::vf_0x0C()
+bool demo::Order::IsBefore(const ::ssys::st::ListNode*) const
 {
 }
 

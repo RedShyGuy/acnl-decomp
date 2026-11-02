@@ -5,14 +5,15 @@
 
 namespace ssys {
 namespace ma {
+// a sead::Vector3<int> with a vtable (vptr at 0, x/y/z behind it)
 // RTTI N4ssys2ma5Vec3iE @ 0x008D24D0
 // vtable 0x00907368 (vptr 0x00907370), offset_to_top 0, 2 entries
 class Vec3i : public ::sead::Vector3<int>
 {
 public:
-    Vec3i(); // ctor candidate(s) 0x006A9DE4, 0x00708B50 (unverified)
-    virtual void vf_0x00(); // 0x0056AEE0 slot 0x00 | virtual slot, introduced by ssys::ma::Vec3i
-    virtual void vf_0x04(); // 0x0056AEDC slot 0x04 | virtual slot, introduced by ssys::ma::Vec3i
+    Vec3i() {} // (inline: the users only store the vptr)
+    virtual ~Vec3i(); // 0x0056AEE0 slot 0x00
 };
+ASSERT_SIZE(Vec3i, 0x10);
 } // namespace ma
 } // namespace ssys

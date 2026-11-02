@@ -1,43 +1,40 @@
 #include "ssys/co/dFaderBase.h"
 #include "Other/dFaderColor.h"
 
-// ctor candidate(s) 0x001AA9F8 (unverified)
-FaderColor::FaderColor()
+// 0x001AA9F8 (not decompiled yet: the rest of the body)
+FaderColor::FaderColor(u8 arg, const u8*, u32, s32 status) : ssys::co::FaderBase(arg, status)
 {
 }
 
-// 0x00567008 slot 0x00 | virtual slot, introduced by ssys::co::FaderBase
-void FaderColor::vf_0x00()
+// 0x00567008 slot 0x00
+// 0x001AAA48 (deleting dtor)
+FaderColor::~FaderColor()
 {
-}
-
-// 0x001AAA48 slot 0x04 | virtual slot, introduced by ssys::co::FaderBase
-void FaderColor::vf_0x04()
-{
+    // empty (in the original too: falls into the destructor of FaderBase)
 }
 
 // 0x001AA9C8 slot 0x08 | virtual slot, introduced by ssys::co::FaderBase
-void FaderColor::vf_0x08()
+void FaderColor::SetStatus(s32)
 {
 }
 
 // 0x001AA840 slot 0x10 | virtual slot, introduced by ssys::co::FaderBase
-void FaderColor::vf_0x10()
+bool FaderColor::FadeIn()
 {
 }
 
 // 0x001AA908 slot 0x14 | virtual slot, introduced by ssys::co::FaderBase
-void FaderColor::vf_0x14()
+bool FaderColor::FadeOut()
 {
 }
 
 // 0x001AA734 slot 0x18 | virtual slot, introduced by ssys::co::FaderBase
-void FaderColor::vf_0x18()
+bool FaderColor::Calc()
 {
 }
 
 // 0x001AA83C slot 0x1C | virtual slot, introduced by ssys::co::FaderBase
-void FaderColor::vf_0x1C()
+void FaderColor::Draw()
 {
 }
 

@@ -69,6 +69,22 @@ public:
         dst[length] = SafeStringBase<T>::s_NullChar;
         return length;
     }
+    // the characters of a wide string, each cut to a T (cut at the end of the buffer); its length (inline, used by the
+    // game; name is ours)
+    s32 copyFromWideChar(const SafeStringBase<wchar_t>& src)
+    {
+        s32 length = src.getLength();
+        if (length >= mBufferSize) {
+            length = mBufferSize - 1;
+        }
+        T* dst = getMutableStringTop();
+        const wchar_t* srcTop = src.getCString();
+        for (s32 i = 0; i < length; i++) {
+            dst[i] = static_cast<T>(srcTop[i]);
+        }
+        dst[length] = SafeStringBase<T>::s_NullChar;
+        return length;
+    }
     // copies length characters of src (length < 0: all; cut at the end of the buffer); the number
     // of copied characters (the version that is called, the one above is inlined)
     DECOMP_NOINLINE s32 copy(const SafeStringBase<T>& src, s32 length)
