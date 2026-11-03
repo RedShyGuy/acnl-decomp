@@ -11,8 +11,8 @@ class BsMenuMapLobby : public ::Base, public ::state::Mode<BsMenuMapLobby>
 public:
     BsMenuMapLobby(); // ctor address unknown
     virtual ~BsMenuMapLobby(); // ModuleTour.cro +0x004648 slot 0x00
-    virtual void Initialize(); // ModuleTour.cro +0x0041D0 slot 0x0C
-    virtual void Finalize(); // ModuleTour.cro +0x0045B4 slot 0x18
-    virtual void Calc(); // ModuleTour.cro +0x0044E8 slot 0x24
-    virtual void Draw(); // ModuleTour.cro +0x0041A4 slot 0x30
+    virtual oml::framework::Result Initialize(); // ModuleTour.cro +0x0041D0 slot 0x0C
+    virtual oml::framework::Result Finalize(); // ModuleTour.cro +0x0045B4 slot 0x18
+    virtual oml::framework::Result Calc(); // ModuleTour.cro +0x0044E8 slot 0x24
+    virtual oml::framework::Result Draw(); // ModuleTour.cro +0x0041A4 slot 0x30
 };

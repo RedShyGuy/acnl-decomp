@@ -13,22 +13,22 @@ ScStageMiniGame1::~ScStageMiniGame1()
 }
 
 // 0x008209A4 slot 0x0C | slot vf_0x0C of oml::framework::Process
-void ScStageMiniGame1::Initialize()
+oml::framework::Result ScStageMiniGame1::Initialize()
 {
 }
 
 // 0x00820A40 slot 0x18 | slot vf_0x18 of oml::framework::Process
-void ScStageMiniGame1::Finalize()
+oml::framework::Result ScStageMiniGame1::Finalize()
 {
 }
 
 // 0x002BCE5C slot 0x24 | slot vf_0x24 of oml::framework::Process
-void ScStageMiniGame1::Calc()
+oml::framework::Result ScStageMiniGame1::Calc()
 {
 }
 
 // 0x002BCE54 slot 0x30 | slot vf_0x30 of oml::framework::Process
-void ScStageMiniGame1::Draw()
+oml::framework::Result ScStageMiniGame1::Draw()
 {
 }
 

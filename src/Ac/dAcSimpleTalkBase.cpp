@@ -13,7 +13,7 @@ AcSimpleTalkBase::~AcSimpleTalkBase()
 }
 
 // 0x002A8A90 slot 0x24 | slot vf_0x24 of oml::framework::Process
-void AcSimpleTalkBase::Calc()
+oml::framework::Result AcSimpleTalkBase::Calc()
 {
 }
 

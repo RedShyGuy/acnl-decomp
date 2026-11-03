@@ -22,7 +22,7 @@ void AcNpcSpBerlina::Finalize()
 }
 
 // ModuleEventNpc.cro +0x001A30 slot 0x24
-void AcNpcSpBerlina::Calc()
+oml::framework::Result AcNpcSpBerlina::Calc()
 {
 }
 

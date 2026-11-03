@@ -14,5 +14,5 @@ class AcIsFdCicada : public ::AcInsectFieldBase, public ::ResourceGetSklVis, pub
 public:
     AcIsFdCicada(); // ctor address unknown
     virtual ~AcIsFdCicada(); // ModuleOutdoor.cro +0x00E9B8 slot 0x00
-    virtual void Draw(); // ModuleOutdoor.cro +0x00E698 slot 0x30
+    virtual oml::framework::Result Draw(); // ModuleOutdoor.cro +0x00E698 slot 0x30
 };

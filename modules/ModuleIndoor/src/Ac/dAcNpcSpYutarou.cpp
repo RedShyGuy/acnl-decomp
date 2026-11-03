@@ -12,7 +12,7 @@ AcNpcSpYutarou::~AcNpcSpYutarou()
 }
 
 // ModuleIndoor.cro +0x01739C slot 0x24
-void AcNpcSpYutarou::Calc()
+oml::framework::Result AcNpcSpYutarou::Calc()
 {
 }
 

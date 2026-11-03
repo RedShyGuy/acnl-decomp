@@ -12,7 +12,7 @@ AcNpcSpSecretaryCeremony::~AcNpcSpSecretaryCeremony()
 }
 
 // ModuleCeremony.cro +0x001434 slot 0x24
-void AcNpcSpSecretaryCeremony::Calc()
+oml::framework::Result AcNpcSpSecretaryCeremony::Calc()
 {
 }
 

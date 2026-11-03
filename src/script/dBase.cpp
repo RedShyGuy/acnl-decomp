@@ -13,22 +13,22 @@ script::Base::~Base()
 }
 
 // 0x005EA890 slot 0x0C | slot vf_0x0C of oml::framework::Process
-void script::Base::Initialize()
+oml::framework::Result script::Base::Initialize()
 {
 }
 
 // 0x005EA8DC slot 0x18 | slot vf_0x18 of oml::framework::Process
-void script::Base::Finalize()
+oml::framework::Result script::Base::Finalize()
 {
 }
 
 // 0x005EA8C0 slot 0x24 | slot vf_0x24 of oml::framework::Process
-void script::Base::Calc()
+oml::framework::Result script::Base::Calc()
 {
 }
 
 // 0x005EA874 slot 0x30 | slot vf_0x30 of oml::framework::Process
-void script::Base::Draw()
+oml::framework::Result script::Base::Draw()
 {
 }
 

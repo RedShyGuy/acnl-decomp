@@ -12,8 +12,8 @@ class AcFsMuObjSimple : public ::Actor, public ::ResourceLoadAsyncSkeletal
 public:
     AcFsMuObjSimple(); // ctor address unknown
     virtual ~AcFsMuObjSimple(); // ModuleMusFish.cro +0x00A958 slot 0x00
-    virtual void Initialize(); // ModuleMusFish.cro +0x00A618 slot 0x0C
-    virtual void Finalize(); // ModuleMusFish.cro +0x00A89C slot 0x18
-    virtual void Calc(); // ModuleMusFish.cro +0x00A798 slot 0x24
-    virtual void Draw(); // ModuleMusFish.cro +0x00A5F4 slot 0x30
+    virtual oml::framework::Result Initialize(); // ModuleMusFish.cro +0x00A618 slot 0x0C
+    virtual oml::framework::Result Finalize(); // ModuleMusFish.cro +0x00A89C slot 0x18
+    virtual oml::framework::Result Calc(); // ModuleMusFish.cro +0x00A798 slot 0x24
+    virtual oml::framework::Result Draw(); // ModuleMusFish.cro +0x00A5F4 slot 0x30
 };

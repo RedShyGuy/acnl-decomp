@@ -12,7 +12,7 @@ AcNpcSpSecretaryOut::~AcNpcSpSecretaryOut()
 }
 
 // ModulePrologue.cro +0x002FD8 slot 0x24
-void AcNpcSpSecretaryOut::Calc()
+oml::framework::Result AcNpcSpSecretaryOut::Calc()
 {
 }
 

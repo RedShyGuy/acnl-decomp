@@ -12,17 +12,17 @@ BsLightDiffuseClub::~BsLightDiffuseClub()
 }
 
 // ModuleClub.cro +0x00FC88 slot 0x0C
-void BsLightDiffuseClub::Initialize()
+oml::framework::Result BsLightDiffuseClub::Initialize()
 {
 }
 
 // ModuleClub.cro +0x0100E8 slot 0x18
-void BsLightDiffuseClub::Finalize()
+oml::framework::Result BsLightDiffuseClub::Finalize()
 {
 }
 
 // ModuleClub.cro +0x010028 slot 0x24
-void BsLightDiffuseClub::Calc()
+oml::framework::Result BsLightDiffuseClub::Calc()
 {
 }
 

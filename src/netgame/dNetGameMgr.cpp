@@ -42,3 +42,13 @@ void netgame::NetGameMgr::IsInSession(netgame::PlayerNo, bool) const
 }
 
 } // namespace netgame
+
+namespace netgame {
+// 0x00954648
+NetGameMgr* NetGameMgr::s_pInstance;
+
+// 0x0062C740 (name is ours)
+void NetGameMgr::Wait::Reset(bool isForced)
+{
+}
+} // namespace netgame

@@ -12,7 +12,7 @@ BsLightFixParam::~BsLightFixParam()
 }
 
 // 0x00285740 slot 0x0C | slot vf_0x0C of oml::framework::Process
-void BsLightFixParam::Initialize()
+oml::framework::Result BsLightFixParam::Initialize()
 {
 }
 

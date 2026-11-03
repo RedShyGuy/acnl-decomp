@@ -13,22 +13,22 @@ AcPhotoMgr::~AcPhotoMgr()
 }
 
 // 0x0018E188 slot 0x0C | slot vf_0x0C of oml::framework::Process
-void AcPhotoMgr::Initialize()
+oml::framework::Result AcPhotoMgr::Initialize()
 {
 }
 
 // 0x0018E2A0 slot 0x18 | slot vf_0x18 of oml::framework::Process
-void AcPhotoMgr::Finalize()
+oml::framework::Result AcPhotoMgr::Finalize()
 {
 }
 
 // 0x0018E1E8 slot 0x24 | slot vf_0x24 of oml::framework::Process
-void AcPhotoMgr::Calc()
+oml::framework::Result AcPhotoMgr::Calc()
 {
 }
 
 // 0x0018E15C slot 0x30 | slot vf_0x30 of oml::framework::Process
-void AcPhotoMgr::Draw()
+oml::framework::Result AcPhotoMgr::Draw()
 {
 }
 

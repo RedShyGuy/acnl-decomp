@@ -13,22 +13,22 @@ ScStage::~ScStage()
 }
 
 // 0x008209A4 slot 0x0C | slot vf_0x0C of oml::framework::Process
-void ScStage::Initialize()
+oml::framework::Result ScStage::Initialize()
 {
 }
 
 // 0x00820A40 slot 0x18 | slot vf_0x18 of oml::framework::Process
-void ScStage::Finalize()
+oml::framework::Result ScStage::Finalize()
 {
 }
 
 // 0x006134F4 slot 0x24 | slot vf_0x24 of oml::framework::Process
-void ScStage::Calc()
+oml::framework::Result ScStage::Calc()
 {
 }
 
 // 0x006134EC slot 0x30 | slot vf_0x30 of oml::framework::Process
-void ScStage::Draw()
+oml::framework::Result ScStage::Draw()
 {
 }
 

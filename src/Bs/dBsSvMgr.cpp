@@ -14,17 +14,17 @@ BsSvMgr::~BsSvMgr()
 }
 
 // 0x00609258 slot 0x0C | slot vf_0x0C of oml::framework::Process
-void BsSvMgr::Initialize()
+oml::framework::Result BsSvMgr::Initialize()
 {
 }
 
 // 0x0060B8D8 slot 0x18 | slot vf_0x18 of oml::framework::Process
-void BsSvMgr::Finalize()
+oml::framework::Result BsSvMgr::Finalize()
 {
 }
 
 // 0x00609368 slot 0x24 | slot vf_0x24 of oml::framework::Process
-void BsSvMgr::Calc()
+oml::framework::Result BsSvMgr::Calc()
 {
 }
 

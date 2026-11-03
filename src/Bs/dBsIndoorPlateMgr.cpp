@@ -13,22 +13,22 @@ BsIndoorPlateMgr::~BsIndoorPlateMgr()
 }
 
 // 0x0082067C slot 0x0C | slot vf_0x0C of oml::framework::Process
-void BsIndoorPlateMgr::Initialize()
+oml::framework::Result BsIndoorPlateMgr::Initialize()
 {
 }
 
 // 0x00820718 slot 0x18 | slot vf_0x18 of oml::framework::Process
-void BsIndoorPlateMgr::Finalize()
+oml::framework::Result BsIndoorPlateMgr::Finalize()
 {
 }
 
 // 0x002AAB10 slot 0x24 | slot vf_0x24 of oml::framework::Process
-void BsIndoorPlateMgr::Calc()
+oml::framework::Result BsIndoorPlateMgr::Calc()
 {
 }
 
 // 0x002AAB08 slot 0x30 | slot vf_0x30 of oml::framework::Process
-void BsIndoorPlateMgr::Draw()
+oml::framework::Result BsIndoorPlateMgr::Draw()
 {
 }
 

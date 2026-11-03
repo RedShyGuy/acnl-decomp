@@ -12,7 +12,7 @@ AcNpcSpSecretaryPlantTree::~AcNpcSpSecretaryPlantTree()
 }
 
 // ModulePrologue.cro +0x000571 slot 0x30
-void AcNpcSpSecretaryPlantTree::Draw()
+oml::framework::Result AcNpcSpSecretaryPlantTree::Draw()
 {
 }
 

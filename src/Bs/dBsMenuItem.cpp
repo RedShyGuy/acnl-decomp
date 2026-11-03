@@ -14,22 +14,22 @@ BsMenuItem::~BsMenuItem()
 }
 
 // 0x0019F90C slot 0x0C | slot vf_0x0C of oml::framework::Process
-void BsMenuItem::Initialize()
+oml::framework::Result BsMenuItem::Initialize()
 {
 }
 
 // 0x0019FFEC slot 0x18 | slot vf_0x18 of oml::framework::Process
-void BsMenuItem::Finalize()
+oml::framework::Result BsMenuItem::Finalize()
 {
 }
 
 // 0x0019FCF8 slot 0x24 | slot vf_0x24 of oml::framework::Process
-void BsMenuItem::Calc()
+oml::framework::Result BsMenuItem::Calc()
 {
 }
 
 // 0x0019F884 slot 0x30 | slot vf_0x30 of oml::framework::Process
-void BsMenuItem::Draw()
+oml::framework::Result BsMenuItem::Draw()
 {
 }
 

@@ -12,7 +12,7 @@ AcNpcSpExchangeReset::~AcNpcSpExchangeReset()
 }
 
 // ModuleTrain.cro +0x009B8C slot 0x24
-void AcNpcSpExchangeReset::Calc()
+oml::framework::Result AcNpcSpExchangeReset::Calc()
 {
 }
 

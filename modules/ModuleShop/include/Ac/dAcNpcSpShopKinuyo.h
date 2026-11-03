@@ -12,5 +12,5 @@ public:
     class TalkRecept;
     AcNpcSpShopKinuyo(); // ctor address unknown
     virtual ~AcNpcSpShopKinuyo(); // ModuleShop.cro +0x00DFD0 slot 0x00
-    virtual void Calc(); // ModuleShop.cro +0x00D6F8 slot 0x24
+    virtual oml::framework::Result Calc(); // ModuleShop.cro +0x00D6F8 slot 0x24
 };

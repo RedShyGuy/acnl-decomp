@@ -2,12 +2,12 @@
 
 namespace netgame {
 // 0x002FC990 | libgarden [tier A]
-void IsMultiplePlayer()
+bool IsMultiplePlayer()
 {
 }
 
 // 0x00300838 | libgarden [tier A]
-void IsMultiPlayer()
+bool IsMultiPlayer()
 {
 }
 
@@ -17,7 +17,12 @@ void GetNetgameType()
 }
 
 // 0x0030B824 | libgarden [tier A]
-void IsHost()
+bool IsHost()
+{
+}
+
+// 0x00305EF0 (name after libgarden)
+PlayerNo GetMyPlayerNo()
 {
 }
 

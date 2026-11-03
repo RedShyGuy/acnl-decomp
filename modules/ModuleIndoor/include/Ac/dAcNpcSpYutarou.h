@@ -10,6 +10,6 @@ public:
     class TalkRecept;
     AcNpcSpYutarou(); // ctor address unknown
     virtual ~AcNpcSpYutarou(); // ModuleIndoor.cro +0x017A04 slot 0x00
-    virtual void Calc(); // ModuleIndoor.cro +0x01739C slot 0x24
+    virtual oml::framework::Result Calc(); // ModuleIndoor.cro +0x01739C slot 0x24
     virtual void CanDraw() const; // ModuleIndoor.cro +0x0177A8 slot 0x2C
 };

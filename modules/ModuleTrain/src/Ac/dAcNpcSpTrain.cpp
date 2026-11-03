@@ -12,7 +12,7 @@ AcNpcSpTrain::~AcNpcSpTrain()
 }
 
 // ModuleTrain.cro +0x002FD8 slot 0x24
-void AcNpcSpTrain::Calc()
+oml::framework::Result AcNpcSpTrain::Calc()
 {
 }
 

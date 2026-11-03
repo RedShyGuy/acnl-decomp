@@ -12,22 +12,22 @@ BsPikoHanObjMgr::~BsPikoHanObjMgr()
 }
 
 // 0x0028DE04 slot 0x0C | slot vf_0x0C of oml::framework::Process
-void BsPikoHanObjMgr::Initialize()
+oml::framework::Result BsPikoHanObjMgr::Initialize()
 {
 }
 
 // 0x0028E078 slot 0x18 | slot vf_0x18 of oml::framework::Process
-void BsPikoHanObjMgr::Finalize()
+oml::framework::Result BsPikoHanObjMgr::Finalize()
 {
 }
 
 // 0x0028E000 slot 0x24 | slot vf_0x24 of oml::framework::Process
-void BsPikoHanObjMgr::Calc()
+oml::framework::Result BsPikoHanObjMgr::Calc()
 {
 }
 
 // 0x0028DDFC slot 0x30 | slot vf_0x30 of oml::framework::Process
-void BsPikoHanObjMgr::Draw()
+oml::framework::Result BsPikoHanObjMgr::Draw()
 {
 }
 

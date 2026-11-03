@@ -14,5 +14,5 @@ class AcIsFdSpider : public ::AcInsectFieldBase, public ::ResourceGetSklVis, pub
 public:
     AcIsFdSpider(); // ctor address unknown
     virtual ~AcIsFdSpider(); // ModuleOutdoor.cro +0x012450 slot 0x00
-    virtual void Draw(); // ModuleOutdoor.cro +0x0121E4 slot 0x30
+    virtual oml::framework::Result Draw(); // ModuleOutdoor.cro +0x0121E4 slot 0x30
 };

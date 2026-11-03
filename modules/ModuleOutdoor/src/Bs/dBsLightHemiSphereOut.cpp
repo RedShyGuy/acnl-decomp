@@ -12,12 +12,12 @@ BsLightHemiSphereOut::~BsLightHemiSphereOut()
 }
 
 // ModuleOutdoor.cro +0x05DF1C slot 0x0C
-void BsLightHemiSphereOut::Initialize()
+oml::framework::Result BsLightHemiSphereOut::Initialize()
 {
 }
 
 // ModuleOutdoor.cro +0x05E070 slot 0x24
-void BsLightHemiSphereOut::Calc()
+oml::framework::Result BsLightHemiSphereOut::Calc()
 {
 }
 

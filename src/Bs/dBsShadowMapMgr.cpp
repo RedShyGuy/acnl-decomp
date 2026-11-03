@@ -12,22 +12,22 @@ BsShadowMapMgr::~BsShadowMapMgr()
 }
 
 // 0x00264CEC slot 0x0C | slot vf_0x0C of oml::framework::Process
-void BsShadowMapMgr::Initialize()
+oml::framework::Result BsShadowMapMgr::Initialize()
 {
 }
 
 // 0x0026551C slot 0x18 | slot vf_0x18 of oml::framework::Process
-void BsShadowMapMgr::Finalize()
+oml::framework::Result BsShadowMapMgr::Finalize()
 {
 }
 
 // 0x00264EF0 slot 0x24 | slot vf_0x24 of oml::framework::Process
-void BsShadowMapMgr::Calc()
+oml::framework::Result BsShadowMapMgr::Calc()
 {
 }
 
 // 0x00264CD4 slot 0x30 | slot vf_0x30 of oml::framework::Process
-void BsShadowMapMgr::Draw()
+oml::framework::Result BsShadowMapMgr::Draw()
 {
 }
 

@@ -10,5 +10,5 @@ public:
     class TalkRecept;
     AcNpcSpTakumiChipTutorial(); // ctor address unknown
     virtual ~AcNpcSpTakumiChipTutorial(); // ModuleIndoor.cro +0x041190 slot 0x00
-    virtual void Calc(); // ModuleIndoor.cro +0x040F6C slot 0x24
+    virtual oml::framework::Result Calc(); // ModuleIndoor.cro +0x040F6C slot 0x24
 };

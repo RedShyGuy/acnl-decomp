@@ -13,22 +13,22 @@ BsMenuNfcReader::~BsMenuNfcReader()
 }
 
 // ModuleIndoor.cro +0x0204D8 slot 0x0C
-void BsMenuNfcReader::Initialize()
+oml::framework::Result BsMenuNfcReader::Initialize()
 {
 }
 
 // ModuleIndoor.cro +0x02061C slot 0x18
-void BsMenuNfcReader::Finalize()
+oml::framework::Result BsMenuNfcReader::Finalize()
 {
 }
 
 // ModuleIndoor.cro +0x020580 slot 0x24
-void BsMenuNfcReader::Calc()
+oml::framework::Result BsMenuNfcReader::Calc()
 {
 }
 
 // ModuleIndoor.cro +0x0204C4 slot 0x30
-void BsMenuNfcReader::Draw()
+oml::framework::Result BsMenuNfcReader::Draw()
 {
 }
 

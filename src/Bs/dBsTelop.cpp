@@ -13,22 +13,22 @@ BsTelop::~BsTelop()
 }
 
 // 0x0060C37C slot 0x0C | slot vf_0x0C of oml::framework::Process
-void BsTelop::Initialize()
+oml::framework::Result BsTelop::Initialize()
 {
 }
 
 // 0x0060CA24 slot 0x18 | slot vf_0x18 of oml::framework::Process
-void BsTelop::Finalize()
+oml::framework::Result BsTelop::Finalize()
 {
 }
 
 // 0x0060C734 slot 0x24 | slot vf_0x24 of oml::framework::Process
-void BsTelop::Calc()
+oml::framework::Result BsTelop::Calc()
 {
 }
 
 // 0x0060C35C slot 0x30 | slot vf_0x30 of oml::framework::Process
-void BsTelop::Draw()
+oml::framework::Result BsTelop::Draw()
 {
 }
 

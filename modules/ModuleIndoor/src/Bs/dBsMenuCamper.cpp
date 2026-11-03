@@ -13,22 +13,22 @@ BsMenuCamper::~BsMenuCamper()
 }
 
 // ModuleIndoor.cro +0x00E1F0 slot 0x0C
-void BsMenuCamper::Initialize()
+oml::framework::Result BsMenuCamper::Initialize()
 {
 }
 
 // ModuleIndoor.cro +0x00E8B8 slot 0x18
-void BsMenuCamper::Finalize()
+oml::framework::Result BsMenuCamper::Finalize()
 {
 }
 
 // ModuleIndoor.cro +0x00E648 slot 0x24
-void BsMenuCamper::Calc()
+oml::framework::Result BsMenuCamper::Calc()
 {
 }
 
 // ModuleIndoor.cro +0x00E1C0 slot 0x30
-void BsMenuCamper::Draw()
+oml::framework::Result BsMenuCamper::Draw()
 {
 }
 

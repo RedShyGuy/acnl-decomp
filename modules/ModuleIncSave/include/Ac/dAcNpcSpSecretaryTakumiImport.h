@@ -10,5 +10,5 @@ public:
     class TalkRecept;
     AcNpcSpSecretaryTakumiImport(); // ctor address unknown
     virtual ~AcNpcSpSecretaryTakumiImport(); // ModuleIncSave.cro +0x00963C slot 0x00
-    virtual void Calc(); // ModuleIncSave.cro +0x009318 slot 0x24
+    virtual oml::framework::Result Calc(); // ModuleIncSave.cro +0x009318 slot 0x24
 };

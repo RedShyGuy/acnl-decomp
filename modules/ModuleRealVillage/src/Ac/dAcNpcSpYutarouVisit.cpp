@@ -12,7 +12,7 @@ AcNpcSpYutarouVisit::~AcNpcSpYutarouVisit()
 }
 
 // ModuleRealVillage.cro +0x009488 slot 0x24
-void AcNpcSpYutarouVisit::Calc()
+oml::framework::Result AcNpcSpYutarouVisit::Calc()
 {
 }
 

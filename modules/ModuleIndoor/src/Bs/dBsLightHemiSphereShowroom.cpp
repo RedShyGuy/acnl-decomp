@@ -12,12 +12,12 @@ BsLightHemiSphereShowroom::~BsLightHemiSphereShowroom()
 }
 
 // ModuleIndoor.cro +0x041404 slot 0x0C
-void BsLightHemiSphereShowroom::Initialize()
+oml::framework::Result BsLightHemiSphereShowroom::Initialize()
 {
 }
 
 // ModuleIndoor.cro +0x0414C0 slot 0x24
-void BsLightHemiSphereShowroom::Calc()
+oml::framework::Result BsLightHemiSphereShowroom::Calc()
 {
 }
 

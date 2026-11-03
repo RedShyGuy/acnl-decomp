@@ -14,7 +14,7 @@ AcIsMuTumblebug::~AcIsMuTumblebug()
 }
 
 // ModuleMusIns.cro +0x00D178 slot 0x30
-void AcIsMuTumblebug::Draw()
+oml::framework::Result AcIsMuTumblebug::Draw()
 {
 }
 

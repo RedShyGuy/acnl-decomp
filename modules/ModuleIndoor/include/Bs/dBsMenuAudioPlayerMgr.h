@@ -11,8 +11,8 @@ class BsMenuAudioPlayerMgr : public ::MenuBase, public ::state::Mode<BsMenuAudio
 public:
     BsMenuAudioPlayerMgr(); // ctor address unknown
     virtual ~BsMenuAudioPlayerMgr(); // ModuleIndoor.cro +0x03CC60 slot 0x00
-    virtual void Initialize(); // ModuleIndoor.cro +0x03C9A4 slot 0x0C
-    virtual void Finalize(); // ModuleIndoor.cro +0x03CAD4 slot 0x18
-    virtual void Calc(); // ModuleIndoor.cro +0x03CA44 slot 0x24
-    virtual void Draw(); // ModuleIndoor.cro +0x03C99C slot 0x30
+    virtual oml::framework::Result Initialize(); // ModuleIndoor.cro +0x03C9A4 slot 0x0C
+    virtual oml::framework::Result Finalize(); // ModuleIndoor.cro +0x03CAD4 slot 0x18
+    virtual oml::framework::Result Calc(); // ModuleIndoor.cro +0x03CA44 slot 0x24
+    virtual oml::framework::Result Draw(); // ModuleIndoor.cro +0x03C99C slot 0x30
 };

@@ -12,22 +12,22 @@ BsLightDiffuseOutBg::~BsLightDiffuseOutBg()
 }
 
 // ModuleOutdoor.cro +0x05D2A8 slot 0x0C
-void BsLightDiffuseOutBg::Initialize()
+oml::framework::Result BsLightDiffuseOutBg::Initialize()
 {
 }
 
 // ModuleOutdoor.cro +0x05D378 slot 0x18
-void BsLightDiffuseOutBg::Finalize()
+oml::framework::Result BsLightDiffuseOutBg::Finalize()
 {
 }
 
 // ModuleOutdoor.cro +0x05D358 slot 0x24
-void BsLightDiffuseOutBg::Calc()
+oml::framework::Result BsLightDiffuseOutBg::Calc()
 {
 }
 
 // ModuleOutdoor.cro +0x05D298 slot 0x30
-void BsLightDiffuseOutBg::Draw()
+oml::framework::Result BsLightDiffuseOutBg::Draw()
 {
 }
 

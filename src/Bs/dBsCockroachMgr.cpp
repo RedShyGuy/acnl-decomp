@@ -12,22 +12,22 @@ BsCockroachMgr::~BsCockroachMgr()
 }
 
 // 0x00251384 slot 0x0C | slot vf_0x0C of oml::framework::Process
-void BsCockroachMgr::Initialize()
+oml::framework::Result BsCockroachMgr::Initialize()
 {
 }
 
 // 0x002517C4 slot 0x18 | slot vf_0x18 of oml::framework::Process
-void BsCockroachMgr::Finalize()
+oml::framework::Result BsCockroachMgr::Finalize()
 {
 }
 
 // 0x0025166C slot 0x24 | slot vf_0x24 of oml::framework::Process
-void BsCockroachMgr::Calc()
+oml::framework::Result BsCockroachMgr::Calc()
 {
 }
 
 // 0x0025137C slot 0x30 | slot vf_0x30 of oml::framework::Process
-void BsCockroachMgr::Draw()
+oml::framework::Result BsCockroachMgr::Draw()
 {
 }
 

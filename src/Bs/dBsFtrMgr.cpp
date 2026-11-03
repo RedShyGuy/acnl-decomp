@@ -13,22 +13,22 @@ BsFtrMgr::~BsFtrMgr()
 }
 
 // 0x0082067C slot 0x0C | slot vf_0x0C of oml::framework::Process
-void BsFtrMgr::Initialize()
+oml::framework::Result BsFtrMgr::Initialize()
 {
 }
 
 // 0x00820718 slot 0x18 | slot vf_0x18 of oml::framework::Process
-void BsFtrMgr::Finalize()
+oml::framework::Result BsFtrMgr::Finalize()
 {
 }
 
 // 0x00694800 slot 0x24 | slot vf_0x24 of oml::framework::Process
-void BsFtrMgr::Calc()
+oml::framework::Result BsFtrMgr::Calc()
 {
 }
 
 // 0x006946D4 slot 0x30 | slot vf_0x30 of oml::framework::Process
-void BsFtrMgr::Draw()
+oml::framework::Result BsFtrMgr::Draw()
 {
 }
 
@@ -67,3 +67,10 @@ void BsFtrMgr::CreateFtrActor(BsFtrMgr::CreateFtrArg const&)
 {
 }
 
+// 0x00951158
+BsFtrMgr* BsFtrMgr::s_pInstance;
+
+// 0x006967BC (name is ours)
+bool BsFtrMgr::CreateFurniture(const stage::Command* command)
+{
+}

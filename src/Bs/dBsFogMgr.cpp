@@ -12,22 +12,22 @@ BsFogMgr::~BsFogMgr()
 }
 
 // 0x0069055C slot 0x0C | slot vf_0x0C of oml::framework::Process
-void BsFogMgr::Initialize()
+oml::framework::Result BsFogMgr::Initialize()
 {
 }
 
 // 0x006905E0 slot 0x18 | slot vf_0x18 of oml::framework::Process
-void BsFogMgr::Finalize()
+oml::framework::Result BsFogMgr::Finalize()
 {
 }
 
 // 0x006905AC slot 0x24 | slot vf_0x24 of oml::framework::Process
-void BsFogMgr::Calc()
+oml::framework::Result BsFogMgr::Calc()
 {
 }
 
 // 0x00690528 slot 0x30 | slot vf_0x30 of oml::framework::Process
-void BsFogMgr::Draw()
+oml::framework::Result BsFogMgr::Draw()
 {
 }
 

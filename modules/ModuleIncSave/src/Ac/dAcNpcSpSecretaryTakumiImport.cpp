@@ -12,7 +12,7 @@ AcNpcSpSecretaryTakumiImport::~AcNpcSpSecretaryTakumiImport()
 }
 
 // ModuleIncSave.cro +0x009318 slot 0x24
-void AcNpcSpSecretaryTakumiImport::Calc()
+oml::framework::Result AcNpcSpSecretaryTakumiImport::Calc()
 {
 }
 

@@ -12,22 +12,22 @@ BsMenuSantaBagView::~BsMenuSantaBagView()
 }
 
 // 0x002DE5B4 slot 0x0C | slot vf_0x0C of oml::framework::Process
-void BsMenuSantaBagView::Initialize()
+oml::framework::Result BsMenuSantaBagView::Initialize()
 {
 }
 
 // 0x002DE854 slot 0x18 | slot vf_0x18 of oml::framework::Process
-void BsMenuSantaBagView::Finalize()
+oml::framework::Result BsMenuSantaBagView::Finalize()
 {
 }
 
 // 0x002DE794 slot 0x24 | slot vf_0x24 of oml::framework::Process
-void BsMenuSantaBagView::Calc()
+oml::framework::Result BsMenuSantaBagView::Calc()
 {
 }
 
 // 0x002DE5A0 slot 0x30 | slot vf_0x30 of oml::framework::Process
-void BsMenuSantaBagView::Draw()
+oml::framework::Result BsMenuSantaBagView::Draw()
 {
 }
 

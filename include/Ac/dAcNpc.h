@@ -14,8 +14,8 @@ public:
     virtual ~AcNpc(); // 0x0057C3E0 slot 0x00 | slot vf_0x00 of oml::framework::Process
     // 0x0057C348 slot 0x04 | slot vf_0x04 of oml::framework::Process (deleting dtor)
     virtual void HandleInitializationResult(oml::framework::Result); // 0x0010C669 slot 0x10 | slot vf_0x10 of oml::framework::Process
-    virtual void Calc(); // 0x0057AF5C slot 0x24 | slot vf_0x24 of oml::framework::Process
-    virtual void Draw(); // 0x0057ADCC slot 0x30 | slot vf_0x30 of oml::framework::Process
+    virtual oml::framework::Result Calc(); // 0x0057AF5C slot 0x24 | slot vf_0x24 of oml::framework::Process
+    virtual oml::framework::Result Draw(); // 0x0057ADCC slot 0x30 | slot vf_0x30 of oml::framework::Process
     virtual void vf_0x48(); // 0x007536AC slot 0x48 | virtual slot, introduced by DemoActor
     virtual void vf_0x50(); // 0x0057BBBC slot 0x50 | virtual slot, introduced by DemoActor
     virtual void vf_0x58(); // 0x00752DB8 slot 0x58 | virtual slot, introduced by DemoActor

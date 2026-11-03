@@ -14,22 +14,22 @@ BsMenuItemMannequin::~BsMenuItemMannequin()
 }
 
 // ModuleIndoor.cro +0x0399E4 slot 0x0C
-void BsMenuItemMannequin::Initialize()
+oml::framework::Result BsMenuItemMannequin::Initialize()
 {
 }
 
 // ModuleIndoor.cro +0x039E28 slot 0x18
-void BsMenuItemMannequin::Finalize()
+oml::framework::Result BsMenuItemMannequin::Finalize()
 {
 }
 
 // ModuleIndoor.cro +0x039C7C slot 0x24
-void BsMenuItemMannequin::Calc()
+oml::framework::Result BsMenuItemMannequin::Calc()
 {
 }
 
 // ModuleIndoor.cro +0x0399A8 slot 0x30
-void BsMenuItemMannequin::Draw()
+oml::framework::Result BsMenuItemMannequin::Draw()
 {
 }
 

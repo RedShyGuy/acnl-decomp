@@ -13,5 +13,5 @@ class AcFsMuSeaSimple : public ::AcFishMuseumBase, public ::ObjectState<AcFsMuSe
 public:
     AcFsMuSeaSimple(); // ctor address unknown
     virtual ~AcFsMuSeaSimple(); // ModuleMusFish.cro +0x00C540 slot 0x00
-    virtual void CanCalc() const; // ModuleMusFish.cro +0x00C0A4 slot 0x20
+    virtual bool CanCalc() const; // ModuleMusFish.cro +0x00C0A4 slot 0x20
 };

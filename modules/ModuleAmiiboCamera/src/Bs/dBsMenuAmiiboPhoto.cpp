@@ -14,22 +14,22 @@ BsMenuAmiiboPhoto::~BsMenuAmiiboPhoto()
 }
 
 // ModuleAmiiboCamera.cro +0x00B7F4 slot 0x0C
-void BsMenuAmiiboPhoto::Initialize()
+oml::framework::Result BsMenuAmiiboPhoto::Initialize()
 {
 }
 
 // ModuleAmiiboCamera.cro +0x00BE24 slot 0x18
-void BsMenuAmiiboPhoto::Finalize()
+oml::framework::Result BsMenuAmiiboPhoto::Finalize()
 {
 }
 
 // ModuleAmiiboCamera.cro +0x00BBDC slot 0x24
-void BsMenuAmiiboPhoto::Calc()
+oml::framework::Result BsMenuAmiiboPhoto::Calc()
 {
 }
 
 // ModuleAmiiboCamera.cro +0x00B6FC slot 0x30
-void BsMenuAmiiboPhoto::Draw()
+oml::framework::Result BsMenuAmiiboPhoto::Draw()
 {
 }
 

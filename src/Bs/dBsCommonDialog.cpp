@@ -13,22 +13,22 @@ BsCommonDialog::~BsCommonDialog()
 }
 
 // 0x00251B70 slot 0x0C | slot vf_0x0C of oml::framework::Process
-void BsCommonDialog::Initialize()
+oml::framework::Result BsCommonDialog::Initialize()
 {
 }
 
 // 0x00251D90 slot 0x18 | slot vf_0x18 of oml::framework::Process
-void BsCommonDialog::Finalize()
+oml::framework::Result BsCommonDialog::Finalize()
 {
 }
 
 // 0x00251CD0 slot 0x24 | slot vf_0x24 of oml::framework::Process
-void BsCommonDialog::Calc()
+oml::framework::Result BsCommonDialog::Calc()
 {
 }
 
 // 0x00251B5C slot 0x30 | slot vf_0x30 of oml::framework::Process
-void BsCommonDialog::Draw()
+oml::framework::Result BsCommonDialog::Draw()
 {
 }
 

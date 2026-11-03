@@ -10,5 +10,5 @@ public:
     class TalkRecept;
     AcNpcSpSecretaryPlantTree(); // ctor address unknown
     virtual ~AcNpcSpSecretaryPlantTree(); // ModulePrologue.cro +0x00694C slot 0x00
-    virtual void Draw(); // ModulePrologue.cro +0x000571 slot 0x30
+    virtual oml::framework::Result Draw(); // ModulePrologue.cro +0x000571 slot 0x30
 };

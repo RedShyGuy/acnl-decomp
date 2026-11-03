@@ -12,22 +12,22 @@ BsInsectFieldMgr::~BsInsectFieldMgr()
 }
 
 // 0x002ACE68 slot 0x0C | slot vf_0x0C of oml::framework::Process
-void BsInsectFieldMgr::Initialize()
+oml::framework::Result BsInsectFieldMgr::Initialize()
 {
 }
 
 // 0x002AD290 slot 0x18 | slot vf_0x18 of oml::framework::Process
-void BsInsectFieldMgr::Finalize()
+oml::framework::Result BsInsectFieldMgr::Finalize()
 {
 }
 
 // 0x002AD144 slot 0x24 | slot vf_0x24 of oml::framework::Process
-void BsInsectFieldMgr::Calc()
+oml::framework::Result BsInsectFieldMgr::Calc()
 {
 }
 
 // 0x002ACE60 slot 0x30 | slot vf_0x30 of oml::framework::Process
-void BsInsectFieldMgr::Draw()
+oml::framework::Result BsInsectFieldMgr::Draw()
 {
 }
 

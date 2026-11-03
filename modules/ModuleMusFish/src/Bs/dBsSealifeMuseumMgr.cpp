@@ -12,17 +12,17 @@ BsSealifeMuseumMgr::~BsSealifeMuseumMgr()
 }
 
 // ModuleMusFish.cro +0x016960 slot 0x0C
-void BsSealifeMuseumMgr::Initialize()
+oml::framework::Result BsSealifeMuseumMgr::Initialize()
 {
 }
 
 // ModuleMusFish.cro +0x016D1C slot 0x18
-void BsSealifeMuseumMgr::Finalize()
+oml::framework::Result BsSealifeMuseumMgr::Finalize()
 {
 }
 
 // ModuleMusFish.cro +0x016CE8 slot 0x24
-void BsSealifeMuseumMgr::Calc()
+oml::framework::Result BsSealifeMuseumMgr::Calc()
 {
 }
 

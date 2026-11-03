@@ -12,7 +12,7 @@ public:
     AcNpcSpResetsan(); // ctor address unknown
     virtual ~AcNpcSpResetsan(); // 0x0028217C slot 0x00 | slot vf_0x00 of oml::framework::Process
     // 0x0028206C slot 0x04 | slot vf_0x04 of oml::framework::Process (deleting dtor)
-    virtual void Calc(); // 0x00281DC0 slot 0x24 | slot vf_0x24 of oml::framework::Process
+    virtual oml::framework::Result Calc(); // 0x00281DC0 slot 0x24 | slot vf_0x24 of oml::framework::Process
     virtual void vf_0x4C(); // 0x0071B5D4 slot 0x4C | virtual slot, introduced by DemoActor
     virtual void vf_0x78(); // 0x0010B071 slot 0x78 | virtual slot, introduced by UtlBase<DemoActor>
     virtual void vf_0x7C(); // 0x0010B045 slot 0x7C | virtual slot, introduced by UtlBase<DemoActor>

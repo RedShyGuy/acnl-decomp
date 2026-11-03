@@ -12,17 +12,17 @@ BsMenuFriendChat::~BsMenuFriendChat()
 }
 
 // 0x002AE4C4 slot 0x0C | slot vf_0x0C of oml::framework::Process
-void BsMenuFriendChat::Initialize()
+oml::framework::Result BsMenuFriendChat::Initialize()
 {
 }
 
 // 0x002AE758 slot 0x18 | slot vf_0x18 of oml::framework::Process
-void BsMenuFriendChat::Finalize()
+oml::framework::Result BsMenuFriendChat::Finalize()
 {
 }
 
 // 0x002AE5CC slot 0x24 | slot vf_0x24 of oml::framework::Process
-void BsMenuFriendChat::Calc()
+oml::framework::Result BsMenuFriendChat::Calc()
 {
 }
 

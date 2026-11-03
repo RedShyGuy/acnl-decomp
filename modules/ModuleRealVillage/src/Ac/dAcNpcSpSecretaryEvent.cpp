@@ -12,7 +12,7 @@ AcNpcSpSecretaryEvent::~AcNpcSpSecretaryEvent()
 }
 
 // ModuleRealVillage.cro +0x00C480 slot 0x24
-void AcNpcSpSecretaryEvent::Calc()
+oml::framework::Result AcNpcSpSecretaryEvent::Calc()
 {
 }
 

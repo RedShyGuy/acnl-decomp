@@ -14,7 +14,7 @@ AcIsFdCicada::~AcIsFdCicada()
 }
 
 // ModuleOutdoor.cro +0x00E698 slot 0x30
-void AcIsFdCicada::Draw()
+oml::framework::Result AcIsFdCicada::Draw()
 {
 }
 

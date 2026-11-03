@@ -13,22 +13,22 @@ BsMenuAudioPlayer::~BsMenuAudioPlayer()
 }
 
 // ModuleIndoor.cro +0x02706C slot 0x0C
-void BsMenuAudioPlayer::Initialize()
+oml::framework::Result BsMenuAudioPlayer::Initialize()
 {
 }
 
 // ModuleIndoor.cro +0x0278E8 slot 0x18
-void BsMenuAudioPlayer::Finalize()
+oml::framework::Result BsMenuAudioPlayer::Finalize()
 {
 }
 
 // ModuleIndoor.cro +0x02777C slot 0x24
-void BsMenuAudioPlayer::Calc()
+oml::framework::Result BsMenuAudioPlayer::Calc()
 {
 }
 
 // ModuleIndoor.cro +0x027008 slot 0x30
-void BsMenuAudioPlayer::Draw()
+oml::framework::Result BsMenuAudioPlayer::Draw()
 {
 }
 

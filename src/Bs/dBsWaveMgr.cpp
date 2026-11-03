@@ -13,22 +13,22 @@ BsWaveMgr::~BsWaveMgr()
 }
 
 // 0x0082067C slot 0x0C | slot vf_0x0C of oml::framework::Process
-void BsWaveMgr::Initialize()
+oml::framework::Result BsWaveMgr::Initialize()
 {
 }
 
 // 0x00820718 slot 0x18 | slot vf_0x18 of oml::framework::Process
-void BsWaveMgr::Finalize()
+oml::framework::Result BsWaveMgr::Finalize()
 {
 }
 
 // 0x006E1B3C slot 0x24 | slot vf_0x24 of oml::framework::Process
-void BsWaveMgr::Calc()
+oml::framework::Result BsWaveMgr::Calc()
 {
 }
 
 // 0x006E1B34 slot 0x30 | slot vf_0x30 of oml::framework::Process
-void BsWaveMgr::Draw()
+oml::framework::Result BsWaveMgr::Draw()
 {
 }
 

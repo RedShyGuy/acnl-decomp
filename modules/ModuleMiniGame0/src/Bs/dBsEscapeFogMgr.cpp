@@ -12,22 +12,22 @@ BsEscapeFogMgr::~BsEscapeFogMgr()
 }
 
 // ModuleMiniGame0.cro +0x0016CC slot 0x0C
-void BsEscapeFogMgr::Initialize()
+oml::framework::Result BsEscapeFogMgr::Initialize()
 {
 }
 
 // ModuleMiniGame0.cro +0x001720 slot 0x18
-void BsEscapeFogMgr::Finalize()
+oml::framework::Result BsEscapeFogMgr::Finalize()
 {
 }
 
 // ModuleMiniGame0.cro +0x001700 slot 0x24
-void BsEscapeFogMgr::Calc()
+oml::framework::Result BsEscapeFogMgr::Calc()
 {
 }
 
 // ModuleMiniGame0.cro +0x0016A8 slot 0x30
-void BsEscapeFogMgr::Draw()
+oml::framework::Result BsEscapeFogMgr::Draw()
 {
 }
 

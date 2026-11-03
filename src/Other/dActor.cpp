@@ -12,7 +12,7 @@ Actor::~Actor()
 }
 
 // 0x0057C528 slot 0x08 | slot vf_0x08 of oml::framework::Process
-void Actor::CanInitialize() const
+bool Actor::CanInitialize() const
 {
 }
 
@@ -22,7 +22,7 @@ void Actor::HandleInitializationResult(oml::framework::Result)
 }
 
 // 0x0057C53C slot 0x14 | slot vf_0x14 of oml::framework::Process
-void Actor::CanFinalize() const
+bool Actor::CanFinalize() const
 {
 }
 
@@ -32,7 +32,7 @@ void Actor::HandleFinalizationResult(oml::framework::Result)
 }
 
 // 0x0057C478 slot 0x20 | slot vf_0x20 of oml::framework::Process
-void Actor::CanCalc() const
+bool Actor::CanCalc() const
 {
 }
 
@@ -42,7 +42,7 @@ void Actor::HandleCalcResult(oml::framework::Result)
 }
 
 // 0x0057C514 slot 0x2C | slot vf_0x2C of oml::framework::Process
-void Actor::CanDraw() const
+bool Actor::CanDraw() const
 {
 }
 

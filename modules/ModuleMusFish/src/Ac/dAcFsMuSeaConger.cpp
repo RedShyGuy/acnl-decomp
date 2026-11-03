@@ -13,12 +13,12 @@ AcFsMuSeaConger::~AcFsMuSeaConger()
 }
 
 // ModuleMusFish.cro +0x00B178 slot 0x18
-void AcFsMuSeaConger::Finalize()
+oml::framework::Result AcFsMuSeaConger::Finalize()
 {
 }
 
 // ModuleMusFish.cro +0x00A984 slot 0x20
-void AcFsMuSeaConger::CanCalc() const
+bool AcFsMuSeaConger::CanCalc() const
 {
 }
 

@@ -13,22 +13,22 @@ BsMenuReaction::~BsMenuReaction()
 }
 
 // 0x0025E6E0 slot 0x0C | slot vf_0x0C of oml::framework::Process
-void BsMenuReaction::Initialize()
+oml::framework::Result BsMenuReaction::Initialize()
 {
 }
 
 // 0x0025F59C slot 0x18 | slot vf_0x18 of oml::framework::Process
-void BsMenuReaction::Finalize()
+oml::framework::Result BsMenuReaction::Finalize()
 {
 }
 
 // 0x0025F1E8 slot 0x24 | slot vf_0x24 of oml::framework::Process
-void BsMenuReaction::Calc()
+oml::framework::Result BsMenuReaction::Calc()
 {
 }
 
 // 0x0025E674 slot 0x30 | slot vf_0x30 of oml::framework::Process
-void BsMenuReaction::Draw()
+oml::framework::Result BsMenuReaction::Draw()
 {
 }
 

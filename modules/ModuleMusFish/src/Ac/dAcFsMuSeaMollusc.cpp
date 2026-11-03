@@ -13,7 +13,7 @@ AcFsMuSeaMollusc::~AcFsMuSeaMollusc()
 }
 
 // ModuleMusFish.cro +0x0148F4 slot 0x20
-void AcFsMuSeaMollusc::CanCalc() const
+bool AcFsMuSeaMollusc::CanCalc() const
 {
 }
 

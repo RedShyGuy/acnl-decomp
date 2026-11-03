@@ -14,6 +14,6 @@ public:
     virtual ~AcNpcSpExchangeMaster(); // ModuleTrain.cro +0x00AA98 slot 0x00
     virtual void Initialize(); // ModuleTrain.cro +0x00D16C slot 0x0C
     virtual void Finalize(); // ModuleTrain.cro +0x00D208 slot 0x18
-    virtual void Calc(); // ModuleTrain.cro +0x00A7D8 slot 0x24
+    virtual oml::framework::Result Calc(); // ModuleTrain.cro +0x00A7D8 slot 0x24
     virtual void Unk0(); // ModuleTrain.cro +0x00C074 slot 0x3C
 };

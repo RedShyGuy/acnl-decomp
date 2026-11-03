@@ -13,22 +13,22 @@ BsGeneralObj::~BsGeneralObj()
 }
 
 // 0x0082067C slot 0x0C | slot vf_0x0C of oml::framework::Process
-void BsGeneralObj::Initialize()
+oml::framework::Result BsGeneralObj::Initialize()
 {
 }
 
 // 0x00820718 slot 0x18 | slot vf_0x18 of oml::framework::Process
-void BsGeneralObj::Finalize()
+oml::framework::Result BsGeneralObj::Finalize()
 {
 }
 
 // 0x001F9434 slot 0x24 | slot vf_0x24 of oml::framework::Process
-void BsGeneralObj::Calc()
+oml::framework::Result BsGeneralObj::Calc()
 {
 }
 
 // 0x001F9410 slot 0x30 | slot vf_0x30 of oml::framework::Process
-void BsGeneralObj::Draw()
+oml::framework::Result BsGeneralObj::Draw()
 {
 }
 

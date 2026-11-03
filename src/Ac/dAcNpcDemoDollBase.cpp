@@ -12,7 +12,7 @@ AcNpcDemoDollBase::~AcNpcDemoDollBase()
 }
 
 // 0x002C5204 slot 0x24 | slot vf_0x24 of oml::framework::Process
-void AcNpcDemoDollBase::Calc()
+oml::framework::Result AcNpcDemoDollBase::Calc()
 {
 }
 

@@ -12,7 +12,7 @@ AcNpcSpShopKinuyo::~AcNpcSpShopKinuyo()
 }
 
 // ModuleShop.cro +0x00D6F8 slot 0x24
-void AcNpcSpShopKinuyo::Calc()
+oml::framework::Result AcNpcSpShopKinuyo::Calc()
 {
 }
 

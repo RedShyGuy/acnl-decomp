@@ -13,22 +13,22 @@ BsWeatherRain::~BsWeatherRain()
 }
 
 // 0x0082067C slot 0x0C | slot vf_0x0C of oml::framework::Process
-void BsWeatherRain::Initialize()
+oml::framework::Result BsWeatherRain::Initialize()
 {
 }
 
 // 0x00820718 slot 0x18 | slot vf_0x18 of oml::framework::Process
-void BsWeatherRain::Finalize()
+oml::framework::Result BsWeatherRain::Finalize()
 {
 }
 
 // 0x0022A420 slot 0x24 | slot vf_0x24 of oml::framework::Process
-void BsWeatherRain::Calc()
+oml::framework::Result BsWeatherRain::Calc()
 {
 }
 
 // 0x0022A3F4 slot 0x30 | slot vf_0x30 of oml::framework::Process
-void BsWeatherRain::Draw()
+oml::framework::Result BsWeatherRain::Draw()
 {
 }
 

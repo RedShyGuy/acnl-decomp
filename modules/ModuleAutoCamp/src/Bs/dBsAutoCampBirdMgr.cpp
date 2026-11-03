@@ -12,22 +12,22 @@ BsAutoCampBirdMgr::~BsAutoCampBirdMgr()
 }
 
 // ModuleAutoCamp.cro +0x009988 slot 0x0C
-void BsAutoCampBirdMgr::Initialize()
+oml::framework::Result BsAutoCampBirdMgr::Initialize()
 {
 }
 
 // ModuleAutoCamp.cro +0x009C70 slot 0x18
-void BsAutoCampBirdMgr::Finalize()
+oml::framework::Result BsAutoCampBirdMgr::Finalize()
 {
 }
 
 // ModuleAutoCamp.cro +0x009B20 slot 0x24
-void BsAutoCampBirdMgr::Calc()
+oml::framework::Result BsAutoCampBirdMgr::Calc()
 {
 }
 
 // ModuleAutoCamp.cro +0x009980 slot 0x30
-void BsAutoCampBirdMgr::Draw()
+oml::framework::Result BsAutoCampBirdMgr::Draw()
 {
 }
 

@@ -14,7 +14,7 @@ AcIsFdBeetle::~AcIsFdBeetle()
 }
 
 // ModuleOutdoor.cro +0x00D8C0 slot 0x30
-void AcIsFdBeetle::Draw()
+oml::framework::Result AcIsFdBeetle::Draw()
 {
 }
 

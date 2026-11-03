@@ -12,22 +12,22 @@ BsSeadParticleDrawMinigame::~BsSeadParticleDrawMinigame()
 }
 
 // 0x00342AE0 slot 0x0C | slot vf_0x0C of oml::framework::Process
-void BsSeadParticleDrawMinigame::Initialize()
+oml::framework::Result BsSeadParticleDrawMinigame::Initialize()
 {
 }
 
 // 0x00342B00 slot 0x18 | slot vf_0x18 of oml::framework::Process
-void BsSeadParticleDrawMinigame::Finalize()
+oml::framework::Result BsSeadParticleDrawMinigame::Finalize()
 {
 }
 
 // 0x00342AFC slot 0x24 | slot vf_0x24 of oml::framework::Process
-void BsSeadParticleDrawMinigame::Calc()
+oml::framework::Result BsSeadParticleDrawMinigame::Calc()
 {
 }
 
 // 0x00342ADC slot 0x30 | slot vf_0x30 of oml::framework::Process
-void BsSeadParticleDrawMinigame::Draw()
+oml::framework::Result BsSeadParticleDrawMinigame::Draw()
 {
 }
 

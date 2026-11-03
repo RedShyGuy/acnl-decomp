@@ -17,9 +17,9 @@ public:
     virtual ~AcPlayer(); // 0x0068F210 slot 0x00 | slot vf_0x00 of oml::framework::Process
     // 0x0068F200 slot 0x04 | slot vf_0x04 of oml::framework::Process (deleting dtor)
     virtual void HandleInitializationResult(oml::framework::Result); // 0x001170A5 slot 0x10 | slot vf_0x10 of oml::framework::Process
-    virtual void CanCalc() const; // 0x0064D6FC slot 0x20 | slot vf_0x20 of oml::framework::Process
-    virtual void Calc(); // 0x0068DB7C slot 0x24 | slot vf_0x24 of oml::framework::Process
-    virtual void Draw(); // 0x0068D44C slot 0x30 | slot vf_0x30 of oml::framework::Process
+    virtual bool CanCalc() const; // 0x0064D6FC slot 0x20 | slot vf_0x20 of oml::framework::Process
+    virtual oml::framework::Result Calc(); // 0x0068DB7C slot 0x24 | slot vf_0x24 of oml::framework::Process
+    virtual oml::framework::Result Draw(); // 0x0068D44C slot 0x30 | slot vf_0x30 of oml::framework::Process
     virtual void vf_0x40(); // 0x00650CFC slot 0x40 | virtual slot, introduced by Actor
     virtual void vf_0x5C(); // 0x007631D4 slot 0x5C | virtual slot, introduced by DemoActor
     virtual void vf_0x78(); // 0x0064DD30 slot 0x78 | virtual slot, introduced by UtlBase<DemoActor>

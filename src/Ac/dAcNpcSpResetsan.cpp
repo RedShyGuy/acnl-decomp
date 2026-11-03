@@ -12,7 +12,7 @@ AcNpcSpResetsan::~AcNpcSpResetsan()
 }
 
 // 0x00281DC0 slot 0x24 | slot vf_0x24 of oml::framework::Process
-void AcNpcSpResetsan::Calc()
+oml::framework::Result AcNpcSpResetsan::Calc()
 {
 }
 

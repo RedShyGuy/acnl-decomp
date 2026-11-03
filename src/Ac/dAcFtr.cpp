@@ -15,17 +15,17 @@ AcFtr::~AcFtr()
 }
 
 // 0x0056F15C slot 0x20 | slot vf_0x20 of oml::framework::Process
-void AcFtr::CanCalc() const
+bool AcFtr::CanCalc() const
 {
 }
 
 // 0x00576834 slot 0x24 | slot vf_0x24 of oml::framework::Process
-void AcFtr::Calc()
+oml::framework::Result AcFtr::Calc()
 {
 }
 
 // 0x005760B4 slot 0x30 | slot vf_0x30 of oml::framework::Process
-void AcFtr::Draw()
+oml::framework::Result AcFtr::Draw()
 {
 }
 

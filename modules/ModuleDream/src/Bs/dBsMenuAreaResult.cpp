@@ -13,22 +13,22 @@ BsMenuAreaResult::~BsMenuAreaResult()
 }
 
 // ModuleDream.cro +0x00758C slot 0x0C
-void BsMenuAreaResult::Initialize()
+oml::framework::Result BsMenuAreaResult::Initialize()
 {
 }
 
 // ModuleDream.cro +0x0079D0 slot 0x18
-void BsMenuAreaResult::Finalize()
+oml::framework::Result BsMenuAreaResult::Finalize()
 {
 }
 
 // ModuleDream.cro +0x00789C slot 0x24
-void BsMenuAreaResult::Calc()
+oml::framework::Result BsMenuAreaResult::Calc()
 {
 }
 
 // ModuleDream.cro +0x007550 slot 0x30
-void BsMenuAreaResult::Draw()
+oml::framework::Result BsMenuAreaResult::Draw()
 {
 }
 

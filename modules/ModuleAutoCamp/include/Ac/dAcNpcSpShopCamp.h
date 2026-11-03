@@ -12,5 +12,5 @@ public:
     class TalkRecept;
     AcNpcSpShopCamp(); // ctor address unknown
     virtual ~AcNpcSpShopCamp(); // ModuleAutoCamp.cro +0x008074 slot 0x00
-    virtual void Calc(); // ModuleAutoCamp.cro +0x007988 slot 0x24
+    virtual oml::framework::Result Calc(); // ModuleAutoCamp.cro +0x007988 slot 0x24
 };

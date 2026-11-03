@@ -10,6 +10,6 @@ public:
     class TalkRecept;
     AcNpcSpSisyo(); // ctor address unknown
     virtual ~AcNpcSpSisyo(); // ModuleClub.cro +0x0035C4 slot 0x00
-    virtual void Calc(); // ModuleClub.cro +0x0031B8 slot 0x24
-    virtual void Draw(); // ModuleClub.cro +0x0031B4 slot 0x30
+    virtual oml::framework::Result Calc(); // ModuleClub.cro +0x0031B8 slot 0x24
+    virtual oml::framework::Result Draw(); // ModuleClub.cro +0x0031B4 slot 0x30
 };

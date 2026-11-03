@@ -12,7 +12,7 @@ AcNpcSp::~AcNpcSp()
 }
 
 // 0x00605C30 slot 0x24 | slot vf_0x24 of oml::framework::Process
-void AcNpcSp::Calc()
+oml::framework::Result AcNpcSp::Calc()
 {
 }
 

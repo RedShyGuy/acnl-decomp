@@ -11,9 +11,9 @@ class BsMenuMapShoppingStreet : public ::Base, public ::state::Mode<BsMenuMapSho
 public:
     BsMenuMapShoppingStreet(); // ctor address unknown
     virtual ~BsMenuMapShoppingStreet(); // ModuleDowntown.cro +0x0089C0 slot 0x00
-    virtual void Initialize(); // ModuleDowntown.cro +0x00EEA8 slot 0x0C
-    virtual void Finalize(); // ModuleDowntown.cro +0x00FA7C slot 0x18
-    virtual void Calc(); // ModuleDowntown.cro +0x00F434 slot 0x24
-    virtual void Draw(); // ModuleDowntown.cro +0x00EE70 slot 0x30
+    virtual oml::framework::Result Initialize(); // ModuleDowntown.cro +0x00EEA8 slot 0x0C
+    virtual oml::framework::Result Finalize(); // ModuleDowntown.cro +0x00FA7C slot 0x18
+    virtual oml::framework::Result Calc(); // ModuleDowntown.cro +0x00F434 slot 0x24
+    virtual oml::framework::Result Draw(); // ModuleDowntown.cro +0x00EE70 slot 0x30
     virtual void Unk0(); // ModuleDowntown.cro +0x010A1C slot 0x3C
 };

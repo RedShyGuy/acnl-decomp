@@ -14,7 +14,7 @@ AcIsFdSpider::~AcIsFdSpider()
 }
 
 // ModuleOutdoor.cro +0x0121E4 slot 0x30
-void AcIsFdSpider::Draw()
+oml::framework::Result AcIsFdSpider::Draw()
 {
 }
 

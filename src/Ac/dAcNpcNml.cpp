@@ -12,7 +12,7 @@ AcNpcNml::~AcNpcNml()
 }
 
 // 0x00632744 slot 0x30 | slot vf_0x30 of oml::framework::Process
-void AcNpcNml::Draw()
+oml::framework::Result AcNpcNml::Draw()
 {
 }
 

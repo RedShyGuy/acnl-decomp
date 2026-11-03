@@ -13,7 +13,7 @@ AcFsMuSeaScallop::~AcFsMuSeaScallop()
 }
 
 // ModuleMusFish.cro +0x014F98 slot 0x20
-void AcFsMuSeaScallop::CanCalc() const
+bool AcFsMuSeaScallop::CanCalc() const
 {
 }
 

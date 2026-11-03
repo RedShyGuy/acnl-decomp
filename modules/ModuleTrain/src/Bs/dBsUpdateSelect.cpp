@@ -14,22 +14,22 @@ BsUpdateSelect::~BsUpdateSelect()
 }
 
 // ModuleTrain.cro +0x005AFC slot 0x0C
-void BsUpdateSelect::Initialize()
+oml::framework::Result BsUpdateSelect::Initialize()
 {
 }
 
 // ModuleTrain.cro +0x005EE4 slot 0x18
-void BsUpdateSelect::Finalize()
+oml::framework::Result BsUpdateSelect::Finalize()
 {
 }
 
 // ModuleTrain.cro +0x005E40 slot 0x24
-void BsUpdateSelect::Calc()
+oml::framework::Result BsUpdateSelect::Calc()
 {
 }
 
 // ModuleTrain.cro +0x005AE0 slot 0x30
-void BsUpdateSelect::Draw()
+oml::framework::Result BsUpdateSelect::Draw()
 {
 }
 

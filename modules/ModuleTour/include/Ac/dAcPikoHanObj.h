@@ -14,10 +14,10 @@ class AcPikoHanObj : public ::Actor, public ::ResourceGetSkeletal, public ::Obje
 public:
     AcPikoHanObj(); // ctor address unknown
     virtual ~AcPikoHanObj(); // ModuleTour.cro +0x007250 slot 0x00
-    virtual void Initialize(); // ModuleTour.cro +0x00205C slot 0x0C
-    virtual void Finalize(); // ModuleTour.cro +0x002480 slot 0x18
-    virtual void CanCalc() const; // ModuleTour.cro +0x001368 slot 0x20
-    virtual void Calc(); // ModuleTour.cro +0x002224 slot 0x24
+    virtual oml::framework::Result Initialize(); // ModuleTour.cro +0x00205C slot 0x0C
+    virtual oml::framework::Result Finalize(); // ModuleTour.cro +0x002480 slot 0x18
+    virtual bool CanCalc() const; // ModuleTour.cro +0x001368 slot 0x20
+    virtual oml::framework::Result Calc(); // ModuleTour.cro +0x002224 slot 0x24
     virtual void HandleCalcResult(oml::framework::Result); // ModuleTour.cro +0x001428 slot 0x28
-    virtual void Draw(); // ModuleTour.cro +0x002008 slot 0x30
+    virtual oml::framework::Result Draw(); // ModuleTour.cro +0x002008 slot 0x30
 };

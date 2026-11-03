@@ -12,7 +12,7 @@ AcNpcSpTunekichiEvent::~AcNpcSpTunekichiEvent()
 }
 
 // ModuleRealVillage.cro +0x00D8E4 slot 0x24
-void AcNpcSpTunekichiEvent::Calc()
+oml::framework::Result AcNpcSpTunekichiEvent::Calc()
 {
 }
 

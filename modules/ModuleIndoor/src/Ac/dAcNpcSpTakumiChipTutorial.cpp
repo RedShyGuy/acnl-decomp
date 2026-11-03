@@ -12,7 +12,7 @@ AcNpcSpTakumiChipTutorial::~AcNpcSpTakumiChipTutorial()
 }
 
 // ModuleIndoor.cro +0x040F6C slot 0x24
-void AcNpcSpTakumiChipTutorial::Calc()
+oml::framework::Result AcNpcSpTakumiChipTutorial::Calc()
 {
 }
 

@@ -9,6 +9,6 @@ class BsLightHemiSphereOut : public ::BsLightHemiSphereBase
 public:
     BsLightHemiSphereOut(); // ctor address unknown
     virtual ~BsLightHemiSphereOut(); // ModuleOutdoor.cro +0x05E124 slot 0x00
-    virtual void Initialize(); // ModuleOutdoor.cro +0x05DF1C slot 0x0C
-    virtual void Calc(); // ModuleOutdoor.cro +0x05E070 slot 0x24
+    virtual oml::framework::Result Initialize(); // ModuleOutdoor.cro +0x05DF1C slot 0x0C
+    virtual oml::framework::Result Calc(); // ModuleOutdoor.cro +0x05E070 slot 0x24
 };

@@ -13,22 +13,22 @@ BsMenuQRReader::~BsMenuQRReader()
 }
 
 // ModuleShop.cro +0x005470 slot 0x0C
-void BsMenuQRReader::Initialize()
+oml::framework::Result BsMenuQRReader::Initialize()
 {
 }
 
 // ModuleShop.cro +0x005D58 slot 0x18
-void BsMenuQRReader::Finalize()
+oml::framework::Result BsMenuQRReader::Finalize()
 {
 }
 
 // ModuleShop.cro +0x005C14 slot 0x24
-void BsMenuQRReader::Calc()
+oml::framework::Result BsMenuQRReader::Calc()
 {
 }
 
 // ModuleShop.cro +0x0053FC slot 0x30
-void BsMenuQRReader::Draw()
+oml::framework::Result BsMenuQRReader::Draw()
 {
 }
 

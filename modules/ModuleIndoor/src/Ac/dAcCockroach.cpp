@@ -14,22 +14,22 @@ AcCockroach::~AcCockroach()
 }
 
 // ModuleIndoor.cro +0x006FD0 slot 0x0C
-void AcCockroach::Initialize()
+oml::framework::Result AcCockroach::Initialize()
 {
 }
 
 // ModuleIndoor.cro +0x007268 slot 0x18
-void AcCockroach::Finalize()
+oml::framework::Result AcCockroach::Finalize()
 {
 }
 
 // ModuleIndoor.cro +0x00603C slot 0x20
-void AcCockroach::CanCalc() const
+bool AcCockroach::CanCalc() const
 {
 }
 
 // ModuleIndoor.cro +0x007150 slot 0x24
-void AcCockroach::Calc()
+oml::framework::Result AcCockroach::Calc()
 {
 }
 
@@ -39,7 +39,7 @@ void AcCockroach::HandleCalcResult(oml::framework::Result)
 }
 
 // ModuleIndoor.cro +0x006FA8 slot 0x30
-void AcCockroach::Draw()
+oml::framework::Result AcCockroach::Draw()
 {
 }
 

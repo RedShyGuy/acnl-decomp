@@ -12,10 +12,10 @@ class BsMenuTab : public ::Base, public ::state::Mode<BsMenuTab>
 public:
     virtual ~BsMenuTab(); // 0x006D9AB8 slot 0x00 | libgarden
     // 0x006D9AA8 slot 0x04 | slot vf_0x04 of oml::framework::Process (deleting dtor)
-    virtual void Initialize(); // 0x006D968C slot 0x0C | libgarden
-    virtual void Finalize(); // 0x006D98C0 slot 0x18 | libgarden
-    virtual void Calc(); // 0x006D978C slot 0x24 | libgarden
-    virtual void Draw(); // 0x006D939C slot 0x30 | libgarden
+    virtual oml::framework::Result Initialize(); // 0x006D968C slot 0x0C | libgarden
+    virtual oml::framework::Result Finalize(); // 0x006D98C0 slot 0x18 | libgarden
+    virtual oml::framework::Result Calc(); // 0x006D978C slot 0x24 | libgarden
+    virtual oml::framework::Result Draw(); // 0x006D939C slot 0x30 | libgarden
     void UpdateIn(); // 0x006D59E4 | libgarden [tier A]
     void CheckInput(); // 0x006D5EF0 | libgarden [tier A]
     void State_MenuIn(); // 0x006D5F34 | libgarden [tier A]

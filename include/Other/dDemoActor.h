@@ -12,9 +12,9 @@ public:
     DemoActor(); // ctor address unknown
     virtual ~DemoActor(); // 0x006E535C slot 0x00 | slot vf_0x00 of oml::framework::Process
     // 0x006E533C slot 0x04 | slot vf_0x04 of oml::framework::Process (deleting dtor)
-    virtual void CanInitialize() const; // 0x006E5244 slot 0x08 | slot vf_0x08 of oml::framework::Process
+    virtual bool CanInitialize() const; // 0x006E5244 slot 0x08 | slot vf_0x08 of oml::framework::Process
     virtual void HandleInitializationResult(oml::framework::Result); // 0x00307C80 slot 0x10 | slot vf_0x10 of oml::framework::Process
-    virtual void CanFinalize() const; // 0x006E528C slot 0x14 | slot vf_0x14 of oml::framework::Process
+    virtual bool CanFinalize() const; // 0x006E528C slot 0x14 | slot vf_0x14 of oml::framework::Process
     virtual void vf_0x44(); // 0x00770824 slot 0x44 | virtual slot, introduced by AcStrcCampingCar
     virtual void vf_0x48(); // 0x0077082C slot 0x48 | virtual slot, introduced by DemoActor
     virtual void vf_0x4C(); // 0x00770578 slot 0x4C | virtual slot, introduced by AcStrcCampingCar

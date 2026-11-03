@@ -11,7 +11,7 @@ public:
     BsMenuInputComment(); // ctor address unknown
     virtual ~BsMenuInputComment(); // 0x002DA588 slot 0x00 | slot vf_0x00 of oml::framework::Process
     // 0x002DA56C slot 0x04 | slot vf_0x04 of oml::framework::Process (deleting dtor)
-    virtual void Initialize(); // 0x002DA1E8 slot 0x0C | slot vf_0x0C of oml::framework::Process
-    virtual void Finalize(); // 0x002DA4B0 slot 0x18 | slot vf_0x18 of oml::framework::Process
-    virtual void Calc(); // 0x002DA354 slot 0x24 | slot vf_0x24 of oml::framework::Process
+    virtual oml::framework::Result Initialize(); // 0x002DA1E8 slot 0x0C | slot vf_0x0C of oml::framework::Process
+    virtual oml::framework::Result Finalize(); // 0x002DA4B0 slot 0x18 | slot vf_0x18 of oml::framework::Process
+    virtual oml::framework::Result Calc(); // 0x002DA354 slot 0x24 | slot vf_0x24 of oml::framework::Process
 };

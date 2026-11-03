@@ -18,12 +18,12 @@ void AcNpc::HandleInitializationResult(oml::framework::Result)
 }
 
 // 0x0057AF5C slot 0x24 | slot vf_0x24 of oml::framework::Process
-void AcNpc::Calc()
+oml::framework::Result AcNpc::Calc()
 {
 }
 
 // 0x0057ADCC slot 0x30 | slot vf_0x30 of oml::framework::Process
-void AcNpc::Draw()
+oml::framework::Result AcNpc::Draw()
 {
 }
 

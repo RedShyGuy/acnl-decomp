@@ -11,8 +11,8 @@ class BsMenuCamper : public ::MenuBase, public ::state::Mode<BsMenuCamper>
 public:
     BsMenuCamper(); // ctor address unknown
     virtual ~BsMenuCamper(); // ModuleIndoor.cro +0x035124 slot 0x00
-    virtual void Initialize(); // ModuleIndoor.cro +0x00E1F0 slot 0x0C
-    virtual void Finalize(); // ModuleIndoor.cro +0x00E8B8 slot 0x18
-    virtual void Calc(); // ModuleIndoor.cro +0x00E648 slot 0x24
-    virtual void Draw(); // ModuleIndoor.cro +0x00E1C0 slot 0x30
+    virtual oml::framework::Result Initialize(); // ModuleIndoor.cro +0x00E1F0 slot 0x0C
+    virtual oml::framework::Result Finalize(); // ModuleIndoor.cro +0x00E8B8 slot 0x18
+    virtual oml::framework::Result Calc(); // ModuleIndoor.cro +0x00E648 slot 0x24
+    virtual oml::framework::Result Draw(); // ModuleIndoor.cro +0x00E1C0 slot 0x30
 };

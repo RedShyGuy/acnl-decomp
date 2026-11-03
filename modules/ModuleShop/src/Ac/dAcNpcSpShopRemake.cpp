@@ -12,7 +12,7 @@ AcNpcSpShopRemake::~AcNpcSpShopRemake()
 }
 
 // ModuleShop.cro +0x010CE0 slot 0x24
-void AcNpcSpShopRemake::Calc()
+oml::framework::Result AcNpcSpShopRemake::Calc()
 {
 }
 

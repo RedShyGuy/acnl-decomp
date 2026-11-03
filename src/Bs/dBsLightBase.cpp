@@ -12,22 +12,22 @@ BsLightBase::~BsLightBase()
 }
 
 // 0x005220B8 slot 0x0C | slot vf_0x0C of oml::framework::Process
-void BsLightBase::Initialize()
+oml::framework::Result BsLightBase::Initialize()
 {
 }
 
 // 0x005220D8 slot 0x18 | slot vf_0x18 of oml::framework::Process
-void BsLightBase::Finalize()
+oml::framework::Result BsLightBase::Finalize()
 {
 }
 
 // 0x005220C4 slot 0x24 | slot vf_0x24 of oml::framework::Process
-void BsLightBase::Calc()
+oml::framework::Result BsLightBase::Calc()
 {
 }
 
 // 0x005220AC slot 0x30 | slot vf_0x30 of oml::framework::Process
-void BsLightBase::Draw()
+oml::framework::Result BsLightBase::Draw()
 {
 }
 

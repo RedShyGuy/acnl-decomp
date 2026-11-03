@@ -9,7 +9,7 @@ class BsSealifeMuseumMgr : public ::Base
 public:
     BsSealifeMuseumMgr(); // ctor address unknown
     virtual ~BsSealifeMuseumMgr(); // ModuleMusFish.cro +0x016E80 slot 0x00
-    virtual void Initialize(); // ModuleMusFish.cro +0x016960 slot 0x0C
-    virtual void Finalize(); // ModuleMusFish.cro +0x016D1C slot 0x18
-    virtual void Calc(); // ModuleMusFish.cro +0x016CE8 slot 0x24
+    virtual oml::framework::Result Initialize(); // ModuleMusFish.cro +0x016960 slot 0x0C
+    virtual oml::framework::Result Finalize(); // ModuleMusFish.cro +0x016D1C slot 0x18
+    virtual oml::framework::Result Calc(); // ModuleMusFish.cro +0x016CE8 slot 0x24
 };

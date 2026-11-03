@@ -12,22 +12,22 @@ BsTakumiFlowLoader::~BsTakumiFlowLoader()
 }
 
 // ModuleIncSave.cro +0x006DA4 slot 0x0C
-void BsTakumiFlowLoader::Initialize()
+oml::framework::Result BsTakumiFlowLoader::Initialize()
 {
 }
 
 // ModuleIncSave.cro +0x006DF4 slot 0x18
-void BsTakumiFlowLoader::Finalize()
+oml::framework::Result BsTakumiFlowLoader::Finalize()
 {
 }
 
 // ModuleIncSave.cro +0x006DEC slot 0x24
-void BsTakumiFlowLoader::Calc()
+oml::framework::Result BsTakumiFlowLoader::Calc()
 {
 }
 
 // ModuleIncSave.cro +0x006D9C slot 0x30
-void BsTakumiFlowLoader::Draw()
+oml::framework::Result BsTakumiFlowLoader::Draw()
 {
 }
 

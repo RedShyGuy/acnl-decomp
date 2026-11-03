@@ -10,5 +10,5 @@ public:
     class TalkRecept;
     AcNpcSpTotakeke(); // ctor address unknown
     virtual ~AcNpcSpTotakeke(); // ModuleClub.cro +0x008208 slot 0x00
-    virtual void Calc(); // ModuleClub.cro +0x007C70 slot 0x24
+    virtual oml::framework::Result Calc(); // ModuleClub.cro +0x007C70 slot 0x24
 };

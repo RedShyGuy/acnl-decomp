@@ -13,22 +13,22 @@ BsMenuCredit::~BsMenuCredit()
 }
 
 // ModuleClub.cro +0x003CD4 slot 0x0C
-void BsMenuCredit::Initialize()
+oml::framework::Result BsMenuCredit::Initialize()
 {
 }
 
 // ModuleClub.cro +0x00438C slot 0x18
-void BsMenuCredit::Finalize()
+oml::framework::Result BsMenuCredit::Finalize()
 {
 }
 
 // ModuleClub.cro +0x003FC0 slot 0x24
-void BsMenuCredit::Calc()
+oml::framework::Result BsMenuCredit::Calc()
 {
 }
 
 // ModuleClub.cro +0x003C6C slot 0x30
-void BsMenuCredit::Draw()
+oml::framework::Result BsMenuCredit::Draw()
 {
 }
 

@@ -23,7 +23,7 @@ void esc::AcNpcEscape::Finalize()
 }
 
 // ModuleMiniGame0.cro +0x00E6B8 slot 0x24
-void esc::AcNpcEscape::Calc()
+oml::framework::Result esc::AcNpcEscape::Calc()
 {
 }
 

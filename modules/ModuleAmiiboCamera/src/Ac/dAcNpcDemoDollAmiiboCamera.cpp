@@ -22,12 +22,12 @@ void AcNpcDemoDollAmiiboCamera::Finalize()
 }
 
 // ModuleAmiiboCamera.cro +0x00F590 slot 0x24
-void AcNpcDemoDollAmiiboCamera::Calc()
+oml::framework::Result AcNpcDemoDollAmiiboCamera::Calc()
 {
 }
 
 // ModuleAmiiboCamera.cro +0x00F484 slot 0x30
-void AcNpcDemoDollAmiiboCamera::Draw()
+oml::framework::Result AcNpcDemoDollAmiiboCamera::Draw()
 {
 }
 

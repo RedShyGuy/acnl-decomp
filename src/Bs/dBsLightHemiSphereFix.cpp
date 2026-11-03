@@ -12,12 +12,12 @@ BsLightHemiSphereFix::~BsLightHemiSphereFix()
 }
 
 // 0x0030571C slot 0x0C | slot vf_0x0C of oml::framework::Process
-void BsLightHemiSphereFix::Initialize()
+oml::framework::Result BsLightHemiSphereFix::Initialize()
 {
 }
 
 // 0x00305CDC slot 0x24 | slot vf_0x24 of oml::framework::Process
-void BsLightHemiSphereFix::Calc()
+oml::framework::Result BsLightHemiSphereFix::Calc()
 {
 }
 

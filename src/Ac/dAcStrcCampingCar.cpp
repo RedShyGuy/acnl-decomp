@@ -18,7 +18,7 @@ void AcStrcCampingCar::vf_0x04()
 }
 
 // 0x006E5244 slot 0x08 | slot vf_0x08 of oml::framework::Process
-void AcStrcCampingCar::CanInitialize() const
+bool AcStrcCampingCar::CanInitialize() const
 {
 }
 
@@ -33,7 +33,7 @@ void AcStrcCampingCar::HandleInitializationResult(oml::framework::Result)
 }
 
 // 0x006E528C slot 0x14 | slot vf_0x14 of oml::framework::Process
-void AcStrcCampingCar::CanFinalize() const
+bool AcStrcCampingCar::CanFinalize() const
 {
 }
 
@@ -48,7 +48,7 @@ void AcStrcCampingCar::HandleFinalizationResult(oml::framework::Result)
 }
 
 // 0x0057C478 slot 0x20 | slot vf_0x20 of oml::framework::Process
-void AcStrcCampingCar::CanCalc() const
+bool AcStrcCampingCar::CanCalc() const
 {
 }
 
@@ -63,7 +63,7 @@ void AcStrcCampingCar::HandleCalcResult(oml::framework::Result)
 }
 
 // 0x0057C514 slot 0x2C | slot vf_0x2C of oml::framework::Process
-void AcStrcCampingCar::CanDraw() const
+bool AcStrcCampingCar::CanDraw() const
 {
 }
 

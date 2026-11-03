@@ -13,22 +13,22 @@ BsMenuMapSelect::~BsMenuMapSelect()
 }
 
 // ModuleTrain.cro +0x008D94 slot 0x0C
-void BsMenuMapSelect::Initialize()
+oml::framework::Result BsMenuMapSelect::Initialize()
 {
 }
 
 // ModuleTrain.cro +0x00918C slot 0x18
-void BsMenuMapSelect::Finalize()
+oml::framework::Result BsMenuMapSelect::Finalize()
 {
 }
 
 // ModuleTrain.cro +0x0090C0 slot 0x24
-void BsMenuMapSelect::Calc()
+oml::framework::Result BsMenuMapSelect::Calc()
 {
 }
 
 // ModuleTrain.cro +0x008D5C slot 0x30
-void BsMenuMapSelect::Draw()
+oml::framework::Result BsMenuMapSelect::Draw()
 {
 }
 

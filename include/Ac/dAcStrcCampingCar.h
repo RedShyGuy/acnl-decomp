@@ -12,16 +12,16 @@ public:
     AcStrcCampingCar(); // ctor candidate(s) 0x002AA0A0 (unverified)
     virtual void vf_0x00(); // 0x002AA228 slot 0x00 | virtual slot, introduced by AcStrcCampingCar
     virtual void vf_0x04(); // 0x002AA1A8 slot 0x04 | virtual slot, introduced by AcStrcCampingCar
-    virtual void CanInitialize() const; // 0x006E5244 slot 0x08 | slot vf_0x08 of oml::framework::Process
+    virtual bool CanInitialize() const; // 0x006E5244 slot 0x08 | slot vf_0x08 of oml::framework::Process
     virtual void vf_0x0C(); // 0x00820810 slot 0x0C | virtual slot, introduced by AcStrcCampingCar
     virtual void HandleInitializationResult(oml::framework::Result); // 0x00307C80 slot 0x10 | slot vf_0x10 of oml::framework::Process
-    virtual void CanFinalize() const; // 0x006E528C slot 0x14 | slot vf_0x14 of oml::framework::Process
+    virtual bool CanFinalize() const; // 0x006E528C slot 0x14 | slot vf_0x14 of oml::framework::Process
     virtual void vf_0x18(); // 0x008208AC slot 0x18 | virtual slot, introduced by AcStrcCampingCar
     virtual void HandleFinalizationResult(oml::framework::Result); // 0x0057C474 slot 0x1C | slot vf_0x1C of oml::framework::Process
-    virtual void CanCalc() const; // 0x0057C478 slot 0x20 | slot vf_0x20 of oml::framework::Process
+    virtual bool CanCalc() const; // 0x0057C478 slot 0x20 | slot vf_0x20 of oml::framework::Process
     virtual void vf_0x24(); // 0x002A9DF4 slot 0x24 | virtual slot, introduced by AcStrcCampingCar
     virtual void HandleCalcResult(oml::framework::Result); // 0x0057C50C slot 0x28 | slot vf_0x28 of oml::framework::Process
-    virtual void CanDraw() const; // 0x0057C514 slot 0x2C | slot vf_0x2C of oml::framework::Process
+    virtual bool CanDraw() const; // 0x0057C514 slot 0x2C | slot vf_0x2C of oml::framework::Process
     virtual void vf_0x30(); // 0x002A9DD0 slot 0x30 | virtual slot, introduced by AcStrcCampingCar
     virtual void ProcessDrawResult(oml::framework::Result); // 0x005220E4 slot 0x34 | slot vf_0x34 of oml::framework::Process
     virtual void OnNotify(); // 0x00521710 slot 0x38 | libgarden

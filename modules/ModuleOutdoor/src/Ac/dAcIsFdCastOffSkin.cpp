@@ -14,7 +14,7 @@ AcIsFdCastOffSkin::~AcIsFdCastOffSkin()
 }
 
 // ModuleOutdoor.cro +0x04E7A0 slot 0x30
-void AcIsFdCastOffSkin::Draw()
+oml::framework::Result AcIsFdCastOffSkin::Draw()
 {
 }
 

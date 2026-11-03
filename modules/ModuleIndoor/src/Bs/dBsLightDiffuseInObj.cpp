@@ -12,22 +12,22 @@ BsLightDiffuseInObj::~BsLightDiffuseInObj()
 }
 
 // ModuleIndoor.cro +0x038CAC slot 0x0C
-void BsLightDiffuseInObj::Initialize()
+oml::framework::Result BsLightDiffuseInObj::Initialize()
 {
 }
 
 // ModuleIndoor.cro +0x038E00 slot 0x18
-void BsLightDiffuseInObj::Finalize()
+oml::framework::Result BsLightDiffuseInObj::Finalize()
 {
 }
 
 // ModuleIndoor.cro +0x038DE0 slot 0x24
-void BsLightDiffuseInObj::Calc()
+oml::framework::Result BsLightDiffuseInObj::Calc()
 {
 }
 
 // ModuleIndoor.cro +0x038C9C slot 0x30
-void BsLightDiffuseInObj::Draw()
+oml::framework::Result BsLightDiffuseInObj::Draw()
 {
 }
 

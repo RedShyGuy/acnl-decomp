@@ -12,17 +12,17 @@ BsLightHemiSphereClub::~BsLightHemiSphereClub()
 }
 
 // ModuleClub.cro +0x01061C slot 0x0C
-void BsLightHemiSphereClub::Initialize()
+oml::framework::Result BsLightHemiSphereClub::Initialize()
 {
 }
 
 // ModuleClub.cro +0x01098C slot 0x18
-void BsLightHemiSphereClub::Finalize()
+oml::framework::Result BsLightHemiSphereClub::Finalize()
 {
 }
 
 // ModuleClub.cro +0x010964 slot 0x24
-void BsLightHemiSphereClub::Calc()
+oml::framework::Result BsLightHemiSphereClub::Calc()
 {
 }
 

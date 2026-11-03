@@ -11,10 +11,10 @@ class BsMenuAudioPlayer : public ::MenuBase, public ::state::Mode<BsMenuAudioPla
 public:
     BsMenuAudioPlayer(); // ctor address unknown
     virtual ~BsMenuAudioPlayer(); // ModuleIndoor.cro +0x030B40 slot 0x00
-    virtual void Initialize(); // ModuleIndoor.cro +0x02706C slot 0x0C
-    virtual void Finalize(); // ModuleIndoor.cro +0x0278E8 slot 0x18
-    virtual void Calc(); // ModuleIndoor.cro +0x02777C slot 0x24
-    virtual void Draw(); // ModuleIndoor.cro +0x027008 slot 0x30
+    virtual oml::framework::Result Initialize(); // ModuleIndoor.cro +0x02706C slot 0x0C
+    virtual oml::framework::Result Finalize(); // ModuleIndoor.cro +0x0278E8 slot 0x18
+    virtual oml::framework::Result Calc(); // ModuleIndoor.cro +0x02777C slot 0x24
+    virtual oml::framework::Result Draw(); // ModuleIndoor.cro +0x027008 slot 0x30
     virtual void FUN_006ab3d8(); // ModuleIndoor.cro +0x055C68 slot 0x40
     virtual void OnClose(); // ModuleIndoor.cro +0x055C74 slot 0x44
     virtual void FUN_006ab3f4(); // ModuleIndoor.cro +0x055C80 slot 0x48

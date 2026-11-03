@@ -22,7 +22,7 @@ public:
     AcInsectCommon(); // ctor address unknown
     virtual ~AcInsectCommon(); // 0x0024FA60 slot 0x00 | slot vf_0x00 of oml::framework::Process
     // 0x0024FA20 slot 0x04 | slot vf_0x04 of oml::framework::Process (deleting dtor)
-    virtual void CanCalc() const; // 0x0024F7F4 slot 0x20 | slot vf_0x20 of oml::framework::Process
+    virtual bool CanCalc() const; // 0x0024F7F4 slot 0x20 | slot vf_0x20 of oml::framework::Process
     virtual void vf_0x44(); // 0x007191BC slot 0x44 | virtual slot, introduced by AcObjectBase
     virtual void vf_0x50(); // 0x002D5F2C slot 0x50 | virtual slot, introduced by AcObjectBase
     virtual void vf_0x58(); // 0x0024F8CC slot 0x58 | virtual slot, introduced by AcObjectBase

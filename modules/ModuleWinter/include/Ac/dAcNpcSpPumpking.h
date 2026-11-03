@@ -10,5 +10,5 @@ public:
     class TalkRecept;
     AcNpcSpPumpking(); // ctor address unknown
     virtual ~AcNpcSpPumpking(); // ModuleWinter.cro +0x0104E4 slot 0x00
-    virtual void Calc(); // ModuleWinter.cro +0x01008C slot 0x24
+    virtual oml::framework::Result Calc(); // ModuleWinter.cro +0x01008C slot 0x24
 };

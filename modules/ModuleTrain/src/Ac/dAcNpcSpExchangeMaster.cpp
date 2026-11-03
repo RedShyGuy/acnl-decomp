@@ -23,7 +23,7 @@ void AcNpcSpExchangeMaster::Finalize()
 }
 
 // ModuleTrain.cro +0x00A7D8 slot 0x24
-void AcNpcSpExchangeMaster::Calc()
+oml::framework::Result AcNpcSpExchangeMaster::Calc()
 {
 }
 

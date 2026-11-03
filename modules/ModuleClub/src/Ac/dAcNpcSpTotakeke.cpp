@@ -12,7 +12,7 @@ AcNpcSpTotakeke::~AcNpcSpTotakeke()
 }
 
 // ModuleClub.cro +0x007C70 slot 0x24
-void AcNpcSpTotakeke::Calc()
+oml::framework::Result AcNpcSpTotakeke::Calc()
 {
 }
 

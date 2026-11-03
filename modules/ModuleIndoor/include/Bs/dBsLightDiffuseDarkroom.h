@@ -9,7 +9,7 @@ class BsLightDiffuseDarkroom : public ::BsLightFixBase
 public:
     BsLightDiffuseDarkroom(); // ctor address unknown
     virtual ~BsLightDiffuseDarkroom(); // ModuleIndoor.cro +0x03E95C slot 0x00
-    virtual void Initialize(); // ModuleIndoor.cro +0x03E850 slot 0x0C
-    virtual void Calc(); // ModuleIndoor.cro +0x03E918 slot 0x24
+    virtual oml::framework::Result Initialize(); // ModuleIndoor.cro +0x03E850 slot 0x0C
+    virtual oml::framework::Result Calc(); // ModuleIndoor.cro +0x03E918 slot 0x24
     virtual void Unk0(); // ModuleIndoor.cro +0x05939C slot 0x3C
 };

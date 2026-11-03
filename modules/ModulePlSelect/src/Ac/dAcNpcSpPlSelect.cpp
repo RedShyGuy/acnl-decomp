@@ -22,7 +22,7 @@ void AcNpcSpPlSelect::Finalize()
 }
 
 // ModulePlSelect.cro +0x0039A0 slot 0x24
-void AcNpcSpPlSelect::Calc()
+oml::framework::Result AcNpcSpPlSelect::Calc()
 {
 }
 

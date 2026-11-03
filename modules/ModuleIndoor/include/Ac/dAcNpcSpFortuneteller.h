@@ -10,6 +10,6 @@ public:
     class TalkRecept;
     AcNpcSpFortuneteller(); // ctor address unknown
     virtual ~AcNpcSpFortuneteller(); // ModuleIndoor.cro +0x03B6C4 slot 0x00
-    virtual void Calc(); // ModuleIndoor.cro +0x03B1F0 slot 0x24
-    virtual void Draw(); // ModuleIndoor.cro +0x03B124 slot 0x30
+    virtual oml::framework::Result Calc(); // ModuleIndoor.cro +0x03B1F0 slot 0x24
+    virtual oml::framework::Result Draw(); // ModuleIndoor.cro +0x03B124 slot 0x30
 };

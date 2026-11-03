@@ -12,22 +12,22 @@ BsLightHemiSphereBase::~BsLightHemiSphereBase()
 }
 
 // 0x00325A84 slot 0x0C | slot vf_0x0C of oml::framework::Process
-void BsLightHemiSphereBase::Initialize()
+oml::framework::Result BsLightHemiSphereBase::Initialize()
 {
 }
 
 // 0x00325B64 slot 0x18 | slot vf_0x18 of oml::framework::Process
-void BsLightHemiSphereBase::Finalize()
+oml::framework::Result BsLightHemiSphereBase::Finalize()
 {
 }
 
 // 0x00325B28 slot 0x24 | slot vf_0x24 of oml::framework::Process
-void BsLightHemiSphereBase::Calc()
+oml::framework::Result BsLightHemiSphereBase::Calc()
 {
 }
 
 // 0x00325A30 slot 0x30 | slot vf_0x30 of oml::framework::Process
-void BsLightHemiSphereBase::Draw()
+oml::framework::Result BsLightHemiSphereBase::Draw()
 {
 }
 

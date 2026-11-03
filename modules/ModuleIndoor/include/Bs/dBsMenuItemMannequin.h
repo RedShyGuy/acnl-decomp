@@ -13,9 +13,9 @@ class BsMenuItemMannequin : public ::MenuBase, public ::script::ITalkRecept, pub
 public:
     BsMenuItemMannequin(); // ctor address unknown
     virtual ~BsMenuItemMannequin(); // ModuleIndoor.cro +0x030510 slot 0x00
-    virtual void Initialize(); // ModuleIndoor.cro +0x0399E4 slot 0x0C
-    virtual void Finalize(); // ModuleIndoor.cro +0x039E28 slot 0x18
-    virtual void Calc(); // ModuleIndoor.cro +0x039C7C slot 0x24
-    virtual void Draw(); // ModuleIndoor.cro +0x0399A8 slot 0x30
+    virtual oml::framework::Result Initialize(); // ModuleIndoor.cro +0x0399E4 slot 0x0C
+    virtual oml::framework::Result Finalize(); // ModuleIndoor.cro +0x039E28 slot 0x18
+    virtual oml::framework::Result Calc(); // ModuleIndoor.cro +0x039C7C slot 0x24
+    virtual oml::framework::Result Draw(); // ModuleIndoor.cro +0x0399A8 slot 0x30
     virtual void OnClose(); // ModuleIndoor.cro +0x039220 slot 0x44
 };

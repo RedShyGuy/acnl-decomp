@@ -12,7 +12,7 @@ AcNpcSpShopCatherine::~AcNpcSpShopCatherine()
 }
 
 // ModuleShop.cro +0x01D138 slot 0x24
-void AcNpcSpShopCatherine::Calc()
+oml::framework::Result AcNpcSpShopCatherine::Calc()
 {
 }
 

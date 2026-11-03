@@ -13,7 +13,7 @@ AcFishMuseumBase::~AcFishMuseumBase()
 }
 
 // ModuleMusFish.cro +0x00DC30 slot 0x20
-void AcFishMuseumBase::CanCalc() const
+bool AcFishMuseumBase::CanCalc() const
 {
 }
 

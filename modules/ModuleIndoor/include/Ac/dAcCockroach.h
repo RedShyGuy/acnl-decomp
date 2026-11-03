@@ -14,11 +14,11 @@ class AcCockroach : public ::Actor, public ::ResourceGetSklVis, public ::ObjectS
 public:
     AcCockroach(); // ctor address unknown
     virtual ~AcCockroach(); // ModuleIndoor.cro +0x035DAC slot 0x00
-    virtual void Initialize(); // ModuleIndoor.cro +0x006FD0 slot 0x0C
-    virtual void Finalize(); // ModuleIndoor.cro +0x007268 slot 0x18
-    virtual void CanCalc() const; // ModuleIndoor.cro +0x00603C slot 0x20
-    virtual void Calc(); // ModuleIndoor.cro +0x007150 slot 0x24
+    virtual oml::framework::Result Initialize(); // ModuleIndoor.cro +0x006FD0 slot 0x0C
+    virtual oml::framework::Result Finalize(); // ModuleIndoor.cro +0x007268 slot 0x18
+    virtual bool CanCalc() const; // ModuleIndoor.cro +0x00603C slot 0x20
+    virtual oml::framework::Result Calc(); // ModuleIndoor.cro +0x007150 slot 0x24
     virtual void HandleCalcResult(oml::framework::Result); // ModuleIndoor.cro +0x00623C slot 0x28
-    virtual void Draw(); // ModuleIndoor.cro +0x006FA8 slot 0x30
+    virtual oml::framework::Result Draw(); // ModuleIndoor.cro +0x006FA8 slot 0x30
     virtual void Unk0(); // ModuleIndoor.cro +0x05AA5C slot 0x3C
 };

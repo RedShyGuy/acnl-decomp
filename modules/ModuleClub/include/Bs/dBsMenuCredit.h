@@ -11,10 +11,10 @@ class BsMenuCredit : public ::MenuBase, public ::state::Mode<BsMenuCredit>
 public:
     BsMenuCredit(); // ctor address unknown
     virtual ~BsMenuCredit(); // ModuleClub.cro +0x004650 slot 0x00
-    virtual void Initialize(); // ModuleClub.cro +0x003CD4 slot 0x0C
-    virtual void Finalize(); // ModuleClub.cro +0x00438C slot 0x18
-    virtual void Calc(); // ModuleClub.cro +0x003FC0 slot 0x24
-    virtual void Draw(); // ModuleClub.cro +0x003C6C slot 0x30
+    virtual oml::framework::Result Initialize(); // ModuleClub.cro +0x003CD4 slot 0x0C
+    virtual oml::framework::Result Finalize(); // ModuleClub.cro +0x00438C slot 0x18
+    virtual oml::framework::Result Calc(); // ModuleClub.cro +0x003FC0 slot 0x24
+    virtual oml::framework::Result Draw(); // ModuleClub.cro +0x003C6C slot 0x30
     virtual void FUN_006ab3d8(); // ModuleClub.cro +0x010C64 slot 0x40
     virtual void OnClose(); // ModuleClub.cro +0x010C70 slot 0x44
     virtual void FUN_006ab3f4(); // ModuleClub.cro +0x010C7C slot 0x48

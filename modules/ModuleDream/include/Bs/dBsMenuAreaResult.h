@@ -11,10 +11,10 @@ class BsMenuAreaResult : public ::MenuBase, public ::state::Mode<BsMenuAreaResul
 public:
     BsMenuAreaResult(); // ctor address unknown
     virtual ~BsMenuAreaResult(); // ModuleDream.cro +0x004E40 slot 0x00
-    virtual void Initialize(); // ModuleDream.cro +0x00758C slot 0x0C
-    virtual void Finalize(); // ModuleDream.cro +0x0079D0 slot 0x18
-    virtual void Calc(); // ModuleDream.cro +0x00789C slot 0x24
-    virtual void Draw(); // ModuleDream.cro +0x007550 slot 0x30
+    virtual oml::framework::Result Initialize(); // ModuleDream.cro +0x00758C slot 0x0C
+    virtual oml::framework::Result Finalize(); // ModuleDream.cro +0x0079D0 slot 0x18
+    virtual oml::framework::Result Calc(); // ModuleDream.cro +0x00789C slot 0x24
+    virtual oml::framework::Result Draw(); // ModuleDream.cro +0x007550 slot 0x30
     virtual void Unk0(); // ModuleDream.cro +0x00A110 slot 0x3C
     virtual void FUN_006ab3d8(); // ModuleDream.cro +0x00A058 slot 0x40
     virtual void OnClose(); // ModuleDream.cro +0x00A064 slot 0x44

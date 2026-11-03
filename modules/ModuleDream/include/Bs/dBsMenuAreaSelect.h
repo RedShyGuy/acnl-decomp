@@ -11,8 +11,8 @@ class BsMenuAreaSelect : public ::MenuBase, public ::state::Mode<BsMenuAreaSelec
 public:
     BsMenuAreaSelect(); // ctor address unknown
     virtual ~BsMenuAreaSelect(); // ModuleDream.cro +0x004C00 slot 0x00
-    virtual void Initialize(); // ModuleDream.cro +0x0082AC slot 0x0C
-    virtual void Finalize(); // ModuleDream.cro +0x008710 slot 0x18
-    virtual void Calc(); // ModuleDream.cro +0x0085B8 slot 0x24
-    virtual void Draw(); // ModuleDream.cro +0x008270 slot 0x30
+    virtual oml::framework::Result Initialize(); // ModuleDream.cro +0x0082AC slot 0x0C
+    virtual oml::framework::Result Finalize(); // ModuleDream.cro +0x008710 slot 0x18
+    virtual oml::framework::Result Calc(); // ModuleDream.cro +0x0085B8 slot 0x24
+    virtual oml::framework::Result Draw(); // ModuleDream.cro +0x008270 slot 0x30
 };

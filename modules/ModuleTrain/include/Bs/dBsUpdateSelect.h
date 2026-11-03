@@ -13,8 +13,8 @@ class BsUpdateSelect : public ::Base, public ::script::ITalkRecept, public ::sta
 public:
     BsUpdateSelect(); // ctor address unknown
     virtual ~BsUpdateSelect(); // ModuleTrain.cro +0x0061C8 slot 0x00
-    virtual void Initialize(); // ModuleTrain.cro +0x005AFC slot 0x0C
-    virtual void Finalize(); // ModuleTrain.cro +0x005EE4 slot 0x18
-    virtual void Calc(); // ModuleTrain.cro +0x005E40 slot 0x24
-    virtual void Draw(); // ModuleTrain.cro +0x005AE0 slot 0x30
+    virtual oml::framework::Result Initialize(); // ModuleTrain.cro +0x005AFC slot 0x0C
+    virtual oml::framework::Result Finalize(); // ModuleTrain.cro +0x005EE4 slot 0x18
+    virtual oml::framework::Result Calc(); // ModuleTrain.cro +0x005E40 slot 0x24
+    virtual oml::framework::Result Draw(); // ModuleTrain.cro +0x005AE0 slot 0x30
 };

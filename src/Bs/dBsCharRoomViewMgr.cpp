@@ -13,22 +13,22 @@ BsCharRoomViewMgr::~BsCharRoomViewMgr()
 }
 
 // 0x0082067C slot 0x0C | slot vf_0x0C of oml::framework::Process
-void BsCharRoomViewMgr::Initialize()
+oml::framework::Result BsCharRoomViewMgr::Initialize()
 {
 }
 
 // 0x00820718 slot 0x18 | slot vf_0x18 of oml::framework::Process
-void BsCharRoomViewMgr::Finalize()
+oml::framework::Result BsCharRoomViewMgr::Finalize()
 {
 }
 
 // 0x002C6A84 slot 0x24 | slot vf_0x24 of oml::framework::Process
-void BsCharRoomViewMgr::Calc()
+oml::framework::Result BsCharRoomViewMgr::Calc()
 {
 }
 
 // 0x002C6898 slot 0x30 | slot vf_0x30 of oml::framework::Process
-void BsCharRoomViewMgr::Draw()
+oml::framework::Result BsCharRoomViewMgr::Draw()
 {
 }
 

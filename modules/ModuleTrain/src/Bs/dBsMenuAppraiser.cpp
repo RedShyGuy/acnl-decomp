@@ -13,22 +13,22 @@ BsMenuAppraiser::~BsMenuAppraiser()
 }
 
 // ModuleTrain.cro +0x0063D8 slot 0x0C
-void BsMenuAppraiser::Initialize()
+oml::framework::Result BsMenuAppraiser::Initialize()
 {
 }
 
 // ModuleTrain.cro +0x0088F4 slot 0x18
-void BsMenuAppraiser::Finalize()
+oml::framework::Result BsMenuAppraiser::Finalize()
 {
 }
 
 // ModuleTrain.cro +0x008854 slot 0x24
-void BsMenuAppraiser::Calc()
+oml::framework::Result BsMenuAppraiser::Calc()
 {
 }
 
 // ModuleTrain.cro +0x0063C0 slot 0x30
-void BsMenuAppraiser::Draw()
+oml::framework::Result BsMenuAppraiser::Draw()
 {
 }
 

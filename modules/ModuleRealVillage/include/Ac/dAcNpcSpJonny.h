@@ -11,5 +11,5 @@ public:
     class TalkRecept;
     AcNpcSpJonny(); // ctor address unknown
     virtual ~AcNpcSpJonny(); // ModuleRealVillage.cro +0x0030A8 slot 0x00
-    virtual void Calc(); // ModuleRealVillage.cro +0x002EB4 slot 0x24
+    virtual oml::framework::Result Calc(); // ModuleRealVillage.cro +0x002EB4 slot 0x24
 };

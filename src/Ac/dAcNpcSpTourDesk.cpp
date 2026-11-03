@@ -12,7 +12,7 @@ AcNpcSpTourDesk::~AcNpcSpTourDesk()
 }
 
 // 0x0057ADC8 slot 0x30 | slot vf_0x30 of oml::framework::Process
-void AcNpcSpTourDesk::Draw()
+oml::framework::Result AcNpcSpTourDesk::Draw()
 {
 }
 

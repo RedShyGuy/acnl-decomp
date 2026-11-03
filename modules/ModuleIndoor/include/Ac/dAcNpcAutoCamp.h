@@ -10,5 +10,5 @@ public:
     class AutoCampTalkRcpt;
     AcNpcAutoCamp(); // ctor address unknown
     virtual ~AcNpcAutoCamp(); // ModuleIndoor.cro +0x012374 slot 0x00
-    virtual void Calc(); // ModuleIndoor.cro +0x011FC8 slot 0x24
+    virtual oml::framework::Result Calc(); // ModuleIndoor.cro +0x011FC8 slot 0x24
 };

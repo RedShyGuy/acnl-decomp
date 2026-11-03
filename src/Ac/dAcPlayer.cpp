@@ -19,17 +19,17 @@ void AcPlayer::HandleInitializationResult(oml::framework::Result)
 }
 
 // 0x0064D6FC slot 0x20 | slot vf_0x20 of oml::framework::Process
-void AcPlayer::CanCalc() const
+bool AcPlayer::CanCalc() const
 {
 }
 
 // 0x0068DB7C slot 0x24 | slot vf_0x24 of oml::framework::Process
-void AcPlayer::Calc()
+oml::framework::Result AcPlayer::Calc()
 {
 }
 
 // 0x0068D44C slot 0x30 | slot vf_0x30 of oml::framework::Process
-void AcPlayer::Draw()
+oml::framework::Result AcPlayer::Draw()
 {
 }
 

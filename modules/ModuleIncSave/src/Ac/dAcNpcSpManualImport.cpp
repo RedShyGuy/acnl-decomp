@@ -22,7 +22,7 @@ void AcNpcSpManualImport::Finalize()
 }
 
 // ModuleIncSave.cro +0x0074BC slot 0x24
-void AcNpcSpManualImport::Calc()
+oml::framework::Result AcNpcSpManualImport::Calc()
 {
 }
 

@@ -11,10 +11,10 @@ class BsMenuQREncoder : public ::MenuBase, public ::state::Mode<BsMenuQREncoder>
 public:
     BsMenuQREncoder(); // ctor address unknown
     virtual ~BsMenuQREncoder(); // ModuleShop.cro +0x0086AC slot 0x00
-    virtual void Initialize(); // ModuleShop.cro +0x007F54 slot 0x0C
-    virtual void Finalize(); // ModuleShop.cro +0x00830C slot 0x18
-    virtual void Calc(); // ModuleShop.cro +0x00821C slot 0x24
-    virtual void Draw(); // ModuleShop.cro +0x007F24 slot 0x30
+    virtual oml::framework::Result Initialize(); // ModuleShop.cro +0x007F54 slot 0x0C
+    virtual oml::framework::Result Finalize(); // ModuleShop.cro +0x00830C slot 0x18
+    virtual oml::framework::Result Calc(); // ModuleShop.cro +0x00821C slot 0x24
+    virtual oml::framework::Result Draw(); // ModuleShop.cro +0x007F24 slot 0x30
     virtual void Unk0(); // ModuleShop.cro +0x0230A0 slot 0x3C
     virtual void FUN_006ab3d8(); // ModuleShop.cro +0x0228E0 slot 0x40
     virtual void OnClose(); // ModuleShop.cro +0x0228EC slot 0x44

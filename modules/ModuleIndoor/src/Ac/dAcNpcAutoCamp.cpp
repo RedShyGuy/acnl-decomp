@@ -12,7 +12,7 @@ AcNpcAutoCamp::~AcNpcAutoCamp()
 }
 
 // ModuleIndoor.cro +0x011FC8 slot 0x24
-void AcNpcAutoCamp::Calc()
+oml::framework::Result AcNpcAutoCamp::Calc()
 {
 }
 

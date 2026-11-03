@@ -12,17 +12,17 @@ BsLightHemiSphereFixDemo::~BsLightHemiSphereFixDemo()
 }
 
 // 0x00336564 slot 0x0C | slot vf_0x0C of oml::framework::Process
-void BsLightHemiSphereFixDemo::Initialize()
+oml::framework::Result BsLightHemiSphereFixDemo::Initialize()
 {
 }
 
 // 0x00336A6C slot 0x18 | slot vf_0x18 of oml::framework::Process
-void BsLightHemiSphereFixDemo::Finalize()
+oml::framework::Result BsLightHemiSphereFixDemo::Finalize()
 {
 }
 
 // 0x00336908 slot 0x24 | slot vf_0x24 of oml::framework::Process
-void BsLightHemiSphereFixDemo::Calc()
+oml::framework::Result BsLightHemiSphereFixDemo::Calc()
 {
 }
 

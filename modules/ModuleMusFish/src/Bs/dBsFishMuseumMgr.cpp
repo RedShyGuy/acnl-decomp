@@ -12,17 +12,17 @@ BsFishMuseumMgr::~BsFishMuseumMgr()
 }
 
 // ModuleMusFish.cro +0x00D540 slot 0x0C
-void BsFishMuseumMgr::Initialize()
+oml::framework::Result BsFishMuseumMgr::Initialize()
 {
 }
 
 // ModuleMusFish.cro +0x00D9B4 slot 0x18
-void BsFishMuseumMgr::Finalize()
+oml::framework::Result BsFishMuseumMgr::Finalize()
 {
 }
 
 // ModuleMusFish.cro +0x00D820 slot 0x24
-void BsFishMuseumMgr::Calc()
+oml::framework::Result BsFishMuseumMgr::Calc()
 {
 }
 

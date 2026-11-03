@@ -12,9 +12,9 @@ class AcFsMuObjLotus : public ::Actor, public ::ResourceLoadAsyncSkeletal
 public:
     AcFsMuObjLotus(); // ctor address unknown
     virtual ~AcFsMuObjLotus(); // ModuleMusFish.cro +0x00A504 slot 0x00
-    virtual void Initialize(); // ModuleMusFish.cro +0x00A230 slot 0x0C
-    virtual void Finalize(); // ModuleMusFish.cro +0x00A3BC slot 0x18
-    virtual void Calc(); // ModuleMusFish.cro +0x00A308 slot 0x24
-    virtual void CanDraw() const; // ModuleMusFish.cro +0x00A3A8 slot 0x2C
-    virtual void Draw(); // ModuleMusFish.cro +0x00A20C slot 0x30
+    virtual oml::framework::Result Initialize(); // ModuleMusFish.cro +0x00A230 slot 0x0C
+    virtual oml::framework::Result Finalize(); // ModuleMusFish.cro +0x00A3BC slot 0x18
+    virtual oml::framework::Result Calc(); // ModuleMusFish.cro +0x00A308 slot 0x24
+    virtual bool CanDraw() const; // ModuleMusFish.cro +0x00A3A8 slot 0x2C
+    virtual oml::framework::Result Draw(); // ModuleMusFish.cro +0x00A20C slot 0x30
 };

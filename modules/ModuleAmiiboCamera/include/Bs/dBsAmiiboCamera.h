@@ -11,9 +11,9 @@ class BsAmiiboCamera : public ::Base, public ::sead::hostio::Node
 public:
     BsAmiiboCamera(); // ctor address unknown
     virtual ~BsAmiiboCamera(); // ModuleAmiiboCamera.cro +0x002A08 slot 0x00
-    virtual void Initialize(); // ModuleAmiiboCamera.cro +0x002064 slot 0x0C
-    virtual void Finalize(); // ModuleAmiiboCamera.cro +0x0028D0 slot 0x18
-    virtual void Calc(); // ModuleAmiiboCamera.cro +0x002508 slot 0x24
-    virtual void Draw(); // ModuleAmiiboCamera.cro +0x00205C slot 0x30
+    virtual oml::framework::Result Initialize(); // ModuleAmiiboCamera.cro +0x002064 slot 0x0C
+    virtual oml::framework::Result Finalize(); // ModuleAmiiboCamera.cro +0x0028D0 slot 0x18
+    virtual oml::framework::Result Calc(); // ModuleAmiiboCamera.cro +0x002508 slot 0x24
+    virtual oml::framework::Result Draw(); // ModuleAmiiboCamera.cro +0x00205C slot 0x30
     virtual void Unk0(); // ModuleAmiiboCamera.cro +0x0125BC slot 0x3C
 };

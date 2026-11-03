@@ -11,10 +11,10 @@ class BsMenuTicketExchange : public ::MenuBase, public ::state::Mode<BsMenuTicke
 public:
     BsMenuTicketExchange(); // ctor address unknown
     virtual ~BsMenuTicketExchange(); // ModuleVillage.cro +0x003E24 slot 0x00
-    virtual void Initialize(); // ModuleVillage.cro +0x0037D8 slot 0x0C
-    virtual void Finalize(); // ModuleVillage.cro +0x003B0C slot 0x18
-    virtual void Calc(); // ModuleVillage.cro +0x0039F0 slot 0x24
-    virtual void Draw(); // ModuleVillage.cro +0x003768 slot 0x30
+    virtual oml::framework::Result Initialize(); // ModuleVillage.cro +0x0037D8 slot 0x0C
+    virtual oml::framework::Result Finalize(); // ModuleVillage.cro +0x003B0C slot 0x18
+    virtual oml::framework::Result Calc(); // ModuleVillage.cro +0x0039F0 slot 0x24
+    virtual oml::framework::Result Draw(); // ModuleVillage.cro +0x003768 slot 0x30
     virtual void Unk0(); // ModuleVillage.cro +0x01BBC4 slot 0x3C
     virtual void FUN_006ab3d8(); // ModuleVillage.cro +0x019524 slot 0x40
     virtual void OnClose(); // ModuleVillage.cro +0x019530 slot 0x44

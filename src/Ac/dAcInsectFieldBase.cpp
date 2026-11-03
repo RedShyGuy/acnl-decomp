@@ -12,7 +12,7 @@ AcInsectFieldBase::~AcInsectFieldBase()
 }
 
 // 0x002C2E7C slot 0x20 | slot vf_0x20 of oml::framework::Process
-void AcInsectFieldBase::CanCalc() const
+bool AcInsectFieldBase::CanCalc() const
 {
 }
 
@@ -22,7 +22,7 @@ void AcInsectFieldBase::HandleCalcResult(oml::framework::Result)
 }
 
 // 0x002C40EC slot 0x2C | slot vf_0x2C of oml::framework::Process
-void AcInsectFieldBase::CanDraw() const
+bool AcInsectFieldBase::CanDraw() const
 {
 }
 

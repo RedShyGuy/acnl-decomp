@@ -13,22 +13,22 @@ BsMenuTourSelect::~BsMenuTourSelect()
 }
 
 // 0x002B5970 slot 0x0C | slot vf_0x0C of oml::framework::Process
-void BsMenuTourSelect::Initialize()
+oml::framework::Result BsMenuTourSelect::Initialize()
 {
 }
 
 // 0x002B60BC slot 0x18 | slot vf_0x18 of oml::framework::Process
-void BsMenuTourSelect::Finalize()
+oml::framework::Result BsMenuTourSelect::Finalize()
 {
 }
 
 // 0x002B5EA4 slot 0x24 | slot vf_0x24 of oml::framework::Process
-void BsMenuTourSelect::Calc()
+oml::framework::Result BsMenuTourSelect::Calc()
 {
 }
 
 // 0x002B5928 slot 0x30 | slot vf_0x30 of oml::framework::Process
-void BsMenuTourSelect::Draw()
+oml::framework::Result BsMenuTourSelect::Draw()
 {
 }
 

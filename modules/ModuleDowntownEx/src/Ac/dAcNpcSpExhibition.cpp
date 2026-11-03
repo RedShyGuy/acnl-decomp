@@ -22,12 +22,12 @@ void AcNpcSpExhibition::Finalize()
 }
 
 // ModuleDowntownEx.cro +0x000838 slot 0x24
-void AcNpcSpExhibition::Calc()
+oml::framework::Result AcNpcSpExhibition::Calc()
 {
 }
 
 // ModuleDowntownEx.cro +0x000780 slot 0x30
-void AcNpcSpExhibition::Draw()
+oml::framework::Result AcNpcSpExhibition::Draw()
 {
 }
 

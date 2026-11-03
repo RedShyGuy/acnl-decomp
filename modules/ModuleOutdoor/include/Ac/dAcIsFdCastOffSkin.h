@@ -14,5 +14,5 @@ class AcIsFdCastOffSkin : public ::AcInsectFieldBase, public ::ResourceGetSklVis
 public:
     AcIsFdCastOffSkin(); // ctor address unknown
     virtual ~AcIsFdCastOffSkin(); // ModuleOutdoor.cro +0x04EB1C slot 0x00
-    virtual void Draw(); // ModuleOutdoor.cro +0x04E7A0 slot 0x30
+    virtual oml::framework::Result Draw(); // ModuleOutdoor.cro +0x04E7A0 slot 0x30
 };

@@ -5,3 +5,17 @@ void Field::GetFg(long, long, unsigned char)
 {
 }
 
+// 0x009B5A24
+Field* Field::s_pFields[3];
+
+#include "stage/stage_Extern.h"
+
+// the size of a unit of the field in world units (names are ours)
+// 0x008602D4
+extern const f32 FIELD_UNIT_SIZE_X = 32.0f;
+// 0x008602D8
+extern const f32 FIELD_UNIT_SIZE_Z = 32.0f;
+// 0x008602DC
+extern const f32 FIELD_HALF_UNIT_SIZE_X = 16.0f;
+// 0x008602E0
+extern const f32 FIELD_HALF_UNIT_SIZE_Z = 16.0f;

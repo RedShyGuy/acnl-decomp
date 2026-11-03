@@ -12,12 +12,12 @@ BsLightDiffuseShowroom::~BsLightDiffuseShowroom()
 }
 
 // ModuleIndoor.cro +0x03EAB8 slot 0x0C
-void BsLightDiffuseShowroom::Initialize()
+oml::framework::Result BsLightDiffuseShowroom::Initialize()
 {
 }
 
 // ModuleIndoor.cro +0x03EB8C slot 0x24
-void BsLightDiffuseShowroom::Calc()
+oml::framework::Result BsLightDiffuseShowroom::Calc()
 {
 }
 

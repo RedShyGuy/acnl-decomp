@@ -12,6 +12,6 @@ public:
     virtual ~AcNpcSpBerlina(); // ModuleEventNpc.cro +0x001DD4 slot 0x00
     virtual void Initialize(); // ModuleEventNpc.cro +0x0020C0 slot 0x0C
     virtual void Finalize(); // ModuleEventNpc.cro +0x00215C slot 0x18
-    virtual void Calc(); // ModuleEventNpc.cro +0x001A30 slot 0x24
+    virtual oml::framework::Result Calc(); // ModuleEventNpc.cro +0x001A30 slot 0x24
     virtual void Unk0(); // ModuleEventNpc.cro +0x001F5C slot 0x3C
 };

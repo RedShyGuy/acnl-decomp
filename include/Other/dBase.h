@@ -11,12 +11,12 @@ public:
     Base(); // ctor candidate(s) 0x0052A460 (unverified)
     virtual ~Base(); // 0x00316FA8 slot 0x00 | libgarden
     // 0x0052A478 slot 0x04 | slot vf_0x04 of oml::framework::Process (deleting dtor)
-    virtual void CanInitialize() const; // 0x0052A438 slot 0x08 | libgarden
+    virtual bool CanInitialize() const; // 0x0052A438 slot 0x08 | libgarden
     virtual void HandleInitializationResult(oml::framework::Result); // 0x00521610 slot 0x10 | libgarden
-    virtual void CanFinalize() const; // 0x0052A44C slot 0x14 | libgarden
+    virtual bool CanFinalize() const; // 0x0052A44C slot 0x14 | libgarden
     virtual void HandleFinalizationResult(oml::framework::Result); // 0x00521618 slot 0x1C | libgarden
-    virtual void CanCalc() const; // 0x0052A3A0 slot 0x20 | libgarden
+    virtual bool CanCalc() const; // 0x0052A3A0 slot 0x20 | libgarden
     virtual void HandleCalcResult(oml::framework::Result); // 0x00521714 slot 0x28 | libgarden
-    virtual void CanDraw() const; // 0x0052A424 slot 0x2C | libgarden
+    virtual bool CanDraw() const; // 0x0052A424 slot 0x2C | libgarden
     virtual void Unk0(); // 0x00748D08 slot 0x3C | libgarden
 };

@@ -12,27 +12,27 @@ ScBoot::~ScBoot()
 }
 
 // 0x00114435 slot 0x0C | slot vf_0x0C of oml::framework::Process
-void ScBoot::Initialize()
+oml::framework::Result ScBoot::Initialize()
 {
 }
 
 // 0x0011447F slot 0x18 | slot vf_0x18 of oml::framework::Process
-void ScBoot::Finalize()
+oml::framework::Result ScBoot::Finalize()
 {
 }
 
 // 0x00114411 slot 0x20 | slot vf_0x20 of oml::framework::Process
-void ScBoot::CanCalc() const
+bool ScBoot::CanCalc() const
 {
 }
 
 // 0x00114471 slot 0x24 | slot vf_0x24 of oml::framework::Process
-void ScBoot::Calc()
+oml::framework::Result ScBoot::Calc()
 {
 }
 
 // 0x00114427 slot 0x30 | slot vf_0x30 of oml::framework::Process
-void ScBoot::Draw()
+oml::framework::Result ScBoot::Draw()
 {
 }
 

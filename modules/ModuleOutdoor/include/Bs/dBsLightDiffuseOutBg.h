@@ -9,9 +9,9 @@ class BsLightDiffuseOutBg : public ::BsLightDiffuseBase
 public:
     BsLightDiffuseOutBg(); // ctor address unknown
     virtual ~BsLightDiffuseOutBg(); // ModuleOutdoor.cro +0x05D3BC slot 0x00
-    virtual void Initialize(); // ModuleOutdoor.cro +0x05D2A8 slot 0x0C
-    virtual void Finalize(); // ModuleOutdoor.cro +0x05D378 slot 0x18
-    virtual void Calc(); // ModuleOutdoor.cro +0x05D358 slot 0x24
-    virtual void Draw(); // ModuleOutdoor.cro +0x05D298 slot 0x30
+    virtual oml::framework::Result Initialize(); // ModuleOutdoor.cro +0x05D2A8 slot 0x0C
+    virtual oml::framework::Result Finalize(); // ModuleOutdoor.cro +0x05D378 slot 0x18
+    virtual oml::framework::Result Calc(); // ModuleOutdoor.cro +0x05D358 slot 0x24
+    virtual oml::framework::Result Draw(); // ModuleOutdoor.cro +0x05D298 slot 0x30
     virtual void Unk0(); // ModuleOutdoor.cro +0x07D5E4 slot 0x3C
 };

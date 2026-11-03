@@ -11,10 +11,10 @@ class BsTripList : public ::MenuBase, public ::state::Mode<BsTripList>
 public:
     BsTripList(); // ctor address unknown
     virtual ~BsTripList(); // ModuleStation.cro +0x006BAC slot 0x00
-    virtual void Initialize(); // ModuleStation.cro +0x001FD0 slot 0x0C
-    virtual void Finalize(); // ModuleStation.cro +0x002638 slot 0x18
-    virtual void Calc(); // ModuleStation.cro +0x002414 slot 0x24
-    virtual void Draw(); // ModuleStation.cro +0x001F90 slot 0x30
+    virtual oml::framework::Result Initialize(); // ModuleStation.cro +0x001FD0 slot 0x0C
+    virtual oml::framework::Result Finalize(); // ModuleStation.cro +0x002638 slot 0x18
+    virtual oml::framework::Result Calc(); // ModuleStation.cro +0x002414 slot 0x24
+    virtual oml::framework::Result Draw(); // ModuleStation.cro +0x001F90 slot 0x30
     virtual void Unk0(); // ModuleStation.cro +0x00A498 slot 0x3C
     virtual void FUN_006ab3d8(); // ModuleStation.cro +0x009550 slot 0x40
     virtual void OnClose(); // ModuleStation.cro +0x00955C slot 0x44

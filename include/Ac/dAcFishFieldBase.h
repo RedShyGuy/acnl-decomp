@@ -17,7 +17,7 @@ public:
     AcFishFieldBase(); // ctor address unknown
     virtual ~AcFishFieldBase(); // 0x0027E2AC slot 0x00 | slot vf_0x00 of oml::framework::Process
     // 0x0027E298 slot 0x04 | slot vf_0x04 of oml::framework::Process (deleting dtor)
-    virtual void CanCalc() const; // 0x0027D9BC slot 0x20 | slot vf_0x20 of oml::framework::Process
+    virtual bool CanCalc() const; // 0x0027D9BC slot 0x20 | slot vf_0x20 of oml::framework::Process
     virtual void HandleCalcResult(oml::framework::Result); // 0x0027DCB0 slot 0x28 | slot vf_0x28 of oml::framework::Process
     virtual void vf_0x68(); // 0x0071B52C slot 0x68 | virtual slot, introduced by AcObjectBase
     virtual void vf_0x6C(); // 0x0027E0DC slot 0x6C | virtual slot, introduced by AcObjectBase

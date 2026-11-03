@@ -13,17 +13,17 @@ BsIndoorDoorSE::~BsIndoorDoorSE()
 }
 
 // 0x0082067C slot 0x0C | slot vf_0x0C of oml::framework::Process
-void BsIndoorDoorSE::Initialize()
+oml::framework::Result BsIndoorDoorSE::Initialize()
 {
 }
 
 // 0x00820718 slot 0x18 | slot vf_0x18 of oml::framework::Process
-void BsIndoorDoorSE::Finalize()
+oml::framework::Result BsIndoorDoorSE::Finalize()
 {
 }
 
 // 0x00256464 slot 0x24 | slot vf_0x24 of oml::framework::Process
-void BsIndoorDoorSE::Calc()
+oml::framework::Result BsIndoorDoorSE::Calc()
 {
 }
 

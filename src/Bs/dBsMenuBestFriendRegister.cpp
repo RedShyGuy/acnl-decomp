@@ -13,22 +13,22 @@ BsMenuBestFriendRegister::~BsMenuBestFriendRegister()
 }
 
 // 0x0033A8D8 slot 0x0C | slot vf_0x0C of oml::framework::Process
-void BsMenuBestFriendRegister::Initialize()
+oml::framework::Result BsMenuBestFriendRegister::Initialize()
 {
 }
 
 // 0x0033AAEC slot 0x18 | slot vf_0x18 of oml::framework::Process
-void BsMenuBestFriendRegister::Finalize()
+oml::framework::Result BsMenuBestFriendRegister::Finalize()
 {
 }
 
 // 0x0033AA5C slot 0x24 | slot vf_0x24 of oml::framework::Process
-void BsMenuBestFriendRegister::Calc()
+oml::framework::Result BsMenuBestFriendRegister::Calc()
 {
 }
 
 // 0x0033A884 slot 0x30 | slot vf_0x30 of oml::framework::Process
-void BsMenuBestFriendRegister::Draw()
+oml::framework::Result BsMenuBestFriendRegister::Draw()
 {
 }
 

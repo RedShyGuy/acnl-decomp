@@ -13,7 +13,7 @@ AcFsMuSeaSimple::~AcFsMuSeaSimple()
 }
 
 // ModuleMusFish.cro +0x00C0A4 slot 0x20
-void AcFsMuSeaSimple::CanCalc() const
+bool AcFsMuSeaSimple::CanCalc() const
 {
 }
 

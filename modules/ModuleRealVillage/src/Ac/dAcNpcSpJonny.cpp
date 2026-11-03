@@ -12,7 +12,7 @@ AcNpcSpJonny::~AcNpcSpJonny()
 }
 
 // ModuleRealVillage.cro +0x002EB4 slot 0x24
-void AcNpcSpJonny::Calc()
+oml::framework::Result AcNpcSpJonny::Calc()
 {
 }
 

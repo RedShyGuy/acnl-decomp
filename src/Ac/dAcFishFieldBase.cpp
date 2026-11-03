@@ -13,7 +13,7 @@ AcFishFieldBase::~AcFishFieldBase()
 }
 
 // 0x0027D9BC slot 0x20 | slot vf_0x20 of oml::framework::Process
-void AcFishFieldBase::CanCalc() const
+bool AcFishFieldBase::CanCalc() const
 {
 }
 

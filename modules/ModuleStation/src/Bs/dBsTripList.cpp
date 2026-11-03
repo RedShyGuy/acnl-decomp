@@ -13,22 +13,22 @@ BsTripList::~BsTripList()
 }
 
 // ModuleStation.cro +0x001FD0 slot 0x0C
-void BsTripList::Initialize()
+oml::framework::Result BsTripList::Initialize()
 {
 }
 
 // ModuleStation.cro +0x002638 slot 0x18
-void BsTripList::Finalize()
+oml::framework::Result BsTripList::Finalize()
 {
 }
 
 // ModuleStation.cro +0x002414 slot 0x24
-void BsTripList::Calc()
+oml::framework::Result BsTripList::Calc()
 {
 }
 
 // ModuleStation.cro +0x001F90 slot 0x30
-void BsTripList::Draw()
+oml::framework::Result BsTripList::Draw()
 {
 }
 

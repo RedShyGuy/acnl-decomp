@@ -13,22 +13,22 @@ BsMenuTicketExchange::~BsMenuTicketExchange()
 }
 
 // ModuleVillage.cro +0x0037D8 slot 0x0C
-void BsMenuTicketExchange::Initialize()
+oml::framework::Result BsMenuTicketExchange::Initialize()
 {
 }
 
 // ModuleVillage.cro +0x003B0C slot 0x18
-void BsMenuTicketExchange::Finalize()
+oml::framework::Result BsMenuTicketExchange::Finalize()
 {
 }
 
 // ModuleVillage.cro +0x0039F0 slot 0x24
-void BsMenuTicketExchange::Calc()
+oml::framework::Result BsMenuTicketExchange::Calc()
 {
 }
 
 // ModuleVillage.cro +0x003768 slot 0x30
-void BsMenuTicketExchange::Draw()
+oml::framework::Result BsMenuTicketExchange::Draw()
 {
 }
 

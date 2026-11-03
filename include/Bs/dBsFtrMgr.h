@@ -14,10 +14,10 @@ public:
     BsFtrMgr(); // ctor address unknown
     virtual ~BsFtrMgr(); // 0x006950A0 slot 0x00 | slot vf_0x00 of oml::framework::Process
     // 0x00695004 slot 0x04 | slot vf_0x04 of oml::framework::Process (deleting dtor)
-    virtual void Initialize(); // 0x0082067C slot 0x0C | slot vf_0x0C of oml::framework::Process
-    virtual void Finalize(); // 0x00820718 slot 0x18 | slot vf_0x18 of oml::framework::Process
-    virtual void Calc(); // 0x00694800 slot 0x24 | slot vf_0x24 of oml::framework::Process
-    virtual void Draw(); // 0x006946D4 slot 0x30 | slot vf_0x30 of oml::framework::Process
+    virtual oml::framework::Result Initialize(); // 0x0082067C slot 0x0C | slot vf_0x0C of oml::framework::Process
+    virtual oml::framework::Result Finalize(); // 0x00820718 slot 0x18 | slot vf_0x18 of oml::framework::Process
+    virtual oml::framework::Result Calc(); // 0x00694800 slot 0x24 | slot vf_0x24 of oml::framework::Process
+    virtual oml::framework::Result Draw(); // 0x006946D4 slot 0x30 | slot vf_0x30 of oml::framework::Process
     virtual void vf_0x40(); // 0x0069114C slot 0x40 | virtual slot, introduced by BsFtrMgr
     virtual void vf_0x44(); // 0x00691044 slot 0x44 | virtual slot, introduced by BsFtrMgr
     virtual void vf_0x48(); // 0x006906C8 slot 0x48 | virtual slot, introduced by BsFtrMgr
@@ -25,4 +25,9 @@ public:
     virtual void vf_0x50(); // 0x006921C0 slot 0x50 | virtual slot, introduced by BsFtrMgr
     virtual void vf_0x54(); // 0x00691E6C slot 0x54 | virtual slot, introduced by BsFtrMgr
     void CreateFtrActor(BsFtrMgr::CreateFtrArg const&); // 0x00690F8C | libgarden [tier A]
+
+    // (names are ours; only what the stage code uses)
+    static BsFtrMgr* s_pInstance;
+    // creates the furniture of a stage command (command 3 of a stage definition)
+    bool CreateFurniture(const stage::Command* command); // 0x006967BC
 };

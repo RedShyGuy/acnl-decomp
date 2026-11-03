@@ -12,7 +12,7 @@ AcNpcSpMaiko::~AcNpcSpMaiko()
 }
 
 // 0x001F3870 slot 0x24 | slot vf_0x24 of oml::framework::Process
-void AcNpcSpMaiko::Calc()
+oml::framework::Result AcNpcSpMaiko::Calc()
 {
 }
 

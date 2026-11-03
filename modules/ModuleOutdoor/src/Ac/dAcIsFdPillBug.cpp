@@ -14,7 +14,7 @@ AcIsFdPillBug::~AcIsFdPillBug()
 }
 
 // ModuleOutdoor.cro +0x01B24C slot 0x30
-void AcIsFdPillBug::Draw()
+oml::framework::Result AcIsFdPillBug::Draw()
 {
 }
 

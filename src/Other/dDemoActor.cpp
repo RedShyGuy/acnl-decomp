@@ -12,7 +12,7 @@ DemoActor::~DemoActor()
 }
 
 // 0x006E5244 slot 0x08 | slot vf_0x08 of oml::framework::Process
-void DemoActor::CanInitialize() const
+bool DemoActor::CanInitialize() const
 {
 }
 
@@ -22,7 +22,7 @@ void DemoActor::HandleInitializationResult(oml::framework::Result)
 }
 
 // 0x006E528C slot 0x14 | slot vf_0x14 of oml::framework::Process
-void DemoActor::CanFinalize() const
+bool DemoActor::CanFinalize() const
 {
 }
 

@@ -12,12 +12,12 @@ AcNpcSpSisyo::~AcNpcSpSisyo()
 }
 
 // ModuleClub.cro +0x0031B8 slot 0x24
-void AcNpcSpSisyo::Calc()
+oml::framework::Result AcNpcSpSisyo::Calc()
 {
 }
 
 // ModuleClub.cro +0x0031B4 slot 0x30
-void AcNpcSpSisyo::Draw()
+oml::framework::Result AcNpcSpSisyo::Draw()
 {
 }
 

@@ -14,5 +14,5 @@ class AcIsMuTumblebug : public ::AcInsectMuseumBase, public ::ResourceLoadAsyncS
 public:
     AcIsMuTumblebug(); // ctor address unknown
     virtual ~AcIsMuTumblebug(); // ModuleMusIns.cro +0x00D600 slot 0x00
-    virtual void Draw(); // ModuleMusIns.cro +0x00D178 slot 0x30
+    virtual oml::framework::Result Draw(); // ModuleMusIns.cro +0x00D178 slot 0x30
 };

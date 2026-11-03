@@ -14,22 +14,22 @@ AcPikoHanObj::~AcPikoHanObj()
 }
 
 // ModuleTour.cro +0x00205C slot 0x0C
-void AcPikoHanObj::Initialize()
+oml::framework::Result AcPikoHanObj::Initialize()
 {
 }
 
 // ModuleTour.cro +0x002480 slot 0x18
-void AcPikoHanObj::Finalize()
+oml::framework::Result AcPikoHanObj::Finalize()
 {
 }
 
 // ModuleTour.cro +0x001368 slot 0x20
-void AcPikoHanObj::CanCalc() const
+bool AcPikoHanObj::CanCalc() const
 {
 }
 
 // ModuleTour.cro +0x002224 slot 0x24
-void AcPikoHanObj::Calc()
+oml::framework::Result AcPikoHanObj::Calc()
 {
 }
 
@@ -39,7 +39,7 @@ void AcPikoHanObj::HandleCalcResult(oml::framework::Result)
 }
 
 // ModuleTour.cro +0x002008 slot 0x30
-void AcPikoHanObj::Draw()
+oml::framework::Result AcPikoHanObj::Draw()
 {
 }
 

@@ -12,22 +12,22 @@ BsObjControl::~BsObjControl()
 }
 
 // ModuleFtr.cro +0x008E24 slot 0x0C
-void BsObjControl::Initialize()
+oml::framework::Result BsObjControl::Initialize()
 {
 }
 
 // ModuleFtr.cro +0x009624 slot 0x18
-void BsObjControl::Finalize()
+oml::framework::Result BsObjControl::Finalize()
 {
 }
 
 // ModuleFtr.cro +0x009614 slot 0x24
-void BsObjControl::Calc()
+oml::framework::Result BsObjControl::Calc()
 {
 }
 
 // ModuleFtr.cro +0x008E1C slot 0x30
-void BsObjControl::Draw()
+oml::framework::Result BsObjControl::Draw()
 {
 }
 

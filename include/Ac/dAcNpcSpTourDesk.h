@@ -14,7 +14,7 @@ public:
     AcNpcSpTourDesk(); // ctor address unknown
     virtual ~AcNpcSpTourDesk(); // 0x002835EC slot 0x00 | slot vf_0x00 of oml::framework::Process
     // 0x002834F8 slot 0x04 | slot vf_0x04 of oml::framework::Process (deleting dtor)
-    virtual void Draw(); // 0x0057ADC8 slot 0x30 | slot vf_0x30 of oml::framework::Process
+    virtual oml::framework::Result Draw(); // 0x0057ADC8 slot 0x30 | slot vf_0x30 of oml::framework::Process
     virtual void vf_0x4C(); // 0x0071B5EC slot 0x4C | virtual slot, introduced by DemoActor
     virtual void vf_0x78(); // 0x0010B195 slot 0x78 | virtual slot, introduced by UtlBase<DemoActor>
     virtual void vf_0x7C(); // 0x0010B149 slot 0x7C | virtual slot, introduced by UtlBase<DemoActor>

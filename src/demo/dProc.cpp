@@ -13,22 +13,22 @@ demo::Proc::~Proc()
 }
 
 // 0x0052DB94 slot 0x0C | slot vf_0x0C of oml::framework::Process
-void demo::Proc::Initialize()
+oml::framework::Result demo::Proc::Initialize()
 {
 }
 
 // 0x0052DBC8 slot 0x18 | slot vf_0x18 of oml::framework::Process
-void demo::Proc::Finalize()
+oml::framework::Result demo::Proc::Finalize()
 {
 }
 
 // 0x0052DBA8 slot 0x24 | slot vf_0x24 of oml::framework::Process
-void demo::Proc::Calc()
+oml::framework::Result demo::Proc::Calc()
 {
 }
 
 // 0x0052DB8C slot 0x30 | slot vf_0x30 of oml::framework::Process
-void demo::Proc::Draw()
+oml::framework::Result demo::Proc::Draw()
 {
 }
 

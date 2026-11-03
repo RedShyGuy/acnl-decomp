@@ -9,6 +9,6 @@ class BsLightHemiSphereDarkroom : public ::BsLightHemiSphereIn
 public:
     BsLightHemiSphereDarkroom(); // ctor address unknown
     virtual ~BsLightHemiSphereDarkroom(); // ModuleIndoor.cro +0x0412AC slot 0x00
-    virtual void Initialize(); // ModuleIndoor.cro +0x038FEC slot 0x0C
-    virtual void Calc(); // ModuleIndoor.cro +0x039168 slot 0x24
+    virtual oml::framework::Result Initialize(); // ModuleIndoor.cro +0x038FEC slot 0x0C
+    virtual oml::framework::Result Calc(); // ModuleIndoor.cro +0x039168 slot 0x24
 };

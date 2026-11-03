@@ -11,7 +11,7 @@ public:
     AcNpcDemoDollBase(); // ctor candidate(s) 0x002C522C (unverified)
     virtual ~AcNpcDemoDollBase(); // 0x002C52D8 slot 0x00 | slot vf_0x00 of oml::framework::Process
     // 0x002C52C8 slot 0x04 | slot vf_0x04 of oml::framework::Process (deleting dtor)
-    virtual void Calc(); // 0x002C5204 slot 0x24 | slot vf_0x24 of oml::framework::Process
+    virtual oml::framework::Result Calc(); // 0x002C5204 slot 0x24 | slot vf_0x24 of oml::framework::Process
     virtual void vf_0x78(); // 0x0010B92D slot 0x78 | virtual slot, introduced by UtlBase<DemoActor>
     virtual void vf_0x7C(); // 0x0010B8D9 slot 0x7C | virtual slot, introduced by UtlBase<DemoActor>
     virtual void vf_0x80(); // 0x0010B869 slot 0x80 | virtual slot, introduced by UtlBase<DemoActor>

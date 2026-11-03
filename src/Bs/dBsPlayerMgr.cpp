@@ -13,22 +13,22 @@ BsPlayerMgr::~BsPlayerMgr()
 }
 
 // 0x0082067C slot 0x0C | slot vf_0x0C of oml::framework::Process
-void BsPlayerMgr::Initialize()
+oml::framework::Result BsPlayerMgr::Initialize()
 {
 }
 
 // 0x00820718 slot 0x18 | slot vf_0x18 of oml::framework::Process
-void BsPlayerMgr::Finalize()
+oml::framework::Result BsPlayerMgr::Finalize()
 {
 }
 
 // 0x001C4BF8 slot 0x24 | slot vf_0x24 of oml::framework::Process
-void BsPlayerMgr::Calc()
+oml::framework::Result BsPlayerMgr::Calc()
 {
 }
 
 // 0x001C4B40 slot 0x30 | slot vf_0x30 of oml::framework::Process
-void BsPlayerMgr::Draw()
+oml::framework::Result BsPlayerMgr::Draw()
 {
 }
 
@@ -62,3 +62,7 @@ void BsPlayerMgr::vf_0x54()
 {
 }
 
+// 0x001C4834 (name is ours)
+void BsPlayerMgr::PlaceOtherPlayers()
+{
+}

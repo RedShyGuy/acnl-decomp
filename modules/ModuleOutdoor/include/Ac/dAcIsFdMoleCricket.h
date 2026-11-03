@@ -14,5 +14,5 @@ class AcIsFdMoleCricket : public ::AcInsectFieldRestless, public ::ResourceGetSk
 public:
     AcIsFdMoleCricket(); // ctor address unknown
     virtual ~AcIsFdMoleCricket(); // ModuleOutdoor.cro +0x04FDF0 slot 0x00
-    virtual void Draw(); // ModuleOutdoor.cro +0x04FB80 slot 0x30
+    virtual oml::framework::Result Draw(); // ModuleOutdoor.cro +0x04FB80 slot 0x30
 };

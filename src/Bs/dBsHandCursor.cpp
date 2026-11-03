@@ -13,22 +13,22 @@ BsHandCursor::~BsHandCursor()
 }
 
 // 0x001FA5D8 slot 0x0C | slot vf_0x0C of oml::framework::Process
-void BsHandCursor::Initialize()
+oml::framework::Result BsHandCursor::Initialize()
 {
 }
 
 // 0x001FAC1C slot 0x18 | slot vf_0x18 of oml::framework::Process
-void BsHandCursor::Finalize()
+oml::framework::Result BsHandCursor::Finalize()
 {
 }
 
 // 0x001FA9D8 slot 0x24 | slot vf_0x24 of oml::framework::Process
-void BsHandCursor::Calc()
+oml::framework::Result BsHandCursor::Calc()
 {
 }
 
 // 0x001FA5AC slot 0x30 | slot vf_0x30 of oml::framework::Process
-void BsHandCursor::Draw()
+oml::framework::Result BsHandCursor::Draw()
 {
 }
 

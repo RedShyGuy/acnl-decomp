@@ -20,9 +20,9 @@ public:
     AcInsectFieldBase(); // ctor address unknown
     virtual ~AcInsectFieldBase(); // 0x002C41A8 slot 0x00 | slot vf_0x00 of oml::framework::Process
     // 0x002C4194 slot 0x04 | slot vf_0x04 of oml::framework::Process (deleting dtor)
-    virtual void CanCalc() const; // 0x002C2E7C slot 0x20 | slot vf_0x20 of oml::framework::Process
+    virtual bool CanCalc() const; // 0x002C2E7C slot 0x20 | slot vf_0x20 of oml::framework::Process
     virtual void HandleCalcResult(oml::framework::Result); // 0x002C335C slot 0x28 | slot vf_0x28 of oml::framework::Process
-    virtual void CanDraw() const; // 0x002C40EC slot 0x2C | slot vf_0x2C of oml::framework::Process
+    virtual bool CanDraw() const; // 0x002C40EC slot 0x2C | slot vf_0x2C of oml::framework::Process
     virtual void vf_0x4C(); // 0x002D5EF0 slot 0x4C | virtual slot, introduced by AcObjectBase
     virtual void vf_0x64(); // 0x002C3F48 slot 0x64 | virtual slot, introduced by AcObjectBase
     virtual void vf_0x68(); // 0x002AC8E8 slot 0x68 | virtual slot, introduced by AcObjectBase

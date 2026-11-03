@@ -7,12 +7,12 @@ MenuBase::~MenuBase()
 }
 
 // 0x006AB460 slot 0x08 | libgarden
-void MenuBase::CanInitialize() const
+bool MenuBase::CanInitialize() const
 {
 }
 
 // 0x006AB414 slot 0x0C | slot vf_0x0C of oml::framework::Process
-void MenuBase::Initialize()
+oml::framework::Result MenuBase::Initialize()
 {
 }
 
@@ -22,12 +22,12 @@ void MenuBase::HandleInitializationResult(oml::framework::Result)
 }
 
 // 0x006AB494 slot 0x14 | libgarden
-void MenuBase::CanFinalize() const
+bool MenuBase::CanFinalize() const
 {
 }
 
 // 0x006AB458 slot 0x18 | slot vf_0x18 of oml::framework::Process
-void MenuBase::Finalize()
+oml::framework::Result MenuBase::Finalize()
 {
 }
 
@@ -37,12 +37,12 @@ void MenuBase::HandleFinalizationResult(oml::framework::Result)
 }
 
 // 0x006AB3C4 slot 0x20 | libgarden
-void MenuBase::CanCalc() const
+bool MenuBase::CanCalc() const
 {
 }
 
 // 0x006AB448 slot 0x24 | slot vf_0x24 of oml::framework::Process
-void MenuBase::Calc()
+oml::framework::Result MenuBase::Calc()
 {
 }
 
@@ -52,7 +52,7 @@ void MenuBase::HandleCalcResult(oml::framework::Result)
 }
 
 // 0x006AB40C slot 0x30 | slot vf_0x30 of oml::framework::Process
-void MenuBase::Draw()
+oml::framework::Result MenuBase::Draw()
 {
 }
 

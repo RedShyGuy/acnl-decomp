@@ -12,7 +12,7 @@ AcBrochure::~AcBrochure()
 }
 
 // 0x00189FB8 slot 0x08 | slot vf_0x08 of oml::framework::Process
-void AcBrochure::CanInitialize() const
+bool AcBrochure::CanInitialize() const
 {
 }
 
@@ -22,12 +22,12 @@ void AcBrochure::HandleInitializationResult(oml::framework::Result)
 }
 
 // 0x00189FB0 slot 0x24 | slot vf_0x24 of oml::framework::Process
-void AcBrochure::Calc()
+oml::framework::Result AcBrochure::Calc()
 {
 }
 
 // 0x00189FA8 slot 0x30 | slot vf_0x30 of oml::framework::Process
-void AcBrochure::Draw()
+oml::framework::Result AcBrochure::Draw()
 {
 }
 

@@ -11,10 +11,10 @@ class BsMenuAppraiser : public ::MenuBase, public ::state::Mode<BsMenuAppraiser>
 public:
     BsMenuAppraiser(); // ctor address unknown
     virtual ~BsMenuAppraiser(); // ModuleTrain.cro +0x0089CC slot 0x00
-    virtual void Initialize(); // ModuleTrain.cro +0x0063D8 slot 0x0C
-    virtual void Finalize(); // ModuleTrain.cro +0x0088F4 slot 0x18
-    virtual void Calc(); // ModuleTrain.cro +0x008854 slot 0x24
-    virtual void Draw(); // ModuleTrain.cro +0x0063C0 slot 0x30
+    virtual oml::framework::Result Initialize(); // ModuleTrain.cro +0x0063D8 slot 0x0C
+    virtual oml::framework::Result Finalize(); // ModuleTrain.cro +0x0088F4 slot 0x18
+    virtual oml::framework::Result Calc(); // ModuleTrain.cro +0x008854 slot 0x24
+    virtual oml::framework::Result Draw(); // ModuleTrain.cro +0x0063C0 slot 0x30
     virtual void Unk0(); // ModuleTrain.cro +0x00C044 slot 0x3C
     virtual void FUN_006ab3d8(); // ModuleTrain.cro +0x00C008 slot 0x40
     virtual void OnClose(); // ModuleTrain.cro +0x00C014 slot 0x44

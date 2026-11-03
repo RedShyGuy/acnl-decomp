@@ -12,7 +12,7 @@ Base::~Base()
 }
 
 // 0x0052A438 slot 0x08 | libgarden
-void Base::CanInitialize() const
+bool Base::CanInitialize() const
 {
 }
 
@@ -22,7 +22,7 @@ void Base::HandleInitializationResult(oml::framework::Result)
 }
 
 // 0x0052A44C slot 0x14 | libgarden
-void Base::CanFinalize() const
+bool Base::CanFinalize() const
 {
 }
 
@@ -32,7 +32,7 @@ void Base::HandleFinalizationResult(oml::framework::Result)
 }
 
 // 0x0052A3A0 slot 0x20 | libgarden
-void Base::CanCalc() const
+bool Base::CanCalc() const
 {
 }
 
@@ -42,7 +42,7 @@ void Base::HandleCalcResult(oml::framework::Result)
 }
 
 // 0x0052A424 slot 0x2C | libgarden
-void Base::CanDraw() const
+bool Base::CanDraw() const
 {
 }
 

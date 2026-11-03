@@ -12,12 +12,12 @@ BsLightDiffuseDarkroom::~BsLightDiffuseDarkroom()
 }
 
 // ModuleIndoor.cro +0x03E850 slot 0x0C
-void BsLightDiffuseDarkroom::Initialize()
+oml::framework::Result BsLightDiffuseDarkroom::Initialize()
 {
 }
 
 // ModuleIndoor.cro +0x03E918 slot 0x24
-void BsLightDiffuseDarkroom::Calc()
+oml::framework::Result BsLightDiffuseDarkroom::Calc()
 {
 }
 

@@ -12,7 +12,7 @@ AcInsectCommon::~AcInsectCommon()
 }
 
 // 0x0024F7F4 slot 0x20 | slot vf_0x20 of oml::framework::Process
-void AcInsectCommon::CanCalc() const
+bool AcInsectCommon::CanCalc() const
 {
 }
 

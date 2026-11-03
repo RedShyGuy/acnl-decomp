@@ -10,5 +10,5 @@ public:
     class TalkRecept;
     AcNpcSpTrain(); // ctor address unknown
     virtual ~AcNpcSpTrain(); // ModuleTrain.cro +0x0038F0 slot 0x00
-    virtual void Calc(); // ModuleTrain.cro +0x002FD8 slot 0x24
+    virtual oml::framework::Result Calc(); // ModuleTrain.cro +0x002FD8 slot 0x24
 };

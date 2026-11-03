@@ -8,22 +8,22 @@ BsMenuTab::~BsMenuTab()
 }
 
 // 0x006D968C slot 0x0C | libgarden
-void BsMenuTab::Initialize()
+oml::framework::Result BsMenuTab::Initialize()
 {
 }
 
 // 0x006D98C0 slot 0x18 | libgarden
-void BsMenuTab::Finalize()
+oml::framework::Result BsMenuTab::Finalize()
 {
 }
 
 // 0x006D978C slot 0x24 | libgarden
-void BsMenuTab::Calc()
+oml::framework::Result BsMenuTab::Calc()
 {
 }
 
 // 0x006D939C slot 0x30 | libgarden
-void BsMenuTab::Draw()
+oml::framework::Result BsMenuTab::Draw()
 {
 }
 
@@ -137,3 +137,6 @@ BsMenuTab::BsMenuTab()
 {
 }
 
+// the factory of the process class
+// 0x007F3B04
+template oml::framework::Process* oml::framework::Process::Create<BsMenuTab>();

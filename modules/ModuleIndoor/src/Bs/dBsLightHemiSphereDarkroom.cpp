@@ -12,12 +12,12 @@ BsLightHemiSphereDarkroom::~BsLightHemiSphereDarkroom()
 }
 
 // ModuleIndoor.cro +0x038FEC slot 0x0C
-void BsLightHemiSphereDarkroom::Initialize()
+oml::framework::Result BsLightHemiSphereDarkroom::Initialize()
 {
 }
 
 // ModuleIndoor.cro +0x039168 slot 0x24
-void BsLightHemiSphereDarkroom::Calc()
+oml::framework::Result BsLightHemiSphereDarkroom::Calc()
 {
 }
 

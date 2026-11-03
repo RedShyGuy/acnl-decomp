@@ -12,7 +12,7 @@ AcNpcSpSecretaryUpdateTrain::~AcNpcSpSecretaryUpdateTrain()
 }
 
 // ModuleTrain.cro +0x00B0B8 slot 0x24
-void AcNpcSpSecretaryUpdateTrain::Calc()
+oml::framework::Result AcNpcSpSecretaryUpdateTrain::Calc()
 {
 }
 

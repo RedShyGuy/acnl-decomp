@@ -10,5 +10,5 @@ public:
     class TalkRecept;
     AcNpcSpSecretaryEvent(); // ctor address unknown
     virtual ~AcNpcSpSecretaryEvent(); // ModuleRealVillage.cro +0x00C690 slot 0x00
-    virtual void Calc(); // ModuleRealVillage.cro +0x00C480 slot 0x24
+    virtual oml::framework::Result Calc(); // ModuleRealVillage.cro +0x00C480 slot 0x24
 };

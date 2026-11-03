@@ -12,12 +12,12 @@ AcNpcSpFortuneteller::~AcNpcSpFortuneteller()
 }
 
 // ModuleIndoor.cro +0x03B1F0 slot 0x24
-void AcNpcSpFortuneteller::Calc()
+oml::framework::Result AcNpcSpFortuneteller::Calc()
 {
 }
 
 // ModuleIndoor.cro +0x03B124 slot 0x30
-void AcNpcSpFortuneteller::Draw()
+oml::framework::Result AcNpcSpFortuneteller::Draw()
 {
 }
 

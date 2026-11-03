@@ -12,7 +12,7 @@ AcNpcSpSeniorTakumiImport::~AcNpcSpSeniorTakumiImport()
 }
 
 // ModuleIncSave.cro +0x008AA0 slot 0x24
-void AcNpcSpSeniorTakumiImport::Calc()
+oml::framework::Result AcNpcSpSeniorTakumiImport::Calc()
 {
 }
 

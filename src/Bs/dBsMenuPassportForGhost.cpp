@@ -13,22 +13,22 @@ BsMenuPassportForGhost::~BsMenuPassportForGhost()
 }
 
 // 0x0032E890 slot 0x0C | slot vf_0x0C of oml::framework::Process
-void BsMenuPassportForGhost::Initialize()
+oml::framework::Result BsMenuPassportForGhost::Initialize()
 {
 }
 
 // 0x0032EA54 slot 0x18 | slot vf_0x18 of oml::framework::Process
-void BsMenuPassportForGhost::Finalize()
+oml::framework::Result BsMenuPassportForGhost::Finalize()
 {
 }
 
 // 0x0032E9B4 slot 0x24 | slot vf_0x24 of oml::framework::Process
-void BsMenuPassportForGhost::Calc()
+oml::framework::Result BsMenuPassportForGhost::Calc()
 {
 }
 
 // 0x0032E864 slot 0x30 | slot vf_0x30 of oml::framework::Process
-void BsMenuPassportForGhost::Draw()
+oml::framework::Result BsMenuPassportForGhost::Draw()
 {
 }
 

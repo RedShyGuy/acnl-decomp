@@ -13,22 +13,22 @@ AcFsMuObjSimple::~AcFsMuObjSimple()
 }
 
 // ModuleMusFish.cro +0x00A618 slot 0x0C
-void AcFsMuObjSimple::Initialize()
+oml::framework::Result AcFsMuObjSimple::Initialize()
 {
 }
 
 // ModuleMusFish.cro +0x00A89C slot 0x18
-void AcFsMuObjSimple::Finalize()
+oml::framework::Result AcFsMuObjSimple::Finalize()
 {
 }
 
 // ModuleMusFish.cro +0x00A798 slot 0x24
-void AcFsMuObjSimple::Calc()
+oml::framework::Result AcFsMuObjSimple::Calc()
 {
 }
 
 // ModuleMusFish.cro +0x00A5F4 slot 0x30
-void AcFsMuObjSimple::Draw()
+oml::framework::Result AcFsMuObjSimple::Draw()
 {
 }
 

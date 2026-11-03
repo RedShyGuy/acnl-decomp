@@ -1134,10 +1134,10 @@ enum PicaDataDrawMode : u8; // nn/gr/CTR/gr_Types.h
 struct PlayerCapBankKeyword { u32 _unknown; }; // placeholder, real type unknown
 struct PlayerHeadBankKeyword { u32 _unknown; }; // placeholder, real type unknown
 struct PlayerNumber { u32 _unknown; }; // placeholder, real type unknown
-struct PlayerSaveNumber { u32 _unknown; }; // placeholder, real type unknown
+enum PlayerSaveNumber : u8; // Player/dPlayerApi.h
 struct PlayerState { u32 _unknown; }; // placeholder, real type unknown
-struct ProcName { u32 _unknown; }; // placeholder, real type unknown
-struct ProcType { u32 _unknown; }; // placeholder, real type unknown
+enum ProcName : u16; // Other/dProcMgr.h
+enum ProcType : u8; // Other/dProcMgr.h
 struct RandomPlacerUsual { u32 _unknown; }; // placeholder, real type unknown
 struct ScrollBarDescription { u32 _unknown; }; // placeholder, real type unknown
 struct SeID { u32 _unknown; }; // placeholder, real type unknown
@@ -2045,7 +2045,7 @@ namespace netgame {
     class PacketQueue;
     class StageMgr;
     struct AvatarId { u32 _unknown; }; // placeholder, real type unknown
-    struct PlayerNo { u32 _unknown; }; // placeholder, real type unknown
+    enum PlayerNo : u8; // netgame/netgame_Api.h
     struct Type { u32 _unknown; }; // placeholder, real type unknown
 }
 
@@ -3829,7 +3829,7 @@ namespace objctrl {
 namespace oml { namespace framework { 
     class Process;
     class ProcessManager;
-    enum Result : s8; // imgdb/imgdb_Types.h
+    enum Result : u8; // oml/framework/dProcess.h
 }}
 
 namespace palloncino { 
@@ -4432,9 +4432,10 @@ namespace ssys { namespace st {
 
 namespace stage { 
     class TransitionMgr;
-    struct FieldName { u32 _unknown; }; // placeholder, real type unknown
-    struct Kind { u32 _unknown; }; // placeholder, real type unknown
-    struct Name { u32 _unknown; }; // placeholder, real type unknown
+    enum FieldName : u8; // stage/stage_Api.h
+    enum Kind : u32; // stage/stage_Api.h
+    enum Name : u8; // stage/stage_Api.h
+    struct Command; // stage/stage_Api.h
 }
 
 namespace state { 

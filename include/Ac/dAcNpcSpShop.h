@@ -13,7 +13,7 @@ public:
     AcNpcSpShop(); // ctor candidate(s) 0x001C0934 (unverified)
     virtual ~AcNpcSpShop(); // 0x001C0A7C slot 0x00 | slot vf_0x00 of oml::framework::Process
     // 0x001C09B4 slot 0x04 | slot vf_0x04 of oml::framework::Process (deleting dtor)
-    virtual void Calc(); // 0x00605C2C slot 0x24 | slot vf_0x24 of oml::framework::Process
+    virtual oml::framework::Result Calc(); // 0x00605C2C slot 0x24 | slot vf_0x24 of oml::framework::Process
     virtual void vf_0x48(); // 0x0070E2D8 slot 0x48 | virtual slot, introduced by DemoActor
     virtual void vf_0x50(); // 0x0057BB04 slot 0x50 | virtual slot, introduced by DemoActor
     virtual void vf_0x54(); // 0x0070DD10 slot 0x54 | virtual slot, introduced by DemoActor

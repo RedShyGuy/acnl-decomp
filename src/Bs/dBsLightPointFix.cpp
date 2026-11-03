@@ -12,7 +12,7 @@ BsLightPointFix::~BsLightPointFix()
 }
 
 // 0x00285A60 slot 0x0C | slot vf_0x0C of oml::framework::Process
-void BsLightPointFix::Initialize()
+oml::framework::Result BsLightPointFix::Initialize()
 {
 }
 

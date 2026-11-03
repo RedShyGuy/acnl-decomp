@@ -14,5 +14,5 @@ class AcIsFdBeetle : public ::AcInsectFieldBase, public ::ResourceGetSklVis, pub
 public:
     AcIsFdBeetle(); // ctor address unknown
     virtual ~AcIsFdBeetle(); // ModuleOutdoor.cro +0x00DBEC slot 0x00
-    virtual void Draw(); // ModuleOutdoor.cro +0x00D8C0 slot 0x30
+    virtual oml::framework::Result Draw(); // ModuleOutdoor.cro +0x00D8C0 slot 0x30
 };

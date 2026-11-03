@@ -13,27 +13,27 @@ AcObjectBase::~AcObjectBase()
 }
 
 // 0x001F5258 slot 0x0C | slot vf_0x0C of oml::framework::Process
-void AcObjectBase::Initialize()
+oml::framework::Result AcObjectBase::Initialize()
 {
 }
 
 // 0x001F5400 slot 0x18 | slot vf_0x18 of oml::framework::Process
-void AcObjectBase::Finalize()
+oml::framework::Result AcObjectBase::Finalize()
 {
 }
 
 // 0x001F537C slot 0x24 | slot vf_0x24 of oml::framework::Process
-void AcObjectBase::Calc()
+oml::framework::Result AcObjectBase::Calc()
 {
 }
 
 // 0x001F53EC slot 0x2C | slot vf_0x2C of oml::framework::Process
-void AcObjectBase::CanDraw() const
+bool AcObjectBase::CanDraw() const
 {
 }
 
 // 0x001F50A0 slot 0x30 | slot vf_0x30 of oml::framework::Process
-void AcObjectBase::Draw()
+oml::framework::Result AcObjectBase::Draw()
 {
 }
 

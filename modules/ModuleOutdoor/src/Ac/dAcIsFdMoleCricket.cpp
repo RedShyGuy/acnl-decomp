@@ -14,7 +14,7 @@ AcIsFdMoleCricket::~AcIsFdMoleCricket()
 }
 
 // ModuleOutdoor.cro +0x04FB80 slot 0x30
-void AcIsFdMoleCricket::Draw()
+oml::framework::Result AcIsFdMoleCricket::Draw()
 {
 }
 

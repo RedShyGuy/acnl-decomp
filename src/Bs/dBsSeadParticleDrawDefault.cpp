@@ -12,22 +12,22 @@ BsSeadParticleDrawDefault::~BsSeadParticleDrawDefault()
 }
 
 // 0x0032F954 slot 0x0C | slot vf_0x0C of oml::framework::Process
-void BsSeadParticleDrawDefault::Initialize()
+oml::framework::Result BsSeadParticleDrawDefault::Initialize()
 {
 }
 
 // 0x0032FD60 slot 0x18 | slot vf_0x18 of oml::framework::Process
-void BsSeadParticleDrawDefault::Finalize()
+oml::framework::Result BsSeadParticleDrawDefault::Finalize()
 {
 }
 
 // 0x0033F0C8 slot 0x24 | slot vf_0x24 of oml::framework::Process
-void BsSeadParticleDrawDefault::Calc()
+oml::framework::Result BsSeadParticleDrawDefault::Calc()
 {
 }
 
 // 0x0032F8DC slot 0x30 | slot vf_0x30 of oml::framework::Process
-void BsSeadParticleDrawDefault::Draw()
+oml::framework::Result BsSeadParticleDrawDefault::Draw()
 {
 }
 

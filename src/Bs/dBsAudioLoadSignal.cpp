@@ -12,12 +12,12 @@ BsAudioLoadSignal::~BsAudioLoadSignal()
 }
 
 // 0x002C55D4 slot 0x0C | slot vf_0x0C of oml::framework::Process
-void BsAudioLoadSignal::Initialize()
+oml::framework::Result BsAudioLoadSignal::Initialize()
 {
 }
 
 // 0x002C5640 slot 0x18 | slot vf_0x18 of oml::framework::Process
-void BsAudioLoadSignal::Finalize()
+oml::framework::Result BsAudioLoadSignal::Finalize()
 {
 }
 

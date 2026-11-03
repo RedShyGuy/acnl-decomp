@@ -17,9 +17,9 @@ public:
     AcFtr(); // ctor candidate(s) 0x00577F14 (unverified)
     virtual ~AcFtr(); // 0x005781E4 slot 0x00 | slot vf_0x00 of oml::framework::Process
     // 0x005781A4 slot 0x04 | slot vf_0x04 of oml::framework::Process (deleting dtor)
-    virtual void CanCalc() const; // 0x0056F15C slot 0x20 | slot vf_0x20 of oml::framework::Process
-    virtual void Calc(); // 0x00576834 slot 0x24 | slot vf_0x24 of oml::framework::Process
-    virtual void Draw(); // 0x005760B4 slot 0x30 | slot vf_0x30 of oml::framework::Process
+    virtual bool CanCalc() const; // 0x0056F15C slot 0x20 | slot vf_0x20 of oml::framework::Process
+    virtual oml::framework::Result Calc(); // 0x00576834 slot 0x24 | slot vf_0x24 of oml::framework::Process
+    virtual oml::framework::Result Draw(); // 0x005760B4 slot 0x30 | slot vf_0x30 of oml::framework::Process
     virtual void OnNotify(); // 0x0056FC8C slot 0x38 | slot vf_0x38 of oml::framework::Process
     virtual void Unk0(); // 0x00751DF4 slot 0x3C | slot vf_0x3C of Base
     virtual void vf_0x50(); // 0x00577D9C slot 0x50 | virtual slot, introduced by DemoActor

@@ -12,7 +12,7 @@ BsScene::~BsScene()
 }
 
 // 0x006078B0 slot 0x08 | slot vf_0x08 of oml::framework::Process
-void BsScene::CanInitialize() const
+bool BsScene::CanInitialize() const
 {
 }
 
@@ -22,7 +22,7 @@ void BsScene::HandleInitializationResult(oml::framework::Result)
 }
 
 // 0x00607924 slot 0x14 | slot vf_0x14 of oml::framework::Process
-void BsScene::CanFinalize() const
+bool BsScene::CanFinalize() const
 {
 }
 
@@ -32,7 +32,7 @@ void BsScene::HandleFinalizationResult(oml::framework::Result)
 }
 
 // 0x006071DC slot 0x20 | slot vf_0x20 of oml::framework::Process
-void BsScene::CanCalc() const
+bool BsScene::CanCalc() const
 {
 }
 
@@ -42,7 +42,7 @@ void BsScene::HandleCalcResult(oml::framework::Result)
 }
 
 // 0x00607898 slot 0x2C | slot vf_0x2C of oml::framework::Process
-void BsScene::CanDraw() const
+bool BsScene::CanDraw() const
 {
 }
 
@@ -61,3 +61,10 @@ void BsScene::vf_0x40()
 {
 }
 
+// 0x009513CC
+BsScene::ChangeRequest BsScene::s_ChangeRequest;
+
+// 0x006074FC (name is ours)
+void BsScene::RequestChange(u16 name, u8 typeA, u8 faderA, u8 typeB, u8 faderB, u32 arg)
+{
+}

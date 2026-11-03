@@ -12,7 +12,7 @@ AcNpcSpPumpking::~AcNpcSpPumpking()
 }
 
 // ModuleWinter.cro +0x01008C slot 0x24
-void AcNpcSpPumpking::Calc()
+oml::framework::Result AcNpcSpPumpking::Calc()
 {
 }
 

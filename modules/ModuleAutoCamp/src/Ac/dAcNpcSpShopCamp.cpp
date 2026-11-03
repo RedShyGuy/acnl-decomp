@@ -12,7 +12,7 @@ AcNpcSpShopCamp::~AcNpcSpShopCamp()
 }
 
 // ModuleAutoCamp.cro +0x007988 slot 0x24
-void AcNpcSpShopCamp::Calc()
+oml::framework::Result AcNpcSpShopCamp::Calc()
 {
 }
 

@@ -14,5 +14,5 @@ class AcIsFdPillBug : public ::AcInsectFieldRestless, public ::ResourceGetSklVis
 public:
     AcIsFdPillBug(); // ctor address unknown
     virtual ~AcIsFdPillBug(); // ModuleOutdoor.cro +0x01B4E4 slot 0x00
-    virtual void Draw(); // ModuleOutdoor.cro +0x01B24C slot 0x30
+    virtual oml::framework::Result Draw(); // ModuleOutdoor.cro +0x01B24C slot 0x30
 };

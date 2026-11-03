@@ -12,7 +12,7 @@ public:
     AcNpcNml(); // ctor candidate(s) 0x0064CEA8 (unverified)
     virtual ~AcNpcNml(); // 0x0064CF28 slot 0x00 | slot vf_0x00 of oml::framework::Process
     // 0x0064CF18 slot 0x04 | slot vf_0x04 of oml::framework::Process (deleting dtor)
-    virtual void Draw(); // 0x00632744 slot 0x30 | slot vf_0x30 of oml::framework::Process
+    virtual oml::framework::Result Draw(); // 0x00632744 slot 0x30 | slot vf_0x30 of oml::framework::Process
     virtual void vf_0x48(); // 0x00762FF8 slot 0x48 | virtual slot, introduced by DemoActor
     virtual void vf_0x50(); // 0x0064CE5C slot 0x50 | virtual slot, introduced by DemoActor
     virtual void vf_0x78(); // 0x00117065 slot 0x78 | virtual slot, introduced by UtlBase<DemoActor>

@@ -13,22 +13,22 @@ AcObjectShow::~AcObjectShow()
 }
 
 // 0x001F778C slot 0x0C | slot vf_0x0C of oml::framework::Process
-void AcObjectShow::Initialize()
+oml::framework::Result AcObjectShow::Initialize()
 {
 }
 
 // 0x001F790C slot 0x18 | slot vf_0x18 of oml::framework::Process
-void AcObjectShow::Finalize()
+oml::framework::Result AcObjectShow::Finalize()
 {
 }
 
 // 0x001F7820 slot 0x24 | slot vf_0x24 of oml::framework::Process
-void AcObjectShow::Calc()
+oml::framework::Result AcObjectShow::Calc()
 {
 }
 
 // 0x001F7638 slot 0x30 | slot vf_0x30 of oml::framework::Process
-void AcObjectShow::Draw()
+oml::framework::Result AcObjectShow::Draw()
 {
 }
 

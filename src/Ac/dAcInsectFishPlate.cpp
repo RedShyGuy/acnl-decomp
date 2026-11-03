@@ -13,22 +13,22 @@ AcInsectFishPlate::~AcInsectFishPlate()
 }
 
 // 0x002C4C4C slot 0x0C | slot vf_0x0C of oml::framework::Process
-void AcInsectFishPlate::Initialize()
+oml::framework::Result AcInsectFishPlate::Initialize()
 {
 }
 
 // 0x002C4DCC slot 0x18 | slot vf_0x18 of oml::framework::Process
-void AcInsectFishPlate::Finalize()
+oml::framework::Result AcInsectFishPlate::Finalize()
 {
 }
 
 // 0x002C4CB8 slot 0x24 | slot vf_0x24 of oml::framework::Process
-void AcInsectFishPlate::Calc()
+oml::framework::Result AcInsectFishPlate::Calc()
 {
 }
 
 // 0x002C4C44 slot 0x30 | slot vf_0x30 of oml::framework::Process
-void AcInsectFishPlate::Draw()
+oml::framework::Result AcInsectFishPlate::Draw()
 {
 }
 

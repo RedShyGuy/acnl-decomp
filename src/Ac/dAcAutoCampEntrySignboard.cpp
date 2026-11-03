@@ -14,12 +14,12 @@ AcAutoCampEntrySignboard::~AcAutoCampEntrySignboard()
 }
 
 // 0x00336038 slot 0x24 | slot vf_0x24 of oml::framework::Process
-void AcAutoCampEntrySignboard::Calc()
+oml::framework::Result AcAutoCampEntrySignboard::Calc()
 {
 }
 
 // 0x00336030 slot 0x30 | slot vf_0x30 of oml::framework::Process
-void AcAutoCampEntrySignboard::Draw()
+oml::framework::Result AcAutoCampEntrySignboard::Draw()
 {
 }
 
