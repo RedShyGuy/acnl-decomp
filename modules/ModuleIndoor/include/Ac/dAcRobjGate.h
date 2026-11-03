@@ -10,6 +10,6 @@ class AcRobjGate : public ::UtlBase<Actor>
 public:
     AcRobjGate(); // ctor address unknown
     virtual ~AcRobjGate(); // ModuleIndoor.cro +0x005FBC slot 0x00
-    virtual void Calc(); // ModuleIndoor.cro +0x005DA0 slot 0x24
-    virtual void Draw(); // ModuleIndoor.cro +0x005CE0 slot 0x30
+    virtual oml::framework::Result Calc(); // ModuleIndoor.cro +0x005DA0 slot 0x24
+    virtual oml::framework::Result Draw(); // ModuleIndoor.cro +0x005CE0 slot 0x30
 };

@@ -13,12 +13,12 @@ AcStrcOffice::~AcStrcOffice()
 }
 
 // ModuleOutdoor.cro +0x015EC4 slot 0x24
-void AcStrcOffice::Calc()
+oml::framework::Result AcStrcOffice::Calc()
 {
 }
 
 // ModuleOutdoor.cro +0x015E04 slot 0x30
-void AcStrcOffice::Draw()
+oml::framework::Result AcStrcOffice::Draw()
 {
 }
 

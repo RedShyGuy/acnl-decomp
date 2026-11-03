@@ -14,17 +14,17 @@ AcStrcModelHousePlate::~AcStrcModelHousePlate()
 }
 
 // ModuleExhibition.cro +0x00661C slot 0x08
-void AcStrcModelHousePlate::CanInitialize() const
+bool AcStrcModelHousePlate::CanInitialize() const
 {
 }
 
 // ModuleExhibition.cro +0x0062CC slot 0x24
-void AcStrcModelHousePlate::Calc()
+oml::framework::Result AcStrcModelHousePlate::Calc()
 {
 }
 
 // ModuleExhibition.cro +0x006230 slot 0x30
-void AcStrcModelHousePlate::Draw()
+oml::framework::Result AcStrcModelHousePlate::Draw()
 {
 }
 

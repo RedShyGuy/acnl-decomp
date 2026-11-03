@@ -13,22 +13,22 @@ AcRobjResetChair::~AcRobjResetChair()
 }
 
 // ModuleReMoCnt.cro +0x0058A8 slot 0x0C
-void AcRobjResetChair::Initialize()
+oml::framework::Result AcRobjResetChair::Initialize()
 {
 }
 
 // ModuleReMoCnt.cro +0x005944 slot 0x18
-void AcRobjResetChair::Finalize()
+oml::framework::Result AcRobjResetChair::Finalize()
 {
 }
 
 // ModuleReMoCnt.cro +0x001F44 slot 0x24
-void AcRobjResetChair::Calc()
+oml::framework::Result AcRobjResetChair::Calc()
 {
 }
 
 // ModuleReMoCnt.cro +0x001F2C slot 0x30
-void AcRobjResetChair::Draw()
+oml::framework::Result AcRobjResetChair::Draw()
 {
 }
 

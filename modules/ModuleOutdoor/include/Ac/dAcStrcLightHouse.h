@@ -10,6 +10,6 @@ class AcStrcLightHouse : public ::UtlBase<AcStrc>
 public:
     AcStrcLightHouse(); // ctor address unknown
     virtual ~AcStrcLightHouse(); // ModuleOutdoor.cro +0x037264 slot 0x00
-    virtual void Calc(); // ModuleOutdoor.cro +0x036F70 slot 0x24
-    virtual void Draw(); // ModuleOutdoor.cro +0x036ED4 slot 0x30
+    virtual oml::framework::Result Calc(); // ModuleOutdoor.cro +0x036F70 slot 0x24
+    virtual oml::framework::Result Draw(); // ModuleOutdoor.cro +0x036ED4 slot 0x30
 };

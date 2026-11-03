@@ -14,12 +14,12 @@ escape::BsCombineScene::~BsCombineScene()
 }
 
 // ModuleMiniGame0.cro +0x02A40C slot 0x24
-void escape::BsCombineScene::Calc()
+oml::framework::Result escape::BsCombineScene::Calc()
 {
 }
 
 // ModuleMiniGame0.cro +0x029CCC slot 0x30
-void escape::BsCombineScene::Draw()
+oml::framework::Result escape::BsCombineScene::Draw()
 {
 }
 

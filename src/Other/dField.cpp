@@ -5,8 +5,9 @@ void Field::GetFg(long, long, unsigned char)
 {
 }
 
+// (at least 32: the field code reads up to index 31; the next variable is 0x9B5ACC)
 // 0x009B5A24
-Field* Field::s_pFields[3];
+Field* Field::s_pFields[32];
 
 #include "stage/stage_Extern.h"
 

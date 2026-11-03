@@ -10,6 +10,6 @@ class AcStrcDemoPier : public ::UtlBase<AcStrc>
 public:
     AcStrcDemoPier(); // ctor address unknown
     virtual ~AcStrcDemoPier(); // ModuleOutdoor.cro +0x0241C0 slot 0x00
-    virtual void Calc(); // ModuleOutdoor.cro +0x024070 slot 0x24
-    virtual void Draw(); // ModuleOutdoor.cro +0x02404C slot 0x30
+    virtual oml::framework::Result Calc(); // ModuleOutdoor.cro +0x024070 slot 0x24
+    virtual oml::framework::Result Draw(); // ModuleOutdoor.cro +0x02404C slot 0x30
 };

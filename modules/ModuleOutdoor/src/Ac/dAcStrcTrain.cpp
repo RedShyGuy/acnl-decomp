@@ -13,12 +13,12 @@ AcStrcTrain::~AcStrcTrain()
 }
 
 // ModuleOutdoor.cro +0x00C800 slot 0x24
-void AcStrcTrain::Calc()
+oml::framework::Result AcStrcTrain::Calc()
 {
 }
 
 // ModuleOutdoor.cro +0x00C7DC slot 0x30
-void AcStrcTrain::Draw()
+oml::framework::Result AcStrcTrain::Draw()
 {
 }
 

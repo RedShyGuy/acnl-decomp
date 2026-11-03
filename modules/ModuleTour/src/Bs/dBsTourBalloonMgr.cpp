@@ -13,22 +13,22 @@ BsTourBalloonMgr::~BsTourBalloonMgr()
 }
 
 // ModuleTour.cro +0x00E868 slot 0x0C
-void BsTourBalloonMgr::Initialize()
+oml::framework::Result BsTourBalloonMgr::Initialize()
 {
 }
 
 // ModuleTour.cro +0x00E904 slot 0x18
-void BsTourBalloonMgr::Finalize()
+oml::framework::Result BsTourBalloonMgr::Finalize()
 {
 }
 
 // ModuleTour.cro +0x0060CC slot 0x24
-void BsTourBalloonMgr::Calc()
+oml::framework::Result BsTourBalloonMgr::Calc()
 {
 }
 
 // ModuleTour.cro +0x0060C4 slot 0x30
-void BsTourBalloonMgr::Draw()
+oml::framework::Result BsTourBalloonMgr::Draw()
 {
 }
 

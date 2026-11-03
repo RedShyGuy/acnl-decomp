@@ -10,6 +10,6 @@ class AcStrcFieldObj : public ::UtlBase<AcStrc>
 public:
     AcStrcFieldObj(); // ctor address unknown
     virtual ~AcStrcFieldObj(); // ModuleOutdoor.cro +0x029058 slot 0x00
-    virtual void Calc(); // ModuleOutdoor.cro +0x028B60 slot 0x24
-    virtual void Draw(); // ModuleOutdoor.cro +0x028B2C slot 0x30
+    virtual oml::framework::Result Calc(); // ModuleOutdoor.cro +0x028B60 slot 0x24
+    virtual oml::framework::Result Draw(); // ModuleOutdoor.cro +0x028B2C slot 0x30
 };

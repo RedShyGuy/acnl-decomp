@@ -12,12 +12,12 @@ AcNpcSpKappei::~AcNpcSpKappei()
 }
 
 // ModuleKappei.cro +0x0028CC slot 0x0C
-void AcNpcSpKappei::Initialize()
+oml::framework::Result AcNpcSpKappei::Initialize()
 {
 }
 
 // ModuleKappei.cro +0x002968 slot 0x18
-void AcNpcSpKappei::Finalize()
+oml::framework::Result AcNpcSpKappei::Finalize()
 {
 }
 

@@ -10,6 +10,6 @@ class AcStrcCrossing : public ::UtlBase<AcStrc>
 public:
     AcStrcCrossing(); // ctor address unknown
     virtual ~AcStrcCrossing(); // ModuleOutdoor.cro +0x023578 slot 0x00
-    virtual void Calc(); // ModuleOutdoor.cro +0x022FF8 slot 0x24
-    virtual void Draw(); // ModuleOutdoor.cro +0x022FC4 slot 0x30
+    virtual oml::framework::Result Calc(); // ModuleOutdoor.cro +0x022FF8 slot 0x24
+    virtual oml::framework::Result Draw(); // ModuleOutdoor.cro +0x022FC4 slot 0x30
 };

@@ -10,6 +10,6 @@ class AcRobjProjector : public ::UtlBase<Actor>
 public:
     AcRobjProjector(); // ctor address unknown
     virtual ~AcRobjProjector(); // ModuleClub.cro +0x00CD4C slot 0x00
-    virtual void Calc(); // ModuleClub.cro +0x00C9DC slot 0x24
-    virtual void Draw(); // ModuleClub.cro +0x00C850 slot 0x30
+    virtual oml::framework::Result Calc(); // ModuleClub.cro +0x00C9DC slot 0x24
+    virtual oml::framework::Result Draw(); // ModuleClub.cro +0x00C850 slot 0x30
 };

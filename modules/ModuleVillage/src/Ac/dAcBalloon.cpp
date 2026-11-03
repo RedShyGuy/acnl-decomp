@@ -13,22 +13,22 @@ AcBalloon::~AcBalloon()
 }
 
 // ModuleVillage.cro +0x01CE08 slot 0x0C
-void AcBalloon::Initialize()
+oml::framework::Result AcBalloon::Initialize()
 {
 }
 
 // ModuleVillage.cro +0x01CEA4 slot 0x18
-void AcBalloon::Finalize()
+oml::framework::Result AcBalloon::Finalize()
 {
 }
 
 // ModuleVillage.cro +0x01B494 slot 0x24
-void AcBalloon::Calc()
+oml::framework::Result AcBalloon::Calc()
 {
 }
 
 // ModuleVillage.cro +0x01AFF4 slot 0x30
-void AcBalloon::Draw()
+oml::framework::Result AcBalloon::Draw()
 {
 }
 

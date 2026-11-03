@@ -12,12 +12,12 @@ AcNpcApril::~AcNpcApril()
 }
 
 // ModuleIndoor.cro +0x05FBF4 slot 0x0C
-void AcNpcApril::Initialize()
+oml::framework::Result AcNpcApril::Initialize()
 {
 }
 
 // ModuleIndoor.cro +0x05FC90 slot 0x18
-void AcNpcApril::Finalize()
+oml::framework::Result AcNpcApril::Finalize()
 {
 }
 

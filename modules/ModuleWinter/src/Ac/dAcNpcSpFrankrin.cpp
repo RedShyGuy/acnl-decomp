@@ -12,12 +12,12 @@ AcNpcSpFrankrin::~AcNpcSpFrankrin()
 }
 
 // ModuleWinter.cro +0x010EEC slot 0x0C
-void AcNpcSpFrankrin::Initialize()
+oml::framework::Result AcNpcSpFrankrin::Initialize()
 {
 }
 
 // ModuleWinter.cro +0x010F88 slot 0x18
-void AcNpcSpFrankrin::Finalize()
+oml::framework::Result AcNpcSpFrankrin::Finalize()
 {
 }
 

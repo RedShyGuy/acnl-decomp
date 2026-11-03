@@ -10,6 +10,6 @@ class BsIndoorViewMgr : public ::UtlBase<Base>
 public:
     BsIndoorViewMgr(); // ctor address unknown
     virtual ~BsIndoorViewMgr(); // ModuleIndoor.cro +0x020214 slot 0x00
-    virtual void Calc(); // ModuleIndoor.cro +0x01F840 slot 0x24
-    virtual void Draw(); // ModuleIndoor.cro +0x01F69C slot 0x30
+    virtual oml::framework::Result Calc(); // ModuleIndoor.cro +0x01F840 slot 0x24
+    virtual oml::framework::Result Draw(); // ModuleIndoor.cro +0x01F69C slot 0x30
 };

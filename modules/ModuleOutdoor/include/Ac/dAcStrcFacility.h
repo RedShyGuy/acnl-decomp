@@ -10,6 +10,6 @@ class AcStrcFacility : public ::UtlBase<AcStrc>
 public:
     AcStrcFacility(); // ctor address unknown
     virtual ~AcStrcFacility(); // ModuleOutdoor.cro +0x026EA8 slot 0x00
-    virtual void Calc(); // ModuleOutdoor.cro +0x0263E4 slot 0x24
-    virtual void Draw(); // ModuleOutdoor.cro +0x026398 slot 0x30
+    virtual oml::framework::Result Calc(); // ModuleOutdoor.cro +0x0263E4 slot 0x24
+    virtual oml::framework::Result Draw(); // ModuleOutdoor.cro +0x026398 slot 0x30
 };

@@ -13,12 +13,12 @@ AcStrcTableHarvest::~AcStrcTableHarvest()
 }
 
 // ModuleOutdoor.cro +0x05B824 slot 0x24
-void AcStrcTableHarvest::Calc()
+oml::framework::Result AcStrcTableHarvest::Calc()
 {
 }
 
 // ModuleOutdoor.cro +0x05B7AC slot 0x30
-void AcStrcTableHarvest::Draw()
+oml::framework::Result AcStrcTableHarvest::Draw()
 {
 }
 

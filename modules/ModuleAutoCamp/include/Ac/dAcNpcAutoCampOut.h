@@ -10,6 +10,6 @@ public:
     class AutoCampOutTalkRcpt;
     AcNpcAutoCampOut(); // ctor address unknown
     virtual ~AcNpcAutoCampOut(); // ModuleAutoCamp.cro +0x008EEC slot 0x00
-    virtual void Initialize(); // ModuleAutoCamp.cro +0x00C358 slot 0x0C
-    virtual void Finalize(); // ModuleAutoCamp.cro +0x00C3F4 slot 0x18
+    virtual oml::framework::Result Initialize(); // ModuleAutoCamp.cro +0x00C358 slot 0x0C
+    virtual oml::framework::Result Finalize(); // ModuleAutoCamp.cro +0x00C3F4 slot 0x18
 };

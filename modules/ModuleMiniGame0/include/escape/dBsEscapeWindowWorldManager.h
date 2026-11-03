@@ -11,7 +11,7 @@ class BsEscapeWindowWorldManager : public ::UtlBase<Base>
 public:
     BsEscapeWindowWorldManager(); // ctor address unknown
     virtual ~BsEscapeWindowWorldManager(); // ModuleMiniGame0.cro +0x09E4D0 slot 0x00
-    virtual void Calc(); // ModuleMiniGame0.cro +0x09E430 slot 0x24
-    virtual void Draw(); // ModuleMiniGame0.cro +0x09E2B8 slot 0x30
+    virtual oml::framework::Result Calc(); // ModuleMiniGame0.cro +0x09E430 slot 0x24
+    virtual oml::framework::Result Draw(); // ModuleMiniGame0.cro +0x09E2B8 slot 0x30
 };
 } // namespace escape

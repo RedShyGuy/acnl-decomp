@@ -13,7 +13,7 @@ esctitle::BsEscapeTitleModelBoat::~BsEscapeTitleModelBoat()
 }
 
 // ModuleMiniGame0.cro +0x0ABC78 slot 0x30
-void esctitle::BsEscapeTitleModelBoat::Draw()
+oml::framework::Result esctitle::BsEscapeTitleModelBoat::Draw()
 {
 }
 

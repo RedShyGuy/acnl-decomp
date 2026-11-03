@@ -13,12 +13,12 @@ AcStrcCountDownBBS::~AcStrcCountDownBBS()
 }
 
 // ModuleOutdoor.cro +0x058B88 slot 0x24
-void AcStrcCountDownBBS::Calc()
+oml::framework::Result AcStrcCountDownBBS::Calc()
 {
 }
 
 // ModuleOutdoor.cro +0x058B10 slot 0x30
-void AcStrcCountDownBBS::Draw()
+oml::framework::Result AcStrcCountDownBBS::Draw()
 {
 }
 

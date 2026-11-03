@@ -13,22 +13,22 @@ BsFossilPlateMgr::~BsFossilPlateMgr()
 }
 
 // ModuleMusFossil.cro +0x000FE4 slot 0x0C
-void BsFossilPlateMgr::Initialize()
+oml::framework::Result BsFossilPlateMgr::Initialize()
 {
 }
 
 // ModuleMusFossil.cro +0x001080 slot 0x18
-void BsFossilPlateMgr::Finalize()
+oml::framework::Result BsFossilPlateMgr::Finalize()
 {
 }
 
 // ModuleMusFossil.cro +0x000A0C slot 0x24
-void BsFossilPlateMgr::Calc()
+oml::framework::Result BsFossilPlateMgr::Calc()
 {
 }
 
 // ModuleMusFossil.cro +0x000A04 slot 0x30
-void BsFossilPlateMgr::Draw()
+oml::framework::Result BsFossilPlateMgr::Draw()
 {
 }
 

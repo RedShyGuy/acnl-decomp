@@ -14,12 +14,12 @@ AcStrcCoolerBox::~AcStrcCoolerBox()
 }
 
 // ModuleOutdoor.cro +0x034468 slot 0x24
-void AcStrcCoolerBox::Calc()
+oml::framework::Result AcStrcCoolerBox::Calc()
 {
 }
 
 // ModuleOutdoor.cro +0x0343F8 slot 0x30
-void AcStrcCoolerBox::Draw()
+oml::framework::Result AcStrcCoolerBox::Draw()
 {
 }
 

@@ -10,6 +10,6 @@ class BsBuoyString : public ::UtlBase<Base>
 public:
     BsBuoyString(); // ctor address unknown
     virtual ~BsBuoyString(); // ModuleOutdoor.cro +0x017910 slot 0x00
-    virtual void Calc(); // ModuleOutdoor.cro +0x017818 slot 0x24
-    virtual void Draw(); // ModuleOutdoor.cro +0x0177B8 slot 0x30
+    virtual oml::framework::Result Calc(); // ModuleOutdoor.cro +0x017818 slot 0x24
+    virtual oml::framework::Result Draw(); // ModuleOutdoor.cro +0x0177B8 slot 0x30
 };

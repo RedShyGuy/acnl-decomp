@@ -10,6 +10,6 @@ class AcStrcDonationBox : public ::UtlBase<AcStrc>
 public:
     AcStrcDonationBox(); // ctor address unknown
     virtual ~AcStrcDonationBox(); // ModuleOutdoor.cro +0x0538BC slot 0x00
-    virtual void Calc(); // ModuleOutdoor.cro +0x0535AC slot 0x24
-    virtual void Draw(); // ModuleOutdoor.cro +0x053588 slot 0x30
+    virtual oml::framework::Result Calc(); // ModuleOutdoor.cro +0x0535AC slot 0x24
+    virtual oml::framework::Result Draw(); // ModuleOutdoor.cro +0x053588 slot 0x30
 };

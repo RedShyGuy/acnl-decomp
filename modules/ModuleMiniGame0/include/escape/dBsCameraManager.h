@@ -11,7 +11,7 @@ class BsCameraManager : public ::UtlBase<Base>
 public:
     BsCameraManager(); // ctor address unknown
     virtual ~BsCameraManager(); // ModuleMiniGame0.cro +0x02E8D4 slot 0x00
-    virtual void Calc(); // ModuleMiniGame0.cro +0x02E868 slot 0x24
-    virtual void Draw(); // ModuleMiniGame0.cro +0x02E844 slot 0x30
+    virtual oml::framework::Result Calc(); // ModuleMiniGame0.cro +0x02E868 slot 0x24
+    virtual oml::framework::Result Draw(); // ModuleMiniGame0.cro +0x02E844 slot 0x30
 };
 } // namespace escape

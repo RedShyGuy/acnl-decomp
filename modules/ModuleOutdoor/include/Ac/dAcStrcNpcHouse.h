@@ -10,6 +10,6 @@ class AcStrcNpcHouse : public ::UtlBase<AcStrc>
 public:
     AcStrcNpcHouse(); // ctor address unknown
     virtual ~AcStrcNpcHouse(); // ModuleOutdoor.cro +0x02A8C0 slot 0x00
-    virtual void Calc(); // ModuleOutdoor.cro +0x02A568 slot 0x24
-    virtual void Draw(); // ModuleOutdoor.cro +0x02A49C slot 0x30
+    virtual oml::framework::Result Calc(); // ModuleOutdoor.cro +0x02A568 slot 0x24
+    virtual oml::framework::Result Draw(); // ModuleOutdoor.cro +0x02A49C slot 0x30
 };

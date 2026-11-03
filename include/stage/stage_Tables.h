@@ -19,9 +19,5 @@ extern const u8 s_HouseRooms[4][6];
 // the game stages of the island and their result stages
 extern const u8 s_IslandGames[12];
 extern const u8 s_IslandGameResults[12];
-// the definitions that every stage, the indoor stages and the Kotobuki stages build in addition
-extern const Info s_CommonInfo;
-extern const Info s_IndoorInfo;
-extern const Info s_KotobukiInfo;
 } // namespace detail
 } // namespace stage

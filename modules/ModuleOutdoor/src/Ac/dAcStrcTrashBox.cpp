@@ -13,12 +13,12 @@ AcStrcTrashBox::~AcStrcTrashBox()
 }
 
 // ModuleOutdoor.cro +0x02B670 slot 0x24
-void AcStrcTrashBox::Calc()
+oml::framework::Result AcStrcTrashBox::Calc()
 {
 }
 
 // ModuleOutdoor.cro +0x02B5EC slot 0x30
-void AcStrcTrashBox::Draw()
+oml::framework::Result AcStrcTrashBox::Draw()
 {
 }
 

@@ -17,7 +17,7 @@ oml::framework::Result AcNpcSpYutarouVisit::Calc()
 }
 
 // ModuleRealVillage.cro +0x0094AC slot 0x2C
-void AcNpcSpYutarouVisit::CanDraw() const
+bool AcNpcSpYutarouVisit::CanDraw() const
 {
 }
 

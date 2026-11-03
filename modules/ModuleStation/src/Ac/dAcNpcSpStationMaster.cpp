@@ -12,12 +12,12 @@ AcNpcSpStationMaster::~AcNpcSpStationMaster()
 }
 
 // ModuleStation.cro +0x00B918 slot 0x0C
-void AcNpcSpStationMaster::Initialize()
+oml::framework::Result AcNpcSpStationMaster::Initialize()
 {
 }
 
 // ModuleStation.cro +0x00B9B4 slot 0x18
-void AcNpcSpStationMaster::Finalize()
+oml::framework::Result AcNpcSpStationMaster::Finalize()
 {
 }
 

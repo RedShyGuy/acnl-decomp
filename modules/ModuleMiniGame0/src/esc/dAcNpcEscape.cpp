@@ -13,12 +13,12 @@ esc::AcNpcEscape::~AcNpcEscape()
 }
 
 // ModuleMiniGame0.cro +0x0D7B6C slot 0x0C
-void esc::AcNpcEscape::Initialize()
+oml::framework::Result esc::AcNpcEscape::Initialize()
 {
 }
 
 // ModuleMiniGame0.cro +0x0D7C08 slot 0x18
-void esc::AcNpcEscape::Finalize()
+oml::framework::Result esc::AcNpcEscape::Finalize()
 {
 }
 

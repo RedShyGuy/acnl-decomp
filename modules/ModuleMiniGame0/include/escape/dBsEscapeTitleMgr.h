@@ -11,8 +11,8 @@ class BsEscapeTitleMgr : public ::UtlBase<Base>
 public:
     BsEscapeTitleMgr(); // ctor address unknown
     virtual ~BsEscapeTitleMgr(); // ModuleMiniGame0.cro +0x03A708 slot 0x00
-    virtual void Calc(); // ModuleMiniGame0.cro +0x03A168 slot 0x24
-    virtual void Draw(); // ModuleMiniGame0.cro +0x03A088 slot 0x30
+    virtual oml::framework::Result Calc(); // ModuleMiniGame0.cro +0x03A168 slot 0x24
+    virtual oml::framework::Result Draw(); // ModuleMiniGame0.cro +0x03A088 slot 0x30
     virtual void OnNotify(); // ModuleMiniGame0.cro +0x03594C slot 0x38
 };
 } // namespace escape

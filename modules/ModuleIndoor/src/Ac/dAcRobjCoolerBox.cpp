@@ -14,12 +14,12 @@ AcRobjCoolerBox::~AcRobjCoolerBox()
 }
 
 // ModuleIndoor.cro +0x01ADF8 slot 0x24
-void AcRobjCoolerBox::Calc()
+oml::framework::Result AcRobjCoolerBox::Calc()
 {
 }
 
 // ModuleIndoor.cro +0x01ADE0 slot 0x30
-void AcRobjCoolerBox::Draw()
+oml::framework::Result AcRobjCoolerBox::Draw()
 {
 }
 

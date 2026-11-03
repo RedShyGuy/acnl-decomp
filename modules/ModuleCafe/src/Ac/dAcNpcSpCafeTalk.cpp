@@ -12,12 +12,12 @@ AcNpcSpCafeTalk::~AcNpcSpCafeTalk()
 }
 
 // ModuleCafe.cro +0x00CAAC slot 0x0C
-void AcNpcSpCafeTalk::Initialize()
+oml::framework::Result AcNpcSpCafeTalk::Initialize()
 {
 }
 
 // ModuleCafe.cro +0x00CB48 slot 0x18
-void AcNpcSpCafeTalk::Finalize()
+oml::framework::Result AcNpcSpCafeTalk::Finalize()
 {
 }
 

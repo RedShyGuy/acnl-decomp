@@ -13,12 +13,12 @@ AcStrcGeyser::~AcStrcGeyser()
 }
 
 // ModuleOutdoor.cro +0x014A1C slot 0x24
-void AcStrcGeyser::Calc()
+oml::framework::Result AcStrcGeyser::Calc()
 {
 }
 
 // ModuleOutdoor.cro +0x014990 slot 0x30
-void AcStrcGeyser::Draw()
+oml::framework::Result AcStrcGeyser::Draw()
 {
 }
 

@@ -11,7 +11,7 @@ class BsEscapeMap : public ::UtlBase<Base>
 public:
     BsEscapeMap(); // ctor address unknown
     virtual ~BsEscapeMap(); // ModuleMiniGame0.cro +0x016D84 slot 0x00
-    virtual void Calc(); // ModuleMiniGame0.cro +0x016944 slot 0x24
-    virtual void Draw(); // ModuleMiniGame0.cro +0x016710 slot 0x30
+    virtual oml::framework::Result Calc(); // ModuleMiniGame0.cro +0x016944 slot 0x24
+    virtual oml::framework::Result Draw(); // ModuleMiniGame0.cro +0x016710 slot 0x30
 };
 } // namespace escape

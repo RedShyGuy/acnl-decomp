@@ -13,22 +13,22 @@ AcAutoCampBird::~AcAutoCampBird()
 }
 
 // ModuleAutoCamp.cro +0x00C1C4 slot 0x0C
-void AcAutoCampBird::Initialize()
+oml::framework::Result AcAutoCampBird::Initialize()
 {
 }
 
 // ModuleAutoCamp.cro +0x00C260 slot 0x18
-void AcAutoCampBird::Finalize()
+oml::framework::Result AcAutoCampBird::Finalize()
 {
 }
 
 // ModuleAutoCamp.cro +0x003E18 slot 0x24
-void AcAutoCampBird::Calc()
+oml::framework::Result AcAutoCampBird::Calc()
 {
 }
 
 // ModuleAutoCamp.cro +0x003D9C slot 0x30
-void AcAutoCampBird::Draw()
+oml::framework::Result AcAutoCampBird::Draw()
 {
 }
 

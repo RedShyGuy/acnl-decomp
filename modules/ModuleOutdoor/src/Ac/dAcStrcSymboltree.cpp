@@ -13,12 +13,12 @@ AcStrcSymboltree::~AcStrcSymboltree()
 }
 
 // ModuleOutdoor.cro +0x038584 slot 0x24
-void AcStrcSymboltree::Calc()
+oml::framework::Result AcStrcSymboltree::Calc()
 {
 }
 
 // ModuleOutdoor.cro +0x03847C slot 0x30
-void AcStrcSymboltree::Draw()
+oml::framework::Result AcStrcSymboltree::Draw()
 {
 }
 

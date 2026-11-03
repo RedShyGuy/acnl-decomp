@@ -14,12 +14,12 @@ minigame0::BsMiniGame0Bg::~BsMiniGame0Bg()
 }
 
 // ModuleMiniGame0.cro +0x0B0D7C slot 0x24
-void minigame0::BsMiniGame0Bg::Calc()
+oml::framework::Result minigame0::BsMiniGame0Bg::Calc()
 {
 }
 
 // ModuleMiniGame0.cro +0x0B0D58 slot 0x30
-void minigame0::BsMiniGame0Bg::Draw()
+oml::framework::Result minigame0::BsMiniGame0Bg::Draw()
 {
 }
 

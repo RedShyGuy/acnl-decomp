@@ -13,12 +13,12 @@ AcStrcScreen::~AcStrcScreen()
 }
 
 // ModuleOutdoor.cro +0x0172DC slot 0x24
-void AcStrcScreen::Calc()
+oml::framework::Result AcStrcScreen::Calc()
 {
 }
 
 // ModuleOutdoor.cro +0x01725C slot 0x30
-void AcStrcScreen::Draw()
+oml::framework::Result AcStrcScreen::Draw()
 {
 }
 

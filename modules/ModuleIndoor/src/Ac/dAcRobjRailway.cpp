@@ -13,12 +13,12 @@ AcRobjRailway::~AcRobjRailway()
 }
 
 // ModuleIndoor.cro +0x0137C4 slot 0x24
-void AcRobjRailway::Calc()
+oml::framework::Result AcRobjRailway::Calc()
 {
 }
 
 // ModuleIndoor.cro +0x0137AC slot 0x30
-void AcRobjRailway::Draw()
+oml::framework::Result AcRobjRailway::Draw()
 {
 }
 

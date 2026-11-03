@@ -12,12 +12,12 @@ AcNpcSpCleaning::~AcNpcSpCleaning()
 }
 
 // ModuleRealVillage.cro +0x0117B8 slot 0x0C
-void AcNpcSpCleaning::Initialize()
+oml::framework::Result AcNpcSpCleaning::Initialize()
 {
 }
 
 // ModuleRealVillage.cro +0x011854 slot 0x18
-void AcNpcSpCleaning::Finalize()
+oml::framework::Result AcNpcSpCleaning::Finalize()
 {
 }
 

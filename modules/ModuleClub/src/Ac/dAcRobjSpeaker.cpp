@@ -13,12 +13,12 @@ AcRobjSpeaker::~AcRobjSpeaker()
 }
 
 // ModuleClub.cro +0x004F1C slot 0x24
-void AcRobjSpeaker::Calc()
+oml::framework::Result AcRobjSpeaker::Calc()
 {
 }
 
 // ModuleClub.cro +0x004F04 slot 0x30
-void AcRobjSpeaker::Draw()
+oml::framework::Result AcRobjSpeaker::Draw()
 {
 }
 

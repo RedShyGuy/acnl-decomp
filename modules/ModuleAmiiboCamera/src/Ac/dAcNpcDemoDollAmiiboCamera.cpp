@@ -12,12 +12,12 @@ AcNpcDemoDollAmiiboCamera::~AcNpcDemoDollAmiiboCamera()
 }
 
 // ModuleAmiiboCamera.cro +0x012F90 slot 0x0C
-void AcNpcDemoDollAmiiboCamera::Initialize()
+oml::framework::Result AcNpcDemoDollAmiiboCamera::Initialize()
 {
 }
 
 // ModuleAmiiboCamera.cro +0x01302C slot 0x18
-void AcNpcDemoDollAmiiboCamera::Finalize()
+oml::framework::Result AcNpcDemoDollAmiiboCamera::Finalize()
 {
 }
 

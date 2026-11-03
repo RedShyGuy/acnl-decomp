@@ -13,12 +13,12 @@ AcRobjProjector::~AcRobjProjector()
 }
 
 // ModuleClub.cro +0x00C9DC slot 0x24
-void AcRobjProjector::Calc()
+oml::framework::Result AcRobjProjector::Calc()
 {
 }
 
 // ModuleClub.cro +0x00C850 slot 0x30
-void AcRobjProjector::Draw()
+oml::framework::Result AcRobjProjector::Draw()
 {
 }
 

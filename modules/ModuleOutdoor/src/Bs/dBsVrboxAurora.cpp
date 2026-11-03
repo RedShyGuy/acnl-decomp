@@ -13,12 +13,12 @@ BsVrboxAurora::~BsVrboxAurora()
 }
 
 // ModuleOutdoor.cro +0x01DB04 slot 0x24
-void BsVrboxAurora::Calc()
+oml::framework::Result BsVrboxAurora::Calc()
 {
 }
 
 // ModuleOutdoor.cro +0x01DAB8 slot 0x30
-void BsVrboxAurora::Draw()
+oml::framework::Result BsVrboxAurora::Draw()
 {
 }
 

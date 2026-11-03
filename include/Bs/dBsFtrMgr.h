@@ -25,9 +25,4 @@ public:
     virtual void vf_0x50(); // 0x006921C0 slot 0x50 | virtual slot, introduced by BsFtrMgr
     virtual void vf_0x54(); // 0x00691E6C slot 0x54 | virtual slot, introduced by BsFtrMgr
     void CreateFtrActor(BsFtrMgr::CreateFtrArg const&); // 0x00690F8C | libgarden [tier A]
-
-    // (names are ours; only what the stage code uses)
-    static BsFtrMgr* s_pInstance;
-    // creates the furniture of a stage command (command 3 of a stage definition)
-    bool CreateFurniture(const stage::Command* command); // 0x006967BC
 };

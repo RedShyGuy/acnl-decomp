@@ -12,7 +12,7 @@ class AcStrcModelHousePlate : public ::UtlBase<DemoActor>, public ::script::ITal
 public:
     AcStrcModelHousePlate(); // ctor address unknown
     virtual ~AcStrcModelHousePlate(); // ModuleExhibition.cro +0x0066F0 slot 0x00
-    virtual void CanInitialize() const; // ModuleExhibition.cro +0x00661C slot 0x08
-    virtual void Calc(); // ModuleExhibition.cro +0x0062CC slot 0x24
-    virtual void Draw(); // ModuleExhibition.cro +0x006230 slot 0x30
+    virtual bool CanInitialize() const; // ModuleExhibition.cro +0x00661C slot 0x08
+    virtual oml::framework::Result Calc(); // ModuleExhibition.cro +0x0062CC slot 0x24
+    virtual oml::framework::Result Draw(); // ModuleExhibition.cro +0x006230 slot 0x30
 };

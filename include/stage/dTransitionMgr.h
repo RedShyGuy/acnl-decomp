@@ -7,7 +7,7 @@ namespace stage {
 // a place to come back to: the stage and the position of the player (name is ours)
 struct ReturnPoint
 {
-    ReturnPoint()
+    ReturnPoint() : rotation()
     {
         Clear();
     }
@@ -30,7 +30,7 @@ ASSERT_SIZE(ReturnPoint, 0x20);
 // the place in front of an entrance of the current stage (name is ours)
 struct ExitPoint
 {
-    u8 structure;                   // 0x00
+    u8 type;                        // 0x00 EntranceType
     nn::math::VEC3_ position;       // 0x04
     math::Angle16Vec3 rotation;     // 0x10
 };
@@ -45,6 +45,7 @@ public:
         : m_Entrance()
         , m_IsWithoutPosition(false)
         , m_IsToStructure(false)
+        , m_Rotation()
         , m_Action(0)
         , m_HandleCount(0)
         , m_Structure(0xFC)
@@ -92,7 +93,7 @@ public:
                                       const math::Angle16Vec3* rotation2, const nn::math::VEC3_* position3,
                                       const math::Angle16Vec3* rotation3, u8 typeA, u8 faderA, u8 typeB,
                                       u8 faderB); // 0x005B6848
-    // out of the hut of a tour back to the field of the tour
+    // out of an island hut back to the field of the tour
     DECOMP_NOINLINE bool TransitionFromTourHut(u8 typeA, u8 faderA, u8 typeB, u8 faderB); // 0x005B6944
     // to the return point, or without one into the own house; both reset the wait of the network game
     bool ReturnOrGoHome(u8 typeA, u8 faderA, u8 typeB, u8 faderB); // 0x005B6AA0

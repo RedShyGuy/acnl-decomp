@@ -13,12 +13,12 @@ BsOutdoorViewMgr::~BsOutdoorViewMgr()
 }
 
 // ModuleOutdoor.cro +0x04D048 slot 0x24
-void BsOutdoorViewMgr::Calc()
+oml::framework::Result BsOutdoorViewMgr::Calc()
 {
 }
 
 // ModuleOutdoor.cro +0x04CECC slot 0x30
-void BsOutdoorViewMgr::Draw()
+oml::framework::Result BsOutdoorViewMgr::Draw()
 {
 }
 

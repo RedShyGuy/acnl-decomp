@@ -14,12 +14,12 @@ escape::BsGamepadMenu::~BsGamepadMenu()
 }
 
 // ModuleMiniGame0.cro +0x028EA4 slot 0x24
-void escape::BsGamepadMenu::Calc()
+oml::framework::Result escape::BsGamepadMenu::Calc()
 {
 }
 
 // ModuleMiniGame0.cro +0x028E98 slot 0x30
-void escape::BsGamepadMenu::Draw()
+oml::framework::Result escape::BsGamepadMenu::Draw()
 {
 }
 

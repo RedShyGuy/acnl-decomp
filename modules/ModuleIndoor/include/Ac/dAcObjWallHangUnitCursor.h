@@ -10,6 +10,6 @@ class AcObjWallHangUnitCursor : public ::UtlBase<Actor>
 public:
     AcObjWallHangUnitCursor(); // ctor address unknown
     virtual ~AcObjWallHangUnitCursor(); // ModuleIndoor.cro +0x03F0C0 slot 0x00
-    virtual void Calc(); // ModuleIndoor.cro +0x03EF48 slot 0x24
-    virtual void Draw(); // ModuleIndoor.cro +0x03EEC8 slot 0x30
+    virtual oml::framework::Result Calc(); // ModuleIndoor.cro +0x03EF48 slot 0x24
+    virtual oml::framework::Result Draw(); // ModuleIndoor.cro +0x03EEC8 slot 0x30
 };

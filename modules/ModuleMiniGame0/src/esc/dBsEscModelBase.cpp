@@ -14,12 +14,12 @@ esc::BsEscModelBase::~BsEscModelBase()
 }
 
 // ModuleMiniGame0.cro +0x01179C slot 0x24
-void esc::BsEscModelBase::Calc()
+oml::framework::Result esc::BsEscModelBase::Calc()
 {
 }
 
 // ModuleMiniGame0.cro +0x0116F4 slot 0x30
-void esc::BsEscModelBase::Draw()
+oml::framework::Result esc::BsEscModelBase::Draw()
 {
 }
 

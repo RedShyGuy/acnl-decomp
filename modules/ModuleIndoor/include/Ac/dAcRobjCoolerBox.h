@@ -13,6 +13,6 @@ class AcRobjCoolerBox : public ::UtlBase<DemoActor>, public ::ObjTalkRecept
 public:
     AcRobjCoolerBox(); // ctor address unknown
     virtual ~AcRobjCoolerBox(); // ModuleIndoor.cro +0x033B98 slot 0x00
-    virtual void Calc(); // ModuleIndoor.cro +0x01ADF8 slot 0x24
-    virtual void Draw(); // ModuleIndoor.cro +0x01ADE0 slot 0x30
+    virtual oml::framework::Result Calc(); // ModuleIndoor.cro +0x01ADF8 slot 0x24
+    virtual oml::framework::Result Draw(); // ModuleIndoor.cro +0x01ADE0 slot 0x30
 };

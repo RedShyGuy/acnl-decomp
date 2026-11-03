@@ -10,6 +10,6 @@ class BsVrboxCumulonimbus : public ::UtlBase<Base>
 public:
     BsVrboxCumulonimbus(); // ctor address unknown
     virtual ~BsVrboxCumulonimbus(); // ModuleOutdoor.cro +0x05D9C4 slot 0x00
-    virtual void Calc(); // ModuleOutdoor.cro +0x05D640 slot 0x24
-    virtual void Draw(); // ModuleOutdoor.cro +0x05D5F4 slot 0x30
+    virtual oml::framework::Result Calc(); // ModuleOutdoor.cro +0x05D640 slot 0x24
+    virtual oml::framework::Result Draw(); // ModuleOutdoor.cro +0x05D5F4 slot 0x30
 };

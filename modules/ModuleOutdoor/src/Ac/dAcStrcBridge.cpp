@@ -13,12 +13,12 @@ AcStrcBridge::~AcStrcBridge()
 }
 
 // ModuleOutdoor.cro +0x0139C8 slot 0x24
-void AcStrcBridge::Calc()
+oml::framework::Result AcStrcBridge::Calc()
 {
 }
 
 // ModuleOutdoor.cro +0x013958 slot 0x30
-void AcStrcBridge::Draw()
+oml::framework::Result AcStrcBridge::Draw()
 {
 }
 

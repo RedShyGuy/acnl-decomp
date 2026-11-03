@@ -4,6 +4,7 @@
 #include "math/dAngle16.h"
 #include "nn/math/math_Vector3.h"
 #include "Other/dField.h"
+#include "sead/seadSafeStringBase.h"
 
 namespace oml {
 namespace framework {
@@ -17,7 +18,7 @@ namespace stage {
 enum Name : u8
 {
     NAME_VILLAGE = 0, // "Village"
-    NAME_DOWNTOWN = 1, // "Downtown"
+    NAME_DOWNTOWN = 1, // "Downtown": Main Street
     NAME_STATION = 2, // "Station"
     NAME_PLAYER_HOUSE_0_1F = 3, // "PlayerHouse0_1F"
     NAME_PLAYER_HOUSE_0_2F = 4, // "PlayerHouse0_2F"
@@ -53,42 +54,42 @@ enum Name : u8
     NAME_NPC_HOUSE_7 = 34, // "NpcHouse7"
     NAME_NPC_HOUSE_8 = 35, // "NpcHouse8"
     NAME_NPC_HOUSE_9 = 36, // "NpcHouse9"
-    NAME_CAMP_NPC = 37, // "CampNpc"
-    NAME_OFFICE = 38, // "Office"
-    NAME_STATION_ENTRY_DEMO = 39, // "StationEntryDemo"
-    NAME_STATION_RETIRE_DEMO = 40, // "StationRetireDemo"
-    NAME_STATION_COME_HOME_DEMO = 41, // "StationComeHomeDemo"
-    NAME_STATION_PROLOGUE_DEMO = 42, // "StationPrologueDemo"
-    NAME_RECYCLE_SHOP = 43, // "RecycleShop"
-    NAME_INSECT_AWARD_TENT = 44, // "InsectAwardTent"
-    NAME_INSECT_AWARD_TENT_DEMO = 45, // "InsectAwardTentDemo"
-    NAME_FISH_AWARD_TENT = 46, // "FishAwardTent"
-    NAME_FISH_AWARD_TENT_DEMO = 47, // "FishAwardTentDemo"
-    NAME_POLICE_BOX_A = 48, // "PoliceBoxA"
-    NAME_POLICE_BOX_B = 49, // "PoliceBoxB"
-    NAME_CAFE = 50, // "Cafe"
-    NAME_CAFE_ARBEIT = 51, // "CafeArbeit"
-    NAME_RESET_MONITORING_CENTER = 52, // "ResetMonitoringCenter"
-    NAME_GALLERY = 53, // "Gallery"
-    NAME_FORTUNE_TENT = 54, // "FortuneTent"
-    NAME_FORTUNE = 55, // "Fortune"
-    NAME_SHOP = 56, // "Shop"
-    NAME_CONVENIENCE_STORE = 57, // "ConvenienceStore"
-    NAME_SUPERMARKET = 58, // "Supermarket"
-    NAME_HOME_CENTER = 59, // "HomeCenter"
-    NAME_DEPARTMENT_STORE_1F = 60, // "DepartmentStore_1F"
+    NAME_CAMP_NPC = 37, // "CampNpc": the tent of a camper in the campsite
+    NAME_OFFICE = 38, // "Office": town hall
+    NAME_STATION_ENTRY_DEMO = 39, // "StationEntryDemo": arriving by train
+    NAME_STATION_RETIRE_DEMO = 40, // "StationRetireDemo": leaving by train
+    NAME_STATION_COME_HOME_DEMO = 41, // "StationComeHomeDemo": coming home by train
+    NAME_STATION_PROLOGUE_DEMO = 42, // "StationPrologueDemo": the first arrival by train
+    NAME_RECYCLE_SHOP = 43, // "RecycleShop": Re-Tail
+    NAME_INSECT_AWARD_TENT = 44, // "InsectAwardTent": Nat's tent (Bug-Off)
+    NAME_INSECT_AWARD_TENT_DEMO = 45, // "InsectAwardTentDemo": the Bug-Off ceremony
+    NAME_FISH_AWARD_TENT = 46, // "FishAwardTent": Chip's tent (Fishing Tourney)
+    NAME_FISH_AWARD_TENT_DEMO = 47, // "FishAwardTentDemo": the Fishing Tourney ceremony
+    NAME_POLICE_BOX_A = 48, // "PoliceBoxA": police station (Copper)
+    NAME_POLICE_BOX_B = 49, // "PoliceBoxB": police station (Booker)
+    NAME_CAFE = 50, // "Cafe": The Roost
+    NAME_CAFE_ARBEIT = 51, // "CafeArbeit": working in The Roost
+    NAME_RESET_MONITORING_CENTER = 52, // "ResetMonitoringCenter": reset center
+    NAME_GALLERY = 53, // "Gallery": Redd's tent
+    NAME_FORTUNE_TENT = 54, // "FortuneTent": Katrina's tent
+    NAME_FORTUNE = 55, // "Fortune": Katrina's shop on Main Street
+    NAME_SHOP = 56, // "Shop": Nookling Junction
+    NAME_CONVENIENCE_STORE = 57, // "ConvenienceStore": T&T Mart
+    NAME_SUPERMARKET = 58, // "Supermarket": Super T&T
+    NAME_HOME_CENTER = 59, // "HomeCenter": T.I.Y.
+    NAME_DEPARTMENT_STORE_1F = 60, // "DepartmentStore_1F": T&T Emporium
     NAME_DEPARTMENT_STORE_2F = 61, // "DepartmentStore_2F"
-    NAME_DEPARTMENT_STORE_3F = 62, // "DepartmentStore_3F"
-    NAME_TAILOR = 63, // "Tailor"
-    NAME_ACCESSORY_SHOP = 64, // "AccessoryShop"
-    NAME_REAL_ESTATE_AGENCY = 65, // "RealEstateAgency"
-    NAME_SHOE_SHOP = 66, // "ShoeShop"
-    NAME_FLORISTS = 67, // "Florists"
-    NAME_FLORISTS_HOME_IMPROVEMENT_CENTER = 68, // "Florists_HomeImprovementCenter"
-    NAME_CLUB444 = 69, // "CLUB444"
-    NAME_CLUB444_DJKK = 70, // "CLUB444_DJKK"
-    NAME_CLUB444_LIVE = 71, // "CLUB444_Live"
-    NAME_BEAUTY_SALON = 72, // "BeautySalon"
+    NAME_DEPARTMENT_STORE_3F = 62, // "DepartmentStore_3F": GracieGrace
+    NAME_TAILOR = 63, // "Tailor": Able Sisters (Mabel and Sable)
+    NAME_ACCESSORY_SHOP = 64, // "AccessoryShop": Able Sisters (Labelle)
+    NAME_REAL_ESTATE_AGENCY = 65, // "RealEstateAgency": Nook's Homes
+    NAME_SHOE_SHOP = 66, // "ShoeShop": Kicks
+    NAME_FLORISTS = 67, // "Florists": Leif's garden shop
+    NAME_FLORISTS_HOME_IMPROVEMENT_CENTER = 68, // "Florists_HomeImprovementCenter": Leif's garden shop next to T.I.Y.
+    NAME_CLUB444 = 69, // "CLUB444": Club LOL
+    NAME_CLUB444_DJKK = 70, // "CLUB444_DJKK": Club LOL with DJ K.K.
+    NAME_CLUB444_LIVE = 71, // "CLUB444_Live": Club LOL with K.K. Slider live
+    NAME_BEAUTY_SALON = 72, // "BeautySalon": Shampoodle
     NAME_MUSEUM_ENTRANCE = 73, // "Museum_Entrance"
     NAME_MUSEUM_FISH_0 = 74, // "Museum_Fish0"
     NAME_MUSEUM_FISH_1 = 75, // "Museum_Fish1"
@@ -101,26 +102,26 @@ enum Name : u8
     NAME_MUSEUM_FOSSIL_2 = 82, // "Museum_Fossil2"
     NAME_MUSEUM_PICTURE_0 = 83, // "Museum_Picture0"
     NAME_MUSEUM_PICTURE_1 = 84, // "Museum_Picture1"
-    NAME_MUSEUM_SHOP = 85, // "Museum_Shop"
-    NAME_MUSEUM_SHOWROOM_1 = 86, // "Museum_Showroom1"
+    NAME_MUSEUM_SHOP = 85, // "Museum_Shop": the second floor of the museum (Celeste's shop)
+    NAME_MUSEUM_SHOWROOM_1 = 86, // "Museum_Showroom1": the exhibition rooms of the museum
     NAME_MUSEUM_SHOWROOM_2 = 87, // "Museum_Showroom2"
     NAME_MUSEUM_SHOWROOM_3 = 88, // "Museum_Showroom3"
     NAME_MUSEUM_SHOWROOM_4 = 89, // "Museum_Showroom4"
     NAME_POST_OFFICE = 90, // "PostOffice"
-    NAME_DREAM = 91, // "Dream"
-    NAME_PHOTO_BOX = 92, // "PhotoBox"
-    NAME_TRAIN = 93, // "Train"
+    NAME_DREAM = 91, // "Dream": Dream Suite
+    NAME_PHOTO_BOX = 92, // "PhotoBox": photo booth
+    NAME_TRAIN = 93, // "Train": the train ride at the start of the game
     NAME_TITLE = 94, // "Title"
     NAME_VILLAGE_PROLOGUE = 95, // "VillagePrologue"
     NAME_SAVE = 96, // "Save"
     NAME_LOAD = 97, // "Load"
     NAME_FORMAT = 98, // "Format"
-    NAME_PLAYER_SELECT = 99, // "PlayerSelect"
-    NAME_DREAM_RETURN = 100, // "DreamReturn"
-    NAME_SEA_DEPARTURE = 101, // "SeaDeparture"
-    NAME_SEA_RETURN = 102, // "SeaReturn"
-    NAME_TOUR_DESK = 103, // "TourDesk"
-    NAME_LOBBY_ISLAND = 104, // "LobbyIsland"
+    NAME_PLAYER_SELECT = 99, // "PlayerSelect": the player selection
+    NAME_DREAM_RETURN = 100, // "DreamReturn": waking up in the Dream Suite
+    NAME_SEA_DEPARTURE = 101, // "SeaDeparture": Kapp'n's boat to the island
+    NAME_SEA_RETURN = 102, // "SeaReturn": Kapp'n's boat back from the island
+    NAME_TOUR_DESK = 103, // "TourDesk": the hut of the island (tours)
+    NAME_LOBBY_ISLAND = 104, // "LobbyIsland": the island
     NAME_ISLAND_HIDE_AND_SEEK = 105, // "Island_HideAndSeek"
     NAME_ISLAND_HIDE_AND_SEEK_RESULT = 106, // "Island_HideAndSeekResult"
     NAME_ISLAND_FLOWER_PICKING = 107, // "Island_FlowerPicking"
@@ -131,9 +132,9 @@ enum Name : u8
     NAME_ISLAND_INSECT_CATCHING_RESULT = 112, // "Island_InsectCatchingResult"
     NAME_ISLAND_BALLOON = 113, // "Island_Balloon"
     NAME_ISLAND_BALLOON_RESULT = 114, // "Island_BalloonResult"
-    NAME_ISLAND_TREASURE_HUNT = 115, // "Island_TreasureHunt"
+    NAME_ISLAND_TREASURE_HUNT = 115, // "Island_TreasureHunt": Scavenger Hunt tour
     NAME_ISLAND_TREASURE_HUNT_RESULT = 116, // "Island_TreasureHuntResult"
-    NAME_ISLAND_PIKO_HAN = 117, // "Island_PikoHan"
+    NAME_ISLAND_PIKO_HAN = 117, // "Island_PikoHan": Hammer tour
     NAME_ISLAND_PIKO_HAN_RESULT = 118, // "Island_PikoHanResult"
     NAME_ISLAND_MAZE = 119, // "Island_Maze"
     NAME_ISLAND_MAZE_RESULT = 120, // "Island_MazeResult"
@@ -143,9 +144,9 @@ enum Name : u8
     NAME_ISLAND_FOSSIL_DIG_RESULT = 124, // "Island_FossilDigResult"
     NAME_ISLAND_DIVING = 125, // "Island_Diving"
     NAME_ISLAND_DIVING_RESULT = 126, // "Island_DivingResult"
-    NAME_ISLAND_BORROWING_RACE = 127, // "Island_BorrowingRace"
+    NAME_ISLAND_BORROWING_RACE = 127, // "Island_BorrowingRace": Item-Matching tour
     NAME_ISLAND_BORROWING_RACE_RESULT = 128, // "Island_BorrowingRaceResult"
-    NAME_ISLAND_HUT_0 = 129, // "Island_Hut0"
+    NAME_ISLAND_HUT_0 = 129, // "Island_Hut0": the huts of the tour islands
     NAME_ISLAND_HUT_1 = 130, // "Island_Hut1"
     NAME_ISLAND_HUT_2 = 131, // "Island_Hut2"
     NAME_ISLAND_HUT_3 = 132, // "Island_Hut3"
@@ -158,11 +159,11 @@ enum Name : u8
     NAME_RANDOM_MATCHING_ENTRY = 139, // "RandomMatchingEntry"
     NAME_RANDOM_MATCHING_RETIRE = 140, // "RandomMatchingRetire"
     NAME_PREPARE_TOUR = 141, // "PrepareTour"
-    NAME_EXHIBITION_ENTRANCE = 142, // "Exhibition_Entrance"
+    NAME_EXHIBITION_ENTRANCE = 142, // "Exhibition_Entrance": Happy Home Showcase
     NAME_EXHIBITION_NORTH = 143, // "Exhibition_North"
     NAME_EXHIBITION_EAST = 144, // "Exhibition_East"
     NAME_EXHIBITION_WEST = 145, // "Exhibition_West"
-    NAME_MODEL_HOUSE_1F = 146, // "ModelHouse_1F"
+    NAME_MODEL_HOUSE_1F = 146, // "ModelHouse_1F": the model house of the Happy Home Showcase
     NAME_MODEL_HOUSE_2F = 147, // "ModelHouse_2F"
     NAME_MODEL_HOUSE_BF = 148, // "ModelHouse_BF"
     NAME_MODEL_HOUSE_RIGHT = 149, // "ModelHouse_Right"
@@ -170,17 +171,17 @@ enum Name : u8
     NAME_MODEL_HOUSE_BACK = 151, // "ModelHouse_Back"
     NAME_INCLUDE_SAVE = 152, // "IncludeSave"
     NAME_GARDEN_MANUAL_IMPORT = 153, // "GardenManualImport"
-    NAME_TAKUMI_IMPORT = 154, // "TakumiImport"
-    NAME_GARDEN_PLUS_UPDATE = 155, // "GardenPlusUpdate"
+    NAME_TAKUMI_IMPORT = 154, // "TakumiImport": the import from Happy Home Designer
+    NAME_GARDEN_PLUS_UPDATE = 155, // "GardenPlusUpdate": the introduction of the Welcome amiibo update
     NAME_UPDATE_SELECT = 156, // "UpdateSelect"
-    NAME_MINI_GAME_0 = 157, // "MiniGame0"
-    NAME_MINI_GAME_1 = 158, // "MiniGame1"
-    NAME_AUTO_CAMP_L = 159, // "AutoCampL"
-    NAME_AUTO_CAMP_R = 160, // "AutoCampR"
-    NAME_CAMPING_CAR_A = 161, // "CampingCarA"
-    NAME_CAMPING_CAR_B = 162, // "CampingCarB"
-    NAME_CHIP_TUTORIAL = 163, // "ChipTutorial"
-    NAME_AMIIBO_CAMERA = 164, // "AmiiboCamera"
+    NAME_MINI_GAME_0 = 157, // "MiniGame0": Desert Island Escape
+    NAME_MINI_GAME_1 = 158, // "MiniGame1": Puzzle League
+    NAME_AUTO_CAMP_L = 159, // "AutoCampL": campground, west
+    NAME_AUTO_CAMP_R = 160, // "AutoCampR": campground, east
+    NAME_CAMPING_CAR_A = 161, // "CampingCarA": the camping car of a special character
+    NAME_CAMPING_CAR_B = 162, // "CampingCarB": the camping car of a villager
+    NAME_CHIP_TUTORIAL = 163, // "ChipTutorial": the furniture tutorial with Lottie
+    NAME_AMIIBO_CAMERA = 164, // "AmiiboCamera": amiibo camera
     NAME_MAX = 165,
     NAME_NONE = 165, // "None" (libgarden: DUMMY/CURRENT/INVALID): as an argument, the current stage
     NAME_CURRENT = 165,
@@ -206,7 +207,7 @@ enum Kind : u32
     KIND_MODEL_HOUSE = 1 << 14,
     KIND_MUSEUM = 1 << 15,
     KIND_POLICE = 1 << 16,
-    KIND_KOTOBUKI = 1 << 17,
+    KIND_KOTOBUKI = 1 << 17,       // Tortimer's island (Kotobuki is his Japanese name) and its tours
     KIND_ISLAND = 1 << 18,
     KIND_TOUR = 1 << 19,
     KIND_ISLAND_HUT = 1 << 20,
@@ -217,7 +218,7 @@ enum Kind : u32
     KIND_HAS_W_OR_E_AND_N_OR_S_ENTRANCE = 1 << 25,
     KIND_HAS_W_OR_E_ENTRANCE = 1 << 26,
     KIND_MINI_GAME = 1 << 27,
-    KIND_AUTO_CAMP = 1 << 28,
+    KIND_AUTO_CAMP = 1 << 28,      // the campground
     KIND_RV_CAR_ENVIRONMENT = 1 << 29,
 };
 
@@ -246,18 +247,63 @@ struct ProcessEntry
 };
 ASSERT_SIZE(ProcessEntry, 0x8);
 
+// an actor of a stage (data of command 1)
+struct ActorEntry
+{
+    u16 name;                       // 0x00 ProcName
+    nn::math::VEC3_ position;       // 0x04
+    math::Angle16Vec3 rotation;     // 0x10
+    u32 arg;                        // 0x18
+};
+ASSERT_SIZE(ActorEntry, 0x1C);
+
+// where the player starts in a stage (data of command 2)
+struct PlayerStart
+{
+    nn::math::VEC3_ position;       // 0x00
+    math::Angle16Vec3 rotation;     // 0x0C
+    u32 action;                     // 0x14 PlayerAction
+};
+ASSERT_SIZE(PlayerStart, 0x18);
+
+// the argument of a special NPC of a stage: the actor gets its address
+struct alignas(4) NpcInfo
+{
+    // (inline in the original: the stage file builds the NPC infos in its static initializer)
+    NpcInfo(u8 kind, u8 flag, const char* model) : kind(kind), flag(flag)
+    {
+        for (s32 i = 0; i < 3; i++) {
+            this->model[i] = model[i];
+        }
+        this->model[3] = sead::SafeStringBase<char>::s_NullChar;
+    }
+
+    u8 kind;        // 0x0 BsNpcMgr counts the kinds 0 and 1 apart (all stage NPCs are 1)
+    u8 flag;        // 0x1 (meaning unknown; set in the campgrounds)
+    u16 _2;
+    char model[4];  // 0x4 the three letters of the NPC model ("ttl": Tortimer, "owl": Blathers, ...)
+};
+ASSERT_SIZE(NpcInfo, 0x8);
+
+// a special NPC of a stage (data of command 3, created by BsNpcMgr)
+struct NpcEntry
+{
+    u16 name;                       // 0x00 ProcName
+    nn::math::VEC3_ position;       // 0x04
+    math::Angle16Vec3 rotation;     // 0x10
+    NpcInfo info;                   // 0x18
+};
+ASSERT_SIZE(NpcEntry, 0x20);
+
 // a way into a stage: where the player stands, and where the exit of the entrance leads
 struct Entrance
 {
     u8 targets[4];                  // 0x00 the stage behind it, per house owner (or one of the TARGET_ values)
     u8 targetEntrance;              // 0x04 the entrance of the target stage
-    u8 _pad5[3];
     nn::math::VEC3_ position;       // 0x08
     math::Angle16Vec3 rotation;     // 0x14
-    u8 _pad1A[2];
     u32 action;                     // 0x1C the player action on arrival (PlayerAction)
-    u8 structure;                   // 0x20 the structure the entrance belongs to (0xFC: none)
-    u8 _pad21[3];
+    u8 type;                        // 0x20 EntranceType
 };
 ASSERT_SIZE(Entrance, 0x24);
 
@@ -266,14 +312,27 @@ enum EntranceTarget : u8
 {
     TARGET_EXIT = 166,              // out of the building in front of its structure (TransitionFromStructure)
     TARGET_STRUCTURE = 168,         // out of the building, the entrance position relative to its structure
-    TARGET_PIER = 169,              // the village at the pier (the field object of kind 79)
+    TARGET_RESET_CENTER = 169,      // the village in front of the reset center (out of the reset center)
     TARGET_PLAYER_HOUSE_0 = 170,    // in front of the house of village player 0..3
     TARGET_PLAYER_HOUSE_1 = 171,
     TARGET_PLAYER_HOUSE_2 = 172,
     TARGET_PLAYER_HOUSE_3 = 173,
-    TARGET_SHOP = 174,              // in front of the shop of the Nooks
+    TARGET_STATION = 174,           // in front of the train station (after saving)
     TARGET_LAST_STRUCTURE = 175,    // in front of the structure that was entered last
-    TARGET_TOUR_HUT = 176,          // out of a tour hut to the field of the tour
+    TARGET_TOUR_HUT = 176,          // out of an island hut to the field of the tour
+};
+
+// Entrance::type: the kind of way (names are ours)
+enum EntranceType : u8
+{
+    ENTRANCE_TYPE_NONE = 0,
+    ENTRANCE_TYPE_STAIRS_UP = 1,
+    ENTRANCE_TYPE_STAIRS_DOWN = 2,
+    ENTRANCE_TYPE_DOORWAY = 3,          // into another room of the house
+    ENTRANCE_TYPE_DOOR = 4,             // out of the building
+    ENTRANCE_TYPE_TO_VILLAGE = 5,       // from Main Street to the village
+    ENTRANCE_TYPE_TO_DOWNTOWN = 6,      // from the village to Main Street
+    ENTRANCE_TYPE_TO_CAMPGROUND = 7,
 };
 
 struct EntranceList
@@ -283,23 +342,32 @@ struct EntranceList
 };
 ASSERT_SIZE(EntranceList, 0x8);
 
-// the scene settings of a stage
-struct SceneSettings
+// the field of a stage that is not the village: its acres
+struct FieldLayout
 {
-    const void* data;   // 0x0
-    u32 _4;             // 0x4
-    u32 _8;             // 0x8
+    const u16* acres;   // 0x0 the acre IDs, row by row
+    u32 width;          // 0x4 in acres
+    u32 height;         // 0x8
     u8 lightingType;    // 0xC the type returned by GetLightingType
 };
+ASSERT_SIZE(FieldLayout, 0x10);
+
+// the CRO modules that a stage needs ("Module<name>.cro" in the romfs)
+struct ModuleList
+{
+    const char* const* names;   // 0x0
+    u16 count;                  // 0x4
+};
+ASSERT_SIZE(ModuleList, 0x8);
 
 // the definition of a stage
 struct Info
 {
     u16 commandCount;                   // 0x00
     const Command* commands;            // 0x04
-    const SceneSettings* settings;      // 0x08
+    const FieldLayout* field;           // 0x08 NULL: the field of the field table
     const EntranceList* entrances;      // 0x0C
-    const void* _10;                    // 0x10
+    const ModuleList* modules;          // 0x10
 };
 ASSERT_SIZE(Info, 0x14);
 
@@ -362,7 +430,7 @@ bool GetAreaCenter(nn::math::VEC3_* pCenter); // 0x005B4B94
 // builds the stage of a mini game (they have no ScStage)
 bool BuildMiniGame0(oml::framework::Process* parent); // 0x005B4C30
 bool BuildMiniGame1(oml::framework::Process* parent); // 0x005B4C80
-// the lighting type of the scene settings of the stage (without them: 0 in the village, else 2)
+// the lighting type of the field layout of the stage (without one: 0 in the village, else 2)
 u8 GetLightingType(Name name); // 0x005B4CD0
 // the field area of the current stage, optionally widened by a unit on each side; false without one
 bool GetArea(nn::math::VEC3_* pMin, nn::math::VEC3_* pMax, bool isWidened); // 0x005B4D30
@@ -374,7 +442,7 @@ void* GetSceneWork(); // 0x005B4E10
 u8 GetStructure(Name name); // 0x005B4E28
 bool IsCampingCar(Name name); // 0x005B4E40
 bool IsIslandGameResult(Name name); // 0x005B4E54
-// the stages of the shop of the Nooks after its first upgrade
+// the stages of the Nooks' store after its first upgrade (T&T Mart, Super T&T, T.I.Y., T&T Emporium)
 bool IsNookStore(Name name); // 0x005B4E98
 // 1: not in a private room, 3: in the own showroom with other players, 0: alone, 2: with others
 u8 GetPrivateRoomState(); // 0x005B4EBC
@@ -390,7 +458,8 @@ bool IsInOwnHouse(); // 0x005B507C
 bool IsPolice(Name name); // 0x005B5160
 // whether the stage is the first floor of a house that is still a tent
 bool IsTent(Name name); // 0x005B518C
-// in an indoor stage that belongs to the player alone: the own house or showroom, the chip tutorial, a tour hut
+// in an indoor stage that belongs to the player alone: the own house or showroom, the furniture tutorial with Lottie
+// (ChipTutorial), an island hut of the fossil or item-matching tour
 bool IsInPrivateRoom(); // 0x005B520C
 bool IsAloneInPrivateRoom(); // 0x005B533C
 u8 GetLastStructure(); // 0x005B538C
@@ -398,7 +467,7 @@ u8 GetLastStructure(); // 0x005B538C
 bool IsOutdoorField(); // 0x005B539C
 void SetLastStructure(u8 structure); // 0x005B5414
 u32 GetEnvironmentSound(Name name); // 0x005B5424
-// whether the stage is a hut of a tour of the borrowing race
+// whether the stage is an island hut during the item-matching tour (BorrowingRace)
 bool IsHutOfBorrowingRace(Name name); // 0x005B543C
 bool IsEvenIslandHut(Name name); // 0x005B549C
 bool IsOddIslandHut(Name name); // 0x005B54C8

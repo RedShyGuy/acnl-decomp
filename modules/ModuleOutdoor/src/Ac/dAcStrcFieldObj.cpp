@@ -13,12 +13,12 @@ AcStrcFieldObj::~AcStrcFieldObj()
 }
 
 // ModuleOutdoor.cro +0x028B60 slot 0x24
-void AcStrcFieldObj::Calc()
+oml::framework::Result AcStrcFieldObj::Calc()
 {
 }
 
 // ModuleOutdoor.cro +0x028B2C slot 0x30
-void AcStrcFieldObj::Draw()
+oml::framework::Result AcStrcFieldObj::Draw()
 {
 }
 

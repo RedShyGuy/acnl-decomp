@@ -14,12 +14,12 @@ escape::BsEscLayoutManager::~BsEscLayoutManager()
 }
 
 // ModuleMiniGame0.cro +0x078754 slot 0x24
-void escape::BsEscLayoutManager::Calc()
+oml::framework::Result escape::BsEscLayoutManager::Calc()
 {
 }
 
 // ModuleMiniGame0.cro +0x078640 slot 0x30
-void escape::BsEscLayoutManager::Draw()
+oml::framework::Result escape::BsEscLayoutManager::Draw()
 {
 }
 

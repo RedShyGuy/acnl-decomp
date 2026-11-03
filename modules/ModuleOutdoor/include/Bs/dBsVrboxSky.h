@@ -10,6 +10,6 @@ class BsVrboxSky : public ::UtlBase<Base>
 public:
     BsVrboxSky(); // ctor address unknown
     virtual ~BsVrboxSky(); // ModuleOutdoor.cro +0x009EDC slot 0x00
-    virtual void Calc(); // ModuleOutdoor.cro +0x0095BC slot 0x24
-    virtual void Draw(); // ModuleOutdoor.cro +0x009528 slot 0x30
+    virtual oml::framework::Result Calc(); // ModuleOutdoor.cro +0x0095BC slot 0x24
+    virtual oml::framework::Result Draw(); // ModuleOutdoor.cro +0x009528 slot 0x30
 };

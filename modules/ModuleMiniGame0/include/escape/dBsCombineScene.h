@@ -11,7 +11,7 @@ class BsCombineScene : public ::UtlBase<Base>
 public:
     BsCombineScene(); // ctor address unknown
     virtual ~BsCombineScene(); // ModuleMiniGame0.cro +0x02A454 slot 0x00
-    virtual void Calc(); // ModuleMiniGame0.cro +0x02A40C slot 0x24
-    virtual void Draw(); // ModuleMiniGame0.cro +0x029CCC slot 0x30
+    virtual oml::framework::Result Calc(); // ModuleMiniGame0.cro +0x02A40C slot 0x24
+    virtual oml::framework::Result Draw(); // ModuleMiniGame0.cro +0x029CCC slot 0x30
 };
 } // namespace escape

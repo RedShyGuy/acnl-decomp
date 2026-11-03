@@ -12,12 +12,12 @@ AcNpcSpPrologueTanukichi::~AcNpcSpPrologueTanukichi()
 }
 
 // ModulePrologue.cro +0x007110 slot 0x0C
-void AcNpcSpPrologueTanukichi::Initialize()
+oml::framework::Result AcNpcSpPrologueTanukichi::Initialize()
 {
 }
 
 // ModulePrologue.cro +0x0071AC slot 0x18
-void AcNpcSpPrologueTanukichi::Finalize()
+oml::framework::Result AcNpcSpPrologueTanukichi::Finalize()
 {
 }
 

@@ -11,5 +11,5 @@ public:
     AcNpcSpYutarouVisit(); // ctor address unknown
     virtual ~AcNpcSpYutarouVisit(); // ModuleRealVillage.cro +0x009A4C slot 0x00
     virtual oml::framework::Result Calc(); // ModuleRealVillage.cro +0x009488 slot 0x24
-    virtual void CanDraw() const; // ModuleRealVillage.cro +0x0094AC slot 0x2C
+    virtual bool CanDraw() const; // ModuleRealVillage.cro +0x0094AC slot 0x2C
 };

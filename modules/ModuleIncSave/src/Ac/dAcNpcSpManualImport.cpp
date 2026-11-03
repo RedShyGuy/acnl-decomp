@@ -12,12 +12,12 @@ AcNpcSpManualImport::~AcNpcSpManualImport()
 }
 
 // ModuleIncSave.cro +0x018DAC slot 0x0C
-void AcNpcSpManualImport::Initialize()
+oml::framework::Result AcNpcSpManualImport::Initialize()
 {
 }
 
 // ModuleIncSave.cro +0x018E48 slot 0x18
-void AcNpcSpManualImport::Finalize()
+oml::framework::Result AcNpcSpManualImport::Finalize()
 {
 }
 

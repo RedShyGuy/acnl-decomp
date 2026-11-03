@@ -14,12 +14,12 @@ escape::BsFreeHexCursor::~BsFreeHexCursor()
 }
 
 // ModuleMiniGame0.cro +0x02FF28 slot 0x24
-void escape::BsFreeHexCursor::Calc()
+oml::framework::Result escape::BsFreeHexCursor::Calc()
 {
 }
 
 // ModuleMiniGame0.cro +0x02FE20 slot 0x30
-void escape::BsFreeHexCursor::Draw()
+oml::framework::Result escape::BsFreeHexCursor::Draw()
 {
 }
 

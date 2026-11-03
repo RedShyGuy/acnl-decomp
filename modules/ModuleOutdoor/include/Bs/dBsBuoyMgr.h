@@ -10,9 +10,9 @@ class BsBuoyMgr : public ::UtlBase<Base>
 public:
     BsBuoyMgr(); // ctor address unknown
     virtual ~BsBuoyMgr(); // ModuleOutdoor.cro +0x07D160 slot 0x00
-    virtual void Initialize(); // ModuleOutdoor.cro +0x082F30 slot 0x0C
-    virtual void Finalize(); // ModuleOutdoor.cro +0x082FCC slot 0x18
-    virtual void Calc(); // ModuleOutdoor.cro +0x07CC60 slot 0x24
-    virtual void Draw(); // ModuleOutdoor.cro +0x07C8D8 slot 0x30
+    virtual oml::framework::Result Initialize(); // ModuleOutdoor.cro +0x082F30 slot 0x0C
+    virtual oml::framework::Result Finalize(); // ModuleOutdoor.cro +0x082FCC slot 0x18
+    virtual oml::framework::Result Calc(); // ModuleOutdoor.cro +0x07CC60 slot 0x24
+    virtual oml::framework::Result Draw(); // ModuleOutdoor.cro +0x07C8D8 slot 0x30
     virtual void Unk0(); // ModuleOutdoor.cro +0x07E638 slot 0x3C
 };

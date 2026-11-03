@@ -12,12 +12,12 @@ AcNpcSpPlSelect::~AcNpcSpPlSelect()
 }
 
 // ModulePlSelect.cro +0x004FA8 slot 0x0C
-void AcNpcSpPlSelect::Initialize()
+oml::framework::Result AcNpcSpPlSelect::Initialize()
 {
 }
 
 // ModulePlSelect.cro +0x005044 slot 0x18
-void AcNpcSpPlSelect::Finalize()
+oml::framework::Result AcNpcSpPlSelect::Finalize()
 {
 }
 

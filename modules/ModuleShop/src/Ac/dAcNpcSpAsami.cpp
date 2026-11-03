@@ -12,12 +12,12 @@ AcNpcSpAsami::~AcNpcSpAsami()
 }
 
 // ModuleShop.cro +0x0243C4 slot 0x0C
-void AcNpcSpAsami::Initialize()
+oml::framework::Result AcNpcSpAsami::Initialize()
 {
 }
 
 // ModuleShop.cro +0x024460 slot 0x18
-void AcNpcSpAsami::Finalize()
+oml::framework::Result AcNpcSpAsami::Finalize()
 {
 }
 

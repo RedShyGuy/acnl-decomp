@@ -13,12 +13,12 @@ AcRobjSewingMachine::~AcRobjSewingMachine()
 }
 
 // ModuleShop.cro +0x01B824 slot 0x24
-void AcRobjSewingMachine::Calc()
+oml::framework::Result AcRobjSewingMachine::Calc()
 {
 }
 
 // ModuleShop.cro +0x01B7FC slot 0x30
-void AcRobjSewingMachine::Draw()
+oml::framework::Result AcRobjSewingMachine::Draw()
 {
 }
 

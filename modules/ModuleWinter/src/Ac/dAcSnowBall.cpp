@@ -13,12 +13,12 @@ AcSnowBall::~AcSnowBall()
 }
 
 // ModuleWinter.cro +0x00A4B0 slot 0x24
-void AcSnowBall::Calc()
+oml::framework::Result AcSnowBall::Calc()
 {
 }
 
 // ModuleWinter.cro +0x009E68 slot 0x30
-void AcSnowBall::Draw()
+oml::framework::Result AcSnowBall::Draw()
 {
 }
 

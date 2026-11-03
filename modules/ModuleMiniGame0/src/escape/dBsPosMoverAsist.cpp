@@ -14,12 +14,12 @@ escape::BsPosMoverAsist::~BsPosMoverAsist()
 }
 
 // ModuleMiniGame0.cro +0x033C6C slot 0x24
-void escape::BsPosMoverAsist::Calc()
+oml::framework::Result escape::BsPosMoverAsist::Calc()
 {
 }
 
 // ModuleMiniGame0.cro +0x033C10 slot 0x30
-void escape::BsPosMoverAsist::Draw()
+oml::framework::Result escape::BsPosMoverAsist::Draw()
 {
 }
 

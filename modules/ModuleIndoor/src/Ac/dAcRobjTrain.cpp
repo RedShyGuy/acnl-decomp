@@ -13,12 +13,12 @@ AcRobjTrain::~AcRobjTrain()
 }
 
 // ModuleIndoor.cro +0x00A17C slot 0x24
-void AcRobjTrain::Calc()
+oml::framework::Result AcRobjTrain::Calc()
 {
 }
 
 // ModuleIndoor.cro +0x00A158 slot 0x30
-void AcRobjTrain::Draw()
+oml::framework::Result AcRobjTrain::Draw()
 {
 }
 

@@ -10,6 +10,6 @@ class AcRobjResetMachine : public ::UtlBase<Actor>
 public:
     AcRobjResetMachine(); // ctor address unknown
     virtual ~AcRobjResetMachine(); // ModuleReMoCnt.cro +0x005464 slot 0x00
-    virtual void Calc(); // ModuleReMoCnt.cro +0x00515C slot 0x24
-    virtual void Draw(); // ModuleReMoCnt.cro +0x005130 slot 0x30
+    virtual oml::framework::Result Calc(); // ModuleReMoCnt.cro +0x00515C slot 0x24
+    virtual oml::framework::Result Draw(); // ModuleReMoCnt.cro +0x005130 slot 0x30
 };

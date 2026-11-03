@@ -13,12 +13,12 @@ AcRobjPermaMachine::~AcRobjPermaMachine()
 }
 
 // ModuleShop.cro +0x017714 slot 0x24
-void AcRobjPermaMachine::Calc()
+oml::framework::Result AcRobjPermaMachine::Calc()
 {
 }
 
 // ModuleShop.cro +0x0176FC slot 0x30
-void AcRobjPermaMachine::Draw()
+oml::framework::Result AcRobjPermaMachine::Draw()
 {
 }
 

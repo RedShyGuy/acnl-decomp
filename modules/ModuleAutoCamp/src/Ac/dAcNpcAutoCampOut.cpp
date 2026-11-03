@@ -12,12 +12,12 @@ AcNpcAutoCampOut::~AcNpcAutoCampOut()
 }
 
 // ModuleAutoCamp.cro +0x00C358 slot 0x0C
-void AcNpcAutoCampOut::Initialize()
+oml::framework::Result AcNpcAutoCampOut::Initialize()
 {
 }
 
 // ModuleAutoCamp.cro +0x00C3F4 slot 0x18
-void AcNpcAutoCampOut::Finalize()
+oml::framework::Result AcNpcAutoCampOut::Finalize()
 {
 }
 

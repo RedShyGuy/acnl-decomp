@@ -13,12 +13,12 @@ AcRobjResetTV::~AcRobjResetTV()
 }
 
 // ModuleReMoCnt.cro +0x000ED0 slot 0x24
-void AcRobjResetTV::Calc()
+oml::framework::Result AcRobjResetTV::Calc()
 {
 }
 
 // ModuleReMoCnt.cro +0x000EB8 slot 0x30
-void AcRobjResetTV::Draw()
+oml::framework::Result AcRobjResetTV::Draw()
 {
 }
 

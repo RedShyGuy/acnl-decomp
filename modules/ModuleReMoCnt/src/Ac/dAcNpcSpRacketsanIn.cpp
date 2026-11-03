@@ -12,12 +12,12 @@ AcNpcSpRacketsanIn::~AcNpcSpRacketsanIn()
 }
 
 // ModuleReMoCnt.cro +0x005A3C slot 0x0C
-void AcNpcSpRacketsanIn::Initialize()
+oml::framework::Result AcNpcSpRacketsanIn::Initialize()
 {
 }
 
 // ModuleReMoCnt.cro +0x005AD8 slot 0x18
-void AcNpcSpRacketsanIn::Finalize()
+oml::framework::Result AcNpcSpRacketsanIn::Finalize()
 {
 }
 

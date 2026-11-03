@@ -13,12 +13,12 @@ AcRobjResetMachine::~AcRobjResetMachine()
 }
 
 // ModuleReMoCnt.cro +0x00515C slot 0x24
-void AcRobjResetMachine::Calc()
+oml::framework::Result AcRobjResetMachine::Calc()
 {
 }
 
 // ModuleReMoCnt.cro +0x005130 slot 0x30
-void AcRobjResetMachine::Draw()
+oml::framework::Result AcRobjResetMachine::Draw()
 {
 }
 

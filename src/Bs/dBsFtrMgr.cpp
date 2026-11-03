@@ -66,11 +66,3 @@ void BsFtrMgr::vf_0x54()
 void BsFtrMgr::CreateFtrActor(BsFtrMgr::CreateFtrArg const&)
 {
 }
-
-// 0x00951158
-BsFtrMgr* BsFtrMgr::s_pInstance;
-
-// 0x006967BC (name is ours)
-bool BsFtrMgr::CreateFurniture(const stage::Command* command)
-{
-}

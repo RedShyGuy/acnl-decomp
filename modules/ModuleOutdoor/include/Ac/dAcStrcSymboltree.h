@@ -10,6 +10,6 @@ class AcStrcSymboltree : public ::UtlBase<AcStrc>
 public:
     AcStrcSymboltree(); // ctor address unknown
     virtual ~AcStrcSymboltree(); // ModuleOutdoor.cro +0x038D08 slot 0x00
-    virtual void Calc(); // ModuleOutdoor.cro +0x038584 slot 0x24
-    virtual void Draw(); // ModuleOutdoor.cro +0x03847C slot 0x30
+    virtual oml::framework::Result Calc(); // ModuleOutdoor.cro +0x038584 slot 0x24
+    virtual oml::framework::Result Draw(); // ModuleOutdoor.cro +0x03847C slot 0x30
 };

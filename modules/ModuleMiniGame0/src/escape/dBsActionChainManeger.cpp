@@ -14,12 +14,12 @@ escape::BsActionChainManeger::~BsActionChainManeger()
 }
 
 // ModuleMiniGame0.cro +0x07F14C slot 0x24
-void escape::BsActionChainManeger::Calc()
+oml::framework::Result escape::BsActionChainManeger::Calc()
 {
 }
 
 // ModuleMiniGame0.cro +0x07F144 slot 0x30
-void escape::BsActionChainManeger::Draw()
+oml::framework::Result escape::BsActionChainManeger::Draw()
 {
 }
 

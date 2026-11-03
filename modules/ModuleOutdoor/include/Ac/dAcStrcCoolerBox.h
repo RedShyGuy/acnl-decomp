@@ -13,6 +13,6 @@ class AcStrcCoolerBox : public ::UtlBase<AcStrc>, public ::ObjTalkRecept
 public:
     AcStrcCoolerBox(); // ctor address unknown
     virtual ~AcStrcCoolerBox(); // ModuleOutdoor.cro +0x0452CC slot 0x00
-    virtual void Calc(); // ModuleOutdoor.cro +0x034468 slot 0x24
-    virtual void Draw(); // ModuleOutdoor.cro +0x0343F8 slot 0x30
+    virtual oml::framework::Result Calc(); // ModuleOutdoor.cro +0x034468 slot 0x24
+    virtual oml::framework::Result Draw(); // ModuleOutdoor.cro +0x0343F8 slot 0x30
 };

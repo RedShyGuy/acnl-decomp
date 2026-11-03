@@ -13,12 +13,12 @@ BsIndoorViewMgr::~BsIndoorViewMgr()
 }
 
 // ModuleIndoor.cro +0x01F840 slot 0x24
-void BsIndoorViewMgr::Calc()
+oml::framework::Result BsIndoorViewMgr::Calc()
 {
 }
 
 // ModuleIndoor.cro +0x01F69C slot 0x30
-void BsIndoorViewMgr::Draw()
+oml::framework::Result BsIndoorViewMgr::Draw()
 {
 }
 

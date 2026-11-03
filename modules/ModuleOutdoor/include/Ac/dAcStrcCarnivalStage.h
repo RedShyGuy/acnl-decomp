@@ -10,6 +10,6 @@ class AcStrcCarnivalStage : public ::UtlBase<AcStrc>
 public:
     AcStrcCarnivalStage(); // ctor address unknown
     virtual ~AcStrcCarnivalStage(); // ModuleOutdoor.cro +0x05D1C0 slot 0x00
-    virtual void Calc(); // ModuleOutdoor.cro +0x05CF2C slot 0x24
-    virtual void Draw(); // ModuleOutdoor.cro +0x05CEB4 slot 0x30
+    virtual oml::framework::Result Calc(); // ModuleOutdoor.cro +0x05CF2C slot 0x24
+    virtual oml::framework::Result Draw(); // ModuleOutdoor.cro +0x05CEB4 slot 0x30
 };

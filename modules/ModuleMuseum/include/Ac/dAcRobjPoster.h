@@ -10,8 +10,8 @@ class AcRobjPoster : public ::UtlBase<Actor>
 public:
     AcRobjPoster(); // ctor address unknown
     virtual ~AcRobjPoster(); // ModuleMuseum.cro +0x001E60 slot 0x00
-    virtual void Initialize(); // ModuleMuseum.cro +0x002AA0 slot 0x0C
-    virtual void Finalize(); // ModuleMuseum.cro +0x002B3C slot 0x18
-    virtual void Calc(); // ModuleMuseum.cro +0x001334 slot 0x24
-    virtual void Draw(); // ModuleMuseum.cro +0x00131C slot 0x30
+    virtual oml::framework::Result Initialize(); // ModuleMuseum.cro +0x002AA0 slot 0x0C
+    virtual oml::framework::Result Finalize(); // ModuleMuseum.cro +0x002B3C slot 0x18
+    virtual oml::framework::Result Calc(); // ModuleMuseum.cro +0x001334 slot 0x24
+    virtual oml::framework::Result Draw(); // ModuleMuseum.cro +0x00131C slot 0x30
 };

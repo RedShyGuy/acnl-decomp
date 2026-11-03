@@ -11,7 +11,7 @@ class BsPlayerBase : public ::UtlBase<Base>
 public:
     BsPlayerBase(); // ctor address unknown
     virtual ~BsPlayerBase(); // ModuleMiniGame0.cro +0x023B78 slot 0x00
-    virtual void Calc(); // ModuleMiniGame0.cro +0x023814 slot 0x24
-    virtual void Draw(); // ModuleMiniGame0.cro +0x01E604 slot 0x30
+    virtual oml::framework::Result Calc(); // ModuleMiniGame0.cro +0x023814 slot 0x24
+    virtual oml::framework::Result Draw(); // ModuleMiniGame0.cro +0x01E604 slot 0x30
 };
 } // namespace escape

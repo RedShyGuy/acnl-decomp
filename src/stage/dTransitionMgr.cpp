@@ -24,11 +24,11 @@ inline void MoveBeforeEntrance(nn::math::VEC3_* position)
 // a structure with variants: the variant that stands on the field
 inline u8 ResolveStructure(u8 structure)
 {
-    if (IsShopStructure(structure)) {
-        return GetShopStructure();
+    if (IsStationStructure(structure)) {
+        return GetStationStructure();
     }
-    if (IsMuseumStructure(structure)) {
-        return GetMuseumStructure();
+    if (IsTownHallStructure(structure)) {
+        return GetTownHallStructure();
     }
     return structure;
 }
@@ -122,7 +122,7 @@ void TransitionMgr::SetReturnPoint(const nn::math::VEC3_& position, u32 action, 
     m_Return.stage = s_Current;
     m_Return.action = action;
     m_Return.position = position;
-    m_Return.rotation = math::Angle16Vec3(0, rotationY, 0);
+    m_Return.rotation = math::Angle16Vec3{0, rotationY, 0};
     m_Return.isFromPlayer = false;
 }
 
@@ -164,13 +164,13 @@ bool TransitionMgr::GetExitPoint(ExitPoint* pPoint, u32 index) const
         return false;
     }
     const Entrance& entrance = info->entrances->entrances[index];
-    pPoint->structure = entrance.structure;
+    pPoint->type = entrance.type;
     nn::math::VEC3_ position;
     math::Angle16Vec3 rotation;
     if (IsKind(KIND_VILLAGE, s_Current) && IsKind(KIND_AUTO_CAMP, static_cast<Name>(entrance.targets[0]))) {
-        // the auto camp stands on a place of its own
+        // the way to the campground stands on a place of its own
         position = *GetAutoCampPosition();
-        rotation = math::Angle16Vec3(0, *GetAutoCampRotationY(), 0);
+        rotation = math::Angle16Vec3{0, *GetAutoCampRotationY(), 0};
     } else {
         position = entrance.position;
         rotation = entrance.rotation;
@@ -215,14 +215,14 @@ bool TransitionMgr::TransitionToStructure(u8 structure, const nn::math::VEC3_* o
         position.z = 528.0f;
     } else if (IsStructurePlaced(structure)) {
         GetStructurePosition(&position, structure);
-        if (structure == 133) {
+        if (structure == STRUCTURE_NOOK_STORE) {
             if (std::strncmp(s_pShopNameB, GetShopName(), std::strlen(s_pShopNameB)) == 0) {
                 position.z -= FIELD_HALF_UNIT_SIZE_Z;
             }
-        } else if (structure == 141) {
+        } else if (structure == STRUCTURE_PHOTO_BOOTH) {
             position.z -= FIELD_HALF_UNIT_SIZE_Z;
         }
-        if (IsMuseumStructure(structure) && GetMuseumStructure() != 80) {
+        if (IsTownHallStructure(structure) && GetTownHallStructure() != STRUCTURE_TOWN_HALL_CLASSIC) {
             position.z += FIELD_UNIT_SIZE_Z;
         }
     } else {
@@ -251,9 +251,9 @@ bool TransitionMgr::TransitionFromStructure(u8 typeA, u8 faderA, u8 typeB, u8 fa
     }
     u8 structure = stage < NAME_MAX ? detail::s_Structures[stage] : 0xFC;
     structure = ResolveStructure(structure);
-    bool isAutoCamp = structure == 127 || structure == 128;
+    bool isCampingCar = structure == STRUCTURE_CAMPING_CAR_A || structure == STRUCTURE_CAMPING_CAR_B;
     Name target = NAME_VILLAGE;
-    if (isAutoCamp) {
+    if (isCampingCar) {
         target = GetAutoCampStage();
     } else if (structure != 0xFC) {
         target = GetStageOfStructure(structure);
@@ -268,27 +268,27 @@ bool TransitionMgr::TransitionFromStructure(u8 typeA, u8 faderA, u8 typeB, u8 fa
         MoveBeforeEntrance(&position);
     } else if (IsStructurePlaced(structure)) {
         GetStructurePosition(&position, structure);
-        if (isAutoCamp) {
+        if (isCampingCar) {
             position.x += FIELD_HALF_UNIT_SIZE_X;
-            rotation = math::Angle16Vec3(0, 0x2000, 0);
+            rotation = math::Angle16Vec3{0, 0x2000, 0};
             position.z += FIELD_HALF_UNIT_SIZE_Z;
         }
-        if (structure == 133) {
+        if (structure == STRUCTURE_NOOK_STORE) {
             if (std::strncmp(s_pShopNameA, GetShopName(), std::strlen(s_pShopNameA)) == 0) {
                 position.z -= FIELD_HALF_UNIT_SIZE_Z;
                 action = PLAYER_ACTION_DOOR_EXIT_BEGIN;
             }
-        } else if (structure == 141) {
+        } else if (structure == STRUCTURE_PHOTO_BOOTH) {
             position.z -= FIELD_HALF_UNIT_SIZE_Z;
         }
-        if (IsMuseumStructure(structure) && GetMuseumStructure() != 80) {
+        if (IsTownHallStructure(structure) && GetTownHallStructure() != STRUCTURE_TOWN_HALL_CLASSIC) {
             position.z += FIELD_UNIT_SIZE_Z;
         }
-        if (!isAutoCamp) {
+        if (!isCampingCar) {
             MoveBeforeEntrance(&position);
         }
-    } else if (isAutoCamp) {
-        // the auto camp is not on the field: at the camp stage
+    } else if (isCampingCar) {
+        // the camping car is not placed: at the side of the campground
         if (GetAutoCampStage() == NAME_AUTO_CAMP_L) {
             rotation.y.value = 0xC000;
             position.x = 460.0f;
@@ -323,7 +323,7 @@ void TransitionMgr::SetReturnParam()
     if (IsKind(KIND_AUTO_CAMP, s_Current) && !netgame::IsMultiplePlayer()) {
         const Info* info = GetInfoOf(s_Current);
         if (info != NULL && info->entrances != NULL && info->entrances->count != 0) {
-            // near a door of the camping car: the entrance of the camp becomes the return point
+            // near a door of the camping car: the entrance of the campground becomes the return point
             const Entrance* entrance = info->entrances->entrances;
             const Actor* player = reinterpret_cast<const Actor*>(PlayerGetActor(netgame::PLAYER_NO_MY_NO, false));
             nn::math::VEC3_ door0;
@@ -426,7 +426,7 @@ bool TransitionMgr::TransitionWithStartPositions(Name stage, u32 hostAction, u32
         PlayerStartPosition(*position3, *rotation3),
     };
     PlayerStartPosition& own = positions[netgame::GetMyPlayerNo() & 3];
-    math::Angle16Vec3 rotation(0, own.rotationY, 0);
+    math::Angle16Vec3 rotation = {0, own.rotationY, 0};
     u32 action = netgame::IsHost() ? hostAction : guestAction;
     if (!TransitionTo(stage, &own.position, &rotation, action, typeA, faderA, typeB, faderB)) {
         return false;
@@ -594,9 +594,10 @@ bool TransitionMgr::TransitionByEntrance(Name stage, u32 index, u8 typeA, u8 fad
         u8 structure = s_Current < NAME_MAX ? detail::s_Structures[s_Current] : 0xFC;
         nn::math::VEC3_ position = entrance.position;
         math::Angle16Vec3 rotation = entrance.rotation;
-        if (IsMuseumStructure(structure)) {
-            u8 museum = GetMuseumStructure();
-            if (museum == 81 || museum == 82 || museum == 83) {
+        if (IsTownHallStructure(structure)) {
+            u8 townHall = GetTownHallStructure();
+            if (townHall == STRUCTURE_TOWN_HALL_ZEN || townHall == STRUCTURE_TOWN_HALL_FAIRY_TALE ||
+                townHall == STRUCTURE_TOWN_HALL_MODERN) {
                 position.z -= FIELD_UNIT_SIZE_Z;
             }
         }
@@ -606,8 +607,8 @@ bool TransitionMgr::TransitionByEntrance(Name stage, u32 index, u8 typeA, u8 fad
         return TransitionToLastStructure(typeA, faderA, typeB, faderB);
     case TARGET_TOUR_HUT:
         return TransitionFromTourHut(typeA, faderA, typeB, faderB);
-    case TARGET_PIER: {
-        // the village at the pier (the field object of kind 79), with the default fades
+    case TARGET_RESET_CENTER: {
+        // the village in front of the reset center (the field object of building 0x4F), with the default fades
         nn::math::VEC3_ position;
         position.x = 1864.0f;
         position.y = 112.0f;
@@ -623,7 +624,7 @@ bool TransitionMgr::TransitionByEntrance(Name stage, u32 index, u8 typeA, u8 fad
         if (found != GetFieldObjectEnd(objects)) {
             UnitToWorld(&position, found.unitX, found.unitZ);
         }
-        math::Angle16Vec3 rotation(0, 0, 0);
+        math::Angle16Vec3 rotation = {0, 0, 0};
         return TransitionTo(NAME_VILLAGE, &position, &rotation, PLAYER_ACTION_IDLE, 0, 0, 1, 1);
     }
     case TARGET_PLAYER_HOUSE_0:
@@ -631,11 +632,11 @@ bool TransitionMgr::TransitionByEntrance(Name stage, u32 index, u8 typeA, u8 fad
     case TARGET_PLAYER_HOUSE_2:
     case TARGET_PLAYER_HOUSE_3:
         return TransitionToPlayerHouse(target - TARGET_PLAYER_HOUSE_0, typeA, faderA, typeB, faderB);
-    case TARGET_SHOP: {
+    case TARGET_STATION: {
         if (s_Next < NAME_MAX) {
             return false;
         }
-        u8 structure = GetShopStructure();
+        u8 structure = GetStationStructure();
         nn::math::VEC3_ position = VEC3_ZERO;
         math::Angle16Vec3 rotation = ANGLE16_VEC3_ZERO;
         u32 action = PLAYER_ACTION_DOOR_EXIT_WAIT;
@@ -660,10 +661,10 @@ bool TransitionMgr::TransitionByEntrance(Name stage, u32 index, u8 typeA, u8 fad
     }
     m_Entrance = targetInfo->entrances->entrances[targetEntrance];
     nn::math::VEC3_ position;
-    math::Angle16Vec3 rotation(0, 0, 0);
+    math::Angle16Vec3 rotation = {0, 0, 0};
     if (IsKind(KIND_AUTO_CAMP, s_Current) && entrance.targets[0] == NAME_VILLAGE) {
-        // out of the camp: in front of the auto camp in the village
-        rotation = math::Angle16Vec3(0, *GetAutoCampRotationY(), 0);
+        // out of the campground: in front of the way to it in the village
+        rotation = math::Angle16Vec3{0, *GetAutoCampRotationY(), 0};
         position = *GetAutoCampPosition();
         nn::math::VEC3_ offset;
         offset.x = 0.0f;

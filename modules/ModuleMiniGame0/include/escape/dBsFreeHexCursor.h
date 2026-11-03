@@ -11,7 +11,7 @@ class BsFreeHexCursor : public ::UtlBase<Base>
 public:
     BsFreeHexCursor(); // ctor address unknown
     virtual ~BsFreeHexCursor(); // ModuleMiniGame0.cro +0x02FFBC slot 0x00
-    virtual void Calc(); // ModuleMiniGame0.cro +0x02FF28 slot 0x24
-    virtual void Draw(); // ModuleMiniGame0.cro +0x02FE20 slot 0x30
+    virtual oml::framework::Result Calc(); // ModuleMiniGame0.cro +0x02FF28 slot 0x24
+    virtual oml::framework::Result Draw(); // ModuleMiniGame0.cro +0x02FE20 slot 0x30
 };
 } // namespace escape

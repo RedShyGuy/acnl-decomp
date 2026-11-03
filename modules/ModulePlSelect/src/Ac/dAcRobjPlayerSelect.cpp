@@ -13,22 +13,22 @@ AcRobjPlayerSelect::~AcRobjPlayerSelect()
 }
 
 // ModulePlSelect.cro +0x004E14 slot 0x0C
-void AcRobjPlayerSelect::Initialize()
+oml::framework::Result AcRobjPlayerSelect::Initialize()
 {
 }
 
 // ModulePlSelect.cro +0x004EB0 slot 0x18
-void AcRobjPlayerSelect::Finalize()
+oml::framework::Result AcRobjPlayerSelect::Finalize()
 {
 }
 
 // ModulePlSelect.cro +0x004648 slot 0x24
-void AcRobjPlayerSelect::Calc()
+oml::framework::Result AcRobjPlayerSelect::Calc()
 {
 }
 
 // ModulePlSelect.cro +0x004630 slot 0x30
-void AcRobjPlayerSelect::Draw()
+oml::framework::Result AcRobjPlayerSelect::Draw()
 {
 }
 

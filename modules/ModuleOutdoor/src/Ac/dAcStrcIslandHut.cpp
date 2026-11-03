@@ -13,12 +13,12 @@ AcStrcIslandHut::~AcStrcIslandHut()
 }
 
 // ModuleOutdoor.cro +0x03501C slot 0x24
-void AcStrcIslandHut::Calc()
+oml::framework::Result AcStrcIslandHut::Calc()
 {
 }
 
 // ModuleOutdoor.cro +0x034F4C slot 0x30
-void AcStrcIslandHut::Draw()
+oml::framework::Result AcStrcIslandHut::Draw()
 {
 }
 

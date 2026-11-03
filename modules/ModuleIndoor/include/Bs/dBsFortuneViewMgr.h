@@ -10,9 +10,9 @@ class BsFortuneViewMgr : public ::UtlBase<Base>
 public:
     BsFortuneViewMgr(); // ctor address unknown
     virtual ~BsFortuneViewMgr(); // ModuleIndoor.cro +0x021EEC slot 0x00
-    virtual void Initialize(); // ModuleIndoor.cro +0x05F8CC slot 0x0C
-    virtual void Finalize(); // ModuleIndoor.cro +0x05F968 slot 0x18
-    virtual void Calc(); // ModuleIndoor.cro +0x021CBC slot 0x24
-    virtual void Draw(); // ModuleIndoor.cro +0x021C04 slot 0x30
+    virtual oml::framework::Result Initialize(); // ModuleIndoor.cro +0x05F8CC slot 0x0C
+    virtual oml::framework::Result Finalize(); // ModuleIndoor.cro +0x05F968 slot 0x18
+    virtual oml::framework::Result Calc(); // ModuleIndoor.cro +0x021CBC slot 0x24
+    virtual oml::framework::Result Draw(); // ModuleIndoor.cro +0x021C04 slot 0x30
     virtual void Unk0(); // ModuleIndoor.cro +0x05A838 slot 0x3C
 };

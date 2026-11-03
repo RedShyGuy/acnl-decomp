@@ -10,6 +10,6 @@ class BsEscapeTitleModelBoat : public ::esctitle::BsEscapeTitleModel
 public:
     BsEscapeTitleModelBoat(); // ctor address unknown
     virtual ~BsEscapeTitleModelBoat(); // ModuleMiniGame0.cro +0x0ABD88 slot 0x00
-    virtual void Draw(); // ModuleMiniGame0.cro +0x0ABC78 slot 0x30
+    virtual oml::framework::Result Draw(); // ModuleMiniGame0.cro +0x0ABC78 slot 0x30
 };
 } // namespace esctitle

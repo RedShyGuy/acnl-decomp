@@ -14,12 +14,12 @@ escape::BsEventWorld::~BsEventWorld()
 }
 
 // ModuleMiniGame0.cro +0x01C73C slot 0x24
-void escape::BsEventWorld::Calc()
+oml::framework::Result escape::BsEventWorld::Calc()
 {
 }
 
 // ModuleMiniGame0.cro +0x01C228 slot 0x30
-void escape::BsEventWorld::Draw()
+oml::framework::Result escape::BsEventWorld::Draw()
 {
 }
 

@@ -12,12 +12,12 @@ AcNpcSpKameyama::~AcNpcSpKameyama()
 }
 
 // ModuleFsInsAward.cro +0x004CE8 slot 0x0C
-void AcNpcSpKameyama::Initialize()
+oml::framework::Result AcNpcSpKameyama::Initialize()
 {
 }
 
 // ModuleFsInsAward.cro +0x004D84 slot 0x18
-void AcNpcSpKameyama::Finalize()
+oml::framework::Result AcNpcSpKameyama::Finalize()
 {
 }
 

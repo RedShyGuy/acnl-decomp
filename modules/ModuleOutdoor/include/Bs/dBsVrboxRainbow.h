@@ -10,6 +10,6 @@ class BsVrboxRainbow : public ::UtlBase<Base>
 public:
     BsVrboxRainbow(); // ctor address unknown
     virtual ~BsVrboxRainbow(); // ModuleOutdoor.cro +0x02BD0C slot 0x00
-    virtual void Calc(); // ModuleOutdoor.cro +0x02BAE0 slot 0x24
-    virtual void Draw(); // ModuleOutdoor.cro +0x02BA94 slot 0x30
+    virtual oml::framework::Result Calc(); // ModuleOutdoor.cro +0x02BAE0 slot 0x24
+    virtual oml::framework::Result Draw(); // ModuleOutdoor.cro +0x02BA94 slot 0x30
 };

@@ -12,12 +12,12 @@ AcNpcSpKotobukiAnnounce::~AcNpcSpKotobukiAnnounce()
 }
 
 // ModuleKotobuki.cro +0x0030F0 slot 0x0C
-void AcNpcSpKotobukiAnnounce::Initialize()
+oml::framework::Result AcNpcSpKotobukiAnnounce::Initialize()
 {
 }
 
 // ModuleKotobuki.cro +0x00318C slot 0x18
-void AcNpcSpKotobukiAnnounce::Finalize()
+oml::framework::Result AcNpcSpKotobukiAnnounce::Finalize()
 {
 }
 

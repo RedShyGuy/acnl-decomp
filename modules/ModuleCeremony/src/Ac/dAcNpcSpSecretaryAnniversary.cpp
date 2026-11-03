@@ -12,12 +12,12 @@ AcNpcSpSecretaryAnniversary::~AcNpcSpSecretaryAnniversary()
 }
 
 // ModuleCeremony.cro +0x003EA0 slot 0x0C
-void AcNpcSpSecretaryAnniversary::Initialize()
+oml::framework::Result AcNpcSpSecretaryAnniversary::Initialize()
 {
 }
 
 // ModuleCeremony.cro +0x003F3C slot 0x18
-void AcNpcSpSecretaryAnniversary::Finalize()
+oml::framework::Result AcNpcSpSecretaryAnniversary::Finalize()
 {
 }
 

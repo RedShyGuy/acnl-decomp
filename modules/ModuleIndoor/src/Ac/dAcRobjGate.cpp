@@ -13,12 +13,12 @@ AcRobjGate::~AcRobjGate()
 }
 
 // ModuleIndoor.cro +0x005DA0 slot 0x24
-void AcRobjGate::Calc()
+oml::framework::Result AcRobjGate::Calc()
 {
 }
 
 // ModuleIndoor.cro +0x005CE0 slot 0x30
-void AcRobjGate::Draw()
+oml::framework::Result AcRobjGate::Draw()
 {
 }
 

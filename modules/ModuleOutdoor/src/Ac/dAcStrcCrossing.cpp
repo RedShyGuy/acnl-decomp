@@ -13,12 +13,12 @@ AcStrcCrossing::~AcStrcCrossing()
 }
 
 // ModuleOutdoor.cro +0x022FF8 slot 0x24
-void AcStrcCrossing::Calc()
+oml::framework::Result AcStrcCrossing::Calc()
 {
 }
 
 // ModuleOutdoor.cro +0x022FC4 slot 0x30
-void AcStrcCrossing::Draw()
+oml::framework::Result AcStrcCrossing::Draw()
 {
 }
 

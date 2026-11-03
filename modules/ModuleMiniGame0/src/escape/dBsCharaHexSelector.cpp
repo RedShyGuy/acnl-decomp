@@ -14,12 +14,12 @@ escape::BsCharaHexSelector::~BsCharaHexSelector()
 }
 
 // ModuleMiniGame0.cro +0x077178 slot 0x24
-void escape::BsCharaHexSelector::Calc()
+oml::framework::Result escape::BsCharaHexSelector::Calc()
 {
 }
 
 // ModuleMiniGame0.cro +0x07689C slot 0x30
-void escape::BsCharaHexSelector::Draw()
+oml::framework::Result escape::BsCharaHexSelector::Draw()
 {
 }
 

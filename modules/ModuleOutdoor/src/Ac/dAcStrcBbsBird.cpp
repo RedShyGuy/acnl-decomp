@@ -14,12 +14,12 @@ AcStrcBbsBird::~AcStrcBbsBird()
 }
 
 // ModuleOutdoor.cro +0x01D40C slot 0x24
-void AcStrcBbsBird::Calc()
+oml::framework::Result AcStrcBbsBird::Calc()
 {
 }
 
 // ModuleOutdoor.cro +0x01D3E8 slot 0x30
-void AcStrcBbsBird::Draw()
+oml::framework::Result AcStrcBbsBird::Draw()
 {
 }
 

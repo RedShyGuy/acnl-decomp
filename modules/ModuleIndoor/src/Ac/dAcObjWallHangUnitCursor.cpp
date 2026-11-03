@@ -13,12 +13,12 @@ AcObjWallHangUnitCursor::~AcObjWallHangUnitCursor()
 }
 
 // ModuleIndoor.cro +0x03EF48 slot 0x24
-void AcObjWallHangUnitCursor::Calc()
+oml::framework::Result AcObjWallHangUnitCursor::Calc()
 {
 }
 
 // ModuleIndoor.cro +0x03EEC8 slot 0x30
-void AcObjWallHangUnitCursor::Draw()
+oml::framework::Result AcObjWallHangUnitCursor::Draw()
 {
 }
 

@@ -13,12 +13,12 @@ AcRobjHaniwa::~AcRobjHaniwa()
 }
 
 // ModuleIndoor.cro +0x00D13C slot 0x24
-void AcRobjHaniwa::Calc()
+oml::framework::Result AcRobjHaniwa::Calc()
 {
 }
 
 // ModuleIndoor.cro +0x00D124 slot 0x30
-void AcRobjHaniwa::Draw()
+oml::framework::Result AcRobjHaniwa::Draw()
 {
 }
 

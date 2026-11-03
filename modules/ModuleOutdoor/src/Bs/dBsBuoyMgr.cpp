@@ -13,22 +13,22 @@ BsBuoyMgr::~BsBuoyMgr()
 }
 
 // ModuleOutdoor.cro +0x082F30 slot 0x0C
-void BsBuoyMgr::Initialize()
+oml::framework::Result BsBuoyMgr::Initialize()
 {
 }
 
 // ModuleOutdoor.cro +0x082FCC slot 0x18
-void BsBuoyMgr::Finalize()
+oml::framework::Result BsBuoyMgr::Finalize()
 {
 }
 
 // ModuleOutdoor.cro +0x07CC60 slot 0x24
-void BsBuoyMgr::Calc()
+oml::framework::Result BsBuoyMgr::Calc()
 {
 }
 
 // ModuleOutdoor.cro +0x07C8D8 slot 0x30
-void BsBuoyMgr::Draw()
+oml::framework::Result BsBuoyMgr::Draw()
 {
 }
 

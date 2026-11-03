@@ -13,12 +13,12 @@ AcStrcRecycleShop::~AcStrcRecycleShop()
 }
 
 // ModuleOutdoor.cro +0x055858 slot 0x24
-void AcStrcRecycleShop::Calc()
+oml::framework::Result AcStrcRecycleShop::Calc()
 {
 }
 
 // ModuleOutdoor.cro +0x055714 slot 0x30
-void AcStrcRecycleShop::Draw()
+oml::framework::Result AcStrcRecycleShop::Draw()
 {
 }
 

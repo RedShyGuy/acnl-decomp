@@ -10,6 +10,6 @@ class AcStrcGeyser : public ::UtlBase<AcStrc>
 public:
     AcStrcGeyser(); // ctor address unknown
     virtual ~AcStrcGeyser(); // ModuleOutdoor.cro +0x014C1C slot 0x00
-    virtual void Calc(); // ModuleOutdoor.cro +0x014A1C slot 0x24
-    virtual void Draw(); // ModuleOutdoor.cro +0x014990 slot 0x30
+    virtual oml::framework::Result Calc(); // ModuleOutdoor.cro +0x014A1C slot 0x24
+    virtual oml::framework::Result Draw(); // ModuleOutdoor.cro +0x014990 slot 0x30
 };

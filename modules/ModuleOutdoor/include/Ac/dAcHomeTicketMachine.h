@@ -13,9 +13,9 @@ class AcHomeTicketMachine : public ::UtlBase<DemoActor>, public ::ObjTalkRecept
 public:
     AcHomeTicketMachine(); // ctor address unknown
     virtual ~AcHomeTicketMachine(); // ModuleOutdoor.cro +0x05C5B4 slot 0x00
-    virtual void Initialize(); // ModuleOutdoor.cro +0x083258 slot 0x0C
-    virtual void Finalize(); // ModuleOutdoor.cro +0x0832F4 slot 0x18
-    virtual void Calc(); // ModuleOutdoor.cro +0x05C380 slot 0x24
-    virtual void Draw(); // ModuleOutdoor.cro +0x05C34C slot 0x30
+    virtual oml::framework::Result Initialize(); // ModuleOutdoor.cro +0x083258 slot 0x0C
+    virtual oml::framework::Result Finalize(); // ModuleOutdoor.cro +0x0832F4 slot 0x18
+    virtual oml::framework::Result Calc(); // ModuleOutdoor.cro +0x05C380 slot 0x24
+    virtual oml::framework::Result Draw(); // ModuleOutdoor.cro +0x05C34C slot 0x30
     virtual void Unk0(); // ModuleOutdoor.cro +0x07E670 slot 0x3C
 };

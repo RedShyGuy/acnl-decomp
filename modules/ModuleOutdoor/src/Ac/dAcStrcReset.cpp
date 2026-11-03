@@ -13,12 +13,12 @@ AcStrcReset::~AcStrcReset()
 }
 
 // ModuleOutdoor.cro +0x00B920 slot 0x24
-void AcStrcReset::Calc()
+oml::framework::Result AcStrcReset::Calc()
 {
 }
 
 // ModuleOutdoor.cro +0x00B8A8 slot 0x30
-void AcStrcReset::Draw()
+oml::framework::Result AcStrcReset::Draw()
 {
 }
 

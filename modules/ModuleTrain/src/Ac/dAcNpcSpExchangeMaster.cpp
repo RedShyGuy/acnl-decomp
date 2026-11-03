@@ -13,12 +13,12 @@ AcNpcSpExchangeMaster::~AcNpcSpExchangeMaster()
 }
 
 // ModuleTrain.cro +0x00D16C slot 0x0C
-void AcNpcSpExchangeMaster::Initialize()
+oml::framework::Result AcNpcSpExchangeMaster::Initialize()
 {
 }
 
 // ModuleTrain.cro +0x00D208 slot 0x18
-void AcNpcSpExchangeMaster::Finalize()
+oml::framework::Result AcNpcSpExchangeMaster::Finalize()
 {
 }
 

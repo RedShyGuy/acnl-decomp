@@ -12,12 +12,12 @@ AcNpcSpKappeisKidOne::~AcNpcSpKappeisKidOne()
 }
 
 // ModuleTour.cro +0x00EB90 slot 0x0C
-void AcNpcSpKappeisKidOne::Initialize()
+oml::framework::Result AcNpcSpKappeisKidOne::Initialize()
 {
 }
 
 // ModuleTour.cro +0x00EC2C slot 0x18
-void AcNpcSpKappeisKidOne::Finalize()
+oml::framework::Result AcNpcSpKappeisKidOne::Finalize()
 {
 }
 

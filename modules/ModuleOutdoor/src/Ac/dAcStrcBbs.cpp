@@ -13,22 +13,22 @@ AcStrcBbs::~AcStrcBbs()
 }
 
 // ModuleOutdoor.cro +0x0830C4 slot 0x0C
-void AcStrcBbs::Initialize()
+oml::framework::Result AcStrcBbs::Initialize()
 {
 }
 
 // ModuleOutdoor.cro +0x083160 slot 0x18
-void AcStrcBbs::Finalize()
+oml::framework::Result AcStrcBbs::Finalize()
 {
 }
 
 // ModuleOutdoor.cro +0x07B710 slot 0x24
-void AcStrcBbs::Calc()
+oml::framework::Result AcStrcBbs::Calc()
 {
 }
 
 // ModuleOutdoor.cro +0x07B6DC slot 0x30
-void AcStrcBbs::Draw()
+oml::framework::Result AcStrcBbs::Draw()
 {
 }
 

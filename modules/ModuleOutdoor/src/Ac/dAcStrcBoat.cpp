@@ -13,12 +13,12 @@ AcStrcBoat::~AcStrcBoat()
 }
 
 // ModuleOutdoor.cro +0x0065D8 slot 0x24
-void AcStrcBoat::Calc()
+oml::framework::Result AcStrcBoat::Calc()
 {
 }
 
 // ModuleOutdoor.cro +0x00659C slot 0x30
-void AcStrcBoat::Draw()
+oml::framework::Result AcStrcBoat::Draw()
 {
 }
 

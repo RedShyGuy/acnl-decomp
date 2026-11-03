@@ -13,22 +13,22 @@ BsAquariumMgr::~BsAquariumMgr()
 }
 
 // ModuleMusFish.cro +0x01E814 slot 0x0C
-void BsAquariumMgr::Initialize()
+oml::framework::Result BsAquariumMgr::Initialize()
 {
 }
 
 // ModuleMusFish.cro +0x01E8B0 slot 0x18
-void BsAquariumMgr::Finalize()
+oml::framework::Result BsAquariumMgr::Finalize()
 {
 }
 
 // ModuleMusFish.cro +0x008260 slot 0x24
-void BsAquariumMgr::Calc()
+oml::framework::Result BsAquariumMgr::Calc()
 {
 }
 
 // ModuleMusFish.cro +0x008078 slot 0x30
-void BsAquariumMgr::Draw()
+oml::framework::Result BsAquariumMgr::Draw()
 {
 }
 

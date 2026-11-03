@@ -13,12 +13,12 @@ AcStrcPlayerHouse::~AcStrcPlayerHouse()
 }
 
 // ModuleOutdoor.cro +0x054318 slot 0x24
-void AcStrcPlayerHouse::Calc()
+oml::framework::Result AcStrcPlayerHouse::Calc()
 {
 }
 
 // ModuleOutdoor.cro +0x0542BC slot 0x30
-void AcStrcPlayerHouse::Draw()
+oml::framework::Result AcStrcPlayerHouse::Draw()
 {
 }
 

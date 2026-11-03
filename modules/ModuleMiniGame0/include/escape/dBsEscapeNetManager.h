@@ -11,7 +11,7 @@ class BsEscapeNetManager : public ::UtlBase<Base>
 public:
     BsEscapeNetManager(); // ctor address unknown
     virtual ~BsEscapeNetManager(); // ModuleMiniGame0.cro +0x07AA24 slot 0x00
-    virtual void Calc(); // ModuleMiniGame0.cro +0x07A934 slot 0x24
-    virtual void Draw(); // ModuleMiniGame0.cro +0x079C04 slot 0x30
+    virtual oml::framework::Result Calc(); // ModuleMiniGame0.cro +0x07A934 slot 0x24
+    virtual oml::framework::Result Draw(); // ModuleMiniGame0.cro +0x079C04 slot 0x30
 };
 } // namespace escape

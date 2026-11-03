@@ -13,22 +13,22 @@ AcObjUnitCursor::~AcObjUnitCursor()
 }
 
 // ModuleIndoor.cro +0x05FA60 slot 0x0C
-void AcObjUnitCursor::Initialize()
+oml::framework::Result AcObjUnitCursor::Initialize()
 {
 }
 
 // ModuleIndoor.cro +0x05FAFC slot 0x18
-void AcObjUnitCursor::Finalize()
+oml::framework::Result AcObjUnitCursor::Finalize()
 {
 }
 
 // ModuleIndoor.cro +0x01A2C4 slot 0x24
-void AcObjUnitCursor::Calc()
+oml::framework::Result AcObjUnitCursor::Calc()
 {
 }
 
 // ModuleIndoor.cro +0x01A120 slot 0x30
-void AcObjUnitCursor::Draw()
+oml::framework::Result AcObjUnitCursor::Draw()
 {
 }
 

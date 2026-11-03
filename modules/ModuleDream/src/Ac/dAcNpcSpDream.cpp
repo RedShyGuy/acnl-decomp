@@ -12,12 +12,12 @@ AcNpcSpDream::~AcNpcSpDream()
 }
 
 // ModuleDream.cro +0x00AA88 slot 0x0C
-void AcNpcSpDream::Initialize()
+oml::framework::Result AcNpcSpDream::Initialize()
 {
 }
 
 // ModuleDream.cro +0x00AB24 slot 0x18
-void AcNpcSpDream::Finalize()
+oml::framework::Result AcNpcSpDream::Finalize()
 {
 }
 

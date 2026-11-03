@@ -14,12 +14,12 @@ AcRobjCatalogMachine::~AcRobjCatalogMachine()
 }
 
 // ModuleShop.cro +0x022044 slot 0x24
-void AcRobjCatalogMachine::Calc()
+oml::framework::Result AcRobjCatalogMachine::Calc()
 {
 }
 
 // ModuleShop.cro +0x02203C slot 0x30
-void AcRobjCatalogMachine::Draw()
+oml::framework::Result AcRobjCatalogMachine::Draw()
 {
 }
 

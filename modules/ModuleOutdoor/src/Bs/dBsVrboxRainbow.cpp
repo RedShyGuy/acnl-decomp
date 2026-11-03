@@ -13,12 +13,12 @@ BsVrboxRainbow::~BsVrboxRainbow()
 }
 
 // ModuleOutdoor.cro +0x02BAE0 slot 0x24
-void BsVrboxRainbow::Calc()
+oml::framework::Result BsVrboxRainbow::Calc()
 {
 }
 
 // ModuleOutdoor.cro +0x02BA94 slot 0x30
-void BsVrboxRainbow::Draw()
+oml::framework::Result BsVrboxRainbow::Draw()
 {
 }
 

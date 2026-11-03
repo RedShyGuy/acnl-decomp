@@ -12,6 +12,6 @@ class AcStrcBbsBird : public ::UtlBase<AcStrc>, public ::bgcheck::MoveBg
 public:
     AcStrcBbsBird(); // ctor address unknown
     virtual ~AcStrcBbsBird(); // ModuleOutdoor.cro +0x01D7C8 slot 0x00
-    virtual void Calc(); // ModuleOutdoor.cro +0x01D40C slot 0x24
-    virtual void Draw(); // ModuleOutdoor.cro +0x01D3E8 slot 0x30
+    virtual oml::framework::Result Calc(); // ModuleOutdoor.cro +0x01D40C slot 0x24
+    virtual oml::framework::Result Draw(); // ModuleOutdoor.cro +0x01D3E8 slot 0x30
 };

@@ -66,7 +66,7 @@ void SetPlayerArrivalType(u8 type); // 0x005C5DE8
 bool PlayerCanReturn(); // 0x005C3708
 // the position and rotation of the own player; returns the action to take on return
 u32 PlayerGetReturnPoint(nn::math::VEC3_* pPosition, math::Angle16Vec3* pRotation); // 0x005C7B18
-// the two door positions of the camping car in the auto camp
+// the two door positions of the camping car in the campground (AutoCamp)
 void GetAutoCampDoors(nn::math::VEC3_* pDoor0, nn::math::VEC3_* pDoor1); // 0x00150258
 
 // a start position of the players after a scene change
@@ -96,14 +96,20 @@ public:
 extern PlayerStartInfo g_PlayerStartInfo;
 
 // the actions of the player on arrival (values of libgarden's PlayerAction::Name, as constants of another file)
+extern const u32 PLAYER_ACTION_HIDE;
 extern const u32 PLAYER_ACTION_IDLE;
 extern const u32 PLAYER_ACTION_EXIT_CONNECTION_WALK;
 extern const u32 PLAYER_ACTION_EXIT_CONNECTION_WALK_SLOW;
 extern const u32 PLAYER_ACTION_EXIT_CONNECTION_RUN;
+extern const u32 PLAYER_ACTION_EXIT_AUTOCAMP;
 extern const u32 PLAYER_ACTION_EXIT_CONNECTION_STAIR_UP;
 extern const u32 PLAYER_ACTION_EXIT_CONNECTION_STAIR_DOWN;
 extern const u32 PLAYER_ACTION_DOOR_EXIT_WAIT;
 extern const u32 PLAYER_ACTION_DOOR_EXIT_BEGIN;
+extern const u32 PLAYER_ACTION_FTR_BED_SLEEP;
+extern const f32 PLAYER_BED_SLEEP_OFFSET;
+// where the player stands at the door inside a camping car of the campground
+extern const nn::math::VEC3 CAMPING_CAR_DOOR_POSITION;
 
 // the field
 extern const f32 FIELD_UNIT_SIZE_X; // one unit in world units
@@ -119,24 +125,37 @@ f32 GetRandomF(f32 max); // 0x005666F8
 void SetupField(); // 0x006A6AFC
 void DestroyField(); // 0x006A7424
 void ResetStageList(); // 0x006E4FE0
-// the position and rotation of the auto camp in the village
+// the position and rotation of the way to the campground in the village
 const nn::math::VEC3_* GetAutoCampPosition(); // 0x006A76A0
 const u16* GetAutoCampRotationY(); // 0x006A7744
-// the stage of the auto camp (AutoCampL or AutoCampR)
+// the stage of the campground (AutoCampL: west, AutoCampR: east)
 stage::Name GetAutoCampStage(); // 0x006FA0A0
 
-// the structures of the field (0..3: the player houses)
+// the structures of the field: the building IDs (0..3 the player houses, 8..0x11 the villager houses, 0x42..0x4B the
+// island huts, 0x4C.. the public buildings, 0x81..0x8D the buildings of Main Street; 0xFC: none)
+enum StructureId : u8
+{
+    STRUCTURE_TOWN_HALL_CLASSIC = 0x50,
+    STRUCTURE_TOWN_HALL_ZEN = 0x51,
+    STRUCTURE_TOWN_HALL_FAIRY_TALE = 0x52,
+    STRUCTURE_TOWN_HALL_MODERN = 0x53,
+    STRUCTURE_CAMPING_CAR_A = 0x7F,     // the camping cars of the campground (CampingCarA/B)
+    STRUCTURE_CAMPING_CAR_B = 0x80,
+    STRUCTURE_NOOK_STORE = 0x85,        // the Nooks' store on Main Street
+    STRUCTURE_PHOTO_BOOTH = 0x8D,
+    STRUCTURE_NONE = 0xFC,
+};
 bool IsStructurePlaced(u8 structure); // 0x0030940C
 // the position in front of the structure; false if it is not on the field
 bool GetStructurePosition(nn::math::VEC3_* pPosition, u8 structure); // 0x003071EC
 stage::Name GetStageOfStructure(u8 structure); // 0x005CAE68
-// the structures with variants: 80..83 the museum, 84..87 the shop of the Nooks (names of the groups are ours)
-bool IsMuseumStructure(u8 structure); // 0x006CD4A8
-bool IsShopStructure(u8 structure); // 0x006CD4CC
-u8 GetMuseumStructure(); // 0x006CC580
-u8 GetShopStructure(); // 0x006CC734
+// the structures with variants: 0x50..0x53 the town hall, 0x54..0x57 the train station (classic, zen, fairy-tale, modern)
+bool IsTownHallStructure(u8 structure); // 0x006CD4A8
+bool IsStationStructure(u8 structure); // 0x006CD4CC
+u8 GetTownHallStructure(); // 0x006CC580
+u8 GetStationStructure(); // 0x006CC734
 bool IsPlayerHouseStructure(u8 structure); // 0x006CB82C
-// the model name of the shop of the Nooks ("shop" .. "depart")
+// the model name of the Nooks' store on Main Street ("shop" .. "depart")
 const char* GetShopName(); // 0x006DD8A0
 
 // the objects of the field: a registry of 14 lists
@@ -164,7 +183,7 @@ void UnitToWorld(nn::math::VEC3_* pPosition, s32 unitX, s32 unitZ); // 0x006A69E
 oml::framework::Process* ActorCreate(u16 name, oml::framework::Process* parent, u32 arg, const nn::math::VEC3_* position,
                                      const math::Angle16Vec3* rotation); // 0x0057C4C4
 
-// the type of a tour of the island (9: fossil digging, 11: borrowing race)
+// the type of a tour of the island (the order of the tour stages: 9 Fossil Hunter tour, 11 Item-Matching tour)
 s8 GetTourType(s8 tour); // 0x006C4DD0
 // whether the current stage is a tour or a hut of the island
 bool IsTourStage(); // 0x006E167C

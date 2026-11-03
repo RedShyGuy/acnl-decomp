@@ -12,12 +12,12 @@ AcNpcPlayerGhost::~AcNpcPlayerGhost()
 }
 
 // ModulePlayerGhost.cro +0x002034 slot 0x0C
-void AcNpcPlayerGhost::Initialize()
+oml::framework::Result AcNpcPlayerGhost::Initialize()
 {
 }
 
 // ModulePlayerGhost.cro +0x0020D0 slot 0x18
-void AcNpcPlayerGhost::Finalize()
+oml::framework::Result AcNpcPlayerGhost::Finalize()
 {
 }
 

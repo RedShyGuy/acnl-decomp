@@ -13,12 +13,12 @@ AcStrcRentalHaniwa::~AcStrcRentalHaniwa()
 }
 
 // ModuleOutdoor.cro +0x05AA8C slot 0x24
-void AcStrcRentalHaniwa::Calc()
+oml::framework::Result AcStrcRentalHaniwa::Calc()
 {
 }
 
 // ModuleOutdoor.cro +0x05AA4C slot 0x30
-void AcStrcRentalHaniwa::Draw()
+oml::framework::Result AcStrcRentalHaniwa::Draw()
 {
 }
 

@@ -10,6 +10,6 @@ public:
     class AprilTalkRcpt;
     AcNpcApril(); // ctor address unknown
     virtual ~AcNpcApril(); // ModuleIndoor.cro +0x00552C slot 0x00
-    virtual void Initialize(); // ModuleIndoor.cro +0x05FBF4 slot 0x0C
-    virtual void Finalize(); // ModuleIndoor.cro +0x05FC90 slot 0x18
+    virtual oml::framework::Result Initialize(); // ModuleIndoor.cro +0x05FBF4 slot 0x0C
+    virtual oml::framework::Result Finalize(); // ModuleIndoor.cro +0x05FC90 slot 0x18
 };

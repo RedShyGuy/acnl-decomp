@@ -1,5 +1,5 @@
 #include "stage/stage_Api.h"
-#include "Bs/dBsFtrMgr.h"
+#include "Bs/dBsNpcMgr.h"
 #include "Bs/dBsPlayerMgr.h"
 #include "Bs/dBsScene.h"
 #include "Other/dProcMgr.h"
@@ -8,6 +8,7 @@
 #include "netgame/netgame_Api.h"
 #include "stage/dTransitionMgr.h"
 #include "stage/stage_Extern.h"
+#include "stage/stage_Data.h"
 #include "stage/stage_Tables.h"
 
 #include <cstring>
@@ -37,9 +38,341 @@ const char* s_pShopNameA = "";
 const char* s_pShopNameB = "";
 
 // 0x00958364
-const Info* s_Infos[NAME_MAX];
+const Info* s_Infos[NAME_MAX] = {
+    &detail::s_VillageInfo,
+    &detail::s_DowntownInfo,
+    &detail::s_StationInfo,
+    &detail::s_PlayerHouse0_1FInfo,
+    &detail::s_PlayerHouse0_2FInfo,
+    &detail::s_PlayerHouse0_BFInfo,
+    &detail::s_PlayerHouse0_RightInfo,
+    &detail::s_PlayerHouse0_LeftInfo,
+    &detail::s_PlayerHouse0_BackInfo,
+    &detail::s_PlayerHouse0_1FInfo,
+    &detail::s_PlayerHouse0_2FInfo,
+    &detail::s_PlayerHouse0_BFInfo,
+    &detail::s_PlayerHouse0_RightInfo,
+    &detail::s_PlayerHouse0_LeftInfo,
+    &detail::s_PlayerHouse0_BackInfo,
+    &detail::s_PlayerHouse0_1FInfo,
+    &detail::s_PlayerHouse0_2FInfo,
+    &detail::s_PlayerHouse0_BFInfo,
+    &detail::s_PlayerHouse0_RightInfo,
+    &detail::s_PlayerHouse0_LeftInfo,
+    &detail::s_PlayerHouse0_BackInfo,
+    &detail::s_PlayerHouse0_1FInfo,
+    &detail::s_PlayerHouse0_2FInfo,
+    &detail::s_PlayerHouse0_BFInfo,
+    &detail::s_PlayerHouse0_RightInfo,
+    &detail::s_PlayerHouse0_LeftInfo,
+    &detail::s_PlayerHouse0_BackInfo,
+    &detail::s_NpcHouse0Info,
+    &detail::s_NpcHouse0Info,
+    &detail::s_NpcHouse0Info,
+    &detail::s_NpcHouse0Info,
+    &detail::s_NpcHouse0Info,
+    &detail::s_NpcHouse0Info,
+    &detail::s_NpcHouse0Info,
+    &detail::s_NpcHouse0Info,
+    &detail::s_NpcHouse0Info,
+    &detail::s_NpcHouse0Info,
+    &detail::s_CampNpcInfo,
+    &detail::s_OfficeInfo,
+    &detail::s_StationEntryDemoInfo,
+    &detail::s_StationRetireDemoInfo,
+    &detail::s_StationComeHomeDemoInfo,
+    &detail::s_StationPrologueDemoInfo,
+    &detail::s_RecycleShopInfo,
+    &detail::s_InsectAwardTentInfo,
+    &detail::s_InsectAwardTentDemoInfo,
+    &detail::s_FishAwardTentInfo,
+    &detail::s_FishAwardTentDemoInfo,
+    &detail::s_PoliceBoxAInfo,
+    &detail::s_PoliceBoxBInfo,
+    &detail::s_CafeInfo,
+    &detail::s_CafeArbeitInfo,
+    &detail::s_ResetMonitoringCenterInfo,
+    &detail::s_GalleryInfo,
+    &detail::s_FortuneTentInfo,
+    &detail::s_FortuneInfo,
+    &detail::s_ShopInfo,
+    &detail::s_ConvenienceStoreInfo,
+    &detail::s_SupermarketInfo,
+    &detail::s_HomeCenterInfo,
+    &detail::s_DepartmentStore_1FInfo,
+    &detail::s_DepartmentStore_2FInfo,
+    &detail::s_DepartmentStore_3FInfo,
+    &detail::s_TailorInfo,
+    &detail::s_AccessoryShopInfo,
+    &detail::s_RealEstateAgencyInfo,
+    &detail::s_ShoeShopInfo,
+    &detail::s_FloristsInfo,
+    &detail::s_Florists_HomeImprovementCenterInfo,
+    &detail::s_CLUB444Info,
+    &detail::s_CLUB444_DJKKInfo,
+    &detail::s_CLUB444_LiveInfo,
+    &detail::s_BeautySalonInfo,
+    &detail::s_Museum_EntranceInfo,
+    &detail::s_Museum_Fish0Info,
+    &detail::s_Museum_Fish1Info,
+    &detail::s_Museum_Fish2Info,
+    &detail::s_Museum_Insect0Info,
+    &detail::s_Museum_Insect1Info,
+    &detail::s_Museum_Insect2Info,
+    &detail::s_Museum_Fossil0Info,
+    &detail::s_Museum_Fossil1Info,
+    &detail::s_Museum_Fossil2Info,
+    &detail::s_Museum_Picture0Info,
+    &detail::s_Museum_Picture1Info,
+    &detail::s_Museum_ShopInfo,
+    &detail::s_Museum_Showroom1Info,
+    &detail::s_Museum_Showroom2Info,
+    &detail::s_Museum_Showroom3Info,
+    &detail::s_Museum_Showroom4Info,
+    &detail::s_PostOfficeInfo,
+    &detail::s_DreamInfo,
+    &detail::s_PhotoBoxInfo,
+    &detail::s_TrainInfo,
+    &detail::s_TitleInfo,
+    &detail::s_VillagePrologueInfo,
+    &detail::s_SaveInfo,
+    &detail::s_SaveInfo,
+    &detail::s_FormatInfo,
+    &detail::s_PlayerSelectInfo,
+    &detail::s_DreamReturnInfo,
+    &detail::s_SeaDepartureInfo,
+    &detail::s_SeaReturnInfo,
+    &detail::s_TourDeskInfo,
+    &detail::s_LobbyIslandInfo,
+    &detail::s_Island_HideAndSeekInfo,
+    &detail::s_Island_HideAndSeekResultInfo,
+    &detail::s_Island_FlowerPickingInfo,
+    &detail::s_Island_FlowerPickingResultInfo,
+    &detail::s_Island_FishingInfo,
+    &detail::s_Island_FishingResultInfo,
+    &detail::s_Island_InsectCatchingInfo,
+    &detail::s_Island_InsectCatchingResultInfo,
+    &detail::s_Island_BalloonInfo,
+    &detail::s_Island_BalloonResultInfo,
+    &detail::s_Island_TreasureHuntInfo,
+    &detail::s_Island_TreasureHuntResultInfo,
+    &detail::s_Island_PikoHanInfo,
+    &detail::s_Island_PikoHanResultInfo,
+    &detail::s_Island_MazeInfo,
+    &detail::s_Island_MazeResultInfo,
+    &detail::s_Island_MiningInfo,
+    &detail::s_Island_MiningResultInfo,
+    &detail::s_Island_FossilDigInfo,
+    &detail::s_Island_FossilDigResultInfo,
+    &detail::s_Island_DivingInfo,
+    &detail::s_Island_DivingResultInfo,
+    &detail::s_Island_BorrowingRaceInfo,
+    &detail::s_Island_BorrowingRaceResultInfo,
+    &detail::s_Island_Hut0Info,
+    &detail::s_Island_Hut1Info,
+    &detail::s_Island_Hut2Info,
+    &detail::s_Island_Hut3Info,
+    &detail::s_Island_Hut4Info,
+    &detail::s_Island_Hut5Info,
+    &detail::s_Island_Hut6Info,
+    &detail::s_Island_Hut7Info,
+    &detail::s_Island_Hut8Info,
+    &detail::s_Island_Hut9Info,
+    &detail::s_RandomMatchingEntryInfo,
+    &detail::s_RandomMatchingRetireInfo,
+    &detail::s_PrepareTourInfo,
+    &detail::s_Exhibition_EntranceInfo,
+    &detail::s_Exhibition_NorthInfo,
+    &detail::s_Exhibition_EastInfo,
+    &detail::s_Exhibition_WestInfo,
+    &detail::s_ModelHouse_1FInfo,
+    &detail::s_ModelHouse_2FInfo,
+    &detail::s_ModelHouse_BFInfo,
+    &detail::s_ModelHouse_RightInfo,
+    &detail::s_ModelHouse_LeftInfo,
+    &detail::s_ModelHouse_BackInfo,
+    &detail::s_IncludeSaveInfo,
+    &detail::s_GardenManualImportInfo,
+    &detail::s_TakumiImportInfo,
+    &detail::s_GardenPlusUpdateInfo,
+    &detail::s_UpdateSelectInfo,
+    &detail::s_MiniGame0Info,
+    &detail::s_MiniGame1Info,
+    &detail::s_AutoCampLInfo,
+    &detail::s_AutoCampRInfo,
+    &detail::s_CampingCarAInfo,
+    &detail::s_CampingCarBInfo,
+    &detail::s_ChipTutorialInfo,
+    &detail::s_AmiiboCameraInfo,
+};
 // 0x009585F8
-const char* s_Names[NAME_MAX];
+const char* s_Names[NAME_MAX] = {
+    "Village",
+    "Downtown",
+    "Station",
+    "PlayerHouse0_1F",
+    "PlayerHouse0_2F",
+    "PlayerHouse0_BF",
+    "PlayerHouse0_Right",
+    "PlayerHouse0_Left",
+    "PlayerHouse0_Back",
+    "PlayerHouse1_1F",
+    "PlayerHouse1_2F",
+    "PlayerHouse1_BF",
+    "PlayerHouse1_Right",
+    "PlayerHouse1_Left",
+    "PlayerHouse1_Back",
+    "PlayerHouse2_1F",
+    "PlayerHouse2_2F",
+    "PlayerHouse2_BF",
+    "PlayerHouse2_Right",
+    "PlayerHouse2_Left",
+    "PlayerHouse2_Back",
+    "PlayerHouse3_1F",
+    "PlayerHouse3_2F",
+    "PlayerHouse3_BF",
+    "PlayerHouse3_Right",
+    "PlayerHouse3_Left",
+    "PlayerHouse3_Back",
+    "NpcHouse0",
+    "NpcHouse1",
+    "NpcHouse2",
+    "NpcHouse3",
+    "NpcHouse4",
+    "NpcHouse5",
+    "NpcHouse6",
+    "NpcHouse7",
+    "NpcHouse8",
+    "NpcHouse9",
+    "CampNpc",
+    "Office",
+    "StationEntryDemo",
+    "StationRetireDemo",
+    "StationComeHomeDemo",
+    "StationPrologueDemo",
+    "RecycleShop",
+    "InsectAwardTent",
+    "InsectAwardTentDemo",
+    "FishAwardTent",
+    "FishAwardTentDemo",
+    "PoliceBoxA",
+    "PoliceBoxB",
+    "Cafe",
+    "CafeArbeit",
+    "ResetMonitoringCenter",
+    "Gallery",
+    "FortuneTent",
+    "Fortune",
+    "Shop",
+    "ConvenienceStore",
+    "Supermarket",
+    "HomeCenter",
+    "DepartmentStore_1F",
+    "DepartmentStore_2F",
+    "DepartmentStore_3F",
+    "Tailor",
+    "AccessoryShop",
+    "RealEstateAgency",
+    "ShoeShop",
+    "Florists",
+    "Florists_HomeImprovementCenter",
+    "CLUB444",
+    "CLUB444_DJKK",
+    "CLUB444_Live",
+    "BeautySalon",
+    "Museum_Entrance",
+    "Museum_Fish0",
+    "Museum_Fish1",
+    "Museum_Fish2",
+    "Museum_Insect0",
+    "Museum_Insect1",
+    "Museum_Insect2",
+    "Museum_Fossil0",
+    "Museum_Fossil1",
+    "Museum_Fossil2",
+    "Museum_Picture0",
+    "Museum_Picture1",
+    "Museum_Shop",
+    "Museum_Showroom1",
+    "Museum_Showroom2",
+    "Museum_Showroom3",
+    "Museum_Showroom4",
+    "PostOffice",
+    "Dream",
+    "PhotoBox",
+    "Train",
+    "Title",
+    "VillagePrologue",
+    "Save",
+    "Load",
+    "Format",
+    "PlayerSelect",
+    "DreamReturn",
+    "SeaDeparture",
+    "SeaReturn",
+    "TourDesk",
+    "LobbyIsland",
+    "Island_HideAndSeek",
+    "Island_HideAndSeekResult",
+    "Island_FlowerPicking",
+    "Island_FlowerPickingResult",
+    "Island_Fishing",
+    "Island_FishingResult",
+    "Island_InsectCatching",
+    "Island_InsectCatchingResult",
+    "Island_Balloon",
+    "Island_BalloonResult",
+    "Island_TreasureHunt",
+    "Island_TreasureHuntResult",
+    "Island_PikoHan",
+    "Island_PikoHanResult",
+    "Island_Maze",
+    "Island_MazeResult",
+    "Island_Mining",
+    "Island_MiningResult",
+    "Island_FossilDig",
+    "Island_FossilDigResult",
+    "Island_Diving",
+    "Island_DivingResult",
+    "Island_BorrowingRace",
+    "Island_BorrowingRaceResult",
+    "Island_Hut0",
+    "Island_Hut1",
+    "Island_Hut2",
+    "Island_Hut3",
+    "Island_Hut4",
+    "Island_Hut5",
+    "Island_Hut6",
+    "Island_Hut7",
+    "Island_Hut8",
+    "Island_Hut9",
+    "RandomMatchingEntry",
+    "RandomMatchingRetire",
+    "PrepareTour",
+    "Exhibition_Entrance",
+    "Exhibition_North",
+    "Exhibition_East",
+    "Exhibition_West",
+    "ModelHouse_1F",
+    "ModelHouse_2F",
+    "ModelHouse_BF",
+    "ModelHouse_Right",
+    "ModelHouse_Left",
+    "ModelHouse_Back",
+    "IncludeSave",
+    "GardenManualImport",
+    "TakumiImport",
+    "GardenPlusUpdate",
+    "UpdateSelect",
+    "MiniGame0",
+    "MiniGame1",
+    "AutoCampL",
+    "AutoCampR",
+    "CampingCarA",
+    "CampingCarB",
+    "ChipTutorial",
+    "AmiiboCamera",
+};
 // 0x00AC2948
 TransitionMgr s_TransitionMgr;
 // the start in the own house without a return point
@@ -71,15 +404,6 @@ bool CreateProcesses(const Command* command)
     return true;
 }
 
-// an actor of a stage (data of command 1)
-struct ActorEntry
-{
-    u16 name;                       // 0x00 ProcName
-    nn::math::VEC3_ position;       // 0x04
-    math::Angle16Vec3 rotation;     // 0x10
-    u32 arg;                        // 0x18
-};
-
 // the actors of a stage (command 1)
 // 0x005B7588
 bool CreateActors(const Command* command)
@@ -99,23 +423,15 @@ bool CreateActors(const Command* command)
     return true;
 }
 
-// the furniture of a stage (command 3)
+// the special NPCs of a stage (command 3)
 // 0x005B7564
-bool CreateFurniture(const Command* command)
+bool CreateSpecialNpcs(const Command* command)
 {
-    if (command != NULL && BsFtrMgr::s_pInstance != NULL) {
-        return BsFtrMgr::s_pInstance->CreateFurniture(command);
+    if (command != NULL && BsNpcMgr::s_pInstance != NULL) {
+        return BsNpcMgr::s_pInstance->CreateSpecialNpcs(command);
     }
     return false;
 }
-
-// where the player starts in a stage (data of command 2)
-struct PlayerStart
-{
-    nn::math::VEC3_ position;       // 0x00
-    math::Angle16Vec3 rotation;     // 0x0C
-    u32 action;                     // 0x14
-};
 
 // moves the position to the side (along the X axis turned by the rotation)
 inline void AddArrivalOffset(nn::math::VEC3_* position, const math::Angle16Vec3& rotation, f32 side)
@@ -199,11 +515,11 @@ bool PlacePlayer(const Command* command)
 
 // the command functions of the stages
 // 0x0095888C
-CommandFunc s_BuildFunctions[] = {CreateProcesses, CreateActors, NULL, CreateFurniture};
+CommandFunc s_BuildFunctions[] = {CreateProcesses, CreateActors, NULL, CreateSpecialNpcs};
 // 0x0095889C
-CommandFunc s_MiniGame0Functions[] = {CreateProcesses, CreateActors, NULL, CreateFurniture};
+CommandFunc s_MiniGame0Functions[] = {CreateProcesses, CreateActors, NULL, CreateSpecialNpcs};
 // 0x009588AC
-CommandFunc s_MiniGame1Functions[] = {CreateProcesses, CreateActors, NULL, CreateFurniture};
+CommandFunc s_MiniGame1Functions[] = {CreateProcesses, CreateActors, NULL, CreateSpecialNpcs};
 // only the player of a stage definition
 // 0x0088AC78
 const CommandFunc s_PlayerFunctions[] = {NULL, NULL, PlacePlayer, NULL};
@@ -357,8 +673,8 @@ bool BuildMiniGame1(oml::framework::Process* parent)
 u8 GetLightingType(Name name)
 {
     const Info* info = GetInfoOf(name == NAME_CURRENT ? s_Current : name);
-    if (info->settings != NULL) {
-        return info->settings->lightingType;
+    if (info->field != NULL) {
+        return info->field->lightingType;
     }
     if (IsKind(KIND_VILLAGE, name)) {
         return 0;

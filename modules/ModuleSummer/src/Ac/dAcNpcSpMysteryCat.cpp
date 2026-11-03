@@ -12,12 +12,12 @@ AcNpcSpMysteryCat::~AcNpcSpMysteryCat()
 }
 
 // ModuleSummer.cro +0x003BE8 slot 0x0C
-void AcNpcSpMysteryCat::Initialize()
+oml::framework::Result AcNpcSpMysteryCat::Initialize()
 {
 }
 
 // ModuleSummer.cro +0x003C84 slot 0x18
-void AcNpcSpMysteryCat::Finalize()
+oml::framework::Result AcNpcSpMysteryCat::Finalize()
 {
 }
 

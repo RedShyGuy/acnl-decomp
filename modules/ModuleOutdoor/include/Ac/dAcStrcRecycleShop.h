@@ -10,6 +10,6 @@ class AcStrcRecycleShop : public ::UtlBase<AcStrc>
 public:
     AcStrcRecycleShop(); // ctor address unknown
     virtual ~AcStrcRecycleShop(); // ModuleOutdoor.cro +0x055F64 slot 0x00
-    virtual void Calc(); // ModuleOutdoor.cro +0x055858 slot 0x24
-    virtual void Draw(); // ModuleOutdoor.cro +0x055714 slot 0x30
+    virtual oml::framework::Result Calc(); // ModuleOutdoor.cro +0x055858 slot 0x24
+    virtual oml::framework::Result Draw(); // ModuleOutdoor.cro +0x055714 slot 0x30
 };

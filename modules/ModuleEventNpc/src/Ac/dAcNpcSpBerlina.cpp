@@ -12,12 +12,12 @@ AcNpcSpBerlina::~AcNpcSpBerlina()
 }
 
 // ModuleEventNpc.cro +0x0020C0 slot 0x0C
-void AcNpcSpBerlina::Initialize()
+oml::framework::Result AcNpcSpBerlina::Initialize()
 {
 }
 
 // ModuleEventNpc.cro +0x00215C slot 0x18
-void AcNpcSpBerlina::Finalize()
+oml::framework::Result AcNpcSpBerlina::Finalize()
 {
 }
 

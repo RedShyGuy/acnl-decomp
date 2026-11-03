@@ -12,12 +12,12 @@ AcNpcSpDJKK::~AcNpcSpDJKK()
 }
 
 // ModuleClub.cro +0x011D4C slot 0x0C
-void AcNpcSpDJKK::Initialize()
+oml::framework::Result AcNpcSpDJKK::Initialize()
 {
 }
 
 // ModuleClub.cro +0x011DE8 slot 0x18
-void AcNpcSpDJKK::Finalize()
+oml::framework::Result AcNpcSpDJKK::Finalize()
 {
 }
 

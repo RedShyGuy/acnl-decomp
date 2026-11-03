@@ -13,22 +13,22 @@ BsFortuneViewMgr::~BsFortuneViewMgr()
 }
 
 // ModuleIndoor.cro +0x05F8CC slot 0x0C
-void BsFortuneViewMgr::Initialize()
+oml::framework::Result BsFortuneViewMgr::Initialize()
 {
 }
 
 // ModuleIndoor.cro +0x05F968 slot 0x18
-void BsFortuneViewMgr::Finalize()
+oml::framework::Result BsFortuneViewMgr::Finalize()
 {
 }
 
 // ModuleIndoor.cro +0x021CBC slot 0x24
-void BsFortuneViewMgr::Calc()
+oml::framework::Result BsFortuneViewMgr::Calc()
 {
 }
 
 // ModuleIndoor.cro +0x021C04 slot 0x30
-void BsFortuneViewMgr::Draw()
+oml::framework::Result BsFortuneViewMgr::Draw()
 {
 }
 

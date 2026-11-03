@@ -13,12 +13,12 @@ AcStrcDonationBox::~AcStrcDonationBox()
 }
 
 // ModuleOutdoor.cro +0x0535AC slot 0x24
-void AcStrcDonationBox::Calc()
+oml::framework::Result AcStrcDonationBox::Calc()
 {
 }
 
 // ModuleOutdoor.cro +0x053588 slot 0x30
-void AcStrcDonationBox::Draw()
+oml::framework::Result AcStrcDonationBox::Draw()
 {
 }
 

@@ -13,12 +13,12 @@ AcStrcPier::~AcStrcPier()
 }
 
 // ModuleOutdoor.cro +0x007EC8 slot 0x24
-void AcStrcPier::Calc()
+oml::framework::Result AcStrcPier::Calc()
 {
 }
 
 // ModuleOutdoor.cro +0x007E58 slot 0x30
-void AcStrcPier::Draw()
+oml::framework::Result AcStrcPier::Draw()
 {
 }
 

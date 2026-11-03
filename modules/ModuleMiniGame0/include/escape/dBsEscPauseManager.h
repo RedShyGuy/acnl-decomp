@@ -11,7 +11,7 @@ class BsEscPauseManager : public ::UtlBase<Base>
 public:
     BsEscPauseManager(); // ctor address unknown
     virtual ~BsEscPauseManager(); // ModuleMiniGame0.cro +0x03FA24 slot 0x00
-    virtual void Calc(); // ModuleMiniGame0.cro +0x03F978 slot 0x24
-    virtual void Draw(); // ModuleMiniGame0.cro +0x03F628 slot 0x30
+    virtual oml::framework::Result Calc(); // ModuleMiniGame0.cro +0x03F978 slot 0x24
+    virtual oml::framework::Result Draw(); // ModuleMiniGame0.cro +0x03F628 slot 0x30
 };
 } // namespace escape

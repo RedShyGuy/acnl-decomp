@@ -10,7 +10,7 @@ public:
     class TalkRecept;
     AcNpcSpSecretaryAnniversary(); // ctor address unknown
     virtual ~AcNpcSpSecretaryAnniversary(); // ModuleCeremony.cro +0x00381C slot 0x00
-    virtual void Initialize(); // ModuleCeremony.cro +0x003EA0 slot 0x0C
-    virtual void Finalize(); // ModuleCeremony.cro +0x003F3C slot 0x18
+    virtual oml::framework::Result Initialize(); // ModuleCeremony.cro +0x003EA0 slot 0x0C
+    virtual oml::framework::Result Finalize(); // ModuleCeremony.cro +0x003F3C slot 0x18
     virtual void Unk0(); // ModuleCeremony.cro +0x003BBC slot 0x3C
 };

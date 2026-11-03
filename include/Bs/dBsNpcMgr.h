@@ -2,6 +2,7 @@
 
 #include "decomp.h"
 #include "Other/dBase.h"
+#include "stage/stage_Api.h"
 
 // RTTI 8BsNpcMgr @ 0x008CD4A4
 // vtable 0x008F9A08 (vptr 0x008F9A10), offset_to_top 0, 16 entries
@@ -19,4 +20,9 @@ public:
     virtual oml::framework::Result Finalize(); // 0x00100685 slot 0x18 | slot vf_0x18 of oml::framework::Process
     virtual oml::framework::Result Calc(); // 0x006A26E8 slot 0x24 | slot vf_0x24 of oml::framework::Process
     virtual oml::framework::Result Draw(); // 0x006A266C slot 0x30 | slot vf_0x30 of oml::framework::Process
+
+    // (names are ours; only what the stage code uses)
+    static BsNpcMgr* s_pInstance;
+    // creates the special NPCs of a stage (command 3 of a stage definition)
+    bool CreateSpecialNpcs(const stage::Command* command); // 0x006967BC
 };

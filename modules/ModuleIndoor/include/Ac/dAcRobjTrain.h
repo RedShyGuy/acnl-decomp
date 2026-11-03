@@ -10,6 +10,6 @@ class AcRobjTrain : public ::UtlBase<Actor>
 public:
     AcRobjTrain(); // ctor address unknown
     virtual ~AcRobjTrain(); // ModuleIndoor.cro +0x00AA64 slot 0x00
-    virtual void Calc(); // ModuleIndoor.cro +0x00A17C slot 0x24
-    virtual void Draw(); // ModuleIndoor.cro +0x00A158 slot 0x30
+    virtual oml::framework::Result Calc(); // ModuleIndoor.cro +0x00A17C slot 0x24
+    virtual oml::framework::Result Draw(); // ModuleIndoor.cro +0x00A158 slot 0x30
 };

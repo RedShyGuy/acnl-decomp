@@ -13,12 +13,12 @@ AcStrcLightHouse::~AcStrcLightHouse()
 }
 
 // ModuleOutdoor.cro +0x036F70 slot 0x24
-void AcStrcLightHouse::Calc()
+oml::framework::Result AcStrcLightHouse::Calc()
 {
 }
 
 // ModuleOutdoor.cro +0x036ED4 slot 0x30
-void AcStrcLightHouse::Draw()
+oml::framework::Result AcStrcLightHouse::Draw()
 {
 }
 

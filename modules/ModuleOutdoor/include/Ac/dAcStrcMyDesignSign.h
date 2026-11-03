@@ -10,6 +10,6 @@ class AcStrcMyDesignSign : public ::UtlBase<AcStrc>
 public:
     AcStrcMyDesignSign(); // ctor address unknown
     virtual ~AcStrcMyDesignSign(); // ModuleOutdoor.cro +0x05A2C4 slot 0x00
-    virtual void Calc(); // ModuleOutdoor.cro +0x05A170 slot 0x24
-    virtual void Draw(); // ModuleOutdoor.cro +0x05A0F0 slot 0x30
+    virtual oml::framework::Result Calc(); // ModuleOutdoor.cro +0x05A170 slot 0x24
+    virtual oml::framework::Result Draw(); // ModuleOutdoor.cro +0x05A0F0 slot 0x30
 };

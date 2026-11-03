@@ -14,12 +14,12 @@ escape::BsEscapeRouletteTotalManager::~BsEscapeRouletteTotalManager()
 }
 
 // ModuleMiniGame0.cro +0x0A3418 slot 0x24
-void escape::BsEscapeRouletteTotalManager::Calc()
+oml::framework::Result escape::BsEscapeRouletteTotalManager::Calc()
 {
 }
 
 // ModuleMiniGame0.cro +0x0A3410 slot 0x30
-void escape::BsEscapeRouletteTotalManager::Draw()
+oml::framework::Result escape::BsEscapeRouletteTotalManager::Draw()
 {
 }
 

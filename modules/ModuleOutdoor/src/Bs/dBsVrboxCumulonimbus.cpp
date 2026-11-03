@@ -13,12 +13,12 @@ BsVrboxCumulonimbus::~BsVrboxCumulonimbus()
 }
 
 // ModuleOutdoor.cro +0x05D640 slot 0x24
-void BsVrboxCumulonimbus::Calc()
+oml::framework::Result BsVrboxCumulonimbus::Calc()
 {
 }
 
 // ModuleOutdoor.cro +0x05D5F4 slot 0x30
-void BsVrboxCumulonimbus::Draw()
+oml::framework::Result BsVrboxCumulonimbus::Draw()
 {
 }
 

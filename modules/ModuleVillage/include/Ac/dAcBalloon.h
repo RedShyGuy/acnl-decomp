@@ -10,9 +10,9 @@ class AcBalloon : public ::UtlBase<Actor>
 public:
     AcBalloon(); // ctor address unknown
     virtual ~AcBalloon(); // ModuleVillage.cro +0x01B9CC slot 0x00
-    virtual void Initialize(); // ModuleVillage.cro +0x01CE08 slot 0x0C
-    virtual void Finalize(); // ModuleVillage.cro +0x01CEA4 slot 0x18
-    virtual void Calc(); // ModuleVillage.cro +0x01B494 slot 0x24
-    virtual void Draw(); // ModuleVillage.cro +0x01AFF4 slot 0x30
+    virtual oml::framework::Result Initialize(); // ModuleVillage.cro +0x01CE08 slot 0x0C
+    virtual oml::framework::Result Finalize(); // ModuleVillage.cro +0x01CEA4 slot 0x18
+    virtual oml::framework::Result Calc(); // ModuleVillage.cro +0x01B494 slot 0x24
+    virtual oml::framework::Result Draw(); // ModuleVillage.cro +0x01AFF4 slot 0x30
     virtual void Unk0(); // ModuleVillage.cro +0x01BBD4 slot 0x3C
 };

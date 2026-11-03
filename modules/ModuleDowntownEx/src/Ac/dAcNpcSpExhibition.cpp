@@ -12,12 +12,12 @@ AcNpcSpExhibition::~AcNpcSpExhibition()
 }
 
 // ModuleDowntownEx.cro +0x002048 slot 0x0C
-void AcNpcSpExhibition::Initialize()
+oml::framework::Result AcNpcSpExhibition::Initialize()
 {
 }
 
 // ModuleDowntownEx.cro +0x0020E4 slot 0x18
-void AcNpcSpExhibition::Finalize()
+oml::framework::Result AcNpcSpExhibition::Finalize()
 {
 }
 

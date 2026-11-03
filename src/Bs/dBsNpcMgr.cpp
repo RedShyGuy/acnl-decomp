@@ -31,3 +31,10 @@ oml::framework::Result BsNpcMgr::Draw()
 {
 }
 
+// 0x00951158
+BsNpcMgr* BsNpcMgr::s_pInstance;
+
+// 0x006967BC (name is ours)
+bool BsNpcMgr::CreateSpecialNpcs(const stage::Command* command)
+{
+}

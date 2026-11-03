@@ -10,6 +10,6 @@ class AcRobjHaniwa : public ::UtlBase<Actor>
 public:
     AcRobjHaniwa(); // ctor address unknown
     virtual ~AcRobjHaniwa(); // ModuleIndoor.cro +0x00D3AC slot 0x00
-    virtual void Calc(); // ModuleIndoor.cro +0x00D13C slot 0x24
-    virtual void Draw(); // ModuleIndoor.cro +0x00D124 slot 0x30
+    virtual oml::framework::Result Calc(); // ModuleIndoor.cro +0x00D13C slot 0x24
+    virtual oml::framework::Result Draw(); // ModuleIndoor.cro +0x00D124 slot 0x30
 };

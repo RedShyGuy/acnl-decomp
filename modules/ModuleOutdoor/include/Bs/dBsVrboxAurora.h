@@ -10,6 +10,6 @@ class BsVrboxAurora : public ::UtlBase<Base>
 public:
     BsVrboxAurora(); // ctor address unknown
     virtual ~BsVrboxAurora(); // ModuleOutdoor.cro +0x0001B5 slot 0x00
-    virtual void Calc(); // ModuleOutdoor.cro +0x01DB04 slot 0x24
-    virtual void Draw(); // ModuleOutdoor.cro +0x01DAB8 slot 0x30
+    virtual oml::framework::Result Calc(); // ModuleOutdoor.cro +0x01DB04 slot 0x24
+    virtual oml::framework::Result Draw(); // ModuleOutdoor.cro +0x01DAB8 slot 0x30
 };

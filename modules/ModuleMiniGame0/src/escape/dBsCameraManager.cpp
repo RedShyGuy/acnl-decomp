@@ -14,12 +14,12 @@ escape::BsCameraManager::~BsCameraManager()
 }
 
 // ModuleMiniGame0.cro +0x02E868 slot 0x24
-void escape::BsCameraManager::Calc()
+oml::framework::Result escape::BsCameraManager::Calc()
 {
 }
 
 // ModuleMiniGame0.cro +0x02E844 slot 0x30
-void escape::BsCameraManager::Draw()
+oml::framework::Result escape::BsCameraManager::Draw()
 {
 }
 

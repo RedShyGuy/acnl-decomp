@@ -13,12 +13,12 @@ AcRobjPinLight::~AcRobjPinLight()
 }
 
 // ModuleClub.cro +0x005464 slot 0x24
-void AcRobjPinLight::Calc()
+oml::framework::Result AcRobjPinLight::Calc()
 {
 }
 
 // ModuleClub.cro +0x00544C slot 0x30
-void AcRobjPinLight::Draw()
+oml::framework::Result AcRobjPinLight::Draw()
 {
 }
 

@@ -10,6 +10,6 @@ class AcStrcReset : public ::UtlBase<AcStrc>
 public:
     AcStrcReset(); // ctor address unknown
     virtual ~AcStrcReset(); // ModuleOutdoor.cro +0x00BAC4 slot 0x00
-    virtual void Calc(); // ModuleOutdoor.cro +0x00B920 slot 0x24
-    virtual void Draw(); // ModuleOutdoor.cro +0x00B8A8 slot 0x30
+    virtual oml::framework::Result Calc(); // ModuleOutdoor.cro +0x00B920 slot 0x24
+    virtual oml::framework::Result Draw(); // ModuleOutdoor.cro +0x00B8A8 slot 0x30
 };

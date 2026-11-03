@@ -13,12 +13,12 @@ BsVrboxCloud::~BsVrboxCloud()
 }
 
 // ModuleOutdoor.cro +0x017C88 slot 0x24
-void BsVrboxCloud::Calc()
+oml::framework::Result BsVrboxCloud::Calc()
 {
 }
 
 // ModuleOutdoor.cro +0x017C30 slot 0x30
-void BsVrboxCloud::Draw()
+oml::framework::Result BsVrboxCloud::Draw()
 {
 }
 

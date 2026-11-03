@@ -10,6 +10,6 @@ class BsVrboxCloud : public ::UtlBase<Base>
 public:
     BsVrboxCloud(); // ctor address unknown
     virtual ~BsVrboxCloud(); // ModuleOutdoor.cro +0x018210 slot 0x00
-    virtual void Calc(); // ModuleOutdoor.cro +0x017C88 slot 0x24
-    virtual void Draw(); // ModuleOutdoor.cro +0x017C30 slot 0x30
+    virtual oml::framework::Result Calc(); // ModuleOutdoor.cro +0x017C88 slot 0x24
+    virtual oml::framework::Result Draw(); // ModuleOutdoor.cro +0x017C30 slot 0x30
 };

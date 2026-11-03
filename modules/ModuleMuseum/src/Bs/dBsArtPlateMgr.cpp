@@ -13,22 +13,22 @@ BsArtPlateMgr::~BsArtPlateMgr()
 }
 
 // ModuleMuseum.cro +0x00290C slot 0x0C
-void BsArtPlateMgr::Initialize()
+oml::framework::Result BsArtPlateMgr::Initialize()
 {
 }
 
 // ModuleMuseum.cro +0x0029A8 slot 0x18
-void BsArtPlateMgr::Finalize()
+oml::framework::Result BsArtPlateMgr::Finalize()
 {
 }
 
 // ModuleMuseum.cro +0x0023D4 slot 0x24
-void BsArtPlateMgr::Calc()
+oml::framework::Result BsArtPlateMgr::Calc()
 {
 }
 
 // ModuleMuseum.cro +0x0023CC slot 0x30
-void BsArtPlateMgr::Draw()
+oml::framework::Result BsArtPlateMgr::Draw()
 {
 }
 

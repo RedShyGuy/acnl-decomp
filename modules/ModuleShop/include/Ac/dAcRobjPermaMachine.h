@@ -10,6 +10,6 @@ class AcRobjPermaMachine : public ::UtlBase<Actor>
 public:
     AcRobjPermaMachine(); // ctor address unknown
     virtual ~AcRobjPermaMachine(); // ModuleShop.cro +0x017C28 slot 0x00
-    virtual void Calc(); // ModuleShop.cro +0x017714 slot 0x24
-    virtual void Draw(); // ModuleShop.cro +0x0176FC slot 0x30
+    virtual oml::framework::Result Calc(); // ModuleShop.cro +0x017714 slot 0x24
+    virtual oml::framework::Result Draw(); // ModuleShop.cro +0x0176FC slot 0x30
 };

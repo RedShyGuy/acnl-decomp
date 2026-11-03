@@ -14,12 +14,12 @@ escape::BsEscapeGameMgr::~BsEscapeGameMgr()
 }
 
 // ModuleMiniGame0.cro +0x02FB5C slot 0x24
-void escape::BsEscapeGameMgr::Calc()
+oml::framework::Result escape::BsEscapeGameMgr::Calc()
 {
 }
 
 // ModuleMiniGame0.cro +0x02F658 slot 0x30
-void escape::BsEscapeGameMgr::Draw()
+oml::framework::Result escape::BsEscapeGameMgr::Draw()
 {
 }
 

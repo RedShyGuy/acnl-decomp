@@ -14,12 +14,12 @@ escape::BsEscapeFishingManager::~BsEscapeFishingManager()
 }
 
 // ModuleMiniGame0.cro +0x08DCE4 slot 0x24
-void escape::BsEscapeFishingManager::Calc()
+oml::framework::Result escape::BsEscapeFishingManager::Calc()
 {
 }
 
 // ModuleMiniGame0.cro +0x08CE94 slot 0x30
-void escape::BsEscapeFishingManager::Draw()
+oml::framework::Result escape::BsEscapeFishingManager::Draw()
 {
 }
 

@@ -13,12 +13,12 @@ AcStrcCarnivalStage::~AcStrcCarnivalStage()
 }
 
 // ModuleOutdoor.cro +0x05CF2C slot 0x24
-void AcStrcCarnivalStage::Calc()
+oml::framework::Result AcStrcCarnivalStage::Calc()
 {
 }
 
 // ModuleOutdoor.cro +0x05CEB4 slot 0x30
-void AcStrcCarnivalStage::Draw()
+oml::framework::Result AcStrcCarnivalStage::Draw()
 {
 }
 

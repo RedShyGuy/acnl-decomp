@@ -10,6 +10,6 @@ class AcStrcCountDownBBS : public ::UtlBase<AcStrc>
 public:
     AcStrcCountDownBBS(); // ctor address unknown
     virtual ~AcStrcCountDownBBS(); // ModuleOutdoor.cro +0x059228 slot 0x00
-    virtual void Calc(); // ModuleOutdoor.cro +0x058B88 slot 0x24
-    virtual void Draw(); // ModuleOutdoor.cro +0x058B10 slot 0x30
+    virtual oml::framework::Result Calc(); // ModuleOutdoor.cro +0x058B88 slot 0x24
+    virtual oml::framework::Result Draw(); // ModuleOutdoor.cro +0x058B10 slot 0x30
 };

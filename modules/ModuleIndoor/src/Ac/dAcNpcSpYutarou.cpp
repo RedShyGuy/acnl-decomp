@@ -17,7 +17,7 @@ oml::framework::Result AcNpcSpYutarou::Calc()
 }
 
 // ModuleIndoor.cro +0x0177A8 slot 0x2C
-void AcNpcSpYutarou::CanDraw() const
+bool AcNpcSpYutarou::CanDraw() const
 {
 }
 

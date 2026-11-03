@@ -12,12 +12,12 @@ AcNpcDt::~AcNpcDt()
 }
 
 // ModuleNpcDt.cro +0x007618 slot 0x0C
-void AcNpcDt::Initialize()
+oml::framework::Result AcNpcDt::Initialize()
 {
 }
 
 // ModuleNpcDt.cro +0x0076B4 slot 0x18
-void AcNpcDt::Finalize()
+oml::framework::Result AcNpcDt::Finalize()
 {
 }
 

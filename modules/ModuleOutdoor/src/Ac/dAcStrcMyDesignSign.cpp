@@ -13,12 +13,12 @@ AcStrcMyDesignSign::~AcStrcMyDesignSign()
 }
 
 // ModuleOutdoor.cro +0x05A170 slot 0x24
-void AcStrcMyDesignSign::Calc()
+oml::framework::Result AcStrcMyDesignSign::Calc()
 {
 }
 
 // ModuleOutdoor.cro +0x05A0F0 slot 0x30
-void AcStrcMyDesignSign::Draw()
+oml::framework::Result AcStrcMyDesignSign::Draw()
 {
 }
 
