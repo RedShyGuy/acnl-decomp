@@ -215,7 +215,7 @@ bool TransitionMgr::TransitionToStructure(u8 structure, const nn::math::VEC3_* o
         position.z = 528.0f;
     } else if (IsStructurePlaced(structure)) {
         GetStructurePosition(&position, structure);
-        if (structure == STRUCTURE_NOOK_STORE) {
+        if (structure == STRUCTURE_NOOKLING_STORES) {
             if (std::strncmp(s_pShopNameB, GetShopName(), std::strlen(s_pShopNameB)) == 0) {
                 position.z -= FIELD_HALF_UNIT_SIZE_Z;
             }
@@ -251,7 +251,7 @@ bool TransitionMgr::TransitionFromStructure(u8 typeA, u8 faderA, u8 typeB, u8 fa
     }
     u8 structure = stage < NAME_MAX ? detail::s_Structures[stage] : 0xFC;
     structure = ResolveStructure(structure);
-    bool isCampingCar = structure == STRUCTURE_CAMPING_CAR_A || structure == STRUCTURE_CAMPING_CAR_B;
+    bool isCampingCar = structure == STRUCTURE_CAMPING_CAR_1 || structure == STRUCTURE_CAMPING_CAR_2;
     Name target = NAME_VILLAGE;
     if (isCampingCar) {
         target = GetAutoCampStage();
@@ -273,7 +273,7 @@ bool TransitionMgr::TransitionFromStructure(u8 typeA, u8 faderA, u8 typeB, u8 fa
             rotation = math::Angle16Vec3{0, 0x2000, 0};
             position.z += FIELD_HALF_UNIT_SIZE_Z;
         }
-        if (structure == STRUCTURE_NOOK_STORE) {
+        if (structure == STRUCTURE_NOOKLING_STORES) {
             if (std::strncmp(s_pShopNameA, GetShopName(), std::strlen(s_pShopNameA)) == 0) {
                 position.z -= FIELD_HALF_UNIT_SIZE_Z;
                 action = PLAYER_ACTION_DOOR_EXIT_BEGIN;
@@ -323,20 +323,20 @@ void TransitionMgr::SetReturnParam()
     if (IsKind(KIND_AUTO_CAMP, s_Current) && !netgame::IsMultiplePlayer()) {
         const Info* info = GetInfoOf(s_Current);
         if (info != NULL && info->entrances != NULL && info->entrances->count != 0) {
-            // near a door of the camping car: the entrance of the campground becomes the return point
+            // near one of the two points: the entrance of the campground becomes the return point
             const Entrance* entrance = info->entrances->entrances;
             const Actor* player = reinterpret_cast<const Actor*>(PlayerGetActor(netgame::PLAYER_NO_MY_NO, false));
-            nn::math::VEC3_ door0;
-            nn::math::VEC3_ door1;
-            GetAutoCampDoors(&door0, &door1);
+            nn::math::VEC3_ point0;
+            nn::math::VEC3_ point1;
+            GetAutoCampPoints(&point0, &point1);
             f32 distance0;
             f32 distance1;
             if (player != NULL) {
-                f32 dx0 = door0.x - player->m_Position.x;
-                f32 dz0 = door0.z - player->m_Position.z;
+                f32 dx0 = point0.x - player->m_Position.x;
+                f32 dz0 = point0.z - player->m_Position.z;
                 distance0 = std::sqrt(dx0 * dx0 + dz0 * dz0);
-                f32 dx1 = door1.x - player->m_Position.x;
-                f32 dz1 = door1.z - player->m_Position.z;
+                f32 dx1 = point1.x - player->m_Position.x;
+                f32 dz1 = point1.z - player->m_Position.z;
                 distance1 = std::sqrt(dx1 * dx1 + dz1 * dz1);
             } else {
                 distance0 = distance1 = FIELD_UNIT_SIZE_X * 16.0f;

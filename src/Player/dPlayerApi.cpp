@@ -22,7 +22,7 @@ AcPlayer* PlayerGetActor(netgame::PlayerNo, bool)
 
 #include "stage/stage_Extern.h"
 
-// the actions of the player (values of libgarden's PlayerAction::Name; names are ours)
+// the actions of the player (values and names after libgarden's PlayerAction::Name)
 // 0x00882B4C
 extern const u32 PLAYER_ACTION_HIDE = 0;
 // 0x00882B50
@@ -45,7 +45,7 @@ extern const u32 PLAYER_ACTION_DOOR_EXIT_WAIT = 70;
 extern const u32 PLAYER_ACTION_DOOR_EXIT_BEGIN = 71;
 // 0x00882B80
 extern const u32 PLAYER_ACTION_FTR_BED_SLEEP = 130;
-// the offset of a sleeping player from the bed (name is ours; read by AcPlayer and the Dream Suite entrance)
+// the Z offset of the player in bed (name is ours; read by AcPlayer and the entrance of Dream with FTR_BED_SLEEP)
 // 0x00887A88
 extern const f32 PLAYER_BED_SLEEP_OFFSET = 11.0f;
 

@@ -27,15 +27,15 @@ public:
     u8 GetRoomSize(u32 room) const; // 0x0072108C
 
     u8 _unknown0[4];
-    u8 m_State; // 0x4 0: a tent, 8: being built (meaning of the other values unknown)
+    u8 m_Size; // 0x4 SvHouseExterior::houseSize of SvPlayerHouse (House_Exterior list: 0 the starting tent; 8 unknown)
 };
 class SvHouseList
 {
 public:
     SvHouse* Get(u32 owner); // 0x0030F770
 };
-// the save data in memory (only the parts that the stage code reads)
-class Garden
+// the save file garden_plus.dat in memory (the layout of SvGardenPlus; only the parts that the stage code reads)
+class GardenPlus
 {
 public:
     u8 _unknown0[0x5D900];
@@ -47,8 +47,8 @@ public:
     u8 _unknown0[0x6AE38];
     SvMuseum m_Museum; // 0x6AE38
 };
-Garden* GetGarden(); // 0x002FB344
-// the save data behind the header of the save file
+GardenPlus* GetGardenPlus(); // 0x002FB344
+// the save data behind the secure value header (the layout of SvGardenData)
 GardenData* GetGardenData(); // 0x002FAEAC
 // the house save of a player house stage, or of the model house (NULL for another stage)
 SvHouse* GetHouseOfStage(stage::Name name); // 0x006F9774
@@ -66,8 +66,8 @@ void SetPlayerArrivalType(u8 type); // 0x005C5DE8
 bool PlayerCanReturn(); // 0x005C3708
 // the position and rotation of the own player; returns the action to take on return
 u32 PlayerGetReturnPoint(nn::math::VEC3_* pPosition, math::Angle16Vec3* pRotation); // 0x005C7B18
-// the two door positions of the camping car in the campground (AutoCamp)
-void GetAutoCampDoors(nn::math::VEC3_* pDoor0, nn::math::VEC3_* pDoor1); // 0x00150258
+// two positions in the campground stages (meaning unknown; near one of them the entrance becomes the return point)
+void GetAutoCampPoints(nn::math::VEC3_* pPoint0, nn::math::VEC3_* pPoint1); // 0x00150258
 
 // a start position of the players after a scene change
 struct PlayerStartPosition
@@ -108,8 +108,8 @@ extern const u32 PLAYER_ACTION_DOOR_EXIT_WAIT;
 extern const u32 PLAYER_ACTION_DOOR_EXIT_BEGIN;
 extern const u32 PLAYER_ACTION_FTR_BED_SLEEP;
 extern const f32 PLAYER_BED_SLEEP_OFFSET;
-// where the player stands at the door inside a camping car of the campground
-extern const nn::math::VEC3 CAMPING_CAR_DOOR_POSITION;
+// the start and entrance position of the player in CampingCarA/B
+extern const nn::math::VEC3 CAMPING_CAR_ENTRANCE_POSITION;
 
 // the field
 extern const f32 FIELD_UNIT_SIZE_X; // one unit in world units
@@ -131,19 +131,21 @@ const u16* GetAutoCampRotationY(); // 0x006A7744
 // the stage of the campground (AutoCampL: west, AutoCampR: east)
 stage::Name GetAutoCampStage(); // 0x006FA0A0
 
-// the structures of the field: the building IDs (0..3 the player houses, 8..0x11 the villager houses, 0x42..0x4B the
-// island huts, 0x4C.. the public buildings, 0x81..0x8D the buildings of Main Street; 0xFC: none)
+// the structures of the field: the building IDs of the building ID list https://redshyguy.github.io/ACNL_ID_Lists/
+// (0..3 the player houses, 8..0x11 the villager houses, 0x42..0x4B "Invalid Villager House" in the list, which are
+// also the structures of Island_Hut0..9 (stage - 63, TransitionFromTourHut), 0x4C.. the special PWPs, 0x81..0x8F the
+// buildings of Main Street; 0xFC "Empty Space")
 enum StructureId : u8
 {
     STRUCTURE_TOWN_HALL_CLASSIC = 0x50,
     STRUCTURE_TOWN_HALL_ZEN = 0x51,
     STRUCTURE_TOWN_HALL_FAIRY_TALE = 0x52,
     STRUCTURE_TOWN_HALL_MODERN = 0x53,
-    STRUCTURE_CAMPING_CAR_A = 0x7F,     // the camping cars of the campground (CampingCarA/B)
-    STRUCTURE_CAMPING_CAR_B = 0x80,
-    STRUCTURE_NOOK_STORE = 0x85,        // the Nooks' store on Main Street
+    STRUCTURE_CAMPING_CAR_1 = 0x7F,
+    STRUCTURE_CAMPING_CAR_2 = 0x80,
+    STRUCTURE_NOOKLING_STORES = 0x85,
     STRUCTURE_PHOTO_BOOTH = 0x8D,
-    STRUCTURE_NONE = 0xFC,
+    STRUCTURE_EMPTY_SPACE = 0xFC,
 };
 bool IsStructurePlaced(u8 structure); // 0x0030940C
 // the position in front of the structure; false if it is not on the field
@@ -155,7 +157,7 @@ bool IsStationStructure(u8 structure); // 0x006CD4CC
 u8 GetTownHallStructure(); // 0x006CC580
 u8 GetStationStructure(); // 0x006CC734
 bool IsPlayerHouseStructure(u8 structure); // 0x006CB82C
-// the model name of the Nooks' store on Main Street ("shop" .. "depart")
+// the model name of the Nookling General Stores on Main Street ("shop" .. "depart")
 const char* GetShopName(); // 0x006DD8A0
 
 // the objects of the field: a registry of 14 lists
@@ -183,7 +185,8 @@ void UnitToWorld(nn::math::VEC3_* pPosition, s32 unitX, s32 unitZ); // 0x006A69E
 oml::framework::Process* ActorCreate(u16 name, oml::framework::Process* parent, u32 arg, const nn::math::VEC3_* position,
                                      const math::Angle16Vec3* rotation); // 0x0057C4C4
 
-// the type of a tour of the island (the order of the tour stages: 9 Fossil Hunter tour, 11 Item-Matching tour)
+// the type of a tour of the island (TransitionFromTourHut: the huts lead back to Island_FossilDig for 9 and to
+// Island_BorrowingRace for 11)
 s8 GetTourType(s8 tour); // 0x006C4DD0
 // whether the current stage is a tour or a hut of the island
 bool IsTourStage(); // 0x006E167C

@@ -750,7 +750,7 @@ bool IsIslandGameResult(Name name)
 }
 
 // 0x005B4E98 (name is ours)
-bool IsNookStore(Name name)
+bool IsNooklingStore(Name name)
 {
     return name == NAME_CONVENIENCE_STORE || name == NAME_SUPERMARKET || name == NAME_HOME_CENTER ||
            name == NAME_DEPARTMENT_STORE_1F;
@@ -837,8 +837,8 @@ bool IsInOwnHouse()
     if (IsVillagePlayer(player) && IsHouseRoomOf(player, current)) {
         u32 owner = GetHouseOwner(current);
         if (owner < 4) {
-            u8 state = GetGarden()->m_Houses.Get(owner)->m_State;
-            if (state != 0 && state != 8) {
+            u8 size = GetGardenPlus()->m_Houses.Get(owner)->m_Size;
+            if (size != 0 && size != 8) {
                 return true;
             }
         }
@@ -863,7 +863,7 @@ bool IsTent(Name name)
         if (firstFloors[i] == name) {
             SvHouse* house = GetHouseOfStage(name);
             if (house != NULL) {
-                return house->m_State == 0;
+                return house->m_Size == 0;
             }
         }
     }
