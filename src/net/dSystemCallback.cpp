@@ -1,49 +1,53 @@
 #include "net/dSystemCallback.h"
 
 namespace net {
-// ctor candidate(s) 0x0050D010 (unverified)
+// 0x0050CFF4 (name is ours)
+void net::SystemCallback::OnStationLeft(const nn::pia::StationId& stationId, u32 frame)
+{
+    // empty (in the original too)
+}
+
+// 0x0050CFF8 (name is ours)
+bool net::SystemCallback::OnJoinApproval(const char16* name, u32 length)
+{
+    return true;
+}
+
+// 0x0050D000 (name is ours)
+void net::SystemCallback::OnMessage(const u32* principalId, const wchar_t* text, u32 length, u32 isNotification)
+{
+    // empty (in the original too)
+}
+
+// 0x0050D004 (name is ours)
+void net::SystemCallback::OnNotification(const u32* principalId, u32 param1, u32 param2, const wchar_t* text, u32 length,
+                                         bool isFromHandler)
+{
+    // empty (in the original too)
+}
+
+// 0x0050D008 (name is ours)
+void net::SystemCallback::OnStationJoined(const nn::pia::StationId& stationId, const char16* name, u32 length, u32 frame)
+{
+    // empty (in the original too)
+}
+
+// 0x0050D00C (name is ours)
+void net::SystemCallback::OnReceive(const nn::pia::StationId& stationId, const void* data, u32 size)
+{
+    // empty (in the original too)
+}
+
+// 0x0050D010 (name after the RTTI)
 net::SystemCallback::SystemCallback()
 {
+    // (only the vptr is set)
 }
 
-// 0x0050D028 slot 0x00 | virtual slot, introduced by net::SystemCallback
-void net::SystemCallback::vf_0x00()
+// 0x0050D028 | libgarden
+// 0x0050D020 (deleting dtor)
+net::SystemCallback::~SystemCallback()
 {
+    // empty (in the original too)
 }
-
-// 0x0050D020 slot 0x04 | virtual slot, introduced by net::SystemCallback
-void net::SystemCallback::vf_0x04()
-{
-}
-
-// 0x0050CFF8 slot 0x08 | virtual slot, introduced by net::SystemCallback
-void net::SystemCallback::vf_0x08()
-{
-}
-
-// 0x0050D008 slot 0x0C | virtual slot, introduced by net::SystemCallback
-void net::SystemCallback::vf_0x0C()
-{
-}
-
-// 0x0050CFF4 slot 0x10 | virtual slot, introduced by net::SystemCallback
-void net::SystemCallback::vf_0x10()
-{
-}
-
-// 0x0050D00C slot 0x14 | virtual slot, introduced by net::SystemCallback
-void net::SystemCallback::vf_0x14()
-{
-}
-
-// 0x0050D000 slot 0x18 | virtual slot, introduced by net::SystemCallback
-void net::SystemCallback::vf_0x18()
-{
-}
-
-// 0x0050D004 slot 0x1C | virtual slot, introduced by net::SystemCallback
-void net::SystemCallback::vf_0x1C()
-{
-}
-
 } // namespace net

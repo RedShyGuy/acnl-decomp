@@ -2,7 +2,7 @@
 
 namespace demo {
 // 0x00316DA4 | libgarden [tier A]
-void CheckOrder(demo::OrderID, bool)
+bool CheckOrder(demo::OrderID, bool)
 {
 }
 
@@ -17,7 +17,7 @@ void RevokeNetgameLockOrder()
 }
 
 // 0x0052CD74 | libgarden [tier A]
-void MakeOrderNetgameLock()
+bool MakeOrderNetgameLock()
 {
 }
 

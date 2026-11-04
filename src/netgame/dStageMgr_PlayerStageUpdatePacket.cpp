@@ -1,7 +1,10 @@
-#include "netgame/dStageMgr_PlayerStageUpdatePacket.h"
+#include "netgame/dStageMgr.h"
 
-// 0x00626348 | libgarden [tier A]
-void netgame::StageMgr::PlayerStageUpdatePacket::Set(netgame::PlayerNo, bool, stage::Name, bool, bool, netgame::PlayerNo)
+namespace netgame {
+// 0x00626348 (name after libgarden)
+void netgame::StageMgr::PlayerStageUpdatePacket::Set(PlayerNo player, bool updateStage, stage::Name stage, bool updateControl,
+                                                     bool control, PlayerNo receiver)
 {
+    value = (player & 3) | (updateStage << 2) | (stage << 3) | (updateControl << 11) | (control << 12) | (receiver << 13);
 }
-
+} // namespace netgame

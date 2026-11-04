@@ -79,7 +79,7 @@ bool TransitionMgr::Transition(Name stage, u8 typeA, u8 faderA, u8 typeB, u8 fad
     if (s_Next < NAME_MAX) {
         return false;
     }
-    if (netgame::NetGameMgr::s_pInstance->m_IsSceneChanging && !applet::ErrEulaMgr::s_pInstance->m_FB0) {
+    if (netgame::NetGameMgr::s_pInstance->m_StageMgr.m_State && !applet::ErrEulaMgr::s_pInstance->m_FB0) {
         return false;
     }
     s_Next = stage;
@@ -91,8 +91,8 @@ bool TransitionMgr::Transition(Name stage, u8 typeA, u8 faderA, u8 typeB, u8 fad
     m_IsToStructure = false;
     m_IsWithoutPosition = true;
     m_Structure = 0xFC;
-    if (netgame::IsMultiPlayer() && netgame::NetGameMgr::Get54() == 0) {
-        netgame::NetGameMgr::s_pInstance->m_IsSceneChanging = true;
+    if (netgame::IsMultiPlayer() && netgame::NetGameMgr::IsPacketQueueClosed() == 0) {
+        netgame::NetGameMgr::s_pInstance->m_StageMgr.m_State = true;
     }
     for (s32 i = 0; i < HANDLE_MAX - 1; i++) {
         m_Handles[i] = -1;
@@ -399,10 +399,10 @@ bool TransitionMgr::TransitionToPlayerHouse(u8 owner, u8 typeA, u8 faderA, u8 ty
 
 // 0x005B6820 (name is ours)
 bool TransitionMgr::TransitionWithStartPositions(Name stage, u32 action, u32 startAction, const nn::math::VEC3_* position0,
-                                                 const math::Angle16Vec3* rotation0, const nn::math::VEC3_* position1,
-                                                 const math::Angle16Vec3* rotation1, const nn::math::VEC3_* position2,
-                                                 const math::Angle16Vec3* rotation2, const nn::math::VEC3_* position3,
-                                                 const math::Angle16Vec3* rotation3, u8 typeA, u8 faderA, u8 typeB,
+                                                 const math::Angle16* rotation0, const nn::math::VEC3_* position1,
+                                                 const math::Angle16* rotation1, const nn::math::VEC3_* position2,
+                                                 const math::Angle16* rotation2, const nn::math::VEC3_* position3,
+                                                 const math::Angle16* rotation3, u8 typeA, u8 faderA, u8 typeB,
                                                  u8 faderB)
 {
     return TransitionWithStartPositions(stage, action, startAction, action, startAction, position0, rotation0, position1,
@@ -413,10 +413,10 @@ bool TransitionMgr::TransitionWithStartPositions(Name stage, u32 action, u32 sta
 // 0x005B6848 (name is ours)
 bool TransitionMgr::TransitionWithStartPositions(Name stage, u32 hostAction, u32 startHostAction, u32 guestAction,
                                                  u32 startGuestAction, const nn::math::VEC3_* position0,
-                                                 const math::Angle16Vec3* rotation0, const nn::math::VEC3_* position1,
-                                                 const math::Angle16Vec3* rotation1, const nn::math::VEC3_* position2,
-                                                 const math::Angle16Vec3* rotation2, const nn::math::VEC3_* position3,
-                                                 const math::Angle16Vec3* rotation3, u8 typeA, u8 faderA, u8 typeB,
+                                                 const math::Angle16* rotation0, const nn::math::VEC3_* position1,
+                                                 const math::Angle16* rotation1, const nn::math::VEC3_* position2,
+                                                 const math::Angle16* rotation2, const nn::math::VEC3_* position3,
+                                                 const math::Angle16* rotation3, u8 typeA, u8 faderA, u8 typeB,
                                                  u8 faderB)
 {
     PlayerStartPosition positions[4] = {
@@ -503,7 +503,7 @@ bool TransitionMgr::ReturnOrGoHome(u8 typeA, u8 faderA, u8 typeB, u8 faderB)
         result = true;
     }
     if (result) {
-        netgame::NetGameMgr::s_pInstance->m_Wait.Reset(true);
+        netgame::NetGameMgr::s_pInstance->m_BestFriendMgr.Reset(true);
     }
     return result;
 }
@@ -521,7 +521,7 @@ bool TransitionMgr::ReturnOrGoHomeKeepWait(u8 typeA, u8 faderA, u8 typeB, u8 fad
                      faderB)) {
         m_Return.Clear();
         result = true;
-        netgame::NetGameMgr::s_pInstance->m_Wait.Reset(true);
+        netgame::NetGameMgr::s_pInstance->m_BestFriendMgr.Reset(true);
     }
     return result;
 }

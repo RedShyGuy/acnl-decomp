@@ -77,6 +77,19 @@ enum PropertyType : u16 {
 // what the NsData header info asks for (3dbrew "BOSS:GetNsDataHeaderInfo"; 3 = the size)
 enum HeaderInfoType : u8 {
     HEADER_INFO_TYPE_SIZE = 3,
+    HEADER_INFO_TYPE_ALL = 6, // NsDataHeaderInfo
+};
+
+// the header of a downloaded data item (3dbrew "BOSS Services", NsDataHeaderInfo type 6; names are ours)
+struct NsDataHeaderInfo
+{
+    u64 programId;   // 0x00
+    u32 unknown08;   // 0x08
+    u32 dataType;    // 0x0C
+    u32 payloadSize; // 0x10
+    u32 nsDataId;    // 0x14
+    u32 version;     // 0x18
+    u32 padding;     // 0x1C
 };
 
 // where the downloaded data is stored (0: on the SD card, else in NAND; names are ours)

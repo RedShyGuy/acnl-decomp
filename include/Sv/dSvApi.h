@@ -38,6 +38,8 @@ bool IsSaveIoOnNpcData(); // 0x00607F8C
 // the save file and its parts (names are ours)
 SvGardenPlus* GetGardenPlus(); // 0x002FB344
 SvGardenData* GetGardenData(); // 0x002FAEAC
+// the list, also while the save data is locked (name is ours)
+SvBestFriendList* SvGetBestFriendListAlways(); // 0x001DF950
 SvSharedData* GetSharedData(); // 0x002FBA0C
 SvCensus* GetCensus(); // 0x002FD00C
 

@@ -32,7 +32,7 @@ void GetAutoCampPoints(nn::math::VEC3_* pPoint0, nn::math::VEC3_* pPoint1); // 0
 struct PlayerStartPosition
 {
     PlayerStartPosition(); // 0x005C02CC
-    PlayerStartPosition(const nn::math::VEC3_& position, const math::Angle16Vec3& rotation); // 0x005C029C
+    PlayerStartPosition(const nn::math::VEC3_& position, const math::Angle16& rotation); // 0x005C029C
 
     nn::math::VEC3_ position; // 0x00
     u16 rotationY;            // 0x0C
@@ -56,6 +56,10 @@ extern PlayerStartInfo g_PlayerStartInfo;
 
 // the actions of the player on arrival (values of libgarden's PlayerAction::Name, as constants of another file)
 extern const u32 PLAYER_ACTION_HIDE;
+// (the values 191, 2 and 3 have no name yet)
+extern const u32 PLAYER_ACTION_191;
+extern const u32 PLAYER_ACTION_2;
+extern const u32 PLAYER_ACTION_3;
 extern const u32 PLAYER_ACTION_IDLE;
 extern const u32 PLAYER_ACTION_EXIT_CONNECTION_WALK;
 extern const u32 PLAYER_ACTION_EXIT_CONNECTION_WALK_SLOW;

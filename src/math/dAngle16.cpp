@@ -2,7 +2,7 @@
 
 namespace math {
 // 0x005667A8 | libgarden [tier A]
-void math::Angle16::Atan2(float, float)
+math::Angle16 math::Angle16::Atan2(float, float)
 {
 }
 

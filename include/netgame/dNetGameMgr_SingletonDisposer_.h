@@ -9,7 +9,7 @@
 class netgame::NetGameMgr::SingletonDisposer_ : public ::sead::IDisposer
 {
 public:
-    SingletonDisposer_(); // ctor candidate(s) 0x00618294 (unverified)
-    virtual ~SingletonDisposer_(); // 0x00618BF4 slot 0x00 | slot vf_0x00 of sead::IDisposer
-    // 0x00618BA4 slot 0x04 | slot vf_0x04 of sead::IDisposer (deleting dtor)
+    explicit SingletonDisposer_(sead::Heap* heap) : IDisposer(heap, sead::IDisposer::HEAP_NULL_OPTION_CURRENT_HEAP) {}
+    virtual ~SingletonDisposer_(); // 0x00618BF4 slot 0x00
+    // 0x00618BA4 slot 0x04 (deleting dtor)
 };

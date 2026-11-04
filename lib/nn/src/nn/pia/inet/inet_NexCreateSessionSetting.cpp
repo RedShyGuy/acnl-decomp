@@ -31,6 +31,14 @@ bool nn::pia::inet::NexCreateSessionSetting::GetParamUsGI() const
     return m_ParamUsGI;
 }
 
+// 0x00403E18 (name is ours)
+void nn::pia::inet::NexCreateSessionSetting::SetAttribute(u32 index, u32 value)
+{
+    if (index < ATTRIBUTE_NUM) {
+        m_Attributes[index] = value;
+    }
+}
+
 // 0x0072F1E4 (name is ours)
 u32 nn::pia::inet::NexCreateSessionSetting::GetAttribute(u32 index) const
 {

@@ -9,7 +9,9 @@ class BsTourMgr : public ::Base
 {
 public:
     class TourMgrHioNode;
-    struct State { u32 _unknown; }; // TODO: real type unknown (placeholder)
+    enum State : u32
+    {
+    };
     BsTourMgr(); // ctor candidate(s) 0x006E16B8 (unverified)
     virtual ~BsTourMgr(); // 0x006E16E0 slot 0x00 | slot vf_0x00 of oml::framework::Process
     // 0x006E16D0 slot 0x04 | slot vf_0x04 of oml::framework::Process (deleting dtor)
@@ -17,5 +19,5 @@ public:
     virtual oml::framework::Result Finalize(); // 0x006E1664 slot 0x18 | slot vf_0x18 of oml::framework::Process
     virtual oml::framework::Result Calc(); // 0x006E1558 slot 0x24 | slot vf_0x24 of oml::framework::Process
     virtual oml::framework::Result Draw(); // 0x006E1534 slot 0x30 | slot vf_0x30 of oml::framework::Process
-    void SetState(BsTourMgr::State); // 0x006E1404 | libgarden [tier A]
+    static void SetState(BsTourMgr::State); // 0x006E1404 | libgarden [tier A]
 };

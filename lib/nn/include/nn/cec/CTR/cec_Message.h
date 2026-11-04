@@ -53,6 +53,9 @@ public:
     void OutputMessageHeader(void* buffer) const; // 0x00729580 | nintendogs:bytes [tier A]
     // the body without a copy (name is ours)
     const void* GetMessageBodyPointer(const void** pBody, u32* pSize) const; // 0x00729594 (name is ours)
+    // (inline, names are ours)
+    const CecMessageHeader& GetHeader() const { return m_Header; }
+    void SetUserData(u16 userData) { m_Header.userData = userData; }
 
 private:
     // the header and message sizes after a change (inline, name is ours)

@@ -79,6 +79,11 @@ public:
     u8 GetMessageSendCount(CecBoxType type, u32 index) const; // 0x007290AC | nintendogs:bytes [tier B]
     nn::Result IsAgreeEulaAppRequired() const; // 0x007290C0 | fefates:bytes [tier B]
     bool IsOpened() const; // 0x00729190 (name is ours)
+    // the number of messages in the box (inline, name is ours)
+    u32 GetMessageNum(CecBoxType type) const
+    {
+        return type == CEC_BOXTYPE_INBOX ? m_InBoxHeader.messageNum : m_OutBoxHeader.messageNum;
+    }
 
 private:
     // the box information as the changes without writeBoxInfo leave it (inline, name is ours)

@@ -74,6 +74,8 @@ public:
     void RegisterCompletionCallback(CompletionFunction pFunction, const nn::nex::UserContext& context, bool isAppended); // 0x00356DE4 | fefates:bytes [tier B]
     // Wait for Scheduler::PreventBlockCall (armlink made it a nop in front of Wait; name is ours)
     static bool WaitCallback(nn::nex::RootObject* pObject, unsigned int timeout); // 0x00356F54
+    // the result of the call (inline; the name is ours)
+    qResult GetOutcome() const { return m_Result; }
     // waits (dispatching the scheduler) until the call is not in progress; true if it completed
     bool Wait(unsigned int timeout); // 0x00356F58 | fefates:bytes-fuzzy [tier B]
     // makes the call context available again (false while the call runs)

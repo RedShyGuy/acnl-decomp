@@ -57,9 +57,10 @@ __rb_tree<u16, std::pair<const u16, u32>, __select1st<std::pair<const u16, u32>,
 } // namespace __rw
 
 namespace std {
-// (inline: the insert of operator[] is inline, its _C_insert out of line)
+// (inline: the insert of operator[] is inline, its _C_insert out of line; the out-of-line copy is
+// called by net::nex::Impl::GetIntegerSettings)
 template <>
-inline u32& map<u16, u32, less<u16>, nn::nex::MemAllocator<pair<const u16, u32> > >::operator[](const u16& key)
+DECOMP_EMIT_COPY inline u32& map<u16, u32, less<u16>, nn::nex::MemAllocator<pair<const u16, u32> > >::operator[](const u16& key) // 0x0082ED70
 {
     return IndexInline(key);
 }

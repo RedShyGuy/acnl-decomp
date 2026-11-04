@@ -81,17 +81,17 @@ public:
     DECOMP_NOINLINE bool TransitionToPlayerHouse(u8 owner, u8 typeA, u8 faderA, u8 typeB, u8 faderB); // 0x005B66FC
     // the stage with the start positions of the four players (the own player starts at its position)
     bool TransitionWithStartPositions(Name stage, u32 action, u32 startAction, const nn::math::VEC3_* position0,
-                                      const math::Angle16Vec3* rotation0, const nn::math::VEC3_* position1,
-                                      const math::Angle16Vec3* rotation1, const nn::math::VEC3_* position2,
-                                      const math::Angle16Vec3* rotation2, const nn::math::VEC3_* position3,
-                                      const math::Angle16Vec3* rotation3, u8 typeA, u8 faderA, u8 typeB,
+                                      const math::Angle16* rotation0, const nn::math::VEC3_* position1,
+                                      const math::Angle16* rotation1, const nn::math::VEC3_* position2,
+                                      const math::Angle16* rotation2, const nn::math::VEC3_* position3,
+                                      const math::Angle16* rotation3, u8 typeA, u8 faderA, u8 typeB,
                                       u8 faderB); // 0x005B6820
     DECOMP_NOINLINE bool TransitionWithStartPositions(Name stage, u32 hostAction, u32 startHostAction, u32 guestAction,
                                       u32 startGuestAction, const nn::math::VEC3_* position0,
-                                      const math::Angle16Vec3* rotation0, const nn::math::VEC3_* position1,
-                                      const math::Angle16Vec3* rotation1, const nn::math::VEC3_* position2,
-                                      const math::Angle16Vec3* rotation2, const nn::math::VEC3_* position3,
-                                      const math::Angle16Vec3* rotation3, u8 typeA, u8 faderA, u8 typeB,
+                                      const math::Angle16* rotation0, const nn::math::VEC3_* position1,
+                                      const math::Angle16* rotation1, const nn::math::VEC3_* position2,
+                                      const math::Angle16* rotation2, const nn::math::VEC3_* position3,
+                                      const math::Angle16* rotation3, u8 typeA, u8 faderA, u8 typeB,
                                       u8 faderB); // 0x005B6848
     // out of an island hut back to the field of the tour
     DECOMP_NOINLINE bool TransitionFromTourHut(u8 typeA, u8 faderA, u8 typeB, u8 faderB); // 0x005B6944

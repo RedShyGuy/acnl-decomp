@@ -1140,8 +1140,12 @@ enum ProcName : u16; // Other/dProcMgr.h
 enum ProcType : u8; // Other/dProcMgr.h
 struct RandomPlacerUsual { u32 _unknown; }; // placeholder, real type unknown
 struct ScrollBarDescription { u32 _unknown; }; // placeholder, real type unknown
-struct SeID { u32 _unknown; }; // placeholder, real type unknown
-struct TourName { u32 _unknown; }; // placeholder, real type unknown
+enum SeID : u32
+{
+};
+enum TourName : s32
+{
+};
 struct nnacConfig; // nn/ac/CTR/CTR_Api.h
 enum nnerrFatalErrType : s32; // nn/err/CTR/CTR_Api.h
 struct nnfriendsFriendKey; // nn/friends/CTR/friends_Types.h
@@ -1335,7 +1339,9 @@ namespace demo {
     class Order;
     class OrderList;
     class Proc;
-    struct OrderID { u32 _unknown; }; // placeholder, real type unknown
+    enum OrderID : u32
+    {
+    };
 }
 
 namespace djkk { 
@@ -2027,14 +2033,16 @@ namespace net { namespace nex {
     class Impl;
 }}
 
-namespace net { namespace nex { namespace Command { 
-    struct ID { u32 _unknown; }; // placeholder, real type unknown
-}}}
+namespace net { namespace nex { 
+    struct Command;
+    class System;
+}}
 
 namespace netgame { 
     class AvatarMgr;
     class ConfirmMachine;
     class FriendListMgr;
+    class GateMgr;
     class IslandMgr;
     class JoinMgr;
     class LeaveMgr;
@@ -2044,14 +2052,10 @@ namespace netgame {
     class NetGameMgr;
     class PacketQueue;
     class StageMgr;
-    struct AvatarId { u32 _unknown; }; // placeholder, real type unknown
+    struct AvatarId; // netgame/dAvatarId.h
     enum PlayerNo : u8; // netgame/netgame_Api.h
-    struct Type { u32 _unknown; }; // placeholder, real type unknown
+    enum Type : u8; // netgame/netgame_Api.h
 }
-
-namespace netgame { namespace GateMgr { 
-    struct Flag { u32 _unknown; }; // placeholder, real type unknown
-}}
 
 namespace nfp { 
     class Framework;

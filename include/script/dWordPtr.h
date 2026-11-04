@@ -16,9 +16,10 @@ public:
     virtual void GetWord(); // 0x005FDA64 slot 0x08 | libgarden
     virtual void GetWord() const; // 0x0075DC78 slot 0x0C | libgarden
     virtual void GetSize() const; // 0x0075DC60 slot 0x10 | libgarden
-    virtual void vf_0x14(); // 0x005FD774 slot 0x14 | virtual slot, introduced by script::WordPtr
-    virtual void vf_0x18(); // 0x005FD5F0 slot 0x18 | virtual slot, introduced by script::WordPtr
-    virtual void vf_0x1C(); // 0x005FD9F4 slot 0x1C | virtual slot, introduced by script::WordPtr
+    // copies the text of another word (through a CopyEngine)
+    virtual void Copy(const IWord& src); // 0x005FD774 slot 0x14 (name is ours)
+    virtual void Append(const IWord& src); // 0x005FD5F0 slot 0x18 | virtual slot, introduced by script::WordPtr
+    virtual void Clear(); // 0x005FD9F4 slot 0x1C | virtual slot, introduced by script::WordPtr
     virtual void vf_0x20(); // 0x005FD980 slot 0x20 | virtual slot, introduced by script::WordPtr
     virtual void vf_0x24(); // 0x005EB0A0 slot 0x24 | virtual slot, introduced by script::WordCPtr
     virtual void vf_0x28(); // 0x0075C8BC slot 0x28 | virtual slot, introduced by script::WordCPtr

@@ -1,13 +1,12 @@
-#include "sead/seadIDisposer.h"
 #include "netgame/dMatchingList_SingletonDisposer_.h"
 
-// ctor candidate(s) 0x0062044C (unverified)
-netgame::MatchingList::SingletonDisposer_::SingletonDisposer_()
-{
-}
-
-// 0x006206B4 slot 0x00 | slot vf_0x00 of sead::IDisposer
+// 0x006206B4 slot 0x00 (name after the RTTI)
+// 0x0062064C (deleting dtor)
 netgame::MatchingList::SingletonDisposer_::~SingletonDisposer_()
 {
+    if (this == s_pSingletonDisposer) {
+        s_pSingletonDisposer = nullptr;
+        s_pInstance->~MatchingList();
+        s_pInstance = nullptr;
+    }
 }
-

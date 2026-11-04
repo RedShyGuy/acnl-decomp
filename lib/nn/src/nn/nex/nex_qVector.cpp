@@ -217,6 +217,18 @@ DECOMP_NOINLINE void vector<nn::nex::qResult, nn::nex::MemAllocator<nn::nex::qRe
     InsertAuxInline(pos, value);
 }
 
+// 0x00834014 (name is ours)
+template <>
+DECOMP_NOINLINE void vector<nn::nex::String, nn::nex::MemAllocator<nn::nex::String> >::push_back(const nn::nex::String& value)
+{
+    if (m_pEnd != m_pCapacityEnd) {
+        ::new (static_cast<void*>(m_pEnd)) nn::nex::String(value);
+        m_pEnd++;
+    } else {
+        _C_insert_aux(m_pEnd, value);
+    }
+}
+
 // 0x00835F8C | fefates:bytes [tier B]
 template void vector<u8, nn::nex::MemAllocator<u8> >::resize(u32 num, u8 value);
 // 0x008357B4 (name is ours)

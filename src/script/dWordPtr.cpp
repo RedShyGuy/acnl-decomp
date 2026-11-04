@@ -46,18 +46,18 @@ void script::WordPtr::GetSize() const
 {
 }
 
-// 0x005FD774 slot 0x14 | virtual slot, introduced by script::WordPtr
-void script::WordPtr::vf_0x14()
+// 0x005FD774 slot 0x14 (name is ours)
+void script::WordPtr::Copy(const IWord& src)
 {
 }
 
 // 0x005FD5F0 slot 0x18 | virtual slot, introduced by script::WordPtr
-void script::WordPtr::vf_0x18()
+void script::WordPtr::Append(const IWord&)
 {
 }
 
 // 0x005FD9F4 slot 0x1C | virtual slot, introduced by script::WordPtr
-void script::WordPtr::vf_0x1C()
+void script::WordPtr::Clear()
 {
 }
 

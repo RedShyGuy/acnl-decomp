@@ -18,7 +18,7 @@ public:
     ListNode* GetLast() const { return m_pLast; }
 
     // appends an unlinked node
-    DECOMP_EMIT_COPY void PushBack(ListNode* node) // 0x0013F860
+    DECOMP_EMIT_COPY DECOMP_NOINLINE void PushBack(ListNode* node) // 0x0013F860
     {
         if (node->m_pNext != NULL || node->m_pPrev != NULL) {
             return;

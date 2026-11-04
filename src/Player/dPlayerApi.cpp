@@ -43,6 +43,12 @@ extern const u32 PLAYER_ACTION_EXIT_CONNECTION_STAIR_DOWN = 53;
 extern const u32 PLAYER_ACTION_DOOR_EXIT_WAIT = 70;
 // 0x00882B7C
 extern const u32 PLAYER_ACTION_DOOR_EXIT_BEGIN = 71;
+// 0x00882B84
+extern const u32 PLAYER_ACTION_191 = 191;
+// 0x00882B8C
+extern const u32 PLAYER_ACTION_2 = 2;
+// 0x00882B90
+extern const u32 PLAYER_ACTION_3 = 3;
 // 0x00882B80
 extern const u32 PLAYER_ACTION_FTR_BED_SLEEP = 130;
 // the Z offset of the player in bed (name is ours; read by AcPlayer and the entrance of Dream with FTR_BED_SLEEP)

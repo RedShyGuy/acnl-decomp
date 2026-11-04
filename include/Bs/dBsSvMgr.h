@@ -21,15 +21,17 @@ public:
     virtual oml::framework::Result Calc(); // 0x00609368 slot 0x24 | slot vf_0x24 of oml::framework::Process
     virtual void vf_0x40(); // 0x00607E38 slot 0x40 | virtual slot, introduced by BsSvMgr
     virtual void vf_0x44(); // 0x00607FE0 slot 0x44 | virtual slot, introduced by BsSvMgr
-    void SetSaveConnectNetHst(); // 0x0060867C | libgarden [tier A]
-    void SetSaveConnectNetVst(); // 0x00608698 | libgarden [tier A]
-    void SetSaveContinueNetVst(); // 0x00608894 | libgarden [tier A]
-    void SetSaveInterruptNetVst(); // 0x00608A74 | libgarden [tier A]
-    void SetSaveSeeOffRandomMatchNetHst(); // 0x00608CBC | libgarden [tier A]
-    void SetSaveSeeOffRandomMatchNetVst(); // 0x00608CD8 | libgarden [tier A]
-    void SetSaveConnectRandomMatchNetHst(); // 0x00608DF4 | libgarden [tier A]
-    void SetSaveConnectRandomMatchNetVst(); // 0x00608E10 | libgarden [tier A]
-    void SetSaveStartTourRandomMatchNetHst(); // 0x00608F7C | libgarden [tier A]
-    void SetSaveStartTourRandomMatchNetVst(); // 0x00608F98 | libgarden [tier A]
-    void SetSaveSeeOffNetHostRandomMatchNetVst(); // 0x006091B4 | libgarden [tier A]
+    static void SetSaveContinueNetHst(); // 0x00608878 (name after the others)
+    static void SetSaveInterruptNetHst(); // 0x00608A58 (name after the others)
+    static void SetSaveConnectNetHst(); // 0x0060867C | libgarden [tier A]
+    static void SetSaveConnectNetVst(); // 0x00608698 | libgarden [tier A]
+    static void SetSaveContinueNetVst(); // 0x00608894 | libgarden [tier A]
+    static void SetSaveInterruptNetVst(); // 0x00608A74 | libgarden [tier A]
+    static void SetSaveSeeOffRandomMatchNetHst(); // 0x00608CBC | libgarden [tier A]
+    static void SetSaveSeeOffRandomMatchNetVst(); // 0x00608CD8 | libgarden [tier A]
+    static void SetSaveConnectRandomMatchNetHst(); // 0x00608DF4 | libgarden [tier A]
+    static void SetSaveConnectRandomMatchNetVst(); // 0x00608E10 | libgarden [tier A]
+    static void SetSaveStartTourRandomMatchNetHst(); // 0x00608F7C | libgarden [tier A]
+    static void SetSaveStartTourRandomMatchNetVst(); // 0x00608F98 | libgarden [tier A]
+    static void SetSaveSeeOffNetHostRandomMatchNetVst(); // 0x006091B4 | libgarden [tier A]
 };

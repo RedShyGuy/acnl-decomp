@@ -25,6 +25,8 @@ public:
     bool GetParamUsGI() const; // 0x0072F1D8
     // 0 if the index is outside
     u32 GetAttribute(u32 index) const; // 0x0072F1E4
+    // (called by the game; the name is ours)
+    void SetAttribute(u32 index, u32 value); // 0x00403E18
     bool IsParamUsGISet() const; // 0x0072F1F8
     bool IsParamRVSet() const; // 0x0072F204
     bool IsParamVRSet() const; // 0x0072F210

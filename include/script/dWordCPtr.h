@@ -22,5 +22,11 @@ public:
     virtual void vf_0x24(); // 0x005EB0A0 slot 0x24 | virtual slot, introduced by script::WordCPtr
     virtual void vf_0x28(); // 0x0075C8BC slot 0x28 | virtual slot, introduced by script::WordCPtr
     virtual void vf_0x2C(); // 0x0075C8C4 slot 0x2C | virtual slot, introduced by script::WordCPtr
+
+protected:
+    WordCPtr(const char16* word, u32 size) : m_pWord(word), m_Size(size) {}
+
+    const char16* m_pWord; // 0x4 (names are ours)
+    u32 m_Size;            // 0x8
 };
 } // namespace script

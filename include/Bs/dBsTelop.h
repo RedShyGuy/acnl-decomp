@@ -10,7 +10,9 @@
 class BsTelop : public ::Base, public ::state::Mode<BsTelop>
 {
 public:
-    struct TelopName { u32 _unknown; }; // TODO: real type unknown (placeholder)
+    enum TelopName : u32
+    {
+    };
     BsTelop(); // ctor address unknown
     virtual ~BsTelop(); // 0x0060CC50 slot 0x00 | slot vf_0x00 of oml::framework::Process
     // 0x0060CBDC slot 0x04 | slot vf_0x04 of oml::framework::Process (deleting dtor)
@@ -18,6 +20,8 @@ public:
     virtual oml::framework::Result Finalize(); // 0x0060CA24 slot 0x18 | slot vf_0x18 of oml::framework::Process
     virtual oml::framework::Result Calc(); // 0x0060C734 slot 0x24 | slot vf_0x24 of oml::framework::Process
     virtual oml::framework::Result Draw(); // 0x0060C35C slot 0x30 | slot vf_0x30 of oml::framework::Process
-    void ShowTourTelop(BsTelop::TelopName, TourName); // 0x0060BBC8 | libgarden [tier A]
-    void ShowTelop(BsTelop::TelopName); // 0x0060C900 | libgarden [tier A]
+    static void ShowTourTelop(BsTelop::TelopName, TourName); // 0x0060BBC8 | libgarden [tier A]
+    static void ShowTelop(BsTelop::TelopName);
+    static void EndTelop(); // 0x0060BB90
+    static void ShowNameTelop(BsTelop::TelopName, const void* name); // 0x0060C2A0 // 0x0060C900 | libgarden [tier A]
 };

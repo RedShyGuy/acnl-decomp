@@ -546,6 +546,9 @@ DECOMP_NOINLINE void vector<u32, nn::nex::MemAllocator<u32> >::_C_insert_aux(u32
 template <>
 template <>
 DECOMP_NOINLINE void vector<u32, nn::nex::MemAllocator<u32> >::assign<u32*>(u32* first, u32* last);
+// (out of line in nex_qVector.cpp; called by the DataStore tags of the game)
+template <>
+DECOMP_NOINLINE void vector<nn::nex::String, nn::nex::MemAllocator<nn::nex::String> >::push_back(const nn::nex::String& value);
 
 // (out of line in nex_qVector.cpp; inline in Key::operator=)
 template <>
