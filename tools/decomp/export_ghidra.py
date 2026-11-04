@@ -22,7 +22,7 @@ ROOT = os.path.normpath(os.path.join(os.path.dirname(__file__), '..', '..'))
 GHIDRA = os.path.join(ROOT, 'ghidra')
 
 SAVE_HEADERS = ['dSvCommon', 'dSvFgName', 'dSvFgCategory', 'dSvPersonalId', 'dSvMyDesign', 'dSvMail',
-                'dSvPlayerFlags', 'dSvInitiative', 'dSvNpcRef', 'dSvPlayer', 'dSvNpc', 'dSvStrc', 'dSvHouse',
+                'dSvPlayerFlags', 'dSvInitiative', 'dSvNpcRef', 'dSvPlayerInventory', 'dSvPlayer', 'dSvNpc', 'dSvStrc', 'dSvHouse',
                 'dSvMuseum', 'dSvTownFlags', 'dSvTown', 'dSvCensus', 'dSvShared', 'dSvGardenPlus']
 
 
@@ -72,6 +72,10 @@ def export_types():
         text = re.sub(r'#pragma once|#include[^\n]*|#pragma pack\([^)]*\)|ASSERT_SIZE\([^)]*\);', '', text)
         text = re.sub(r'typedef [^;]*(SvEncValue|SvTime);', '', text)
         text = re.sub(r'static const u32 (\w+)\[\d+\] = \{[^}]*\};', '', text)
+        # C++ only: member functions, static members and enums nested in a struct (with their comment lines)
+        text = re.sub(r'^(?:[ \t]*//[^\n]*\n)*[ \t]+(?!/\*)[^\n;{}/]*\([^\n]*\)[^\n]*;[^\n]*\n', '', text, flags=re.M)
+        text = re.sub(r'^(?:[ \t]*//[^\n]*\n)*[ \t]+static const [^\n]*;[^\n]*\n', '', text, flags=re.M)
+        text = re.sub(r'^(?:[ \t]*//[^\n]*\n)*[ \t]+enum \w+ : \w+ \{.*?\};[^\n]*\n', '', text, flags=re.M | re.S)
         # "struct X { enum Name { ... }; };" -> "typedef enum X { ... } X;"
         # (C has one scope for enumerators: prefix them with the enum name)
         text = re.sub(r'struct (\w+) \{\s*enum Name \{(.*?)\};\s*\};',

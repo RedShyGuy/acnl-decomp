@@ -7,6 +7,7 @@
 #include "decomp.h"
 #include "Sv/dSvCommon.h"
 #include "Sv/dSvFgName.h"
+#include "Sv/dSvPlayerInventory.h"
 #include "Sv/dSvInitiative.h"
 #include "Sv/dSvMail.h"
 #include "Sv/dSvMyDesign.h"
@@ -389,7 +390,7 @@ struct SvPlayer {
     /* 0x5734 */ u32 hasTpcPic;
     /* 0x5738 */ u8 tpcPic[0x1400];
     /* 0x6B38 */ char16 tpcText[0x21];
-    /* 0x6B7A */ u8 unk_0x6B7A; // Unknown: Was 1 on a save, 2 on another
+    /* 0x6B7A */ u8 townSlot; // bits 0-1: the slot of the player in its own town (0 = first player), stored so that copies (players of other towns in a network game) keep it; the player creation writes it, the census arrays are indexed with it (0x005C7ED8)
     /* 0x6B7B */ u8 unk_0x6B7B;
     /* 0x6B7C */ u32 unk_0x6B7C;
     /* 0x6B80 */ u32 unk_0x6B80;
@@ -403,8 +404,7 @@ struct SvPlayer {
     /* 0x6BB0 */ s64 playtime;
     /* 0x6BB8 */ SvTownId townData2;
     /* 0x6BCE */ u16 pad_0x6BCE;
-    /* 0x6BD0 */ SvFgName inventory[0x10];
-    /* 0x6C10 */ u8 inventoryItemLocks[0x10];
+    /* 0x6BD0 */ SvPlayerInventory inventory;
     /* 0x6C20 */ u32 unlockedItems[0xBA]; // Game uses one big bitfield for items 'unlocked'. Bits correspond to item ids. Used for catalog, encyclopedia, etc
     /* 0x6F08 */ SvEncValue pocketMoney;
     /* 0x6F10 */ SvFgName islandBox[0x28];
@@ -482,5 +482,14 @@ struct SvPlayer {
     /* 0xA47E */ u16 pad_0xA47E;
 };
 ASSERT_SIZE(SvPlayer, 0xA480);
+
+// the four players of the town (name after libgarden)
+struct SvPlayerData {
+    // the player (NULL for an index of 4 or more)
+    SvPlayer* Get(u32 index); // 0x002FB9EC (name is ours)
+
+    /* 0x0000 */ SvPlayer players[4];
+};
+ASSERT_SIZE(SvPlayerData, 0x29200);
 
 #pragma pack(pop)

@@ -7,6 +7,6 @@ namespace script {
 class IWord
 {
 public:
-    IWord(); // ctor address unknown
+    IWord() {}
 };
 } // namespace script

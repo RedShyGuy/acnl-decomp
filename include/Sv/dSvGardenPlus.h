@@ -42,8 +42,11 @@ struct SvSaveHeader {
 ASSERT_SIZE(SvSaveHeader, 0x20);
 
 struct SvGardenData {
+    // the villagers
+    SvNpcData* GetNpcData(); // 0x002FB32C (name is ours)
+
     /* 0x0000 */ SvSaveHeader header; // garden_plus.dat + 0x80
-    /* 0x0020 */ SvPlayer players[4]; // garden_plus.dat + 0xA0
+    /* 0x0020 */ SvPlayerData players; // garden_plus.dat + 0xA0
     /* 0x29220 */ SvNpcData npcData; // garden_plus.dat + 0x292A0
     /* 0x4BE00 */ SvStrcData strcData; // garden_plus.dat + 0x4BE80
     /* 0x502BC */ SvMinigameData minigameData; // garden_plus.dat + 0x5033C / WA exclusive

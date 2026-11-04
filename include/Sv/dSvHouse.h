@@ -90,19 +90,36 @@ struct SvCockroachData {
 };
 ASSERT_SIZE(SvCockroachData, 0x4);
 
+// the rooms of a house (names are ours, in the order of the stages PlayerHouseN_1F/_2F/_BF/_Right/_Left/_Back)
+enum SvRoomIndex {
+    SV_ROOM_MAIN = 0,
+    SV_ROOM_UPSTAIRS = 1,
+    SV_ROOM_BASEMENT = 2,
+    SV_ROOM_RIGHT = 3,
+    SV_ROOM_LEFT = 4,
+    SV_ROOM_BACK = 5,
+};
+
 struct SvPlayerHouse {
     /* 0x0000 */ u32 pad_0x0;
     /* 0x0004 */ SvHouseExterior exterior1;
     /* 0x000D */ SvHouseExterior exterior2; // maybe if you are upgrading? / 0x5D90D
     /* 0x0016 */ u16 pad_0x16;
-    /* 0x0018 */ SvRoom middleRoom;
-    /* 0x031A */ SvRoom secondRoom;
-    /* 0x061C */ SvRoom basementRoom;
-    /* 0x091E */ SvRoom rightRoom;
-    /* 0x0C20 */ SvRoom leftRoom;
-    /* 0x0F22 */ SvRoom backRoom;
+    // the size of a room (SvRoomState::roomSize)
+    u8 GetRoomSize(u32 room) const; // 0x0072108C (name is ours)
+
+    /* 0x0018 */ SvRoom rooms[6]; // ROOM_*: the code indexes them
     /* 0x1224 */ SvCockroachData cockroachData;
 };
 ASSERT_SIZE(SvPlayerHouse, 0x1228);
+
+// the houses of the four players (name is ours)
+struct SvPlayerHouseList {
+    // the house of the player (the first one for an index of 4 or more)
+    SvPlayerHouse* Get(u32 index); // 0x0030F770 (name is ours)
+
+    /* 0x0000 */ SvPlayerHouse houses[4];
+};
+ASSERT_SIZE(SvPlayerHouseList, 0x48A0);
 
 #pragma pack(pop)

@@ -49,7 +49,7 @@ struct SvTownData {
     /* 0x64B4 */ u8 unk_0x64B4[0x28]; // Town data ctor never initializes this, so likely not used. Where the code would branch to do so, there is a NOP (both in WA and Orig).
     /* 0x64DC */ u8 mapGrass[0x3000];
     /* 0x94DC */ u8 unk_0x94DC[0x1000]; // Town data actually includes it with MapGrass (0x8000 in total), despite this portion not being used
-    /* 0xA4DC */ SvPlayerHouse playerHouse[4];
+    /* 0xA4DC */ SvPlayerHouseList playerHouses;
     /* 0xED7C */ s64 currentTime;
     /* 0xED84 */ s64 unk_0xED84;
     /* 0xED8C */ s64 playtime;
@@ -155,10 +155,7 @@ struct SvTownData {
     /* 0x17A48 */ SvDate unk_0x17A48;
     /* 0x17A4C */ SvDate unk_0x17A4C;
     /* 0x17A50 */ u8 unk_0x17A50[0x44];
-    /* 0x17A94 */ SvDate museumDonationDates[0x112];
-    /* 0x17EDC */ u8 museumDonations[0x112];
-    /* 0x17FEE */ u8 pad_0x17FEE[2];
-    /* 0x17FF0 */ SvMuseumExhibit exhibit[4];
+    /* 0x17A94 */ SvMuseum museum;
     /* 0x1AE50 */ u64 unk_0x1AE50; // ctor sets 0x7FFFFFFFFFFFFFFF (max positive U64)
     /* 0x1AE58 */ u8 unk_0x1AE58[7];
     /* 0x1AE5F */ u64 unk_0x1AE5F; // ctor sets 0x7FFFFFFFFFFFFFFF (max positive U64)

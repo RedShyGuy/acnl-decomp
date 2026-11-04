@@ -9,7 +9,8 @@ namespace script {
 class WordPtr : public ::script::IWord
 {
 public:
-    WordPtr(); // ctor candidate(s) 0x003081E8, 0x005FDA6C (unverified)
+    WordPtr(); // ctor candidate 0x005FDA6C (unverified)
+    WordPtr(char16* buffer, u32 size); // 0x003081E8 (the stub name of symbols.json is WordPtr())
     virtual ~WordPtr(); // 0x00308368 slot 0x00 | libgarden
     virtual void vf_0x04(); // 0x005FDA88 slot 0x04 | virtual slot, introduced by script::WordPtr
     virtual void GetWord(); // 0x005FDA64 slot 0x08 | libgarden
@@ -22,5 +23,12 @@ public:
     virtual void vf_0x24(); // 0x005EB0A0 slot 0x24 | virtual slot, introduced by script::WordCPtr
     virtual void vf_0x28(); // 0x0075C8BC slot 0x28 | virtual slot, introduced by script::WordCPtr
     virtual void vf_0x2C(); // 0x0075C8C4 slot 0x2C | virtual slot, introduced by script::WordCPtr
+
+protected:
+    char16* m_pBuffer;  // 0x4 (names are ours)
+    u32 m_Size;         // 0x8
 };
+
+// the empty character of the words (name is ours)
+extern const char16 WORD_NULL_CHAR;
 } // namespace script

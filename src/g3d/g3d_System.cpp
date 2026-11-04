@@ -6,7 +6,7 @@
 #include "Camera/dCameraMgr.h"
 #include "Other/dHeapUtil.h"
 #include "Other/dUlcdFramework.h"
-#include "Sv/dSvProc.h"
+#include "applet/dErrEulaMgr.h"
 #include "g3d/dResourceLoader.h"
 #include "g3d/dSortMeshGroup.h"
 #include "graphic/dModuleRenderer.h"
@@ -411,7 +411,7 @@ nw::gfx::Camera* SelectCamera(u32 drawMode, nw::gfx::SceneContext* sceneContext)
 // 0x004EB3D8 (name is ours)
 void Draw(u32 drawMode)
 {
-    if (s_IsRendering != true || SvProc::IsUnknownFlag0xFADSet()) {
+    if (s_IsRendering != true || applet::ErrEulaMgr::IsUnknownFADSet()) {
         return;
     }
     Render(drawMode, SCENE_DRAW);

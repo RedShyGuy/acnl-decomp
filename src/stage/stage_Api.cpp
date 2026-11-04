@@ -588,8 +588,9 @@ s32 GetLightKind(Name name)
         return kind;
     }
     if (s_Current == name) {
-        SvHouse* house = GetHouseOfStage(name);
-        if (house != NULL && house->GetRoomSize(3) >= 2 && house->GetRoomSize(4) >= 2 && house->GetRoomSize(5) >= 2) {
+        SvPlayerHouse* house = GetHouseOfStage(name);
+        if (house != NULL && house->GetRoomSize(SV_ROOM_RIGHT) >= 2 && house->GetRoomSize(SV_ROOM_LEFT) >= 2 &&
+            house->GetRoomSize(SV_ROOM_BACK) >= 2) {
             return 3;
         }
     }
@@ -601,8 +602,8 @@ bool IsOwnShowroom(Name name)
 {
     if (IsKind(KIND_MUSEUM_SHOWROOM, name)) {
         u8 index = name - NAME_MUSEUM_SHOWROOM_1;
-        s8 owner = GetGardenData()->m_Museum.GetShowroom(index)->owner;
-        if (owner >= 0 && static_cast<u8>(owner) == PlayerGetSaveNumber(netgame::PLAYER_NO_MY_NO)) {
+        s8 owner = GetGardenData()->townData.museum.GetExhibit(index)->playerIndex;
+        if (owner >= 0 && static_cast<u8>(owner) == SvGetPlayerSaveNo(netgame::PLAYER_NO_MY_NO)) {
             return true;
         }
     }
@@ -833,11 +834,11 @@ bool IsInOwnHouse()
     if (IsOwnShowroom(current)) {
         return true;
     }
-    u8 player = PlayerGetSaveNumber(netgame::PLAYER_NO_MY_NO);
-    if (IsVillagePlayer(player) && IsHouseRoomOf(player, current)) {
+    PlayerSaveNumber player = SvGetPlayerSaveNo(netgame::PLAYER_NO_MY_NO);
+    if (SvIsValidPlayerSaveNo(player) && IsHouseRoomOf(player, current)) {
         u32 owner = GetHouseOwner(current);
         if (owner < 4) {
-            u8 size = GetGardenPlus()->m_Houses.Get(owner)->m_Size;
+            u8 size = GetGardenPlus()->data.townData.playerHouses.Get(owner)->exterior1.houseSize;
             if (size != 0 && size != 8) {
                 return true;
             }
@@ -861,9 +862,9 @@ bool IsTent(Name name)
                               NAME_PLAYER_HOUSE_3_1F, NAME_MODEL_HOUSE_1F};
     for (u32 i = 0; i < 5; i++) {
         if (firstFloors[i] == name) {
-            SvHouse* house = GetHouseOfStage(name);
+            SvPlayerHouse* house = GetHouseOfStage(name);
             if (house != NULL) {
-                return house->m_Size == 0;
+                return house->exterior1.houseSize == 0;
             }
         }
     }
@@ -877,8 +878,8 @@ bool IsInPrivateRoom()
     if (IsKind(KIND_SCREEN, current) || !IsKind(KIND_INDOOR, current)) {
         return false;
     }
-    u8 player = PlayerGetSaveNumber(netgame::PLAYER_NO_MY_NO);
-    if (IsVillagePlayer(player) && IsHouseRoomOf(player, current)) {
+    PlayerSaveNumber player = SvGetPlayerSaveNo(netgame::PLAYER_NO_MY_NO);
+    if (SvIsValidPlayerSaveNo(player) && IsHouseRoomOf(player, current)) {
         return true;
     }
     if (IsOwnShowroom(current)) {
@@ -987,8 +988,8 @@ bool IsInOwnRoom()
     if (IsKind(KIND_SCREEN, current) || !IsKind(KIND_INDOOR, current)) {
         return false;
     }
-    u8 player = PlayerGetSaveNumber(netgame::PLAYER_NO_MY_NO);
-    if (IsVillagePlayer(player) && IsHouseRoomOf(player, current)) {
+    PlayerSaveNumber player = SvGetPlayerSaveNo(netgame::PLAYER_NO_MY_NO);
+    if (SvIsValidPlayerSaveNo(player) && IsHouseRoomOf(player, current)) {
         return true;
     }
     if (IsOwnShowroom(current)) {
@@ -1070,8 +1071,8 @@ u32 GetFurnitureCapacity(Name name)
 // 0x005B74F8 (name is ours)
 bool IsOwnHouseRoom(Name name)
 {
-    u8 player = PlayerGetSaveNumber(netgame::PLAYER_NO_MY_NO);
-    if (IsVillagePlayer(player) && IsHouseRoomOf(player, name)) {
+    PlayerSaveNumber player = SvGetPlayerSaveNo(netgame::PLAYER_NO_MY_NO);
+    if (SvIsValidPlayerSaveNo(player) && IsHouseRoomOf(player, name)) {
         return true;
     }
     return false;

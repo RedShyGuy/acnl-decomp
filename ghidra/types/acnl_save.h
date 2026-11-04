@@ -221,6 +221,7 @@ typedef struct SvTownId {
     /* 0x0002 */ char16 dataTownName[9]; // Default is 0
     /* 0x0014 */ u8 unk_0x14; // Default is 0xA
     /* 0x0015 */ u8 unk_0x15;
+
 } SvTownId;
 
 typedef struct SvPlayerId {
@@ -235,6 +236,7 @@ typedef struct SvPersonalId {
     /* 0x0016 */ SvTownId townData;
     /* 0x002C */ u8 tpcCountry;
     /* 0x002D */ u8 tpcCounty;
+
 } SvPersonalId;
 
 /* ---- dSvMyDesign.h ---- */
@@ -942,6 +944,17 @@ typedef struct SvNpcRef {
     /* 0x002F */ u8 pad_0x2F; // Padding: Not set in ctor
 } SvNpcRef;
 
+/* ---- dSvPlayerInventory.h ---- */
+// The pockets of a player: 16 items and how each one looks.
+//
+// Offsets in /* */ are relative to the struct and verified by the ASSERT_SIZE checks.
+
+typedef struct SvPlayerInventory {
+
+    /* 0x0000 */ SvFgName items[0x10]; // SIZE
+    /* 0x0040 */ u8 appearances[0x10]; // ItemAppearance (research name: item locks; the code reads and writes the appearance)
+} SvPlayerInventory;
+
 /* ---- dSvPlayer.h ---- */
 // One player of the town (4 per save).
 //
@@ -1299,7 +1312,7 @@ typedef struct SvPlayer {
     /* 0x5734 */ u32 hasTpcPic;
     /* 0x5738 */ u8 tpcPic[0x1400];
     /* 0x6B38 */ char16 tpcText[0x21];
-    /* 0x6B7A */ u8 unk_0x6B7A; // Unknown: Was 1 on a save, 2 on another
+    /* 0x6B7A */ u8 playerIndex; // bits 0-1: the index of the player in the town (the census arrays use it, 0x005C7ED8); research note: was 1 on a save, 2 on another
     /* 0x6B7B */ u8 unk_0x6B7B;
     /* 0x6B7C */ u32 unk_0x6B7C;
     /* 0x6B80 */ u32 unk_0x6B80;
@@ -1313,8 +1326,7 @@ typedef struct SvPlayer {
     /* 0x6BB0 */ s64 playtime;
     /* 0x6BB8 */ SvTownId townData2;
     /* 0x6BCE */ u16 pad_0x6BCE;
-    /* 0x6BD0 */ SvFgName inventory[0x10];
-    /* 0x6C10 */ u8 inventoryItemLocks[0x10];
+    /* 0x6BD0 */ SvPlayerInventory inventory;
     /* 0x6C20 */ u32 unlockedItems[0xBA]; // Game uses one big bitfield for items 'unlocked'. Bits correspond to item ids. Used for catalog, encyclopedia, etc
     /* 0x6F08 */ SvEncValue pocketMoney;
     /* 0x6F10 */ SvFgName islandBox[0x28];
@@ -1391,6 +1403,12 @@ typedef struct SvPlayer {
     /* 0xA47A */ SvFgName unk_0xA47A; // Some Item; Set to 0x00007ffe in player ctor
     /* 0xA47E */ u16 pad_0xA47E;
 } SvPlayer;
+
+// the four players of the town (name after libgarden)
+typedef struct SvPlayerData {
+
+    /* 0x0000 */ SvPlayer players[4];
+} SvPlayerData;
 
 /* ---- dSvNpc.h ---- */
 // Villagers (NPCs) living in the town.
@@ -1772,19 +1790,31 @@ typedef struct SvCockroachData {
     /* 0x0003 */ u8 pad_0x3;
 } SvCockroachData;
 
+// the rooms of a house (names are ours, in the order of the stages PlayerHouseN_1F/_2F/_BF/_Right/_Left/_Back)
+enum SvRoomIndex {
+    SV_ROOM_MAIN = 0,
+    SV_ROOM_UPSTAIRS = 1,
+    SV_ROOM_BASEMENT = 2,
+    SV_ROOM_RIGHT = 3,
+    SV_ROOM_LEFT = 4,
+    SV_ROOM_BACK = 5,
+};
+
 typedef struct SvPlayerHouse {
     /* 0x0000 */ u32 pad_0x0;
     /* 0x0004 */ SvHouseExterior exterior1;
     /* 0x000D */ SvHouseExterior exterior2; // maybe if you are upgrading? / 0x5D90D
     /* 0x0016 */ u16 pad_0x16;
-    /* 0x0018 */ SvRoom middleRoom;
-    /* 0x031A */ SvRoom secondRoom;
-    /* 0x061C */ SvRoom basementRoom;
-    /* 0x091E */ SvRoom rightRoom;
-    /* 0x0C20 */ SvRoom leftRoom;
-    /* 0x0F22 */ SvRoom backRoom;
+
+    /* 0x0018 */ SvRoom rooms[6]; // ROOM_*: the code indexes them
     /* 0x1224 */ SvCockroachData cockroachData;
 } SvPlayerHouse;
+
+// the houses of the four players (name is ours)
+typedef struct SvPlayerHouseList {
+
+    /* 0x0000 */ SvPlayerHouse houses[4];
+} SvPlayerHouseList;
 
 /* ---- dSvMuseum.h ---- */
 // Museum exhibition rooms.
@@ -1792,13 +1822,22 @@ typedef struct SvPlayerHouse {
 // Offsets in /* */ are relative to the struct and verified by the ASSERT_SIZE checks.
 
 typedef struct SvMuseumExhibit {
-    /* 0x0000 */ u8 playerIndex; // ctor sets to 0xFF
+    /* 0x0000 */ s8 playerIndex; // ctor sets to 0xFF (-1: none)
     /* 0x0001 */ u8 pad_0x1;
     /* 0x0002 */ SvRoom museumRoom;
     /* 0x0304 */ SvMyDesign exhibitPoster;
     /* 0x0B74 */ char16 exhibitTitle[0x11];
     /* 0x0B96 */ u16 pad_0xB96;
 } SvMuseumExhibit;
+
+// the museum (one struct in the original: GetExhibit gets its address)
+typedef struct SvMuseum {
+
+    /* 0x0000 */ SvDate donationDates[0x112];
+    /* 0x0448 */ u8 donations[0x112];
+    /* 0x055A */ u8 pad_0x55A[2];
+    /* 0x055C */ SvMuseumExhibit exhibits[4];
+} SvMuseum;
 
 /* ---- dSvTownFlags.h ---- */
 // Town wide progress flags.
@@ -1978,7 +2017,7 @@ typedef struct SvTownData {
     /* 0x64B4 */ u8 unk_0x64B4[0x28]; // Town data ctor never initializes this, so likely not used. Where the code would branch to do so, there is a NOP (both in WA and Orig).
     /* 0x64DC */ u8 mapGrass[0x3000];
     /* 0x94DC */ u8 unk_0x94DC[0x1000]; // Town data actually includes it with MapGrass (0x8000 in total), despite this portion not being used
-    /* 0xA4DC */ SvPlayerHouse playerHouse[4];
+    /* 0xA4DC */ SvPlayerHouseList playerHouses;
     /* 0xED7C */ s64 currentTime;
     /* 0xED84 */ s64 unk_0xED84;
     /* 0xED8C */ s64 playtime;
@@ -2084,10 +2123,7 @@ typedef struct SvTownData {
     /* 0x17A48 */ SvDate unk_0x17A48;
     /* 0x17A4C */ SvDate unk_0x17A4C;
     /* 0x17A50 */ u8 unk_0x17A50[0x44];
-    /* 0x17A94 */ SvDate museumDonationDates[0x112];
-    /* 0x17EDC */ u8 museumDonations[0x112];
-    /* 0x17FEE */ u8 pad_0x17FEE[2];
-    /* 0x17FF0 */ SvMuseumExhibit exhibit[4];
+    /* 0x17A94 */ SvMuseum museum;
     /* 0x1AE50 */ u64 unk_0x1AE50; // ctor sets 0x7FFFFFFFFFFFFFFF (max positive U64)
     /* 0x1AE58 */ u8 unk_0x1AE58[7];
     /* 0x1AE5F */ u64 unk_0x1AE5F; // ctor sets 0x7FFFFFFFFFFFFFFF (max positive U64)
@@ -2127,6 +2163,7 @@ typedef struct SvTownData {
 typedef struct SvCensusValue {
     /* 0x0000 */ u32 totalPlayerStat; // All player stats combined
     /* 0x0004 */ u32 playerStats[4]; // For each player
+
 } SvCensusValue;
 
 typedef struct SvInsectCatchCounts {
@@ -2521,8 +2558,9 @@ typedef struct SvSaveHeader {
 } SvSaveHeader;
 
 typedef struct SvGardenData {
+
     /* 0x0000 */ SvSaveHeader header; // garden_plus.dat + 0x80
-    /* 0x0020 */ SvPlayer players[4]; // garden_plus.dat + 0xA0
+    /* 0x0020 */ SvPlayerData players; // garden_plus.dat + 0xA0
     /* 0x29220 */ SvNpcData npcData; // garden_plus.dat + 0x292A0
     /* 0x4BE00 */ SvStrcData strcData; // garden_plus.dat + 0x4BE80
     /* 0x502BC */ SvMinigameData minigameData; // garden_plus.dat + 0x5033C / WA exclusive

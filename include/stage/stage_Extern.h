@@ -5,59 +5,18 @@
 #include "nn/math/math_Vector3.h"
 #include "netgame/netgame_Api.h"
 #include "Player/dPlayerApi.h"
+#include "Sv/dSvApi.h"
 #include "stage/stage_Api.h"
 
 // The functions and objects of the game that the stage code uses, as far as it needs them. Their classes are not
 // decompiled yet; all names are ours unless noted, the declarations move to their classes later.
 
-// the save data
-struct SvShowroom
-{
-    s8 owner; // 0x0 the player save number of the owner (-1: none)
-};
-class SvMuseum
-{
-public:
-    SvShowroom* GetShowroom(u32 index); // 0x006BCED8
-};
-class SvHouse
-{
-public:
-    // the size of a room of the house
-    u8 GetRoomSize(u32 room) const; // 0x0072108C
-
-    u8 _unknown0[4];
-    u8 m_Size; // 0x4 SvHouseExterior::houseSize of SvPlayerHouse (House_Exterior list: 0 the starting tent; 8 unknown)
-};
-class SvHouseList
-{
-public:
-    SvHouse* Get(u32 owner); // 0x0030F770
-};
-// the save file garden_plus.dat in memory (the layout of SvGardenPlus; only the parts that the stage code reads)
-class GardenPlus
-{
-public:
-    u8 _unknown0[0x5D900];
-    SvHouseList m_Houses; // 0x5D900
-};
-class GardenData
-{
-public:
-    u8 _unknown0[0x6AE38];
-    SvMuseum m_Museum; // 0x6AE38
-};
-GardenPlus* GetGardenPlus(); // 0x002FB344
-// the save data behind the secure value header (the layout of SvGardenData)
-GardenData* GetGardenData(); // 0x002FAEAC
 // the house save of a player house stage, or of the model house (NULL for another stage)
-SvHouse* GetHouseOfStage(stage::Name name); // 0x006F9774
+SvPlayerHouse* GetHouseOfStage(stage::Name name); // 0x006F9774
 // the owner (village player 0..3) of a player house stage; 4 for another stage
 u32 GetHouseOwner(stage::Name name); // 0x006FAF5C
 
 // the players
-PlayerSaveNumber PlayerGetSaveNumber(netgame::PlayerNo no); // 0x002FF6CC
-bool IsVillagePlayer(u8 saveNumber); // 0x0027B0FC
 // places the player at the start of the stage
 bool PlayerSetStart(netgame::PlayerNo no, const nn::math::VEC3_* position, const math::Angle16Vec3* rotation, u32 action,
                     u32 arg); // 0x005C2260

@@ -12,6 +12,9 @@
 struct SvCensusValue {
     /* 0x0000 */ u32 totalPlayerStat; // All player stats combined
     /* 0x0004 */ u32 playerStats[4]; // For each player
+
+    // adds the value for the current player (capped at 999999999; not in the netgame type 3)
+    void Add(s32 value); // 0x006B7ED0 (name is ours)
 };
 ASSERT_SIZE(SvCensusValue, 0x14);
 

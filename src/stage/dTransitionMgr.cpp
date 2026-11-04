@@ -226,7 +226,7 @@ bool TransitionMgr::TransitionToStructure(u8 structure, const nn::math::VEC3_* o
             position.z += FIELD_UNIT_SIZE_Z;
         }
     } else {
-        u8 player = PlayerGetSaveNumber(netgame::PLAYER_NO_MY_NO);
+        PlayerSaveNumber player = SvGetPlayerSaveNo(netgame::PLAYER_NO_MY_NO);
         if (player >= 4 || !GetStructurePosition(&position, player)) {
             GetFallbackPosition(&position, &targetRotation, target);
         }
@@ -301,7 +301,7 @@ bool TransitionMgr::TransitionFromStructure(u8 typeA, u8 faderA, u8 typeB, u8 fa
         action = PLAYER_ACTION_IDLE;
     } else {
         action = PLAYER_ACTION_IDLE;
-        u8 player = PlayerGetSaveNumber(netgame::PLAYER_NO_MY_NO);
+        PlayerSaveNumber player = SvGetPlayerSaveNo(netgame::PLAYER_NO_MY_NO);
         if (player >= 4 || !GetStructurePosition(&position, player)) {
             GetFallbackPosition(&position, &rotation, target);
         }
@@ -477,7 +477,7 @@ bool TransitionMgr::TransitionFromTourHut(u8 typeA, u8 faderA, u8 typeB, u8 fade
 // the first floor of the house of the own player
 static Name GetOwnHouseFirstFloor()
 {
-    switch (PlayerGetSaveNumber(netgame::PLAYER_NO_MY_NO)) {
+    switch (SvGetPlayerSaveNo(netgame::PLAYER_NO_MY_NO)) {
     case 1:
         return NAME_PLAYER_HOUSE_1_1F;
     case 2:

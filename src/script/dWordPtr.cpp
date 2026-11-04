@@ -1,9 +1,23 @@
 #include "script/dIWord.h"
 #include "script/dWordPtr.h"
+#include "script/dWordFix.h"
 
 namespace script {
-// ctor candidate(s) 0x003081E8, 0x005FDA6C (unverified)
+// ctor candidate 0x005FDA6C (unverified)
 script::WordPtr::WordPtr()
+{
+}
+
+// 0x003081E8
+script::WordPtr::WordPtr(char16* buffer, u32 size) : m_pBuffer(buffer), m_Size(size)
+{
+}
+
+// 0x008916F4
+extern const char16 WORD_NULL_CHAR = 0;
+
+// 0x005F56CC
+script::WordFixUnk0C::WordFixUnk0C() : unk_0x0(4), unk_0x4(-1), unk_0x8(-1)
 {
 }
 

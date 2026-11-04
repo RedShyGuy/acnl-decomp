@@ -10,5 +10,9 @@ template <typename T0>
 class BsPartsSaveMgr
 {
 public:
-    // TODO: members unknown
+    // the state of the part save of T0 (names are ours, after SvGetBestFriendList: the data is returned while
+    // s_HasData is set and s_IsDataBlocked is clear)
+    static bool s_HasData;
+    static T0* s_pData;
+    static bool s_IsDataBlocked;
 };

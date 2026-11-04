@@ -4054,7 +4054,7 @@ namespace script {
     class WordPtrSv;
     class WordRes;
     template <auto T0, typename T1> class WordKey;
-    template <auto T0> class WordFix;
+    template <u32 N> class WordFix; // script/dWordFix.h
 }
 
 namespace sead { 

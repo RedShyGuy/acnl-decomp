@@ -1,6 +1,8 @@
 #pragma once
 
 #include "decomp.h"
+#include "script/dWordPtr.h"
+#include <cstring>
 
 namespace script {
 // Instantiations found in the binary:
@@ -57,10 +59,31 @@ namespace script {
 //   script::WordFix<8u>  typeinfo 0x008D3D70  vtable 0x0090B49C
 //   script::WordFix<94u>  typeinfo 0x008D3D7C  vtable 0x0090B4D4
 //   script::WordFix<9u>  typeinfo 0x008D3D88  vtable 0x0090B50C
-template <auto T0>
-class WordFix
+// a member of the fixed words (names are ours)
+struct WordFixUnk0C
+{
+    WordFixUnk0C(); // 0x005F56CC
+
+    u8 unk_0x0;
+    s32 unk_0x4;
+    s32 unk_0x8;
+};
+
+// a word with a buffer of N characters (the constructor is inline in the original)
+template <u32 N>
+class WordFix : public WordPtr
 {
 public:
-    // TODO: members unknown
+    WordFix() : WordPtr(m_Buffer, N)
+    {
+        std::memset(m_Buffer, 0, sizeof(m_Buffer));
+        for (u32 i = 0; i < N; i++) {
+            m_Buffer[i] = WORD_NULL_CHAR;
+        }
+    }
+
+private:
+    WordFixUnk0C m_Unk0C;   // 0x0C
+    char16 m_Buffer[N];     // 0x18
 };
 } // namespace script
