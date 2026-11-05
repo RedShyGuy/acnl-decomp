@@ -1140,9 +1140,7 @@ enum ProcName : u16; // Other/dProcMgr.h
 enum ProcType : u8; // Other/dProcMgr.h
 struct RandomPlacerUsual { u32 _unknown; }; // placeholder, real type unknown
 struct ScrollBarDescription { u32 _unknown; }; // placeholder, real type unknown
-enum SeID : u32
-{
-};
+enum SeID : u32; // Sound/dSoundLabel.h
 enum TourName : s32
 {
 };

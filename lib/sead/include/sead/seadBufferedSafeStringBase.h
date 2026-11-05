@@ -106,7 +106,7 @@ public:
     }
     // writes length characters of src over the string from at on (at < 0: counted from the end);
     // terminated only where the string gets longer
-    s32 overwriteAt(s32 at, const SafeStringBase<T>& src, s32 length)
+    DECOMP_NOINLINE s32 overwriteAt(s32 at, const SafeStringBase<T>& src, s32 length)
     {
         s32 oldLength = this->getLength();
         if (length < 0) {

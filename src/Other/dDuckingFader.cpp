@@ -1,23 +1,31 @@
-#include "Sound/dSoundFaderEx.h"
 #include "Other/dDuckingFader.h"
 
-// ctor candidate(s) 0x0012F968 (unverified)
-DuckingFader::DuckingFader()
+// 0x0014049C
+// 0x00200028 (deleting dtor)
+DuckingFader::~DuckingFader()
 {
+    // empty (in the original too)
 }
 
-// 0x0014049C slot 0x00 | virtual slot, introduced by SoundFader
-void DuckingFader::vf_0x00()
+// 0x001FFFC8
+f32 DuckingFader::Update()
 {
+    f32 value = SoundFaderEx::Update();
+    if (m_Value == 1.0f)
+    {
+        m_State = STATE_NONE;
+    }
+    else if (m_Target == 1.0f)
+    {
+        m_State = m_Delay > 0 ? STATE_UP_WAIT : STATE_UP;
+    }
+    else if (m_Delay > 0)
+    {
+        m_State = STATE_DOWN_WAIT;
+    }
+    else
+    {
+        m_State = m_Frames > 0 ? STATE_DOWN : STATE_DUCKED;
+    }
+    return value;
 }
-
-// 0x00200028 slot 0x04 | virtual slot, introduced by SoundFader
-void DuckingFader::vf_0x04()
-{
-}
-
-// 0x001FFFC8 slot 0x0C | virtual slot, introduced by SoundFader
-void DuckingFader::vf_0x0C()
-{
-}
-

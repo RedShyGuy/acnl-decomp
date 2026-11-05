@@ -287,7 +287,7 @@ void netgame::LeaveMgr::StartLeave(bool isLocked)
     NetGameMgr* mgr = NetGameMgr::s_pInstance;
     LockMgr& lock = mgr->m_LockMgr;
     if (!isLocked) {
-        lock.m_SuccessfulCmd = GetNetgameType() == 2 ? LockMgr::CMD_RANDOM_MATCH_LEAVE : LockMgr::CMD_FRIEND_MATCH_LEAVE;
+        lock.m_SuccessfulCmd = GetNetgameType() == TYPE_RANDOM_MATCH ? LockMgr::CMD_RANDOM_MATCH_LEAVE : LockMgr::CMD_FRIEND_MATCH_LEAVE;
         lock.m_SourcePlayer = mgr->m_MyPlayerNo;
     }
     PlayerNo player = lock.m_SourcePlayer;

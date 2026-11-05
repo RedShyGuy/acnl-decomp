@@ -1,18 +1,36 @@
-#include "Sound/dSoundMelodyPlayerOneSeqBase.h"
 #include "Sound/dSoundMelodyPlayerOneSeqPos.h"
+#include "Sound/dSoundObjBase.h"
+#include "nw/snd/internal/snd_BasicSound.h"
 
-// ctor candidate(s) 0x00342BD8 (unverified)
+// 0x00342BD8
 SoundMelodyPlayerOneSeqPos::SoundMelodyPlayerOneSeqPos()
+    : m_pObj(NULL), m_ObjVolume(0.0f), m_ObjPan(0.0f), m_ObjSurroundPan(0.0f)
 {
 }
 
-// 0x00342C40 slot 0x00 | virtual slot, introduced by SoundMelodyPlayerOneSeqBase
-void SoundMelodyPlayerOneSeqPos::vf_0x00()
+// 0x00342C40
+// 0x00342C18 (deleting dtor)
+SoundMelodyPlayerOneSeqPos::~SoundMelodyPlayerOneSeqPos()
 {
+    // empty (in the original too)
 }
 
-// 0x00342C18 slot 0x04 | virtual slot, introduced by SoundMelodyPlayerOneSeqBase
-void SoundMelodyPlayerOneSeqPos::vf_0x04()
+// 0x00343424
+void SoundMelodyPlayerOneSeqPos::Update()
 {
+    if (m_Handle.m_pSound != NULL) {
+        if (m_pObj != NULL) {
+            m_ObjVolume = m_pObj->m_Volume;
+            m_ObjPan = m_pObj->m_Pan;
+            m_ObjSurroundPan = m_pObj->m_SurroundPan;
+        }
+        m_Handle.m_pSound->SetVolume(m_ObjVolume, 0);
+        if (m_Handle.m_pSound != NULL) {
+            m_Handle.m_pSound->SetPan(m_ObjPan);
+        }
+        if (m_Handle.m_pSound != NULL) {
+            m_Handle.m_pSound->SetSurroundPan(m_ObjSurroundPan);
+        }
+    }
+    SoundMelodyPlayerOneSeqBase::Update();
 }
-

@@ -7,4 +7,6 @@ sead::ExpHeap* s_pModelEffectResHeap = NULL;
 sead::ExpHeap* s_pFontHeap = NULL;
 // 0x00953C9C
 sead::ExpHeap* s_pPhotoHeap = NULL;
+// 0x00953CA8
+sead::Heap* s_pSoundDataHeap = NULL;
 } // namespace HeapInit

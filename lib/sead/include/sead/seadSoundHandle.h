@@ -13,6 +13,8 @@ class SoundHandle : public ::nw::snd::SoundHandle
 {
 public:
     SoundHandle() : nw::snd::SoundHandle() {}
+    // (name is ours; a copy that the game calls)
+    DECOMP_EMIT_COPY DECOMP_NOINLINE bool isAttached() const { return m_pSound != nullptr; } // 0x0074A85C
     void pause(int fadeFrames); // 0x00540BA8 | mk7dlp:bytes [tier B]
     void setPan(f32 pan); // 0x00540BC4 (name is ours)
     void unpause(int fadeFrames); // 0x00540BD8 | mk7dlp:bytes [tier B]

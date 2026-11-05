@@ -1,32 +1,59 @@
 #include "Sound/dSoundFader.h"
 
-// ctor candidate(s) 0x0012674C, 0x0012F8B8 (unverified)
-SoundFader::SoundFader()
+// 0x0013E1A8
+// 0x001B0B48 (deleting dtor)
+SoundFader::~SoundFader()
 {
+    // empty (in the original too)
 }
 
-// 0x0013E1A8 slot 0x00 | virtual slot, introduced by SoundFader
-void SoundFader::vf_0x00()
+// 0x0012F8A4
+void SoundFader::Reset(f32 value)
 {
+    m_Value = value;
+    m_Target = value;
+    m_Frames = -1;
 }
 
-// 0x001B0B48 slot 0x04 | virtual slot, introduced by SoundFader
-void SoundFader::vf_0x04()
+// 0x001B0AC0
+f32 SoundFader::Update()
 {
+    s32 frames = m_Frames;
+    if (frames == 0)
+    {
+        m_Frames = -1;
+    }
+    else if (frames > 0)
+    {
+        m_Frames = --frames;
+        if (frames == 0)
+        {
+            m_Value = m_Target;
+        }
+        else
+        {
+            m_Value += m_Step;
+        }
+    }
+    return m_Value;
 }
 
-// 0x0012F8A4 slot 0x08 | virtual slot, introduced by SoundFader
-void SoundFader::vf_0x08()
+// 0x001B0B00
+void SoundFader::SetTarget(f32 target, s32 frames)
 {
+    if (frames < 0)
+    {
+        frames = 0;
+    }
+    m_Target = target;
+    if (frames != 0)
+    {
+        m_Frames = frames;
+        m_Step = (target - m_Value) / frames;
+    }
+    else
+    {
+        m_Value = target;
+        m_Frames = -1;
+    }
 }
-
-// 0x001B0AC0 slot 0x0C | virtual slot, introduced by SoundFader
-void SoundFader::vf_0x0C()
-{
-}
-
-// 0x0070BDF4 slot 0x10 | virtual slot, introduced by SoundFader
-void SoundFader::vf_0x10()
-{
-}
-

@@ -218,7 +218,7 @@ void netgame::AvatarMgr::Process()
         section.unlock();
     }
     if (mgr->GetMyPlayerNo() == PLAYER_NO_HOST && m_JoiningStation != InvalidStation() &&
-        GetNetgameType() == 2 && !net.IsParticipant(m_JoiningStation)) {
+        GetNetgameType() == TYPE_RANDOM_MATCH && !net.IsParticipant(m_JoiningStation)) {
         mgr->m_GateMgr.Open(GateMgr::FLAG_RANDOM_MATCH_PLAYER_JOINING);
         m_JoiningStation = InvalidStation();
     }
@@ -231,7 +231,7 @@ void netgame::AvatarMgr::Process()
     }
     m_NewStation = InvalidStation();
     section.unlock();
-    if (net.IsHost() && GetNetgameType() == 2 && !mgr->m_GateMgr.IsClosed(GateMgr::FLAG_RANDOM_MATCH_PLAYER_JOINING) &&
+    if (net.IsHost() && GetNetgameType() == TYPE_RANDOM_MATCH && !mgr->m_GateMgr.IsClosed(GateMgr::FLAG_RANDOM_MATCH_PLAYER_JOINING) &&
         mgr->m_GateMgr.Close(GateMgr::FLAG_RANDOM_MATCH_PLAYER_JOINING)) {
         m_JoiningStation = station;
     }

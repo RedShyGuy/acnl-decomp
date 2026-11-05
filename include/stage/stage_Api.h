@@ -396,11 +396,11 @@ extern const u32 s_Kinds[NAME_MAX];
 } // namespace detail
 
 // libgarden (the functions in the shared area are inline copies)
-DECOMP_EMIT_COPY inline Name GetCurrent() // 0x002F7384 | libgarden [tier A]
+DECOMP_EMIT_COPY DECOMP_NOINLINE inline Name GetCurrent() // 0x002F7384 | libgarden [tier A]
 {
     return s_Current;
 }
-DECOMP_EMIT_COPY inline bool IsKind(u32 kind, Name name) // 0x002F7414 | libgarden [tier A]
+DECOMP_EMIT_COPY DECOMP_NOINLINE inline bool IsKind(u32 kind, Name name) // 0x002F7414 | libgarden [tier A]
 {
     if (name != NAME_NONE && (kind & ~detail::s_Kinds[name]) == 0) {
         return true;

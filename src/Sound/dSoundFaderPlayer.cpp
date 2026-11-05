@@ -1,23 +1,37 @@
-#include "Sound/dSoundFader.h"
 #include "Sound/dSoundFaderPlayer.h"
+#include "nw/snd/snd_SoundPlayer.h"
 
-// ctor candidate(s) 0x0012FA44 (unverified)
-SoundFaderPlayer::SoundFaderPlayer()
+// 0x0013E33C
+// 0x002BD3A8 (deleting dtor)
+SoundFaderPlayer::~SoundFaderPlayer()
 {
+    // empty (in the original too)
 }
 
-// 0x0013E33C slot 0x00 | virtual slot, introduced by SoundFader
-void SoundFaderPlayer::vf_0x00()
+// 0x002BD1CC
+f32 SoundFaderPlayer::Update()
 {
+    if (m_pPlayer == NULL)
+    {
+        return 0.0f;
+    }
+    f32 value = SoundFader::Update();
+    ApplyVolume();
+    return value;
 }
 
-// 0x002BD3A8 slot 0x04 | virtual slot, introduced by SoundFader
-void SoundFaderPlayer::vf_0x04()
+// 0x002BD30C
+void SoundFaderPlayer::SetTarget(f32 target, s32 frames)
 {
+    if (m_pPlayer == NULL)
+    {
+        return;
+    }
+    // reversing a fade that is under way: only the part of the frames for the way back
+    if (m_Frames > 0 && m_Target < m_Value && m_Value < target)
+    {
+        frames = static_cast<s32>((target - m_Value) * frames / (target - m_Target));
+    }
+    SoundFader::SetTarget(target, frames);
+    ApplyVolume();
 }
-
-// 0x002BD1CC slot 0x0C | virtual slot, introduced by SoundFader
-void SoundFaderPlayer::vf_0x0C()
-{
-}
-

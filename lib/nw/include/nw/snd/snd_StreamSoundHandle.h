@@ -17,6 +17,8 @@ class StreamSoundHandle
 public:
     // the stream sound of the handle (the handle becomes its temporary special handle)
     explicit StreamSoundHandle(SoundHandle* pHandle); // 0x004C08F4 | nintendogs:bytes-fuzzy [tier A]
+    // (inline)
+    ~StreamSoundHandle() { DetachSound(); }
     void DetachSound(); // 0x004C08BC | fefates:bytes [tier B]
 
     internal::StreamSound* m_pSound; // 0x0 (name is ours)

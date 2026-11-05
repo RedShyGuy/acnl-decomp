@@ -10,7 +10,11 @@
 class SoundDataLoadThread::Thread : public ::sead::Thread
 {
 public:
-    virtual ~Thread(); // 0x002FF098 slot 0x00 | slot vf_0x00 of sead::IDisposer
-    // 0x002FF088 slot 0x04 | slot vf_0x04 of sead::IDisposer (deleting dtor)
-    virtual void vf_0x40(); // 0x002FEE84 slot 0x40 | virtual slot, introduced by sead::Thread
+    Thread(const sead::SafeStringBase<char>& name, sead::Heap* heap, s32 priority)
+        : sead::Thread(name, heap, priority, sead::MessageQueue::BLOCK_TYPE_BLOCK, 0x7FFFFFFF, 0x1000, 32)
+    {
+    }
+    virtual ~Thread();
+    // loads the requests of the list until it is empty
+    virtual void calc_(sead::MessageQueue::Element message) override; // 0x002FEE84 slot 0x40
 };

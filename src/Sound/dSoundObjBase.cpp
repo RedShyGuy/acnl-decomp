@@ -31,7 +31,7 @@ void SoundObjBase::vf_0x14()
 }
 
 // 0x0020AC30 slot 0x18 | virtual slot, introduced by SoundObjBase
-void SoundObjBase::vf_0x18()
+void SoundObjBase::Calc()
 {
 }
 

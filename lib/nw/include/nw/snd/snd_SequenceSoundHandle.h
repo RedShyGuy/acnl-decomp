@@ -15,6 +15,9 @@ class SequenceSound;
 class SequenceSoundHandle
 {
 public:
+    // (inline)
+    SequenceSoundHandle() : m_pSound(nullptr) {}
+    ~SequenceSoundHandle() { DetachSound(); }
     // the sequence sound of the handle (the handle becomes its temporary special handle)
     explicit SequenceSoundHandle(SoundHandle* pHandle); // 0x004C39A4 | nintendogs:bytes-fuzzy (fefates: WaveSoundHandle; the code casts to SequenceSound)
     // (armlink folded the code with WaveSoundHandle::DetachSound 0x00132530)

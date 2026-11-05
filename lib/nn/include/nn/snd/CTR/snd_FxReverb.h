@@ -6,6 +6,9 @@
 namespace nn {
 namespace snd {
 namespace CTR {
+// the filter lengths of the default parameters
+extern ReverbFilterSize s_DefaultReverbFilterSize;
+
 // RTTI N2nn3snd3CTR8FxReverbE @ 0x008D02E0
 // vtable 0x009020B0 (vptr 0x009020B8), offset_to_top 0, 2 entries
 // A reverb computed by the CPU on an aux bus: early reflections, a pre-delay, two comb filters

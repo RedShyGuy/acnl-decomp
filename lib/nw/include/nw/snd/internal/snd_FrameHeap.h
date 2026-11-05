@@ -55,6 +55,11 @@ public:
 
     // (inline)
     bool IsValid() const { return m_pFrameHeap != nullptr; }
+    // the level of the current section (name is ours)
+    DECOMP_EMIT_COPY DECOMP_NOINLINE int GetCurrentLevel() const // 0x00139D74
+    {
+        return m_SectionList.size() - 1;
+    }
 
     bool NewSection(); // 0x0013F4D8 | nintendogs:bytes [tier A]
     void ClearSection(); // 0x00141964 | nintendogs:bytes [tier A]

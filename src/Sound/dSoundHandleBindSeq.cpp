@@ -1,18 +1,14 @@
-#include "sead/seadSoundHandle.h"
 #include "Sound/dSoundHandleBindSeq.h"
 
-// ctor candidate(s) 0x002E837C (unverified)
+// 0x002E837C
 SoundHandleBindSeq::SoundHandleBindSeq()
 {
+    // (only the members are constructed)
 }
 
-// 0x002E83C0 slot 0x00 | virtual slot, introduced by SoundHandleBindSeq
-void SoundHandleBindSeq::vf_0x00()
+// 0x002E83C0
+// 0x002E8394 (deleting dtor)
+SoundHandleBindSeq::~SoundHandleBindSeq()
 {
+    // (only the members are destroyed)
 }
-
-// 0x002E8394 slot 0x04 | virtual slot, introduced by SoundHandleBindSeq
-void SoundHandleBindSeq::vf_0x04()
-{
-}
-

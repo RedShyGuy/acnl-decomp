@@ -343,14 +343,14 @@ void netgame::IslandMgr::Process()
             unk_0x141 = false;
             Func608F60();
             stage::Transition(stage::NAME_PREPARE_TOUR, 1, 0, 1, 1);
-            SoundMgr::PlaySound(static_cast<SeID>(0x10004AF), 0.0f);
+            SoundMgr::PlaySound(SE_SYS_TOUR_SHIP_WHISTLE, 0.0f);
             m_State = 0;
         } else {
             unk_0x141 = false;
             if (IsMultiPlayer()) {
                 Func608F44();
                 stage::Transition(stage::NAME_PREPARE_TOUR, 1, 0, 1, 1);
-                SoundMgr::PlaySound(static_cast<SeID>(0x10004AF), 0.0f);
+                SoundMgr::PlaySound(SE_SYS_TOUR_SHIP_WHISTLE, 0.0f);
                 m_Confirms[1].Update(PLAYER_NO_HOST, false);
                 m_State = 14;
             } else {
@@ -445,7 +445,7 @@ void netgame::IslandMgr::Process()
                 m_State = 74;
             }
             if (m_PlayersThatDepartForTour.IsSet(myNo)) {
-                SoundMgr::PlaySound(static_cast<SeID>(0x10004AF), 0.0f);
+                SoundMgr::PlaySound(SE_SYS_TOUR_SHIP_WHISTLE, 0.0f);
             }
             stage::Transition(stage::NAME_PREPARE_TOUR, 1, 0, 1, 1);
         }
@@ -1784,7 +1784,7 @@ void netgame::IslandMgr::StartTourRandomMatch()
         m_State = 74;
     }
     if (m_PlayersThatDepartForTour.IsSet(myNo)) {
-        SoundMgr::PlaySound(static_cast<SeID>(0x10004AF), 0.0f);
+        SoundMgr::PlaySound(SE_SYS_TOUR_SHIP_WHISTLE, 0.0f);
     }
 }
 

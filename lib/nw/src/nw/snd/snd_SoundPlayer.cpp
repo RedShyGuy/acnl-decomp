@@ -251,7 +251,6 @@ Function SoundPlayer::ForEachSound(Function function, bool reverse)
             if (handle.m_pSound != nullptr) {
                 pNode = pNode->m_pPrev;
             }
-            handle.DetachSound();
         }
     } else {
         SoundList::iterator it = m_SoundList.begin();
@@ -261,7 +260,6 @@ Function SoundPlayer::ForEachSound(Function function, bool reverse)
             SoundHandle handle;
             handle.detail_AttachSoundAsTempHandle(pSound);
             function(handle);
-            handle.DetachSound();
         }
     }
     return function;

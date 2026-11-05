@@ -27,6 +27,12 @@ public:
     // a new level of the heap (-1: no memory)
     int SaveState(); // 0x0012BF60 | nintendogs:bytes [tier B]
     void LoadState(int level); // 0x0013C46C | nintendogs:bytes [tier B]
+    // the current level (inline; name is ours)
+    int GetCurrentLevel()
+    {
+        nn::os::CriticalSection::ScopedLock lock(m_CriticalSection);
+        return m_FrameHeap.GetCurrentLevel();
+    }
 
     // tells the sound thread that the block goes away
     static void DisposeCallbackFunc(void* pMemory, u32 size, void* pArg); // 0x004D4EE8 | fefates:bytes [tier B]

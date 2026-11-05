@@ -1,13 +1,12 @@
-#include "sead/seadIDisposer.h"
 #include "Sound/dSoundDataLoadMgr_SingletonDisposer_.h"
 
-// ctor candidate(s) 0x0012392C (unverified)
-SoundDataLoadMgr::SingletonDisposer_::SingletonDisposer_()
-{
-}
-
-// 0x002BD010 slot 0x00 | slot vf_0x00 of sead::IDisposer
+// 0x002BD010
+// 0x002BCFAC (deleting dtor)
 SoundDataLoadMgr::SingletonDisposer_::~SingletonDisposer_()
 {
+    if (this == s_pSingletonDisposer) {
+        s_pSingletonDisposer = NULL;
+        s_pInstance->~SoundDataLoadMgr();
+        s_pInstance = NULL;
+    }
 }
-

@@ -1,33 +1,39 @@
-#include "Sound/dSoundFader.h"
 #include "Sound/dSoundFaderEx.h"
 
-// ctor candidate(s) 0x00135F64 (unverified)
-SoundFaderEx::SoundFaderEx()
+// 0x001404A0
+// 0x0020AA84 (deleting dtor)
+SoundFaderEx::~SoundFaderEx()
 {
+    // empty (in the original too)
 }
 
-// 0x001404A0 slot 0x00 | virtual slot, introduced by SoundFader
-void SoundFaderEx::vf_0x00()
+// 0x0012F988
+void SoundFaderEx::Reset(f32 value)
 {
+    m_Value = value;
+    m_Target = value;
+    m_Frames = -1;
+    m_Delay = 0;
 }
 
-// 0x0020AA84 slot 0x04 | virtual slot, introduced by SoundFader
-void SoundFaderEx::vf_0x04()
+// 0x0020A9D4
+f32 SoundFaderEx::Update()
 {
+    if (m_Delay > 0)
+    {
+        m_Delay--;
+        return m_Value;
+    }
+    return SoundFader::Update();
 }
 
-// 0x0012F988 slot 0x08 | virtual slot, introduced by SoundFader
-void SoundFaderEx::vf_0x08()
+// 0x0020AA30
+void SoundFaderEx::SetTarget(f32 target, s32 frames, s32 delay)
 {
+    SoundFader::SetTarget(target, frames);
+    if (delay < 0)
+    {
+        delay = 0;
+    }
+    m_Delay = delay;
 }
-
-// 0x0020A9D4 slot 0x0C | virtual slot, introduced by SoundFader
-void SoundFaderEx::vf_0x0C()
-{
-}
-
-// 0x007132C8 slot 0x10 | virtual slot, introduced by SoundFader
-void SoundFaderEx::vf_0x10()
-{
-}
-

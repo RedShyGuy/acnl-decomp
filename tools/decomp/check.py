@@ -1200,7 +1200,14 @@ def make_fuzzy_pair(mem, db, starts, names, by_source, by_name, variables=None):
                 s = mem_cstr(mem, w)
                 if not s and mem.mem[w - mem.base] == 0:
                     return ('str', '')                     # ""
-                return ('str', s) if s else ('rconst', w)
+                if s:
+                    return ('str', s)
+                # a pointer into a constant object of the sources that no word is loaded from (not aligned:
+                # an element of a byte table)
+                k = bisect.bisect_right(sorted_variables, w) - 1
+                if w % 4 != 0 and k >= 0 and w - sorted_variables[k] < 0x100:
+                    return ('gaddr', w)
+                return ('rconst', w)
             if mem.data[0] <= w < data_end + 0x100000:
                 return ('gaddr', w)
             return ('k', w)

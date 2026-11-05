@@ -62,6 +62,14 @@ public:
         // another sequence data, start label and banks
         struct SeqSoundInfo
         {
+            // (inline)
+            SeqSoundInfo() : pSeqFile(nullptr), pStartLabel(nullptr)
+            {
+                for (int i = 0; i < 4; i++) {
+                    bankIds[i] = 0xFFFFFFFF;
+                }
+            }
+
             const void* pSeqFile;     // 0x00 (NULL: of the archive)
             const char* pStartLabel;  // 0x04 (NULL: the start of the sound)
             u32 bankIds[4];           // 0x08 (-1: of the archive)
@@ -69,6 +77,13 @@ public:
         // where the stream comes from
         struct StreamSoundInfo
         {
+            // (inline)
+            StreamSoundInfo()
+                : pExtFilePath(nullptr), pData(nullptr), dataSize(0), regionCallback(nullptr), regionCallbackArg(nullptr),
+                  pPrefetchData(nullptr)
+            {
+            }
+
             const char* pExtFilePath;                       // 0x00
             const void* pData;                              // 0x04 the stream in memory
             u32 dataSize;                                   // 0x08
@@ -79,9 +94,15 @@ public:
         // another wave of the wave sound
         struct WaveSoundInfo
         {
+            // (inline)
+            WaveSoundInfo() : pWaveFile(nullptr), waveType(0) {}
+
             const void* pWaveFile; // 0x0
             s8 waveType;           // 0x4
         };
+
+        // (inline)
+        StartInfo() : enableFlag(0), stopCallback(nullptr) {}
 
         u32 enableFlag;                               // 0x00
         StartOffsetType startOffsetType;              // 0x04
