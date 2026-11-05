@@ -1,4 +1,5 @@
 #include "event/dEventBase.h"
+#include "Other/dRegion.h"
 #include "Sv/dSvApi.h"
 #include "event/event_Extern.h"
 #include "netgame/netgame_Api.h"
@@ -33,7 +34,7 @@ u16 GetRegionMask()
     if (g_SvIsSaveMemoryValid) {
         return 1 << (GetGardenPlus()->data.townData.unk_0xEDAA & 0xF);
     }
-    return 1 << time::Func5D51AC();
+    return 1 << ::GetRegion();
 }
 
 // 0x0058FF4C (name is ours)

@@ -54,7 +54,7 @@ struct SvTownData {
     /* 0xED84 */ s64 unk_0xED84;
     /* 0xED8C */ s64 playtime;
     /* 0xED94 */ SvTownId townData1;
-    /* 0xEDAA */ u8 unk_0xEDAA;
+    /* 0xEDAA */ u8 unk_0xEDAA; // low four bits: the region of the game (event::Region), from the console
     /* 0xEDAB */ SvTownFlags townFlags;
     /* 0xEDBC */ u16 unk_0xEDBC; // Likely padding
     /* 0xEDBE */ SvFgName lostAndFoundItems[0x10];

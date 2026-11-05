@@ -1,4 +1,6 @@
 #include "time/time_Api.h"
+#include "Other/dRegion.h"
+#include "event/dEventBase.h"
 #include "Sv/dSvApi.h"
 #include "Sv/dSvGardenPlus.h"
 #include "nn/svc/svc_Api.h"
@@ -172,7 +174,7 @@ SvTime GetRealNow()
 // 0x0056C458 (name is ours)
 u8 GetPartOfDay(const nn::fnd::DateTimeParameters& date)
 {
-    if (Func5D51AC() == 5) {
+    if (::GetRegion() == event::REGION_EUROPE_SPANISH) {
         if (date.hour < 5) {
             return 5;
         }

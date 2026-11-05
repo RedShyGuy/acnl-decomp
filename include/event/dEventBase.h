@@ -46,19 +46,19 @@ inline Time ToTime(const nn::fnd::DateTimeParameters& date)
     return time;
 }
 
-// the regions of the town (the bits of EventBase::Info::regionMask, from the regional dates of the events in the wikis;
-// the three bits of America are not told apart there)
+// the regions of the game (event::GetRegionMask, the bits of EventBase::Info::regionMask): the index the game makes from
+// the region and the language of the console (::GetRegion 0x5D51AC); the town keeps it in SvTownData::unk_0xEDAA
 enum Region : u8
 {
     REGION_JAPAN = 0,
-    REGION_AMERICA_1 = 1,
-    REGION_AMERICA_2 = 2,
-    REGION_AMERICA_3 = 3,
-    REGION_UK = 4,
-    REGION_SPAIN = 5,
-    REGION_FRANCE = 6,
-    REGION_ITALY = 7,
-    REGION_GERMANY = 8,
+    REGION_AMERICA_ENGLISH = 1,
+    REGION_AMERICA_SPANISH = 2,
+    REGION_AMERICA_FRENCH = 3,
+    REGION_EUROPE_ENGLISH = 4,
+    REGION_EUROPE_SPANISH = 5,
+    REGION_EUROPE_FRENCH = 6,
+    REGION_EUROPE_ITALIAN = 7,
+    REGION_EUROPE_GERMAN = 8,
     REGION_KOREA = 9,
 };
 
@@ -189,6 +189,7 @@ public:
 };
 ASSERT_SIZE(EventBase, 0x3C);
 
-// the bit of the region of the town (low four bits of SvTownData::unk_0xEDAA; 0 in a dream)
+// the bit of the Region of the town (low four bits of SvTownData::unk_0xEDAA; without a save the one of the console;
+// 0 in a dream)
 DECOMP_NOINLINE u16 GetRegionMask(); // 0x0058FED4
 } // namespace event

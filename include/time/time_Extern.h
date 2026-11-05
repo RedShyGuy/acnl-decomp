@@ -18,7 +18,6 @@ bool IsTimeFlagSet(const SvTime* time); // 0x00713EFC
 void ClearTimeFlag(SvTime* time); // 0x0020DEC0
 void SetTimeFlag(SvTime* time); // 0x0020DED0
 void ClearTimeFlag2(SvTime* time); // 0x0020DEE0
-s32 Func5D51AC(); // 0x005D51AC
 bool Func630200(u8 part); // 0x00630200
 void Func308EF0(nn::fnd::DateTimeParameters* date); // 0x00308EF0
 void Func30A5AC(nn::fnd::DateTimeParameters* date, s32 a, s32 b, s32 c, f32 d); // 0x0030A5AC
