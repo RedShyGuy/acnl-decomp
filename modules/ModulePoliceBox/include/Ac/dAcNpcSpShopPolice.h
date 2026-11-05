@@ -12,5 +12,5 @@ public:
     virtual ~AcNpcSpShopPolice(); // ModulePoliceBox.cro +0x00155C slot 0x00
     virtual oml::framework::Result Initialize(); // ModulePoliceBox.cro +0x001E18 slot 0x0C
     virtual oml::framework::Result Finalize(); // ModulePoliceBox.cro +0x001EB4 slot 0x18
-    virtual void Unk0(); // ModulePoliceBox.cro +0x001C9C slot 0x3C
+    virtual bool Unk0(); // ModulePoliceBox.cro +0x001C9C slot 0x3C
 };

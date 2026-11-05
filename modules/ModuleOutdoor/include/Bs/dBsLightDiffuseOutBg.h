@@ -13,5 +13,5 @@ public:
     virtual oml::framework::Result Finalize(); // ModuleOutdoor.cro +0x05D378 slot 0x18
     virtual oml::framework::Result Calc(); // ModuleOutdoor.cro +0x05D358 slot 0x24
     virtual oml::framework::Result Draw(); // ModuleOutdoor.cro +0x05D298 slot 0x30
-    virtual void Unk0(); // ModuleOutdoor.cro +0x07D5E4 slot 0x3C
+    virtual bool Unk0(); // ModuleOutdoor.cro +0x07D5E4 slot 0x3C
 };

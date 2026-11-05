@@ -1,6 +1,7 @@
 #pragma once
 
 #include "decomp.h"
+#include "netgame/netgame_Api.h"
 #include "Ac/dAcFtr.h"
 
 // RTTI 10AcFtrAudio @ 0x008CAF1C
@@ -14,7 +15,7 @@ public:
     AcFtrAudio(); // ctor candidate(s) 0x007EBD1C (unverified)
     virtual ~AcFtrAudio(); // 0x005781E0 slot 0x00 | slot vf_0x00 of oml::framework::Process
     // 0x005782B0 slot 0x04 | slot vf_0x04 of oml::framework::Process (deleting dtor)
-    virtual void vf_0x50(); // 0x0018C884 slot 0x50 | virtual slot, introduced by DemoActor
+    virtual void vf_0x50(u8 message, netgame::PlayerNo player); // 0x0018C884 slot 0x50 | virtual slot, introduced by DemoActor
     virtual void vf_0x94(); // 0x0070B280 slot 0x94 | virtual slot, introduced by AcFtr
     virtual void vf_0x98(); // 0x0018A170 slot 0x98 | virtual slot, introduced by AcFtr
     virtual void vf_0x9C(); // 0x0070B290 slot 0x9C | virtual slot, introduced by AcFtr

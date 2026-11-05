@@ -25,6 +25,17 @@ public:
     }
     static TimeSpan FromMicroSeconds(s64 microSeconds) { return FromNanoSeconds(microSeconds * 1000); }
     static TimeSpan FromMilliSeconds(s64 milliSeconds) { return FromNanoSeconds(milliSeconds * 1000000); }
+    // inline (names are ours): nanoseconds / 10^9
+    s64 GetSeconds() const { return DivideNanoSeconds(0x112E0BE826D694B3LL, 26); }
+
+    friend TimeSpan operator+(const TimeSpan& lhs, const TimeSpan& rhs)
+    {
+        return FromNanoSeconds(lhs.mNanoSeconds + rhs.mNanoSeconds);
+    }
+    friend TimeSpan operator-(const TimeSpan& lhs, const TimeSpan& rhs)
+    {
+        return FromNanoSeconds(lhs.mNanoSeconds - rhs.mNanoSeconds);
+    }
 
 private:
     s64 mNanoSeconds;

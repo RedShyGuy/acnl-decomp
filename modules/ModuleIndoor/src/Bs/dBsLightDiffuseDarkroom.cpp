@@ -22,7 +22,7 @@ oml::framework::Result BsLightDiffuseDarkroom::Calc()
 }
 
 // ModuleIndoor.cro +0x05939C slot 0x3C
-void BsLightDiffuseDarkroom::Unk0()
+bool BsLightDiffuseDarkroom::Unk0()
 {
 }
 

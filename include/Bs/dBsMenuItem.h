@@ -19,6 +19,6 @@ public:
     virtual oml::framework::Result Finalize(); // 0x0019FFEC slot 0x18 | slot vf_0x18 of oml::framework::Process
     virtual oml::framework::Result Calc(); // 0x0019FCF8 slot 0x24 | slot vf_0x24 of oml::framework::Process
     virtual oml::framework::Result Draw(); // 0x0019F884 slot 0x30 | slot vf_0x30 of oml::framework::Process
-    virtual void OnClose(); // 0x0019968C slot 0x44 | libgarden
+    virtual void OnClose(); // 0x0019968C slot 0x44 (libgarden names it MenuBase::OnClose; it is the slot of BsMenuItem)
     virtual void vf_0x64(); // 0x0019EBBC slot 0x64 | virtual slot, introduced by BsMenuItem
 };

@@ -22,7 +22,7 @@ oml::framework::Result AcNpcSpCafeTalk::Finalize()
 }
 
 // ModuleCafe.cro +0x00AF80 slot 0x3C
-void AcNpcSpCafeTalk::Unk0()
+bool AcNpcSpCafeTalk::Unk0()
 {
 }
 

@@ -14,5 +14,5 @@ public:
     virtual oml::framework::Result Finalize(); // ModuleMusFish.cro +0x01E8B0 slot 0x18
     virtual oml::framework::Result Calc(); // ModuleMusFish.cro +0x008260 slot 0x24
     virtual oml::framework::Result Draw(); // ModuleMusFish.cro +0x008078 slot 0x30
-    virtual void Unk0(); // ModuleMusFish.cro +0x01AAE4 slot 0x3C
+    virtual bool Unk0(); // ModuleMusFish.cro +0x01AAE4 slot 0x3C
 };

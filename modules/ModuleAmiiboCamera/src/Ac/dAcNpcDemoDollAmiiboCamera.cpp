@@ -32,7 +32,7 @@ oml::framework::Result AcNpcDemoDollAmiiboCamera::Draw()
 }
 
 // ModuleAmiiboCamera.cro +0x012624 slot 0x3C
-void AcNpcDemoDollAmiiboCamera::Unk0()
+bool AcNpcDemoDollAmiiboCamera::Unk0()
 {
 }
 

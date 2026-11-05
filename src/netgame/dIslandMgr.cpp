@@ -365,7 +365,7 @@ void netgame::IslandMgr::Process()
         mgr->GetMyPlayerNo();
         SendToGuests(PACKET_TRIP_CANCEL);
         PlayerNo myNo = mgr->GetMyPlayerNo();
-        if (demo::CheckOrder(static_cast<demo::OrderID>(12), false)) {
+        if (demo::CheckOrder(demo::NETGAME_LOCK, false)) {
             demo::RevokeNetgameLockOrder();
         }
         m_Confirms[3].Remove(myNo);

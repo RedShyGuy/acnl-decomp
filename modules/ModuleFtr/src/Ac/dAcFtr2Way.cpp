@@ -22,7 +22,7 @@ oml::framework::Result AcFtr2Way::Finalize()
 }
 
 // ModuleFtr.cro +0x01EB7C slot 0x3C
-void AcFtr2Way::Unk0()
+bool AcFtr2Way::Unk0()
 {
 }
 

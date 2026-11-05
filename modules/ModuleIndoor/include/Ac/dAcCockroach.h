@@ -20,5 +20,5 @@ public:
     virtual oml::framework::Result Calc(); // ModuleIndoor.cro +0x007150 slot 0x24
     virtual void HandleCalcResult(oml::framework::Result); // ModuleIndoor.cro +0x00623C slot 0x28
     virtual oml::framework::Result Draw(); // ModuleIndoor.cro +0x006FA8 slot 0x30
-    virtual void Unk0(); // ModuleIndoor.cro +0x05AA5C slot 0x3C
+    virtual bool Unk0(); // ModuleIndoor.cro +0x05AA5C slot 0x3C
 };

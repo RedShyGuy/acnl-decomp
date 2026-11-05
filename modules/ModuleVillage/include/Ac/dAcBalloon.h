@@ -14,5 +14,5 @@ public:
     virtual oml::framework::Result Finalize(); // ModuleVillage.cro +0x01CEA4 slot 0x18
     virtual oml::framework::Result Calc(); // ModuleVillage.cro +0x01B494 slot 0x24
     virtual oml::framework::Result Draw(); // ModuleVillage.cro +0x01AFF4 slot 0x30
-    virtual void Unk0(); // ModuleVillage.cro +0x01BBD4 slot 0x3C
+    virtual bool Unk0(); // ModuleVillage.cro +0x01BBD4 slot 0x3C
 };

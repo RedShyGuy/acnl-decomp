@@ -8,4 +8,6 @@ class ListNodeId : public ::ssys::st::ListNode
 {
 public:
     ListNodeId(); // ctor address unknown
+
+    u32 m_Id; // 0x0C (name is ours)
 };

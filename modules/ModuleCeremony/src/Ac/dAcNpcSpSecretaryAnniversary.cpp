@@ -22,7 +22,7 @@ oml::framework::Result AcNpcSpSecretaryAnniversary::Finalize()
 }
 
 // ModuleCeremony.cro +0x003BBC slot 0x3C
-void AcNpcSpSecretaryAnniversary::Unk0()
+bool AcNpcSpSecretaryAnniversary::Unk0()
 {
 }
 

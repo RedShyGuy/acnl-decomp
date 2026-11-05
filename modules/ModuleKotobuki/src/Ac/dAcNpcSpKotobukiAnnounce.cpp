@@ -22,7 +22,7 @@ oml::framework::Result AcNpcSpKotobukiAnnounce::Finalize()
 }
 
 // ModuleKotobuki.cro +0x002DE4 slot 0x3C
-void AcNpcSpKotobukiAnnounce::Unk0()
+bool AcNpcSpKotobukiAnnounce::Unk0()
 {
 }
 

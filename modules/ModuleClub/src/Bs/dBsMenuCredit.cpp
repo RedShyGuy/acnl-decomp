@@ -43,37 +43,37 @@ void BsMenuCredit::OnClose()
 }
 
 // ModuleClub.cro +0x010C7C slot 0x48
-void BsMenuCredit::FUN_006ab3f4()
+void BsMenuCredit::FUN_006ab3f4(bool)
 {
 }
 
 // ModuleClub.cro +0x010C94 slot 0x4C
-void BsMenuCredit::FUN_006ab450()
+bool BsMenuCredit::FUN_006ab450()
 {
 }
 
 // ModuleClub.cro +0x010C68 slot 0x50
-void BsMenuCredit::FUN_006ab3e0()
+void BsMenuCredit::FUN_006ab3e0(bool)
 {
 }
 
 // ModuleClub.cro +0x010C8C slot 0x54
-void BsMenuCredit::FUN_006ab440()
+bool BsMenuCredit::FUN_006ab440()
 {
 }
 
 // ModuleClub.cro +0x010C84 slot 0x58
-void BsMenuCredit::FUN_006ab3fc()
+void BsMenuCredit::FUN_006ab3fc(bool)
 {
 }
 
 // ModuleClub.cro +0x010C74 slot 0x5C
-void BsMenuCredit::FUN_006ab3ec()
+bool BsMenuCredit::FUN_006ab3ec()
 {
 }
 
 // ModuleClub.cro +0x0110EC slot 0x60
-void BsMenuCredit::FUN_00767b30()
+bool BsMenuCredit::FUN_00767b30()
 {
 }
 

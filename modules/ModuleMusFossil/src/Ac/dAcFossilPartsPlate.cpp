@@ -23,7 +23,7 @@ void AcFossilPartsPlate::Finalize()
 }
 
 // ModuleMusFossil.cro +0x000E98 slot 0x3C
-void AcFossilPartsPlate::Unk0()
+bool AcFossilPartsPlate::Unk0()
 {
 }
 

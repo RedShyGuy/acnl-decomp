@@ -22,7 +22,7 @@ oml::framework::Result AcNpcSpKameyama::Finalize()
 }
 
 // ModuleFsInsAward.cro +0x004AA4 slot 0x3C
-void AcNpcSpKameyama::Unk0()
+bool AcNpcSpKameyama::Unk0()
 {
 }
 

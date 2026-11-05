@@ -33,7 +33,7 @@ oml::framework::Result AcAutoCampBird::Draw()
 }
 
 // ModuleAutoCamp.cro +0x00B5C8 slot 0x3C
-void AcAutoCampBird::Unk0()
+bool AcAutoCampBird::Unk0()
 {
 }
 

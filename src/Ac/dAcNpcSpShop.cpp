@@ -17,12 +17,12 @@ oml::framework::Result AcNpcSpShop::Calc()
 }
 
 // 0x0070E2D8 slot 0x48 | virtual slot, introduced by DemoActor
-void AcNpcSpShop::vf_0x48()
+bool AcNpcSpShop::vf_0x48(DemoActor*)
 {
 }
 
 // 0x0057BB04 slot 0x50 | virtual slot, introduced by DemoActor
-void AcNpcSpShop::vf_0x50()
+void AcNpcSpShop::vf_0x50(u8, netgame::PlayerNo)
 {
 }
 

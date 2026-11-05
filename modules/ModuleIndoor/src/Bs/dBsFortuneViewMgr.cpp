@@ -33,7 +33,7 @@ oml::framework::Result BsFortuneViewMgr::Draw()
 }
 
 // ModuleIndoor.cro +0x05A838 slot 0x3C
-void BsFortuneViewMgr::Unk0()
+bool BsFortuneViewMgr::Unk0()
 {
 }
 

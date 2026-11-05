@@ -13,5 +13,5 @@ public:
     virtual oml::framework::Result Finalize(); // ModuleAutoCamp.cro +0x009C70 slot 0x18
     virtual oml::framework::Result Calc(); // ModuleAutoCamp.cro +0x009B20 slot 0x24
     virtual oml::framework::Result Draw(); // ModuleAutoCamp.cro +0x009980 slot 0x30
-    virtual void Unk0(); // ModuleAutoCamp.cro +0x00B590 slot 0x3C
+    virtual bool Unk0(); // ModuleAutoCamp.cro +0x00B590 slot 0x3C
 };

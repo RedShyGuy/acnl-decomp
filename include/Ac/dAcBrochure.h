@@ -1,6 +1,7 @@
 #pragma once
 
 #include "decomp.h"
+#include "netgame/netgame_Api.h"
 #include "Other/dDemoActor.h"
 
 // RTTI 10AcBrochure @ 0x008CAF10
@@ -15,5 +16,5 @@ public:
     virtual void HandleInitializationResult(oml::framework::Result); // 0x00189F18 slot 0x10 | slot vf_0x10 of oml::framework::Process
     virtual oml::framework::Result Calc(); // 0x00189FB0 slot 0x24 | slot vf_0x24 of oml::framework::Process
     virtual oml::framework::Result Draw(); // 0x00189FA8 slot 0x30 | slot vf_0x30 of oml::framework::Process
-    virtual void vf_0x48(); // 0x0070B278 slot 0x48 | virtual slot, introduced by DemoActor
+    virtual bool vf_0x48(DemoActor* actor); // 0x0070B278 slot 0x48 | virtual slot, introduced by DemoActor
 };

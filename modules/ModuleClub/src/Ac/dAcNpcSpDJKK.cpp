@@ -22,7 +22,7 @@ oml::framework::Result AcNpcSpDJKK::Finalize()
 }
 
 // ModuleClub.cro +0x0110C8 slot 0x3C
-void AcNpcSpDJKK::Unk0()
+bool AcNpcSpDJKK::Unk0()
 {
 }
 

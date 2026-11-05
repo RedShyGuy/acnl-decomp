@@ -19,11 +19,11 @@ public:
     virtual oml::framework::Result Draw(); // ModuleAmiiboCamera.cro +0x00B6FC slot 0x30
     virtual void FUN_006ab3d8(); // ModuleAmiiboCamera.cro +0x011300 slot 0x40
     virtual void OnClose(); // ModuleAmiiboCamera.cro +0x01130C slot 0x44
-    virtual void FUN_006ab3f4(); // ModuleAmiiboCamera.cro +0x011318 slot 0x48
-    virtual void FUN_006ab450(); // ModuleAmiiboCamera.cro +0x011330 slot 0x4C
-    virtual void FUN_006ab3e0(); // ModuleAmiiboCamera.cro +0x011304 slot 0x50
-    virtual void FUN_006ab440(); // ModuleAmiiboCamera.cro +0x011328 slot 0x54
-    virtual void FUN_006ab3fc(); // ModuleAmiiboCamera.cro +0x011320 slot 0x58
-    virtual void FUN_006ab3ec(); // ModuleAmiiboCamera.cro +0x011310 slot 0x5C
-    virtual void FUN_00767b30(); // ModuleAmiiboCamera.cro +0x01262C slot 0x60
+    virtual void FUN_006ab3f4(bool value); // ModuleAmiiboCamera.cro +0x011318 slot 0x48
+    virtual bool FUN_006ab450(); // ModuleAmiiboCamera.cro +0x011330 slot 0x4C
+    virtual void FUN_006ab3e0(bool value); // ModuleAmiiboCamera.cro +0x011304 slot 0x50
+    virtual bool FUN_006ab440(); // ModuleAmiiboCamera.cro +0x011328 slot 0x54
+    virtual void FUN_006ab3fc(bool value); // ModuleAmiiboCamera.cro +0x011320 slot 0x58
+    virtual bool FUN_006ab3ec(); // ModuleAmiiboCamera.cro +0x011310 slot 0x5C
+    virtual bool FUN_00767b30(); // ModuleAmiiboCamera.cro +0x01262C slot 0x60
 };

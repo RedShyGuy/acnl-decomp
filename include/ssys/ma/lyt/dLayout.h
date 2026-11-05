@@ -1,6 +1,8 @@
 #pragma once
 
 #include "decomp.h"
+#include "nn/math/math_ARMv6.h"
+#include "nn/math/math_Api.h"
 #include "nn/math/math_MTX34.h"
 #include "nn/math/math_Vector3.h"
 #include "nw/lyt/lyt_DrawInfo.h"
@@ -138,3 +140,59 @@ inline nw::lyt::GraphicsResource* ssys::ma::lyt::Layout::GetGraphicsResource()
 {
     return &LayoutMgr::Get()->m_Resource;
 }
+
+// the projection of the layouts (also in the Layout of the game; names are ours)
+namespace ssys {
+namespace ma {
+namespace lyt {
+namespace detail {
+// the vertical field of view of the perspective projection: half of it as an angle index (256 = a full turn), 45 degrees
+static const f32 HALF_FOVY_IDX = 16.0f;
+// the depth range of the projections
+static const f32 ORTHO_NEAR = -500.0f;
+static const f32 ORTHO_FAR = 500.0f;
+static const f32 PERSPECTIVE_NEAR = 0.05f;
+static const f32 PERSPECTIVE_FAR = 500.0f;
+
+// (inline) a perspective projection like the nw::gfx camera makes it (name is ours)
+inline void MakePerspective(nn::math::MTX44* pOut, f32 halfFovyIdx, f32 aspect, f32 near, f32 far)
+{
+    f32 sinValue, cosValue;
+    nn::math::SinCosFIdx(&sinValue, &cosValue, halfFovyIdx);
+    const f32 cotangent = cosValue / sinValue;
+    const f32 depth = 1.0f / (far - near);
+    pOut->m[0][1] = 0.0f;
+    pOut->m[0][2] = 0.0f;
+    pOut->m[0][3] = 0.0f;
+    pOut->m[1][0] = 0.0f;
+    pOut->m[1][2] = 0.0f;
+    pOut->m[1][3] = 0.0f;
+    pOut->m[2][0] = 0.0f;
+    pOut->m[2][1] = 0.0f;
+    pOut->m[3][0] = 0.0f;
+    pOut->m[3][1] = 0.0f;
+    pOut->m[3][2] = -1.0f;
+    pOut->m[3][3] = 0.0f;
+    pOut->m[0][0] = cotangent / aspect;
+    pOut->m[1][1] = cotangent;
+    pOut->m[2][2] = far * depth;
+    pOut->m[2][3] = far * near * depth;
+}
+
+// (inline) the projection of a layout: perspective or orthographic, turned for the screen
+inline void MakeProjection(nw::lyt::DrawInfo* drawInfo, const nw::ut::Rect& rect, bool isPerspective)
+{
+    nn::math::MTX44 proj;
+    if (isPerspective) {
+        MakePerspective(&proj, HALF_FOVY_IDX, (rect.right - rect.left) / (rect.top - rect.bottom), PERSPECTIVE_NEAR,
+                        PERSPECTIVE_FAR);
+    } else {
+        nn::math::ARMv6::MTX44OrthoC_FAST(&proj, rect.left, rect.right, rect.bottom, rect.top, ORTHO_NEAR, ORTHO_FAR);
+    }
+    nn::math::ARMv6::MTX44PivotC_FAST(&proj, nn::math::PIVOT_DIRECTION_1);
+    drawInfo->SetProjectionMtx(proj);
+}
+} // namespace detail
+} // namespace lyt
+} // namespace ma
+} // namespace ssys

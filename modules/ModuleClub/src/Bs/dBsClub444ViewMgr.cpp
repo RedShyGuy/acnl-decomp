@@ -33,7 +33,7 @@ oml::framework::Result BsClub444ViewMgr::Draw()
 }
 
 // ModuleClub.cro +0x011098 slot 0x3C
-void BsClub444ViewMgr::Unk0()
+bool BsClub444ViewMgr::Unk0()
 {
 }
 

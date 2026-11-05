@@ -22,7 +22,7 @@ oml::framework::Result AcNpcSpAsami::Finalize()
 }
 
 // ModuleShop.cro +0x0230D0 slot 0x3C
-void AcNpcSpAsami::Unk0()
+bool AcNpcSpAsami::Unk0()
 {
 }
 

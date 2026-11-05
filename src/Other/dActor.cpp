@@ -52,7 +52,7 @@ void Actor::ProcessDrawResult(oml::framework::Result)
 }
 
 // 0x007537F0 slot 0x3C | slot vf_0x3C of Base
-void Actor::Unk0()
+bool Actor::Unk0()
 {
 }
 

@@ -22,7 +22,7 @@ oml::framework::Result AcNpcSpKappeisKidOne::Finalize()
 }
 
 // ModuleTour.cro +0x00D224 slot 0x3C
-void AcNpcSpKappeisKidOne::Unk0()
+bool AcNpcSpKappeisKidOne::Unk0()
 {
 }
 

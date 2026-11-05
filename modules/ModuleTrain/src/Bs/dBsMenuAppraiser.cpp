@@ -33,7 +33,7 @@ oml::framework::Result BsMenuAppraiser::Draw()
 }
 
 // ModuleTrain.cro +0x00C044 slot 0x3C
-void BsMenuAppraiser::Unk0()
+bool BsMenuAppraiser::Unk0()
 {
 }
 
@@ -48,37 +48,37 @@ void BsMenuAppraiser::OnClose()
 }
 
 // ModuleTrain.cro +0x00C020 slot 0x48
-void BsMenuAppraiser::FUN_006ab3f4()
+void BsMenuAppraiser::FUN_006ab3f4(bool)
 {
 }
 
 // ModuleTrain.cro +0x00C038 slot 0x4C
-void BsMenuAppraiser::FUN_006ab450()
+bool BsMenuAppraiser::FUN_006ab450()
 {
 }
 
 // ModuleTrain.cro +0x00C00C slot 0x50
-void BsMenuAppraiser::FUN_006ab3e0()
+void BsMenuAppraiser::FUN_006ab3e0(bool)
 {
 }
 
 // ModuleTrain.cro +0x00C030 slot 0x54
-void BsMenuAppraiser::FUN_006ab440()
+bool BsMenuAppraiser::FUN_006ab440()
 {
 }
 
 // ModuleTrain.cro +0x00C028 slot 0x58
-void BsMenuAppraiser::FUN_006ab3fc()
+void BsMenuAppraiser::FUN_006ab3fc(bool)
 {
 }
 
 // ModuleTrain.cro +0x00C018 slot 0x5C
-void BsMenuAppraiser::FUN_006ab3ec()
+bool BsMenuAppraiser::FUN_006ab3ec()
 {
 }
 
 // ModuleTrain.cro +0x00C098 slot 0x60
-void BsMenuAppraiser::FUN_00767b30()
+bool BsMenuAppraiser::FUN_00767b30()
 {
 }
 

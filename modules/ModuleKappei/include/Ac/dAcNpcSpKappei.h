@@ -13,5 +13,5 @@ public:
     virtual ~AcNpcSpKappei(); // ModuleKappei.cro +0x0020A4 slot 0x00
     virtual oml::framework::Result Initialize(); // ModuleKappei.cro +0x0028CC slot 0x0C
     virtual oml::framework::Result Finalize(); // ModuleKappei.cro +0x002968 slot 0x18
-    virtual void Unk0(); // ModuleKappei.cro +0x0024C4 slot 0x3C
+    virtual bool Unk0(); // ModuleKappei.cro +0x0024C4 slot 0x3C
 };

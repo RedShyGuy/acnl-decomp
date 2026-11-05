@@ -17,11 +17,11 @@ public:
     virtual oml::framework::Result Draw(); // ModuleClub.cro +0x003C6C slot 0x30
     virtual void FUN_006ab3d8(); // ModuleClub.cro +0x010C64 slot 0x40
     virtual void OnClose(); // ModuleClub.cro +0x010C70 slot 0x44
-    virtual void FUN_006ab3f4(); // ModuleClub.cro +0x010C7C slot 0x48
-    virtual void FUN_006ab450(); // ModuleClub.cro +0x010C94 slot 0x4C
-    virtual void FUN_006ab3e0(); // ModuleClub.cro +0x010C68 slot 0x50
-    virtual void FUN_006ab440(); // ModuleClub.cro +0x010C8C slot 0x54
-    virtual void FUN_006ab3fc(); // ModuleClub.cro +0x010C84 slot 0x58
-    virtual void FUN_006ab3ec(); // ModuleClub.cro +0x010C74 slot 0x5C
-    virtual void FUN_00767b30(); // ModuleClub.cro +0x0110EC slot 0x60
+    virtual void FUN_006ab3f4(bool value); // ModuleClub.cro +0x010C7C slot 0x48
+    virtual bool FUN_006ab450(); // ModuleClub.cro +0x010C94 slot 0x4C
+    virtual void FUN_006ab3e0(bool value); // ModuleClub.cro +0x010C68 slot 0x50
+    virtual bool FUN_006ab440(); // ModuleClub.cro +0x010C8C slot 0x54
+    virtual void FUN_006ab3fc(bool value); // ModuleClub.cro +0x010C84 slot 0x58
+    virtual bool FUN_006ab3ec(); // ModuleClub.cro +0x010C74 slot 0x5C
+    virtual bool FUN_00767b30(); // ModuleClub.cro +0x0110EC slot 0x60
 };

@@ -27,7 +27,7 @@ oml::framework::Result AcNpcSpPlSelect::Calc()
 }
 
 // ModulePlSelect.cro +0x0049E8 slot 0x3C
-void AcNpcSpPlSelect::Unk0()
+bool AcNpcSpPlSelect::Unk0()
 {
 }
 

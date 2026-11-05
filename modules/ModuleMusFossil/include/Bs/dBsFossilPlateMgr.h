@@ -14,5 +14,5 @@ public:
     virtual oml::framework::Result Finalize(); // ModuleMusFossil.cro +0x001080 slot 0x18
     virtual oml::framework::Result Calc(); // ModuleMusFossil.cro +0x000A0C slot 0x24
     virtual oml::framework::Result Draw(); // ModuleMusFossil.cro +0x000A04 slot 0x30
-    virtual void Unk0(); // ModuleMusFossil.cro +0x000E90 slot 0x3C
+    virtual bool Unk0(); // ModuleMusFossil.cro +0x000E90 slot 0x3C
 };

@@ -27,7 +27,7 @@ oml::framework::Result AcNpcSpManualImport::Calc()
 }
 
 // ModuleIncSave.cro +0x017D10 slot 0x3C
-void AcNpcSpManualImport::Unk0()
+bool AcNpcSpManualImport::Unk0()
 {
 }
 

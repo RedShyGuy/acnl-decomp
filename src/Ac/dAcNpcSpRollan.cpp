@@ -12,7 +12,7 @@ AcNpcSpRollan::~AcNpcSpRollan()
 }
 
 // 0x00713F20 slot 0x48 | virtual slot, introduced by DemoActor
-void AcNpcSpRollan::vf_0x48()
+bool AcNpcSpRollan::vf_0x48(DemoActor*)
 {
 }
 

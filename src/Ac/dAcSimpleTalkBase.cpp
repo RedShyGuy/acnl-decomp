@@ -18,7 +18,7 @@ oml::framework::Result AcSimpleTalkBase::Calc()
 }
 
 // 0x0071D800 slot 0x48 | virtual slot, introduced by DemoActor
-void AcSimpleTalkBase::vf_0x48()
+bool AcSimpleTalkBase::vf_0x48(DemoActor*)
 {
 }
 
@@ -28,7 +28,7 @@ void AcSimpleTalkBase::vf_0x4C()
 }
 
 // 0x002A8AA4 slot 0x50 | virtual slot, introduced by DemoActor
-void AcSimpleTalkBase::vf_0x50()
+void AcSimpleTalkBase::vf_0x50(u8, netgame::PlayerNo)
 {
 }
 

@@ -13,5 +13,5 @@ public:
     virtual oml::framework::Result Finalize(); // ModuleMiniGame0.cro +0x001720 slot 0x18
     virtual oml::framework::Result Calc(); // ModuleMiniGame0.cro +0x001700 slot 0x24
     virtual oml::framework::Result Draw(); // ModuleMiniGame0.cro +0x0016A8 slot 0x30
-    virtual void Unk0(); // ModuleMiniGame0.cro +0x0B6974 slot 0x3C
+    virtual bool Unk0(); // ModuleMiniGame0.cro +0x0B6974 slot 0x3C
 };

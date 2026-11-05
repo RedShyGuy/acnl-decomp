@@ -61,13 +61,6 @@ const nn::fnd::DateTime nn::fnd::DateTime::MAX_DATETIME(static_cast<s64>(MAX_DAY
 // 0x00975EF8
 const nn::fnd::DateTime nn::fnd::DateTime::MIN_DATETIME(static_cast<s64>(MIN_DAYS) * MILLISECONDS_PER_DAY);
 
-// 0x0012468C | fefates:bytes [tier B]
-nn::fnd::DateTime nn::fnd::DateTime::FromParameters(const nn::fnd::DateTimeParameters& parameters)
-{
-    return FromParameters(parameters.year, parameters.month, parameters.day, parameters.hour, parameters.minute, parameters.second,
-                          parameters.milliSecond);
-}
-
 // 0x001246C0 | fefates:bytes [tier B]
 nn::fnd::DateTime nn::fnd::DateTime::GetNow()
 {

@@ -31,6 +31,7 @@ bool IsMultiplePlayer(); // 0x002FC990 | libgarden
 DECOMP_NOINLINE bool IsMultiPlayer(); // 0x00300838 | libgarden
 DECOMP_NOINLINE Type GetNetgameType(); // 0x00305ED8 | libgarden
 DECOMP_NOINLINE bool IsHost(); // 0x0030B824 | libgarden
+bool IsMyPlayerHost(); // 0x00625544
 DECOMP_NOINLINE PlayerNo GetMyPlayerNo(); // 0x00305EF0 (name after libgarden)
 bool InitNet(); // 0x00617BE8 | libgarden
 bool IsStageControl(); // 0x0061B278 | libgarden

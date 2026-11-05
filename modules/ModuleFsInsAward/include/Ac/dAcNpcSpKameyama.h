@@ -12,5 +12,5 @@ public:
     virtual ~AcNpcSpKameyama(); // ModuleFsInsAward.cro +0x004920 slot 0x00
     virtual oml::framework::Result Initialize(); // ModuleFsInsAward.cro +0x004CE8 slot 0x0C
     virtual oml::framework::Result Finalize(); // ModuleFsInsAward.cro +0x004D84 slot 0x18
-    virtual void Unk0(); // ModuleFsInsAward.cro +0x004AA4 slot 0x3C
+    virtual bool Unk0(); // ModuleFsInsAward.cro +0x004AA4 slot 0x3C
 };

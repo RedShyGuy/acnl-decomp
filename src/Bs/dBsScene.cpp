@@ -52,7 +52,7 @@ void BsScene::ProcessDrawResult(oml::framework::Result)
 }
 
 // 0x0075E164 slot 0x3C | slot vf_0x3C of Base
-void BsScene::Unk0()
+bool BsScene::Unk0()
 {
 }
 

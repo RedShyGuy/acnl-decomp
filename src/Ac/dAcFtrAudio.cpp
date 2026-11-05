@@ -12,7 +12,7 @@ AcFtrAudio::~AcFtrAudio()
 }
 
 // 0x0018C884 slot 0x50 | virtual slot, introduced by DemoActor
-void AcFtrAudio::vf_0x50()
+void AcFtrAudio::vf_0x50(u8, netgame::PlayerNo)
 {
 }
 

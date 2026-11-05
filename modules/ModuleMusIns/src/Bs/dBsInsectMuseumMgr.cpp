@@ -32,7 +32,7 @@ oml::framework::Result BsInsectMuseumMgr::Draw()
 }
 
 // ModuleMusIns.cro +0x011F20 slot 0x3C
-void BsInsectMuseumMgr::Unk0()
+bool BsInsectMuseumMgr::Unk0()
 {
 }
 

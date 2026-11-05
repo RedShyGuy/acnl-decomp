@@ -44,37 +44,37 @@ void BsMenuAmiiboPhoto::OnClose()
 }
 
 // ModuleAmiiboCamera.cro +0x011318 slot 0x48
-void BsMenuAmiiboPhoto::FUN_006ab3f4()
+void BsMenuAmiiboPhoto::FUN_006ab3f4(bool)
 {
 }
 
 // ModuleAmiiboCamera.cro +0x011330 slot 0x4C
-void BsMenuAmiiboPhoto::FUN_006ab450()
+bool BsMenuAmiiboPhoto::FUN_006ab450()
 {
 }
 
 // ModuleAmiiboCamera.cro +0x011304 slot 0x50
-void BsMenuAmiiboPhoto::FUN_006ab3e0()
+void BsMenuAmiiboPhoto::FUN_006ab3e0(bool)
 {
 }
 
 // ModuleAmiiboCamera.cro +0x011328 slot 0x54
-void BsMenuAmiiboPhoto::FUN_006ab440()
+bool BsMenuAmiiboPhoto::FUN_006ab440()
 {
 }
 
 // ModuleAmiiboCamera.cro +0x011320 slot 0x58
-void BsMenuAmiiboPhoto::FUN_006ab3fc()
+void BsMenuAmiiboPhoto::FUN_006ab3fc(bool)
 {
 }
 
 // ModuleAmiiboCamera.cro +0x011310 slot 0x5C
-void BsMenuAmiiboPhoto::FUN_006ab3ec()
+bool BsMenuAmiiboPhoto::FUN_006ab3ec()
 {
 }
 
 // ModuleAmiiboCamera.cro +0x01262C slot 0x60
-void BsMenuAmiiboPhoto::FUN_00767b30()
+bool BsMenuAmiiboPhoto::FUN_00767b30()
 {
 }
 

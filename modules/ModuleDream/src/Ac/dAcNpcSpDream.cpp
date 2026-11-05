@@ -22,7 +22,7 @@ oml::framework::Result AcNpcSpDream::Finalize()
 }
 
 // ModuleDream.cro +0x00A140 slot 0x3C
-void AcNpcSpDream::Unk0()
+bool AcNpcSpDream::Unk0()
 {
 }
 

@@ -1,6 +1,7 @@
 #pragma once
 
 #include "decomp.h"
+#include "netgame/netgame_Api.h"
 #include "Other/dDemoActor.h"
 #include "Other/dObjTalkRecept.h"
 #include "Utl/dUtlBase.h"
@@ -21,8 +22,8 @@ public:
     virtual oml::framework::Result Calc(); // 0x00576834 slot 0x24 | slot vf_0x24 of oml::framework::Process
     virtual oml::framework::Result Draw(); // 0x005760B4 slot 0x30 | slot vf_0x30 of oml::framework::Process
     virtual void OnNotify(); // 0x0056FC8C slot 0x38 | slot vf_0x38 of oml::framework::Process
-    virtual void Unk0(); // 0x00751DF4 slot 0x3C | slot vf_0x3C of Base
-    virtual void vf_0x50(); // 0x00577D9C slot 0x50 | virtual slot, introduced by DemoActor
+    virtual bool Unk0(); // 0x00751DF4 slot 0x3C | slot vf_0x3C of Base
+    virtual void vf_0x50(u8 message, netgame::PlayerNo player); // 0x00577D9C slot 0x50 | virtual slot, introduced by DemoActor
     virtual void vf_0x58(); // 0x0075198C slot 0x58 | virtual slot, introduced by DemoActor
     virtual void vf_0x78(); // 0x0056F4EC slot 0x78 | virtual slot, introduced by UtlBase<DemoActor>
     virtual void vf_0x7C(); // 0x0056F1AC slot 0x7C | virtual slot, introduced by UtlBase<DemoActor>

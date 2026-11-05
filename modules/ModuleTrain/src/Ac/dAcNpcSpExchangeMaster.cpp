@@ -28,7 +28,7 @@ oml::framework::Result AcNpcSpExchangeMaster::Calc()
 }
 
 // ModuleTrain.cro +0x00C074 slot 0x3C
-void AcNpcSpExchangeMaster::Unk0()
+bool AcNpcSpExchangeMaster::Unk0()
 {
 }
 

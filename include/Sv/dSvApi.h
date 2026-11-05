@@ -17,6 +17,8 @@ struct SvSaveMemory
     u32 unk_0x8;            // 0x8
 };
 extern SvSaveMemory g_SvSaveMemory;
+// the save data in memory is valid (name is ours)
+extern u8 g_SvIsSaveMemoryValid;
 
 // the players of the network game (names are ours): the copies of the players of other towns (save numbers 4..7)
 // and the save number of each netgame::PlayerNo

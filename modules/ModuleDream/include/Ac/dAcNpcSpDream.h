@@ -13,5 +13,5 @@ public:
     virtual ~AcNpcSpDream(); // ModuleDream.cro +0x006B78 slot 0x00
     virtual oml::framework::Result Initialize(); // ModuleDream.cro +0x00AA88 slot 0x0C
     virtual oml::framework::Result Finalize(); // ModuleDream.cro +0x00AB24 slot 0x18
-    virtual void Unk0(); // ModuleDream.cro +0x00A140 slot 0x3C
+    virtual bool Unk0(); // ModuleDream.cro +0x00A140 slot 0x3C
 };

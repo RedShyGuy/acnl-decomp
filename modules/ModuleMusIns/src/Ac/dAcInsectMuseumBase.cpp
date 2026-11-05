@@ -12,7 +12,7 @@ AcInsectMuseumBase::~AcInsectMuseumBase()
 }
 
 // ModuleMusIns.cro +0x011F30 slot 0x3C
-void AcInsectMuseumBase::Unk0()
+bool AcInsectMuseumBase::Unk0()
 {
 }
 

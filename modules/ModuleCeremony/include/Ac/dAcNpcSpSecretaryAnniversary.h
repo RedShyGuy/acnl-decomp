@@ -12,5 +12,5 @@ public:
     virtual ~AcNpcSpSecretaryAnniversary(); // ModuleCeremony.cro +0x00381C slot 0x00
     virtual oml::framework::Result Initialize(); // ModuleCeremony.cro +0x003EA0 slot 0x0C
     virtual oml::framework::Result Finalize(); // ModuleCeremony.cro +0x003F3C slot 0x18
-    virtual void Unk0(); // ModuleCeremony.cro +0x003BBC slot 0x3C
+    virtual bool Unk0(); // ModuleCeremony.cro +0x003BBC slot 0x3C
 };

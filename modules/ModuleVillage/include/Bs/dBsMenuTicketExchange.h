@@ -15,14 +15,14 @@ public:
     virtual oml::framework::Result Finalize(); // ModuleVillage.cro +0x003B0C slot 0x18
     virtual oml::framework::Result Calc(); // ModuleVillage.cro +0x0039F0 slot 0x24
     virtual oml::framework::Result Draw(); // ModuleVillage.cro +0x003768 slot 0x30
-    virtual void Unk0(); // ModuleVillage.cro +0x01BBC4 slot 0x3C
+    virtual bool Unk0(); // ModuleVillage.cro +0x01BBC4 slot 0x3C
     virtual void FUN_006ab3d8(); // ModuleVillage.cro +0x019524 slot 0x40
     virtual void OnClose(); // ModuleVillage.cro +0x019530 slot 0x44
-    virtual void FUN_006ab3f4(); // ModuleVillage.cro +0x01953C slot 0x48
-    virtual void FUN_006ab450(); // ModuleVillage.cro +0x019554 slot 0x4C
-    virtual void FUN_006ab3e0(); // ModuleVillage.cro +0x019528 slot 0x50
-    virtual void FUN_006ab440(); // ModuleVillage.cro +0x01954C slot 0x54
-    virtual void FUN_006ab3fc(); // ModuleVillage.cro +0x019544 slot 0x58
-    virtual void FUN_006ab3ec(); // ModuleVillage.cro +0x019534 slot 0x5C
-    virtual void FUN_00767b30(); // ModuleVillage.cro +0x01BBFC slot 0x60
+    virtual void FUN_006ab3f4(bool value); // ModuleVillage.cro +0x01953C slot 0x48
+    virtual bool FUN_006ab450(); // ModuleVillage.cro +0x019554 slot 0x4C
+    virtual void FUN_006ab3e0(bool value); // ModuleVillage.cro +0x019528 slot 0x50
+    virtual bool FUN_006ab440(); // ModuleVillage.cro +0x01954C slot 0x54
+    virtual void FUN_006ab3fc(bool value); // ModuleVillage.cro +0x019544 slot 0x58
+    virtual bool FUN_006ab3ec(); // ModuleVillage.cro +0x019534 slot 0x5C
+    virtual bool FUN_00767b30(); // ModuleVillage.cro +0x01BBFC slot 0x60
 };

@@ -32,7 +32,7 @@ oml::framework::Result BsObjControl::Draw()
 }
 
 // ModuleFtr.cro +0x01EB6C slot 0x3C
-void BsObjControl::Unk0()
+bool BsObjControl::Unk0()
 {
 }
 

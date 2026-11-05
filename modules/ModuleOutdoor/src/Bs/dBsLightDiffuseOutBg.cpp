@@ -32,7 +32,7 @@ oml::framework::Result BsLightDiffuseOutBg::Draw()
 }
 
 // ModuleOutdoor.cro +0x07D5E4 slot 0x3C
-void BsLightDiffuseOutBg::Unk0()
+bool BsLightDiffuseOutBg::Unk0()
 {
 }
 

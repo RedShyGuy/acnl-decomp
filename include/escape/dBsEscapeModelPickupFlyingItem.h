@@ -24,7 +24,7 @@ public:
     virtual void vf_0x30(); // 0x007B2C88 slot 0x30 | virtual slot, introduced by AcStrcCampingCar
     virtual void ProcessDrawResult(oml::framework::Result); // 0x005220E8 slot 0x34 | libgarden
     virtual void OnNotify(); // 0x00521710 slot 0x38 | libgarden
-    virtual void Unk0(); // 0x00748D08 slot 0x3C | libgarden
+    virtual bool Unk0(); // 0x00748D08 slot 0x3C | libgarden
     virtual void vf_0x40(); // 0x007B2C88 slot 0x40 | virtual slot, introduced by AcStrcCampingCar
     virtual void vf_0x44(); // 0x007B2C88 slot 0x44 | virtual slot, introduced by AcStrcCampingCar
     virtual void vf_0x48(); // 0x007B2C88 slot 0x48 | virtual slot, introduced by AcStrcCampingCar

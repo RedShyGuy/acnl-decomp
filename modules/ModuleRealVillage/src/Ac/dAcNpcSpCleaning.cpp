@@ -22,7 +22,7 @@ oml::framework::Result AcNpcSpCleaning::Finalize()
 }
 
 // ModuleRealVillage.cro +0x010E1C slot 0x3C
-void AcNpcSpCleaning::Unk0()
+bool AcNpcSpCleaning::Unk0()
 {
 }
 

@@ -33,7 +33,7 @@ oml::framework::Result BsMenuItem::Draw()
 {
 }
 
-// 0x0019968C slot 0x44 | libgarden
+// 0x0019968C slot 0x44 (the vtable of BsMenuItem; libgarden names it MenuBase::OnClose)
 void BsMenuItem::OnClose()
 {
 }

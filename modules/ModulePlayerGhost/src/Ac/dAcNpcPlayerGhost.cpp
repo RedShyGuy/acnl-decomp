@@ -22,7 +22,7 @@ oml::framework::Result AcNpcPlayerGhost::Finalize()
 }
 
 // ModulePlayerGhost.cro +0x001D18 slot 0x3C
-void AcNpcPlayerGhost::Unk0()
+bool AcNpcPlayerGhost::Unk0()
 {
 }
 

@@ -32,7 +32,7 @@ oml::framework::Result BsLightBase::Draw()
 }
 
 // 0x0070E3BC slot 0x3C | slot vf_0x3C of Base
-void BsLightBase::Unk0()
+bool BsLightBase::Unk0()
 {
 }
 

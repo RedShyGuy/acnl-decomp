@@ -27,7 +27,7 @@ oml::framework::Result BsLightDiffuseClub::Calc()
 }
 
 // ModuleClub.cro +0x010FF4 slot 0x3C
-void BsLightDiffuseClub::Unk0()
+bool BsLightDiffuseClub::Unk0()
 {
 }
 

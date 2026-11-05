@@ -32,7 +32,7 @@ void DemoActor::vf_0x44()
 }
 
 // 0x0077082C slot 0x48 | virtual slot, introduced by DemoActor
-void DemoActor::vf_0x48()
+bool DemoActor::vf_0x48(DemoActor*)
 {
 }
 
@@ -42,7 +42,7 @@ void DemoActor::vf_0x4C()
 }
 
 // 0x006E5240 slot 0x50 | virtual slot, introduced by DemoActor
-void DemoActor::vf_0x50()
+void DemoActor::vf_0x50(u8, netgame::PlayerNo)
 {
 }
 
@@ -72,7 +72,7 @@ void DemoActor::vf_0x64()
 }
 
 // 0x006E5050 slot 0x68 | virtual slot, introduced by AcStrcCampingCar
-void DemoActor::vf_0x68()
+bool DemoActor::vf_0x68(u32)
 {
 }
 
@@ -82,7 +82,7 @@ void DemoActor::vf_0x6C()
 }
 
 // 0x00770554 slot 0x70 | virtual slot, introduced by AcStrcCampingCar
-void DemoActor::vf_0x70()
+bool DemoActor::vf_0x70(DemoActor*)
 {
 }
 

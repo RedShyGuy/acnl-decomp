@@ -22,7 +22,7 @@ oml::framework::Result AcNpcSpShopPolice::Finalize()
 }
 
 // ModulePoliceBox.cro +0x001C9C slot 0x3C
-void AcNpcSpShopPolice::Unk0()
+bool AcNpcSpShopPolice::Unk0()
 {
 }
 

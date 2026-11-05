@@ -1,13 +1,13 @@
-#include "sead/seadIDisposer.h"
 #include "font/dMgr_SingletonDisposer_.h"
 
-// ctor candidate(s) 0x0052EAE4 (unverified)
-font::Mgr::SingletonDisposer_::SingletonDisposer_()
-{
-}
-
-// 0x0052ECFC slot 0x00 | slot vf_0x00 of sead::IDisposer
+// 0x0052ECFC slot 0x00 (name after sead)
+// 0x0052ECAC (deleting dtor)
 font::Mgr::SingletonDisposer_::~SingletonDisposer_()
 {
+    if (this != Mgr::s_pSingletonDisposer) {
+        return;
+    }
+    Mgr::s_pSingletonDisposer = NULL;
+    Mgr::s_pInstance->~Mgr();
+    Mgr::s_pInstance = NULL;
 }
-

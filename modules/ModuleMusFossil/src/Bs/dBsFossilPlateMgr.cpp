@@ -33,7 +33,7 @@ oml::framework::Result BsFossilPlateMgr::Draw()
 }
 
 // ModuleMusFossil.cro +0x000E90 slot 0x3C
-void BsFossilPlateMgr::Unk0()
+bool BsFossilPlateMgr::Unk0()
 {
 }
 

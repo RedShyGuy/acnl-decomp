@@ -15,5 +15,5 @@ public:
     virtual oml::framework::Result Finalize(); // 0x00690288 slot 0x18 | slot vf_0x18 of oml::framework::Process
     virtual oml::framework::Result Calc(); // 0x006901A0 slot 0x24 | slot vf_0x24 of oml::framework::Process
     virtual oml::framework::Result Draw(); // 0x0068FF6C slot 0x30 | slot vf_0x30 of oml::framework::Process
-    virtual void Unk0(); // 0x00766EAC slot 0x3C | slot vf_0x3C of Base
+    virtual bool Unk0(); // 0x00766EAC slot 0x3C | slot vf_0x3C of Base
 };

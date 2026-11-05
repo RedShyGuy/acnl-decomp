@@ -33,7 +33,7 @@ oml::framework::Result BsAmiiboCamera::Draw()
 }
 
 // ModuleAmiiboCamera.cro +0x0125BC slot 0x3C
-void BsAmiiboCamera::Unk0()
+bool BsAmiiboCamera::Unk0()
 {
 }
 

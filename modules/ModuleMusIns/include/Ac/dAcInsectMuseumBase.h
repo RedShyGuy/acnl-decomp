@@ -68,5 +68,5 @@ class AcInsectMuseumBase : public ::AcInsectCommon
 public:
     AcInsectMuseumBase(); // ctor address unknown
     virtual ~AcInsectMuseumBase(); // ModuleMusIns.cro +0x0104D4 slot 0x00
-    virtual void Unk0(); // ModuleMusIns.cro +0x011F30 slot 0x3C
+    virtual bool Unk0(); // ModuleMusIns.cro +0x011F30 slot 0x3C
 };

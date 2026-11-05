@@ -33,7 +33,7 @@ oml::framework::Result BsMiniGame0Mgr::Draw()
 }
 
 // ModuleMiniGame0.cro +0x0B7470 slot 0x3C
-void BsMiniGame0Mgr::Unk0()
+bool BsMiniGame0Mgr::Unk0()
 {
 }
 

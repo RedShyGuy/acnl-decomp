@@ -83,7 +83,7 @@ void AcStrcCampingCar::OnNotify()
 }
 
 // 0x007537F0 slot 0x3C | slot vf_0x3C of Base
-void AcStrcCampingCar::Unk0()
+bool AcStrcCampingCar::Unk0()
 {
 }
 
@@ -98,7 +98,7 @@ void AcStrcCampingCar::vf_0x44()
 }
 
 // 0x0071D80C slot 0x48 | virtual slot, introduced by AcStrcCampingCar
-void AcStrcCampingCar::vf_0x48()
+bool AcStrcCampingCar::vf_0x48(DemoActor*)
 {
 }
 
@@ -108,7 +108,7 @@ void AcStrcCampingCar::vf_0x4C()
 }
 
 // 0x007B2C88 slot 0x50 | virtual slot, introduced by AcStrcCampingCar
-void AcStrcCampingCar::vf_0x50()
+void AcStrcCampingCar::vf_0x50(u8, netgame::PlayerNo)
 {
 }
 
@@ -138,7 +138,7 @@ void AcStrcCampingCar::vf_0x64()
 }
 
 // 0x006E5050 slot 0x68 | virtual slot, introduced by AcStrcCampingCar
-void AcStrcCampingCar::vf_0x68()
+bool AcStrcCampingCar::vf_0x68(u32)
 {
 }
 
@@ -148,7 +148,7 @@ void AcStrcCampingCar::vf_0x6C()
 }
 
 // 0x00770554 slot 0x70 | virtual slot, introduced by AcStrcCampingCar
-void AcStrcCampingCar::vf_0x70()
+bool AcStrcCampingCar::vf_0x70(DemoActor*)
 {
 }
 

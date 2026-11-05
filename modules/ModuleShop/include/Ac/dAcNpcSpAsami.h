@@ -12,5 +12,5 @@ public:
     virtual ~AcNpcSpAsami(); // ModuleShop.cro +0x0034A0 slot 0x00
     virtual oml::framework::Result Initialize(); // ModuleShop.cro +0x0243C4 slot 0x0C
     virtual oml::framework::Result Finalize(); // ModuleShop.cro +0x024460 slot 0x18
-    virtual void Unk0(); // ModuleShop.cro +0x0230D0 slot 0x3C
+    virtual bool Unk0(); // ModuleShop.cro +0x0230D0 slot 0x3C
 };

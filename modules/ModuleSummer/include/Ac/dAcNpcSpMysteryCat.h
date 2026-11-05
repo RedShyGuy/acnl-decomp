@@ -12,5 +12,5 @@ public:
     virtual ~AcNpcSpMysteryCat(); // ModuleSummer.cro +0x003084 slot 0x00
     virtual oml::framework::Result Initialize(); // ModuleSummer.cro +0x003BE8 slot 0x0C
     virtual oml::framework::Result Finalize(); // ModuleSummer.cro +0x003C84 slot 0x18
-    virtual void Unk0(); // ModuleSummer.cro +0x003940 slot 0x3C
+    virtual bool Unk0(); // ModuleSummer.cro +0x003940 slot 0x3C
 };

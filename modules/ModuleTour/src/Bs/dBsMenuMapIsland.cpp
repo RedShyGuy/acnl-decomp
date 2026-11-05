@@ -33,7 +33,7 @@ oml::framework::Result BsMenuMapIsland::Draw()
 }
 
 // ModuleTour.cro +0x00D1DC slot 0x3C
-void BsMenuMapIsland::Unk0()
+bool BsMenuMapIsland::Unk0()
 {
 }
 

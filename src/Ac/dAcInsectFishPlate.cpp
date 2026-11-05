@@ -33,12 +33,12 @@ oml::framework::Result AcInsectFishPlate::Draw()
 }
 
 // 0x0071F8F8 slot 0x48 | virtual slot, introduced by DemoActor
-void AcInsectFishPlate::vf_0x48()
+bool AcInsectFishPlate::vf_0x48(DemoActor*)
 {
 }
 
 // 0x002C4DE8 slot 0x50 | virtual slot, introduced by DemoActor
-void AcInsectFishPlate::vf_0x50()
+void AcInsectFishPlate::vf_0x50(u8, netgame::PlayerNo)
 {
 }
 

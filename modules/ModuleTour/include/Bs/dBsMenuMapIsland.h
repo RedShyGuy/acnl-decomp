@@ -15,5 +15,5 @@ public:
     virtual oml::framework::Result Finalize(); // ModuleTour.cro +0x005120 slot 0x18
     virtual oml::framework::Result Calc(); // ModuleTour.cro +0x005028 slot 0x24
     virtual oml::framework::Result Draw(); // ModuleTour.cro +0x004B4C slot 0x30
-    virtual void Unk0(); // ModuleTour.cro +0x00D1DC slot 0x3C
+    virtual bool Unk0(); // ModuleTour.cro +0x00D1DC slot 0x3C
 };

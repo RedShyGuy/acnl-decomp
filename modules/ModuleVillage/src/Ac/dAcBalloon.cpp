@@ -33,7 +33,7 @@ oml::framework::Result AcBalloon::Draw()
 }
 
 // ModuleVillage.cro +0x01BBD4 slot 0x3C
-void AcBalloon::Unk0()
+bool AcBalloon::Unk0()
 {
 }
 

@@ -43,37 +43,37 @@ void BsMenuAudioPlayer::OnClose()
 }
 
 // ModuleIndoor.cro +0x055C80 slot 0x48
-void BsMenuAudioPlayer::FUN_006ab3f4()
+void BsMenuAudioPlayer::FUN_006ab3f4(bool)
 {
 }
 
 // ModuleIndoor.cro +0x055C98 slot 0x4C
-void BsMenuAudioPlayer::FUN_006ab450()
+bool BsMenuAudioPlayer::FUN_006ab450()
 {
 }
 
 // ModuleIndoor.cro +0x055C6C slot 0x50
-void BsMenuAudioPlayer::FUN_006ab3e0()
+void BsMenuAudioPlayer::FUN_006ab3e0(bool)
 {
 }
 
 // ModuleIndoor.cro +0x055C90 slot 0x54
-void BsMenuAudioPlayer::FUN_006ab440()
+bool BsMenuAudioPlayer::FUN_006ab440()
 {
 }
 
 // ModuleIndoor.cro +0x055C88 slot 0x58
-void BsMenuAudioPlayer::FUN_006ab3fc()
+void BsMenuAudioPlayer::FUN_006ab3fc(bool)
 {
 }
 
 // ModuleIndoor.cro +0x055C78 slot 0x5C
-void BsMenuAudioPlayer::FUN_006ab3ec()
+bool BsMenuAudioPlayer::FUN_006ab3ec()
 {
 }
 
 // ModuleIndoor.cro +0x05AFBC slot 0x60
-void BsMenuAudioPlayer::FUN_00767b30()
+bool BsMenuAudioPlayer::FUN_00767b30()
 {
 }
 

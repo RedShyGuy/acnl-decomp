@@ -33,7 +33,7 @@ oml::framework::Result BsAquariumMgr::Draw()
 }
 
 // ModuleMusFish.cro +0x01AAE4 slot 0x3C
-void BsAquariumMgr::Unk0()
+bool BsAquariumMgr::Unk0()
 {
 }
 

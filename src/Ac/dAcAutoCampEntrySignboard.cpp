@@ -24,12 +24,12 @@ oml::framework::Result AcAutoCampEntrySignboard::Draw()
 }
 
 // 0x00726684 slot 0x48 | virtual slot, introduced by DemoActor
-void AcAutoCampEntrySignboard::vf_0x48()
+bool AcAutoCampEntrySignboard::vf_0x48(DemoActor*)
 {
 }
 
 // 0x00336088 slot 0x50 | virtual slot, introduced by DemoActor
-void AcAutoCampEntrySignboard::vf_0x50()
+void AcAutoCampEntrySignboard::vf_0x50(u8, netgame::PlayerNo)
 {
 }
 

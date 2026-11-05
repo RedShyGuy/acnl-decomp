@@ -21,12 +21,17 @@ public:
     virtual void HandleCalcResult(oml::framework::Result); // 0x0057C50C slot 0x28 | slot vf_0x28 of oml::framework::Process
     virtual bool CanDraw() const; // 0x0057C514 slot 0x2C | slot vf_0x2C of oml::framework::Process
     virtual void ProcessDrawResult(oml::framework::Result); // 0x005220E4 slot 0x34 | slot vf_0x34 of oml::framework::Process
-    virtual void Unk0(); // 0x007537F0 slot 0x3C | slot vf_0x3C of Base
+    virtual bool Unk0(); // 0x007537F0 slot 0x3C | slot vf_0x3C of Base
     virtual void vf_0x40(); // 0x0057C510 slot 0x40 | virtual slot, introduced by AcStrcCampingCar
     void GetPositionTo(nn::math::Vector<float, 3u>&, unsigned short, float, bool) const; // 0x0076330C | libgarden [tier A]
 
-    // (names after libgarden; only the members the stage code reads)
+    // (names after libgarden)
     nn::math::VEC3_ m_Position;         // 0x14
     nn::math::VEC3_ m_BackupPosition;   // 0x20
     math::Angle16Vec3 m_Rotation;       // 0x2C
+    math::Angle16Vec3 m_BackupRotation; // 0x32
+    math::Angle16Vec3 m_PrevRotation;   // 0x38
+    f32 m_Speed;                        // 0x40
+    f32 m_Unk;                          // 0x44
 };
+ASSERT_SIZE(Actor, 0x48);

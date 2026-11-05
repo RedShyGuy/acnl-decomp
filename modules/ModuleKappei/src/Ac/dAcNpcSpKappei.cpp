@@ -22,7 +22,7 @@ oml::framework::Result AcNpcSpKappei::Finalize()
 }
 
 // ModuleKappei.cro +0x0024C4 slot 0x3C
-void AcNpcSpKappei::Unk0()
+bool AcNpcSpKappei::Unk0()
 {
 }
 

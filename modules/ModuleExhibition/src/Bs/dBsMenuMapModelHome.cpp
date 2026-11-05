@@ -33,7 +33,7 @@ oml::framework::Result BsMenuMapModelHome::Draw()
 }
 
 // ModuleExhibition.cro +0x006F58 slot 0x3C
-void BsMenuMapModelHome::Unk0()
+bool BsMenuMapModelHome::Unk0()
 {
 }
 

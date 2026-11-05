@@ -7,23 +7,6 @@
 
 namespace ssys {
 namespace ma {
-// (inline)
-inline void ssys::ma::FileData::Unload()
-{
-    if (m_IsLoaded) {
-        if (m_pHeap != NULL) {
-            sead::ScopedCurrentHeapSetter setter(m_pHeap);
-            sead::FileDeviceMgr::s_pInstance->unload(m_pData);
-        }
-    } else if (m_pHeap != NULL && m_Size != 0) {
-        m_pHeap->free(m_pData);
-    }
-    m_pHeap = NULL;
-    m_pData = NULL;
-    m_Size = 0;
-    m_IsLoaded = false;
-}
-
 // 0x00126250 (name is ours)
 bool ssys::ma::FileData::Load(const char* path, sead::Heap* heap, s32 alignment)
 {
@@ -50,6 +33,12 @@ bool ssys::ma::FileData::Load(const char* path, sead::Heap* heap, s32 alignment)
     FlushCache::Add(reinterpret_cast<uptr>(m_pData), m_Size);
     m_IsLoaded = true;
     return true;
+}
+
+// 0x005C0260 (name is ours)
+bool ssys::ma::FileData::Load(const sead::SafeStringBase<char>& path, sead::Heap* heap, s32 alignment)
+{
+    return Load(path.getCString(), heap, alignment);
 }
 
 // 0x0056AF74 (name is ours)

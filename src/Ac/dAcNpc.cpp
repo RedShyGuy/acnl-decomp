@@ -28,12 +28,12 @@ oml::framework::Result AcNpc::Draw()
 }
 
 // 0x007536AC slot 0x48 | virtual slot, introduced by DemoActor
-void AcNpc::vf_0x48()
+bool AcNpc::vf_0x48(DemoActor*)
 {
 }
 
 // 0x0057BBBC slot 0x50 | virtual slot, introduced by DemoActor
-void AcNpc::vf_0x50()
+void AcNpc::vf_0x50(u8, netgame::PlayerNo)
 {
 }
 
@@ -53,7 +53,7 @@ void AcNpc::vf_0x60()
 }
 
 // 0x00578A78 slot 0x68 | virtual slot, introduced by DemoActor
-void AcNpc::vf_0x68()
+bool AcNpc::vf_0x68(u32)
 {
 }
 
@@ -63,7 +63,7 @@ void AcNpc::vf_0x6C()
 }
 
 // 0x00752DD8 slot 0x70 | virtual slot, introduced by DemoActor
-void AcNpc::vf_0x70()
+bool AcNpc::vf_0x70(DemoActor*)
 {
 }
 

@@ -3,6 +3,24 @@
 #include "decomp.h"
 
 namespace sead {
+// (the unsigned type of a character type; name is ours)
+template <typename T>
+struct MakeUnsigned;
+template <>
+struct MakeUnsigned<char>
+{
+    typedef unsigned char Type;
+};
+template <>
+struct MakeUnsigned<wchar_t>
+{
+    typedef unsigned int Type;
+};
+template <>
+struct MakeUnsigned<char16_t>
+{
+    typedef char16_t Type;
+};
 // Instantiations found in the binary:
 //   sead::SafeStringBase<char>  typeinfo 0x008D1758  vtable 0x0090591C
 //   sead::SafeStringBase<char>::iterator  typeinfo 0x008D1750  vtable 0x0090590C
@@ -103,6 +121,35 @@ public:
             }
         }
         return false;
+    }
+    // < 0, 0 or > 0 as the string comes before, equals or comes after str (inline in demo::Order::IsBefore; name is
+    // ours)
+    s32 compare(const SafeStringBase& str) const
+    {
+        const T* a = getCString();
+        const T* b = str.getCString();
+        if (a == b) {
+            return 0;
+        }
+        for (s32 i = 0; i < MAX_LENGTH; i++) {
+            if (a[i] == s_NullChar && b[i] == s_NullChar) {
+                return 0;
+            }
+            if (a[i] == s_NullChar) {
+                return -1;
+            }
+            if (b[i] == s_NullChar) {
+                return 1;
+            }
+            typedef typename MakeUnsigned<T>::Type U;
+            if (static_cast<U>(a[i]) < static_cast<U>(b[i])) {
+                return -1;
+            }
+            if (static_cast<U>(a[i]) > static_cast<U>(b[i])) {
+                return 1;
+            }
+        }
+        return 0;
     }
     // whether the first length characters equal those of str (or both end before)
     bool isEqualHead(const SafeStringBase& str, s32 length) const

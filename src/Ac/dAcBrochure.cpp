@@ -32,7 +32,7 @@ oml::framework::Result AcBrochure::Draw()
 }
 
 // 0x0070B278 slot 0x48 | virtual slot, introduced by DemoActor
-void AcBrochure::vf_0x48()
+bool AcBrochure::vf_0x48(DemoActor*)
 {
 }
 

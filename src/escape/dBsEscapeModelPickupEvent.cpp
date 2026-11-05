@@ -82,7 +82,7 @@ void escape::BsEscapeModelPickupEvent::OnNotify()
 }
 
 // 0x00748D08 slot 0x3C | libgarden
-void escape::BsEscapeModelPickupEvent::Unk0()
+bool escape::BsEscapeModelPickupEvent::Unk0()
 {
 }
 

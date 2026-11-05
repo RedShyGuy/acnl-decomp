@@ -35,7 +35,7 @@ oml::framework::Result BsIncludeSave::Draw()
 }
 
 // ModuleIncSave.cro +0x017CE0 slot 0x3C
-void BsIncludeSave::Unk0()
+bool BsIncludeSave::Unk0()
 {
 }
 

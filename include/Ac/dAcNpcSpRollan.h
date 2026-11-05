@@ -1,6 +1,7 @@
 #pragma once
 
 #include "decomp.h"
+#include "netgame/netgame_Api.h"
 #include "Ac/dAcNpcSp.h"
 
 // RTTI 13AcNpcSpRollan @ 0x008CB868
@@ -12,7 +13,7 @@ public:
     AcNpcSpRollan(); // ctor address unknown
     virtual ~AcNpcSpRollan(); // 0x00210FD4 slot 0x00 | slot vf_0x00 of oml::framework::Process
     // 0x00210EE0 slot 0x04 | slot vf_0x04 of oml::framework::Process (deleting dtor)
-    virtual void vf_0x48(); // 0x00713F20 slot 0x48 | virtual slot, introduced by DemoActor
+    virtual bool vf_0x48(DemoActor* actor); // 0x00713F20 slot 0x48 | virtual slot, introduced by DemoActor
     virtual void vf_0x64(); // 0x00210C04 slot 0x64 | virtual slot, introduced by DemoActor
     virtual void vf_0x78(); // 0x0010A045 slot 0x78 | virtual slot, introduced by UtlBase<DemoActor>
     virtual void vf_0x7C(); // 0x0010A019 slot 0x7C | virtual slot, introduced by UtlBase<DemoActor>

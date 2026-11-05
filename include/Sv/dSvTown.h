@@ -59,7 +59,7 @@ struct SvTownData {
     /* 0xEDBC */ u16 unk_0xEDBC; // Likely padding
     /* 0xEDBE */ SvFgName lostAndFoundItems[0x10];
     /* 0xEDFE */ u8 unk_0xEDFE[0x10]; // likely padding
-    /* 0xEE0E */ u64 unk_0xEE0E; // ctor sets 0x7FFFFFFFFFFFFFFF (max positive U64)
+    /* 0xEE0E */ SvTime unk_0xEE0E; // ctor sets 0x7FFFFFFFFFFFFFFF (none); time::GetSavedTime prefers it
     /* 0xEE16 */ SvFgName townFruit;
     /* 0xEE1A */ u16 daysPlayed;
     /* 0xEE1C */ u8 unk_0xEE1C[0xC];

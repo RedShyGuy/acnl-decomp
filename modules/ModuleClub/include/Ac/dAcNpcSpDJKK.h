@@ -12,5 +12,5 @@ public:
     virtual ~AcNpcSpDJKK(); // ModuleClub.cro +0x001C34 slot 0x00
     virtual oml::framework::Result Initialize(); // ModuleClub.cro +0x011D4C slot 0x0C
     virtual oml::framework::Result Finalize(); // ModuleClub.cro +0x011DE8 slot 0x18
-    virtual void Unk0(); // ModuleClub.cro +0x0110C8 slot 0x3C
+    virtual bool Unk0(); // ModuleClub.cro +0x0110C8 slot 0x3C
 };

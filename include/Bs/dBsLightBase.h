@@ -15,7 +15,7 @@ public:
     virtual oml::framework::Result Finalize(); // 0x005220D8 slot 0x18 | slot vf_0x18 of oml::framework::Process
     virtual oml::framework::Result Calc(); // 0x005220C4 slot 0x24 | slot vf_0x24 of oml::framework::Process
     virtual oml::framework::Result Draw(); // 0x005220AC slot 0x30 | slot vf_0x30 of oml::framework::Process
-    virtual void Unk0(); // 0x0070E3BC slot 0x3C | slot vf_0x3C of Base
+    virtual bool Unk0(); // 0x0070E3BC slot 0x3C | slot vf_0x3C of Base
     virtual void vf_0x40(); // 0x0011C12F slot 0x40 | slot vf_0x00 of ChangeRentalBase
     virtual void vf_0x44(); // 0x0011C12F slot 0x44 | slot vf_0x00 of ChangeRentalBase
     virtual void vf_0x48(); // 0x001C2D10 slot 0x48 | virtual slot, introduced by BsLightBase

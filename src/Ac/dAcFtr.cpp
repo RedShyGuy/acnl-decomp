@@ -35,12 +35,12 @@ void AcFtr::OnNotify()
 }
 
 // 0x00751DF4 slot 0x3C | slot vf_0x3C of Base
-void AcFtr::Unk0()
+bool AcFtr::Unk0()
 {
 }
 
 // 0x00577D9C slot 0x50 | virtual slot, introduced by DemoActor
-void AcFtr::vf_0x50()
+void AcFtr::vf_0x50(u8, netgame::PlayerNo)
 {
 }
 

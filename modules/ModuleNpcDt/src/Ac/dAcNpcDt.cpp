@@ -22,7 +22,7 @@ oml::framework::Result AcNpcDt::Finalize()
 }
 
 // ModuleNpcDt.cro +0x006A10 slot 0x3C
-void AcNpcDt::Unk0()
+bool AcNpcDt::Unk0()
 {
 }
 

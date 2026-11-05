@@ -32,7 +32,7 @@ oml::framework::Result BsAutoCampBirdMgr::Draw()
 }
 
 // ModuleAutoCamp.cro +0x00B590 slot 0x3C
-void BsAutoCampBirdMgr::Unk0()
+bool BsAutoCampBirdMgr::Unk0()
 {
 }
 

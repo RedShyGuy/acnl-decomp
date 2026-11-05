@@ -19,7 +19,7 @@ public:
     virtual void HandleCalcResult(oml::framework::Result); // 0x006074F8 slot 0x28 | slot vf_0x28 of oml::framework::Process
     virtual bool CanDraw() const; // 0x00607898 slot 0x2C | slot vf_0x2C of oml::framework::Process
     virtual void ProcessDrawResult(oml::framework::Result); // 0x006078AC slot 0x34 | slot vf_0x34 of oml::framework::Process
-    virtual void Unk0(); // 0x0075E164 slot 0x3C | slot vf_0x3C of Base
+    virtual bool Unk0(); // 0x0075E164 slot 0x3C | slot vf_0x3C of Base
     virtual void vf_0x40(); // 0x0011C12F slot 0x40 | slot vf_0x00 of ChangeRentalBase
 
     // (names are ours; only what the stage code uses)

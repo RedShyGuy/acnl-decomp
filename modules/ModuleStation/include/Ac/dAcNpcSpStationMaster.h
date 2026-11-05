@@ -13,5 +13,5 @@ public:
     virtual ~AcNpcSpStationMaster(); // ModuleStation.cro +0x006FD4 slot 0x00
     virtual oml::framework::Result Initialize(); // ModuleStation.cro +0x00B918 slot 0x0C
     virtual oml::framework::Result Finalize(); // ModuleStation.cro +0x00B9B4 slot 0x18
-    virtual void Unk0(); // ModuleStation.cro +0x00A4C8 slot 0x3C
+    virtual bool Unk0(); // ModuleStation.cro +0x00A4C8 slot 0x3C
 };

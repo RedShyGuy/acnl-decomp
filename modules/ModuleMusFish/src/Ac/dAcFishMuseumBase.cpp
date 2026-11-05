@@ -23,7 +23,7 @@ void AcFishMuseumBase::HandleCalcResult(oml::framework::Result)
 }
 
 // ModuleMusFish.cro +0x01AAF4 slot 0x3C
-void AcFishMuseumBase::Unk0()
+bool AcFishMuseumBase::Unk0()
 {
 }
 

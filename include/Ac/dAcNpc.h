@@ -1,6 +1,7 @@
 #pragma once
 
 #include "decomp.h"
+#include "netgame/netgame_Api.h"
 #include "Other/dDemoActor.h"
 #include "Utl/dUtlBase.h"
 
@@ -16,14 +17,14 @@ public:
     virtual void HandleInitializationResult(oml::framework::Result); // 0x0010C669 slot 0x10 | slot vf_0x10 of oml::framework::Process
     virtual oml::framework::Result Calc(); // 0x0057AF5C slot 0x24 | slot vf_0x24 of oml::framework::Process
     virtual oml::framework::Result Draw(); // 0x0057ADCC slot 0x30 | slot vf_0x30 of oml::framework::Process
-    virtual void vf_0x48(); // 0x007536AC slot 0x48 | virtual slot, introduced by DemoActor
-    virtual void vf_0x50(); // 0x0057BBBC slot 0x50 | virtual slot, introduced by DemoActor
+    virtual bool vf_0x48(DemoActor* actor); // 0x007536AC slot 0x48 | virtual slot, introduced by DemoActor
+    virtual void vf_0x50(u8 message, netgame::PlayerNo player); // 0x0057BBBC slot 0x50 | virtual slot, introduced by DemoActor
     virtual void vf_0x58(); // 0x00752DB8 slot 0x58 | virtual slot, introduced by DemoActor
     virtual void vf_0x5C(); // 0x00752DAC slot 0x5C | virtual slot, introduced by DemoActor
     virtual void vf_0x60(); // 0x00753238 slot 0x60 | virtual slot, introduced by DemoActor
-    virtual void vf_0x68(); // 0x00578A78 slot 0x68 | virtual slot, introduced by DemoActor
+    virtual bool vf_0x68(u32 value); // 0x00578A78 slot 0x68 | virtual slot, introduced by DemoActor
     virtual void vf_0x6C(); // 0x00578C24 slot 0x6C | virtual slot, introduced by DemoActor
-    virtual void vf_0x70(); // 0x00752DD8 slot 0x70 | virtual slot, introduced by DemoActor
+    virtual bool vf_0x70(DemoActor* actor); // 0x00752DD8 slot 0x70 | virtual slot, introduced by DemoActor
     virtual void vf_0x78(); // 0x00306990 slot 0x78 | virtual slot, introduced by UtlBase<DemoActor>
     virtual void vf_0x7C(); // 0x00304175 slot 0x7C | virtual slot, introduced by UtlBase<DemoActor>
     virtual void vf_0x80(); // 0x003064C4 slot 0x80 | virtual slot, introduced by UtlBase<DemoActor>

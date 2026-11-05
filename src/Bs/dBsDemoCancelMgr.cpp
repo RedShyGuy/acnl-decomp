@@ -1,6 +1,9 @@
 #include "Other/dBase.h"
 #include "Bs/dBsDemoCancelMgr.h"
 
+// 0x0094FE54
+BsDemoCancelMgr* BsDemoCancelMgr::s_pInstance;
+
 // ctor candidate(s) 0x002850B0 (unverified)
 BsDemoCancelMgr::BsDemoCancelMgr()
 {

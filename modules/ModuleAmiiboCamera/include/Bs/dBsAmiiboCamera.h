@@ -15,5 +15,5 @@ public:
     virtual oml::framework::Result Finalize(); // ModuleAmiiboCamera.cro +0x0028D0 slot 0x18
     virtual oml::framework::Result Calc(); // ModuleAmiiboCamera.cro +0x002508 slot 0x24
     virtual oml::framework::Result Draw(); // ModuleAmiiboCamera.cro +0x00205C slot 0x30
-    virtual void Unk0(); // ModuleAmiiboCamera.cro +0x0125BC slot 0x3C
+    virtual bool Unk0(); // ModuleAmiiboCamera.cro +0x0125BC slot 0x3C
 };

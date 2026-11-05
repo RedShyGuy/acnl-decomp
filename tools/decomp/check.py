@@ -508,6 +508,8 @@ def header_addresses():
                     if not m or '(' not in decl or decl.startswith(('typedef', 'using', 'return')):
                         continue
                     decl = re.sub(r'^(?:(?:static|virtual|inline|explicit|extern\s+"C"|DECOMP_[A-Z_]+)\s+)+', '', decl)
+                    # a defaulted special member ("X() = default;"): the declaration ends with the parameter list
+                    decl = re.sub(r'\)\s*=\s*default\s*$', ')', decl)
                     # a constructor with a member initializer list ("X() : a(1), b(2) {}"): the
                     # declaration ends with the parameter list, not with the last initializer
                     mi = re.search(r'\)\s*:\s*[A-Za-z_]', decl)

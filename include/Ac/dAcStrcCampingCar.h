@@ -1,6 +1,7 @@
 #pragma once
 
 #include "decomp.h"
+#include "netgame/netgame_Api.h"
 #include "Ac/dAcStrc.h"
 #include "Utl/dUtlBase.h"
 
@@ -25,20 +26,20 @@ public:
     virtual void vf_0x30(); // 0x002A9DD0 slot 0x30 | virtual slot, introduced by AcStrcCampingCar
     virtual void ProcessDrawResult(oml::framework::Result); // 0x005220E4 slot 0x34 | slot vf_0x34 of oml::framework::Process
     virtual void OnNotify(); // 0x00521710 slot 0x38 | libgarden
-    virtual void Unk0(); // 0x007537F0 slot 0x3C | slot vf_0x3C of Base
+    virtual bool Unk0(); // 0x007537F0 slot 0x3C | slot vf_0x3C of Base
     virtual void vf_0x40(); // 0x0057C510 slot 0x40 | virtual slot, introduced by AcStrcCampingCar
     virtual void vf_0x44(); // 0x00770824 slot 0x44 | virtual slot, introduced by AcStrcCampingCar
-    virtual void vf_0x48(); // 0x0071D80C slot 0x48 | virtual slot, introduced by AcStrcCampingCar
+    virtual bool vf_0x48(DemoActor* actor); // 0x0071D80C slot 0x48 | virtual slot, introduced by AcStrcCampingCar
     virtual void vf_0x4C(); // 0x00770578 slot 0x4C | virtual slot, introduced by AcStrcCampingCar
-    virtual void vf_0x50(); // 0x007B2C88 slot 0x50 | virtual slot, introduced by AcStrcCampingCar
+    virtual void vf_0x50(u8 message, netgame::PlayerNo player); // 0x007B2C88 slot 0x50 | virtual slot, introduced by AcStrcCampingCar
     virtual void vf_0x54(); // 0x007707F8 slot 0x54 | virtual slot, introduced by AcStrcCampingCar
     virtual void vf_0x58(); // 0x007B2C88 slot 0x58 | virtual slot, introduced by AcStrcCampingCar
     virtual void vf_0x5C(); // 0x0077055C slot 0x5C | virtual slot, introduced by AcStrcCampingCar
     virtual void vf_0x60(); // 0x007707F0 slot 0x60 | virtual slot, introduced by AcStrcCampingCar
     virtual void vf_0x64(); // 0x006E5238 slot 0x64 | virtual slot, introduced by AcStrcCampingCar
-    virtual void vf_0x68(); // 0x006E5050 slot 0x68 | virtual slot, introduced by AcStrcCampingCar
+    virtual bool vf_0x68(u32 value); // 0x006E5050 slot 0x68 | virtual slot, introduced by AcStrcCampingCar
     virtual void vf_0x6C(); // 0x006E5068 slot 0x6C | virtual slot, introduced by AcStrcCampingCar
-    virtual void vf_0x70(); // 0x00770554 slot 0x70 | virtual slot, introduced by AcStrcCampingCar
+    virtual bool vf_0x70(DemoActor* actor); // 0x00770554 slot 0x70 | virtual slot, introduced by AcStrcCampingCar
     virtual void vf_0x74(); // 0x00770564 slot 0x74 | virtual slot, introduced by AcStrcCampingCar
     virtual void vf_0x78(); // 0x00758AB4 slot 0x78 | virtual slot, introduced by AcStrcCampingCar
     virtual void vf_0x7C(); // 0x002A9A6C slot 0x7C | virtual slot, introduced by AcStrcCampingCar

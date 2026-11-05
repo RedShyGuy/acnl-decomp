@@ -32,7 +32,7 @@ oml::framework::Result BsCamera::Draw()
 }
 
 // 0x00766EAC slot 0x3C | slot vf_0x3C of Base
-void BsCamera::Unk0()
+bool BsCamera::Unk0()
 {
 }
 

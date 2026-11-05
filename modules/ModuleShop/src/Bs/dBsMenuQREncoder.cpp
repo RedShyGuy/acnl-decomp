@@ -33,7 +33,7 @@ oml::framework::Result BsMenuQREncoder::Draw()
 }
 
 // ModuleShop.cro +0x0230A0 slot 0x3C
-void BsMenuQREncoder::Unk0()
+bool BsMenuQREncoder::Unk0()
 {
 }
 
@@ -48,37 +48,37 @@ void BsMenuQREncoder::OnClose()
 }
 
 // ModuleShop.cro +0x0228F8 slot 0x48
-void BsMenuQREncoder::FUN_006ab3f4()
+void BsMenuQREncoder::FUN_006ab3f4(bool)
 {
 }
 
 // ModuleShop.cro +0x022910 slot 0x4C
-void BsMenuQREncoder::FUN_006ab450()
+bool BsMenuQREncoder::FUN_006ab450()
 {
 }
 
 // ModuleShop.cro +0x0228E4 slot 0x50
-void BsMenuQREncoder::FUN_006ab3e0()
+void BsMenuQREncoder::FUN_006ab3e0(bool)
 {
 }
 
 // ModuleShop.cro +0x022908 slot 0x54
-void BsMenuQREncoder::FUN_006ab440()
+bool BsMenuQREncoder::FUN_006ab440()
 {
 }
 
 // ModuleShop.cro +0x022900 slot 0x58
-void BsMenuQREncoder::FUN_006ab3fc()
+void BsMenuQREncoder::FUN_006ab3fc(bool)
 {
 }
 
 // ModuleShop.cro +0x0228F0 slot 0x5C
-void BsMenuQREncoder::FUN_006ab3ec()
+bool BsMenuQREncoder::FUN_006ab3ec()
 {
 }
 
 // ModuleShop.cro +0x0230F4 slot 0x60
-void BsMenuQREncoder::FUN_00767b30()
+bool BsMenuQREncoder::FUN_00767b30()
 {
 }
 

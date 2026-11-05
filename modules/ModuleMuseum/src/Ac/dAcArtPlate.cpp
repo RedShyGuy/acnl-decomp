@@ -23,7 +23,7 @@ void AcArtPlate::Finalize()
 }
 
 // ModuleMuseum.cro +0x0027B8 slot 0x3C
-void AcArtPlate::Unk0()
+bool AcArtPlate::Unk0()
 {
 }
 

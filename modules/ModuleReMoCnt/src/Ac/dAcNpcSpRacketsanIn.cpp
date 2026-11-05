@@ -22,7 +22,7 @@ oml::framework::Result AcNpcSpRacketsanIn::Finalize()
 }
 
 // ModuleReMoCnt.cro +0x005624 slot 0x3C
-void AcNpcSpRacketsanIn::Unk0()
+bool AcNpcSpRacketsanIn::Unk0()
 {
 }
 

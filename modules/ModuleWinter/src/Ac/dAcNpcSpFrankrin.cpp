@@ -22,7 +22,7 @@ oml::framework::Result AcNpcSpFrankrin::Finalize()
 }
 
 // ModuleWinter.cro +0x0109A0 slot 0x3C
-void AcNpcSpFrankrin::Unk0()
+bool AcNpcSpFrankrin::Unk0()
 {
 }
 

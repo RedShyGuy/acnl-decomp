@@ -1,6 +1,7 @@
 #pragma once
 
 #include "decomp.h"
+#include "netgame/netgame_Api.h"
 #include "Ac/dAcNpcSp.h"
 
 // RTTI 11AcNpcSpShop @ 0x008CB220
@@ -14,8 +15,8 @@ public:
     virtual ~AcNpcSpShop(); // 0x001C0A7C slot 0x00 | slot vf_0x00 of oml::framework::Process
     // 0x001C09B4 slot 0x04 | slot vf_0x04 of oml::framework::Process (deleting dtor)
     virtual oml::framework::Result Calc(); // 0x00605C2C slot 0x24 | slot vf_0x24 of oml::framework::Process
-    virtual void vf_0x48(); // 0x0070E2D8 slot 0x48 | virtual slot, introduced by DemoActor
-    virtual void vf_0x50(); // 0x0057BB04 slot 0x50 | virtual slot, introduced by DemoActor
+    virtual bool vf_0x48(DemoActor* actor); // 0x0070E2D8 slot 0x48 | virtual slot, introduced by DemoActor
+    virtual void vf_0x50(u8 message, netgame::PlayerNo player); // 0x0057BB04 slot 0x50 | virtual slot, introduced by DemoActor
     virtual void vf_0x54(); // 0x0070DD10 slot 0x54 | virtual slot, introduced by DemoActor
     virtual void vf_0x58(); // 0x00752DB4 slot 0x58 | virtual slot, introduced by DemoActor
     virtual void vf_0x5C(); // 0x0070D9EC slot 0x5C | virtual slot, introduced by DemoActor

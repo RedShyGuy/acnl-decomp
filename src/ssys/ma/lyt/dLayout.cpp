@@ -18,40 +18,9 @@ namespace {
 const u32 REG_SCISSORTEST_MODE = 0x065;
 // the parameter of NN_GX_CMDLIST_BINDING (nngxGetCmdlistParameteri)
 const u32 CMDLIST_BINDING = 0x207;
-// the vertical field of view of the perspective projection: half of it as an angle index (256 = a full turn), 45 degrees
-const f32 HALF_FOVY_IDX = 16.0f;
-// the depth range of the projections
-const f32 ORTHO_NEAR = -500.0f;
-const f32 ORTHO_FAR = 500.0f;
-const f32 PERSPECTIVE_NEAR = 0.05f;
-const f32 PERSPECTIVE_FAR = 500.0f;
 // the parallax of the 3D camera is relative to the width of the upper screen
 const f32 PARALLAX_WIDTH = 400.0f;
 
-// (inline) a perspective projection like the nw::gfx camera makes it (name is ours)
-inline void MakePerspective(nn::math::MTX44* pOut, f32 halfFovyIdx, f32 aspect, f32 near, f32 far)
-{
-    f32 sinValue, cosValue;
-    nn::math::SinCosFIdx(&sinValue, &cosValue, halfFovyIdx);
-    const f32 cotangent = cosValue / sinValue;
-    const f32 depth = 1.0f / (far - near);
-    pOut->m[0][1] = 0.0f;
-    pOut->m[0][2] = 0.0f;
-    pOut->m[0][3] = 0.0f;
-    pOut->m[1][0] = 0.0f;
-    pOut->m[1][2] = 0.0f;
-    pOut->m[1][3] = 0.0f;
-    pOut->m[2][0] = 0.0f;
-    pOut->m[2][1] = 0.0f;
-    pOut->m[3][0] = 0.0f;
-    pOut->m[3][1] = 0.0f;
-    pOut->m[3][2] = -1.0f;
-    pOut->m[3][3] = 0.0f;
-    pOut->m[0][0] = cotangent / aspect;
-    pOut->m[1][1] = cotangent;
-    pOut->m[2][2] = far * depth;
-    pOut->m[2][3] = far * near * depth;
-}
 
 // (inline) a coordinate of the scissor rectangle inside [0, size) (name is ours)
 inline u16 ClampScissor(f32 value, u16 size)
@@ -125,15 +94,7 @@ nw::lyt::Pane* ssys::ma::lyt::Layout::FindPane(const char* name)
 void ssys::ma::lyt::Layout::UpdateProj()
 {
     nw::ut::Rect rect = m_Layout.GetLayoutRect();
-    nn::math::MTX44 proj;
-    if (m_IsPerspective == true) {
-        MakePerspective(&proj, HALF_FOVY_IDX, (rect.right - rect.left) / (rect.top - rect.bottom), PERSPECTIVE_NEAR,
-                        PERSPECTIVE_FAR);
-    } else {
-        nn::math::ARMv6::MTX44OrthoC_FAST(&proj, rect.left, rect.right, rect.bottom, rect.top, ORTHO_NEAR, ORTHO_FAR);
-    }
-    nn::math::ARMv6::MTX44PivotC_FAST(&proj, nn::math::PIVOT_DIRECTION_1);
-    m_DrawInfo.SetProjectionMtx(proj);
+    detail::MakeProjection(&m_DrawInfo, rect, m_IsPerspective == true);
 }
 
 // 0x0056946C | libgarden [tier A]
@@ -197,7 +158,7 @@ void ssys::ma::lyt::Layout::Animate()
             nw::ut::Rect rect = m_Layout.GetLayoutRect();
             f32 height = rect.top - rect.bottom;
             f32 sinValue, cosValue;
-            nn::math::SinCosFIdx(&sinValue, &cosValue, HALF_FOVY_IDX);
+            nn::math::SinCosFIdx(&sinValue, &cosValue, detail::HALF_FOVY_IDX);
             m_CameraDistance = (height * 0.5f) / (sinValue / cosValue);
         }
         f32 z;

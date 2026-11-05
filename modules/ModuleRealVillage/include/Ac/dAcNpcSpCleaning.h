@@ -12,5 +12,5 @@ public:
     virtual ~AcNpcSpCleaning(); // ModuleRealVillage.cro +0x003C7C slot 0x00
     virtual oml::framework::Result Initialize(); // ModuleRealVillage.cro +0x0117B8 slot 0x0C
     virtual oml::framework::Result Finalize(); // ModuleRealVillage.cro +0x011854 slot 0x18
-    virtual void Unk0(); // ModuleRealVillage.cro +0x010E1C slot 0x3C
+    virtual bool Unk0(); // ModuleRealVillage.cro +0x010E1C slot 0x3C
 };

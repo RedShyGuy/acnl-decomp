@@ -41,7 +41,12 @@ public:
     DateTime() : mMilliSeconds(0) {}
     DateTime(int year, int month, int day, int hour, int minute, int second, int milliSecond); // 0x00130FCC | nintendogs:bytes [tier A]
 
-    static DateTime FromParameters(const nn::fnd::DateTimeParameters& parameters); // 0x0012468C | fefates:bytes [tier B]
+    // (inline: the callers call the other overload)
+    DECOMP_EMIT_COPY static DateTime FromParameters(const nn::fnd::DateTimeParameters& parameters) // 0x0012468C | fefates:bytes [tier B]
+    {
+        return FromParameters(parameters.year, parameters.month, parameters.day, parameters.hour, parameters.minute,
+                              parameters.second, parameters.milliSecond);
+    }
     DECOMP_NOINLINE static DateTime FromParameters(int year, int month, int day, int hour, int minute, int second, int milliSecond); // 0x0012A21C | nintendogs:bytes [tier A]
     // the time of the clock of the system
     static DateTime GetNow(); // 0x001246C0 | fefates:bytes [tier B]

@@ -1,8 +1,2 @@
-#include "ssys/st/dListNodePriorityBase.h"
+// ListNodePriority has no functions of its own (its constructor is implicit)
 #include "Other/dListNodePriority.h"
-
-// ctor address unknown
-ListNodePriority::ListNodePriority()
-{
-}
-

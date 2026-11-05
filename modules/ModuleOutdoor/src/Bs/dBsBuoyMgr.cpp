@@ -33,7 +33,7 @@ oml::framework::Result BsBuoyMgr::Draw()
 }
 
 // ModuleOutdoor.cro +0x07E638 slot 0x3C
-void BsBuoyMgr::Unk0()
+bool BsBuoyMgr::Unk0()
 {
 }
 

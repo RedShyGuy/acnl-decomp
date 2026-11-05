@@ -44,7 +44,7 @@ oml::framework::Result AcCockroach::Draw()
 }
 
 // ModuleIndoor.cro +0x05AA5C slot 0x3C
-void AcCockroach::Unk0()
+bool AcCockroach::Unk0()
 {
 }
 

@@ -33,7 +33,7 @@ oml::framework::Result BsMenuCatalog::Draw()
 }
 
 // 0x00713F88 slot 0x60 | slot vf_0x60 of MenuBase
-void BsMenuCatalog::FUN_00767b30()
+bool BsMenuCatalog::FUN_00767b30()
 {
 }
 

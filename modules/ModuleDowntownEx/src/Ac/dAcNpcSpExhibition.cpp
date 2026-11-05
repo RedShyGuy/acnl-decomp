@@ -32,7 +32,7 @@ oml::framework::Result AcNpcSpExhibition::Draw()
 }
 
 // ModuleDowntownEx.cro +0x001CBC slot 0x3C
-void AcNpcSpExhibition::Unk0()
+bool AcNpcSpExhibition::Unk0()
 {
 }
 

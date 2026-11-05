@@ -110,5 +110,5 @@ public:
     virtual ~AcFishMuseumBase(); // ModuleMusFish.cro +0x013008 slot 0x00
     virtual bool CanCalc() const; // ModuleMusFish.cro +0x00DC30 slot 0x20
     virtual void HandleCalcResult(oml::framework::Result); // ModuleMusFish.cro +0x012C4C slot 0x28
-    virtual void Unk0(); // ModuleMusFish.cro +0x01AAF4 slot 0x3C
+    virtual bool Unk0(); // ModuleMusFish.cro +0x01AAF4 slot 0x3C
 };

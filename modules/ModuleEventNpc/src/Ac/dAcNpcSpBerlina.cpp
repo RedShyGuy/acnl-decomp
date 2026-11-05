@@ -27,7 +27,7 @@ oml::framework::Result AcNpcSpBerlina::Calc()
 }
 
 // ModuleEventNpc.cro +0x001F5C slot 0x3C
-void AcNpcSpBerlina::Unk0()
+bool AcNpcSpBerlina::Unk0()
 {
 }
 

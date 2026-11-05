@@ -33,7 +33,7 @@ oml::framework::Result BsArtPlateMgr::Draw()
 }
 
 // ModuleMuseum.cro +0x0027B0 slot 0x3C
-void BsArtPlateMgr::Unk0()
+bool BsArtPlateMgr::Unk0()
 {
 }
 

@@ -32,7 +32,7 @@ oml::framework::Result BsEscapeFogMgr::Draw()
 }
 
 // ModuleMiniGame0.cro +0x0B6974 slot 0x3C
-void BsEscapeFogMgr::Unk0()
+bool BsEscapeFogMgr::Unk0()
 {
 }
 

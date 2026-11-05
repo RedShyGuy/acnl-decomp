@@ -22,7 +22,7 @@ oml::framework::Result AcNpcSpStationMaster::Finalize()
 }
 
 // ModuleStation.cro +0x00A4C8 slot 0x3C
-void AcNpcSpStationMaster::Unk0()
+bool AcNpcSpStationMaster::Unk0()
 {
 }
 

@@ -22,7 +22,7 @@ oml::framework::Result AcNpcSpMysteryCat::Finalize()
 }
 
 // ModuleSummer.cro +0x003940 slot 0x3C
-void AcNpcSpMysteryCat::Unk0()
+bool AcNpcSpMysteryCat::Unk0()
 {
 }
 

@@ -12,5 +12,5 @@ public:
     virtual ~AcNpcSpPrologueTanukichi(); // ModulePrologue.cro +0x0057FC slot 0x00
     virtual oml::framework::Result Initialize(); // ModulePrologue.cro +0x007110 slot 0x0C
     virtual oml::framework::Result Finalize(); // ModulePrologue.cro +0x0071AC slot 0x18
-    virtual void Unk0(); // ModulePrologue.cro +0x006C0C slot 0x3C
+    virtual bool Unk0(); // ModulePrologue.cro +0x006C0C slot 0x3C
 };

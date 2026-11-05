@@ -34,7 +34,7 @@ oml::framework::Result AcHomeTicketMachine::Draw()
 }
 
 // ModuleOutdoor.cro +0x07E670 slot 0x3C
-void AcHomeTicketMachine::Unk0()
+bool AcHomeTicketMachine::Unk0()
 {
 }
 

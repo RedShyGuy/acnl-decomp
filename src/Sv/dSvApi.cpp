@@ -4,6 +4,8 @@
 // the objects that the access functions read (they belong to other files of the game)
 // 0x0095CF94
 SvSaveMemory g_SvSaveMemory;
+// 0x0095CFA0
+u8 g_SvIsSaveMemoryValid;
 // 0x00A85790
 SvNetPlayerList g_SvNetPlayerList;
 // 0x00AB014C

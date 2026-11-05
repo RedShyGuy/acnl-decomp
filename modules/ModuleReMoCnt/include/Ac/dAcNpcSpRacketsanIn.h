@@ -12,5 +12,5 @@ public:
     virtual ~AcNpcSpRacketsanIn(); // ModuleReMoCnt.cro +0x0049E8 slot 0x00
     virtual oml::framework::Result Initialize(); // ModuleReMoCnt.cro +0x005A3C slot 0x0C
     virtual oml::framework::Result Finalize(); // ModuleReMoCnt.cro +0x005AD8 slot 0x18
-    virtual void Unk0(); // ModuleReMoCnt.cro +0x005624 slot 0x3C
+    virtual bool Unk0(); // ModuleReMoCnt.cro +0x005624 slot 0x3C
 };

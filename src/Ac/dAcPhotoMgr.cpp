@@ -33,7 +33,7 @@ oml::framework::Result AcPhotoMgr::Draw()
 }
 
 // 0x0018E2C4 slot 0x50 | virtual slot, introduced by DemoActor
-void AcPhotoMgr::vf_0x50()
+void AcPhotoMgr::vf_0x50(u8, netgame::PlayerNo)
 {
 }
 

@@ -217,5 +217,9 @@ bool IsMoney(const SvFgName& item); // 0x002FE6CC (name is ours)
 s32 GetPrice(const SvFgName& item); // 0x003055C4 (name is ours)
 // the offset of the icon of an item of KIND_AXE (0 for other kinds)
 f32 GetIconOffset(const SvFgName& item); // 0x006BFCDC (name is ours)
-void ToInsectFishID(SvFgName const&); // 0x006D9BA8 | libgarden [tier A]
+// the index of the item among the items of its kind (-1: no item; not decompiled yet)
+s32 GetIndex(const SvFgName& item); // 0x002FF76C (name after libgarden's item header)
+// the id of a creature in the list of the insects and fish (insects, fish, dive fish, and the kinds counted with them;
+// 0: other kinds)
+u32 ToInsectFishID(const SvFgName& item); // 0x006D9BA8 | libgarden
 } // namespace item

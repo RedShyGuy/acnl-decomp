@@ -33,7 +33,7 @@ void esc::AcNpcEscape::OnNotify()
 }
 
 // ModuleMiniGame0.cro +0x0B74B0 slot 0x3C
-void esc::AcNpcEscape::Unk0()
+bool esc::AcNpcEscape::Unk0()
 {
 }
 

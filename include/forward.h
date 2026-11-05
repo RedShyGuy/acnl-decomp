@@ -1339,9 +1339,7 @@ namespace demo {
     class Order;
     class OrderList;
     class Proc;
-    enum OrderID : u32
-    {
-    };
+    enum OrderID : u8; // demo/demo_Api.h
 }
 
 namespace djkk { 
@@ -1633,7 +1631,6 @@ namespace fgobj {
 namespace font { 
     class Base;
     class Mgr;
-    struct FontID { u32 _unknown; }; // placeholder, real type unknown
 }
 
 namespace foruneteller { 

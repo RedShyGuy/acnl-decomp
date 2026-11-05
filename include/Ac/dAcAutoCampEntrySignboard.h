@@ -1,6 +1,7 @@
 #pragma once
 
 #include "decomp.h"
+#include "netgame/netgame_Api.h"
 #include "Other/dDemoActor.h"
 #include "Other/dObjTalkRecept.h"
 #include "Utl/dUtlBase.h"
@@ -17,8 +18,8 @@ public:
     // 0x003360E8 slot 0x04 | slot vf_0x04 of oml::framework::Process (deleting dtor)
     virtual oml::framework::Result Calc(); // 0x00336038 slot 0x24 | slot vf_0x24 of oml::framework::Process
     virtual oml::framework::Result Draw(); // 0x00336030 slot 0x30 | slot vf_0x30 of oml::framework::Process
-    virtual void vf_0x48(); // 0x00726684 slot 0x48 | virtual slot, introduced by DemoActor
-    virtual void vf_0x50(); // 0x00336088 slot 0x50 | virtual slot, introduced by DemoActor
+    virtual bool vf_0x48(DemoActor* actor); // 0x00726684 slot 0x48 | virtual slot, introduced by DemoActor
+    virtual void vf_0x50(u8 message, netgame::PlayerNo player); // 0x00336088 slot 0x50 | virtual slot, introduced by DemoActor
     virtual void vf_0x78(); // 0x00335EF4 slot 0x78 | virtual slot, introduced by UtlBase<DemoActor>
     virtual void vf_0x7C(); // 0x00335EEC slot 0x7C | virtual slot, introduced by UtlBase<DemoActor>
     virtual void vf_0x80(); // 0x00335E70 slot 0x80 | virtual slot, introduced by UtlBase<DemoActor>

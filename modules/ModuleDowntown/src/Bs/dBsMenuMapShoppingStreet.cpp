@@ -33,7 +33,7 @@ oml::framework::Result BsMenuMapShoppingStreet::Draw()
 }
 
 // ModuleDowntown.cro +0x010A1C slot 0x3C
-void BsMenuMapShoppingStreet::Unk0()
+bool BsMenuMapShoppingStreet::Unk0()
 {
 }
 

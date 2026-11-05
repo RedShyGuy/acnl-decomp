@@ -12,5 +12,5 @@ public:
     virtual ~AcArtPlate(); // ModuleMuseum.cro +0x0004F4 slot 0x00
     virtual void Initialize(); // ModuleMuseum.cro +0x002C34 slot 0x0C
     virtual void Finalize(); // ModuleMuseum.cro +0x002CD0 slot 0x18
-    virtual void Unk0(); // ModuleMuseum.cro +0x0027B8 slot 0x3C
+    virtual bool Unk0(); // ModuleMuseum.cro +0x0027B8 slot 0x3C
 };

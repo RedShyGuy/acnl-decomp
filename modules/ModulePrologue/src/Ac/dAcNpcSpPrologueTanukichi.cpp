@@ -22,7 +22,7 @@ oml::framework::Result AcNpcSpPrologueTanukichi::Finalize()
 }
 
 // ModulePrologue.cro +0x006C0C slot 0x3C
-void AcNpcSpPrologueTanukichi::Unk0()
+bool AcNpcSpPrologueTanukichi::Unk0()
 {
 }
 

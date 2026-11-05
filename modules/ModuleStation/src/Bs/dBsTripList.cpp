@@ -33,7 +33,7 @@ oml::framework::Result BsTripList::Draw()
 }
 
 // ModuleStation.cro +0x00A498 slot 0x3C
-void BsTripList::Unk0()
+bool BsTripList::Unk0()
 {
 }
 
@@ -48,37 +48,37 @@ void BsTripList::OnClose()
 }
 
 // ModuleStation.cro +0x009568 slot 0x48
-void BsTripList::FUN_006ab3f4()
+void BsTripList::FUN_006ab3f4(bool)
 {
 }
 
 // ModuleStation.cro +0x009580 slot 0x4C
-void BsTripList::FUN_006ab450()
+bool BsTripList::FUN_006ab450()
 {
 }
 
 // ModuleStation.cro +0x009554 slot 0x50
-void BsTripList::FUN_006ab3e0()
+void BsTripList::FUN_006ab3e0(bool)
 {
 }
 
 // ModuleStation.cro +0x009578 slot 0x54
-void BsTripList::FUN_006ab440()
+bool BsTripList::FUN_006ab440()
 {
 }
 
 // ModuleStation.cro +0x009570 slot 0x58
-void BsTripList::FUN_006ab3fc()
+void BsTripList::FUN_006ab3fc(bool)
 {
 }
 
 // ModuleStation.cro +0x009560 slot 0x5C
-void BsTripList::FUN_006ab3ec()
+bool BsTripList::FUN_006ab3ec()
 {
 }
 
 // ModuleStation.cro +0x00A4EC slot 0x60
-void BsTripList::FUN_00767b30()
+bool BsTripList::FUN_00767b30()
 {
 }
 
