@@ -83,12 +83,12 @@ void sead::AudioPlayerCtr::unpauseAll(int fadeFrames)
 }
 
 // 0x0054332C (name is ours)
-void sead::AudioPlayerCtr::initializeAfterSoundSystem()
+bool sead::AudioPlayerCtr::initializeAfterSoundSystem()
 {
     DynamicCast<AudioSystemCtr>(AudioMgr::s_pInstance->mSystem)->initializeSoundSystem_();
     nw::snd::SoundArchive* archive = m_pSoundDataMgr->getSoundArchive();
     if (!archive->IsAvailable()) {
-        return;
+        return false;
     }
     InitializeParam param;
     param.soundArchive = archive;
@@ -100,7 +100,7 @@ void sead::AudioPlayerCtr::initializeAfterSoundSystem()
     param.streamCacheBuffer = m_pStreamCacheBuffer;
     param.streamCacheSize = m_StreamCacheSize;
     param.userParamSizePerSound = m_UserParamSizePerSound;
-    SoundArchivePlayer::Initialize(param);
+    return SoundArchivePlayer::Initialize(param);
 }
 
 // 0x00543458 slot 0x38 (name of the reference symbols)

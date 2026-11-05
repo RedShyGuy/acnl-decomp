@@ -10,6 +10,7 @@
 #include "nw/snd/snd_SoundArchive.h"
 #include "Sound/dSoundBgmMgr.h"
 #include "Sound/dSoundMelodyMgr.h"
+#include "Sound/dSoundHandleSet.h"
 #include "sead/seadCheckedArray.h"
 #include "nw/snd/snd_SoundHandle.h"
 #include "sead/seadAudioSettingParameter.h"
@@ -31,6 +32,8 @@ public:
     {
         PAUSE_FLAG_1 = 1 << 0,
         PAUSE_FLAG_2 = 1 << 1,
+        PAUSE_FLAG_4 = 1 << 2,
+        PAUSE_FLAG_8 = 1 << 3,
         PAUSE_FLAG_10 = 1 << 4,
         PAUSE_FLAG_20 = 1 << 5,
     };
@@ -72,6 +75,35 @@ public:
     void SetExternalFileRoot(bool isRom); // 0x006B315C
     // a volume of SoundVolumeMgr (after the initialization)
     void SetVolume(u32 volume, f32 value, s32 frames); // 0x006B31B4
+    // after the sound system: the players of the archive, the volume manager and the biquad filters
+    void Initialize(); // 0x006B26E8
+    void SetRainState(u32 state); // 0x006B2870
+    // the sea sound starts and the volume manager is finalized (m_State 2)
+    void BeginPlay(); // 0x006B28B8
+    // a handle that holds the sound (the one that has it already, else a free one; NULL: none)
+    nw::snd::SoundHandle* HoldSound(u32 soundId); // 0x006B28EC
+    // stops the sound in all handles
+    void StopHeldSound(u32 soundId); // 0x006B29BC
+    // the system sounds and the animal speech silent (or back)
+    void MuteSystemAndSpeech(bool isMute); // 0x006B2A78
+    // pauses the players of the reason (s_PlayerPauseMasks) and the sounds that pause with it
+    void Pause(u32 flag); // 0x006B2B0C
+    void Unpause(u32 flag); // 0x006B3024
+    void Pause2(); // 0x006B2BB4
+    void Unpause2(); // 0x006B30CC
+    void Pause10(); // 0x006B29A4
+    void Unpause10(); // 0x006B26D0
+    void SetFlagCC5(bool flag); // 0x006B30E4
+    // isStop: the melodies stop, the master volume goes to 0 and the pause has reason 8, else reason 4
+    void PauseHard(bool isStop); // 0x006B3F74
+    // undoes PauseHard
+    void UnpauseHard(); // 0x006B3FEC
+    DECOMP_NOINLINE void PauseSounds(u32 flag); // 0x006B37B8
+    DECOMP_NOINLINE void UnpauseSounds(u32 flag); // 0x006B3ED4
+    // the sound group of the stage into data heap 5 and its extra group into heap 4
+    void LoadStageGroups(stage::Name stage); // 0x006B2D94
+    // the parameters of a sound from the archive
+    void ReadSoundParam(SoundParam* param, u32 soundId); // 0x006B3A58
     // the time of the game is at night (before 7:00 or from 19:00)
     DECOMP_EMIT_COPY DECOMP_NOINLINE bool IsNight(); // 0x00767EF0
     // y0..y1 for x in x0..x1 (y0 if x0 == x1)
@@ -79,14 +111,15 @@ public:
     // a flag of the BGM manager (until SoundBgmMgr is written)
     bool IsBgmFlag14() const { return m_BgmMgr.m_State != 0; }
 
+    // the pause reasons of each player
+    static const u32 s_PlayerPauseMasks[PLAYER_NUM];
     static SoundMgr* s_pInstance;
 
     u32 m_SingletonDisposerBuffer[4];        // 0x000
     u32 _10;                                 // 0x010
     u32 _14;                                 // 0x014
-    u32 _18;                                 // 0x018
-    nw::snd::SoundHandle m_Handles[8];       // 0x01C
-    u8 _3C[8][20];                           // 0x03C
+    s32 m_GroupBaseLevel;                    // 0x018 the level of data heap 5 without a stage group
+    SoundHandleSet<8> m_HandleSet;           // 0x01C
     sead::AudioSettingParameter m_Setting;   // 0x0DC
     sead::AudioResourceLoaderCtr m_Loader;   // 0x100
     u32 _130;                                // 0x130
@@ -102,16 +135,24 @@ public:
     nw::snd::SoundArchive* m_pArchive;       // 0xC10
     sead::CheckedArray<nw::snd::SoundPlayer*, PLAYER_NUM> m_pSoundPlayers; // 0xC14
     bool m_IsInitialized;                    // 0xC5C
-    u8 _C5D;                                 // 0xC5D
+    bool m_IsStopped;                        // 0xC5D set by PauseHard(true)
     u32 m_PauseFlags;                        // 0xC60
     sead::CheckedArray<u32, PLAYER_NUM> m_PlayerPauseFlags; // 0xC64
-    u8 _CAC[0xCB8 - 0xCAC];                  // 0xCAC
+    s32 m_SkipIntervalTick;                  // 0xCAC of the sequences (36 in the player houses, else 72)
+    f32 m_TickScale;                         // 0xCB0 4 / (m_SkipIntervalTick * 1000)
+    u8 _CB4[0xCB8 - 0xCB4];                  // 0xCB4
     s32 m_State;                             // 0xCB8
-    u8 _CBC[0xCC5 - 0xCBC];                  // 0xCBC
+    u8 _CBC[0xCC0 - 0xCBC];                  // 0xCBC
+    u32 m_StageGroup;                        // 0xCC0 the loaded stage group (GROUP_*, -1: none)
+    bool m_IsPlantTree;                      // 0xCC4 the next village group is GROUP_PLANT_TREE
     bool _CC5;                               // 0xCC5
-    u8 _CC6[0xCF4 - 0xCC6];                  // 0xCC6
+    u8 _CC6[0xCD0 - 0xCC6];                  // 0xCC6
+    nw::snd::SoundArchive::SoundInfo m_SoundInfo;     // 0xCD0 (ReadSoundParam)
+    nw::snd::SoundArchive::Sound3DInfo m_Sound3DInfo; // 0xCE8 (ReadSoundParam)
     u8 m_LastStartResult;                    // 0xCF4 StartResult of StartSoundChecked
-    u8 _CF5[0xD1C - 0xCF5];                  // 0xCF5
+    u8 _CF5[0xCFE - 0xCF5];                  // 0xCF5
+    bool m_IsSystemMuted;                    // 0xCFE MuteSystemAndSpeech
+    u8 _CFF[0xD1C - 0xCFF];                  // 0xCFF
     SoundFader m_Fader;                      // 0xD1C
     struct Reaction
     {

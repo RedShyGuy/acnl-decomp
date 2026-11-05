@@ -69,7 +69,7 @@ public:
     // resumes the sounds of all players (names of these helpers are ours)
     void unpauseAll(int fadeFrames); // 0x005432D8
     // the sound archive player once the split initialization of the sound system is done
-    void initializeAfterSoundSystem(); // 0x0054332C
+    bool initializeAfterSoundSystem(); // 0x0054332C
     void setupBuffers(const SetupArg& arg); // 0x005434C8
     void setupBuffers(u32 extraStreamBufferSize, u32 streamCacheSize, u32 userParamSizePerSound, Heap* heap); // 0x00543534
     void setupBuffers_(nw::snd::SoundArchive* archive, u32 streamBufferSize, u32 streamCacheSize,
