@@ -4,19 +4,7 @@
 
 [![Project Completion](https://decomp.dev/RedShyGuy/acnl-decomp/0004000000086300.svg?mode=overview)](https://decomp.dev/RedShyGuy/acnl-decomp)
 
-Decompilation of **Animal Crossing: New Leaf - Welcome amiibo** (3DS, USA, version 1.5). The game's code name is *garden*. The goal is C++ source that does what the original `code.bin` and CRO modules do, function by function. It is built with GCC (devkitARM); Nintendo's compiler (ARMCC 4.1) is not used, so functions are compared with the original by structure instead of byte for byte (see "Checking").
-
-Every known class, method and data structure is declared; most methods still have an empty body that waits to be decompiled. 
-For the current numbers run the `check` target and then the `progress` target (see "Building"): it lists the finished functions and bytes per library and for the game.
-
-| | |
-|---|---|
-| classes (RTTI, code.bin + CROs) | ~3 600 |
-| virtual methods | ~12 400 (incl. 1 265 in CROs) |
-| named non-virtual methods / free functions | ~3 500 / ~800 |
-| CRO modules | 38 |
-| save structures | `garden_plus.dat`: complete layout, size-checked; other save file structures need to be added (friendX.dat, exhibition.dat, mailX.dat) |
-| system calls (`nn::svc`) | 92 (+ the C wrapper `svcSleepThread`), the 18 wrappers ACNL contains copied 1:1 |
+Decompilation of **Animal Crossing: New Leaf - Welcome amiibo** (3DS, USA, version 1.5). The goal is C++ source that does what the original `code.bin` and CRO modules do, function by function. It is built with GCC (devkitARM); Nintendo's compiler (ARMCC 4.1) is **NOT** used, so functions are compared with the original by structure instead of byte for byte (see "Checking").
 
 ## Roadmap
 
