@@ -1,23 +1,47 @@
-#include "Other/dBase.h"
 #include "Bs/dBsAudioLoadSignal.h"
+#include "Audio/bgm/dBgmTrackMixer.h"
+#include "Audio/dAudioObjFurnitureBase.h"
+#include "Sound/dSoundMgr.h"
+#include "netgame/netgame_Api.h"
 
-// ctor candidate(s) 0x002C568C (unverified)
-BsAudioLoadSignal::BsAudioLoadSignal()
-{
-}
-
-// 0x002C56C0 slot 0x00 | slot vf_0x00 of oml::framework::Process
-BsAudioLoadSignal::~BsAudioLoadSignal()
-{
-}
-
-// 0x002C55D4 slot 0x0C | slot vf_0x0C of oml::framework::Process
+// 0x002C55D4
 oml::framework::Result BsAudioLoadSignal::Initialize()
 {
+    if (!m_IsLoading) {
+        SoundMgr::SLoadCurrentStageGroups();
+        m_IsLoading = 1;
+    }
+    if (!SoundMgr::SIsStageGroupLoaded()) {
+        return oml::framework::RESULT_RETRY;
+    }
+    AudioObjFurnitureBase::s_IsLoadSignalOn = true;
+    if (netgame::GetNetgameType() == 3) {
+        m_HasMix29 = 1;
+        audio::bgm::GetTrackMixer()->AddMix(29);
+    }
+    return oml::framework::RESULT_SUCCESS;
 }
 
-// 0x002C5640 slot 0x18 | slot vf_0x18 of oml::framework::Process
+// 0x002C5640
 oml::framework::Result BsAudioLoadSignal::Finalize()
 {
+    if (!SoundMgr::SIsStageGroupLoaded()) {
+        return oml::framework::RESULT_RETRY;
+    }
+    SoundMgr::SUnloadCurrentStageGroups();
+    AudioObjFurnitureBase::s_IsLoadSignalOn = false;
+    if (m_HasMix29) {
+        audio::bgm::GetTrackMixer()->RemoveMix(29);
+    }
+    return oml::framework::RESULT_SUCCESS;
 }
 
+// 0x002C568C
+BsAudioLoadSignal::BsAudioLoadSignal() : m_IsLoading(0), m_HasMix29(0) {}
+
+// 0x002C56C0
+// 0x002C56B0 (deleting dtor)
+BsAudioLoadSignal::~BsAudioLoadSignal()
+{
+    // (only the base is destroyed)
+}

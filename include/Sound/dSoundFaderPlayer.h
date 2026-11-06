@@ -14,7 +14,7 @@ public:
     DECOMP_EMIT_COPY SoundFaderPlayer() : m_pPlayer(NULL), m_pScale(NULL) {} // 0x0012FA44
     virtual ~SoundFaderPlayer();
     // one frame; sets the volume of the player (value times the scale)
-    virtual f32 Update() override; // 0x002BD1CC slot 0x0C
+    DECOMP_NOINLINE virtual f32 Update() override; // 0x002BD1CC slot 0x0C
 
     // to the target; a fade-in that is under way keeps its speed
     void SetTarget(f32 target, s32 frames); // 0x002BD30C

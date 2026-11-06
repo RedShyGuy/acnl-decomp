@@ -1,23 +1,22 @@
-#include "Sound/dSoundTvBase.h"
 #include "Sound/dSoundTv17SnowCM.h"
+#include "Sound/dSoundLabel.h"
 
-// ctor candidate(s) 0x00820310 (unverified)
-SoundTv17SnowCM::SoundTv17SnowCM()
-{
-}
-
-// 0x002A6570 slot 0x00 | slot vf_0x00 of SoundTvBase
+// 0x002A6570
+// 0x002A6560 (deleting dtor)
 SoundTv17SnowCM::~SoundTv17SnowCM()
 {
+    // (only the base is destroyed)
 }
 
-// 0x002A64E4 slot 0x08 | virtual slot, introduced by SoundTvBase
-void SoundTv17SnowCM::vf_0x08()
+// 0x002A64E4
+void SoundTv17SnowCM::Start()
 {
+    m_ItemId = GROUP_TV_17;
+    SoundTvBase::Start();
 }
 
-// 0x002A6550 slot 0x0C | virtual slot, introduced by SoundTvBase
-void SoundTv17SnowCM::vf_0x0C()
+// 0x002A6550
+void SoundTv17SnowCM::OnLoaded()
 {
+    PlaySound(0, SE_TV_17);
 }
-

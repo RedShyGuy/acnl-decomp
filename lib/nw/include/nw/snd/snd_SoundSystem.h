@@ -2,7 +2,9 @@
 
 #include "decomp.h"
 #include "nn/snd/CTR/snd_DspFxDelay.h"
+#include "nn/snd/CTR/CTR_Api.h"
 #include "nn/snd/CTR/snd_DspFxReverb.h"
+#include "nw/snd/internal/driver/snd_SoundThread.h"
 #include "nw/snd/internal/snd_ThreadStack.h"
 #include "nw/snd/snd_Global.h"
 
@@ -70,6 +72,28 @@ public:
                              const nn::snd::CTR::DspFxReverb::Param& param); // 0x004BFE94 (name after the other AppendEffect)
     // waits until the effects of the bus fade out
     static void ClearEffect(AuxBus bus, int fadeTimes); // 0x001417FC | nintendogs:callgraph [tier A]
+
+    // locks the sound thread: the thread of the library or the critical section of ours (the name is ours)
+    class SoundThreadScopedLock
+    {
+    public:
+        SoundThreadScopedLock()
+        {
+            if (s_IsEnableSoundThread) {
+                nn::snd::CTR::LockSoundThread();
+            } else {
+                internal::driver::SoundThread::GetInstance().Lock();
+            }
+        }
+        ~SoundThreadScopedLock()
+        {
+            if (s_IsEnableSoundThread) {
+                nn::snd::CTR::UnlockSoundThread();
+            } else {
+                internal::driver::SoundThread::GetInstance().Unlock();
+            }
+        }
+    };
 
     // (the game reads it; names are ours) whether the sound thread runs (or the game calls the frame process)
     static bool s_IsEnableSoundThread;

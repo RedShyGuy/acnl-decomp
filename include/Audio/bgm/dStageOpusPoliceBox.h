@@ -1,7 +1,8 @@
 #pragma once
 
 #include "decomp.h"
-#include "audio/bgm/dStageOpusShopBase.h"
+#include "Audio/bgm/dStageOpusShopBase.h"
+#include "Sound/dSoundLabel.h"
 
 namespace audio {
 namespace bgm {
@@ -10,16 +11,9 @@ namespace bgm {
 class StageOpusPoliceBox : public ::audio::bgm::StageOpusShopBase
 {
 public:
-    StageOpusPoliceBox(); // ctor candidate(s) 0x00815900 (unverified)
-    virtual void vf_0x0C(); // 0x00587DC0 slot 0x0C | virtual slot, introduced by audio::bgm::StageOpusBase
-    virtual void vf_0x10(); // 0x00587F38 slot 0x10 | virtual slot, introduced by audio::bgm::StageOpusBase
-    virtual void vf_0x14(); // 0x005882D0 slot 0x14 | virtual slot, introduced by audio::bgm::StageOpusBase
-    virtual void vf_0x18(); // 0x005882CC slot 0x18 | virtual slot, introduced by audio::bgm::StageOpusBase
-    virtual void vf_0x1C(); // 0x00587E30 slot 0x1C | virtual slot, introduced by audio::bgm::StageOpusBase
-    virtual void vf_0x28(); // 0x00587DAC slot 0x28 | virtual slot, introduced by audio::bgm::StageOpusBase
-    virtual void vf_0x2C(); // 0x00587D94 slot 0x2C | virtual slot, introduced by audio::bgm::StageOpusBase
-    virtual void vf_0x30(); // 0x00587D08 slot 0x30 | virtual slot, introduced by audio::bgm::StageOpusBase
-    virtual void vf_0x48(); // 0x00587DA0 slot 0x48 | virtual slot, introduced by audio::bgm::StageOpusAblesisters
+    StageOpusPoliceBox() : StageOpusShopBase(STRM_BGM_IND_POLICEBOX, 0, 0) {}
+    virtual ~StageOpusPoliceBox();
 };
+ASSERT_SIZE(StageOpusPoliceBox, 0x2C);
 } // namespace bgm
 } // namespace audio

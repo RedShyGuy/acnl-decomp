@@ -1,13 +1,13 @@
-#include "Sound/dSoundObj.h"
 #include "Sound/dSoundObjCar.h"
 
-// ctor candidate(s) 0x001C0CE4 (unverified)
-SoundObjCar::SoundObjCar()
+// 0x001C0CE4
+SoundObjCar::SoundObjCar() : _8C(false)
 {
 }
 
-// 0x001DA1C8 slot 0x00 | slot vf_0x00 of SoundObjBase
+// 0x001DA1C8
+// 0x001DA134 (deleting dtor)
 SoundObjCar::~SoundObjCar()
 {
+    // (only the base is destroyed)
 }
-

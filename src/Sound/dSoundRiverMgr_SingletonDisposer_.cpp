@@ -1,13 +1,12 @@
-#include "sead/seadIDisposer.h"
 #include "Sound/dSoundRiverMgr_SingletonDisposer_.h"
 
-// ctor candidate(s) 0x00247274 (unverified)
-SoundRiverMgr::SingletonDisposer_::SingletonDisposer_()
-{
-}
-
-// 0x00247364 slot 0x00 | slot vf_0x00 of sead::IDisposer
+// 0x00247364
+// 0x00247310 (deleting dtor)
 SoundRiverMgr::SingletonDisposer_::~SingletonDisposer_()
 {
+    if (this == s_pSingletonDisposer) {
+        s_pSingletonDisposer = NULL;
+        s_pInstance->~SoundRiverMgr();
+        s_pInstance = NULL;
+    }
 }
-

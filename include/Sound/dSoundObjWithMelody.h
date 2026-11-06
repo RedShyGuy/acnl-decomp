@@ -1,17 +1,29 @@
 #pragma once
 
 #include "decomp.h"
+#include "Sound/dSoundMelodyPlayerOneSeqPos.h"
+#include "Sound/dSoundMelodyPlayerPos.h"
 #include "Sound/dSoundObj.h"
 
 // RTTI 18SoundObjWithMelody @ 0x008CC904
 // vtable 0x008F4B8C (vptr 0x008F4B94), offset_to_top 0, 14 entries
+// A sound source that plays melodies at its position: a melody of notes and a door chime (member names are ours).
 class SoundObjWithMelody : public ::SoundObj<1>
 {
 public:
-    SoundObjWithMelody(); // ctor candidate(s) 0x002E987C (unverified)
-    virtual ~SoundObjWithMelody(); // 0x002E98F4 slot 0x00 | slot vf_0x00 of SoundObjBase
-    // 0x002E98E0 slot 0x04 | slot vf_0x04 of SoundObjBase (deleting dtor)
-    virtual void vf_0x08(); // 0x002E96E4 slot 0x08 | virtual slot, introduced by SoundObjBase
-    virtual void vf_0x0C(); // 0x002E9834 slot 0x0C | virtual slot, introduced by SoundObjBase
-    virtual void vf_0x10(); // 0x002E9760 slot 0x10 | virtual slot, introduced by SoundObjBase
+    SoundObjWithMelody(); // 0x002E987C
+    // 0x002E98F4
+    // 0x002E98E0 (deleting dtor)
+    virtual ~SoundObjWithMelody();
+    virtual void Start(const nn::math::VEC3* world, const nn::math::VEC3* relative) override; // 0x002E96E4 slot 0x08
+    virtual void Stop() override; // 0x002E9834 slot 0x0C
+    virtual void SetPosition(const nn::math::VEC3* world, const nn::math::VEC3* relative) override; // 0x002E9760 slot 0x10
+
+    void PlayDoorChime(u32 soundId); // 0x002E9740
+    void PlayDoorChime(u32 soundId, const u8* notes); // 0x002E9748
+
+    SoundMelodyPlayerPos m_Melody;          // 0x5C
+    SoundMelodyPlayerOneSeqPos m_DoorChime; // 0xB8
 };
+ASSERT_OFFSET(SoundObjWithMelody, m_DoorChime, 0xB8);
+ASSERT_SIZE(SoundObjWithMelody, 0xDC);

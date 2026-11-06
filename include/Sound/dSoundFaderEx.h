@@ -13,7 +13,7 @@ public:
     virtual ~SoundFaderEx();
     virtual void Reset(f32 value) override; // 0x0012F988 slot 0x08
     virtual f32 Update() override; // 0x0020A9D4 slot 0x0C
-    virtual s32 GetRemainingFrames() const override { return m_Delay + m_Frames; } // 0x007132C8 slot 0x10
+    virtual s32 GetRemainingFrames() const override; // 0x007132C8 slot 0x10 (a copy in the shared area)
 
     // move to the target in the frames after the delay
     void SetTarget(f32 target, s32 frames, s32 delay); // 0x0020AA30

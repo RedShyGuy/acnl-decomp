@@ -19,6 +19,8 @@ public:
 
     // the values of the object, then SoundMelodyPlayerOneSeqBase::Update
     void Update(); // 0x00343424
+    // Start with the volume and the pans of the object at once
+    void StartAtObj(u32 soundId, const u8* notes); // 0x00342B68
 
     SoundObjBase* m_pObj; // 0x14
     f32 m_ObjVolume;      // 0x18

@@ -5,12 +5,16 @@
 
 // RTTI 16SoundTv15AppleCM @ 0x008CC400
 // vtable 0x008F2EAC (vptr 0x008F2EB4), offset_to_top 0, 5 entries
+// A TV program (the class name is from the RTTI, everything else is ours).
 class SoundTv15AppleCM : public ::SoundTvBase
 {
 public:
-    SoundTv15AppleCM(); // ctor candidate(s) 0x00820434 (unverified)
-    virtual ~SoundTv15AppleCM(); // 0x002BE894 slot 0x00 | slot vf_0x00 of SoundTvBase
-    // 0x002BE884 slot 0x04 | slot vf_0x04 of SoundTvBase (deleting dtor)
-    virtual void vf_0x08(); // 0x002BE808 slot 0x08 | virtual slot, introduced by SoundTvBase
-    virtual void vf_0x0C(); // 0x002BE874 slot 0x0C | virtual slot, introduced by SoundTvBase
+    // (embedded in SoundTvHandle::Create<SoundTv15AppleCM> 0x00820434)
+    SoundTv15AppleCM() {}
+    // 0x002BE894
+    // 0x002BE884 (deleting dtor)
+    virtual ~SoundTv15AppleCM();
+    virtual void Start() override; // 0x002BE808 slot 0x08
+    virtual void OnLoaded() override; // 0x002BE874 slot 0x0C
 };
+ASSERT_SIZE(SoundTv15AppleCM, 0xE4);

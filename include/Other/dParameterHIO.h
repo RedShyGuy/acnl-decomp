@@ -8,6 +8,6 @@
 class ParameterHIO : public ::sead::hostio::Node
 {
 public:
-    ParameterHIO(); // ctor candidate(s) 0x00796EEC (unverified)
+    ParameterHIO() {}
     virtual void vf_0x00(); // 0x0074EE78 slot 0x00 | virtual slot, introduced by (anonymous namespace)::EditHostIO
 };

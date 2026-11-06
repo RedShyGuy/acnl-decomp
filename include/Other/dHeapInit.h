@@ -12,6 +12,8 @@ class Heap;
 namespace HeapInit {
 // "ModelEffectResHeap" (set by HeapInit::CreateModelEffectResHeap)
 extern sead::ExpHeap* s_pModelEffectResHeap;
+// "StageHeap" (set by HeapInit::CreateStageHeap)
+extern sead::ExpHeap* s_pStageHeap;
 // "FontHeap" (set by HeapInit::CreateFontHeap)
 extern sead::ExpHeap* s_pFontHeap;
 // "PhotoHeap" (set by HeapInit::CreatePhotoHeap)

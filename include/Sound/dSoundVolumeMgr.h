@@ -65,7 +65,7 @@ public:
     void Initialize(); // 0x00279CAC
     void Finalize(); // 0x00279E8C
     // a ducking fader back to 1 (now: at once)
-    void EndDuck(const s32& index, bool now); // 0x00279C5C
+    DECOMP_NOINLINE void EndDuck(const s32& index, bool now); // 0x00279C5C
     void EndDuckDemo(); // 0x00279E70
     // ducking fader 6 with s_DemoDuckParam; the doubutsugo player is scaled by GROUP_ACT
     void StartDuckDemo(); // 0x00279E90

@@ -1,7 +1,12 @@
 #pragma once
 
 #include "decomp.h"
-#include "audio/bgm/dStageOpusBase.h"
+#include "Audio/bgm/dStageOpusBase.h"
+#include "Audio/bgm/dBgmRequestMgr.h"
+#include "Sound/dSoundLabel.h"
+#include "Sv/dSvApi.h"
+#include "Sv/dSvPlayer.h"
+#include "stage/stage_Api.h"
 
 namespace audio {
 namespace bgm {
@@ -10,15 +15,27 @@ namespace bgm {
 class StageOpusUpdatePrologue : public ::audio::bgm::StageOpusBase
 {
 public:
-    StageOpusUpdatePrologue(); // ctor candidate(s) 0x00815D10 (unverified)
-    virtual void vf_0x0C(); // 0x0058929C slot 0x0C | virtual slot, introduced by audio::bgm::StageOpusBase
-    virtual void vf_0x10(); // 0x005892D4 slot 0x10 | virtual slot, introduced by audio::bgm::StageOpusBase
-    virtual void vf_0x14(); // 0x0058930C slot 0x14 | virtual slot, introduced by audio::bgm::StageOpusBase
-    virtual void vf_0x18(); // 0x00589308 slot 0x18 | virtual slot, introduced by audio::bgm::StageOpusBase
-    virtual void vf_0x28(); // 0x00589288 slot 0x28 | virtual slot, introduced by audio::bgm::StageOpusBase
-    virtual void vf_0x2C(); // 0x0058927C slot 0x2C | virtual slot, introduced by audio::bgm::StageOpusBase
-    virtual void vf_0x38(); // 0x00589270 slot 0x38 | virtual slot, introduced by audio::bgm::StageOpusBase
-    virtual void vf_0x40(); // 0x00753FBC slot 0x40 | virtual slot, introduced by audio::bgm::StageOpusBase
+    StageOpusUpdatePrologue() {
+        m_Kind = KIND_COMMAND;
+        m_Fade = 5;
+        m_BgmId = STRM_BGM_PROLOGUE_08;
+    }
+    virtual ~StageOpusUpdatePrologue();
+    virtual void OnStart(); // 0x0058929C slot 0x0C
+    virtual void OnStop(); // 0x005892D4 slot 0x10
+    virtual void EnterKeep(); // 0x00589288 slot 0x28
+    virtual void Leave(stage::Name next); // 0x0058927C slot 0x2C
+    virtual void Ready(); // 0x00589270 slot 0x38
+    virtual bool CanKeep(stage::Name next, bool) // 0x00753FBC slot 0x40
+    {
+        SvPlayer* player = SvGetCurrentPlayer();
+        bool result = false;
+        if (player != NULL && next == stage::NAME_VILLAGE) {
+            result = player->playerFlags.unk_0x2B_7;
+        }
+        return result;
+    }
 };
+ASSERT_SIZE(StageOpusUpdatePrologue, 0x20);
 } // namespace bgm
 } // namespace audio

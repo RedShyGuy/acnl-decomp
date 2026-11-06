@@ -1,23 +1,28 @@
 #pragma once
 
 #include "decomp.h"
-#include "audio/bgm/dStageOpusBase.h"
+#include "Audio/bgm/dStageOpusBase.h"
+#include "stage/stage_Api.h"
 
 namespace audio {
 namespace bgm {
 // RTTI N5audio3bgm18StageOpusPrologue1E @ 0x008D27D4
 // vtable 0x009083A4 (vptr 0x009083AC), offset_to_top 0, 18 entries
+// STRM_BGM_PROLOGUE_01 (stages of the start of the game; names are ours)
 class StageOpusPrologue1 : public ::audio::bgm::StageOpusBase
 {
 public:
-    StageOpusPrologue1(); // ctor candidate(s) 0x0081594C (unverified)
-    virtual void vf_0x14(); // 0x005883AC slot 0x14 | virtual slot, introduced by audio::bgm::StageOpusBase
-    virtual void vf_0x18(); // 0x005883A8 slot 0x18 | virtual slot, introduced by audio::bgm::StageOpusBase
-    virtual void vf_0x28(); // 0x00588394 slot 0x28 | virtual slot, introduced by audio::bgm::StageOpusBase
-    virtual void vf_0x2C(); // 0x0058836C slot 0x2C | virtual slot, introduced by audio::bgm::StageOpusBase
-    virtual void vf_0x30(); // 0x005882D4 slot 0x30 | virtual slot, introduced by audio::bgm::StageOpusBase
-    virtual void vf_0x38(); // 0x005882E8 slot 0x38 | virtual slot, introduced by audio::bgm::StageOpusBase
-    virtual void vf_0x40(); // 0x00753F34 slot 0x40 | virtual slot, introduced by audio::bgm::StageOpusBase
+    StageOpusPrologue1() {}
+    virtual ~StageOpusPrologue1();
+    virtual void EnterKeep(); // 0x00588394 slot 0x28
+    virtual void Leave(stage::Name next); // 0x0058836C slot 0x2C
+    virtual void Setup(stage::Name stage); // 0x005882D4 slot 0x30
+    virtual void Ready(); // 0x005882E8 slot 0x38
+    virtual bool CanKeep(stage::Name next, bool) // 0x00753F34 slot 0x40
+    {
+        return next == stage::NAME_VILLAGE_PROLOGUE || next == stage::NAME_STATION_PROLOGUE_DEMO;
+    }
 };
+ASSERT_SIZE(StageOpusPrologue1, 0x20);
 } // namespace bgm
 } // namespace audio

@@ -1,92 +1,32 @@
-#include "audio/bgm/dEvOpusBase.h"
-#include "audio/bgm/dEvOpusHarvest.h"
+#include "Audio/bgm/dEvOpusHarvest.h"
+#include "Audio/bgm/dBgmRequestMgr.h"
 
-namespace audio {
-namespace bgm {
-// ctor address unknown
-audio::bgm::EvOpusHarvest::EvOpusHarvest()
+// 0x00585F6C
+void audio::bgm::EvOpusHarvest::Begin()
 {
+    m_State = STATE_IDLE;
 }
 
-// 0x00585FB0 slot 0x00 | virtual slot, introduced by audio::bgm::EvOpusHarvest
-void audio::bgm::EvOpusHarvest::vf_0x00()
+// 0x00585F78
+void audio::bgm::EvOpusHarvest::Resume()
 {
+    if (m_State == STATE_COOKING) {
+        m_State = STATE_COOKING_RESUMED;
+        GetRequestMgr()->SetDelay(KIND_JINGLE_B, m_CookBgmId, m_CookDelay);
+    }
 }
 
-// 0x0058CCA4 slot 0x04 | virtual slot, introduced by audio::bgm::EvOpusCarnival
-void audio::bgm::EvOpusHarvest::vf_0x04()
+// 0x00585FC8
+void audio::bgm::EvOpusHarvest::End(bool)
 {
+    if (m_State != STATE_IDLE) {
+        GetRequestMgr()->Remove(KIND_JINGLE_B, m_CookBgmId);
+    }
 }
 
-// 0x0058CD20 slot 0x08 | virtual slot, introduced by audio::bgm::EvOpusCarnival
-void audio::bgm::EvOpusHarvest::vf_0x08()
+// 0x00585FF8
+// 0x00585FF4 (deleting dtor)
+audio::bgm::EvOpusHarvest::~EvOpusHarvest()
 {
+    // empty (in the original too)
 }
-
-// 0x0058CC9C slot 0x0C | virtual slot, introduced by audio::bgm::EvOpusCarnival
-void audio::bgm::EvOpusHarvest::vf_0x0C()
-{
-}
-
-// 0x0058CCA0 slot 0x10 | virtual slot, introduced by audio::bgm::EvOpusCarnival
-void audio::bgm::EvOpusHarvest::vf_0x10()
-{
-}
-
-// 0x00585FF8 slot 0x14 | virtual slot, introduced by audio::bgm::EvOpusHarvest
-void audio::bgm::EvOpusHarvest::vf_0x14()
-{
-}
-
-// 0x00585FF4 slot 0x18 | virtual slot, introduced by audio::bgm::EvOpusHarvest
-void audio::bgm::EvOpusHarvest::vf_0x18()
-{
-}
-
-// 0x00585F6C slot 0x1C | virtual slot, introduced by audio::bgm::EvOpusHarvest
-void audio::bgm::EvOpusHarvest::vf_0x1C()
-{
-}
-
-// 0x00585FC8 slot 0x20 | virtual slot, introduced by audio::bgm::EvOpusHarvest
-void audio::bgm::EvOpusHarvest::vf_0x20()
-{
-}
-
-// 0x00584970 slot 0x24 | virtual slot, introduced by audio::bgm::EvOpusEaster
-void audio::bgm::EvOpusHarvest::vf_0x24()
-{
-}
-
-// 0x00585F78 slot 0x28 | virtual slot, introduced by audio::bgm::EvOpusHarvest
-void audio::bgm::EvOpusHarvest::vf_0x28()
-{
-}
-
-// 0x00753D54 slot 0x2C | virtual slot, introduced by audio::bgm::EvOpusHarvest
-void audio::bgm::EvOpusHarvest::vf_0x2C()
-{
-}
-
-// 0x00753D68 slot 0x30 | virtual slot, introduced by audio::bgm::EvOpusHarvest
-void audio::bgm::EvOpusHarvest::vf_0x30()
-{
-}
-
-// 0x00753D00 slot 0x34 | virtual slot, introduced by audio::bgm::EvOpusCarnival
-void audio::bgm::EvOpusHarvest::vf_0x34()
-{
-}
-
-// 0x00584960 slot 0x38 | virtual slot, introduced by audio::bgm::EvOpusCarnival
-void audio::bgm::EvOpusHarvest::vf_0x38()
-{
-}
-
-// 0x00584968 slot 0x3C | virtual slot, introduced by audio::bgm::EvOpusCarnival
-void audio::bgm::EvOpusHarvest::vf_0x3C()
-{
-}
-
-} // namespace bgm
-} // namespace audio

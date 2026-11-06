@@ -74,6 +74,20 @@ void sead::AudioResourceLoaderCtr::finalize()
 {
     // empty (in the original too)
 }
+// 0x0012CC08 (name is ours)
+sead::AudioResourceLoaderCtr::AudioResourceLoaderCtr()
+    : mArchiveKind(ARCHIVE_KIND_NONE), mHeap(nullptr), mSoundHeapSize(0), mExtraStreamBufferSize(0),
+      mStreamBufferScale(1.0f), mStreamCacheSize(0), mUserParamSizePerSound(0),
+      mPath(&SafeStringBase<char>::s_NullChar), mArchiveData(nullptr), mMgr(nullptr)
+{
+}
+
+// 0x00125C48 (name is ours)
+void sead::AudioResourceLoaderCtr::setRomArchive(const SafeStringBase<char>& path)
+{
+    mPath = path;
+    mArchiveKind = ARCHIVE_KIND_ROM;
+}
 } // namespace sead
 
 // the type information of the classes below AudioResourceLoader

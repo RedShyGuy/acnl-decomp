@@ -1,42 +1,39 @@
-#include "audio/bgm/dStageOpusBase.h"
-#include "audio/bgm/dStageOpusResult.h"
+#include "Audio/bgm/dStageOpusResult.h"
+#include "Audio/bgm/dBgmTrackMixer.h"
+#include "Sound/dSoundLabel.h"
+#include "Sound/dSoundMgr.h"
 
-namespace audio {
-namespace bgm {
-// ctor candidate(s) 0x00815500 (unverified)
-audio::bgm::StageOpusResult::StageOpusResult()
+// 0x005874F0
+void audio::bgm::StageOpusResult::Initialize()
 {
+    m_IsFinished = 0;
 }
 
-// 0x00587558 slot 0x14 | virtual slot, introduced by audio::bgm::StageOpusBase
-void audio::bgm::StageOpusResult::vf_0x14()
+// 0x005874FC
+void audio::bgm::StageOpusResult::Setup(stage::Name)
 {
+    GetTrackMixer()->AddMix(8);
 }
 
-// 0x00587554 slot 0x18 | virtual slot, introduced by audio::bgm::StageOpusBase
-void audio::bgm::StageOpusResult::vf_0x18()
+// 0x00587510
+void audio::bgm::StageOpusResult::Ready()
 {
+    m_IsFinished = 1;
+    SoundMgr::SPlayBgmNow(STRM_BGM_ISL_AWARD);
 }
 
-// 0x005874F0 slot 0x20 | virtual slot, introduced by audio::bgm::StageOpusBase
-void audio::bgm::StageOpusResult::vf_0x20()
+// 0x00587524
+void audio::bgm::StageOpusResult::Leave(stage::Name)
 {
+    GetTrackMixer()->RemoveMix(8);
+    if (m_IsFinished) {
+        SoundMgr::SStopBgmFade(1);
+    }
 }
 
-// 0x00587524 slot 0x2C | virtual slot, introduced by audio::bgm::StageOpusBase
-void audio::bgm::StageOpusResult::vf_0x2C()
+// 0x00587558
+// 0x00587554 (deleting dtor)
+audio::bgm::StageOpusResult::~StageOpusResult()
 {
+    // empty (in the original too)
 }
-
-// 0x005874FC slot 0x30 | virtual slot, introduced by audio::bgm::StageOpusBase
-void audio::bgm::StageOpusResult::vf_0x30()
-{
-}
-
-// 0x00587510 slot 0x38 | virtual slot, introduced by audio::bgm::StageOpusBase
-void audio::bgm::StageOpusResult::vf_0x38()
-{
-}
-
-} // namespace bgm
-} // namespace audio

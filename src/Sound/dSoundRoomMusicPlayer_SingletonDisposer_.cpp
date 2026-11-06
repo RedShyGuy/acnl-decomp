@@ -1,13 +1,12 @@
-#include "sead/seadIDisposer.h"
 #include "Sound/dSoundRoomMusicPlayer_SingletonDisposer_.h"
 
-// ctor address unknown
-SoundRoomMusicPlayer::SingletonDisposer_::SingletonDisposer_()
-{
-}
-
-// 0x00322BB8 slot 0x00 | slot vf_0x00 of sead::IDisposer
+// 0x00322BB8
+// 0x00322AE0 (deleting dtor)
 SoundRoomMusicPlayer::SingletonDisposer_::~SingletonDisposer_()
 {
+    if (this == s_pSingletonDisposer) {
+        s_pSingletonDisposer = NULL;
+        s_pInstance->~SoundRoomMusicPlayer();
+        s_pInstance = NULL;
+    }
 }
-

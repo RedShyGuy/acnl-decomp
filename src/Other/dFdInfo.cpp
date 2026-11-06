@@ -11,12 +11,12 @@ void FdInfo::GetCurrentField()
 }
 
 // 0x006C67B0 | libgarden [tier A]
-void FdInfo::GetHeight(nn::math::Vector<float, 3u> const&, FieldName)
+f32 FdInfo::GetHeight(nn::math::Vector<float, 3u> const&, FieldName)
 {
 }
 
 // 0x006C6E28 | libgarden [tier A]
-void FdInfo::GetHeightDefault(nn::math::Vector<float, 3u> const&, FieldName)
+f32 FdInfo::GetHeightDefault(nn::math::Vector<float, 3u> const&, FieldName)
 {
 }
 

@@ -1,92 +1,59 @@
-#include "audio/bgm/dEvOpusBase.h"
-#include "audio/bgm/dEvOpusNewYear.h"
+#include "Audio/bgm/dEvOpusNewYear.h"
+#include "Audio/bgm/dBgmMgr.h"
+#include "Audio/bgm/dBgmRequestMgr.h"
+#include "Sound/dSoundLabel.h"
+#include "Sound/dSoundMgr.h"
+#include "time/time_Api.h"
 
-namespace audio {
-namespace bgm {
-// ctor address unknown
-audio::bgm::EvOpusNewYear::EvOpusNewYear()
+// 0x00585FFC
+void audio::bgm::EvOpusNewYear::Begin()
 {
+    m_Fade = 20;
+    const nn::fnd::DateTimeParameters* date = time::GetCurrentDate();
+    if (date->month == 1 && date->day == 1 && date->hour == 0 && date->minute == 0 && date->second == 0) {
+        // the stroke of midnight
+        SoundMgr::SPlayMuffledSound(SE_EVT_COUNTDOWN_COUNT_F);
+        SoundMgr::SetNextBgmParam(1);
+    }
 }
 
-// 0x0058CC90 slot 0x00 | virtual slot, introduced by audio::bgm::EvOpusCountdown
-void audio::bgm::EvOpusNewYear::vf_0x00()
+// 0x0058605C
+void audio::bgm::EvOpusNewYear::OnStart()
 {
+    m_BgmId = time::GetCurrentDate()->hour < 2 ? STRM_BGM_EVT_NEWYEAR : STRM_BGM_EVT_COUNTDOWN_0200;
+    RequestMgr::Times times = {0, -1, 0};
+    GetRequestMgr()->Request(KIND_STAGE_EVENT, m_BgmId, 5, times);
 }
 
-// 0x0058CCA4 slot 0x04 | virtual slot, introduced by audio::bgm::EvOpusCarnival
-void audio::bgm::EvOpusNewYear::vf_0x04()
+// 0x005860B8
+void audio::bgm::EvOpusNewYear::Update()
 {
+    if (s_ClockState.isNearHour) {
+        if (m_IsPlaying) {
+            m_Fade = GetFadeToHour();
+            Stop();
+        }
+    } else if (!m_IsPlaying) {
+        Start();
+    }
 }
 
-// 0x0058CD20 slot 0x08 | virtual slot, introduced by audio::bgm::EvOpusCarnival
-void audio::bgm::EvOpusNewYear::vf_0x08()
+// 0x0058611C
+void audio::bgm::EvOpusNewYear::OnStop()
 {
+    GetRequestMgr()->SetFade(KIND_STAGE_EVENT, m_BgmId, m_Fade, 0, 0);
 }
 
-// 0x0058605C slot 0x0C | virtual slot, introduced by audio::bgm::EvOpusNewYear
-void audio::bgm::EvOpusNewYear::vf_0x0C()
+// 0x00586150
+void audio::bgm::EvOpusNewYear::End(bool isReplaced)
 {
+    m_Fade = isReplaced ? 20 : 0;
+    Stop();
 }
 
-// 0x0058611C slot 0x10 | virtual slot, introduced by audio::bgm::EvOpusNewYear
-void audio::bgm::EvOpusNewYear::vf_0x10()
+// 0x0058616C
+// 0x00586168 (deleting dtor)
+audio::bgm::EvOpusNewYear::~EvOpusNewYear()
 {
+    // empty (in the original too)
 }
-
-// 0x0058616C slot 0x14 | virtual slot, introduced by audio::bgm::EvOpusNewYear
-void audio::bgm::EvOpusNewYear::vf_0x14()
-{
-}
-
-// 0x00586168 slot 0x18 | virtual slot, introduced by audio::bgm::EvOpusNewYear
-void audio::bgm::EvOpusNewYear::vf_0x18()
-{
-}
-
-// 0x00585FFC slot 0x1C | virtual slot, introduced by audio::bgm::EvOpusNewYear
-void audio::bgm::EvOpusNewYear::vf_0x1C()
-{
-}
-
-// 0x00586150 slot 0x20 | virtual slot, introduced by audio::bgm::EvOpusNewYear
-void audio::bgm::EvOpusNewYear::vf_0x20()
-{
-}
-
-// 0x005860B8 slot 0x24 | virtual slot, introduced by audio::bgm::EvOpusNewYear
-void audio::bgm::EvOpusNewYear::vf_0x24()
-{
-}
-
-// 0x0058495C slot 0x28 | virtual slot, introduced by audio::bgm::EvOpusCarnival
-void audio::bgm::EvOpusNewYear::vf_0x28()
-{
-}
-
-// 0x00753D08 slot 0x2C | virtual slot, introduced by audio::bgm::EvOpusCountdown
-void audio::bgm::EvOpusNewYear::vf_0x2C()
-{
-}
-
-// 0x00753D10 slot 0x30 | virtual slot, introduced by audio::bgm::EvOpusCountdown
-void audio::bgm::EvOpusNewYear::vf_0x30()
-{
-}
-
-// 0x00753D00 slot 0x34 | virtual slot, introduced by audio::bgm::EvOpusCarnival
-void audio::bgm::EvOpusNewYear::vf_0x34()
-{
-}
-
-// 0x00584960 slot 0x38 | virtual slot, introduced by audio::bgm::EvOpusCarnival
-void audio::bgm::EvOpusNewYear::vf_0x38()
-{
-}
-
-// 0x00584968 slot 0x3C | virtual slot, introduced by audio::bgm::EvOpusCarnival
-void audio::bgm::EvOpusNewYear::vf_0x3C()
-{
-}
-
-} // namespace bgm
-} // namespace audio

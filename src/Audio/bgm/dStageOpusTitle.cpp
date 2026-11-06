@@ -1,57 +1,55 @@
-#include "audio/bgm/dStageOpusBase.h"
-#include "audio/bgm/dStageOpusTitle.h"
+#include "Audio/bgm/dStageOpusTitle.h"
+#include "Audio/bgm/dBgmMgr.h"
+#include "Audio/bgm/dBgmTrackMixer.h"
+#include "Audio/bgm/dBgmRequestMgr.h"
+#include "Sound/dSoundLabel.h"
+#include "Sound/dSoundMgr.h"
 
-namespace audio {
-namespace bgm {
-// ctor candidate(s) 0x0081536C (unverified)
-audio::bgm::StageOpusTitle::StageOpusTitle()
+// 0x00586C80
+void audio::bgm::StageOpusTitle::Setup(stage::Name)
 {
+    GetTrackMixer()->AddMix(35);
+    GetStageOpusMgr()->m_Flags |= StageOpusMgr::FLAG_8;
+    s_ClockState.isShop = 0;
 }
 
-// 0x00586CE0 slot 0x0C | virtual slot, introduced by audio::bgm::StageOpusBase
-void audio::bgm::StageOpusTitle::vf_0x0C()
+// 0x00586CB4
+void audio::bgm::StageOpusTitle::Ready()
 {
+    Start();
 }
 
-// 0x00586D44 slot 0x10 | virtual slot, introduced by audio::bgm::StageOpusBase
-void audio::bgm::StageOpusTitle::vf_0x10()
+// 0x00586CC0
+void audio::bgm::StageOpusTitle::Leave(stage::Name)
 {
+    Stop();
+    GetTrackMixer()->RemoveMix(35);
 }
 
-// 0x00586D78 slot 0x14 | virtual slot, introduced by audio::bgm::StageOpusBase
-void audio::bgm::StageOpusTitle::vf_0x14()
+// 0x00586CE0
+void audio::bgm::StageOpusTitle::OnStart()
 {
+    RequestMgr::Times times = {0, -1, 0};
+    GetRequestMgr()->Request(KIND_COMMAND, STRM_BGM_TITLE, 20, times);
 }
 
-// 0x00586D74 slot 0x18 | virtual slot, introduced by audio::bgm::StageOpusBase
-void audio::bgm::StageOpusTitle::vf_0x18()
+// 0x00586D14
+void audio::bgm::StageOpusTitle::Update()
 {
+    if (!m_IsCurrent && !SoundMgr::SIsBgmActive()) {
+        GetTrackMixer()->RemoveMix(35);
+    }
 }
 
-// 0x00586D14 slot 0x1C | virtual slot, introduced by audio::bgm::StageOpusBase
-void audio::bgm::StageOpusTitle::vf_0x1C()
+// 0x00586D44
+void audio::bgm::StageOpusTitle::OnStop()
 {
+    GetRequestMgr()->SetFade(KIND_COMMAND, STRM_BGM_TITLE, 0, 0, 0);
 }
 
-// 0x00586CC0 slot 0x2C | virtual slot, introduced by audio::bgm::StageOpusBase
-void audio::bgm::StageOpusTitle::vf_0x2C()
+// 0x00586D78
+// 0x00586D74 (deleting dtor)
+audio::bgm::StageOpusTitle::~StageOpusTitle()
 {
+    // empty (in the original too)
 }
-
-// 0x00586C80 slot 0x30 | virtual slot, introduced by audio::bgm::StageOpusBase
-void audio::bgm::StageOpusTitle::vf_0x30()
-{
-}
-
-// 0x00586CB4 slot 0x38 | virtual slot, introduced by audio::bgm::StageOpusBase
-void audio::bgm::StageOpusTitle::vf_0x38()
-{
-}
-
-// 0x00753E30 slot 0x40 | virtual slot, introduced by audio::bgm::StageOpusBase
-void audio::bgm::StageOpusTitle::vf_0x40()
-{
-}
-
-} // namespace bgm
-} // namespace audio

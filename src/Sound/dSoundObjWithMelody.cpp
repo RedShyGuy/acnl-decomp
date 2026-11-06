@@ -1,28 +1,74 @@
-#include "Sound/dSoundObj.h"
 #include "Sound/dSoundObjWithMelody.h"
+#include "stage/stage_Api.h"
 
-// ctor candidate(s) 0x002E987C (unverified)
+namespace {
+const s32 TYPE_INDOOR = 10;
+} // namespace
+
+// 0x002E987C
 SoundObjWithMelody::SoundObjWithMelody()
 {
+    // (only the members are constructed)
 }
 
-// 0x002E98F4 slot 0x00 | slot vf_0x00 of SoundObjBase
+// 0x002E98F4
+// 0x002E98E0 (deleting dtor)
 SoundObjWithMelody::~SoundObjWithMelody()
 {
+    SoundObjWithMelody::Stop();
 }
 
-// 0x002E96E4 slot 0x08 | virtual slot, introduced by SoundObjBase
-void SoundObjWithMelody::vf_0x08()
+// 0x002E96E4
+void SoundObjWithMelody::Start(const nn::math::VEC3* world, const nn::math::VEC3* relative)
 {
+    if (m_IsActive) {
+        return;
+    }
+    if (stage::IsKind(stage::KIND_INDOOR, stage::GetCurrent())) {
+        m_Type = TYPE_INDOOR;
+    }
+    SoundObjBase::Start(world, relative);
+    m_Melody.m_pObj = this;
+    m_DoorChime.m_pObj = this;
 }
 
-// 0x002E9834 slot 0x0C | virtual slot, introduced by SoundObjBase
-void SoundObjWithMelody::vf_0x0C()
+// 0x002E9740
+void SoundObjWithMelody::PlayDoorChime(u32 soundId)
 {
+    PlayDoorChime(soundId, NULL);
 }
 
-// 0x002E9760 slot 0x10 | virtual slot, introduced by SoundObjBase
-void SoundObjWithMelody::vf_0x10()
+// 0x002E9748
+void SoundObjWithMelody::PlayDoorChime(u32 soundId, const u8* notes)
 {
+    if (m_IsActive) {
+        m_DoorChime.StartAtObj(soundId, notes);
+    }
 }
 
+// 0x002E9760
+void SoundObjWithMelody::SetPosition(const nn::math::VEC3* world, const nn::math::VEC3* relative)
+{
+    if (!m_IsActive) {
+        return;
+    }
+    if (m_Melody.m_State != 0 || m_DoorChime.m_State != 0) {
+        UpdateChanged();
+    }
+    SoundObj<1>::SetPosition(world, relative);
+    m_Melody.Calc();
+    m_DoorChime.Update();
+}
+
+// 0x002E9834
+void SoundObjWithMelody::Stop()
+{
+    if (!m_IsActive) {
+        return;
+    }
+    m_Melody.m_pObj = NULL;
+    m_Melody.Finalize();
+    m_DoorChime.m_pObj = NULL;
+    m_DoorChime.StopDoorChime();
+    SoundObj<1>::Stop();
+}

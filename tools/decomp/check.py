@@ -316,6 +316,9 @@ def source_by_types(parsed, demangled):
 
 # (key, deleting) -> address of the this-adjusting thunk named in the sources ("(thunk)" lines)
 THUNKS = {}
+# keys of functions that armlink folded with another function ("// 0x... (folded)"): the address only
+# resolves their calls, the body is compared with the other function
+FOLDED = set()
 # key -> addresses of further identical copies of the function ("// 0x... (copy)" lines)
 COPIES = {}
 # symbol -> (data, size, syminfo) of GCC's "f.part.N" clones in the object being compared (ipa-split:
@@ -338,6 +341,7 @@ def source_addresses():
             pending_symbol = None
             pending_thunks = []
             pending_copies = []
+            pending_folded = False
             text = open(path, encoding='utf-8', errors='replace').read()
             # explicit instantiations ("template class X<arg>;"): a member defined as X<T>::f under
             # "template <typename T>" is compared as X<arg>::f
@@ -376,6 +380,11 @@ def source_addresses():
                         pending_copies.append(int(m.group(1), 16) & ~1)
                         if pending is None:
                             pending, sig = -1, ''
+                    elif re.search(r'\(folded\)', st):
+                        # armlink folded the code with another function at this address: the address is
+                        # used for the calls of the function, its body is compared only once (there)
+                        pending, sig = int(m.group(1), 16) & ~1, ''
+                        pending_folded = True
                     elif 'deleting' in st:
                         # GCC's D0 variant; the line of the complete destructor may come before or after
                         pending_del, sig = int(m.group(1), 16) & ~1, ''
@@ -435,6 +444,9 @@ def source_addresses():
                         DELETING_CANDIDATES.setdefault(key, []).append((scoped_names(full), del_addr))
                     if copy_addrs:
                         COPIES.setdefault(key, []).extend(copy_addrs)
+                    if pending_folded:
+                        FOLDED.add(key)
+                        pending_folded = False
                     for is_del, t_addr, t_off in thunk_addrs:
                         THUNKS[(key, is_del, t_off)] = t_addr
                     if pending_addr >= 0:
@@ -1469,6 +1481,8 @@ def main():
                 continue
             name = static_init_names.get(addr, name)
         else:
+            if parsed and skey in FOLDED:
+                continue                          # compared with the function it was folded with
             addr = by_source.get(skey) if parsed else None
             if addr is None and parsed:
                 addr = source_by_types(parsed, name)       # overloads with as many parameters

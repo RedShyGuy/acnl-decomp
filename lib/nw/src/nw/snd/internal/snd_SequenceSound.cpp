@@ -286,7 +286,8 @@ u32 nw::snd::internal::SequenceSound::GetTick() const
 
 } // namespace internal
 
-// (armlink folded the code with WaveSoundHandle::DetachSound 0x00132530)
+// the same code as WaveSoundHandle::DetachSound
+// 0x00132530 (folded)
 void nw::snd::SequenceSoundHandle::DetachSound()
 {
     if (m_pSound == nullptr) {

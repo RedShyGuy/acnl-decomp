@@ -5,12 +5,21 @@
 
 // RTTI 17SoundTv14Exercize @ 0x008CC6E8
 // vtable 0x008F3E14 (vptr 0x008F3E1C), offset_to_top 0, 5 entries
+// A TV program (the class name is from the RTTI, everything else is ours).
 class SoundTv14Exercize : public ::SoundTvBase
 {
 public:
-    SoundTv14Exercize(); // ctor candidate(s) 0x008204F0 (unverified)
-    virtual ~SoundTv14Exercize(); // 0x002D3D74 slot 0x00 | slot vf_0x00 of SoundTvBase
-    // 0x002D3D64 slot 0x04 | slot vf_0x04 of SoundTvBase (deleting dtor)
-    virtual void vf_0x08(); // 0x002D3AF0 slot 0x08 | virtual slot, introduced by SoundTvBase
-    virtual void vf_0x10(); // 0x002D3C50 slot 0x10 | virtual slot, introduced by SoundTvBase
+    // (embedded in SoundTvHandle::Create<SoundTv14Exercize> 0x008204F0)
+    SoundTv14Exercize() : m_Part(0) {}
+    // 0x002D3D74
+    // 0x002D3D64 (deleting dtor)
+    virtual ~SoundTv14Exercize();
+    virtual void Start() override; // 0x002D3AF0 slot 0x08
+    virtual void UpdateProgram(s32 frame) override; // 0x002D3C50 slot 0x10
+    // the music of the part on a handle; the other handle fades out
+    void SetPart(u8 part, u32 index, u32 soundId); // 0x002D3B64
+
+    u8 m_Part; // 0xE1 the part of the exercises (1..8)
 };
+ASSERT_OFFSET(SoundTv14Exercize, m_Part, 0xE1);
+ASSERT_SIZE(SoundTv14Exercize, 0xE4);

@@ -1,12 +1,37 @@
-#include "audio/bgm/dOpusBase.h"
-#include "audio/bgm/dEvOpusBase.h"
+#include "Audio/bgm/dEvOpusBase.h"
 
-namespace audio {
-namespace bgm {
-// ctor address unknown
-audio::bgm::EvOpusBase::EvOpusBase()
+// 0x00584958
+void audio::bgm::EvOpusBase::Begin()
 {
+    // empty (in the original too)
 }
 
-} // namespace bgm
-} // namespace audio
+// 0x0058495C
+void audio::bgm::EvOpusBase::Resume()
+{
+    // empty (in the original too)
+}
+
+// 0x00584960
+bool audio::bgm::EvOpusBase::StartRequest(u8, u32)
+{
+    return false;
+}
+
+// 0x00584968
+bool audio::bgm::EvOpusBase::StopRequest(u8, u32)
+{
+    return false;
+}
+
+// 0x00584970
+void audio::bgm::EvOpusBase::Update()
+{
+    // empty (in the original too)
+}
+
+// 0x00584974
+void audio::bgm::EvOpusBase::End(bool)
+{
+    // empty (in the original too)
+}

@@ -13,7 +13,7 @@ class AudioFxMemoryMgr;
 class AudioFxMgr
 {
 public:
-    AudioFxMgr() : mList() { mList.initOffset(offsetof(AudioFx, mNode)); }
+    DECOMP_EMIT_COPY DECOMP_NOINLINE AudioFxMgr() : mList() { mList.initOffset(offsetof(AudioFx, mNode)); } // 0x00138AC8
 
     // the work buffer of fx from memoryMgr (true if fx was set up already)
     bool setup(AudioFx* fx, AudioFxMemoryMgr* memoryMgr, s32 alignment); // 0x0053E260 | nintendogs:callseq [tier A]

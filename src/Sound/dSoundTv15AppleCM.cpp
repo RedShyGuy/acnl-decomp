@@ -1,23 +1,22 @@
-#include "Sound/dSoundTvBase.h"
 #include "Sound/dSoundTv15AppleCM.h"
+#include "Sound/dSoundLabel.h"
 
-// ctor candidate(s) 0x00820434 (unverified)
-SoundTv15AppleCM::SoundTv15AppleCM()
-{
-}
-
-// 0x002BE894 slot 0x00 | slot vf_0x00 of SoundTvBase
+// 0x002BE894
+// 0x002BE884 (deleting dtor)
 SoundTv15AppleCM::~SoundTv15AppleCM()
 {
+    // (only the base is destroyed)
 }
 
-// 0x002BE808 slot 0x08 | virtual slot, introduced by SoundTvBase
-void SoundTv15AppleCM::vf_0x08()
+// 0x002BE808
+void SoundTv15AppleCM::Start()
 {
+    m_ItemId = GROUP_TV_15;
+    SoundTvBase::Start();
 }
 
-// 0x002BE874 slot 0x0C | virtual slot, introduced by SoundTvBase
-void SoundTv15AppleCM::vf_0x0C()
+// 0x002BE874
+void SoundTv15AppleCM::OnLoaded()
 {
+    PlaySound(0, SE_TV_15);
 }
-

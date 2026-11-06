@@ -1,13 +1,12 @@
-#include "sead/seadIDisposer.h"
 #include "Sound/dSoundSeaMgr_SingletonDisposer_.h"
 
-// ctor candidate(s) 0x001DA7C4 (unverified)
-SoundSeaMgr::SingletonDisposer_::SingletonDisposer_()
-{
-}
-
-// 0x001DA8D0 slot 0x00 | slot vf_0x00 of sead::IDisposer
+// 0x001DA8D0
+// 0x001DA86C (deleting dtor)
 SoundSeaMgr::SingletonDisposer_::~SingletonDisposer_()
 {
+    if (this == s_pSingletonDisposer) {
+        s_pSingletonDisposer = NULL;
+        s_pInstance->~SoundSeaMgr();
+        s_pInstance = NULL;
+    }
 }
-

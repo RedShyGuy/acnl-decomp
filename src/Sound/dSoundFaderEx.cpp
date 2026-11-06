@@ -37,3 +37,9 @@ void SoundFaderEx::SetTarget(f32 target, s32 frames, s32 delay)
     }
     m_Delay = delay;
 }
+
+// 0x007132C8
+s32 SoundFaderEx::GetRemainingFrames() const
+{
+    return m_Delay + m_Frames;
+}

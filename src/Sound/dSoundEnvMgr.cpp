@@ -7,8 +7,8 @@
 const s32 SoundEnvMgr::s_OutdoorFadeFrames[2] = {750, 360};
 // 0x0083B89C
 const SoundEnvMgr::RainSound SoundEnvMgr::s_RainSounds[2] = {
-    {{0.6f, 0.8f}, {1.6f, 1.6f}, {0, 0}, {0.83f, 0.5f}},  // SE_ENV_RAIN(_START)
-    {{0.6f, 0.8f}, {1.6f, 1.6f}, {0, 0}, {0.88f, 0.6f}},  // SE_ENV_RAIN_HEAVY
+    {{0.6f, 0.8f}, {1.6f, 1.6f}, {5, 5}, {0.83f, 0.5f}},  // SE_ENV_RAIN(_START)
+    {{0.6f, 0.8f}, {1.6f, 1.6f}, {5, 5}, {0.88f, 0.6f}},  // SE_ENV_RAIN_HEAVY
 };
 // 0x0083B8DC
 const u32 SoundEnvMgr::s_TourSoundIds[2][2] = {

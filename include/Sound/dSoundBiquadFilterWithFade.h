@@ -12,20 +12,7 @@ class SoundBiquadFilterWithFade : public ::nw::snd::BiquadFilterCallback
 public:
     SoundBiquadFilterWithFade(); // 0x0033FC54
     virtual ~SoundBiquadFilterWithFade();
-    virtual void GetCoefficients(int, f32 value, nn::snd::CTR::BiquadFilterCoefficients* pCoefficients) const override // 0x0072677C slot 0x08
-    {
-        s32 last = m_Count - 1;
-        s32 index = static_cast<s32>(last * value);
-        if (index > last)
-        {
-            index = last;
-        }
-        else if (index < 0)
-        {
-            index = 0;
-        }
-        *pCoefficients = m_pTable[index];
-    }
+    virtual void GetCoefficients(int, f32 value, nn::snd::CTR::BiquadFilterCoefficients* pCoefficients) const override; // 0x0072677C slot 0x08 (a copy in the shared area)
 
     const nn::snd::CTR::BiquadFilterCoefficients* m_pTable; // 0x04
     u32 _8;                                                  // 0x08

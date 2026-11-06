@@ -66,7 +66,7 @@ DECOMP_NOINLINE void Update(); // 0x0056D2B0
 void Freeze(); // 0x0056D1C0
 
 // the date of the game
-DECOMP_EMIT_COPY inline const nn::fnd::DateTimeParameters* GetCurrentDate() // 0x002FB394
+DECOMP_EMIT_COPY DECOMP_NOINLINE inline const nn::fnd::DateTimeParameters* GetCurrentDate() // 0x002FB394
 {
     return &s_CurrentDate;
 }

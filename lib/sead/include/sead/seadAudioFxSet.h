@@ -23,6 +23,8 @@ class AudioFxSet
 public:
     static const s32 FX_NUM_PER_BUS = 3;
 
+    // the managers, no effects
+    DECOMP_NOINLINE AudioFxSet(); // 0x001331FC (name is ours)
     // takes the effects off their buses and deletes the managers
     ~AudioFxSet(); // 0x00141BD8 (name is ours)
 

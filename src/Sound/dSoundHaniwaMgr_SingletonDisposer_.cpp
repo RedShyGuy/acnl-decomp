@@ -1,13 +1,11 @@
-#include "sead/seadIDisposer.h"
 #include "Sound/dSoundHaniwaMgr_SingletonDisposer_.h"
 
-// ctor candidate(s) 0x00276A28 (unverified)
-SoundHaniwaMgr::SingletonDisposer_::SingletonDisposer_()
-{
-}
-
-// 0x00276B3C slot 0x00 | slot vf_0x00 of sead::IDisposer
+// 0x00276B3C
+// 0x00276AF8 (deleting dtor)
 SoundHaniwaMgr::SingletonDisposer_::~SingletonDisposer_()
 {
+    if (this == s_pSingletonDisposer) {
+        s_pSingletonDisposer = NULL;
+        s_pInstance = NULL;
+    }
 }
-

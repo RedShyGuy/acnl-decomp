@@ -3,7 +3,9 @@
 #include "decomp.h"
 #include "nw/snd/snd_SoundArchive.h"
 #include "nw/snd/snd_SoundHandle.h"
+#include "nw/snd/internal/snd_BasicSound.h"
 #include "sead/seadCheckedArray.h"
+#include "sead/seadSoundHandle.h"
 
 // The parameters of a sound the game keeps next to its handle: the archive's player and priority, the kind from the user
 // parameter and which 3D parameters (Sound3DInfo flags) the game applies itself (name and members are ours).
@@ -38,6 +40,10 @@ public:
 
     // the sound info read for a sound without parameters
     static nw::snd::SoundArchive::SoundInfo s_SoundInfo;
+    static const f32 s_VolumeCurveOffsets[3];
+    static f32 s_VolumeCurveScales[3];
+    // the parameters read for a sound without parameters
+    static SoundParam s_SoundParam;
 };
 
 // N sound handles with the parameters of their sounds (SoundMgr has one with 8, the sound objects SoundObj<N> one with N)
@@ -49,7 +55,45 @@ public:
     // a free handle, else the one with the lowest priority if the new sound's priority is not lower (-1: none)
     DECOMP_NOINLINE s32 FindFreeIndex(u32 soundId);
     // the same as a handle (NULL: none)
-    DECOMP_NOINLINE nw::snd::SoundHandle* FindFreeHandle(u32 soundId);
+    DECOMP_NOINLINE sead::SoundHandle* FindFreeHandle(u32 soundId);
+
+    // the volume of a sound: the kinds 1..3 of the user parameter map the volume by a curve
+    void SetVolume(f32 volume, s32 index)
+    {
+        u32 soundId = m_Handles[index].GetId();
+        u32 kind = 0xFFFFFFFF;
+        for (s32 i = 0; i < N; i++) {
+            if (m_Params[i].soundId == soundId) {
+                kind = m_Params[i].kind;
+                break;
+            }
+        }
+        if (kind == 0xFFFFFFFF) {
+            kind = ReadUserParam(soundId) & 3;
+        }
+        if (kind != 0) {
+            volume = (volume - s_VolumeCurveOffsets[kind]) * s_VolumeCurveScales[kind];
+        }
+        if (volume < 0.0f) {
+            volume = 0.0f;
+        } else if (volume > 2.0f) {
+            volume = 2.0f;
+        }
+        if (m_Handles[index].m_pSound != NULL) {
+            m_Handles[index].m_pSound->SetVolume(volume, 0);
+        }
+    }
+
+    // a handle has the sound
+    DECOMP_EMIT_COPY DECOMP_NOINLINE bool IsPlaying(u32 soundId)
+    {
+        for (s32 i = 0; i < N; i++) {
+            if (m_Handles[i].GetId() == soundId) {
+                return true;
+            }
+        }
+        return false;
+    }
 
     // the priority of a sound: its parameters if a handle has it, else the archive
     s32 GetPriority(u32 soundId)
@@ -67,7 +111,7 @@ public:
         return s_SoundInfo.playerPriority;
     }
 
-    sead::CheckedArray<nw::snd::SoundHandle, N> m_Handles;
+    sead::CheckedArray<sead::SoundHandle, N> m_Handles;
     sead::CheckedArray<SoundParam, N> m_Params;
 };
 
@@ -95,7 +139,7 @@ s32 SoundHandleSet<N>::FindFreeIndex(u32 soundId)
 }
 
 template <s32 N>
-nw::snd::SoundHandle* SoundHandleSet<N>::FindFreeHandle(u32 soundId)
+sead::SoundHandle* SoundHandleSet<N>::FindFreeHandle(u32 soundId)
 {
     s32 index = -1;
     s32 lowest = 128;

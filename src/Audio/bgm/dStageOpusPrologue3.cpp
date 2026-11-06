@@ -1,42 +1,46 @@
-#include "audio/bgm/dStageOpusBase.h"
-#include "audio/bgm/dStageOpusPrologue3.h"
+#include "Audio/bgm/dStageOpusPrologue3.h"
+#include "Audio/bgm/dBgmRequestMgr.h"
+#include "Sound/dSoundLabel.h"
 
-namespace audio {
-namespace bgm {
-// ctor candidate(s) 0x0081599C (unverified)
-audio::bgm::StageOpusPrologue3::StageOpusPrologue3()
+// 0x005886DC
+void audio::bgm::StageOpusPrologue3::Initialize()
 {
+    m_IsDelayed = 1;
 }
 
-// 0x005886FC slot 0x0C | virtual slot, introduced by audio::bgm::StageOpusBase
-void audio::bgm::StageOpusPrologue3::vf_0x0C()
+// 0x005886E8
+void audio::bgm::StageOpusPrologue3::Leave(stage::Name)
 {
+    m_IsSwitching = 1;
+    Stop();
 }
 
-// 0x00588778 slot 0x10 | virtual slot, introduced by audio::bgm::StageOpusBase
-void audio::bgm::StageOpusPrologue3::vf_0x10()
+// 0x005886FC
+void audio::bgm::StageOpusPrologue3::OnStart()
 {
+    if (m_IsDelayed) {
+        RequestMgr::Times times = {10, -1, 0};
+        GetRequestMgr()->Request(KIND_SHOP, STRM_BGM_IND_OFFICE, 20, times);
+        m_IsDelayed = 0;
+        return;
+    }
+    RequestMgr::Times times = {0, -1, 0};
+    GetRequestMgr()->Request(KIND_SHOP, STRM_BGM_IND_OFFICE, 20, times);
 }
 
-// 0x005887DC slot 0x14 | virtual slot, introduced by audio::bgm::StageOpusBase
-void audio::bgm::StageOpusPrologue3::vf_0x14()
+// 0x00588778
+void audio::bgm::StageOpusPrologue3::OnStop()
 {
+    if (m_IsSwitching) {
+        GetRequestMgr()->Remove(KIND_SHOP, STRM_BGM_IND_OFFICE);
+        return;
+    }
+    GetRequestMgr()->SetFade(KIND_SHOP, STRM_BGM_IND_OFFICE, 5, 0, 0);
 }
 
-// 0x005887D8 slot 0x18 | virtual slot, introduced by audio::bgm::StageOpusBase
-void audio::bgm::StageOpusPrologue3::vf_0x18()
+// 0x005887DC
+// 0x005887D8 (deleting dtor)
+audio::bgm::StageOpusPrologue3::~StageOpusPrologue3()
 {
+    // empty (in the original too)
 }
-
-// 0x005886DC slot 0x20 | virtual slot, introduced by audio::bgm::StageOpusBase
-void audio::bgm::StageOpusPrologue3::vf_0x20()
-{
-}
-
-// 0x005886E8 slot 0x2C | virtual slot, introduced by audio::bgm::StageOpusBase
-void audio::bgm::StageOpusPrologue3::vf_0x2C()
-{
-}
-
-} // namespace bgm
-} // namespace audio

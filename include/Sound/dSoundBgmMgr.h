@@ -53,7 +53,7 @@ public:
     // the two tracks of T.I.Y. and the gardening store
     void SetHomeCenterTracks(s32 frames); // 0x001D7CB0
     void SetBoost(bool isBoost); // 0x001D58B0
-    void SetWeather(u8 weather); // 0x001D6430
+    void SetDowntownLevel(u8 level); // 0x001D6430
     void UpdateDowntown(); // 0x001D72D4
 
     void StopJingle(s32 fadeFrames); // 0x001D5904
@@ -76,6 +76,8 @@ public:
     void Duck(bool isDown); // 0x001D762C
     void PlayJingle(u32 soundId); // 0x001D7660
     void PlayJingle(u32 soundId, u8 mode); // 0x001D7668
+    // PlayJingle with mode 2
+    void PlayJingleStartPrepared(u32 soundId); // 0x001D63C0
     void StartJinglePrepared(); // 0x001D7BCC
     void StartSubPrepared(); // 0x001D7C0C
     void StartCafe(); // 0x001D7B68
@@ -116,7 +118,7 @@ public:
     u32 m_SoundId;                       // 0x018
     SoundFader m_TrackFader;             // 0x01C
     bool m_IsBiquad;                     // 0x030
-    nw::snd::SoundHandle m_JingleHandle; // 0x034
+    sead::SoundHandle m_JingleHandle;    // 0x034
     u8 m_JingleState;                    // 0x038
     u32 m_JingleId;                      // 0x03C
     nw::snd::SoundHandle m_ObjHandle;    // 0x040 a K.K. song from an object
@@ -125,10 +127,10 @@ public:
     s32 m_ObjLoadLevel;                  // 0x04C the level of the sound heap before the song (-1: none)
     nw::snd::SoundHandle m_MixHandle;    // 0x050
     u32 m_MixId;                         // 0x054
-    u8 m_Weather;                        // 0x058
-    s8 m_WeatherVariant;                 // 0x059 (-1: none)
-    u32 m_WeatherIds[3];                 // 0x05C
-    SoundFader m_WeatherFader;           // 0x068
+    u8 m_DowntownLevel;                  // 0x058 the variant of the music of Main Street (STRM_BGM_DWNTWN_*_1/2/3)
+    s8 m_DowntownVariant;                 // 0x059 (-1: none)
+    u32 m_DowntownIds[3];                 // 0x05C
+    SoundFader m_DowntownFader;           // 0x068
     bool m_IsKeepVariant;                // 0x07C
     s32 m_MuseumRoom;                    // 0x080
     u8 m_MixCounter;                     // 0x084
@@ -137,7 +139,7 @@ public:
     u32 m_StreamTracksOff;               // 0x090
     u32 m_SeqTracksOff;                  // 0x094
     SoundObjBase* m_pObj;                // 0x098 the object of m_ObjHandle and of the distance fade
-    bool _9C;                            // 0x09C
+    bool m_IsFadeInRequested;            // 0x09C for this frame (SoundObjNpc::RequestBgmFadeIn): states 8/9 fade m_FaderA0 in
     SoundFader m_FaderA0;                // 0x0A0
     u8 _B4;                              // 0x0B4
     SoundFader m_BoostFader;             // 0x0B8
@@ -160,7 +162,7 @@ private:
     void ApplyBiquad();
 };
 ASSERT_OFFSET(SoundBgmMgr, m_TrackFader, 0x1C);
-ASSERT_OFFSET(SoundBgmMgr, m_WeatherFader, 0x68);
+ASSERT_OFFSET(SoundBgmMgr, m_DowntownFader, 0x68);
 ASSERT_OFFSET(SoundBgmMgr, m_BoostFader, 0xB8);
 ASSERT_OFFSET(SoundBgmMgr, m_SubHandles, 0xD0);
 ASSERT_OFFSET(SoundBgmMgr, m_VolumeFader, 0xF4);

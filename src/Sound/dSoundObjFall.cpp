@@ -1,18 +1,18 @@
-#include "Sound/dSoundObjHold.h"
 #include "Sound/dSoundObjFall.h"
+#include "Sound/dSoundLabel.h"
 
-// ctor address unknown
-SoundObjFall::SoundObjFall()
-{
-}
-
-// 0x0020B610 slot 0x00 | slot vf_0x00 of SoundObjBase
+// 0x0020B610
+// 0x0020B5BC (deleting dtor)
 SoundObjFall::~SoundObjFall()
 {
+    // (only the base is destroyed)
 }
 
-// 0x0020B574 slot 0x08 | virtual slot, introduced by SoundObjBase
-void SoundObjFall::vf_0x08()
+// 0x0020B574
+void SoundObjFall::Start(const nn::math::VEC3* world, const nn::math::VEC3* relative)
 {
+    m_Type = 5;
+    m_IsIgnoreMaster = 1;
+    m_IsUseHeight = 0;
+    SoundObjHold::Start(world, relative, SE_ENV_WATERFALL);
 }
-

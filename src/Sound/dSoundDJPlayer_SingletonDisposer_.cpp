@@ -1,13 +1,12 @@
-#include "sead/seadIDisposer.h"
 #include "Sound/dSoundDJPlayer_SingletonDisposer_.h"
 
-// ctor candidate(s) 0x00245104 (unverified)
-SoundDJPlayer::SingletonDisposer_::SingletonDisposer_()
-{
-}
-
-// 0x0024565C slot 0x00 | slot vf_0x00 of sead::IDisposer
+// 0x0024565C
+// 0x00245604 (deleting dtor)
 SoundDJPlayer::SingletonDisposer_::~SingletonDisposer_()
 {
+    if (this == s_pSingletonDisposer) {
+        s_pSingletonDisposer = NULL;
+        s_pInstance->~SoundDJPlayer();
+        s_pInstance = NULL;
+    }
 }
-

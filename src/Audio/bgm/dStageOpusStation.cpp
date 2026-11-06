@@ -1,62 +1,33 @@
-#include "audio/bgm/dStageOpusShopBase.h"
-#include "audio/bgm/dStageOpusStation.h"
+#include "Audio/bgm/dStageOpusStation.h"
+#include "Audio/bgm/dBgmRequestMgr.h"
+#include "Audio/bgm/dBgmTrackMixer.h"
 
-namespace audio {
-namespace bgm {
-// ctor candidate(s) 0x008156B8 (unverified)
-audio::bgm::StageOpusStation::StageOpusStation()
+// 0x005878D4
+void audio::bgm::StageOpusStation::Initialize()
 {
+    m_IsTrainLeaving = 0;
 }
 
-// 0x00587DC0 slot 0x0C | virtual slot, introduced by audio::bgm::StageOpusBase
-void audio::bgm::StageOpusStation::vf_0x0C()
+// 0x005878E0
+void audio::bgm::StageOpusStation::Leave(stage::Name)
 {
+    Stop();
+    GetTrackMixer()->RemoveMix(21);
 }
 
-// 0x00587900 slot 0x10 | virtual slot, introduced by audio::bgm::StageOpusBase
-void audio::bgm::StageOpusStation::vf_0x10()
+// 0x00587900
+void audio::bgm::StageOpusStation::OnStop()
 {
+    if (m_IsTrainLeaving) {
+        GetRequestMgr()->SetFade(KIND_SHOP, m_ShopBgmId, 160, 0, 0);
+        return;
+    }
+    GetRequestMgr()->Remove(KIND_SHOP, m_ShopBgmId);
 }
 
-// 0x00587960 slot 0x14 | virtual slot, introduced by audio::bgm::StageOpusBase
-void audio::bgm::StageOpusStation::vf_0x14()
+// 0x00587960
+// 0x0058795C (deleting dtor)
+audio::bgm::StageOpusStation::~StageOpusStation()
 {
+    // empty (in the original too)
 }
-
-// 0x0058795C slot 0x18 | virtual slot, introduced by audio::bgm::StageOpusBase
-void audio::bgm::StageOpusStation::vf_0x18()
-{
-}
-
-// 0x00587E30 slot 0x1C | virtual slot, introduced by audio::bgm::StageOpusBase
-void audio::bgm::StageOpusStation::vf_0x1C()
-{
-}
-
-// 0x005878D4 slot 0x20 | virtual slot, introduced by audio::bgm::StageOpusBase
-void audio::bgm::StageOpusStation::vf_0x20()
-{
-}
-
-// 0x00587DAC slot 0x28 | virtual slot, introduced by audio::bgm::StageOpusBase
-void audio::bgm::StageOpusStation::vf_0x28()
-{
-}
-
-// 0x005878E0 slot 0x2C | virtual slot, introduced by audio::bgm::StageOpusBase
-void audio::bgm::StageOpusStation::vf_0x2C()
-{
-}
-
-// 0x00587D08 slot 0x30 | virtual slot, introduced by audio::bgm::StageOpusBase
-void audio::bgm::StageOpusStation::vf_0x30()
-{
-}
-
-// 0x00587DA0 slot 0x48 | virtual slot, introduced by audio::bgm::StageOpusAblesisters
-void audio::bgm::StageOpusStation::vf_0x48()
-{
-}
-
-} // namespace bgm
-} // namespace audio

@@ -1,47 +1,44 @@
-#include "audio/bgm/dStageOpusBase.h"
-#include "audio/bgm/dStageOpusSelect.h"
+#include "Audio/bgm/dStageOpusSelect.h"
+#include "Audio/bgm/dBgmMgr.h"
+#include "Audio/bgm/dBgmRequestMgr.h"
+#include "Sound/dSoundLabel.h"
 
-namespace audio {
-namespace bgm {
-// ctor candidate(s) 0x00815528 (unverified)
-audio::bgm::StageOpusSelect::StageOpusSelect()
+// 0x0058755C
+void audio::bgm::StageOpusSelect::Setup(stage::Name)
 {
+    s_ClockState.SetChime(false, false);
+    GetStageOpusMgr()->m_Flags &= ~StageOpusMgr::FLAG_4;
 }
 
-// 0x005875B8 slot 0x0C | virtual slot, introduced by audio::bgm::StageOpusBase
-void audio::bgm::StageOpusSelect::vf_0x0C()
+// 0x00587588
+void audio::bgm::StageOpusSelect::Ready()
 {
+    Start();
 }
 
-// 0x005875F0 slot 0x10 | virtual slot, introduced by audio::bgm::StageOpusBase
-void audio::bgm::StageOpusSelect::vf_0x10()
+// 0x00587594
+void audio::bgm::StageOpusSelect::Leave(stage::Name)
 {
+    Stop();
+    GetStageOpusMgr()->m_Flags |= StageOpusMgr::FLAG_4;
 }
 
-// 0x00587628 slot 0x14 | virtual slot, introduced by audio::bgm::StageOpusBase
-void audio::bgm::StageOpusSelect::vf_0x14()
+// 0x005875B8
+void audio::bgm::StageOpusSelect::OnStart()
 {
+    RequestMgr::Times times = {0, -1, 0};
+    GetRequestMgr()->Request(KIND_SHOP, STRM_BGM_PLAYERSELECT, 20, times);
 }
 
-// 0x00587624 slot 0x18 | virtual slot, introduced by audio::bgm::StageOpusBase
-void audio::bgm::StageOpusSelect::vf_0x18()
+// 0x005875F0
+void audio::bgm::StageOpusSelect::OnStop()
 {
+    GetRequestMgr()->SetFade(KIND_SHOP, STRM_BGM_PLAYERSELECT, 0, 0, 0);
 }
 
-// 0x00587594 slot 0x2C | virtual slot, introduced by audio::bgm::StageOpusBase
-void audio::bgm::StageOpusSelect::vf_0x2C()
+// 0x00587628
+// 0x00587624 (deleting dtor)
+audio::bgm::StageOpusSelect::~StageOpusSelect()
 {
+    // empty (in the original too)
 }
-
-// 0x0058755C slot 0x30 | virtual slot, introduced by audio::bgm::StageOpusBase
-void audio::bgm::StageOpusSelect::vf_0x30()
-{
-}
-
-// 0x00587588 slot 0x38 | virtual slot, introduced by audio::bgm::StageOpusBase
-void audio::bgm::StageOpusSelect::vf_0x38()
-{
-}
-
-} // namespace bgm
-} // namespace audio

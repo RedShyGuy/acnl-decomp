@@ -1,92 +1,52 @@
-#include "audio/bgm/dEvOpusBase.h"
-#include "audio/bgm/dEvOpusCleaning.h"
+#include "Audio/bgm/dEvOpusCleaning.h"
+#include "Audio/bgm/dBgmRequestMgr.h"
+#include "Sound/sound_Extern.h"
 
-namespace audio {
-namespace bgm {
-// ctor address unknown
-audio::bgm::EvOpusCleaning::EvOpusCleaning()
+// 0x005868DC
+void audio::bgm::EvOpusCleaning::Begin()
 {
+    m_IsStageStopped = 0;
+    m_IsActive = 1;
 }
 
-// 0x005868F8 slot 0x00 | virtual slot, introduced by audio::bgm::EvOpusCleaning
-void audio::bgm::EvOpusCleaning::vf_0x00()
+// 0x005868F0
+bool audio::bgm::EvOpusCleaning::StartRequest(u8, u32)
 {
+    return false;
 }
 
-// 0x0058CCA4 slot 0x04 | virtual slot, introduced by audio::bgm::EvOpusCarnival
-void audio::bgm::EvOpusCleaning::vf_0x04()
+// 0x0058690C
+bool audio::bgm::EvOpusCleaning::StopRequest(u8 kind, u32 id)
 {
+    if (kind != KIND_STAGE_EVENT) {
+        m_IsStageStopped = 1;
+        GetRequestMgr()->SetFade(kind, id, 5, 0, 0);
+        return true;
+    }
+    if (Func2932E4()) {
+        return false;
+    }
+    GetRequestMgr()->SetFade(kind, id, 5, 30, 0);
+    return true;
 }
 
-// 0x0058CD20 slot 0x08 | virtual slot, introduced by audio::bgm::EvOpusCarnival
-void audio::bgm::EvOpusCleaning::vf_0x08()
+// 0x00586994
+void audio::bgm::EvOpusCleaning::Update()
 {
+    if (m_IsActive && Func2932E4()) {
+        m_IsActive = 0;
+    }
 }
 
-// 0x0058CC9C slot 0x0C | virtual slot, introduced by audio::bgm::EvOpusCarnival
-void audio::bgm::EvOpusCleaning::vf_0x0C()
+// 0x005869BC
+void audio::bgm::EvOpusCleaning::End(bool)
 {
+    m_IsActive = 0;
 }
 
-// 0x0058CCA0 slot 0x10 | virtual slot, introduced by audio::bgm::EvOpusCarnival
-void audio::bgm::EvOpusCleaning::vf_0x10()
+// 0x005869CC
+// 0x005869C8 (deleting dtor)
+audio::bgm::EvOpusCleaning::~EvOpusCleaning()
 {
+    // empty (in the original too)
 }
-
-// 0x005869CC slot 0x14 | virtual slot, introduced by audio::bgm::EvOpusCleaning
-void audio::bgm::EvOpusCleaning::vf_0x14()
-{
-}
-
-// 0x005869C8 slot 0x18 | virtual slot, introduced by audio::bgm::EvOpusCleaning
-void audio::bgm::EvOpusCleaning::vf_0x18()
-{
-}
-
-// 0x005868DC slot 0x1C | virtual slot, introduced by audio::bgm::EvOpusCleaning
-void audio::bgm::EvOpusCleaning::vf_0x1C()
-{
-}
-
-// 0x005869BC slot 0x20 | virtual slot, introduced by audio::bgm::EvOpusCleaning
-void audio::bgm::EvOpusCleaning::vf_0x20()
-{
-}
-
-// 0x00586994 slot 0x24 | virtual slot, introduced by audio::bgm::EvOpusCleaning
-void audio::bgm::EvOpusCleaning::vf_0x24()
-{
-}
-
-// 0x0058495C slot 0x28 | virtual slot, introduced by audio::bgm::EvOpusCarnival
-void audio::bgm::EvOpusCleaning::vf_0x28()
-{
-}
-
-// 0x00753E0C slot 0x2C | virtual slot, introduced by audio::bgm::EvOpusCleaning
-void audio::bgm::EvOpusCleaning::vf_0x2C()
-{
-}
-
-// 0x00753E14 slot 0x30 | virtual slot, introduced by audio::bgm::EvOpusCleaning
-void audio::bgm::EvOpusCleaning::vf_0x30()
-{
-}
-
-// 0x00753E04 slot 0x34 | virtual slot, introduced by audio::bgm::EvOpusCleaning
-void audio::bgm::EvOpusCleaning::vf_0x34()
-{
-}
-
-// 0x005868F0 slot 0x38 | virtual slot, introduced by audio::bgm::EvOpusCleaning
-void audio::bgm::EvOpusCleaning::vf_0x38()
-{
-}
-
-// 0x0058690C slot 0x3C | virtual slot, introduced by audio::bgm::EvOpusCleaning
-void audio::bgm::EvOpusCleaning::vf_0x3C()
-{
-}
-
-} // namespace bgm
-} // namespace audio

@@ -1,62 +1,105 @@
-#include "audio/bgm/dStageOpusBase.h"
-#include "audio/bgm/dStageOpusMuseum.h"
+#include "Audio/bgm/dStageOpusMuseum.h"
+#include "Audio/bgm/dBgmMgr.h"
+#include "Audio/bgm/dBgmTrackMixer.h"
+#include "Audio/bgm/dBgmRequestMgr.h"
+#include "Sound/dSoundLabel.h"
 
 namespace audio {
 namespace bgm {
-// ctor candidate(s) 0x008154A8 (unverified)
-audio::bgm::StageOpusMuseum::StageOpusMuseum()
+namespace {
+
+// the room of the museum (1: the room with the mix 48)
+inline u8 GetMuseumRoom(stage::Name stage)
 {
+    if (stage == 73) {
+        return 0;
+    }
+    if (static_cast<u32>(stage - 74) <= 2) {
+        return 2;
+    }
+    if (static_cast<u32>(stage - 77) <= 2) {
+        return 1;
+    }
+    if (static_cast<u32>(stage - 80) <= 2) {
+        return 3;
+    }
+    if (static_cast<u32>(stage - 83) <= 1) {
+        return 4;
+    }
+    return stage == 85 ? 5 : 6;
 }
 
-// 0x00587320 slot 0x0C | virtual slot, introduced by audio::bgm::StageOpusBase
-void audio::bgm::StageOpusMuseum::vf_0x0C()
-{
-}
-
-// 0x005873A0 slot 0x10 | virtual slot, introduced by audio::bgm::StageOpusBase
-void audio::bgm::StageOpusMuseum::vf_0x10()
-{
-}
-
-// 0x005873D8 slot 0x14 | virtual slot, introduced by audio::bgm::StageOpusBase
-void audio::bgm::StageOpusMuseum::vf_0x14()
-{
-}
-
-// 0x005873D4 slot 0x18 | virtual slot, introduced by audio::bgm::StageOpusBase
-void audio::bgm::StageOpusMuseum::vf_0x18()
-{
-}
-
-// 0x00587358 slot 0x1C | virtual slot, introduced by audio::bgm::StageOpusBase
-void audio::bgm::StageOpusMuseum::vf_0x1C()
-{
-}
-
-// 0x0058730C slot 0x28 | virtual slot, introduced by audio::bgm::StageOpusBase
-void audio::bgm::StageOpusMuseum::vf_0x28()
-{
-}
-
-// 0x00587240 slot 0x2C | virtual slot, introduced by audio::bgm::StageOpusBase
-void audio::bgm::StageOpusMuseum::vf_0x2C()
-{
-}
-
-// 0x005871AC slot 0x30 | virtual slot, introduced by audio::bgm::StageOpusBase
-void audio::bgm::StageOpusMuseum::vf_0x30()
-{
-}
-
-// 0x00587268 slot 0x34 | virtual slot, introduced by audio::bgm::StageOpusBase
-void audio::bgm::StageOpusMuseum::vf_0x34()
-{
-}
-
-// 0x00753E74 slot 0x40 | virtual slot, introduced by audio::bgm::StageOpusBase
-void audio::bgm::StageOpusMuseum::vf_0x40()
-{
-}
-
+} // namespace
 } // namespace bgm
 } // namespace audio
+
+// 0x005871AC
+void audio::bgm::StageOpusMuseum::Setup(stage::Name stage)
+{
+    u8 room = GetMuseumRoom(stage);
+    m_Room = room;
+    m_IsReady = 0;
+    if (room == 1) {
+        GetTrackMixer()->AddMix(48);
+    }
+    s_ClockState.isShop = 1;
+}
+
+// 0x00587240
+void audio::bgm::StageOpusMuseum::Leave(stage::Name)
+{
+    GetTrackMixer()->RemoveMix(48);
+    Stop();
+}
+
+// 0x00587268
+void audio::bgm::StageOpusMuseum::SetupKeep(stage::Name stage)
+{
+    u8 room = GetMuseumRoom(stage);
+    if (m_Room == room) {
+        return;
+    }
+    if (m_Room == 1) {
+        GetTrackMixer()->RemoveMix(48);
+    }
+    if (room == 1) {
+        GetTrackMixer()->AddMix(48);
+    }
+    m_Room = room;
+}
+
+// 0x0058730C
+void audio::bgm::StageOpusMuseum::EnterKeep()
+{
+    GetTrackMixer()->m_IsSequenceAlt = 1;
+}
+
+// 0x00587320
+void audio::bgm::StageOpusMuseum::OnStart()
+{
+    RequestMgr::Times times = {0, -1, 0};
+    GetRequestMgr()->Request(KIND_SHOP, STRM_BGM_IND_MUSEUM, 20, times);
+}
+
+// 0x00587358
+void audio::bgm::StageOpusMuseum::Update()
+{
+    if (m_IsCurrent || m_IsReady || !IsPlayerReady()) {
+        return;
+    }
+    m_IsReady = 1;
+    Start();
+}
+
+// 0x005873A0
+void audio::bgm::StageOpusMuseum::OnStop()
+{
+    GetRequestMgr()->SetFade(KIND_SHOP, STRM_BGM_IND_MUSEUM, 0, 0, 0);
+}
+
+// 0x005873D8
+// 0x005873D4 (deleting dtor)
+audio::bgm::StageOpusMuseum::~StageOpusMuseum()
+{
+    // empty (in the original too)
+}

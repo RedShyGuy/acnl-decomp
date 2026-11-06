@@ -1,7 +1,8 @@
 #pragma once
 
 #include "decomp.h"
-#include "audio/bgm/dStageOpusShopBase.h"
+#include "Audio/bgm/dStageOpusShopBase.h"
+#include "Sound/dSoundLabel.h"
 
 namespace audio {
 namespace bgm {
@@ -10,16 +11,11 @@ namespace bgm {
 class StageOpusChipTutorial : public ::audio::bgm::StageOpusShopBase
 {
 public:
-    StageOpusChipTutorial(); // ctor candidate(s) 0x00815C74 (unverified)
-    virtual void vf_0x0C(); // 0x00587DC0 slot 0x0C | virtual slot, introduced by audio::bgm::StageOpusBase
-    virtual void vf_0x10(); // 0x00587F38 slot 0x10 | virtual slot, introduced by audio::bgm::StageOpusBase
-    virtual void vf_0x14(); // 0x005891C8 slot 0x14 | virtual slot, introduced by audio::bgm::StageOpusBase
-    virtual void vf_0x18(); // 0x005891C4 slot 0x18 | virtual slot, introduced by audio::bgm::StageOpusBase
-    virtual void vf_0x1C(); // 0x00587E30 slot 0x1C | virtual slot, introduced by audio::bgm::StageOpusBase
-    virtual void vf_0x28(); // 0x00587DAC slot 0x28 | virtual slot, introduced by audio::bgm::StageOpusBase
-    virtual void vf_0x2C(); // 0x005891A4 slot 0x2C | virtual slot, introduced by audio::bgm::StageOpusBase
-    virtual void vf_0x30(); // 0x00589108 slot 0x30 | virtual slot, introduced by audio::bgm::StageOpusBase
-    virtual void vf_0x48(); // 0x00587DA0 slot 0x48 | virtual slot, introduced by audio::bgm::StageOpusAblesisters
+    StageOpusChipTutorial() : StageOpusShopBase(STRM_BGM_TUTORIAL_TAKUMI, 0, 0) {}
+    virtual ~StageOpusChipTutorial();
+    virtual void Leave(stage::Name next); // 0x005891A4 slot 0x2C
+    virtual void Setup(stage::Name stage); // 0x00589108 slot 0x30
 };
+ASSERT_SIZE(StageOpusChipTutorial, 0x2C);
 } // namespace bgm
 } // namespace audio

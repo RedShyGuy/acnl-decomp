@@ -1,7 +1,8 @@
 #pragma once
 
 #include "decomp.h"
-#include "audio/bgm/dStageOpusBase.h"
+#include "Audio/bgm/dStageOpusBase.h"
+#include "stage/stage_Api.h"
 
 namespace audio {
 namespace bgm {
@@ -10,17 +11,25 @@ namespace bgm {
 class StageOpusMuseum : public ::audio::bgm::StageOpusBase
 {
 public:
-    StageOpusMuseum(); // ctor candidate(s) 0x008154A8 (unverified)
-    virtual void vf_0x0C(); // 0x00587320 slot 0x0C | virtual slot, introduced by audio::bgm::StageOpusBase
-    virtual void vf_0x10(); // 0x005873A0 slot 0x10 | virtual slot, introduced by audio::bgm::StageOpusBase
-    virtual void vf_0x14(); // 0x005873D8 slot 0x14 | virtual slot, introduced by audio::bgm::StageOpusBase
-    virtual void vf_0x18(); // 0x005873D4 slot 0x18 | virtual slot, introduced by audio::bgm::StageOpusBase
-    virtual void vf_0x1C(); // 0x00587358 slot 0x1C | virtual slot, introduced by audio::bgm::StageOpusBase
-    virtual void vf_0x28(); // 0x0058730C slot 0x28 | virtual slot, introduced by audio::bgm::StageOpusBase
-    virtual void vf_0x2C(); // 0x00587240 slot 0x2C | virtual slot, introduced by audio::bgm::StageOpusBase
-    virtual void vf_0x30(); // 0x005871AC slot 0x30 | virtual slot, introduced by audio::bgm::StageOpusBase
-    virtual void vf_0x34(); // 0x00587268 slot 0x34 | virtual slot, introduced by audio::bgm::StageOpusBase
-    virtual void vf_0x40(); // 0x00753E74 slot 0x40 | virtual slot, introduced by audio::bgm::StageOpusBase
+    StageOpusMuseum() {}
+    virtual ~StageOpusMuseum();
+    virtual void OnStart(); // 0x00587320 slot 0x0C
+    virtual void OnStop(); // 0x005873A0 slot 0x10
+    virtual void Update(); // 0x00587358 slot 0x1C
+    virtual void EnterKeep(); // 0x0058730C slot 0x28
+    virtual void Leave(stage::Name next); // 0x00587240 slot 0x2C
+    virtual void Setup(stage::Name stage); // 0x005871AC slot 0x30
+    virtual void SetupKeep(stage::Name stage); // 0x00587268 slot 0x34
+    virtual bool CanKeep(stage::Name next, bool isOnline) // 0x00753E74 slot 0x40
+    {
+        if (stage::IsKind(0x8000, next) && !stage::IsKind(0x2000, next)) {
+            return true;
+        }
+        return !isOnline;
+    }
+
+    u8 m_Room; // 0x1E
 };
+ASSERT_SIZE(StageOpusMuseum, 0x20);
 } // namespace bgm
 } // namespace audio

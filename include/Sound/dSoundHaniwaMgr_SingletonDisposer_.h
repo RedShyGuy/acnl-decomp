@@ -9,7 +9,7 @@
 class SoundHaniwaMgr::SingletonDisposer_ : public ::sead::IDisposer
 {
 public:
-    SingletonDisposer_(); // ctor candidate(s) 0x00276A28 (unverified)
+    explicit SingletonDisposer_(sead::Heap* heap) : IDisposer(heap, sead::IDisposer::HEAP_NULL_OPTION_CURRENT_HEAP) {}
     virtual ~SingletonDisposer_(); // 0x00276B3C slot 0x00 | slot vf_0x00 of sead::IDisposer
     // 0x00276AF8 slot 0x04 | slot vf_0x04 of sead::IDisposer (deleting dtor)
 };

@@ -22,7 +22,7 @@ public:
     };
 
     SoundDataLoadRequest(); // 0x00128EEC
-    virtual ~SoundDataLoadRequest(); // 0x0013E4E0
+    DECOMP_NOINLINE virtual ~SoundDataLoadRequest(); // 0x0013E4E0
     // 0x003220C4 (deleting dtor)
 
     // queues the request (not while one is queued or loading)

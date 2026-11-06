@@ -1,77 +1,148 @@
-#include "audio/bgm/dStageOpusBase.h"
-#include "audio/bgm/dStageOpusPrologue4.h"
+#include "Audio/bgm/dStageOpusPrologue4.h"
+#include "Audio/bgm/dBgmMgr.h"
+#include "Audio/bgm/dBgmRequestMgr.h"
+#include "Audio/bgm/dBgmTrackMixer.h"
+#include "Audio/bgm/dStageOpusVillageDowntown.h"
+#include "Sound/dSoundLabel.h"
+#include "Sound/dSoundMgr.h"
+#include "Sv/dSvApi.h"
+#include "Sv/dSvGardenPlus.h"
+#include "Sv/dSvPlayer.h"
 
-namespace audio {
-namespace bgm {
-// ctor candidate(s) 0x008159C4 (unverified)
-audio::bgm::StageOpusPrologue4::StageOpusPrologue4()
+// 0x005887E0
+void audio::bgm::StageOpusPrologue4::Initialize()
 {
+    m_BgmId = STRM_BGM_PROLOGUE_09;
+    if (g_pSvCurrentPlayer != NULL && g_pSvCurrentPlayer->playerFlags.houseLocationChosen) {
+        m_BgmId = STRM_BGM_PROLOGUE_11;
+        m_IsHouseChosen = 1;
+    }
+    m_IsReady = 0;
+    s_TownState.isOceanLeft = GetGardenPlus()->data.townData.oceanSide == 0;
 }
 
-// 0x005889E4 slot 0x0C | virtual slot, introduced by audio::bgm::StageOpusBase
-void audio::bgm::StageOpusPrologue4::vf_0x0C()
+// 0x00588860
+void audio::bgm::StageOpusPrologue4::Setup(stage::Name)
 {
+    s_TownState.isLow = 0;
+    m_IsTown = 1;
+    StageOpusVillageDowntown::UpdateAmbience();
 }
 
-// 0x00588B14 slot 0x10 | virtual slot, introduced by audio::bgm::StageOpusBase
-void audio::bgm::StageOpusPrologue4::vf_0x10()
+// 0x0058887C
+void audio::bgm::StageOpusPrologue4::Ready()
 {
+    if (m_BgmId == STRM_BGM_PROLOGUE_09) {
+        Start();
+    }
 }
 
-// 0x00588B74 slot 0x14 | virtual slot, introduced by audio::bgm::StageOpusBase
-void audio::bgm::StageOpusPrologue4::vf_0x14()
+// 0x0058889C
+void audio::bgm::StageOpusPrologue4::Leave(stage::Name)
 {
+    Stop();
+    if (s_TownState.isLow) {
+        GetTrackMixer()->RemoveMix(45);
+    }
+    m_IsTown = 0;
+    StageOpusVillageDowntown::UpdateAmbience();
 }
 
-// 0x00588B70 slot 0x18 | virtual slot, introduced by audio::bgm::StageOpusBase
-void audio::bgm::StageOpusPrologue4::vf_0x18()
+// 0x005888E4
+void audio::bgm::StageOpusPrologue4::SetupKeep(stage::Name)
 {
+    StageOpusVillageDowntown::UpdateAmbience();
 }
 
-// 0x00588A1C slot 0x1C | virtual slot, introduced by audio::bgm::StageOpusBase
-void audio::bgm::StageOpusPrologue4::vf_0x1C()
+// 0x005888E8
+void audio::bgm::StageOpusPrologue4::ReadyKeep()
 {
+    if (m_KeepsMix21) {
+        m_KeepsMix21 = 0;
+        return;
+    }
+    if (g_pSvCurrentPlayer == NULL) {
+        return;
+    }
+    if (!m_IsHouseChosen) {
+        GetTrackMixer()->RemoveMix(21);
+    }
 }
 
-// 0x005887E0 slot 0x20 | virtual slot, introduced by audio::bgm::StageOpusBase
-void audio::bgm::StageOpusPrologue4::vf_0x20()
+// 0x00588934
+void audio::bgm::StageOpusPrologue4::EnterKeep()
 {
+    SvPlayer* player = g_pSvCurrentPlayer;
+    if (player == NULL || player->playerFlags.houseLocationChosen) {
+        GetTrackMixer()->m_IsSequenceAlt = 1;
+    } else {
+        GetTrackMixer()->m_IsSequenceDisabled = 1;
+    }
+    if (m_IsHouseChosen) {
+        return;
+    }
+    if (GetTrackMixer()->IsMixActive(21)) {
+        return;
+    }
+    if (player == NULL || player->playerFlags.houseLocationChosen) {
+        return;
+    }
+    GetTrackMixer()->AddMix(21);
+    m_KeepsMix21 = 1;
 }
 
-// 0x00588934 slot 0x28 | virtual slot, introduced by audio::bgm::StageOpusBase
-void audio::bgm::StageOpusPrologue4::vf_0x28()
+// 0x005889E4
+void audio::bgm::StageOpusPrologue4::OnStart()
 {
+    RequestMgr::Times times = {0, -1, 0};
+    GetRequestMgr()->Request(KIND_STAGE, m_BgmId, 20, times);
 }
 
-// 0x0058889C slot 0x2C | virtual slot, introduced by audio::bgm::StageOpusBase
-void audio::bgm::StageOpusPrologue4::vf_0x2C()
+// 0x00588A1C
+void audio::bgm::StageOpusPrologue4::Update()
 {
+    if (m_HasFanfare) {
+        if (!m_IsFanfareHeard) {
+            m_IsFanfareHeard = SoundMgr::SIsJingleAttached();
+        } else if (!SoundMgr::SIsJingleAttached()) {
+            // the fanfare is over
+            if (m_IsPlaying) {
+                GetRequestMgr()->Remove(KIND_JINGLE_B, STRM_BGM_PROLOGUE_10);
+                Stop();
+            } else {
+                m_BgmId = STRM_BGM_PROLOGUE_11;
+                Start();
+                m_HasFanfare = 0;
+            }
+        }
+    }
+    StageOpusVillageDowntown::UpdateSideMixes();
+    if (m_IsSuspended || m_IsCurrent) {
+        return;
+    }
+    if (!m_IsReady) {
+        if (!IsPlayerReady()) {
+            return;
+        }
+        m_IsReady = 1;
+        Start();
+    }
+    StageOpusVillageDowntown::UpdateLowMix();
 }
 
-// 0x00588860 slot 0x30 | virtual slot, introduced by audio::bgm::StageOpusBase
-void audio::bgm::StageOpusPrologue4::vf_0x30()
+// 0x00588B14
+void audio::bgm::StageOpusPrologue4::OnStop()
 {
+    if (m_IsSuspended) {
+        GetRequestMgr()->SetFade(KIND_STAGE, m_BgmId, m_Fade, 0, 0);
+        return;
+    }
+    GetRequestMgr()->Remove(KIND_STAGE, m_BgmId);
 }
 
-// 0x005888E4 slot 0x34 | virtual slot, introduced by audio::bgm::StageOpusBase
-void audio::bgm::StageOpusPrologue4::vf_0x34()
+// 0x00588B74
+// 0x00588B70 (deleting dtor)
+audio::bgm::StageOpusPrologue4::~StageOpusPrologue4()
 {
+    // empty (in the original too)
 }
-
-// 0x0058887C slot 0x38 | virtual slot, introduced by audio::bgm::StageOpusBase
-void audio::bgm::StageOpusPrologue4::vf_0x38()
-{
-}
-
-// 0x005888E8 slot 0x3C | virtual slot, introduced by audio::bgm::StageOpusBase
-void audio::bgm::StageOpusPrologue4::vf_0x3C()
-{
-}
-
-// 0x00753F68 slot 0x40 | virtual slot, introduced by audio::bgm::StageOpusBase
-void audio::bgm::StageOpusPrologue4::vf_0x40()
-{
-}
-
-} // namespace bgm
-} // namespace audio

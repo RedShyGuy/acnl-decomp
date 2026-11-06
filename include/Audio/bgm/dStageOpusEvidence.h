@@ -1,7 +1,9 @@
 #pragma once
 
 #include "decomp.h"
-#include "audio/bgm/dStageOpusBase.h"
+#include "Audio/bgm/dStageOpusBase.h"
+#include "Sound/dSoundMgr.h"
+#include "stage/stage_Api.h"
 
 namespace audio {
 namespace bgm {
@@ -10,12 +12,18 @@ namespace bgm {
 class StageOpusEvidence : public ::audio::bgm::StageOpusBase
 {
 public:
-    StageOpusEvidence(); // ctor candidate(s) 0x00815754 (unverified)
-    virtual void vf_0x14(); // 0x00587A98 slot 0x14 | virtual slot, introduced by audio::bgm::StageOpusBase
-    virtual void vf_0x18(); // 0x00587A94 slot 0x18 | virtual slot, introduced by audio::bgm::StageOpusBase
-    virtual void vf_0x1C(); // 0x00587A58 slot 0x1C | virtual slot, introduced by audio::bgm::StageOpusBase
-    virtual void vf_0x30(); // 0x00587A38 slot 0x30 | virtual slot, introduced by audio::bgm::StageOpusBase
-    virtual void vf_0x40(); // 0x00753EF8 slot 0x40 | virtual slot, introduced by audio::bgm::StageOpusBase
+    StageOpusEvidence() {}
+    virtual ~StageOpusEvidence();
+    virtual void Update(); // 0x00587A58 slot 0x1C
+    virtual void Setup(stage::Name stage); // 0x00587A38 slot 0x30
+    virtual bool CanKeep(stage::Name next, bool isOnline) // 0x00753EF8 slot 0x40
+    {
+        if (isOnline && SoundMgr::SIsJingleAttached()) {
+            SoundMgr::SStopJingle(1);
+        }
+        return next == stage::NAME_CLUB444 && isOnline;
+    }
 };
+ASSERT_SIZE(StageOpusEvidence, 0x20);
 } // namespace bgm
 } // namespace audio

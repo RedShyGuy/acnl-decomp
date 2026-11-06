@@ -1,47 +1,46 @@
-#include "audio/bgm/dStageOpusBase.h"
-#include "audio/bgm/dStageOpusExchange.h"
+#include "Audio/bgm/dStageOpusExchange.h"
+#include "Audio/bgm/dBgmMgr.h"
+#include "Audio/bgm/dBgmRequestMgr.h"
 
-namespace audio {
-namespace bgm {
-// ctor candidate(s) 0x0081577C (unverified)
-audio::bgm::StageOpusExchange::StageOpusExchange()
+// 0x00587A9C
+void audio::bgm::StageOpusExchange::Setup(stage::Name)
 {
+    GetStageOpusMgr()->m_Flags &= ~StageOpusMgr::FLAG_4;
 }
 
-// 0x00587ADC slot 0x0C | virtual slot, introduced by audio::bgm::StageOpusBase
-void audio::bgm::StageOpusExchange::vf_0x0C()
+// 0x00587AB4
+void audio::bgm::StageOpusExchange::Ready()
 {
+    // empty (in the original too)
 }
 
-// 0x00587B14 slot 0x10 | virtual slot, introduced by audio::bgm::StageOpusBase
-void audio::bgm::StageOpusExchange::vf_0x10()
+// 0x00587AB8
+void audio::bgm::StageOpusExchange::Leave(stage::Name)
 {
+    Stop();
+    GetStageOpusMgr()->m_Flags |= StageOpusMgr::FLAG_4;
 }
 
-// 0x00587B88 slot 0x14 | virtual slot, introduced by audio::bgm::StageOpusBase
-void audio::bgm::StageOpusExchange::vf_0x14()
+// 0x00587ADC
+void audio::bgm::StageOpusExchange::OnStart()
 {
+    RequestMgr::Times times = {0, -1, 0};
+    GetRequestMgr()->Request(m_Kind, m_BgmId, 20, times);
 }
 
-// 0x00587B84 slot 0x18 | virtual slot, introduced by audio::bgm::StageOpusBase
-void audio::bgm::StageOpusExchange::vf_0x18()
+// 0x00587B14
+void audio::bgm::StageOpusExchange::OnStop()
 {
+    if (m_BgmId == STRM_BGM_FLD_RESET) {
+        GetRequestMgr()->SetFade(m_Kind, m_BgmId, m_Fade, 0, 12);
+    } else {
+        GetRequestMgr()->SetFade(m_Kind, m_BgmId, m_Fade, 0, 0);
+    }
 }
 
-// 0x00587AB8 slot 0x2C | virtual slot, introduced by audio::bgm::StageOpusBase
-void audio::bgm::StageOpusExchange::vf_0x2C()
+// 0x00587B88
+// 0x00587B84 (deleting dtor)
+audio::bgm::StageOpusExchange::~StageOpusExchange()
 {
+    // empty (in the original too)
 }
-
-// 0x00587A9C slot 0x30 | virtual slot, introduced by audio::bgm::StageOpusBase
-void audio::bgm::StageOpusExchange::vf_0x30()
-{
-}
-
-// 0x00587AB4 slot 0x38 | virtual slot, introduced by audio::bgm::StageOpusBase
-void audio::bgm::StageOpusExchange::vf_0x38()
-{
-}
-
-} // namespace bgm
-} // namespace audio

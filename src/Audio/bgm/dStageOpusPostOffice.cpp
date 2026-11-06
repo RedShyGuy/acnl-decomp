@@ -1,47 +1,47 @@
-#include "audio/bgm/dStageOpusBase.h"
-#include "audio/bgm/dStageOpusPostOffice.h"
+#include "Audio/bgm/dStageOpusPostOffice.h"
+#include "Audio/bgm/dBgmMgr.h"
+#include "Audio/bgm/dBgmRequestMgr.h"
+#include "Sound/dSoundLabel.h"
 
-namespace audio {
-namespace bgm {
-// ctor candidate(s) 0x00815AC0 (unverified)
-audio::bgm::StageOpusPostOffice::StageOpusPostOffice()
+// 0x00588BD8
+void audio::bgm::StageOpusPostOffice::Setup(stage::Name)
 {
+    m_IsReady = 0;
+    s_ClockState.isShop = 1;
 }
 
-// 0x00588C00 slot 0x0C | virtual slot, introduced by audio::bgm::StageOpusBase
-void audio::bgm::StageOpusPostOffice::vf_0x0C()
+// 0x00588BF4
+void audio::bgm::StageOpusPostOffice::Leave(stage::Name)
 {
+    Stop();
 }
 
-// 0x00588C98 slot 0x10 | virtual slot, introduced by audio::bgm::StageOpusBase
-void audio::bgm::StageOpusPostOffice::vf_0x10()
+// 0x00588C00
+void audio::bgm::StageOpusPostOffice::OnStart()
 {
+    RequestMgr::Times times = {0, -1, 0};
+    GetRequestMgr()->Request(KIND_SHOP, s_TownState.flag5 ? STRM_BGM_IND_POST_DAY : STRM_BGM_IND_POST_NIGHT, 20, times);
 }
 
-// 0x00588CD0 slot 0x14 | virtual slot, introduced by audio::bgm::StageOpusBase
-void audio::bgm::StageOpusPostOffice::vf_0x14()
+// 0x00588C50
+void audio::bgm::StageOpusPostOffice::Update()
 {
+    if (m_IsCurrent || m_IsReady || !IsPlayerReady()) {
+        return;
+    }
+    m_IsReady = 1;
+    Start();
 }
 
-// 0x00588CCC slot 0x18 | virtual slot, introduced by audio::bgm::StageOpusBase
-void audio::bgm::StageOpusPostOffice::vf_0x18()
+// 0x00588C98
+void audio::bgm::StageOpusPostOffice::OnStop()
 {
+    GetRequestMgr()->MarkRemoved(KIND_SHOP, s_TownState.flag5 ? STRM_BGM_IND_POST_DAY : STRM_BGM_IND_POST_NIGHT);
 }
 
-// 0x00588C50 slot 0x1C | virtual slot, introduced by audio::bgm::StageOpusBase
-void audio::bgm::StageOpusPostOffice::vf_0x1C()
+// 0x00588CD0
+// 0x00588CCC (deleting dtor)
+audio::bgm::StageOpusPostOffice::~StageOpusPostOffice()
 {
+    // empty (in the original too)
 }
-
-// 0x00588BF4 slot 0x2C | virtual slot, introduced by audio::bgm::StageOpusBase
-void audio::bgm::StageOpusPostOffice::vf_0x2C()
-{
-}
-
-// 0x00588BD8 slot 0x30 | virtual slot, introduced by audio::bgm::StageOpusBase
-void audio::bgm::StageOpusPostOffice::vf_0x30()
-{
-}
-
-} // namespace bgm
-} // namespace audio

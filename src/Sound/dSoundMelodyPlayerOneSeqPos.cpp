@@ -34,3 +34,20 @@ void SoundMelodyPlayerOneSeqPos::Update()
     }
     SoundMelodyPlayerOneSeqBase::Update();
 }
+
+// 0x00342B68
+void SoundMelodyPlayerOneSeqPos::StartAtObj(u32 soundId, const u8* notes)
+{
+    Start(soundId, notes);
+    if (m_pObj != NULL) {
+        m_ObjVolume = m_pObj->m_Volume;
+        m_ObjPan = m_pObj->m_Pan;
+        m_ObjSurroundPan = m_pObj->m_SurroundPan;
+    }
+    if (m_Handle.m_pSound != NULL) {
+        m_Handle.m_pSound->SetVolume(m_ObjVolume, 0);
+    }
+    m_Handle.SetPan(m_ObjPan);
+    m_Handle.SetSurroundPan(m_ObjSurroundPan);
+}
+

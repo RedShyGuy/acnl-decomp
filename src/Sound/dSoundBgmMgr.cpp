@@ -48,15 +48,15 @@ inline u32 Index(u32 soundId)
 // 0x001286DC
 SoundBgmMgr::SoundBgmMgr()
     : m_Kind(0), m_State(STATE_NONE), m_SoundId(0xFFFFFFFF), m_IsBiquad(false), m_JingleState(0),
-      m_JingleId(0xFFFFFFFF), m_ObjSong(-1), m_ObjState(0), m_ObjLoadLevel(-1), m_MixId(0xFFFFFFFF), m_Weather(0), m_WeatherVariant(-1),
+      m_JingleId(0xFFFFFFFF), m_ObjSong(-1), m_ObjState(0), m_ObjLoadLevel(-1), m_MixId(0xFFFFFFFF), m_DowntownLevel(0), m_DowntownVariant(-1),
       m_IsKeepVariant(false), m_MuseumRoom(0), m_MixCounter(0), m_StreamTracksOn(0), m_SeqTracksOn(0),
-      m_StreamTracksOff(0), m_SeqTracksOff(0), m_pObj(NULL), _9C(false), _B4(2), m_BoostTimer(0), m_SubState(4),
+      m_StreamTracksOff(0), m_SeqTracksOff(0), m_pObj(NULL), m_IsFadeInRequested(false), _B4(2), m_BoostTimer(0), m_SubState(4),
       m_SubKind(0), m_SubMode(4), _E1(0), _E2(0), m_LoopStart(0), m_LoopLength(0), m_PrologueStep(5), _F0(0),
       m_VolumeDelay(0)
 {
-    m_WeatherIds[0] = STRM_BGM_DWNTWN_DAY_1_SUNNY;
-    m_WeatherIds[1] = STRM_BGM_DWNTWN_DAY_1_SUNNY + 1;
-    m_WeatherIds[2] = STRM_BGM_DWNTWN_DAY_1_SUNNY + 2;
+    m_DowntownIds[0] = STRM_BGM_DWNTWN_DAY_1_SUNNY;
+    m_DowntownIds[1] = STRM_BGM_DWNTWN_DAY_1_SUNNY + 1;
+    m_DowntownIds[2] = STRM_BGM_DWNTWN_DAY_1_SUNNY + 2;
     m_VolumeFader.SoundFader::Reset(1.0f);
 }
 
@@ -421,10 +421,10 @@ void SoundBgmMgr::PlaySymbolTree()
 }
 
 // 0x001D6430
-void SoundBgmMgr::SetWeather(u8 weather)
+void SoundBgmMgr::SetDowntownLevel(u8 level)
 {
-    if (weather < 3) {
-        m_Weather = weather;
+    if (level < 3) {
+        m_DowntownLevel = level;
     }
 }
 
@@ -483,7 +483,7 @@ void SoundBgmMgr::Update()
         case 8:
         case 9:
             m_FaderA0.Update();
-            if (_9C) {
+            if (m_IsFadeInRequested) {
                 if (m_FaderA0.GetTarget() == 0.0f) {
                     m_FaderA0.SetTarget(1.0f, s_FadeInFrames[_B4]);
                 }
@@ -558,7 +558,7 @@ void SoundBgmMgr::Play(u32 soundId, u8 mode, s8 param)
         soundId++;
         break;
     case 2: {
-        // the weather variants of the Main Street BGM
+        // the three versions of the Main Street BGM (by the level of the Nookling store)
         u32 step = 1;
         u32 surround = 0;
         if (Index(soundId) == 123 || Index(soundId) == 141) {
@@ -568,9 +568,9 @@ void SoundBgmMgr::Play(u32 soundId, u8 mode, s8 param)
                 surround = 1;
             }
         }
-        m_WeatherIds[0] = soundId + surround;
-        m_WeatherIds[1] = soundId + step + surround;
-        m_WeatherIds[2] = soundId + step * 2 + surround;
+        m_DowntownIds[0] = soundId + surround;
+        m_DowntownIds[1] = soundId + step + surround;
+        m_DowntownIds[2] = soundId + step * 2 + surround;
         if (m_IsKeepVariant) {
             m_IsKeepVariant = false;
         } else if (param != 1) {
@@ -584,14 +584,14 @@ void SoundBgmMgr::Play(u32 soundId, u8 mode, s8 param)
             } else if (soundId == STRM_BGM_DWNTWN_DAY_1_SUNNY + 3 || soundId == STRM_BGM_DWNTWN_DAY_1_SUNNY + 6) {
                 base = STRM_BGM_DWNTWN_DAY_INTR1_RAINY;
             }
-            soundId = base + m_Weather;
-            m_WeatherVariant = -1;
-            m_WeatherFader.SoundFader::Reset(1.0f);
+            soundId = base + m_DowntownLevel;
+            m_DowntownVariant = -1;
+            m_DowntownFader.SoundFader::Reset(1.0f);
             break;
         }
-        soundId = m_WeatherIds[m_Weather];
-        m_WeatherVariant = m_Weather;
-        m_WeatherFader.SoundFader::Reset(1.0f);
+        soundId = m_DowntownIds[m_DowntownLevel];
+        m_DowntownVariant = m_DowntownLevel;
+        m_DowntownFader.SoundFader::Reset(1.0f);
         break;
     }
     case 3:
@@ -848,7 +848,7 @@ inline void SoundBgmMgr::Reset()
     m_Kind = 0;
     m_State = STATE_NONE;
     m_IsBiquad = false;
-    m_WeatherVariant = -1;
+    m_DowntownVariant = -1;
     m_MuseumRoom = 0;
 }
 
@@ -871,19 +871,19 @@ void SoundBgmMgr::UpdateDowntown()
     if (!m_Handle.IsAttached()) {
         // the next variant for the weather
         s8 variant = 0;
-        switch (m_WeatherVariant) {
+        switch (m_DowntownVariant) {
         case -1:
-            variant = m_Weather;
+            variant = m_DowntownLevel;
             break;
         case 0:
-            if (m_Weather == 1) {
+            if (m_DowntownLevel == 1) {
                 variant = 1;
-            } else if (m_Weather == 2) {
+            } else if (m_DowntownLevel == 2) {
                 variant = static_cast<s8>(netgame::Func2FF63C(2) + 1);
             }
             break;
         case 1:
-            if (m_Weather == 2) {
+            if (m_DowntownLevel == 2) {
                 variant = static_cast<s8>(netgame::Func2FF63C(2));
                 if (variant == 1) {
                     variant = 2;
@@ -891,25 +891,25 @@ void SoundBgmMgr::UpdateDowntown()
             }
             break;
         case 2:
-            if (m_Weather == 2) {
+            if (m_DowntownLevel == 2) {
                 variant = static_cast<s8>(netgame::Func2FF63C(2));
             }
             break;
         }
-        m_WeatherVariant = variant;
+        m_DowntownVariant = variant;
         if (static_cast<u32>(variant) >= 3) {
-            m_WeatherVariant = 0;
+            m_DowntownVariant = 0;
         }
-        SoundMgr::s_pInstance->StartSoundChecked(&m_Handle, m_WeatherIds[m_WeatherVariant]);
-        m_SoundId = m_WeatherIds[m_WeatherVariant];
+        SoundMgr::s_pInstance->StartSoundChecked(&m_Handle, m_DowntownIds[m_DowntownVariant]);
+        m_SoundId = m_DowntownIds[m_DowntownVariant];
         if (m_Handle.IsAttached()) {
             ApplyBiquad();
         }
     }
-    m_WeatherFader.Update();
-    if (m_WeatherFader.GetValue() > 0.0f) {
+    m_DowntownFader.Update();
+    if (m_DowntownFader.GetValue() > 0.0f) {
         if (m_Handle.IsAttached()) {
-            m_Handle.m_pSound->SetVolume(m_WeatherFader.GetValue(), 0);
+            m_Handle.m_pSound->SetVolume(m_DowntownFader.GetValue(), 0);
         }
         return;
     }
@@ -1290,7 +1290,7 @@ void SoundBgmMgr::calc()
     if (m_IsBiquad && m_Handle.IsAttached()) {
         ApplyBiquad();
     }
-    _9C = false;
+    m_IsFadeInRequested = false;
 }
 
 // 0x001D7FC4
@@ -1314,7 +1314,7 @@ void SoundBgmMgr::Stop(s32 fadeFrames)
     case STATE_STOPPING:
         if (m_Kind == 2) {
             if (fadeFrames > 0) {
-                m_WeatherFader.SetTarget(0.0f, fadeFrames);
+                m_DowntownFader.SetTarget(0.0f, fadeFrames);
                 m_State = STATE_STOPPING;
                 return;
             }
@@ -1457,4 +1457,10 @@ void SoundBgmMgr::UpdateObjSong()
         m_ObjState = 1;
         break;
     }
+}
+
+// 0x001D63C0
+void SoundBgmMgr::PlayJingleStartPrepared(u32 soundId)
+{
+    PlayJingle(soundId, 2);
 }

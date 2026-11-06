@@ -1,7 +1,7 @@
 #pragma once
 
 #include "decomp.h"
-#include "audio/bgm/dStageOpusSelect.h"
+#include "Audio/bgm/dStageOpusSelect.h"
 
 namespace audio {
 namespace bgm {
@@ -10,11 +10,11 @@ namespace bgm {
 class StageOpusTakumiImport : public ::audio::bgm::StageOpusSelect
 {
 public:
-    StageOpusTakumiImport(); // ctor candidate(s) 0x00815CE8 (unverified)
-    virtual void vf_0x0C(); // 0x005891FC slot 0x0C | virtual slot, introduced by audio::bgm::StageOpusBase
-    virtual void vf_0x10(); // 0x00589234 slot 0x10 | virtual slot, introduced by audio::bgm::StageOpusBase
-    virtual void vf_0x14(); // 0x0058926C slot 0x14 | virtual slot, introduced by audio::bgm::StageOpusBase
-    virtual void vf_0x18(); // 0x00589268 slot 0x18 | virtual slot, introduced by audio::bgm::StageOpusBase
+    StageOpusTakumiImport() {}
+    virtual ~StageOpusTakumiImport();
+    virtual void OnStart(); // 0x005891FC slot 0x0C
+    virtual void OnStop(); // 0x00589234 slot 0x10
 };
+ASSERT_SIZE(StageOpusTakumiImport, 0x20);
 } // namespace bgm
 } // namespace audio

@@ -13,6 +13,8 @@ class SoundHandleBindSeq : public ::sead::SoundHandle
 public:
     SoundHandleBindSeq();
     virtual ~SoundHandleBindSeq();
+    // the handle of the sequence is bound when the sound is a sequence
+    void BindSequence(); // 0x002E82EC
 
     nw::snd::SequenceSoundHandle m_SequenceHandle; // 0x08
 };

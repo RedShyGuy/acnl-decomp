@@ -1,13 +1,12 @@
-#include "sead/seadIDisposer.h"
 #include "Sound/dSoundBarcarollePlayer_SingletonDisposer_.h"
 
-// ctor candidate(s) 0x0032B410 (unverified)
-SoundBarcarollePlayer::SingletonDisposer_::SingletonDisposer_()
-{
-}
-
-// 0x0032B704 slot 0x00 | slot vf_0x00 of sead::IDisposer
+// 0x0032B704
+// 0x0032B698 (deleting dtor)
 SoundBarcarollePlayer::SingletonDisposer_::~SingletonDisposer_()
 {
+    if (this == s_pSingletonDisposer) {
+        s_pSingletonDisposer = NULL;
+        s_pInstance->~SoundBarcarollePlayer();
+        s_pInstance = NULL;
+    }
 }
-

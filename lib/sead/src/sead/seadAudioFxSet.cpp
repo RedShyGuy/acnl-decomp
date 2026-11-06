@@ -5,8 +5,23 @@
 #include "sead/seadAudioMgr.h"
 #include "sead/seadAudioPlayerCtr.h"
 #include "sead/seadAudioSoundHeapCtr.h"
+#include "sead/seadNew.h"
 
 namespace sead {
+// 0x001331FC (name is ours)
+sead::AudioFxSet::AudioFxSet() : mFxMgr(nullptr), mMemoryMgr(nullptr), field_0x28(false)
+{
+    // (with the global nothrow operator new)
+    mFxMgr = new (std::nothrow) AudioFxMgr();
+    mMemoryMgr = new (std::nothrow) AudioFxMemoryMgrCtr();
+    for (s32 bus = 0; bus < 2; bus++) {
+        for (s32 i = 0; i < FX_NUM_PER_BUS; i++) {
+            mFx[bus][i] = nullptr;
+        }
+        mNum[bus] = 0;
+    }
+}
+
 // 0x00549328 (name is ours)
 void sead::AudioFxSet::reset(s32 fadeFrames)
 {

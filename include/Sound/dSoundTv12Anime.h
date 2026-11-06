@@ -5,12 +5,25 @@
 
 // RTTI 14SoundTv12Anime @ 0x008CBE08
 // vtable 0x008F08F0 (vptr 0x008F08F8), offset_to_top 0, 5 entries
+// A TV program (the class name is from the RTTI, everything else is ours).
 class SoundTv12Anime : public ::SoundTvBase
 {
 public:
-    SoundTv12Anime(); // ctor candidate(s) 0x00820118 (unverified)
-    virtual ~SoundTv12Anime(); // 0x002796EC slot 0x00 | slot vf_0x00 of SoundTvBase
-    // 0x002796DC slot 0x04 | slot vf_0x04 of SoundTvBase (deleting dtor)
-    virtual void vf_0x08(); // 0x00279328 slot 0x08 | virtual slot, introduced by SoundTvBase
-    virtual void vf_0x10(); // 0x002793A8 slot 0x10 | virtual slot, introduced by SoundTvBase
+    // (embedded in SoundTvHandle::Create<SoundTv12Anime> 0x00820118)
+    SoundTv12Anime() : m_Phase(0), m_MuteFrames(0), m_IsMuted(0), m_IsCrash1(0) {}
+    // 0x002796EC
+    // 0x002796DC (deleting dtor)
+    virtual ~SoundTv12Anime();
+    virtual void Start() override; // 0x00279328 slot 0x08
+    virtual void UpdateProgram(s32 frame) override; // 0x002793A8 slot 0x10
+
+    u8 m_Phase;      // 0xE1 0 run, 1 jump, 2 crash
+    u8 m_MuteFrames; // 0xE2 the track 6 of the music fades out over them
+    u8 m_IsMuted;    // 0xE3
+    u8 m_IsCrash1;   // 0xE4 the crash sound changes with each jump
 };
+ASSERT_OFFSET(SoundTv12Anime, m_Phase, 0xE1);
+ASSERT_OFFSET(SoundTv12Anime, m_MuteFrames, 0xE2);
+ASSERT_OFFSET(SoundTv12Anime, m_IsMuted, 0xE3);
+ASSERT_OFFSET(SoundTv12Anime, m_IsCrash1, 0xE4);
+ASSERT_SIZE(SoundTv12Anime, 0xE8);

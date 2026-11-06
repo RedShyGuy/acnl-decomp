@@ -1,23 +1,22 @@
-#include "Sound/dSoundTvBase.h"
 #include "Sound/dSoundTv00Storm.h"
+#include "Sound/dSoundLabel.h"
 
-// ctor candidate(s) 0x0081FFB4 (unverified)
-SoundTv00Storm::SoundTv00Storm()
-{
-}
-
-// 0x00278E20 slot 0x00 | slot vf_0x00 of SoundTvBase
+// 0x00278E20
+// 0x00278E10 (deleting dtor)
 SoundTv00Storm::~SoundTv00Storm()
 {
+    // (only the base is destroyed)
 }
 
-// 0x00278D94 slot 0x08 | virtual slot, introduced by SoundTvBase
-void SoundTv00Storm::vf_0x08()
+// 0x00278D94
+void SoundTv00Storm::Start()
 {
+    m_ItemId = GROUP_TV_00;
+    SoundTvBase::Start();
 }
 
-// 0x00278E00 slot 0x0C | virtual slot, introduced by SoundTvBase
-void SoundTv00Storm::vf_0x0C()
+// 0x00278E00
+void SoundTv00Storm::OnLoaded()
 {
+    PlaySound(0, SE_TV_00);
 }
-

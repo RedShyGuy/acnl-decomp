@@ -13,7 +13,7 @@ class Heap;
 class AudioResourceLoaderCtr : public ::sead::AudioResourceLoader
 {
 public:
-    AudioResourceLoaderCtr(); // (made by the game)
+    AudioResourceLoaderCtr(); // 0x0012CC08
     // whether the class is the one of typeInfo or derives from it
     virtual bool isKindOf(const RuntimeTypeInfo::Interface* typeInfo) const // 0x0074DC94 (name is ours)
     {
@@ -45,6 +45,8 @@ public:
     void loadArchive_(Heap* heap); // 0x0054B750
     // the buffers of the player and its sound heap
     void setupPlayer_(Heap* heap); // 0x0054B854
+    // the sound archive in the rom (name is ours)
+    void setRomArchive(const SafeStringBase<char>& path); // 0x00125C48
 
     // where the archive is (names are ours)
     enum ArchiveKind : u8

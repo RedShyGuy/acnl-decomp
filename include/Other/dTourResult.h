@@ -15,4 +15,5 @@ public:
     s8 m_Tour;              // 0x01C the tour (see GetTourType)
     u8 _unknown1D[0xEF];
     u8 m_State;             // 0x10C
+    u8 m_OceanSide;         // 0x10D
 };

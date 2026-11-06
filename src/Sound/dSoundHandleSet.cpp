@@ -4,6 +4,12 @@
 
 // 0x009838BC
 nw::snd::SoundArchive::SoundInfo SoundHandleSetBase::s_SoundInfo;
+// 0x0083B920
+const f32 SoundHandleSetBase::s_VolumeCurveOffsets[3] = {0.0f, 0.33f, 0.66f};
+// 0x009838D4
+f32 SoundHandleSetBase::s_VolumeCurveScales[3] = {1.0f, 1.0f / 0.67f, 1.0f / 0.34f};
+// the initializer of s_VolumeCurveScales
+// 0x0079A610 (static initializer)
 
 // 0x003220D4
 u32 SoundHandleSetBase::ReadUserParam(u32 soundId)
@@ -64,4 +70,8 @@ template s32 SoundHandleSet<3>::FindFreeIndex(u32 soundId);
 // 0x007D0F94
 template s32 SoundHandleSet<4>::FindFreeIndex(u32 soundId);
 // 0x007D1090
-template nw::snd::SoundHandle* SoundHandleSet<8>::FindFreeHandle(u32 soundId);
+template sead::SoundHandle* SoundHandleSet<8>::FindFreeHandle(u32 soundId);
+// 0x00826D64
+template bool SoundHandleSet<8>::IsPlaying(u32 soundId);
+// 0x007D0D2C
+template void SoundHandleSet<2>::SetVolume(f32 volume, s32 index);

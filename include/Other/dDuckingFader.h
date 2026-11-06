@@ -19,7 +19,7 @@ public:
         STATE_UP = 5,         // back to 1, moving or arrived
     };
 
-    DECOMP_EMIT_COPY DuckingFader() : m_State(STATE_NONE) {} // 0x0012F968
+    DECOMP_EMIT_COPY DECOMP_NOINLINE DuckingFader() : m_State(STATE_NONE) {} // 0x0012F968
     virtual ~DuckingFader();
     virtual f32 Update() override; // 0x001FFFC8 slot 0x0C
 

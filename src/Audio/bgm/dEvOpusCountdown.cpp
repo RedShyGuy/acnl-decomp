@@ -1,92 +1,111 @@
-#include "audio/bgm/dEvOpusBase.h"
-#include "audio/bgm/dEvOpusCountdown.h"
+#include "Audio/bgm/dEvOpusCountdown.h"
+#include "Audio/bgm/dBgmClock.h"
+#include "Audio/bgm/dBgmRequestMgr.h"
+#include "Sound/dSoundLabel.h"
+#include "time/time_Api.h"
 
 namespace audio {
 namespace bgm {
-// ctor address unknown
-audio::bgm::EvOpusCountdown::EvOpusCountdown()
+namespace {
+
+// the frames (30 per second) until the time of the hour, in milliseconds (the milliseconds of the clock are added, kept
+// from the original)
+inline s32 GetFramesUntil(s32 time)
 {
+    const nn::fnd::DateTimeParameters* date = time::GetCurrentDate();
+    s32 ms = date->milliSecond + (time - (date->minute * 60 + date->second) * 1000);
+    if (ms < 0) {
+        ms = 0;
+    }
+    return ms * 30 / 1000;
 }
 
-// 0x0058CC90 slot 0x00 | virtual slot, introduced by audio::bgm::EvOpusCountdown
-void audio::bgm::EvOpusCountdown::vf_0x00()
-{
-}
-
-// 0x0058CCA4 slot 0x04 | virtual slot, introduced by audio::bgm::EvOpusCarnival
-void audio::bgm::EvOpusCountdown::vf_0x04()
-{
-}
-
-// 0x0058CD20 slot 0x08 | virtual slot, introduced by audio::bgm::EvOpusCarnival
-void audio::bgm::EvOpusCountdown::vf_0x08()
-{
-}
-
-// 0x00586DEC slot 0x0C | virtual slot, introduced by audio::bgm::EvOpusCountdown
-void audio::bgm::EvOpusCountdown::vf_0x0C()
-{
-}
-
-// 0x00587088 slot 0x10 | virtual slot, introduced by audio::bgm::EvOpusCountdown
-void audio::bgm::EvOpusCountdown::vf_0x10()
-{
-}
-
-// 0x005870E0 slot 0x14 | virtual slot, introduced by audio::bgm::EvOpusCountdown
-void audio::bgm::EvOpusCountdown::vf_0x14()
-{
-}
-
-// 0x005870DC slot 0x18 | virtual slot, introduced by audio::bgm::EvOpusCountdown
-void audio::bgm::EvOpusCountdown::vf_0x18()
-{
-}
-
-// 0x00586DB4 slot 0x1C | virtual slot, introduced by audio::bgm::EvOpusCountdown
-void audio::bgm::EvOpusCountdown::vf_0x1C()
-{
-}
-
-// 0x005870C4 slot 0x20 | virtual slot, introduced by audio::bgm::EvOpusCountdown
-void audio::bgm::EvOpusCountdown::vf_0x20()
-{
-}
-
-// 0x00586E24 slot 0x24 | virtual slot, introduced by audio::bgm::EvOpusCountdown
-void audio::bgm::EvOpusCountdown::vf_0x24()
-{
-}
-
-// 0x0058495C slot 0x28 | virtual slot, introduced by audio::bgm::EvOpusCarnival
-void audio::bgm::EvOpusCountdown::vf_0x28()
-{
-}
-
-// 0x00753D08 slot 0x2C | virtual slot, introduced by audio::bgm::EvOpusCountdown
-void audio::bgm::EvOpusCountdown::vf_0x2C()
-{
-}
-
-// 0x00753D10 slot 0x30 | virtual slot, introduced by audio::bgm::EvOpusCountdown
-void audio::bgm::EvOpusCountdown::vf_0x30()
-{
-}
-
-// 0x00753D00 slot 0x34 | virtual slot, introduced by audio::bgm::EvOpusCarnival
-void audio::bgm::EvOpusCountdown::vf_0x34()
-{
-}
-
-// 0x00584960 slot 0x38 | virtual slot, introduced by audio::bgm::EvOpusCarnival
-void audio::bgm::EvOpusCountdown::vf_0x38()
-{
-}
-
-// 0x00584968 slot 0x3C | virtual slot, introduced by audio::bgm::EvOpusCarnival
-void audio::bgm::EvOpusCountdown::vf_0x3C()
-{
-}
-
+} // namespace
 } // namespace bgm
 } // namespace audio
+
+// 0x00586DB4
+void audio::bgm::EvOpusCountdown::Begin()
+{
+    m_Second = IsInTime(59, 0, 0, 0) ? GetSecond() : -1;
+    m_Fade = 20;
+}
+
+// 0x00586DEC
+void audio::bgm::EvOpusCountdown::OnStart()
+{
+    RequestMgr::Times times = {0, -1, 0};
+    GetRequestMgr()->Request(KIND_STAGE_EVENT, m_BgmId, 20, times);
+}
+
+// 0x00586E24
+void audio::bgm::EvOpusCountdown::Update()
+{
+    if (m_IsPlaying) {
+        s32 time;
+        if (IsInTime(29, 45, 30, 0)) {
+            time = (29 * 60 + 55) * 1000;
+        } else if (IsInTime(49, 45, 50, 0)) {
+            time = (49 * 60 + 55) * 1000;
+        } else if (IsInTime(54, 45, 55, 0)) {
+            time = (54 * 60 + 55) * 1000;
+        } else if (IsInTime(59, 0, 0, 0)) {
+            time = (59 * 60 + 15) * 1000;
+        } else {
+            u32 id = m_BgmId;
+            if (IsInTime(0, 15, 29, 50)) {
+                id = STRM_BGM_EVT_COUNTDOWN_2300;
+            } else if (IsInTime(30, 0, 49, 50)) {
+                id = STRM_BGM_EVT_COUNTDOWN_2330;
+            } else if (IsInTime(50, 0, 54, 50)) {
+                id = STRM_BGM_EVT_COUNTDOWN_2350;
+            } else if (IsInTime(55, 0, 59, 0)) {
+                id = STRM_BGM_EVT_COUNTDOWN_2355;
+            }
+            if (m_BgmId == id) {
+                return;
+            }
+            m_Fade = 0;
+            Stop();
+            return;
+        }
+        m_Fade = GetFramesUntil(time);
+        Stop();
+        return;
+    }
+    if (IsInTime(0, 15, 29, 45)) {
+        m_BgmId = STRM_BGM_EVT_COUNTDOWN_2300;
+    } else if (IsInTime(30, 0, 49, 45)) {
+        m_BgmId = STRM_BGM_EVT_COUNTDOWN_2330;
+    } else if (IsInTime(50, 0, 54, 45)) {
+        m_BgmId = STRM_BGM_EVT_COUNTDOWN_2350;
+    } else if (IsInTime(55, 0, 59, 0)) {
+        m_BgmId = STRM_BGM_EVT_COUNTDOWN_2355;
+    } else {
+        return;
+    }
+    Start();
+}
+
+// 0x00587088
+void audio::bgm::EvOpusCountdown::OnStop()
+{
+    GetRequestMgr()->SetFade(KIND_STAGE_EVENT, m_BgmId, m_Fade, 0, 0);
+    m_Fade = 20;
+}
+
+// 0x005870C4
+void audio::bgm::EvOpusCountdown::End(bool isReplaced)
+{
+    if (!isReplaced) {
+        m_Fade = 0;
+    }
+    Stop();
+}
+
+// 0x005870E0
+// 0x005870DC (deleting dtor)
+audio::bgm::EvOpusCountdown::~EvOpusCountdown()
+{
+    // empty (in the original too)
+}
