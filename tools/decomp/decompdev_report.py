@@ -44,7 +44,7 @@ REPORT_VERSION = 2
 TEXT_BASE = 0x00100000
 
 # libraries with their own directory under lib/ (and their top-level namespaces)
-LIBRARIES = ("nn", "nw", "sead", "pead", "imgdb", "mw", "libms", "cfl", "clib")
+LIBRARIES = ("nn", "nw", "sead", "pead", "imgdb", "mw", "libms", "cfl", "asr", "clib")
 # the ARM C library of the game (lib/clib): compiler helpers, C functions and the C++ ABI helpers of the
 # ARM runtime
 CLIB_FUNCTION = re.compile(
@@ -65,6 +65,7 @@ CATEGORY_NAMES = {
     "mw": "mw",
     "libms": "libms",
     "cfl": "cfl",
+    "asr": "asr",
     "clib": "ARM C library (clib)",
     "runtime": "Runtime / C++ library",
     "codebin": "code.bin (all)",

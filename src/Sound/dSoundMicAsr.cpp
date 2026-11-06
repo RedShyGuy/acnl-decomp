@@ -1,3 +1,4 @@
+#include "asr/asr_Api.h"
 #include "Other/dRegion.h"
 #include "Sound/dSoundLabel.h"
 #include "Sound/dSoundMgr.h"
@@ -42,12 +43,12 @@ void SoundMicAsr::Stop()
 {
     if (m_State != STATE_NONE) {
         if (m_State == STATE_WAIT_SOUND || m_State == STATE_WAIT_TIMER || m_State == STATE_RECOGNIZING) {
-            Func142CFC(SoundMicMgr::s_pInstance->m_pSamples, 0);
+            asr::Process(SoundMicMgr::s_pInstance->m_pSamples, 0);
             m_Timer = 0;
             m_State = STATE_READY;
             m_Progress = PROGRESS_NONE;
         }
-        Func142BC0(0);
+        asr::FinalizeEntry(NULL);
         for (s32 i = 0; i < FILE_NUM; i++) {
             m_Splits[i].Reset();
         }
@@ -66,7 +67,7 @@ void SoundMicAsr::Load(sead::Heap* heap)
     }
     m_pHeap = sead::ExpHeap::create(0x55000, sead::SafeStringBase<char>("AsrHeap"), heap, sead::Heap::HEAP_DIRECTION_FORWARD,
                                     false);
-    m_pWork = new (m_pHeap, 4) u8[Func151F00() & ~1];
+    m_pWork = new (m_pHeap, 4) u8[asr::GetWorkSize() & ~1];
     InitLanguage();
     for (s32 i = 0; i < FILE_NUM; i++) {
         m_Files[i].pData = NULL;
@@ -163,22 +164,22 @@ bool SoundMicAsr::Start()
     for (s32 i = 0; i < RESULT_NUM; i++) {
         m_Results[i] = -1;
     }
-    s16 config[8];
-    if (Func151E64(config) != 0) {
+    asr::Config config;
+    if (asr::GetConfig(&config) != 0) {
         return false;
     }
-    config[0] = 3;
-    if (Func152608(config) != 0) {
+    config.maxResults = 3;
+    if (asr::SetConfig(&config) != 0) {
         return false;
     }
     if (m_ParamSize <= 0 || m_pParamData == NULL) {
         return false;
     }
-    if (Func152474(m_pParamData, static_cast<s16>(m_ParamSize)) != 0) {
+    if (asr::SetWords(static_cast<const char*>(m_pParamData), static_cast<s16>(m_ParamSize)) != 0) {
         return false;
     }
     m_Progress = PROGRESS_NONE;
-    if (Func1523C4() == 0) {
+    if (asr::Start() == 0) {
         m_State = STATE_WAIT_SOUND;
         return true;
     }
@@ -191,7 +192,7 @@ bool SoundMicAsr::Start()
 void SoundMicAsr::Reset()
 {
     if (m_State == STATE_WAIT_SOUND || m_State == STATE_WAIT_TIMER || m_State == STATE_RECOGNIZING) {
-        Func142CFC(SoundMicMgr::s_pInstance->m_pSamples, 0);
+        asr::Process(SoundMicMgr::s_pInstance->m_pSamples, 0);
         m_Timer = 0;
         m_State = STATE_READY;
         m_Progress = PROGRESS_NONE;
@@ -211,7 +212,7 @@ void SoundMicAsr::UpdateWaitTimer()
 void SoundMicAsr::UpdateRecognizing()
 {
     SoundMicMgr* mic = SoundMicMgr::s_pInstance;
-    s32 result = Func142CFC(mic->m_pSamples, static_cast<u16>(mic->m_SampleBytes >> 1));
+    s32 result = asr::Process(mic->m_pSamples, static_cast<u16>(mic->m_SampleBytes >> 1));
     if (result == -7) {
         m_Progress = PROGRESS_ERROR_7;
     } else if (result <= -1) {
@@ -221,11 +222,11 @@ void SoundMicAsr::UpdateRecognizing()
         return;
     } else if (static_cast<u32>(result - 1) > 9) {
         return;
-    } else if (Func151E0C(1) <= 0) {
+    } else if (asr::GetResult(1) <= 0) {
         m_Progress = PROGRESS_ERROR;
     } else {
         for (s16 i = 0; i < result; i++) {
-            m_Results[i] = Func151E0C(i + 1);
+            m_Results[i] = asr::GetResult(i + 1);
         }
         m_Progress = PROGRESS_RESULT;
     }
@@ -252,7 +253,7 @@ void SoundMicAsr::UpdateLoading()
     if (!isLoaded) {
         return;
     }
-    if (Func151F10(m_LanguageCode, m_Files, FILE_NUM, m_pWork) == 0) {
+    if (asr::Initialize(m_LanguageCode, reinterpret_cast<asr::File*>(m_Files), FILE_NUM, m_pWork) == 0) {
         m_State = STATE_READY;
     } else {
         Stop();

@@ -101,13 +101,3 @@ bool Func300928(void* npcs, s32 value); // 0x00300928
 bool Func11A3A8(); // 0x0011A3A8
 // a flag of the game at 0x951157 (StageOpusMgr::SelectOpus: the opus 46)
 extern u8 g_Unknown951157;
-// the speech recognition library (no symbols; SoundMicAsr calls it)
-s32 Func142CFC(const s16* samples, u32 count); // 0x00142CFC
-void Func142BC0(s32 arg); // 0x00142BC0
-u32 Func151F00(); // 0x00151F00
-s16 Func151E0C(s16 index); // 0x00151E0C
-s32 Func151E64(s16* config); // 0x00151E64
-s32 Func152608(s16* config); // 0x00152608
-s32 Func152474(const void* data, s16 size); // 0x00152474
-s32 Func1523C4(); // 0x001523C4
-s32 Func151F10(u8 language, void* files, s32 fileNum, void* work); // 0x00151F10

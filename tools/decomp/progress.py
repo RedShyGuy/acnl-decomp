@@ -18,7 +18,7 @@ import argparse, bisect, collections, csv, json, os, re, sys
 HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.normpath(os.path.join(HERE, '..', '..'))
 
-LIBRARIES = ('nn', 'nw', 'sead', 'pead', 'imgdb', 'mw', 'libms', 'cfl', 'clib', 'std', '__rw', '__cxxabiv1')
+LIBRARIES = ('nn', 'nw', 'sead', 'pead', 'imgdb', 'mw', 'libms', 'cfl', 'asr', 'clib', 'std', '__rw', '__cxxabiv1')
 
 # the ARM C library of the game (lib/clib): compiler helpers, C functions and the C++ ABI helpers of the
 # ARM runtime
