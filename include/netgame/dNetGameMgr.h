@@ -561,8 +561,6 @@ public:
 };
 ASSERT_SIZE(NetGameMgr, 0x132B8);
 
-// whether the game is saving (function of the game that is not decompiled yet; name is ours)
-bool IsSaving(); // 0x005CF1AC
 extern s32 g_FrameCounter;
 bool ConnectBestFriendIfAllowed(); // 0x0062CC24
 void MakeParam(u32* param, u16 low, u32 high); // 0x00618E44

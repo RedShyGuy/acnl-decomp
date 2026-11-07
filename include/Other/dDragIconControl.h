@@ -13,11 +13,11 @@ public:
     // 0x0029BDD0 slot 0x04 | slot vf_0x04 of ssys::st::List (deleting dtor)
     virtual void Update(); // 0x0029BCB4 slot 0x08 | slot vf_0x08 of ButtonActionControl
     virtual void Reset(); // 0x0029BBB8 slot 0x0C | slot vf_0x0C of ButtonActionControl
-    virtual void vf_0x10(); // 0x0029A330 slot 0x10 | virtual slot, introduced by ButtonActionControl
-    virtual void vf_0x18(); // 0x0029B5EC slot 0x18 | virtual slot, introduced by ButtonActionControl
-    virtual void vf_0x20(); // 0x0029AC30 slot 0x20 | virtual slot, introduced by ButtonActionControl
-    virtual void vf_0x24(); // 0x0029AC1C slot 0x24 | virtual slot, introduced by ButtonActionControl
-    virtual void vf_0x2C(); // 0x0029B6E8 slot 0x2C | virtual slot, introduced by ButtonActionControl
-    virtual void vf_0x34(); // 0x0029B5C0 slot 0x34 | virtual slot, introduced by ButtonActionControl
-    virtual void vf_0x38(); // 0x0029B760 slot 0x38 | virtual slot, introduced by ButtonActionControl
+    virtual void Process(); // 0x0029A330 slot 0x10 (name after libgarden)
+    virtual bool CheckInputForNode(); // 0x0029B5EC slot 0x18 (name after libgarden)
+    virtual void CheckInputForNodeTouch(); // 0x0029AC30 slot 0x20 (name after libgarden)
+    virtual void CheckRelease(); // 0x0029AC1C slot 0x24 (name after libgarden)
+    virtual void SelectCurrent(); // 0x0029B6E8 slot 0x2C (name after libgarden)
+    virtual void OnBegin(); // 0x0029B5C0 slot 0x34 (name after libgarden)
+    virtual void FUN_002f7300(); // 0x0029B760 slot 0x38 (name after libgarden)
 };

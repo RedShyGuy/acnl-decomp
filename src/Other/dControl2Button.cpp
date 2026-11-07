@@ -3,6 +3,8 @@
 
 // ctor address unknown
 Control2Button::Control2Button()
+    // (placeholder: the button array of the class is not laid out yet)
+    : ControlButtonBase(NULL, 0)
 {
 }
 

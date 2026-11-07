@@ -1,3 +1,4 @@
+#include "applet/dErrEulaMgr.h"
 #include "netgame/dIslandMgr.h"
 
 #include "Bs/dBsSvMgr.h"
@@ -1277,7 +1278,7 @@ void netgame::IslandMgr::ApplyTourData()
 bool netgame::IslandMgr::ProcessLeave()
 {
     NetGameMgr* mgr = NetGameMgr::s_pInstance;
-    if (mgr->unk_0x132B4 || IsSaving()) {
+    if (mgr->unk_0x132B4 || applet::ErrEulaMgr::IsInputBlocked()) {
         return true;
     }
     bool result = true;
@@ -1315,7 +1316,7 @@ void netgame::IslandMgr::StartTelopTimer()
 void netgame::IslandMgr::ProcessEnd()
 {
     NetGameMgr* mgr = NetGameMgr::s_pInstance;
-    if (!IsSaving() && !mgr->unk_0x132B4) {
+    if (!applet::ErrEulaMgr::IsInputBlocked() && !mgr->unk_0x132B4) {
         switch (m_State) {
         case 43:
             mgr->m_LeaveMgr.NotifySessionEnd(m_LeavingPlayer);

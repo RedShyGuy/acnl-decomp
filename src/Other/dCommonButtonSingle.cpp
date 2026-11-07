@@ -11,13 +11,13 @@ CommonButtonSingle::~CommonButtonSingle()
 {
 }
 
-// 0x002E0E6C slot 0x10 | virtual slot, introduced by ButtonActionNode
-void CommonButtonSingle::vf_0x10()
+// 0x002E0E6C slot 0x10 (name after libgarden)
+void CommonButtonSingle::FUN_002b72e0()
 {
 }
 
-// 0x00721270 slot 0x38 | virtual slot, introduced by ButtonActionNode
-void CommonButtonSingle::vf_0x38()
+// 0x00721270 slot 0x38 (name after libgarden)
+void CommonButtonSingle::PlayOkSound()
 {
 }
 

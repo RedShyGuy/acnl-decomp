@@ -3,6 +3,8 @@
 #include "decomp.h"
 #include "Other/dBase.h"
 #include "state/dMode.h"
+#include "nn/math/math_Vector2.h"
+#include "nn/math/math_Vector3.h"
 
 // RTTI 12BsHandCursor @ 0x008CB52C
 // vtable 0x008EE0A4 (vptr 0x008EE0AC), offset_to_top 0, 16 entries
@@ -18,4 +20,16 @@ public:
     virtual oml::framework::Result Calc(); // 0x001FA9D8 slot 0x24 | slot vf_0x24 of oml::framework::Process
     virtual oml::framework::Result Draw(); // 0x001FA5AC slot 0x30 | slot vf_0x30 of oml::framework::Process
     void Disable(); // 0x001FA910 | libgarden [tier A]
+    // (names are ours) shows the cursor for the cursor keys / circle pad
+    void Enable(); // 0x001FA84C
+    void SetPressed(bool pressed); // 0x001F9E40
+    // moves the cursor pane (and animates its layout)
+    void SetPosition(const nn::math::VEC3* pos); // 0x001F9FA0
+
+    u8 _unknown38[0x4C0 - 0x38];  // 0x038 (the layout of the cursor at 0x38)
+    nn::math::VEC2 m_Position;    // 0x4C0 (name is ours)
+    nn::math::VEC2 m_Move;        // 0x4C8 non-zero while the cursor moves (name is ours)
+    bool m_Unknown0x4D0;          // 0x4D0
+    bool m_IsEnabled;             // 0x4D1 (name is ours)
 };
+ASSERT_OFFSET(BsHandCursor, m_Position, 0x4C0);

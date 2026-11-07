@@ -1,6 +1,7 @@
 #pragma once
 
 #include "decomp.h"
+#include "state/dBase.h"
 
 namespace state {
 // Instantiations found in the binary:
@@ -65,10 +66,45 @@ namespace state {
 //   state::Mode<BsMenuSetupTime>  typeinfo 0x008D3314
 //   state::Mode<BsMenuSignList>  typeinfo 0x008D329C
 //   ... 49 more
-template <typename T0>
-class Mode
+// a state machine that calls one member function of T per frame (names after libgarden; the GetName slot of all
+// instances is one folded function returning NULL)
+template <typename T>
+class Mode : public ::state::Base<T>
 {
 public:
-    // TODO: members unknown
+    typedef typename ::state::Base<T>::Func Func;
+
+    // a named state (debug)
+    struct Info
+    {
+        const char* names;
+        Func transition;
+        Func state;
+    };
+
+    Mode() : m_Callback(NULL), m_CallbackCounter(0), m_Calling(false), m_pInfos(NULL), m_Count(0) {}
+    virtual const char* GetName(Func) const { return NULL; }
+
+    void Change(Func func);
+    // calls the current state; counts the frames it stays the same
+    void Call()
+    {
+        const Func func = m_Callback;
+        if (func != NULL) {
+            (static_cast<T*>(this)->*func)();
+        }
+        if (func == m_Callback) {
+            m_CallbackCounter++;
+        } else {
+            m_CallbackCounter = 0;
+        }
+    }
+    Func GetState() const { return m_Callback; }
+
+    Func m_Callback;          // 0x0C
+    u32 m_CallbackCounter;    // 0x14
+    bool m_Calling;           // 0x18
+    const Info* m_pInfos;     // 0x1C
+    u32 m_Count;              // 0x20
 };
 } // namespace state

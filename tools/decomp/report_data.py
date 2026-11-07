@@ -117,8 +117,12 @@ def collect(build_dir: Path, version: str) -> tuple[Original, list[dict[str, Any
     symbols = json.loads((root / "config" / version / "symbols.json").read_text(encoding="utf-8"))
     variables = check.source_variables()
     by_bare: dict[str, list[str]] = defaultdict(list)
+    guard_by_bare: dict[str, list[str]] = defaultdict(list)
     for key in variables:
-        by_bare[re.split(r"::", key)[-1]].append(key)
+        if key.startswith("guard variable for "):
+            guard_by_bare[re.split(r"::", key[len("guard variable for "):])[-1]].append(key)
+        else:
+            by_bare[re.split(r"::", key)[-1]].append(key)
     classes = {check.norm(c["name"]): c for c in symbols.get("classes", [])}
 
     objects = sorted(glob.glob(str(build_dir / "CMakeFiles" / "**" / "*.obj"), recursive=True)
@@ -171,10 +175,22 @@ def collect(build_dir: Path, version: str) -> tuple[Original, list[dict[str, Any
         address = variables.get(key)
         if address is None:
             bare = re.split(r"::", key)[-1]
-            candidates = [k for k in by_bare.get(bare, []) if k not in used_keys]
-            if len(candidates) == 1 and "::" in dn and dn.split("(")[0] != dn:
-                key = candidates[0]
-                address = variables[key]
+            if key.startswith("guardvariablefor"):
+                # the guard of a function's static: at the address its comment names, else behind the static
+                candidates = [k for k in guard_by_bare.get(bare, []) if k not in used_keys]
+                if len(candidates) == 1:
+                    key = candidates[0]
+                    address = variables[key]
+                else:
+                    candidates = [k for k in by_bare.get(bare, []) if "guard:" + k not in used_keys]
+                    if len(candidates) == 1 and "::" in dn:
+                        key = "guard:" + candidates[0]
+                        address = variables[candidates[0]] + 4
+            else:
+                candidates = [k for k in by_bare.get(bare, []) if k not in used_keys]
+                if len(candidates) == 1 and "::" in dn and dn.split("(")[0] != dn:
+                    key = candidates[0]
+                    address = variables[key]
         if address is None:
             continue
         used_keys.add(key)

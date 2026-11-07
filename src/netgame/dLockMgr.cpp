@@ -1,3 +1,4 @@
+#include "applet/dErrEulaMgr.h"
 #include "netgame/dLockMgr.h"
 
 #include "Bs/dBsSvMgr.h"
@@ -564,7 +565,7 @@ void netgame::LockMgr::Process()
 void netgame::LockMgr::ProcessEnd()
 {
     NetGameMgr* mgr = NetGameMgr::s_pInstance;
-    if (!mgr->m_PacketQueue.m_IsClosed && !IsSaving() && !mgr->unk_0x132B4 && m_Unlocked) {
+    if (!mgr->m_PacketQueue.m_IsClosed && !applet::ErrEulaMgr::IsInputBlocked() && !mgr->unk_0x132B4 && m_Unlocked) {
         if (mgr->GetMyPlayerNo() != PLAYER_NO_HOST) {
             PacketQueue& queue = mgr->m_PacketQueue;
             queue.BeginPacket();

@@ -151,7 +151,7 @@ nw::lyt::AnimTransform* ssys::ma::lyt::Layout::CreateAnimTransform(const void* a
 // 0x005696F8 slot 0x0C | libgarden
 void ssys::ma::lyt::Layout::Animate()
 {
-    m_Unknown0x122 = 0;
+    m_IsAnimationChanged = 0;
     m_Layout.nw::lyt::Layout::Animate(m_AnimateOption);
     if (!m_IsViewUpdated) {
         if (m_IsPerspective == true) {
@@ -318,6 +318,13 @@ void ssys::ma::lyt::Layout::UnbindAnimation(Animation* anim)
 {
     anim->m_IsBound = 0;
     m_Layout.nw::lyt::Layout::UnbindAnimation(anim->m_pAnimTransform);
+}
+
+// 0x004BA1EC (name is ours)
+void ssys::ma::lyt::Layout::BindAnimation(Animation* anim)
+{
+    anim->m_IsBound = 1;
+    m_Layout.nw::lyt::Layout::BindAnimation(anim->m_pAnimTransform);
 }
 
 // 0x00569F68 slot 0x00 | libgarden

@@ -11,8 +11,8 @@ ItemDragIconNode::~ItemDragIconNode()
 {
 }
 
-// 0x002B972C slot 0x10 | virtual slot, introduced by ButtonActionNode
-void ItemDragIconNode::vf_0x10()
+// 0x002B972C slot 0x10 (name after libgarden)
+void ItemDragIconNode::FUN_002b72e0()
 {
 }
 

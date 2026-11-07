@@ -11,13 +11,13 @@ DragIconNode::~DragIconNode()
 {
 }
 
-// 0x00713028 slot 0x08 | virtual slot, introduced by ButtonActionNode
-void DragIconNode::vf_0x08()
+// 0x00713028 slot 0x08 (name after libgarden)
+bool DragIconNode::IsActivated() const
 {
 }
 
-// 0x001FFE18 slot 0x10 | virtual slot, introduced by ButtonActionNode
-void DragIconNode::vf_0x10()
+// 0x001FFE18 slot 0x10 (name after libgarden)
+void DragIconNode::FUN_002b72e0()
 {
 }
 

@@ -1,3 +1,4 @@
+#include "applet/dErrEulaMgr.h"
 #include "netgame/dStageMgr.h"
 
 #include "netgame/dNetGameMgr.h"
@@ -197,7 +198,7 @@ void netgame::StageMgr::AddPlayer(PlayerNo player, stage::Name stage)
 void netgame::StageMgr::ProcessEnd()
 {
     NetGameMgr* mgr = NetGameMgr::s_pInstance;
-    if (mgr->unk_0x132B4 || IsSaving() || mgr->m_PacketQueue.m_IsClosed) {
+    if (mgr->unk_0x132B4 || applet::ErrEulaMgr::IsInputBlocked() || mgr->m_PacketQueue.m_IsClosed) {
         return;
     }
     if (m_State == 6) {

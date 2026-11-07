@@ -4,6 +4,7 @@
 #include "nn/math/math_ARMv6.h"
 #include "nn/math/math_Api.h"
 #include "nn/math/math_MTX34.h"
+#include "nn/math/math_Vector2.h"
 #include "nn/math/math_Vector3.h"
 #include "nw/lyt/lyt_DrawInfo.h"
 #include "nw/lyt/lyt_GroupContainer.h"
@@ -46,7 +47,7 @@ public:
         : m_pArcReader(NULL), m_CameraPos(0.0f, 0.0f, 1.0f), m_AnimateOption(0), m_Cmdlist(0), m_SavedBufferOffset(0),
           m_SavedBufferSize(0), m_SavedRequestOffset(0), m_SavedRequestSize(0), m_SavedStateMask(0), m_CmdlistStorageSize(0),
           m_IsCopyCmd(false), m_AnimateDone(false), m_IsViewUpdated(false), m_IsProjUpdated(false), m_IsStereo(false),
-          m_IsPerspective(false), m_Unknown0x122(0), m_Parallax(0.0f), m_PrevParallax(0.0f), m_StereoDistance(0.0f),
+          m_IsPerspective(false), m_IsAnimationChanged(0), m_Parallax(0.0f), m_PrevParallax(0.0f), m_StereoDistance(0.0f),
           m_CameraDistance(0.0f), m_DrawMode(0), m_IsScissorEnable(false), m_ScissorWidth(0.0f), m_ScissorHeight(0.0f)
     {
         m_DrawInfo.m_pGraphicsResource = GetGraphicsResource();
@@ -78,6 +79,8 @@ public:
     // (names are ours)
     void BindAnimation(Animation* anim, nw::lyt::Pane* pane, bool recursive); // 0x00569D68
     void UnbindAnimation(Animation* anim); // 0x00569F08
+    // (its code lies in front of nw::lyt::Layout::BindAnimation and falls into it)
+    void BindAnimation(Animation* anim); // 0x004BA1EC
     // shows or hides the panes of a group
     void SetGroupVisible(const char* groupName, bool visible); // 0x005694C0
     // a transform of the animation that is not in the list of the layout (the caller deletes it)
@@ -86,6 +89,20 @@ public:
     void UpdateParallax(); // 0x00569178
     // the body of DrawCached (the draw info is that of the layout)
     void Draw(const nw::lyt::DrawInfo& drawInfo); // 0x005699AC
+
+    // the position in the layout of a position on the screen (y down, origin top left; name is ours)
+    DECOMP_EMIT_COPY DECOMP_NOINLINE void ScreenToLayout(const nn::math::VEC2& screen, nn::math::VEC2* pos) // 0x00750C5C
+    {
+        nw::ut::Rect rect = m_Layout.GetLayoutRect();
+        f32 centerX = (rect.left + rect.right) * 0.5f;
+        f32 centerY = (rect.top + rect.bottom) * 0.5f;
+        pos->x = screen.x - centerX + rect.left;
+        pos->y = rect.top - (screen.y - centerY);
+        nn::math::VEC3 vec(pos->x, pos->y, 0.0f);
+        nn::math::ARMv6::VEC3TransformAsm(&vec, &m_DrawInfo.m_ViewMtx, &vec);
+        pos->x = vec.x;
+        pos->y = vec.y;
+    }
 
     void SetArcResAccReader(ArcResAccReader* reader) { m_pArcReader = reader; }
     DummyLayout& GetLayout() { return m_Layout; }
@@ -113,7 +130,7 @@ public:
     bool m_IsProjUpdated;                // 0x11F
     bool m_IsStereo;                     // 0x120 with the 3D effect
     bool m_IsPerspective;                // 0x121 else orthographic
-    u8 m_Unknown0x122;                   // 0x122 cleared by Animate
+    u8 m_IsAnimationChanged;             // 0x122 set by the buttons when they change an animation; cleared by Animate
     f32 m_Parallax;                      // 0x124 in pixels of the upper screen
     f32 m_PrevParallax;                  // 0x128
     f32 m_StereoDistance;                // 0x12C the camera z with 3D

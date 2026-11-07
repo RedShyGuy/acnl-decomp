@@ -14,7 +14,7 @@ namespace lyt {
 class Animation : public ::ssys::ma::lyt::FrameCtrl
 {
 public:
-    DECOMP_EMIT_COPY Animation() // 0x00126200 | libgarden [tier A]
+    DECOMP_EMIT_COPY DECOMP_NOINLINE Animation() // 0x00126200 | libgarden [tier A]
         : m_IsBound(0), m_EntryCount(0), m_pEntries(NULL), m_IsDescendingBind(false)
     {
     }
@@ -23,7 +23,7 @@ public:
     // the animation name of resAcc; false if there is none
     bool Initialize(const char* name, const ResAccInterface* resAcc); // 0x0056A0CC | libgarden [tier A]
     // whether a one-shot animation has reached its end
-    DECOMP_EMIT_COPY bool IsDone() const // 0x00750DEC | libgarden [tier A]
+    DECOMP_EMIT_COPY DECOMP_NOINLINE bool IsDone() const // 0x00750DEC | libgarden [tier A]
     {
         if (m_Loop == LOOP_FLAG_ONCE) {
             return m_Frame >= m_FrameCount - 1.0f;

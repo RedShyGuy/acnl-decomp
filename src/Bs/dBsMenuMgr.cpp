@@ -2,6 +2,11 @@
 #include "Other/dBase.h"
 #include "Bs/dBsMenuMgr.h"
 
+// 0x00950D4C
+BsMenuMgr* BsMenuMgr::s_pInstance;
+// 0x00950D68
+u32 BsMenuMgr::s_Flags;
+
 // ctor candidate(s) 0x006D52B4 (unverified)
 BsMenuMgr::BsMenuMgr()
 {
@@ -43,7 +48,7 @@ void BsMenuMgr::CreateMenuProcess(BsMenuMgr::Menu, unsigned char)
 }
 
 // 0x006D4C24 | libgarden [tier A]
-void BsMenuMgr::IsPressed(unsigned long)
+bool BsMenuMgr::IsPressed(unsigned long)
 {
 }
 

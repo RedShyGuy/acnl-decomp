@@ -133,7 +133,7 @@ void netgame::NetGameMgr::FiniNet()
 // 0x00618024 (name is ours)
 void netgame::NetGameMgr::Update()
 {
-    if (m_ErrorFlags == 0 && !IsSaving() && !unk_0x132B4) {
+    if (m_ErrorFlags == 0 && !applet::ErrEulaMgr::IsInputBlocked() && !unk_0x132B4) {
         m_ConnectMgr.Process();
         m_GateMgr.Process();
         m_StageMgr.Process();

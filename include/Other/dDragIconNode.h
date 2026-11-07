@@ -11,8 +11,8 @@ public:
     DragIconNode(); // ctor candidate(s) 0x001FFEE8 (unverified)
     virtual ~DragIconNode(); // 0x001FFF94 slot 0x00 | slot vf_0x00 of ssys::st::ListNode
     // 0x001FFF5C slot 0x04 | slot vf_0x04 of ssys::st::ListNode (deleting dtor)
-    virtual void vf_0x08(); // 0x00713028 slot 0x08 | virtual slot, introduced by ButtonActionNode
-    virtual void vf_0x10(); // 0x001FFE18 slot 0x10 | virtual slot, introduced by ButtonActionNode
+    virtual bool IsActivated() const; // 0x00713028 slot 0x08 (name after libgarden)
+    virtual void FUN_002b72e0(); // 0x001FFE18 slot 0x10 (name after libgarden)
     virtual void vf_0x40(); // 0x00712FF0 slot 0x40 | virtual slot, introduced by DragIconNode
     virtual void vf_0x44(); // 0x001FFC90 slot 0x44 | virtual slot, introduced by DragIconNode
     virtual void vf_0x48(); // 0x001FFE9C slot 0x48 | virtual slot, introduced by DragIconNode

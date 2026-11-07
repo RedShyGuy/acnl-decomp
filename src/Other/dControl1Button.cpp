@@ -3,6 +3,8 @@
 
 // ctor candidate(s) 0x0025EAC8 (unverified)
 Control1Button::Control1Button()
+    // (placeholder: the button array of the class is not laid out yet)
+    : ControlButtonBase(NULL, 0)
 {
 }
 

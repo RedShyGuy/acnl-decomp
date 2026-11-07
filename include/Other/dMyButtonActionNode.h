@@ -8,8 +8,8 @@
 class MyButtonActionNode : public ::ButtonActionNode
 {
 public:
-    MyButtonActionNode(); // ctor candidate(s) 0x002E5E84 (unverified)
+    MyButtonActionNode(); // 0x002E5E84 (name after the RTTI)
     virtual ~MyButtonActionNode(); // 0x002B74C0 slot 0x00 | slot vf_0x00 of ssys::st::ListNode
     // 0x002E5E9C slot 0x04 | slot vf_0x04 of ssys::st::ListNode (deleting dtor)
-    virtual void ResetSelect(); // 0x002E5E6C slot 0x0C | slot vf_0x0C of ButtonActionNode
+    virtual void ResetSelect(); // 0x002E5E6C slot 0x0C (name after libgarden)
 };

@@ -1,3 +1,4 @@
+#include "applet/dErrEulaMgr.h"
 #include "netgame/dLeaveMgr.h"
 
 #include "netgame/dGameFunctions.h"
@@ -164,7 +165,7 @@ bool netgame::LeaveMgr::ProcessLeave()
 void netgame::LeaveMgr::ProcessEnd()
 {
     NetGameMgr* mgr = NetGameMgr::s_pInstance;
-    if (mgr->unk_0x132B4 || IsSaving()) {
+    if (mgr->unk_0x132B4 || applet::ErrEulaMgr::IsInputBlocked()) {
         return;
     }
     if (m_State == STATE_DISCONNECTED) {
