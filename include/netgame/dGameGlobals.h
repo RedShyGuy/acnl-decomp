@@ -23,7 +23,6 @@ extern TourStatus g_TourStatus;
 extern void* g_pUnknown954238;
 extern volatile u8 g_PlayerFlags;
 extern const void* g_pUnknown94EB2C;
-extern void* g_pMessageReader;
 extern void* g_pUnknown94FD84;
 extern void* g_pUnknown954884;
 extern void* g_pUnknown95488C;

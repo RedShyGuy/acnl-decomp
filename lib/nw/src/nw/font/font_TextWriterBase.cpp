@@ -32,30 +32,6 @@ TagProcessorBase<T>::~TagProcessorBase()
 }
 
 template <typename T>
-DECOMP_ALWAYS_INLINE void TagProcessorBase<T>::ProcessTab(PrintContext<T>* pContext)
-{
-    TextWriterBase<T>* pWriter = pContext->writer;
-    const int tabWidth = pWriter->m_TabWidth;
-    if (tabWidth > 0) {
-        const f32 charWidth = pWriter->m_IsWidthFixed ? pWriter->m_FixedWidth : pWriter->GetFontWidth();
-        const f32 dx = pWriter->m_CursorX - pContext->xOrigin;
-        const f32 tabPixel = tabWidth * charWidth;
-        const int numTab = static_cast<int>(dx / tabPixel) + 1;
-        pWriter->m_CursorX = pContext->xOrigin + tabPixel * numTab;
-    }
-}
-
-template <typename T>
-DECOMP_ALWAYS_INLINE void TagProcessorBase<T>::ProcessLinefeed(PrintContext<T>* pContext)
-{
-    TextWriterBase<T>* pWriter = pContext->writer;
-    const f32 x = pContext->xOrigin;
-    const f32 y = pWriter->m_CursorY + pWriter->GetLineHeight();
-    pWriter->m_CursorX = x;
-    pWriter->m_CursorY = y;
-}
-
-template <typename T>
 typename TagProcessorBase<T>::Operation TagProcessorBase<T>::Process(u16 code, PrintContext<T>* pContext)
 {
     switch (code) {
@@ -440,6 +416,11 @@ template TagProcessorBase<wchar_t>::~TagProcessorBase();
 template TextWriterBase<wchar_t>::TextWriterBase();
 // 0x004D6EEC | nintendogs:callseq-callee [tier C]
 template TextWriterBase<wchar_t>::~TextWriterBase();
+// (copies in the shared area, called by the script renderers)
+// 0x00828128
+template f32 TextWriterBase<wchar_t>::GetLineHeight() const;
+// 0x00828160 (name is ours)
+template f32 TextWriterBase<wchar_t>::CalcStringWidth(const wchar_t* str, int length) const;
 // 0x007E97A8 | libgarden [tier A]
 template f32 TextWriterBase<wchar_t>::Print(const wchar_t* str, int length) const;
 // 0x007E9804 | nintendogs:callgraph [confirmed by mk7dlp] [tier A]

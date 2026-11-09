@@ -1,45 +1,41 @@
-#include "script/dMsgEngineModify.h"
 #include "script/dReplaceEngine.h"
 
 namespace script {
-// ctor candidate(s) 0x005E45B4 (unverified)
-script::ReplaceEngine::ReplaceEngine()
+// 0x005E44F4 slot 0x14
+void ReplaceEngine::OnChar(const CharInfo* info)
+{
+    if (m_Find == info->units && m_pChar != NULL) {
+        *m_pChar = m_Replace;
+        m_IsModified = true;
+    }
+}
+
+// 0x005E4524 (name is ours)
+bool ReplaceEngine::Replace(IWord* word, char16 find, char16 replace)
+{
+    m_IsModified = false;
+    m_Find = find;
+    m_Replace = replace;
+    if (word != NULL) {
+        char16* text = word->GetWord();
+        u32 size = word->GetSize();
+        if (text != NULL && size != 0 && *text != 0) {
+            SetText(text);
+            Run(&s_pNoStop);
+        }
+    }
+    return m_IsModified;
+}
+
+// 0x005E45B4 (name after the RTTI)
+ReplaceEngine::ReplaceEngine() : m_Find(0), m_Replace(0)
 {
 }
 
-// 0x005E45E4 slot 0x00 | virtual slot, introduced by script::ReplaceEngine
-void script::ReplaceEngine::vf_0x00()
+// 0x005E45E4 slot 0x00
+// 0x005E45E0 (deleting dtor)
+ReplaceEngine::~ReplaceEngine()
 {
+    // empty (in the original too)
 }
-
-// 0x005E45E0 slot 0x04 | virtual slot, introduced by script::ReplaceEngine
-void script::ReplaceEngine::vf_0x04()
-{
-}
-
-// 0x005E712C slot 0x08 | virtual slot, introduced by script::CapitalTopEngine
-void script::ReplaceEngine::vf_0x08()
-{
-}
-
-// 0x005E7124 slot 0x0C | virtual slot, introduced by script::CapitalTopEngine
-void script::ReplaceEngine::vf_0x0C()
-{
-}
-
-// 0x005E7130 slot 0x10 | virtual slot, introduced by script::ReplaceEngine
-void script::ReplaceEngine::vf_0x10()
-{
-}
-
-// 0x005E44F4 slot 0x14 | virtual slot, introduced by script::ReplaceEngine
-void script::ReplaceEngine::vf_0x14()
-{
-}
-
-// 0x005E7128 slot 0x18 | virtual slot, introduced by script::CapitalTopEngine
-void script::ReplaceEngine::vf_0x18()
-{
-}
-
 } // namespace script

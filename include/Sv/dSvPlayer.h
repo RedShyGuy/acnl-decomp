@@ -439,7 +439,8 @@ struct SvPlayer {
     /* 0x8D1C */ SvEncValue meowCoupons;
     /* 0x8D24 */ SvEncValue unk_0x8D24;
     /* 0x8D2C */ SvEncValue unk_0x8D2C;
-    /* 0x8D34 */ SvEncValue unk_0x8D34;
+    /* 0x8D34 */ u32 unk_0x8D34; // (research: an SvEncValue with the next word; the flows read the next word as a count)
+    /* 0x8D38 */ s32 unk_0x8D38;
     /* 0x8D3C */ SvEncValue unk_0x8D3C;
     /* 0x8D44 */ SvEncValue unk_0x8D44;
     /* 0x8D4C */ SvPlayerUnk8D4C unk_0x8D4C;

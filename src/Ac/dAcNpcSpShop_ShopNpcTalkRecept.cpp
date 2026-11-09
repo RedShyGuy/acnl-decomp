@@ -11,8 +11,8 @@ AcNpcSpShop::ShopNpcTalkRecept::~ShopNpcTalkRecept()
 {
 }
 
-// 0x001BFC70 slot 0x9C | virtual slot, introduced by script::ITalkRecept
-void AcNpcSpShop::ShopNpcTalkRecept::vf_0x9C()
+// 0x001BFC70 slot 0x9C
+void AcNpcSpShop::ShopNpcTalkRecept::OnMessageStart(script::TalkLabel*)
 {
 }
 

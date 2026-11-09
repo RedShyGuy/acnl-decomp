@@ -3,7 +3,7 @@
 #include "Other/dMoveFromTalkReceptBase.h"
 
 // ctor address unknown
-MoveFromTalkReceptBase::MoveFromTalkReceptBase()
+MoveFromTalkReceptBase::MoveFromTalkReceptBase() : IFlowRecept(this)
 {
 }
 
@@ -12,18 +12,18 @@ MoveFromTalkReceptBase::~MoveFromTalkReceptBase()
 {
 }
 
-// 0x00330B38 slot 0x94 | virtual slot, introduced by script::ITalkRecept
-void MoveFromTalkReceptBase::vf_0x94()
+// 0x00330B38 slot 0x94
+void MoveFromTalkReceptBase::Slot94()
 {
 }
 
-// 0x00330430 slot 0x9C | virtual slot, introduced by script::ITalkRecept
-void MoveFromTalkReceptBase::vf_0x9C()
+// 0x00330430 slot 0x9C
+void MoveFromTalkReceptBase::OnMessageStart(script::TalkLabel*)
 {
 }
 
-// 0x00330828 slot 0xAC | virtual slot, introduced by script::ITalkRecept
-void MoveFromTalkReceptBase::vf_0xAC()
+// 0x00330828 slot 0xAC
+void MoveFromTalkReceptBase::OnEnd()
 {
 }
 

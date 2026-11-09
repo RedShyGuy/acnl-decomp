@@ -7,6 +7,7 @@
 #include "Sv/dSvPlayer.h"
 #include "net/dNet.h"
 #include "net/dNetBase64.h"
+#include "script/dStrMgr.h"
 #include "script/dWordCPtrSv.h"
 #include "script/dWordPtrSv.h"
 #include "sead/seadFixedSafeStringBase.h"
@@ -352,8 +353,8 @@ void netgame::NetGameMgr::BestFriendMgr::OnBestFriendOnline(const u32* principal
     Message message;
     message.principalId = *principalId;
     script::WordFix<64> word;
-    if (g_pMessageReader != NULL) {
-        GetSystemMessage(g_pMessageReader, &word, "SYS_2D_UI", 0x16E);
+    if (script::StrMgr::s_pInstance != NULL) {
+        script::StrMgr::s_pInstance->GetString(&word, "SYS_2D_UI", 0x16E);
     }
     script::WordPtrSv(message.text, 33).Copy(word);
     CopyWord(message.townName, 9, personalId->townData.dataTownName, 9);

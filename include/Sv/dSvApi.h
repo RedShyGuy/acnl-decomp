@@ -19,6 +19,8 @@ struct SvSaveMemory
 extern SvSaveMemory g_SvSaveMemory;
 // the save data in memory is valid (name is ours)
 extern u8 g_SvIsSaveMemoryValid;
+// (name is ours) while it is set the flows do not change the save data
+extern u8 g_SvIsSaveMemoryLocked;
 
 // the players of the network game (names are ours): the copies of the players of other towns (save numbers 4..7)
 // and the save number of each netgame::PlayerNo

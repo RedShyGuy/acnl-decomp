@@ -11,8 +11,8 @@ MoveFromTalkRecept::~MoveFromTalkRecept()
 {
 }
 
-// 0x002CF988 slot 0x94 | virtual slot, introduced by script::ITalkRecept
-void MoveFromTalkRecept::vf_0x94()
+// 0x002CF988 slot 0x94
+void MoveFromTalkRecept::Slot94()
 {
 }
 

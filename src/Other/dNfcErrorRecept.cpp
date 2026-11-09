@@ -3,7 +3,7 @@
 #include "Other/dNfcErrorRecept.h"
 
 // ctor candidate(s) 0x00270A28 (unverified)
-NfcErrorRecept::NfcErrorRecept()
+NfcErrorRecept::NfcErrorRecept() : IFlowRecept(this)
 {
 }
 

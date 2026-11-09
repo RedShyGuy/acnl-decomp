@@ -10,6 +10,11 @@
 #pragma pack(push, 1)
 
 struct SvTownFlags {
+    // the flag or the counter of the number (names are ours)
+    u32 GetValue(u32 index) const; // 0x00771494
+    void SetValue(u32 index, u32 value); // 0x006F4E7C
+    void SetFlag(u32 index, bool value); // 0x006F51C4
+
     /* 0x0000.0 */ u8 unk_0x0_0 : 1;
     /* 0x0000.1 */ u8 earlyBirdOrdinance : 1;
     /* 0x0000.2 */ u8 nightOwlOrdinance : 1;

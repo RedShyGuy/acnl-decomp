@@ -316,6 +316,8 @@ def source_by_types(parsed, demangled):
 
 # (key, deleting) -> address of the this-adjusting thunk named in the sources ("(thunk)" lines)
 THUNKS = {}
+# (address of the function, deleting, this-adjustment) -> address of its thunk (for overloads)
+THUNKS_BY_FUNC = {}
 # keys of functions that armlink folded with another function ("// 0x... (folded)"): the address only
 # resolves their calls, the body is compared with the other function
 FOLDED = set()
@@ -449,6 +451,9 @@ def source_addresses():
                         pending_folded = False
                     for is_del, t_addr, t_off in thunk_addrs:
                         THUNKS[(key, is_del, t_off)] = t_addr
+                        if pending_addr >= 0:
+                            # (overloads with the same number of parameters share the key above)
+                            THUNKS_BY_FUNC[(pending_addr, is_del, t_off)] = t_addr
                     if pending_addr >= 0:
                         if key in out and out[key] != pending_addr:
                             dup.add(key)
@@ -1453,7 +1458,16 @@ def main():
         if is_thunk:
             # only compared where the source names the address of the thunk
             mo = re.match(r'_ZThn(\d+)_', mangled)
-            addr = THUNKS.get((skey, is_deleting, int(mo.group(1)) if mo else None))
+            t_off = int(mo.group(1)) if mo else None
+            addr = None
+            func_addr = source_by_types(parsed, name) if parsed and not is_deleting else None
+            if func_addr is not None:
+                # the overload by its parameter types
+                addr = THUNKS_BY_FUNC.get((func_addr, False, t_off))
+                if addr is None:
+                    addr = THUNKS_BY_FUNC.get((func_addr, False, None))
+            if addr is None:
+                addr = THUNKS.get((skey, is_deleting, t_off))
             if addr is None:
                 addr = THUNKS.get((skey, is_deleting, None))
             if addr is None:

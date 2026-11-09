@@ -11,23 +11,23 @@ NpcDemoDollTalkRecept::~NpcDemoDollTalkRecept()
 {
 }
 
-// 0x0071C110 slot 0x30 | virtual slot, introduced by script::ITalkRecept
-void NpcDemoDollTalkRecept::vf_0x30()
+// 0x0071C110 slot 0x30
+void NpcDemoDollTalkRecept::GetTag5_7(script::IWord*)
 {
 }
 
-// 0x00329090 slot 0x34 | virtual slot, introduced by script::ITalkRecept
-void NpcDemoDollTalkRecept::vf_0x34()
+// 0x00329090 slot 0x34
+void NpcDemoDollTalkRecept::GetWord238(script::IWord*)
 {
 }
 
-// 0x0071C2BC slot 0x44 | virtual slot, introduced by script::ITalkRecept
-void NpcDemoDollTalkRecept::vf_0x44()
+// 0x0071C2BC slot 0x44
+void NpcDemoDollTalkRecept::GetTag5_35(script::IWord*, u32)
 {
 }
 
-// 0x003291E0 slot 0x88 | virtual slot, introduced by script::ITalkRecept
-void NpcDemoDollTalkRecept::vf_0x88()
+// 0x003291E0 slot 0x88
+s32 NpcDemoDollTalkRecept::GetValue88(u8)
 {
 }
 

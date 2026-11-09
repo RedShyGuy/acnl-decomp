@@ -289,10 +289,16 @@ extern const ProcName PROC_BS_TITLE = static_cast<ProcName>(530);
 extern const ProcName PROC_BS_SV_MGR = static_cast<ProcName>(532);
 // 0x00888364
 extern const ProcName PROC_BS_TIME_BEL_WINDOW = static_cast<ProcName>(553);
+// 0x00888380
+extern const ProcName PROC_BS_MENU_LETTER = static_cast<ProcName>(567);
+// 0x0088838C
+extern const ProcName PROC_BS_MENU_BULLETIN_BOARD = static_cast<ProcName>(573);
 // 0x00888392
 extern const ProcName PROC_BS_BALLOON_CHAT = static_cast<ProcName>(576);
 // 0x00888394
 extern const ProcName PROC_BS_TELOP = static_cast<ProcName>(577);
+// 0x008883D8
+extern const ProcName PROC_BS_COMMON_DIALOG = static_cast<ProcName>(611);
 // 0x008883E2
 extern const ProcName PROC_BS_MENU_AMIIBO_PHOTO = static_cast<ProcName>(616);
 // 0x008883E6

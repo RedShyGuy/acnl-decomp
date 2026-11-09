@@ -11,8 +11,8 @@ AcNpcSpTourDesk::TalkRecept::~TalkRecept()
 {
 }
 
-// 0x00282ECC slot 0x98 | virtual slot, introduced by script::ITalkRecept
-void AcNpcSpTourDesk::TalkRecept::vf_0x98()
+// 0x00282ECC slot 0x98
+void AcNpcSpTourDesk::TalkRecept::OnMessage(script::TalkLabel*)
 {
 }
 

@@ -6,33 +6,29 @@ MailWork::BodyLineEngine::BodyLineEngine()
 {
 }
 
-// 0x006AAF44 slot 0x00 | virtual slot, introduced by script::MsgEngine
-void MailWork::BodyLineEngine::vf_0x00()
+// 0x006AAF44 slot 0x00
+// 0x006AAF18 (deleting dtor)
+MailWork::BodyLineEngine::~BodyLineEngine()
 {
 }
 
-// 0x006AAF18 slot 0x04 | virtual slot, introduced by script::MsgEngine
-void MailWork::BodyLineEngine::vf_0x04()
+// 0x006AAE7C slot 0x08
+void MailWork::BodyLineEngine::Begin()
 {
 }
 
-// 0x006AAE7C slot 0x08 | virtual slot, introduced by script::MsgEngine
-void MailWork::BodyLineEngine::vf_0x08()
+// 0x006AAEA4 slot 0x10
+bool MailWork::BodyLineEngine::IsContinue()
 {
 }
 
-// 0x006AAEA4 slot 0x10 | virtual slot, introduced by script::MsgEngine
-void MailWork::BodyLineEngine::vf_0x10()
+// 0x006AAD70 slot 0x14
+void MailWork::BodyLineEngine::OnChar(const script::CharInfo*)
 {
 }
 
-// 0x006AAD70 slot 0x14 | virtual slot, introduced by script::MsgEngine
-void MailWork::BodyLineEngine::vf_0x14()
-{
-}
-
-// 0x006AAE54 slot 0x18 | virtual slot, introduced by script::MsgEngine
-void MailWork::BodyLineEngine::vf_0x18()
+// 0x006AAE54 slot 0x18
+void MailWork::BodyLineEngine::OnTag(const script::Tag*)
 {
 }
 

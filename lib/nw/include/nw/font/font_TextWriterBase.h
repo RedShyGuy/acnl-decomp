@@ -47,6 +47,15 @@ public:
         return m_LineSpace + linefeed * m_ScaleV;
     }
 
+    // the width of a string (on a copy of the writer; name is ours)
+    f32 CalcStringWidth(const T* str, int length) const
+    {
+        nw::ut::Rect rect(0.0f, 0.0f, 0.0f, 0.0f);
+        TextWriterBase<T> writer(*this);
+        writer.CalcStringRectImpl(&rect, str, length);
+        return rect.right - rect.left;
+    }
+
     f32 PrintImpl(const T* str, int length);
     // the cursor is moved for the origin and the alignment; the width of the text
     f32 AdjustCursor(f32* pX, f32* pY, const T* str, int length);
@@ -65,5 +74,30 @@ public:
     u32 m_DrawFlag;                      // 0x5C
     TagProcessorBase<T>* m_pTagProcessor; // 0x60
 };
+
+// (the tab and line feed of the tag processors, inline; also used by the processors of the game)
+template <typename T>
+DECOMP_ALWAYS_INLINE void TagProcessorBase<T>::ProcessTab(PrintContext<T>* pContext)
+{
+    TextWriterBase<T>* pWriter = pContext->writer;
+    const int tabWidth = pWriter->m_TabWidth;
+    if (tabWidth > 0) {
+        const f32 charWidth = pWriter->m_IsWidthFixed ? pWriter->m_FixedWidth : pWriter->GetFontWidth();
+        const f32 dx = pWriter->m_CursorX - pContext->xOrigin;
+        const f32 tabPixel = tabWidth * charWidth;
+        const int numTab = static_cast<int>(dx / tabPixel) + 1;
+        pWriter->m_CursorX = pContext->xOrigin + tabPixel * numTab;
+    }
+}
+
+template <typename T>
+DECOMP_ALWAYS_INLINE void TagProcessorBase<T>::ProcessLinefeed(PrintContext<T>* pContext)
+{
+    TextWriterBase<T>* pWriter = pContext->writer;
+    const f32 x = pContext->xOrigin;
+    const f32 y = pWriter->m_CursorY + pWriter->GetLineHeight();
+    pWriter->m_CursorX = x;
+    pWriter->m_CursorY = y;
+}
 } // namespace font
 } // namespace nw

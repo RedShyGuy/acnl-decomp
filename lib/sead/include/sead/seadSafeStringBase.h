@@ -77,6 +77,9 @@ public:
         return mStringTop;
     }
 
+    // whether the string has no characters (without making sure of the termination; name is ours)
+    bool isEmpty() const { return mStringTop[0] == s_NullChar; }
+
     // the number of characters before the null character, 0 for a string longer than MAX_LENGTH
     s32 getLength() const
     {
@@ -132,6 +135,37 @@ public:
             return 0;
         }
         for (s32 i = 0; i < MAX_LENGTH; i++) {
+            if (a[i] == s_NullChar && b[i] == s_NullChar) {
+                return 0;
+            }
+            if (a[i] == s_NullChar) {
+                return -1;
+            }
+            if (b[i] == s_NullChar) {
+                return 1;
+            }
+            typedef typename MakeUnsigned<T>::Type U;
+            if (static_cast<U>(a[i]) < static_cast<U>(b[i])) {
+                return -1;
+            }
+            if (static_cast<U>(a[i]) > static_cast<U>(b[i])) {
+                return 1;
+            }
+        }
+        return 0;
+    }
+    // like compare, but only the first n characters at most (out-of-line copy 0x008285E4; name is ours)
+    DECOMP_NOINLINE s32 compare(const SafeStringBase& str, s32 n) const
+    {
+        const T* a = getCString();
+        const T* b = str.getCString();
+        if (a == b) {
+            return 0;
+        }
+        if (n > MAX_LENGTH) {
+            n = MAX_LENGTH;
+        }
+        for (s32 i = 0; i < n; i++) {
             if (a[i] == s_NullChar && b[i] == s_NullChar) {
                 return 0;
             }

@@ -1,13 +1,12 @@
-#include "sead/seadIDisposer.h"
 #include "script/dMgr_SingletonDisposer_.h"
 
-// ctor candidate(s) 0x005EA318 (unverified)
-script::Mgr::SingletonDisposer_::SingletonDisposer_()
-{
-}
-
-// 0x005EA410 slot 0x00 | slot vf_0x00 of sead::IDisposer
+// 0x005EA410 slot 0x00 (name after sead)
+// 0x005EA3CC (deleting dtor)
 script::Mgr::SingletonDisposer_::~SingletonDisposer_()
 {
+    if (this != Mgr::s_pSingletonDisposer) {
+        return;
+    }
+    Mgr::s_pSingletonDisposer = NULL;
+    Mgr::s_pInstance = NULL;
 }
-

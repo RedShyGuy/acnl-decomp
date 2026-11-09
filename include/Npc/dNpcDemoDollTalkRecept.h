@@ -12,10 +12,10 @@ public:
     NpcDemoDollTalkRecept(); // ctor candidate(s) 0x0032A760 (unverified)
     virtual ~NpcDemoDollTalkRecept(); // 0x0032A860 slot 0x00 | slot vf_0x00 of script::ITalkRecept
     // 0x0032A7FC slot 0x04 | slot vf_0x04 of script::ITalkRecept (deleting dtor)
-    virtual void vf_0x30(); // 0x0071C110 slot 0x30 | virtual slot, introduced by script::ITalkRecept
-    virtual void vf_0x34(); // 0x00329090 slot 0x34 | virtual slot, introduced by script::ITalkRecept
-    virtual void vf_0x44(); // 0x0071C2BC slot 0x44 | virtual slot, introduced by script::ITalkRecept
-    virtual void vf_0x88(); // 0x003291E0 slot 0x88 | virtual slot, introduced by script::ITalkRecept
+    virtual void GetTag5_7(script::IWord* word); // 0x0071C110 slot 0x30
+    virtual void GetWord238(script::IWord* word); // 0x00329090 slot 0x34
+    virtual void GetTag5_35(script::IWord* word, u32 index); // 0x0071C2BC slot 0x44
+    virtual s32 GetValue88(u8 gender); // 0x003291E0 slot 0x88
     virtual void vf_0x118(); // 0x00725AC0 slot 0x118 | virtual slot, introduced by NpcTalkRecept
     virtual void vf_0x138(); // 0x007258EC slot 0x138 | virtual slot, introduced by NpcTalkRecept
     virtual void vf_0x140(); // 0x0032901C slot 0x140 | virtual slot, introduced by NpcDemoDollTalkRecept

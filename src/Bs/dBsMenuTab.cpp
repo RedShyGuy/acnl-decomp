@@ -140,3 +140,6 @@ BsMenuTab::BsMenuTab()
 // the factory of the process class
 // 0x007F3B04
 template oml::framework::Process* oml::framework::Process::Create<BsMenuTab>();
+
+// 0x0081CC74
+template void state::Mode<BsMenuTab>::Change(Func func);

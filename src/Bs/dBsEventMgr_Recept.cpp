@@ -11,8 +11,8 @@ BsEventMgr::Recept::~Recept()
 {
 }
 
-// 0x0070B2C0 slot 0xF8 | virtual slot, introduced by script::ITalkRecept
-void BsEventMgr::Recept::vf_0xF8()
+// 0x0070B2C0 slot 0xF8
+void BsEventMgr::Recept::GetVoices(sead::CheckedArray<u8, 4>*)
 {
 }
 

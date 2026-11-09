@@ -1,7 +1,3 @@
 #include "script/dProject_ISearchContentCondition.h"
 
-// ctor address unknown
-script::Project::ISearchContentCondition::ISearchContentCondition()
-{
-}
-
+// (only the RTTI and the inline functions; the class has no vtable of its own in the binary)

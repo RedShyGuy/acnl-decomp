@@ -4,19 +4,27 @@
 #include "script/dRenderBase.h"
 
 namespace script {
+class RenderMain;
+
+// The renderer of a ruby text: every ruby is centered over its base, whose position and width the main text stored
+// (RenderMain::Store). libgarden gives this name to the renderer of both texts (RenderRubySet). Names are ours.
 // RTTI N6script10RenderRubyE @ 0x008D3744
 // vtable 0x00909990 (vptr 0x00909998), offset_to_top 0, 4 entries
 class RenderRuby : public ::script::RenderBase
 {
 public:
-    RenderRuby(); // TODO: default ctor added so derived stubs compile - may not exist
-    virtual ~RenderRuby(); // 0x005D7FC4 slot 0x00 | libgarden
-    virtual void vf_0x04(); // 0x005D7F84 slot 0x04 | virtual slot, introduced by nw::font::TagProcessorBase<wchar_t>
-    virtual void vf_0x08(); // 0x005D7E68 slot 0x08 | virtual slot, introduced by nw::font::TagProcessorBase<wchar_t>
-    virtual void vf_0x0C(); // 0x005D7F24 slot 0x0C | virtual slot, introduced by nw::font::TagProcessorBase<wchar_t>
-    void SetTextBoxes(nw::lyt::TextBox const*, nw::lyt::TextBox const*, nw::lyt::TextBox const*, nw::lyt::TextBox const*); // 0x005D748C | libgarden [tier A]
-    void Clear(); // 0x005D76CC | libgarden [tier A]
-    void CommitText(); // 0x005D77F8 | libgarden [tier A]
-    RenderRuby(unsigned int, unsigned int); // 0x005D7A7C | libgarden [tier A]
+    // (inline)
+    RenderRuby(u32 length, u32 tagNum, RenderMain* pMain) : RenderBase(length, tagNum), m_pMain(pMain), m_Index(0) {}
+    virtual ~RenderRuby();
+    virtual Operation Process(u16 code, Context* ctx); // 0x005D7E68 slot 0x08
+    virtual Operation CalcRect(nw::ut::Rect* pRect, u16 code, Context* ctx); // 0x005D7F24 slot 0x0C
+
+    DECOMP_NOINLINE Operation ProcessTag(Context* ctx); // 0x005D7C14
+    // the cursor is moved to center the ruby over the next ruby base
+    DECOMP_NOINLINE Operation ProcessRubyPosition(Context* ctx, const Tag* tag); // 0x005D7D74
+
+    RenderMain* m_pMain; // 0x2C
+    u32 m_Index;         // 0x30 the next ruby base
 };
+ASSERT_SIZE(RenderRuby, 0x34);
 } // namespace script

@@ -1163,7 +1163,7 @@ template <auto T0, typename T1, typename T2, typename T3, auto T4, auto T5> clas
 template <auto T0> class InOutWindowInButton;
 template <auto T0> class InstCatalog;
 template <auto T0> class InstSelect;
-template <auto T0> class SearchCand;
+template <int N> class SearchCand;
 template <auto T0> class SoundObj;
 template <auto T0> class Tab;
 template <auto T0> class mySearchCand;
@@ -4052,7 +4052,7 @@ namespace script {
     class WordPtr;
     class WordPtrSv;
     class WordRes;
-    template <auto T0, typename T1> class WordKey;
+    template <u32 N, typename T> class WordKey; // script/dWordKey.h
     template <u32 N> class WordFix; // script/dWordFix.h
 }
 

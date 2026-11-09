@@ -11,6 +11,11 @@
 
 // 0x57A0 -> 0x57D3
 struct SvPlayerFlags {
+    // the flag or the counter of the number (names are ours)
+    u32 GetValue(u32 index) const; // 0x007101D4
+    void SetValue(u32 index, u32 value); // 0x001E2258
+    void SetFlag(u32 index, bool value); // 0x001E29C4
+
     /* 0x0000.0 */ u8 unk_0x0_0 : 1;
     /* 0x0000.1 */ u8 unk_0x0_1 : 1;
     /* 0x0000.2 */ u8 unk_0x0_2 : 1;

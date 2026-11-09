@@ -12,5 +12,5 @@ public:
     Recept(); // ctor address unknown
     virtual ~Recept(); // 0x00316D78 slot 0x00 | slot vf_0x00 of script::ITalkRecept
     // 0x0018FA0C slot 0x04 | slot vf_0x04 of script::ITalkRecept (deleting dtor)
-    virtual void vf_0xF8(); // 0x0070B2C0 slot 0xF8 | virtual slot, introduced by script::ITalkRecept
+    virtual void GetVoices(sead::CheckedArray<u8, 4>* voices); // 0x0070B2C0 slot 0xF8
 };

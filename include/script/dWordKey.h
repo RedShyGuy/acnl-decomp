@@ -1,18 +1,25 @@
 #pragma once
 
 #include "decomp.h"
+#include "script/dWordFix.h"
 
 namespace script {
-// Instantiations found in the binary:
-//   script::WordKey<29u, int>  typeinfo 0x008D3D94  vtable 0x0090B544
-//   script::WordKey<45u, int>  typeinfo 0x008D3DA0  vtable 0x0090B57C
-//   script::WordKey<57u, int>  typeinfo 0x008D3DAC  vtable 0x0090B5B4
-//   script::WordKey<85u, int>  typeinfo 0x008D3DB8  vtable 0x0090B5EC
-//   script::WordKey<9u, int>  typeinfo 0x008D3DC4  vtable 0x0090B624
-template <auto T0, typename T1>
-class WordKey
+// a fixed word with a key (member names are ours). Instances: <9u, int>, <29u, int>, <45u, int>, <57u, int>, <85u, int>
+template <u32 N, typename T>
+class WordKey : public WordFix<N>
 {
 public:
-    // TODO: members unknown
+    WordKey() : m_Key(0) {}
+    virtual ~WordKey() {}
+    virtual void Clear()
+    {
+        WordPtr::Clear();
+        this->m_Info.Reset();
+        m_Key = 0;
+        m_Flag = 0;
+    }
+
+    T m_Key;
+    u8 m_Flag;
 };
 } // namespace script

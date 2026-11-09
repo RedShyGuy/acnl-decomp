@@ -12,6 +12,9 @@ class FlowNodeEntry : public FlowNode
 public:
     explicit FlowNodeEntry(const FlowNode& node);
     virtual ~FlowNodeEntry();
+
+    DECOMP_EMIT_COPY DECOMP_NOINLINE bool HasNext() const { return m_pNode->next != NONE; } // 0x00756960 (name is ours)
+    DECOMP_EMIT_COPY DECOMP_NOINLINE u16 GetNext() const { return m_pNode->next; } // 0x0075697C (name is ours)
 };
 ASSERT_SIZE(FlowNodeEntry, 0x8);
 

@@ -831,7 +831,8 @@ def _access(w, is_imm, rn, rd, load, width, misc, regs, get, new, mem, shape, re
         for value_reg, base_reg in ((rm, rn), (rn, rm)):
             vorg = get(value_reg)[0]
             borg = get(base_reg)[0]
-            if isinstance(vorg, tuple) and vorg[0] == 'c' and vorg[1] < 0x10000 and \
+            # (objects up to 1 MB, e.g. TalkInsert +0x11CD0; addresses of the binary start at 0x100000)
+            if isinstance(vorg, tuple) and vorg[0] == 'c' and vorg[1] < 0x100000 and \
                     not (isinstance(borg, tuple) and borg[0] == 'c') and borg != 'sp' and base_reg != 15:
                 value = vorg[1] if w & (1 << 23) or value_reg == rn else -vorg[1]
                 offset_consts[vorg[2]] = ('k', vorg[1])

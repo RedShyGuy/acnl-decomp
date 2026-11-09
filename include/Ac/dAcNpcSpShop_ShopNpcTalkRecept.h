@@ -13,7 +13,7 @@ public:
     ShopNpcTalkRecept(); // ctor address unknown
     virtual ~ShopNpcTalkRecept(); // 0x001C0770 slot 0x00 | slot vf_0x00 of script::ITalkRecept
     // 0x001C06C0 slot 0x04 | slot vf_0x04 of script::ITalkRecept (deleting dtor)
-    virtual void vf_0x9C(); // 0x001BFC70 slot 0x9C | virtual slot, introduced by script::ITalkRecept
+    virtual void OnMessageStart(script::TalkLabel* message); // 0x001BFC70 slot 0x9C
     virtual void vf_0x100(); // 0x001BFC04 slot 0x100 | virtual slot, introduced by NpcTalkRecept
     virtual void vf_0x110(); // 0x001BFA94 slot 0x110 | virtual slot, introduced by NpcTalkRecept
     virtual void vf_0x11C(); // 0x001BF850 slot 0x11C | virtual slot, introduced by NpcTalkRecept

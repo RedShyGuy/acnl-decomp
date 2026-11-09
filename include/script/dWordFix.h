@@ -5,71 +5,27 @@
 #include <cstring>
 
 namespace script {
-// Instantiations found in the binary:
-//   script::WordFix<100u>  typeinfo 0x008D3B18  vtable 0x0090A9AC
-//   script::WordFix<109u>  typeinfo 0x008D3B24  vtable 0x0090A9E4
-//   script::WordFix<10u>  typeinfo 0x008D3B30  vtable 0x0090AA1C
-//   script::WordFix<111u>  typeinfo 0x008D3B3C  vtable 0x0090AA54
-//   script::WordFix<11u>  typeinfo 0x008D3B48  vtable 0x0090AA8C
-//   script::WordFix<120u>  typeinfo 0x008D3B54  vtable 0x0090AAC4
-//   script::WordFix<128u>  typeinfo 0x008D3B60  vtable 0x0090AAFC
-//   script::WordFix<12u>  typeinfo 0x008D3B6C  vtable 0x0090AB34
-//   script::WordFix<13u>  typeinfo 0x008D3B78  vtable 0x0090AB6C
-//   script::WordFix<14u>  typeinfo 0x008D3B84  vtable 0x0090ABA4
-//   script::WordFix<1536u>  typeinfo 0x008D3B90  vtable 0x0090ABDC
-//   script::WordFix<15u>  typeinfo 0x008D3B9C  vtable 0x0090AC14
-//   script::WordFix<16u>  typeinfo 0x008D3BA8  vtable 0x0090AC4C
-//   script::WordFix<17u>  typeinfo 0x008D3BB4  vtable 0x0090AC84
-//   script::WordFix<188u>  typeinfo 0x008D3BC0  vtable 0x0090ACBC
-//   script::WordFix<18u>  typeinfo 0x008D3BCC  vtable 0x0090ACF4
-//   script::WordFix<193u>  typeinfo 0x008D3BD8  vtable 0x0090AD2C
-//   script::WordFix<197u>  typeinfo 0x008D3BE4  vtable 0x0090AD64
-//   script::WordFix<19u>  typeinfo 0x008D3BF0  vtable 0x0090AD9C
-//   script::WordFix<1u>  typeinfo 0x008D3BFC  vtable 0x0090ADD4
-//   script::WordFix<20u>  typeinfo 0x008D3C08  vtable 0x0090AE0C
-//   script::WordFix<21u>  typeinfo 0x008D3C14  vtable 0x0090AE44
-//   script::WordFix<22u>  typeinfo 0x008D3C20  vtable 0x0090AE7C
-//   script::WordFix<24u>  typeinfo 0x008D3C2C  vtable 0x0090AEB4
-//   script::WordFix<256u>  typeinfo 0x008D3C38  vtable 0x0090AEEC
-//   script::WordFix<25u>  typeinfo 0x008D3C44  vtable 0x0090AF24
-//   script::WordFix<29u>  typeinfo 0x008D3C50  vtable 0x0090AF5C
-//   script::WordFix<2u>  typeinfo 0x008D3C5C  vtable 0x0090AF94
-//   script::WordFix<30u>  typeinfo 0x008D3C68  vtable 0x0090AFCC
-//   script::WordFix<32u>  typeinfo 0x008D3C74  vtable 0x0090B004
-//   script::WordFix<33u>  typeinfo 0x008D3C80  vtable 0x0090B03C
-//   script::WordFix<350u>  typeinfo 0x008D3C8C  vtable 0x0090B074
-//   script::WordFix<36u>  typeinfo 0x008D3C98  vtable 0x0090B0AC
-//   script::WordFix<38u>  typeinfo 0x008D3CA4  vtable 0x0090B0E4
-//   script::WordFix<400u>  typeinfo 0x008D3CB0  vtable 0x0090B11C
-//   script::WordFix<40u>  typeinfo 0x008D3CBC  vtable 0x0090B154
-//   script::WordFix<41u>  typeinfo 0x008D3CC8  vtable 0x0090B18C
-//   script::WordFix<450u>  typeinfo 0x008D3CD4  vtable 0x0090B1C4
-//   script::WordFix<45u>  typeinfo 0x008D3CE0  vtable 0x0090B1FC
-//   script::WordFix<4u>  typeinfo 0x008D3CEC  vtable 0x0090B234
-//   script::WordFix<50u>  typeinfo 0x008D3CF8  vtable 0x0090B26C
-//   script::WordFix<512u>  typeinfo 0x008D3D04  vtable 0x0090B2A4
-//   script::WordFix<57u>  typeinfo 0x008D3D10  vtable 0x0090B2DC
-//   script::WordFix<60u>  typeinfo 0x008D3D1C  vtable 0x0090B314
-//   script::WordFix<64u>  typeinfo 0x008D3D28  vtable 0x0090B34C
-//   script::WordFix<65u>  typeinfo 0x008D3D34  vtable 0x0090B384
-//   script::WordFix<69u>  typeinfo 0x008D3D40  vtable 0x0090B3BC
-//   script::WordFix<70u>  typeinfo 0x008D3D4C  vtable 0x0090B3F4
-//   script::WordFix<75u>  typeinfo 0x008D3D58  vtable 0x0090B42C
-//   script::WordFix<85u>  typeinfo 0x008D3D64  vtable 0x0090B464
-//   script::WordFix<8u>  typeinfo 0x008D3D70  vtable 0x0090B49C
-//   script::WordFix<94u>  typeinfo 0x008D3D7C  vtable 0x0090B4D4
-//   script::WordFix<9u>  typeinfo 0x008D3D88  vtable 0x0090B50C
-// a member of the fixed words (names are ours)
-struct WordFixUnk0C
+// the additional data of the fixed words (libgarden: WordFix::Info with color, begin, buf; values as the code sets them)
+struct WordInfo
 {
-    WordFixUnk0C(); // 0x005F56CC
+    DECOMP_NOINLINE WordInfo(); // 0x005F56CC
+    ~WordInfo() {}
 
-    u8 unk_0x0;
-    s32 unk_0x4;
-    s32 unk_0x8;
+    DECOMP_NOINLINE WordInfo& operator=(const WordInfo& info); // 0x005F565C
+    DECOMP_NOINLINE void Reset(); // 0x005F56AC (name is ours)
+    DECOMP_NOINLINE void SetColor(u8 color); // 0x005F56C4 (name is ours)
+
+    // the inflection of the word from its tag 14/0 (InflectEngine); the grammar tags of SeqEngine use it
+    u8 color;   // 0x0 the grammatical gender (GENDER tags: 1, 2, 3 select the 1st, 2nd, 3rd form; 4 by default = unknown)
+    s32 begin;  // 0x4 the article of the ARTICLE tags of kind 1 (index of STR_Article; -1 by default)
+    s32 buf;    // 0x8 the article of kind 2 (-1 by default)
 };
+ASSERT_SIZE(WordInfo, 0xC);
 
-// a word with a buffer of N characters (the constructor is inline in the original)
+// a word with a buffer of N characters (names after libgarden; the constructor has copies in the template area
+// for some sizes, the other users have it inline). Instances found in the binary: 1, 2, 4, 8-22, 24, 25, 29, 30,
+// 32, 33, 36, 38, 40, 41, 45, 50, 57, 60, 64, 65, 69, 70, 75, 85, 94, 100, 109, 111, 120, 128, 188, 193, 197, 256,
+// 350, 400, 450, 512, 1536.
 template <u32 N>
 class WordFix : public WordPtr
 {
@@ -81,9 +37,59 @@ public:
             m_Buffer[i] = WORD_NULL_CHAR;
         }
     }
+    virtual ~WordFix() {}
+    virtual void Copy(const IWord& src)
+    {
+        WordPtr::Copy(src);
+        const WordInfo* info = src.GetInfo();
+        if (info != NULL) {
+            m_Info = *info;
+        } else {
+            m_Info.Reset();
+        }
+    }
+    virtual void Clear()
+    {
+        WordPtr::Clear();
+        m_Info.Reset();
+    }
+    virtual WordInfo* GetInfo() { return &m_Info; }
+    virtual const WordInfo* GetInfo() const { return &m_Info; }
 
-private:
-    WordFixUnk0C m_Unk0C;   // 0x0C
+    WordInfo m_Info;        // 0x0C
     char16 m_Buffer[N];     // 0x18
 };
+// the sizes whose constructor the original calls (a copy in the template area); the others have it inline
+template <>
+WordFix<4u>::WordFix();
+template <>
+WordFix<9u>::WordFix();
+template <>
+WordFix<11u>::WordFix();
+template <>
+WordFix<12u>::WordFix();
+template <>
+WordFix<13u>::WordFix();
+template <>
+WordFix<20u>::WordFix();
+template <>
+WordFix<21u>::WordFix();
+template <>
+WordFix<22u>::WordFix();
+template <>
+WordFix<33u>::WordFix();
+template <>
+WordFix<36u>::WordFix();
+template <>
+WordFix<45u>::WordFix();
+template <>
+WordFix<50u>::WordFix();
+template <>
+WordFix<60u>::WordFix();
+template <>
+WordFix<64u>::WordFix();
+template <>
+WordFix<70u>::WordFix();
+template <>
+WordFix<109u>::WordFix();
 } // namespace script

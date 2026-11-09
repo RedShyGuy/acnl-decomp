@@ -33,7 +33,8 @@ public:
         u8 faderB;          // 0x06
         u8 _unknown7;
         u16 name;           // 0x08 ProcName
-        u8 _unknownA[0xA];
+        u8 _unknownA[0x6];
+        oml::framework::Process* pScene;  // 0x10 the current scene process
         u32 arg;            // 0x14
     };
     // a fade type of 6: the one of the last change

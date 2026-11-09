@@ -1,30 +1,46 @@
-#include "script/dMsgEngine.h"
 #include "script/dElisionEngine.h"
 
 namespace script {
-// ctor address unknown
-script::ElisionEngine::ElisionEngine()
+namespace {
+// the vowels (with their accents and ligatures) and h, small and capital
+// 0x00892894
+const char16 s_ElisionChars[64] = {
+    0x00E6, 0x00C6, 0x0153, 0x0152, 0x0061, 0x0041, 0x00E1, 0x00C1,
+    0x00E0, 0x00C0, 0x00E2, 0x00C2, 0x00E4, 0x00C4, 0x00E3, 0x00C3,
+    0x00E5, 0x00C5, 0x0065, 0x0045, 0x00E9, 0x00C9, 0x00E8, 0x00C8,
+    0x00EA, 0x00CA, 0x00EB, 0x00CB, 0x0068, 0x0048, 0x0069, 0x0049,
+    0x00ED, 0x00CD, 0x00EC, 0x00CC, 0x00EE, 0x00CE, 0x00EF, 0x00CF,
+    0x006F, 0x004F, 0x00F3, 0x00D3, 0x00F2, 0x00D2, 0x00F4, 0x00D4,
+    0x00F6, 0x00D6, 0x00F5, 0x00D5, 0x00F8, 0x00D8, 0x0075, 0x0055,
+    0x00FA, 0x00DA, 0x00F9, 0x00D9, 0x00FB, 0x00DB, 0x00FC, 0x00DC,
+};
+} // namespace
+
+// 0x005E40EC slot 0x14
+void ElisionEngine::OnChar(const CharInfo* info)
 {
+    if (info->pText != NULL) {
+        char16 c = *info->pText;
+        for (u32 i = 0; i < sizeof(s_ElisionChars) / sizeof(s_ElisionChars[0]); i++) {
+            if (s_ElisionChars[i] == c) {
+                m_IsElision = 1;
+                break;
+            }
+        }
+    }
+    m_IsDone = 1;
 }
 
-// 0x005E4174 slot 0x00 | virtual slot, introduced by script::MsgEngine
-void script::ElisionEngine::vf_0x00()
+// 0x005E4150 slot 0x10
+bool ElisionEngine::IsContinue()
 {
+    return m_IsDone == 0;
 }
 
-// 0x005E4164 slot 0x04 | virtual slot, introduced by script::MsgEngine
-void script::ElisionEngine::vf_0x04()
+// 0x005E4174 slot 0x00
+// 0x005E4164 (deleting dtor)
+ElisionEngine::~ElisionEngine()
 {
+    // (only the base is destroyed)
 }
-
-// 0x005E4150 slot 0x10 | virtual slot, introduced by script::MsgEngine
-void script::ElisionEngine::vf_0x10()
-{
-}
-
-// 0x005E40EC slot 0x14 | virtual slot, introduced by script::MsgEngine
-void script::ElisionEngine::vf_0x14()
-{
-}
-
 } // namespace script

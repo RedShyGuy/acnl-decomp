@@ -6,6 +6,8 @@
 SvSaveMemory g_SvSaveMemory;
 // 0x0095CFA0
 u8 g_SvIsSaveMemoryValid;
+// 0x0095CFA1
+u8 g_SvIsSaveMemoryLocked;
 // 0x00A85790
 SvNetPlayerList g_SvNetPlayerList;
 // 0x00AB014C

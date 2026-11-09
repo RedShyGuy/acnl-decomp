@@ -84,6 +84,8 @@ extern const math::Angle16Vec3 ANGLE16_VEC3_ZERO;
 // rotates the vector around the Y axis
 void RotateY(nn::math::VEC3_* v, math::Angle16 angle); // 0x0056AD0C
 // a random value in [0, max)
+// a random value in [0, 1) (name is ours)
+f32 GetRandomF01(); // 0x005666E8
 f32 GetRandomF(f32 max); // 0x005666F8
 void SetupField(); // 0x006A6AFC
 void DestroyField(); // 0x006A7424

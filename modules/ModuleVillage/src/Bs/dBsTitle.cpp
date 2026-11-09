@@ -4,7 +4,7 @@
 #include "Bs/dBsTitle.h"
 
 // ctor address unknown
-BsTitle::BsTitle()
+BsTitle::BsTitle() : IFlowRecept(this)
 {
 }
 

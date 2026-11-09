@@ -8,6 +8,5 @@
 class ChoiceStandardWin::LocalChoice : public ::script::ChoiceStandardWin
 {
 public:
-    LocalChoice(); // ctor address unknown
     virtual ~LocalChoice(); // ModuleVillage.cro +0x00118C slot 0x00
 };

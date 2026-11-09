@@ -1,16 +1,16 @@
 #pragma once
 
 #include "decomp.h"
+#include "Search/dSearchCand.h"
 
+// the class is local to script's insert code (RTTI: (anonymous namespace)::d_script_insert::InsertSearchCand<256> of
+// dUnityScript.cpp); it only gives the candidates a type of their own
 namespace {
 namespace d_script_insert {
-// Instantiations found in the binary:
-//   @anon::d_script_insert::InsertSearchCand<256>  typeinfo 0x00895C64  vtable 0x00895C58
-template <auto T0>
-class InsertSearchCand
+// RTTI @ typeinfo 0x00895C64, vtable 0x00895C58
+template <int N>
+class InsertSearchCand : public SearchCand<N>
 {
-public:
-    // TODO: members unknown
 };
 } // namespace d_script_insert
 } // namespace

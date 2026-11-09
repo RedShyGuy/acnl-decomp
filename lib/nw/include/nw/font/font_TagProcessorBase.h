@@ -50,8 +50,8 @@ public:
     // the control character is processed and its rectangle is calculated
     virtual Operation CalcRect(nw::ut::Rect* pRect, u16 code, PrintContext<T>* pContext); // slot 0x0C
 
-private:
-    // (inline)
+protected:
+    // (inline, defined in font_TextWriterBase.h)
     void ProcessTab(PrintContext<T>* pContext);
     void ProcessLinefeed(PrintContext<T>* pContext);
 };

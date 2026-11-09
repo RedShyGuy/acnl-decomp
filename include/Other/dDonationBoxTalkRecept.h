@@ -12,7 +12,7 @@ public:
     DonationBoxTalkRecept(); // ctor address unknown
     virtual ~DonationBoxTalkRecept(); // 0x00328694 slot 0x00 | slot vf_0x00 of script::ITalkRecept
     // 0x00328684 slot 0x04 | slot vf_0x04 of script::ITalkRecept (deleting dtor)
-    virtual void vf_0xF8(); // 0x007258A4 slot 0xF8 | virtual slot, introduced by script::ITalkRecept
+    virtual void GetVoices(sead::CheckedArray<u8, 4>* voices); // 0x007258A4 slot 0xF8
     virtual void vf_0x100(); // 0x00328660 slot 0x100 | virtual slot, introduced by ObjTalkRecept
     virtual void vf_0x104(); // 0x003285F0 slot 0x104 | virtual slot, introduced by ObjTalkRecept
     virtual void vf_0x108(); // 0x00328640 slot 0x108 | virtual slot, introduced by ObjTalkRecept

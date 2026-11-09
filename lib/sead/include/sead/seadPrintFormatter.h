@@ -31,6 +31,16 @@ public:
     void flush(); // 0x00545A00 | nintendogs:bytes [tier B]
     // the format string first, then the arguments
     PrintFormatter& append(const char* str); // 0x00545AD4 (name is ours)
+    // (inline) the next argument with its mark (an empty mark: the default format; name is ours)
+    template <typename T>
+    PrintFormatter& appendValue(const T& value)
+    {
+        char mark[32];
+        if (proceedToFormatMark_(mark)) {
+            out(value, mark[0] != 0 ? mark : NULL, mOutput);
+        }
+        return *this;
+    }
 
     // writes the value with the mark (NULL: "%d" or "%u")
     template <typename T>

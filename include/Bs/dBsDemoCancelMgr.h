@@ -17,6 +17,16 @@ public:
     virtual oml::framework::Result Draw(); // 0x00284F90 slot 0x30 | slot vf_0x30 of oml::framework::Process
     // (demo::UpdateEnding calls it when an order ends; not decompiled yet, name is ours)
     void Reset(); // 0x00284F98
+    // net play of type 2 in the stages 103/104 (name is ours)
+    static bool IsActiveStage(); // 0x00284F58
+    // (inline; name is ours)
+    DECOMP_EMIT_COPY DECOMP_NOINLINE bool IsTimeOver() const { return m_Limit <= m_Time; } // 0x0071B88C
+
+    // (names are ours)
+    u8 m_IsActive;  // 0x13
+    u8 m_State;     // 0x14 (0..2; a talk during the order turns 0 into 1)
+    s32 m_Time;     // 0x18
+    s32 m_Limit;    // 0x1C (150)
 
     static BsDemoCancelMgr* s_pInstance; // (name after libgarden)
 };

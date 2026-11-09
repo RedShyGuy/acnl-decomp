@@ -15,33 +15,33 @@ public:
     NpcTalkRecept(); // ctor address unknown
     virtual ~NpcTalkRecept(); // 0x0023B2D8 slot 0x00 | slot vf_0x00 of script::ITalkRecept
     // 0x0023B2C4 slot 0x04 | slot vf_0x04 of script::ITalkRecept (deleting dtor)
-    virtual void vf_0x24(); // 0x002373DC slot 0x24 | virtual slot, introduced by script::ITalkRecept
-    virtual void vf_0x28(); // 0x002373D8 slot 0x28 | virtual slot, introduced by script::ITalkRecept
-    virtual void vf_0x2C(); // 0x002377D4 slot 0x2C | virtual slot, introduced by script::ITalkRecept
-    virtual void vf_0x30(); // 0x00231444 slot 0x30 | virtual slot, introduced by script::ITalkRecept
-    virtual void vf_0x34(); // 0x00231F58 slot 0x34 | virtual slot, introduced by script::ITalkRecept
-    virtual void vf_0x38(); // 0x00238A20 slot 0x38 | virtual slot, introduced by script::ITalkRecept
-    virtual void vf_0x3C(); // 0x00231448 slot 0x3C | virtual slot, introduced by script::ITalkRecept
-    virtual void vf_0x40(); // 0x002373D4 slot 0x40 | virtual slot, introduced by script::ITalkRecept
-    virtual void vf_0x88(); // 0x002373CC slot 0x88 | virtual slot, introduced by script::ITalkRecept
-    virtual void vf_0x94(); // 0x0023AD9C slot 0x94 | virtual slot, introduced by script::ITalkRecept
-    virtual void vf_0x98(); // 0x00238190 slot 0x98 | virtual slot, introduced by script::ITalkRecept
-    virtual void vf_0x9C(); // 0x00231ADC slot 0x9C | virtual slot, introduced by script::ITalkRecept
-    virtual void vf_0xA0(); // 0x00231170 slot 0xA0 | virtual slot, introduced by script::ITalkRecept
-    virtual void vf_0xA4(); // 0x0023158C slot 0xA4 | virtual slot, introduced by script::ITalkRecept
-    virtual void vf_0xA8(); // 0x00237260 slot 0xA8 | virtual slot, introduced by script::ITalkRecept
-    virtual void vf_0xAC(); // 0x002372D4 slot 0xAC | virtual slot, introduced by script::ITalkRecept
-    virtual void vf_0xB0(); // 0x0023182C slot 0xB0 | virtual slot, introduced by script::ITalkRecept
-    virtual void vf_0xB4(); // 0x0023105C slot 0xB4 | virtual slot, introduced by script::ITalkRecept
-    virtual void vf_0xC0(); // 0x002384CC slot 0xC0 | virtual slot, introduced by script::ITalkRecept
-    virtual void vf_0xD8(); // 0x0023AE64 slot 0xD8 | virtual slot, introduced by script::ITalkRecept
-    virtual void vf_0xDC(); // 0x006041B4 slot 0xDC | virtual slot, introduced by script::ITalkRecept
-    virtual void vf_0xE0(); // 0x00231174 slot 0xE0 | virtual slot, introduced by script::ITalkRecept
-    virtual void vf_0xE4(); // 0x00231F3C slot 0xE4 | virtual slot, introduced by script::ITalkRecept
-    virtual void vf_0xEC(); // 0x002389EC slot 0xEC | virtual slot, introduced by script::ITalkRecept
-    virtual void vf_0xF0(); // 0x00238FA8 slot 0xF0 | virtual slot, introduced by script::ITalkRecept
-    virtual void vf_0xF4(); // 0x007144E0 slot 0xF4 | virtual slot, introduced by script::ITalkRecept
-    virtual void vf_0xF8(); // 0x007144F8 slot 0xF8 | virtual slot, introduced by script::ITalkRecept
+    virtual void GetTag5_2(script::IWord* word); // 0x002373DC slot 0x24
+    virtual void GetTag5_3(script::IWord* word); // 0x002373D8 slot 0x28
+    virtual void GetWord228(script::WordKey<9, int>* words, u32 index); // 0x002377D4 slot 0x2C
+    virtual void GetTag5_7(script::IWord* word); // 0x00231444 slot 0x30
+    virtual void GetWord238(script::IWord* word); // 0x00231F58 slot 0x34
+    virtual void GetTag5_12(script::IWord* word); // 0x00238A20 slot 0x38
+    virtual void GetTag5_31(script::IWord* word, u32 index); // 0x00231448 slot 0x3C
+    virtual void GetWord298(script::WordKey<9, int>* words, u32 index); // 0x002373D4 slot 0x40
+    virtual s32 GetValue88(u8 gender); // 0x002373CC slot 0x88
+    virtual void Slot94(); // 0x0023AD9C slot 0x94
+    virtual void OnMessage(script::TalkLabel* message); // 0x00238190 slot 0x98
+    virtual void OnMessageStart(script::TalkLabel* message); // 0x00231ADC slot 0x9C
+    virtual void OnBegin(u8 value); // 0x00231170 slot 0xA0
+    virtual void OnPageEnd(u8 value); // 0x0023158C slot 0xA4
+    virtual void OnChoice(const script::ChoiceItem* item, s32 cursor); // 0x00237260 slot 0xA8
+    virtual void OnEnd(); // 0x002372D4 slot 0xAC
+    virtual bool ProcessTag2(const script::Tag* tag); // 0x0023182C slot 0xB0
+    virtual bool ProcessTag3(const script::Tag* tag); // 0x0023105C slot 0xB4
+    virtual void OnTag7_18(u8 a, u8 b, u16 c, u16 d); // 0x002384CC slot 0xC0
+    virtual void OnTag11(const script::Tag* tag); // 0x0023AE64 slot 0xD8
+    virtual void OnTag12(const script::Tag* tag); // 0x006041B4 slot 0xDC
+    virtual void OnTag16(const script::Tag* tag); // 0x00231174 slot 0xE0
+    virtual void OnTag13_0(const script::Tag* tag); // 0x00231F3C slot 0xE4
+    virtual void OnTag13_4(const script::Tag* tag); // 0x002389EC slot 0xEC
+    virtual void OnTag13_5(const script::Tag* tag); // 0x00238FA8 slot 0xF0
+    virtual s32 GetMood(); // 0x007144E0 slot 0xF4
+    virtual void GetVoices(sead::CheckedArray<u8, 4>* voices); // 0x007144F8 slot 0xF8
     virtual void vf_0xFC(); // 0x00230600 slot 0xFC | virtual slot, introduced by NpcTalkRecept
     virtual void vf_0x100(); // 0x00231918 slot 0x100 | virtual slot, introduced by NpcTalkRecept
     virtual void vf_0x104(); // 0x00231450 slot 0x104 | virtual slot, introduced by NpcTalkRecept

@@ -2,76 +2,92 @@
 
 #include "decomp.h"
 #include "script/dIRecept.h"
+#include "script/dWordFix.h"
+#include "sead/seadFixedSafeString.h"
+
+namespace sead {
+template <typename T, s32 N>
+class CheckedArray;
+} // namespace sead
 
 namespace script {
+struct Tag;
+struct TalkLabel;
+struct ChoiceItem;
+class TalkSystem;
+
+// The recept of the conversations: the object the game gives a talk (an NPC, an object, a menu) that answers the tags
+// of TalkSeq (branches, events) on top of the words of IRecept, with the name of the speaker for the sex tags. The
+// slots after IRecept have default bodies here; their names are ours, after the tags of TalkSeq that call them (the
+// others after their slot).
 // RTTI N6script11ITalkReceptE @ 0x008D37DC
 // vtable 0x00909EF8 (vptr 0x00909F00), offset_to_top 0, 63 entries
 class ITalkRecept : public ::script::IRecept
 {
 public:
-    ITalkRecept(); // ctor candidate(s) 0x005DE16C (unverified)
-    virtual ~ITalkRecept(); // 0x00316D7C slot 0x00 | slot vf_0x00 of script::ITalkRecept
-    // 0x005DE1B4 slot 0x04 | slot vf_0x04 of script::ITalkRecept (deleting dtor)
-    virtual void vf_0x08(); // 0x005F55D4 slot 0x08 | virtual slot, introduced by script::IMailRecept
-    virtual void vf_0x0C(); // 0x005F55F4 slot 0x0C | virtual slot, introduced by script::IMailRecept
-    virtual void vf_0x10(); // 0x005F5604 slot 0x10 | virtual slot, introduced by script::IMailRecept
-    virtual void vf_0x14(); // 0x005F55E8 slot 0x14 | virtual slot, introduced by script::IMailRecept
-    virtual void vf_0x18(); // 0x005F55E4 slot 0x18 | virtual slot, introduced by script::IMailRecept
-    virtual void vf_0x1C(); // 0x005F55F0 slot 0x1C | virtual slot, introduced by script::IMailRecept
-    virtual void vf_0x20(); // 0x005F5614 slot 0x20 | virtual slot, introduced by script::IMailRecept
-    virtual void vf_0x24(); // 0x005F5610 slot 0x24 | virtual slot, introduced by script::IMailRecept
-    virtual void vf_0x28(); // 0x005F560C slot 0x28 | virtual slot, introduced by script::IMailRecept
-    virtual void vf_0x2C(); // 0x005F5620 slot 0x2C | virtual slot, introduced by script::IMailRecept
-    virtual void vf_0x30(); // 0x005F55D8 slot 0x30 | virtual slot, introduced by script::IMailRecept
-    virtual void vf_0x34(); // 0x005F55F8 slot 0x34 | virtual slot, introduced by script::IMailRecept
-    virtual void vf_0x38(); // 0x005F563C slot 0x38 | virtual slot, introduced by script::IMailRecept
-    virtual void vf_0x3C(); // 0x005F55DC slot 0x3C | virtual slot, introduced by script::IMailRecept
-    virtual void vf_0x40(); // 0x005F5608 slot 0x40 | virtual slot, introduced by script::IMailRecept
-    virtual void vf_0x44(); // 0x005F5624 slot 0x44 | virtual slot, introduced by script::IMailRecept
-    virtual void vf_0x48(); // 0x005F55EC slot 0x48 | virtual slot, introduced by script::IMailRecept
-    virtual void vf_0x4C(); // 0x005F55E0 slot 0x4C | virtual slot, introduced by script::IMailRecept
-    virtual void vf_0x50(); // 0x005F561C slot 0x50 | virtual slot, introduced by script::IMailRecept
-    virtual void vf_0x54(); // 0x005F5618 slot 0x54 | virtual slot, introduced by script::IMailRecept
-    virtual void vf_0x58(); // 0x005F5638 slot 0x58 | virtual slot, introduced by script::IMailRecept
-    virtual void vf_0x5C(); // 0x005F5634 slot 0x5C | virtual slot, introduced by script::IMailRecept
-    virtual void vf_0x60(); // 0x005F5640 slot 0x60 | virtual slot, introduced by script::IMailRecept
-    virtual void vf_0x64(); // 0x005F5648 slot 0x64 | virtual slot, introduced by script::IMailRecept
-    virtual void vf_0x68(); // 0x005F5630 slot 0x68 | virtual slot, introduced by script::IMailRecept
-    virtual void vf_0x6C(); // 0x005F5628 slot 0x6C | virtual slot, introduced by script::IMailRecept
-    virtual void vf_0x70(); // 0x005F562C slot 0x70 | virtual slot, introduced by script::IMailRecept
-    virtual void vf_0x74(); // 0x005F5644 slot 0x74 | virtual slot, introduced by script::IMailRecept
-    virtual void vf_0x78(); // 0x005F5650 slot 0x78 | virtual slot, introduced by script::IMailRecept
-    virtual void vf_0x7C(); // 0x005F5658 slot 0x7C | virtual slot, introduced by script::IMailRecept
-    virtual void vf_0x80(); // 0x005F564C slot 0x80 | virtual slot, introduced by script::IMailRecept
-    virtual void vf_0x84(); // 0x005F5654 slot 0x84 | virtual slot, introduced by script::IMailRecept
-    virtual void vf_0x88(); // 0x005F55FC slot 0x88 | virtual slot, introduced by script::IMailRecept
-    virtual void vf_0x8C(); // 0x0075BB84 slot 0x8C | virtual slot, introduced by script::ITalkRecept
-    virtual void vf_0x90(); // 0x0075BBA8 slot 0x90 | virtual slot, introduced by script::ITalkRecept
-    virtual void vf_0x94(); // 0x005DE160 slot 0x94 | virtual slot, introduced by script::ITalkRecept
-    virtual void vf_0x98(); // 0x005DE13C slot 0x98 | virtual slot, introduced by script::ITalkRecept
-    virtual void vf_0x9C(); // 0x005DE080 slot 0x9C | virtual slot, introduced by script::ITalkRecept
-    virtual void vf_0xA0(); // 0x005DE028 slot 0xA0 | virtual slot, introduced by script::ITalkRecept
-    virtual void vf_0xA4(); // 0x005DE064 slot 0xA4 | virtual slot, introduced by script::ITalkRecept
-    virtual void vf_0xA8(); // 0x005DE100 slot 0xA8 | virtual slot, introduced by script::ITalkRecept
-    virtual void vf_0xAC(); // 0x005DE104 slot 0xAC | virtual slot, introduced by script::ITalkRecept
-    virtual void vf_0xB0(); // 0x005DE068 slot 0xB0 | virtual slot, introduced by script::ITalkRecept
-    virtual void vf_0xB4(); // 0x005DE020 slot 0xB4 | virtual slot, introduced by script::ITalkRecept
-    virtual void vf_0xB8(); // 0x005DE118 slot 0xB8 | virtual slot, introduced by script::ITalkRecept
-    virtual void vf_0xBC(); // 0x005DE140 slot 0xBC | virtual slot, introduced by script::ITalkRecept
-    virtual void vf_0xC0(); // 0x005DE14C slot 0xC0 | virtual slot, introduced by script::ITalkRecept
-    virtual void vf_0xC4(); // 0x005DE12C slot 0xC4 | virtual slot, introduced by script::ITalkRecept
-    virtual void vf_0xC8(); // 0x005DE030 slot 0xC8 | virtual slot, introduced by script::ITalkRecept
-    virtual void vf_0xCC(); // 0x005DE11C slot 0xCC | virtual slot, introduced by script::ITalkRecept
-    virtual void vf_0xD0(); // 0x005DE070 slot 0xD0 | virtual slot, introduced by script::ITalkRecept
-    virtual void vf_0xD4(); // 0x005DE108 slot 0xD4 | virtual slot, introduced by script::ITalkRecept
-    virtual void vf_0xD8(); // 0x005DE164 slot 0xD8 | virtual slot, introduced by script::ITalkRecept
-    virtual void vf_0xDC(); // 0x005DE168 slot 0xDC | virtual slot, introduced by script::ITalkRecept
-    virtual void vf_0xE0(); // 0x005DE02C slot 0xE0 | virtual slot, introduced by script::ITalkRecept
-    virtual void vf_0xE4(); // 0x005DE084 slot 0xE4 | virtual slot, introduced by script::ITalkRecept
-    virtual void vf_0xE8(); // 0x005DE144 slot 0xE8 | virtual slot, introduced by script::ITalkRecept
-    virtual void vf_0xEC(); // 0x005DE150 slot 0xEC | virtual slot, introduced by script::ITalkRecept
-    virtual void vf_0xF0(); // 0x005DE154 slot 0xF0 | virtual slot, introduced by script::ITalkRecept
-    virtual void vf_0xF4(); // 0x0075BB78 slot 0xF4 | virtual slot, introduced by script::ITalkRecept
-    virtual void vf_0xF8(); // 0x0075BB80 slot 0xF8 | virtual slot, introduced by script::ITalkRecept
+    ITalkRecept(); // 0x005DE16C
+    virtual ~ITalkRecept(); // 0x00316D7C slot 0x00
+    // 0x005DE1B4 slot 0x04 (deleting dtor)
+
+    // the sex of the speaker after the gender of its name (4: unknown)
+    virtual s32 GetSex(); // 0x0075BB84 slot 0x8C
+    // the sex of the speaker for the sex tags (1: male, 2: female); by default the gender of the name Func56DE5C
+    // gives for 4 (4: unknown)
+    virtual s32 GetSpeakerSex(); // 0x0075BBA8 slot 0x90
+    virtual void Slot94(); // 0x005DE160 slot 0x94
+    // a new message starts (the message is copied from the jump)
+    virtual void OnMessage(TalkLabel* message); // 0x005DE13C slot 0x98
+    // the file of the message is loaded
+    virtual void OnMessageStart(TalkLabel* message); // 0x005DE080 slot 0x9C
+    // the text starts (byte 3 of the attribute of the message, < 18)
+    virtual void OnBegin(u8 value); // 0x005DE028 slot 0xA0
+    // a page is done (byte 4 of the attribute of the message, < 18)
+    virtual void OnPageEnd(u8 value); // 0x005DE064 slot 0xA4
+    // a choice was made
+    virtual void OnChoice(const ChoiceItem* item, s32 cursor); // 0x005DE100 slot 0xA8
+    // the message ends
+    virtual void OnEnd(); // 0x005DE104 slot 0xAC
+    virtual bool ProcessTag2(const Tag* tag); // 0x005DE068 slot 0xB0
+    // the tag 3 (index < 47): false holds the text at the tag until the recept is ready
+    virtual bool ProcessTag3(const Tag* tag); // 0x005DE020 slot 0xB4
+    // the word of the insert slot 0x198 (TalkInsert::UpdateWord198)
+    virtual void GetWord198(IWord* word); // 0x005DE118 slot 0xB8
+    virtual void OnTag7(u32 index); // 0x005DE140 slot 0xBC
+    virtual void OnTag7_18(u8 a, u8 b, u16 c, u16 d); // 0x005DE14C slot 0xC0
+    virtual s32 GetBranch10_0(); // 0x005DE12C slot 0xC4
+    // the label of the branch tag 10/11 (negative: none)
+    virtual s32 GetBranch10_11(); // 0x005DE030 slot 0xC8
+    virtual s32 GetBranch10_23(); // 0x005DE11C slot 0xCC
+    // the label of the branch tag 10/28 (negative: none)
+    virtual s32 GetBranch10_28(); // 0x005DE070 slot 0xD0
+    virtual s32 GetBranch10_30(); // 0x005DE108 slot 0xD4
+    // the tags 11 (index < 6) and 12 (index < 10)
+    virtual void OnTag11(const Tag* tag); // 0x005DE164 slot 0xD8
+    virtual void OnTag12(const Tag* tag); // 0x005DE168 slot 0xDC
+    virtual void OnTag16(const Tag* tag); // 0x005DE02C slot 0xE0
+    virtual void OnTag13_0(const Tag* tag); // 0x005DE084 slot 0xE4
+    virtual bool ProcessTag13_3(const Tag* tag); // 0x005DE144 slot 0xE8
+    virtual void OnTag13_4(const Tag* tag); // 0x005DE150 slot 0xEC
+    virtual void OnTag13_5(const Tag* tag); // 0x005DE154 slot 0xF0
+    // the mood of the speech sounds (< 6)
+    virtual s32 GetMood(); // 0x0075BB78 slot 0xF4
+    // the voices of the speech sounds
+    virtual void GetVoices(sead::CheckedArray<u8, 4>* voices); // 0x0075BB80 slot 0xF8
+
+    // the name of the speaker (and the byte +0x78 with it)
+    void SetName(const IWord& name, u8 value); // 0x005DE040
+    // the number as a text of three digits
+    void SetNumberText(s32 number); // 0x005DE088
+    // the talk the recept belongs to (copy 0x0075BBE8)
+    TalkSystem* GetOwner() const; // 0x005DE158
+
+    // the next message (the talk takes it when a message ends without a jump; see TalkLabel)
+    TalkSystem* m_pOwner;                  // 0x04 (set by TalkSystem::SetRecept)
+    sead::FixedSafeString<32> m_File;      // 0x08 the file of the next message
+    sead::FixedSafeString<8> m_Label;      // 0x34 its label (empty: none)
+    s32 m_Number;                          // 0x48 its label as a number (-1: none)
+    WordFix<9> m_Name;                     // 0x4C the name of the speaker
+    u8 m_NameMode;                         // 0x78 (3)
 };
+ASSERT_SIZE(ITalkRecept, 0x7C);
 } // namespace script

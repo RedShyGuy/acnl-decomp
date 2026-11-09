@@ -8,7 +8,7 @@
 #include "nn/cec/CTR/cec_MessageId.h"
 #include "nn/cec/CTR/detail/cec_Result.h"
 #include "nn/fnd/fnd_IAllocator.h"
-#include "script/dMsgLabelReader.h"
+#include "script/dUiMgr.h"
 #include "script/dWordFix.h"
 #include "script/dWordPtrSv.h"
 #include "sead/seadNew.h"
@@ -169,9 +169,9 @@ u8 OpenBox(bool create)
         }
         BoxParam param;
         script::WordFix<64> word;
-        script::MsgLabelReader::s_pInstance->Begin(NULL);
-        script::MsgLabelReader::s_pInstance->ReadWord(&word, "HOME", 3, 0);
-        script::MsgLabelReader::s_pInstance->End();
+        script::UiMgr::s_pInstance->Begin(NULL);
+        script::UiMgr::s_pInstance->ReadWord(&word, "HOME", 3, 0);
+        script::UiMgr::s_pInstance->End();
         char16 name[64];
         script::WordPtrSv nameWord(name, 64);
         nameWord.Copy(word);

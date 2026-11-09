@@ -3,7 +3,7 @@
 #include "Npc/dNpcTalkRecept.h"
 
 // ctor address unknown
-NpcTalkRecept::NpcTalkRecept()
+NpcTalkRecept::NpcTalkRecept() : IFlowRecept(this)
 {
 }
 
@@ -12,138 +12,138 @@ NpcTalkRecept::~NpcTalkRecept()
 {
 }
 
-// 0x002373DC slot 0x24 | virtual slot, introduced by script::ITalkRecept
-void NpcTalkRecept::vf_0x24()
+// 0x002373DC slot 0x24
+void NpcTalkRecept::GetTag5_2(script::IWord*)
 {
 }
 
-// 0x002373D8 slot 0x28 | virtual slot, introduced by script::ITalkRecept
-void NpcTalkRecept::vf_0x28()
+// 0x002373D8 slot 0x28
+void NpcTalkRecept::GetTag5_3(script::IWord*)
 {
 }
 
-// 0x002377D4 slot 0x2C | virtual slot, introduced by script::ITalkRecept
-void NpcTalkRecept::vf_0x2C()
+// 0x002377D4 slot 0x2C
+void NpcTalkRecept::GetWord228(script::WordKey<9, int>*, u32)
 {
 }
 
-// 0x00231444 slot 0x30 | virtual slot, introduced by script::ITalkRecept
-void NpcTalkRecept::vf_0x30()
+// 0x00231444 slot 0x30
+void NpcTalkRecept::GetTag5_7(script::IWord*)
 {
 }
 
-// 0x00231F58 slot 0x34 | virtual slot, introduced by script::ITalkRecept
-void NpcTalkRecept::vf_0x34()
+// 0x00231F58 slot 0x34
+void NpcTalkRecept::GetWord238(script::IWord*)
 {
 }
 
-// 0x00238A20 slot 0x38 | virtual slot, introduced by script::ITalkRecept
-void NpcTalkRecept::vf_0x38()
+// 0x00238A20 slot 0x38
+void NpcTalkRecept::GetTag5_12(script::IWord*)
 {
 }
 
-// 0x00231448 slot 0x3C | virtual slot, introduced by script::ITalkRecept
-void NpcTalkRecept::vf_0x3C()
+// 0x00231448 slot 0x3C
+void NpcTalkRecept::GetTag5_31(script::IWord*, u32)
 {
 }
 
-// 0x002373D4 slot 0x40 | virtual slot, introduced by script::ITalkRecept
-void NpcTalkRecept::vf_0x40()
+// 0x002373D4 slot 0x40
+void NpcTalkRecept::GetWord298(script::WordKey<9, int>*, u32)
 {
 }
 
-// 0x002373CC slot 0x88 | virtual slot, introduced by script::ITalkRecept
-void NpcTalkRecept::vf_0x88()
+// 0x002373CC slot 0x88
+s32 NpcTalkRecept::GetValue88(u8)
 {
 }
 
-// 0x0023AD9C slot 0x94 | virtual slot, introduced by script::ITalkRecept
-void NpcTalkRecept::vf_0x94()
+// 0x0023AD9C slot 0x94
+void NpcTalkRecept::Slot94()
 {
 }
 
-// 0x00238190 slot 0x98 | virtual slot, introduced by script::ITalkRecept
-void NpcTalkRecept::vf_0x98()
+// 0x00238190 slot 0x98
+void NpcTalkRecept::OnMessage(script::TalkLabel*)
 {
 }
 
-// 0x00231ADC slot 0x9C | virtual slot, introduced by script::ITalkRecept
-void NpcTalkRecept::vf_0x9C()
+// 0x00231ADC slot 0x9C
+void NpcTalkRecept::OnMessageStart(script::TalkLabel*)
 {
 }
 
-// 0x00231170 slot 0xA0 | virtual slot, introduced by script::ITalkRecept
-void NpcTalkRecept::vf_0xA0()
+// 0x00231170 slot 0xA0
+void NpcTalkRecept::OnBegin(u8)
 {
 }
 
-// 0x0023158C slot 0xA4 | virtual slot, introduced by script::ITalkRecept
-void NpcTalkRecept::vf_0xA4()
+// 0x0023158C slot 0xA4
+void NpcTalkRecept::OnPageEnd(u8)
 {
 }
 
-// 0x00237260 slot 0xA8 | virtual slot, introduced by script::ITalkRecept
-void NpcTalkRecept::vf_0xA8()
+// 0x00237260 slot 0xA8
+void NpcTalkRecept::OnChoice(const script::ChoiceItem*, s32)
 {
 }
 
-// 0x002372D4 slot 0xAC | virtual slot, introduced by script::ITalkRecept
-void NpcTalkRecept::vf_0xAC()
+// 0x002372D4 slot 0xAC
+void NpcTalkRecept::OnEnd()
 {
 }
 
-// 0x0023182C slot 0xB0 | virtual slot, introduced by script::ITalkRecept
-void NpcTalkRecept::vf_0xB0()
+// 0x0023182C slot 0xB0
+bool NpcTalkRecept::ProcessTag2(const script::Tag*)
 {
 }
 
-// 0x0023105C slot 0xB4 | virtual slot, introduced by script::ITalkRecept
-void NpcTalkRecept::vf_0xB4()
+// 0x0023105C slot 0xB4
+bool NpcTalkRecept::ProcessTag3(const script::Tag*)
 {
 }
 
-// 0x002384CC slot 0xC0 | virtual slot, introduced by script::ITalkRecept
-void NpcTalkRecept::vf_0xC0()
+// 0x002384CC slot 0xC0
+void NpcTalkRecept::OnTag7_18(u8, u8, u16, u16)
 {
 }
 
-// 0x0023AE64 slot 0xD8 | virtual slot, introduced by script::ITalkRecept
-void NpcTalkRecept::vf_0xD8()
+// 0x0023AE64 slot 0xD8
+void NpcTalkRecept::OnTag11(const script::Tag*)
 {
 }
 
-// 0x006041B4 slot 0xDC | virtual slot, introduced by script::ITalkRecept
-void NpcTalkRecept::vf_0xDC()
+// 0x006041B4 slot 0xDC
+void NpcTalkRecept::OnTag12(const script::Tag*)
 {
 }
 
-// 0x00231174 slot 0xE0 | virtual slot, introduced by script::ITalkRecept
-void NpcTalkRecept::vf_0xE0()
+// 0x00231174 slot 0xE0
+void NpcTalkRecept::OnTag16(const script::Tag*)
 {
 }
 
-// 0x00231F3C slot 0xE4 | virtual slot, introduced by script::ITalkRecept
-void NpcTalkRecept::vf_0xE4()
+// 0x00231F3C slot 0xE4
+void NpcTalkRecept::OnTag13_0(const script::Tag*)
 {
 }
 
-// 0x002389EC slot 0xEC | virtual slot, introduced by script::ITalkRecept
-void NpcTalkRecept::vf_0xEC()
+// 0x002389EC slot 0xEC
+void NpcTalkRecept::OnTag13_4(const script::Tag*)
 {
 }
 
-// 0x00238FA8 slot 0xF0 | virtual slot, introduced by script::ITalkRecept
-void NpcTalkRecept::vf_0xF0()
+// 0x00238FA8 slot 0xF0
+void NpcTalkRecept::OnTag13_5(const script::Tag*)
 {
 }
 
-// 0x007144E0 slot 0xF4 | virtual slot, introduced by script::ITalkRecept
-void NpcTalkRecept::vf_0xF4()
+// 0x007144E0 slot 0xF4
+s32 NpcTalkRecept::GetMood()
 {
 }
 
-// 0x007144F8 slot 0xF8 | virtual slot, introduced by script::ITalkRecept
-void NpcTalkRecept::vf_0xF8()
+// 0x007144F8 slot 0xF8
+void NpcTalkRecept::GetVoices(sead::CheckedArray<u8, 4>*)
 {
 }
 

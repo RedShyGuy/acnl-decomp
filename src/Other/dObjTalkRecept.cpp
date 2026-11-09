@@ -3,7 +3,7 @@
 #include "Other/dObjTalkRecept.h"
 
 // ctor candidate(s) 0x0023C1A0 (unverified)
-ObjTalkRecept::ObjTalkRecept()
+ObjTalkRecept::ObjTalkRecept() : IFlowRecept(this)
 {
 }
 
@@ -12,38 +12,38 @@ ObjTalkRecept::~ObjTalkRecept()
 {
 }
 
-// 0x0023C19C slot 0x94 | virtual slot, introduced by script::ITalkRecept
-void ObjTalkRecept::vf_0x94()
+// 0x0023C19C slot 0x94
+void ObjTalkRecept::Slot94()
 {
 }
 
-// 0x0023BAC4 slot 0x98 | virtual slot, introduced by script::ITalkRecept
-void ObjTalkRecept::vf_0x98()
+// 0x0023BAC4 slot 0x98
+void ObjTalkRecept::OnMessage(script::TalkLabel*)
 {
 }
 
-// 0x0023B874 slot 0x9C | virtual slot, introduced by script::ITalkRecept
-void ObjTalkRecept::vf_0x9C()
+// 0x0023B874 slot 0x9C
+void ObjTalkRecept::OnMessageStart(script::TalkLabel*)
 {
 }
 
-// 0x0023B76C slot 0xA0 | virtual slot, introduced by script::ITalkRecept
-void ObjTalkRecept::vf_0xA0()
+// 0x0023B76C slot 0xA0
+void ObjTalkRecept::OnBegin(u8)
 {
 }
 
-// 0x0023B86C slot 0xA4 | virtual slot, introduced by script::ITalkRecept
-void ObjTalkRecept::vf_0xA4()
+// 0x0023B86C slot 0xA4
+void ObjTalkRecept::OnPageEnd(u8)
 {
 }
 
-// 0x0023BAC0 slot 0xAC | virtual slot, introduced by script::ITalkRecept
-void ObjTalkRecept::vf_0xAC()
+// 0x0023BAC0 slot 0xAC
+void ObjTalkRecept::OnEnd()
 {
 }
 
-// 0x0071465C slot 0xF8 | virtual slot, introduced by script::ITalkRecept
-void ObjTalkRecept::vf_0xF8()
+// 0x0071465C slot 0xF8
+void ObjTalkRecept::GetVoices(sead::CheckedArray<u8, 4>*)
 {
 }
 

@@ -12,6 +12,8 @@ template AnyObjectHolder<Data, String>::~AnyObjectHolder();
 // 0x007D6EF4 slot 0x00
 // 0x007D6EC8 (deleting dtor)
 template AnyObjectHolder<Gathering, String>::~AnyObjectHolder();
+// 0x00151D64 (the copy for the arrays of __aeabi_vec_ctor)
+template AnyObjectHolder<Gathering, String>::AnyObjectHolder();
 // 0x007D6E70 (name is ours)
 template void AnyObjectHolder<Gathering, String>::StreamOut(Message* pMessage);
 } // namespace nex

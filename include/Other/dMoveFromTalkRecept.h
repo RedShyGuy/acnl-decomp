@@ -12,7 +12,7 @@ public:
     MoveFromTalkRecept(); // ctor address unknown
     virtual ~MoveFromTalkRecept(); // 0x002E5E24 slot 0x00 | slot vf_0x00 of script::ITalkRecept
     // 0x002E5DD8 slot 0x04 | slot vf_0x04 of script::ITalkRecept (deleting dtor)
-    virtual void vf_0x94(); // 0x002CF988 slot 0x94 | virtual slot, introduced by script::ITalkRecept
+    virtual void Slot94(); // 0x002CF988 slot 0x94
     virtual void vf_0x100(); // 0x002E52E0 slot 0x100 | virtual slot, introduced by MoveFromTalkRecept
     virtual void vf_0x104(); // 0x002E4EB0 slot 0x104 | virtual slot, introduced by MoveFromTalkRecept
 };

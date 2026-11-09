@@ -1,28 +1,29 @@
-#include "script/dIUiRecept.h"
 #include "script/dDialogCompo_TextRecept.h"
+#include "script/dMsgEngine.h"
+#include "script/dUiSeq.h"
+#include "script/dUiSystem.h"
 
-// ctor address unknown
-script::DialogCompo::TextRecept::TextRecept()
+namespace script {
+// 0x005D91A8 slot 0x98 (name is ours)
+bool DialogCompo::TextRecept::ProcessTag98(const Tag* tag)
 {
+    UiSeq* seq = m_pOwner->m_pSeq;
+    seq->m_IsSuccess = PutTag(&seq->m_pWrite, &seq->m_pLast, tag) & seq->m_IsSuccess;
+    return seq->m_IsSuccess;
 }
 
-// 0x005D920C slot 0x00 | virtual slot, introduced by script::IUiRecept
-void script::DialogCompo::TextRecept::vf_0x00()
+// 0x005D91D8 slot 0x94 (name is ours)
+bool DialogCompo::TextRecept::ProcessTag94(const Tag* tag)
 {
+    UiSeq* seq = m_pOwner->m_pSeq;
+    seq->m_IsSuccess = PutTag(&seq->m_pWrite, &seq->m_pLast, tag) & seq->m_IsSuccess;
+    return seq->m_IsSuccess;
 }
 
-// 0x005D9208 slot 0x04 | virtual slot, introduced by script::IUiRecept
-void script::DialogCompo::TextRecept::vf_0x04()
+// 0x005D920C slot 0x00 (name after the RTTI)
+// 0x005D9208 (deleting dtor)
+DialogCompo::TextRecept::~TextRecept()
 {
+    // empty (in the original too)
 }
-
-// 0x005D91D8 slot 0x94 | virtual slot, introduced by script::IUiRecept
-void script::DialogCompo::TextRecept::vf_0x94()
-{
-}
-
-// 0x005D91A8 slot 0x98 | virtual slot, introduced by script::IUiRecept
-void script::DialogCompo::TextRecept::vf_0x98()
-{
-}
-
+} // namespace script

@@ -36,6 +36,8 @@ public:
     s32 appendWithFormat(const T* fmt, ...);
 
     T* getMutableStringTop() const { return const_cast<T*>(this->mStringTop); }
+    // the size of the buffer (name is ours)
+    s32 getBufferSize() const { return mBufferSize; }
     // the character at index of the buffer; the null character outside the buffer
     const T& at(s32 index) const
     {

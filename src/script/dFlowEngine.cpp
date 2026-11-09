@@ -1,54 +1,45 @@
 #include "script/dFlowEngine.h"
 
 namespace script {
-// ctor address unknown
-script::FlowEngine::FlowEngine()
+// 0x005D5F00 (name is ours)
+void FlowEngine::Process()
 {
-}
-
-// 0x0011C12F slot 0x00 | slot vf_0x00 of ChangeRentalBase
-void script::FlowEngine::vf_0x00()
-{
-}
-
-// 0x0011C12F slot 0x04 | slot vf_0x00 of ChangeRentalBase
-void script::FlowEngine::vf_0x04()
-{
-}
-
-// 0x0011C12F slot 0x08 | slot vf_0x00 of ChangeRentalBase
-void script::FlowEngine::vf_0x08()
-{
-}
-
-// 0x0011C12F slot 0x0C | slot vf_0x00 of ChangeRentalBase
-void script::FlowEngine::vf_0x0C()
-{
-}
-
-// 0x0011C12F slot 0x10 | slot vf_0x00 of ChangeRentalBase
-void script::FlowEngine::vf_0x10()
-{
-}
-
-// 0x0011C12F slot 0x14 | slot vf_0x00 of ChangeRentalBase
-void script::FlowEngine::vf_0x14()
-{
-}
-
-// 0x0011C12F slot 0x18 | slot vf_0x00 of ChangeRentalBase
-void script::FlowEngine::vf_0x18()
-{
-}
-
-// 0x0011C12F slot 0x1C | slot vf_0x00 of ChangeRentalBase
-void script::FlowEngine::vf_0x1C()
-{
-}
-
-// 0x0011C12F slot 0x20 | slot vf_0x00 of ChangeRentalBase
-void script::FlowEngine::vf_0x20()
-{
+    if (m_Index != m_Next) {
+        m_Index = m_Next;
+        m_pNode = m_Flow.GetNode(m_Next);
+        libms::FlowNode node(m_pNode);
+        OnNode(node);
+        m_Count = 0;
+    }
+    if (m_pNode == NULL) {
+        m_IsEnd = 1;
+    } else {
+        libms::FlowNode node(m_pNode);
+        switch (node.GetType()) {
+        case NODE_MESSAGE:
+            OnMessage(&m_Flow, node);
+            break;
+        case NODE_BRANCH:
+            OnBranch(&m_Flow, node);
+            break;
+        case NODE_EVENT:
+            OnEvent(&m_Flow, node);
+            break;
+        case NODE_ENTRY:
+            OnEntry(&m_Flow, node);
+            break;
+        case NODE_JUMP:
+            OnJump(&m_Flow, node);
+            break;
+        default:
+            m_IsEnd = 1;
+            break;
+        }
+    }
+    m_Count++;
+    if (m_Index != m_Next || m_IsEnd) {
+        OnNodeDone();
+    }
 }
 
 } // namespace script

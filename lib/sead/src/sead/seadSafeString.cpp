@@ -12,6 +12,12 @@ namespace sead {
 // 0x0030F648 (name is ours)
 template const char* sead::SafeStringBase<char>::getCString() const;
 
+// (out-of-line copies in the game code)
+// 0x003005C0 (name is ours)
+template bool sead::SafeStringBase<char>::isEqual(const SafeStringBase<char>& str) const;
+// 0x008285E4 (name is ours)
+template s32 sead::SafeStringBase<char>::compare(const SafeStringBase<char>& str, s32 n) const;
+
 // 0x008283D8 slot 0x08 (symbols_us: SetNT)
 template void sead::SafeStringBase<char>::assureTerminationImpl_() const;
 // 0x00828738 slot 0x08

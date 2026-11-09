@@ -2,6 +2,24 @@
 #include "Other/dBase.h"
 #include "Bs/dBsMenuMgr.h"
 
+// 0x00950D25
+u8 BsMenuMgr::s_Unknown950D25;
+// 0x00950D35
+u8 BsMenuMgr::s_SelectedSlot;
+// 0x00950D3B
+u8 BsMenuMgr::s_Result;
+// 0x00950D42
+s16 BsMenuMgr::s_Unknown950D42;
+// 0x00950D44
+u16 BsMenuMgr::s_PocketItemMask;
+// 0x00950D70
+u32 BsMenuMgr::s_Unknown950D70;
+// 0x00950D8C
+u32 BsMenuMgr::s_MenuParam;
+// 0x00950D94
+u32 BsMenuMgr::s_Unknown950D94;
+// 0x00950DB0
+u32 BsMenuMgr::s_Unknown950DB0;
 // 0x00950D4C
 BsMenuMgr* BsMenuMgr::s_pInstance;
 // 0x00950D68

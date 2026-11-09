@@ -57,7 +57,6 @@ void Func3043F4(void* object); // 0x003043F4
 void ClearPersonalId(SvPersonalId* id); // 0x003053D4
 void Func30804C(); // 0x0030804C
 void OnPlayerAssigned(); // 0x003080CC
-void* GetSystemMessage(void* reader, void* word, const char* label, u32 index); // 0x00312610
 void Func32D4E0(); // 0x0032D4E0
 bool Func350BA8(); // 0x00350BA8
 bool Func350D40(); // 0x00350D40

@@ -1,35 +1,49 @@
-#include "Other/dBase.h"
 #include "script/dBase.h"
+#include "script/dMgr.h"
 
 namespace script {
-// ctor candidate(s) 0x005EA8FC (unverified)
-script::Base::Base()
+// 0x005EA8FC (name after the RTTI)
+Base::Base()
 {
+    // (only the bases are constructed)
 }
 
-// 0x005EA924 slot 0x00 | slot vf_0x00 of oml::framework::Process
-script::Base::~Base()
+// 0x005EA924 slot 0x00
+// 0x005EA914 (deleting dtor)
+Base::~Base()
 {
+    // (only the bases are destroyed)
 }
 
-// 0x005EA890 slot 0x0C | slot vf_0x0C of oml::framework::Process
-oml::framework::Result script::Base::Initialize()
+// 0x005EA890 slot 0x0C
+oml::framework::Result Base::Initialize()
 {
+    Mgr* mgr = Mgr::s_pInstance;
+    if (mgr == NULL) {
+        mgr = Mgr::createInstance(NULL);
+    }
+    return mgr->Initialize() ? oml::framework::RESULT_SUCCESS : oml::framework::RESULT_RETRY;
 }
 
-// 0x005EA8DC slot 0x18 | slot vf_0x18 of oml::framework::Process
-oml::framework::Result script::Base::Finalize()
+// 0x005EA8DC slot 0x18
+oml::framework::Result Base::Finalize()
 {
+    Mgr::s_pInstance->Finalize();
+    Mgr::deleteInstance();
+    return oml::framework::RESULT_SUCCESS;
 }
 
-// 0x005EA8C0 slot 0x24 | slot vf_0x24 of oml::framework::Process
-oml::framework::Result script::Base::Calc()
+// 0x005EA8C0 slot 0x24
+oml::framework::Result Base::Calc()
 {
+    Mgr::s_pInstance->Calc();
+    return oml::framework::RESULT_SUCCESS;
 }
 
-// 0x005EA874 slot 0x30 | slot vf_0x30 of oml::framework::Process
-oml::framework::Result script::Base::Draw()
+// 0x005EA874 slot 0x30
+oml::framework::Result Base::Draw()
 {
+    Mgr::s_pInstance->Draw();
+    return oml::framework::RESULT_SUCCESS;
 }
-
 } // namespace script

@@ -11,143 +11,143 @@ AcNpcNml::TalkRcpt::~TalkRcpt()
 {
 }
 
-// 0x00634F08 slot 0x08 | virtual slot, introduced by script::ITalkRecept
-void AcNpcNml::TalkRcpt::vf_0x08()
+// 0x00634F08 slot 0x08
+void AcNpcNml::TalkRcpt::GetNumber(script::WordNumDigit*, s32, u32)
 {
 }
 
-// 0x0063A3C4 slot 0x24 | virtual slot, introduced by script::ITalkRecept
-void AcNpcNml::TalkRcpt::vf_0x24()
+// 0x0063A3C4 slot 0x24
+void AcNpcNml::TalkRcpt::GetTag5_2(script::IWord*)
 {
 }
 
-// 0x0063A2F8 slot 0x28 | virtual slot, introduced by script::ITalkRecept
-void AcNpcNml::TalkRcpt::vf_0x28()
+// 0x0063A2F8 slot 0x28
+void AcNpcNml::TalkRcpt::GetTag5_3(script::IWord*)
 {
 }
 
-// 0x0063E7E0 slot 0x2C | virtual slot, introduced by script::ITalkRecept
-void AcNpcNml::TalkRcpt::vf_0x2C()
+// 0x0063E7E0 slot 0x2C
+void AcNpcNml::TalkRcpt::GetWord228(script::WordKey<9, int>*, u32)
 {
 }
 
-// 0x00635400 slot 0x30 | virtual slot, introduced by script::ITalkRecept
-void AcNpcNml::TalkRcpt::vf_0x30()
+// 0x00635400 slot 0x30
+void AcNpcNml::TalkRcpt::GetTag5_7(script::IWord*)
 {
 }
 
-// 0x00637738 slot 0x34 | virtual slot, introduced by script::ITalkRecept
-void AcNpcNml::TalkRcpt::vf_0x34()
+// 0x00637738 slot 0x34
+void AcNpcNml::TalkRcpt::GetWord238(script::IWord*)
 {
 }
 
-// 0x00643C60 slot 0x38 | virtual slot, introduced by script::ITalkRecept
-void AcNpcNml::TalkRcpt::vf_0x38()
+// 0x00643C60 slot 0x38
+void AcNpcNml::TalkRcpt::GetTag5_12(script::IWord*)
 {
 }
 
-// 0x0063567C slot 0x3C | virtual slot, introduced by script::ITalkRecept
-void AcNpcNml::TalkRcpt::vf_0x3C()
+// 0x0063567C slot 0x3C
+void AcNpcNml::TalkRcpt::GetTag5_31(script::IWord*, u32)
 {
 }
 
-// 0x0063A0DC slot 0x40 | virtual slot, introduced by script::ITalkRecept
-void AcNpcNml::TalkRcpt::vf_0x40()
+// 0x0063A0DC slot 0x40
+void AcNpcNml::TalkRcpt::GetWord298(script::WordKey<9, int>*, u32)
 {
 }
 
-// 0x006413BC slot 0x44 | virtual slot, introduced by script::ITalkRecept
-void AcNpcNml::TalkRcpt::vf_0x44()
+// 0x006413BC slot 0x44
+void AcNpcNml::TalkRcpt::GetTag5_35(script::IWord*, u32)
 {
 }
 
-// 0x00636C88 slot 0x48 | virtual slot, introduced by script::ITalkRecept
-void AcNpcNml::TalkRcpt::vf_0x48()
+// 0x00636C88 slot 0x48
+void AcNpcNml::TalkRcpt::GetTag5_32(script::IWord*, u32)
 {
 }
 
-// 0x0063570C slot 0x4C | virtual slot, introduced by script::ITalkRecept
-void AcNpcNml::TalkRcpt::vf_0x4C()
+// 0x0063570C slot 0x4C
+void AcNpcNml::TalkRcpt::GetWord2AC(script::IWord*, u32, u32)
 {
 }
 
-// 0x00639FE0 slot 0x88 | virtual slot, introduced by script::ITalkRecept
-void AcNpcNml::TalkRcpt::vf_0x88()
+// 0x00639FE0 slot 0x88
+s32 AcNpcNml::TalkRcpt::GetValue88(u8)
 {
 }
 
-// 0x00636828 slot 0x9C | virtual slot, introduced by script::ITalkRecept
-void AcNpcNml::TalkRcpt::vf_0x9C()
+// 0x00636828 slot 0x9C
+void AcNpcNml::TalkRcpt::OnMessageStart(script::TalkLabel*)
 {
 }
 
-// 0x00634DB4 slot 0xA0 | virtual slot, introduced by script::ITalkRecept
-void AcNpcNml::TalkRcpt::vf_0xA0()
+// 0x00634DB4 slot 0xA0
+void AcNpcNml::TalkRcpt::OnBegin(u8)
 {
 }
 
-// 0x00636518 slot 0xA4 | virtual slot, introduced by script::ITalkRecept
-void AcNpcNml::TalkRcpt::vf_0xA4()
+// 0x00636518 slot 0xA4
+void AcNpcNml::TalkRcpt::OnPageEnd(u8)
 {
 }
 
-// 0x00639E28 slot 0xA8 | virtual slot, introduced by script::ITalkRecept
-void AcNpcNml::TalkRcpt::vf_0xA8()
+// 0x00639E28 slot 0xA8
+void AcNpcNml::TalkRcpt::OnChoice(const script::ChoiceItem*, s32)
 {
 }
 
-// 0x00639E9C slot 0xAC | virtual slot, introduced by script::ITalkRecept
-void AcNpcNml::TalkRcpt::vf_0xAC()
+// 0x00639E9C slot 0xAC
+void AcNpcNml::TalkRcpt::OnEnd()
 {
 }
 
-// 0x0063D280 slot 0xB8 | virtual slot, introduced by script::ITalkRecept
-void AcNpcNml::TalkRcpt::vf_0xB8()
+// 0x0063D280 slot 0xB8
+void AcNpcNml::TalkRcpt::GetWord198(script::IWord*)
 {
 }
 
-// 0x00641180 slot 0xBC | virtual slot, introduced by script::ITalkRecept
-void AcNpcNml::TalkRcpt::vf_0xBC()
+// 0x00641180 slot 0xBC
+void AcNpcNml::TalkRcpt::OnTag7(u32)
 {
 }
 
-// 0x00642D60 slot 0xC0 | virtual slot, introduced by script::ITalkRecept
-void AcNpcNml::TalkRcpt::vf_0xC0()
+// 0x00642D60 slot 0xC0
+void AcNpcNml::TalkRcpt::OnTag7_18(u8, u8, u16, u16)
 {
 }
 
-// 0x0063E734 slot 0xC4 | virtual slot, introduced by script::ITalkRecept
-void AcNpcNml::TalkRcpt::vf_0xC4()
+// 0x0063E734 slot 0xC4
+s32 AcNpcNml::TalkRcpt::GetBranch10_0()
 {
 }
 
-// 0x00634EA4 slot 0xC8 | virtual slot, introduced by script::ITalkRecept
-void AcNpcNml::TalkRcpt::vf_0xC8()
+// 0x00634EA4 slot 0xC8
+s32 AcNpcNml::TalkRcpt::GetBranch10_11()
 {
 }
 
-// 0x0063D424 slot 0xCC | virtual slot, introduced by script::ITalkRecept
-void AcNpcNml::TalkRcpt::vf_0xCC()
+// 0x0063D424 slot 0xCC
+s32 AcNpcNml::TalkRcpt::GetBranch10_23()
 {
 }
 
-// 0x0063A070 slot 0xD4 | virtual slot, introduced by script::ITalkRecept
-void AcNpcNml::TalkRcpt::vf_0xD4()
+// 0x0063A070 slot 0xD4
+s32 AcNpcNml::TalkRcpt::GetBranch10_30()
 {
 }
 
-// 0x0064CC98 slot 0xD8 | virtual slot, introduced by script::ITalkRecept
-void AcNpcNml::TalkRcpt::vf_0xD8()
+// 0x0064CC98 slot 0xD8
+void AcNpcNml::TalkRcpt::OnTag11(const script::Tag*)
 {
 }
 
-// 0x006412E0 slot 0xE8 | virtual slot, introduced by script::ITalkRecept
-void AcNpcNml::TalkRcpt::vf_0xE8()
+// 0x006412E0 slot 0xE8
+bool AcNpcNml::TalkRcpt::ProcessTag13_3(const script::Tag*)
 {
 }
 
-// 0x00761668 slot 0xF4 | virtual slot, introduced by script::ITalkRecept
-void AcNpcNml::TalkRcpt::vf_0xF4()
+// 0x00761668 slot 0xF4
+s32 AcNpcNml::TalkRcpt::GetMood()
 {
 }
 

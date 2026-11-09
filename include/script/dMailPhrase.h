@@ -2,15 +2,24 @@
 
 #include "decomp.h"
 #include "script/dPhrase.h"
+#include "script/dMailInsert.h"
 
 namespace script {
+class MailInsert;
+
+// the phrase of the mail messages (member name is ours)
 // RTTI N6script10MailPhraseE @ 0x008D3720
 // vtable 0x00909950 (vptr 0x00909958), offset_to_top 0, 2 entries
 class MailPhrase : public ::script::Phrase
 {
 public:
-    MailPhrase(); // ctor address unknown
-    virtual void vf_0x00(); // 0x005D6BA0 slot 0x00 | virtual slot, introduced by script::MailPhrase
-    virtual void vf_0x04(); // 0x005D6B9C slot 0x04 | virtual slot, introduced by script::MailPhrase
+    // (inline in the original)
+    // (inline in MailSystem)
+    explicit MailPhrase(MailInsert* pInsert);
+    virtual ~MailPhrase();
+
+    MailInsert* m_pMailInsert; // 0x8
 };
+
+inline MailPhrase::MailPhrase(MailInsert* pInsert) : Phrase(pInsert), m_pMailInsert(pInsert) {}
 } // namespace script

@@ -12,6 +12,8 @@ class FlowNodeBranch : public FlowNode
 public:
     explicit FlowNodeBranch(const FlowNode& node);
     virtual ~FlowNodeBranch();
+
+    DECOMP_EMIT_COPY DECOMP_NOIPA u16 GetCaseNum() const { return m_pNode->value2; } // 0x007569BC (name is ours)
 };
 ASSERT_SIZE(FlowNodeBranch, 0x8);
 

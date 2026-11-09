@@ -76,6 +76,15 @@ public:
             m_pTagProcessor = pTagProcessor;
         }
     }
+    // (inline, name is ours)
+    void SetFontSize(const Size& fontSize)
+    {
+        const bool isChanged = !(m_FontSize.width == fontSize.width && m_FontSize.height == fontSize.height);
+        m_IsTextChanged |= isChanged;
+        if (isChanged) {
+            m_FontSize = fontSize;
+        }
+    }
 
 private:
     void Init(u16 allocStrLen, u32 allocFlags); // 0x004BC3A4 (name is ours)

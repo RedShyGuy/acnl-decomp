@@ -5,7 +5,7 @@
 class Controller
 {
 public:
-    void IsHold(unsigned long); // 0x00304A14 | libgarden [tier A]
-    void IsTrig(unsigned long); // 0x005223E8 | libgarden [tier A]
+    static bool IsHold(u32 buttons); // 0x00304A14 | libgarden [tier A]
+    static bool IsTrig(u32 buttons); // 0x005223E8 | libgarden [tier A]
     void GetCirclePad(); // 0x00522520 | libgarden [tier A]
 };

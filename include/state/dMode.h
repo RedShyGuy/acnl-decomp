@@ -85,7 +85,45 @@ public:
     Mode() : m_Callback(NULL), m_CallbackCounter(0), m_Calling(false), m_pInfos(NULL), m_Count(0) {}
     virtual const char* GetName(Func) const { return NULL; }
 
-    void Change(Func func);
+    // (inline) the name of a state from the table (the last match; none when disabled; name is ours). The classes with
+    // a table override GetName with it (copies in the template area, e.g. 0x0082D7B8 for MsgWindow).
+    const char* FindName(Func func) const
+    {
+        const char* name = NULL;
+        if (this->m_Enabled) {
+            for (u32 i = 0; i < m_Count; i++) {
+                if (m_pInfos[i].state == func) {
+                    name = m_pInfos[i].names;
+                }
+            }
+        }
+        return name;
+    }
+
+    // the state becomes func if the table has it (its transition is called once; name is ours; copies per T in the
+    // template area)
+    DECOMP_NOINLINE void Change(Func func)
+    {
+        Func state = NULL;
+        Func transition = NULL;
+        for (u32 i = 0; i < m_Count; i++) {
+            if (m_pInfos[i].state == func) {
+                if (m_pInfos[i].transition != NULL) {
+                    transition = m_pInfos[i].transition;
+                }
+                state = func;
+            }
+        }
+        if (state == NULL) {
+            return;
+        }
+        m_Callback = state;
+        if (transition != NULL) {
+            m_Calling = true;
+            (static_cast<T*>(this)->*transition)();
+            m_Calling = false;
+        }
+    }
     // calls the current state; counts the frames it stays the same
     void Call()
     {

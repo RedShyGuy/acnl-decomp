@@ -5,7 +5,7 @@
 #include "Bs/dBsIncludeSave.h"
 
 // ctor address unknown
-BsIncludeSave::BsIncludeSave()
+BsIncludeSave::BsIncludeSave() : IFlowRecept(this)
 {
 }
 

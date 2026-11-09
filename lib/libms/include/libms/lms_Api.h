@@ -74,8 +74,14 @@ ASSERT_SIZE(LMS_ProjectBinary, 0x40);
 // a node of FLW3 (16 bytes, after a 16 byte header with the number of nodes)
 typedef struct LMS_FlowNode
 {
-    u8 type;          // +0x00 2 = branch
-    u8 _01[13];       // +0x01
+    u8 type;          // +0x00 1 message, 2 branch, 3 event, 4 entry, 5 jump
+    u8 kind;          // +0x01 (events: 5 = a call of an entry)
+    u8 _02[2];        // +0x02
+    u32 param;        // +0x04 (events, branches)
+    u16 next;         // +0x08 the next node (0xFFFF: none)
+    u16 value;        // +0x0A message: the file (a name of the project); jump: the file (0xFFFF: this flow);
+                      //       event, branch: the id
+    u16 value2;       // +0x0C message: the label; branch: the number of cases
     u16 branchIndex;  // +0x0E first case in the branch table (branch nodes)
 } LMS_FlowNode;
 ASSERT_SIZE(LMS_FlowNode, 0x10);

@@ -19,8 +19,6 @@ void* g_pUnknown954238;
 void* g_pUnknown954884;
 // 0x0095488C
 void* g_pUnknown95488C;
-// 0x0095EEDC
-void* g_pMessageReader;
 // 0x00A83000
 u8 g_UnknownA83000[4];
 // 0x00AAFF14

@@ -1,6 +1,7 @@
 #pragma once
 
 #include "decomp.h"
+#include "Search/dSearchCandCore.h"
 
 // Instantiations found in the binary:
 //   SearchCand<102>  typeinfo 0x008CB134  vtable 0x008EC320
@@ -15,9 +16,13 @@
 //   SearchCand<5>  typeinfo 0x008CB1A0  vtable 0x008EC38C
 //   SearchCand<7>  typeinfo 0x008CB1AC  vtable 0x008EC398
 //   SearchCand<8>  typeinfo 0x008CB1B8  vtable 0x008EC3A4
-template <auto T0>
-class SearchCand
+// the candidates 0..N-1 with their bits (names are ours)
+template <int N>
+class SearchCand : public SearchCandCore
 {
 public:
-    // TODO: members unknown
+    // (inline)
+    SearchCand() : SearchCandCore(N, m_Bits) {}
+
+    u32 m_Bits[(N + 31) / 32]; // 0x14
 };

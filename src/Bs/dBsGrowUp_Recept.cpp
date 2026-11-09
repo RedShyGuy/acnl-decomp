@@ -11,13 +11,13 @@ BsGrowUp::Recept::~Recept()
 {
 }
 
-// 0x0011753D slot 0x98 | virtual slot, introduced by script::ITalkRecept
-void BsGrowUp::Recept::vf_0x98()
+// 0x0011753D slot 0x98
+void BsGrowUp::Recept::OnMessage(script::TalkLabel*)
 {
 }
 
-// 0x0011B527 slot 0xF8 | virtual slot, introduced by script::ITalkRecept
-void BsGrowUp::Recept::vf_0xF8()
+// 0x0011B527 slot 0xF8
+void BsGrowUp::Recept::GetVoices(sead::CheckedArray<u8, 4>*)
 {
 }
 

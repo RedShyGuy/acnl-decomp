@@ -11,8 +11,8 @@ DonationBoxTalkRecept::~DonationBoxTalkRecept()
 {
 }
 
-// 0x007258A4 slot 0xF8 | virtual slot, introduced by script::ITalkRecept
-void DonationBoxTalkRecept::vf_0xF8()
+// 0x007258A4 slot 0xF8
+void DonationBoxTalkRecept::GetVoices(sead::CheckedArray<u8, 4>*)
 {
 }
 

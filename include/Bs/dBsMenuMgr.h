@@ -6,6 +6,8 @@
 #include "applet/dErrEulaMgr.h"
 #include "sead/seadControllerWrapper.h"
 
+class SvFgName;
+
 // RTTI 9BsMenuMgr @ 0x008CD708
 // vtable 0x008FA3D0 (vptr 0x008FA3D8), offset_to_top 0, 16 entries
 // vtable 0x008FA418 (vptr 0x008FA420), offset_to_top -20, 3 entries
@@ -73,6 +75,46 @@ public:
     u8 m_Unknown0x1FE;                  // 0x1FE
     s32 m_Unk3[2];                      // 0x200
     bool m_IsCancel;                    // 0x208
+
+    // (game code that is not decompiled yet; names are ours)
+    // whether no menu is open any more
+    static bool IsIdle(); // 0x006D51AC
+    // the menu process with its argument
+    static void OpenMenu(u32 menu, u32 arg); // 0x006D2810
+    static bool Func6D2718(); // 0x006D2718
+    static void Func6D2744(); // 0x006D2744
+    static void Func6D29C4(u32 a, u32 b); // 0x006D29C4
+    static void Func6D2A08(u32 menu); // 0x006D2A08
+    // a filter of an inventory slot (the item and a value of the slot); true: the slot is meant
+    typedef bool (*InventoryFilter)(const SvFgName* item, u32 value);
+    // the mask of the 16 inventory slots of the current player that the filter accepts
+    static u32 Func6D2AC8(InventoryFilter filter); // 0x006D2AC8
+    static void Func6D322C(u32 arg, u32 a, u32 menu); // 0x006D322C
+    static void Func6D3274(); // 0x006D3274
+    static void Func6D33D8(u32 value); // 0x006D33D8
+    static void Func6D3A74(u8 a, u32 b); // 0x006D3A74
+    static void Func6D3B20(u8 menu, u32 arg); // 0x006D3B20
+    static bool Func6D3C34(); // 0x006D3C34
+    static bool Func6D3C68(); // 0x006D3C68
+    static void Func6D3D90(u32 arg, u8 menu, u32 param); // 0x006D3D90
+    static void Func6D3DF8(); // 0x006D3DF8
+    static void Func6D3F60(); // 0x006D3F60
+    static void Func6D3F8C(u32 menu, u32 arg, u32 a); // 0x006D3F8C
+    static void Func6D40D4(); // 0x006D40D4
+    static void Func6D4308(); // 0x006D4308
+    static void Func6D448C(u32 menu, u32 arg); // 0x006D448C
+    static void Func6D44B0(); // 0x006D44B0
+    static void Func6D4724(u32 arg, u8 menu, u32 param); // 0x006D4724
+
+    static u8 s_Unknown950D25;
+    static u8 s_SelectedSlot;       // the pocket slot of the item menu
+    static u8 s_Result;             // the result of the last menu
+    static s16 s_Unknown950D42;
+    static u16 s_PocketItemMask;    // the pocket slots marked in the item menu
+    static u32 s_Unknown950D70;
+    static u32 s_MenuParam;
+    static u32 s_Unknown950D94;
+    static u32 s_Unknown950DB0;
 
     static BsMenuMgr* s_pInstance;
     // flags of the menu system (name is ours)
