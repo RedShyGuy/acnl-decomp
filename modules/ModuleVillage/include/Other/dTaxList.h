@@ -1,7 +1,7 @@
 #pragma once
 
 #include "decomp.h"
-#include "Other/dInstSelect.h"
+#include "List/dInstSelect.h"
 
 // vtable +0x20FAC in ModuleVillage.cro, offset_to_top 0, 26 entries
 class TaxList : public ::InstSelect<8>

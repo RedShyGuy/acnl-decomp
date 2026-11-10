@@ -1,6 +1,6 @@
-#include "Other/dCommonScrollBarWidth.h"
+#include "List/dCommonScrollBarWidth.h"
 
-#include "Other/dContentNode.h"
+#include "List/dContentNode.h"
 #include "Other/dController.h"
 #include "Other/dMenuBase.h"
 #include "Sound/dSoundLabel.h"

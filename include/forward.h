@@ -1165,7 +1165,7 @@ template <int N> class InstCatalog; // Other/dInstCatalog.h
 template <int N> class InstSelect; // Other/dInstSelect.h
 template <int N> class SearchCand;
 template <auto T0> class SoundObj;
-template <auto T0> class Tab;
+template <int N> class Tab;
 template <auto T0> class mySearchCand;
 template <auto T0> struct ExchangeBankKeywordFgNameEx { u32 _unknown; }; // placeholder
 template <auto T0> struct ExchangeBankKeywordMyDesignFgNameEx { u32 _unknown; }; // placeholder

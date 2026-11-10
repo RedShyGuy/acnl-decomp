@@ -20,4 +20,6 @@ extern sead::ExpHeap* s_pFontHeap;
 extern sead::ExpHeap* s_pPhotoHeap;
 // the parent of the sound heaps 2..4 of SoundDataLoadMgr (set by game code that is not decompiled yet; name is ours)
 extern sead::Heap* s_pSoundDataHeap;
+// the heap of the page array of SearchList (set by game code that is not decompiled yet; name is ours)
+extern sead::Heap* s_pUnknown953CC4;
 } // namespace HeapInit

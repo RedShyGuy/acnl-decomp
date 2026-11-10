@@ -1,6 +1,7 @@
-#include "Other/dCatalogBase.h"
+#include "List/dCatalogBase.h"
 
-#include "Other/dContentNode.h"
+#include "Other/dPaneVisible.h"
+#include "List/dContentNode.h"
 #include "Other/dFormatBuffer.h"
 #include "Sound/dSoundMgr.h"
 #include "script/dRenderGarden.h"
@@ -74,7 +75,7 @@ bool CatalogBase::Setup(ssys::ma::lyt::ArcResAccReader* arcReader, sead::Heap* h
         m_ScrollBar.Initialize(static_cast<ScrollBarDescription&&>(desc));
         m_ScrollBar.Scroll(0);
         if (m_ItemNum < m_RowNum - 1) {
-            m_ScrollBar.m_pAll->SetVisible(false);
+            SetFlagVisible(m_ScrollBar.m_pAll, false);
         }
         break;
     }
@@ -105,7 +106,7 @@ void CatalogBase::Reset()
     UpdateItemNum();
     m_ScrollBar.SetUnknown0x754(m_ItemNum);
     m_ScrollBar.SetItemNum(m_ItemNum, false);
-    m_ScrollBar.m_pAll->SetVisible(m_RowNum - 1 <= m_ItemNum);
+    SetFlagVisible(m_ScrollBar.m_pAll, m_RowNum - 1 <= m_ItemNum);
     InitializeScroll();
     ApplyScroll();
     if (m_ScrollBar.m_ThumbMove != 0.0f) {
@@ -218,7 +219,7 @@ void CatalogBase::State_ListFadeOut()
         UpdateItemNum();
         m_ScrollBar.SetUnknown0x754(m_ItemNum);
         m_ScrollBar.SetItemNum(m_ItemNum, false);
-        m_ScrollBar.m_pAll->SetVisible(m_RowNum - 1 <= m_ItemNum);
+        SetFlagVisible(m_ScrollBar.m_pAll, m_RowNum - 1 <= m_ItemNum);
         InitializeScroll();
         ApplyScroll();
         if (m_ScrollBar.m_ThumbMove != 0.0f) {

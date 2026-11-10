@@ -3,8 +3,9 @@
 #include "decomp.h"
 #include "Button/dButtonActionControl.h"
 #include "Button/dButtonActionNode.h"
-#include "Other/dCatalogBase.h"
-#include "Other/dContentNode.h"
+#include "List/dCatalogBase.h"
+#include "List/dContentNode.h"
+#include "Item/item_Api.h"
 #include "script/dWordFix.h"
 
 class SvFgName;
@@ -24,6 +25,22 @@ void Func6F02F4(void* list, const u32* bits, u8 group); // 0x006F02F4
 void Func6F0608(void* list, u32 value); // 0x006F0608
 s32 Func7712C0(void* list); // 0x007712C0
 SvFgName::ID Func771278(void* list, u8 group, s32 index); // 0x00771278
+
+namespace oml {
+namespace framework {
+class Process;
+} // namespace framework
+} // namespace oml
+// (game code, not decompiled; names are ours) an object that shows an item while it is selected in a list: the
+// process that shows it and the item
+struct Unknown950338
+{
+    oml::framework::Process* m_pProcess;  // 0x0
+    SvFgName m_Name;                      // 0x4
+};
+Unknown950338* Func692FD0(); // 0x00692FD0 (returns the object 0x00950338)
+void Func692330(Unknown950338* object, const SvFgName& name); // 0x00692330
+bool Func6925C0(Unknown950338* object); // 0x006925C0 (stops the process, the item becomes empty)
 
 // A CatalogBase whose rows are buttons (B_list_NN / G_list_NN in the panes N_list_NN): one item is selected with
 // a cursor pane (P_slct_00) that moves into the row, and the rows show the items by GetItemWord. The file also has
@@ -67,6 +84,19 @@ public:
     void SetNames(script::WordFix<33>* words, const u16* ids, u32 num); // 0x001B05CC
     // the IDs of the items of a group in the bit field of the current player (unlockedItems); returns the number
     s32 CollectIds(u16* ids, u8 group, bool isSome); // 0x001B062C
+
+    // (inline) the group of an item in the lists sorted by kind: 0 wallpapers, 1 carpets, 2 the others
+    static s32 GetKindGroup(const SvFgName& name)
+    {
+        const item::Kind kind = name.GetKind();
+        if (kind == item::KIND_DUMMY_WALL) {
+            return 0;
+        }
+        if (kind == item::KIND_CARPET) {
+            return 1;
+        }
+        return 2;
+    }
 
     // the sort table of the region (Item/Param/Sort<region>.bin)
     static void LoadSortTable(); // 0x001B054C

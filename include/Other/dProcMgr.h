@@ -166,6 +166,7 @@ extern const ProcName PROC_BS_MENU_LETTER;
 extern const ProcName PROC_BS_MENU_BULLETIN_BOARD;
 extern const ProcName PROC_BS_BALLOON_CHAT;
 extern const ProcName PROC_BS_TELOP;
+extern const ProcName PROC_BS_MENU_CATALOG;
 extern const ProcName PROC_BS_COMMON_DIALOG;
 extern const ProcName PROC_BS_MENU_AMIIBO_PHOTO;
 extern const ProcName PROC_BS_SV_DEMO;

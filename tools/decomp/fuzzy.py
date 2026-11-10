@@ -693,6 +693,14 @@ def extract(words, base, resolve_call, resolve_word, returns_this=lambda key: Fa
                         regs[rd] = (new(), 0)
                         continue
                 regs[rd] = (org, o + (val if opc == 4 else -val))
+            elif opc in (2, 4) and not imm and not w & 0xFF0 and rn != rm and \
+                    _used_as_base(words, i, n, pool, rd) and \
+                    (cofs := _reg_const_offset(get, rn, rm, opc)) is not None:
+                # "ldr r1, =0xFFF1D0AC ; sub r2, r0, r1": ARMCC forms a large member offset (+0xE2F54)
+                # in a register and adds or subtracts it, GCC adds it to the pointer (see _access)
+                org_b, off_b, value, vorg = cofs
+                offset_consts[vorg[2]] = ('k', vorg[1])
+                regs[rd] = (org_b, off_b + value)
             elif opc == 4 and not imm and rn == rm:
                 regs[rd] = (new(), 0)                                     # add r1, r1, r1, lsl #1: a multiplication
             elif opc == 4 and not imm and not w & 0xFF0 and PC in (rn, rm) and \
@@ -812,6 +820,43 @@ def _mem_features(raw):
         # a set: whether a store sits in one merged block or in both branches is the compiler's choice
         out[(sign, width, off)] = 1
     return out
+
+
+def _used_as_base(words, i, n, pool, rd):
+    """whether rd is the base register of a load or store among the next instructions (before it
+    is written again or a branch comes)"""
+    for k in range(i + 1, min(n, i + 6)):
+        if k in pool:
+            continue
+        u = words[k]
+        if (u & 0x0C000000) == 0x04000000 and (u >> 16) & 0xF == rd:                 # ldr / str
+            return True
+        if (u & 0x0E000090) == 0x00000090 and u & 0x60 and (u >> 16) & 0xF == rd:  # ldrh / strh / ldrsb ...
+            return True
+        if (u & 0x0E000000) == 0x0A000000 or (u >> 12) & 0xF == rd:               # b / bl, or rd written
+            return False
+    return False
+
+
+def _reg_const_offset(get, rn, rm, opc):
+    """add / sub rd, rn, rm with a known constant (a literal) in one register and a pointer in the
+    other: (pointer origin, its offset, the constant offset, the constant's origin) if the result
+    is a member of an object up to 1 MB, else None"""
+    pairs = ((rm, rn),) if opc == 2 else ((rm, rn), (rn, rm))
+    for value_reg, base_reg in pairs:
+        vorg = get(value_reg)[0]
+        borg, boff = get(base_reg)
+        # (only a literal: a constant made by mov is a value; and only offsets that no immediate
+        # offset of a load can hold)
+        if not (isinstance(vorg, tuple) and vorg[0] == 'c' and isinstance(vorg[2], tuple) and vorg[2][0] == 'lit'):
+            continue
+        value = vorg[1] if opc == 4 else (-vorg[1]) & 0xFFFFFFFF
+        # (only straight from an argument: the offsets of pointers the function moved itself are
+        # not tracked well enough, e.g. NetGameMgr::NetGameMgr got worse)
+        if not 0x1000 <= value < 0x100000 or not (isinstance(borg, str) and borg.startswith('arg')) or boff != 0:
+            continue
+        return borg, boff, value, vorg
+    return None
 
 
 def _access(w, is_imm, rn, rd, load, width, misc, regs, get, new, mem, shape, read_const=None, consts=None,

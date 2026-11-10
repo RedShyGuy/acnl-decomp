@@ -1,10 +1,13 @@
 #pragma once
 
 #include "decomp.h"
-#include "Other/dCommonScrollBar.h"
+#include "List/dCommonScrollBar.h"
 #include "Other/dLayout.h"
 #include "Sv/dSvFgName.h"
 #include "script/dInsert.h"
+#include "sead/seadNew.h"
+#include "ssys/ma/dAllocator.h"
+#include "ssys/ma/lyt/lyt_Api.h"
 #include "ssys/ma/lyt/dAnimation.h"
 #include "state/dMode.h"
 
@@ -43,6 +46,13 @@ class CatalogBase : public ::state::Mode<CatalogBase>
 {
 public:
     CatalogBase(); // 0x001C5B6C
+    // a list of the kind T on the heap of the layouts (the menu that shows the lists has a table of these; the
+    // instances are made next to the lists)
+    template <typename T>
+    static CatalogBase* Create()
+    {
+        return new (ssys::ma::lyt::GetAllocator()->m_pHeap, 4) T();
+    }
     virtual ~CatalogBase(); // 0x001C5CF4 slot 0x00
     // 0x001C5C50 slot 0x04 (deleting dtor)
     const char* GetName(Func func) const override; // 0x0082AA40 slot 0x08

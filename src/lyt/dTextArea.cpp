@@ -7,6 +7,7 @@
 #include <cstdio>
 #include <cstring>
 
+#include "Other/dPaneVisible.h"
 #include "Other/dRegion.h"
 #include "lyt/dAnmObject.h"
 #include "nn/math/math_ARMv6.h"
@@ -616,11 +617,11 @@ void lyt::TextArea::Calc(bool isAnimate)
             const s32 line = m_TopLine - GetLineOffset() + i;
             const bool isVisible = line >= 0;
             if (line % GetLineNum() == GetLineNum() - 1) {
-                m_pBaseLines[i * 2]->SetVisible(isVisible);
-                m_pBaseLines[i * 2 + 1]->SetVisible(false);
+                SetFlagVisible(m_pBaseLines[i * 2], isVisible);
+                SetFlagVisible(m_pBaseLines[i * 2 + 1], false);
             } else {
-                m_pBaseLines[i * 2]->SetVisible(false);
-                m_pBaseLines[i * 2 + 1]->SetVisible(isVisible);
+                SetFlagVisible(m_pBaseLines[i * 2], false);
+                SetFlagVisible(m_pBaseLines[i * 2 + 1], isVisible);
             }
         }
     }

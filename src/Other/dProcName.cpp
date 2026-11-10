@@ -297,6 +297,8 @@ extern const ProcName PROC_BS_MENU_BULLETIN_BOARD = static_cast<ProcName>(573);
 extern const ProcName PROC_BS_BALLOON_CHAT = static_cast<ProcName>(576);
 // 0x00888394
 extern const ProcName PROC_BS_TELOP = static_cast<ProcName>(577);
+// 0x008883C2
+extern const ProcName PROC_BS_MENU_CATALOG = static_cast<ProcName>(600);
 // 0x008883D8
 extern const ProcName PROC_BS_COMMON_DIALOG = static_cast<ProcName>(611);
 // 0x008883E2

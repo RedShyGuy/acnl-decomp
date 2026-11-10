@@ -1,7 +1,7 @@
 #pragma once
 
 #include "decomp.h"
-#include "Other/dCommonScrollBar.h"
+#include "List/dCommonScrollBar.h"
 
 // The horizontal scroll bar (scrl_bar_W.bclyt, or the board_scrl_bar.bclyt of the bulletin board without working
 // arrows): the thumb moves along x, a move to the right scrolls back (only the class name is from the RTTI).

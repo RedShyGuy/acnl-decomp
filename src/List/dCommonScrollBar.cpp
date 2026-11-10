@@ -1,8 +1,8 @@
-#include "Other/dCommonScrollBar.h"
+#include "List/dCommonScrollBar.h"
 
 #include "Bs/dBsHandCursor.h"
 #include "Bs/dBsMenuMgr.h"
-#include "Other/dContentNode.h"
+#include "List/dContentNode.h"
 #include "Other/dController.h"
 #include "Other/dMenuBase.h"
 #include "Other/dTouchState.h"

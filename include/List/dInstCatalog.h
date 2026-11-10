@@ -1,8 +1,8 @@
 #pragma once
 
 #include "decomp.h"
-#include "Other/dCatalogBase.h"
-#include "Other/dContentNode.h"
+#include "List/dCatalogBase.h"
+#include "List/dContentNode.h"
 
 // A CatalogBase with N rows as members (only the class name is from the RTTI).
 // Instantiations found in the binary:

@@ -1,7 +1,7 @@
 #pragma once
 
 #include "decomp.h"
-#include "Other/dSelectBase.h"
+#include "List/dSelectBase.h"
 
 // A SelectBase with N rows: the rows and their buttons are members (only the class name is from the RTTI).
 // Instantiations found in the binary:
@@ -10,7 +10,7 @@ template <int N>
 class InstSelect : public ::SelectBase
 {
 public:
-    InstSelect()
+    DECOMP_NOINLINE InstSelect()
     {
         m_RowNum = N;
         m_pContents = m_Contents;

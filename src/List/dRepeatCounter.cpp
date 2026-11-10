@@ -1,4 +1,4 @@
-#include "Other/dRepeatCounter.h"
+#include "List/dRepeatCounter.h"
 
 // 0x006E636C
 void RepeatCounter::Update(bool isHeld)

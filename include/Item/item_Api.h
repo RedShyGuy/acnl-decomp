@@ -58,7 +58,7 @@ enum Kind : u8
     KIND_BEFORE_FOSSIL = 43,
     KIND_FOSSIL = 44,
     KIND_REMAKE_FOSSIL = 45,
-    KIND_HANIWA = 46,
+    KIND_HANIWA = 46,             // gyroids (the English name in the game)
     KIND_MUSIC = 47,
     KIND_MUSIC_MISS = 48,
     KIND_MUSIC_WALL = 49,

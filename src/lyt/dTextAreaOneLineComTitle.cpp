@@ -1,5 +1,7 @@
 #include "lyt/dTextAreaOneLineComTitle.h"
 
+#include "Other/dPaneVisible.h"
+
 #include <cmath>
 #include <cstdio>
 #include <new>
@@ -23,11 +25,6 @@ const s32 KIND_ADDRESS_2 = 18;
 const s32 ADDRESS_PART_NUM = 3;
 const s32 ADDRESS_PART_LENGTH = 4;
 
-// (inline) the visible flag is set without comparing
-inline void SetFlagVisible(nw::lyt::Pane* pane, bool visible)
-{
-    pane->m_Flag = (pane->m_Flag & ~nw::lyt::Pane::FLAG_VISIBLE) | visible;
-}
 } // namespace
 
 // 0x00507E90 slot 0x18

@@ -1,5 +1,6 @@
-#include "Other/dSelectBase.h"
+#include "List/dSelectBase.h"
 
+#include "Other/dPaneVisible.h"
 #include "Item/item_Api.h"
 #include "Other/dFormatBuffer.h"
 #include "Other/dHeapInit.h"
@@ -174,7 +175,7 @@ void SelectBase::OnScroll()
         if (item < m_ItemNum) {
             m_pRenders[i].SetText(GetItemWord(item));
             m_pRenders[i].CommitText();
-            m_pContents[i].m_pPane->SetVisible(true);
+            SetFlagVisible(m_pContents[i].m_pPane, true);
             if (item == m_Selected) {
                 SetRowActive(i, false);
                 ButtonActionNode& node = m_pNodes[i];
@@ -187,7 +188,7 @@ void SelectBase::OnScroll()
                 m_pNodes[i].Select(false, false);
             }
         } else {
-            m_pContents[i].m_pPane->SetVisible(false);
+            SetFlagVisible(m_pContents[i].m_pPane, false);
             SetRowActive(i, false);
         }
     }

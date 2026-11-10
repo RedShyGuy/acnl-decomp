@@ -1,7 +1,7 @@
 #pragma once
 
 #include "decomp.h"
-#include "Other/dInstSelect.h"
+#include "List/dInstSelect.h"
 #include "script/dWordFix.h"
 
 namespace lyt {

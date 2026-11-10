@@ -4,7 +4,7 @@
 #include "Button/dButtonActionControl.h"
 #include "Button/dButtonActionNode.h"
 #include "Other/dLayout.h"
-#include "Other/dRepeatCounter.h"
+#include "List/dRepeatCounter.h"
 #include "nn/math/math_ARMv6.h"
 #include "nn/math/math_Vector2.h"
 #include "nn/math/math_Vector3.h"
