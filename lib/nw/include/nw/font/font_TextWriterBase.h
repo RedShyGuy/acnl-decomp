@@ -56,6 +56,15 @@ public:
         return rect.right - rect.left;
     }
 
+    // the height of a string (on a copy of the writer; name is ours)
+    f32 CalcStringHeight(const T* str, int length) const
+    {
+        nw::ut::Rect rect(0.0f, 0.0f, 0.0f, 0.0f);
+        TextWriterBase<T> writer(*this);
+        writer.CalcStringRectImpl(&rect, str, length);
+        return rect.bottom - rect.top;
+    }
+
     f32 PrintImpl(const T* str, int length);
     // the cursor is moved for the origin and the alignment; the width of the text
     f32 AdjustCursor(f32* pX, f32* pY, const T* str, int length);

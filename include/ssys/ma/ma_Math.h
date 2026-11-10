@@ -64,6 +64,8 @@ f32 LerpByAngle(s16 a, s16 b, f32 from, f32 to); // 0x0056BB68
 // moves a position to a target in frames, slowing down in the last ones
 struct Mover
 {
+    // (inline) stopped
+    Mover() : m_SlowFrames(0), m_FrameCount(-1) {}
     void Start(const nn::math::VEC3& from, const nn::math::VEC3& to, f32 speed, s32 maxFrames, s32 minFrames,
                s32 slowFrames); // 0x00568ACC
     // true when it has arrived

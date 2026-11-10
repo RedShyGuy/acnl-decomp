@@ -436,15 +436,5 @@ void nw::lyt::TextBox::GetTextGlobalMtx(nn::math::MTX34* pMtx) const
     }
 }
 
-// 0x004BC270 (name is ours)
-void nw::lyt::TextBox::SetTextPositionH(u8 pos)
-{
-    const bool isChanged = (m_TextPosition % 3) != pos;
-    m_IsTextChanged |= isChanged;
-    if (isChanged) {
-        m_TextPosition = (m_TextPosition / 3) * 3 + pos;
-    }
-}
-
 } // namespace lyt
 } // namespace nw

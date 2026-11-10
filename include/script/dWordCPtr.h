@@ -12,6 +12,12 @@ class WordCPtr : public ::script::IWord
 public:
     DECOMP_EMIT_COPY WordCPtr() : m_pWord(NULL), m_Size(0) {} // 0x005FEA50
     DECOMP_EMIT_COPY WordCPtr(const char16* word, u32 size) : m_pWord(word), m_Size(size) {} // 0x005FEA38
+    // (inline, name is ours) the word points to other characters
+    DECOMP_EMIT_COPY DECOMP_NOINLINE void Set(const char16* word, u32 size) // 0x005FEA2C
+    {
+        m_pWord = word;
+        m_Size = size;
+    }
     virtual ~WordCPtr(); // 0x005FEA70 slot 0x00
     // 0x005FEA6C slot 0x04 (deleting dtor)
     virtual char16* GetWord(); // 0x005EB12C slot 0x08

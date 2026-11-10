@@ -1139,7 +1139,7 @@ struct PlayerState { u32 _unknown; }; // placeholder, real type unknown
 enum ProcName : u16; // Other/dProcMgr.h
 enum ProcType : u8; // Other/dProcMgr.h
 struct RandomPlacerUsual { u32 _unknown; }; // placeholder, real type unknown
-struct ScrollBarDescription { u32 _unknown; }; // placeholder, real type unknown
+struct ScrollBarDescription; // include/Other/dCommonScrollBar.h
 enum SeID : u32; // Sound/dSoundLabel.h
 enum TourName : s32
 {
@@ -1161,8 +1161,8 @@ template <auto T0, typename T1, typename T2, auto T3> class ExchangeBank;
 template <auto T0, typename T1, typename T2, typename T3, auto T4, auto T5> class ExchangeModelBank;
 template <auto T0, typename T1, typename T2, typename T3, auto T4, auto T5> class ExchangeResBank;
 template <auto T0> class InOutWindowInButton;
-template <auto T0> class InstCatalog;
-template <auto T0> class InstSelect;
+template <int N> class InstCatalog; // Other/dInstCatalog.h
+template <int N> class InstSelect; // Other/dInstSelect.h
 template <int N> class SearchCand;
 template <auto T0> class SoundObj;
 template <auto T0> class Tab;

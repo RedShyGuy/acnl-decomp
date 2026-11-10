@@ -421,6 +421,8 @@ template TextWriterBase<wchar_t>::~TextWriterBase();
 template f32 TextWriterBase<wchar_t>::GetLineHeight() const;
 // 0x00828160 (name is ours)
 template f32 TextWriterBase<wchar_t>::CalcStringWidth(const wchar_t* str, int length) const;
+// 0x008281CC (name is ours)
+template f32 TextWriterBase<wchar_t>::CalcStringHeight(const wchar_t* str, int length) const;
 // 0x007E97A8 | libgarden [tier A]
 template f32 TextWriterBase<wchar_t>::Print(const wchar_t* str, int length) const;
 // 0x007E9804 | nintendogs:callgraph [confirmed by mk7dlp] [tier A]

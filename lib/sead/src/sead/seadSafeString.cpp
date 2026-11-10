@@ -132,6 +132,8 @@ sead::FormatFixedSafeString<6>::FormatFixedSafeString(const char* fmt, ...) : Fi
 template sead::WFixedSafeString<5>::WFixedSafeString();
 // 0x00812F10 (name is ours)
 template s32 sead::BufferedSafeStringBase<char>::overwriteAt(s32 at, const SafeStringBase<char>& src, s32 length);
+// 0x0081316C (name is ours)
+template s32 sead::BufferedSafeStringBase<wchar_t>::overwriteAt(s32 at, const SafeStringBase<wchar_t>& src, s32 length);
 // 0x00812E50 (name is ours)
 template s32 sead::BufferedSafeStringBase<char>::append(char c, s32 num);
 // 0x0013DAA4 (name is ours)

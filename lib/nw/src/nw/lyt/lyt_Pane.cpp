@@ -514,13 +514,6 @@ void nw::lyt::Pane::AddAnimationLink(AnimationLink* pAnimationLink)
     m_AnimList.PushBack(pAnimationLink);
 }
 
-// 0x004B7850 (name is ours)
-void nw::lyt::Pane::SetTranslate(const nn::math::VEC3& value)
-{
-    m_Translate = value;
-    m_Flag &= ~FLAG_MTX_CONDITION_MASK;
-}
-
 // 0x004B7E34 (name is ours)
 void nw::lyt::Pane::SetName(const char* name)
 {

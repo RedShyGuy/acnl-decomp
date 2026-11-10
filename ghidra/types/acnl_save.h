@@ -367,6 +367,7 @@ typedef struct SvFutureMail {
 
 // 0x57A0 -> 0x57D3
 typedef struct SvPlayerFlags {
+
     /* 0x0000.0 */ u8 unk_0x0_0 : 1;
     /* 0x0000.1 */ u8 unk_0x0_1 : 1;
     /* 0x0000.2 */ u8 unk_0x0_2 : 1;
@@ -1312,7 +1313,7 @@ typedef struct SvPlayer {
     /* 0x5734 */ u32 hasTpcPic;
     /* 0x5738 */ u8 tpcPic[0x1400];
     /* 0x6B38 */ char16 tpcText[0x21];
-    /* 0x6B7A */ u8 playerIndex; // bits 0-1: the index of the player in the town (the census arrays use it, 0x005C7ED8); research note: was 1 on a save, 2 on another
+    /* 0x6B7A */ u8 townSlot; // bits 0-1: the slot of the player in its own town (0 = first player), stored so that copies (players of other towns in a network game) keep it; the player creation writes it, the census arrays are indexed with it (0x005C7ED8)
     /* 0x6B7B */ u8 unk_0x6B7B;
     /* 0x6B7C */ u32 unk_0x6B7C;
     /* 0x6B80 */ u32 unk_0x6B80;
@@ -1361,7 +1362,8 @@ typedef struct SvPlayer {
     /* 0x8D1C */ SvEncValue meowCoupons;
     /* 0x8D24 */ SvEncValue unk_0x8D24;
     /* 0x8D2C */ SvEncValue unk_0x8D2C;
-    /* 0x8D34 */ SvEncValue unk_0x8D34;
+    /* 0x8D34 */ u32 unk_0x8D34; // (research: an SvEncValue with the next word; the flows read the next word as a count)
+    /* 0x8D38 */ s32 unk_0x8D38;
     /* 0x8D3C */ SvEncValue unk_0x8D3C;
     /* 0x8D44 */ SvEncValue unk_0x8D44;
     /* 0x8D4C */ SvPlayerUnk8D4C unk_0x8D4C;
@@ -1845,6 +1847,7 @@ typedef struct SvMuseum {
 // Offsets in /* */ are relative to the struct and verified by the ASSERT_SIZE checks.
 
 typedef struct SvTownFlags {
+
     /* 0x0000.0 */ u8 unk_0x0_0 : 1;
     /* 0x0000.1 */ u8 earlyBirdOrdinance : 1;
     /* 0x0000.2 */ u8 nightOwlOrdinance : 1;
@@ -2022,12 +2025,12 @@ typedef struct SvTownData {
     /* 0xED84 */ s64 unk_0xED84;
     /* 0xED8C */ s64 playtime;
     /* 0xED94 */ SvTownId townData1;
-    /* 0xEDAA */ u8 unk_0xEDAA;
+    /* 0xEDAA */ u8 unk_0xEDAA; // low four bits: the region of the game (event::Region), from the console
     /* 0xEDAB */ SvTownFlags townFlags;
     /* 0xEDBC */ u16 unk_0xEDBC; // Likely padding
     /* 0xEDBE */ SvFgName lostAndFoundItems[0x10];
     /* 0xEDFE */ u8 unk_0xEDFE[0x10]; // likely padding
-    /* 0xEE0E */ u64 unk_0xEE0E; // ctor sets 0x7FFFFFFFFFFFFFFF (max positive U64)
+    /* 0xEE0E */ SvTime unk_0xEE0E; // ctor sets 0x7FFFFFFFFFFFFFFF (none); time::GetSavedTime prefers it
     /* 0xEE16 */ SvFgName townFruit;
     /* 0xEE1A */ u16 daysPlayed;
     /* 0xEE1C */ u8 unk_0xEE1C[0xC];

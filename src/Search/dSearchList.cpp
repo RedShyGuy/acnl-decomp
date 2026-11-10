@@ -11,23 +11,23 @@ SearchList::~SearchList()
 {
 }
 
-// 0x001B0304 slot 0x0C | virtual slot, introduced by CatalogBase
-void SearchList::vf_0x0C()
+// 0x001B0304 slot 0x0C
+void SearchList::Finalize()
 {
 }
 
-// 0x0070BD48 slot 0x20 | virtual slot, introduced by CatalogBase
-void SearchList::vf_0x20()
+// 0x0070BD48 slot 0x20
+s32 SearchList::GetSelectedId() const
 {
 }
 
-// 0x001AF814 slot 0x34 | virtual slot, introduced by CatalogBase
-void SearchList::vf_0x34()
+// 0x001AF814 slot 0x34
+bool SearchList::SetupItems()
 {
 }
 
-// 0x0070BD7C slot 0x64 | virtual slot, introduced by SelectBase
-void SearchList::vf_0x64()
+// 0x0070BD7C slot 0x64
+script::IWord* SearchList::GetItemWord(s32 index)
 {
 }
 

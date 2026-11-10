@@ -66,7 +66,14 @@ public:
     void GetTextGlobalMtx(nn::math::MTX34* pMtx) const; // 0x0073E6C4 | nintendogs:bytes [tier A]
 
     // (inline, a copy out of line for the game; name is ours)
-    void SetTextPositionH(u8 pos); // 0x004BC270 (name is ours)
+    DECOMP_EMIT_COPY void SetTextPositionH(u8 pos) // 0x004BC270 (name is ours)
+    {
+        const bool isChanged = (m_TextPosition % 3) != pos;
+        m_IsTextChanged |= isChanged;
+        if (isChanged) {
+            m_TextPosition = (m_TextPosition / 3) * 3 + pos;
+        }
+    }
     // (inline)
     void SetTagProcessor(TagProcessor* pTagProcessor)
     {
@@ -74,6 +81,23 @@ public:
         m_IsTextChanged |= isChanged;
         if (isChanged) {
             m_pTagProcessor = pTagProcessor;
+        }
+    }
+    // (inline, names are ours)
+    void SetLineSpace(f32 lineSpace)
+    {
+        const bool isChanged = m_LineSpace != lineSpace;
+        m_IsTextChanged |= isChanged;
+        if (isChanged) {
+            m_LineSpace = lineSpace;
+        }
+    }
+    void SetCharSpace(f32 charSpace)
+    {
+        const bool isChanged = m_CharSpace != charSpace;
+        m_IsTextChanged |= isChanged;
+        if (isChanged) {
+            m_CharSpace = charSpace;
         }
     }
     // (inline, name is ours)

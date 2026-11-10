@@ -83,6 +83,15 @@ public:
         return nullptr;
     }
 
+    // (inline, name is ours) the controller of the index (NULL: none)
+    Controller* getController(s32 index) const
+    {
+        if (static_cast<u32>(index) < static_cast<u32>(mControllers.size())) {
+            return mControllers.at(index);
+        }
+        return nullptr;
+    }
+
     // the manager (name is ours)
     static ControllerMgr* s_pInstance;
 

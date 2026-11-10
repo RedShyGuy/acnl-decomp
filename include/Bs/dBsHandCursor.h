@@ -25,11 +25,16 @@ public:
     void SetPressed(bool pressed); // 0x001F9E40
     // moves the cursor pane (and animates its layout)
     void SetPosition(const nn::math::VEC3* pos); // 0x001F9FA0
+    // (purpose not known yet; called when a scroll bar thumb is grabbed / let go with the cursor)
+    void Func1F9FC4(); // 0x001F9FC4
+    void Func1FA0C4(bool value); // 0x001FA0C4
 
     u8 _unknown38[0x4C0 - 0x38];  // 0x038 (the layout of the cursor at 0x38)
     nn::math::VEC2 m_Position;    // 0x4C0 (name is ours)
     nn::math::VEC2 m_Move;        // 0x4C8 non-zero while the cursor moves (name is ours)
     bool m_Unknown0x4D0;          // 0x4D0
     bool m_IsEnabled;             // 0x4D1 (name is ours)
+    u8 m_Unknown0x4D2[5];         // 0x4D2
+    bool m_Unknown0x4D7;          // 0x4D7 (set while a scroll bar is moved with the cursor keys)
 };
 ASSERT_OFFSET(BsHandCursor, m_Position, 0x4C0);

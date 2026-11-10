@@ -4,21 +4,23 @@
 #include "lyt/dTextArea.h"
 
 namespace lyt {
-// RTTI N3lyt15TextAreaOneLineE @ 0x008D0F34
+// A TextArea of one line (no guide text and base lines; the text box is 16 wider than the line). The derived classes
+// only name their layout (only the class name is from the RTTI).
+// RTTI N3lyt15TextAreaOneLineE @ 0x008D0F70
 // vtable 0x009043AC (vptr 0x009043B4), offset_to_top 0, 14 entries
 class TextAreaOneLine : public ::lyt::TextArea
 {
 public:
-    TextAreaOneLine(); // ctor candidate(s) 0x00507C28 (unverified)
-    virtual ~TextAreaOneLine(); // 0x00507C54 slot 0x00 | slot vf_0x00 of lyt::Object
-    // 0x00507C40 slot 0x04 | slot vf_0x04 of lyt::Object (deleting dtor)
-    virtual void vf_0x08(); // 0x00507030 slot 0x08 | virtual slot, introduced by lyt::Object
-    virtual void vf_0x10(); // 0x00506D50 slot 0x10 | virtual slot, introduced by lyt::TextArea
-    virtual void vf_0x14(); // 0x00506C4C slot 0x14 | virtual slot, introduced by lyt::TextArea
-    virtual void vf_0x1C(); // 0x007478D0 slot 0x1C | virtual slot, introduced by lyt::TextArea
-    virtual void vf_0x20(); // 0x007478F4 slot 0x20 | virtual slot, introduced by lyt::TextArea
-    virtual void vf_0x24(); // 0x007478DC slot 0x24 | virtual slot, introduced by lyt::TextArea
-    virtual void vf_0x28(); // 0x007478E4 slot 0x28 | virtual slot, introduced by lyt::TextArea
-    virtual void vf_0x2C(); // 0x007478EC slot 0x2C | virtual slot, introduced by lyt::TextArea
+    TextAreaOneLine(u32 unknown, s32 priority, sead::Heap* heap); // 0x00507C28
+    virtual ~TextAreaOneLine(); // 0x00507C54 slot 0x00
+    // 0x00507C40 slot 0x04 (deleting dtor)
+    void Calc(bool isAnimate) override; // 0x00507030 slot 0x08
+    void Setup(ssys::ma::lyt::ArcResAccReader* arcReader, ssys::ma::lyt::ArcResAccReader* decorArcReader) override; // 0x00506D50 slot 0x10
+    bool GetIndexAtPosition(s32* index, const nn::math::VEC2* pos) override; // 0x00506C4C slot 0x14
+    const char* GetLayoutName() override { return ""; } // 0x007478D0 slot 0x1C
+    s32 GetDecorNum() override { return 1; } // 0x007478F4 slot 0x20
+    s32 GetLineNum() override { return 1; } // 0x007478DC slot 0x24
+    s32 GetScrollLineNum() override { return 1; } // 0x007478E4 slot 0x28
+    s32 GetLineOffset() override { return 0; } // 0x007478EC slot 0x2C
 };
 } // namespace lyt

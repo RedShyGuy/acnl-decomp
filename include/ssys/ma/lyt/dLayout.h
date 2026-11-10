@@ -65,7 +65,7 @@ public:
     // the projection matrix of the layout rectangle
     void UpdateProj() override; // 0x00569288 slot 0x18 (name after libgarden)
 
-    DECOMP_EMIT_COPY void UnbindAllAnimation() { m_Layout.nw::lyt::Layout::UnbindAllAnimation(); } // 0x00133A70 | libgarden [tier A]
+    DECOMP_NOINLINE DECOMP_EMIT_COPY void UnbindAllAnimation() { m_Layout.nw::lyt::Layout::UnbindAllAnimation(); } // 0x00133A70 | libgarden [tier A]
     DECOMP_EMIT_COPY nw::lyt::Group* FindGroup(const char* name) // 0x004B5648 | libgarden [tier A]
     {
         return m_Layout.GetGroupContainer()->FindGroupByName(name);

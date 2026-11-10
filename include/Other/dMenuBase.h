@@ -4,6 +4,15 @@
 #include "Other/dBase.h"
 #include "ssys/st/dListNode.h"
 
+namespace nw {
+namespace lyt {
+class Pane;
+}
+} // namespace nw
+// the pan of a sound at the pane (its global x; 0 without a pane; game code in the code of MenuBase that is not
+// decompiled yet, name is ours)
+f32 GetPaneSoundPan(const nw::lyt::Pane* pane); // 0x006AB41C
+
 // the base of the menus: registered in the list of the open menus while it lives (class, slot and member names after
 // libgarden; the FUN_ slots are named after their address there)
 // RTTI 8MenuBase @ 0x008CD508

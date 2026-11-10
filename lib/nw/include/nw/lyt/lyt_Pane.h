@@ -114,7 +114,11 @@ public:
 
     // (inline, copies out of line for the game; names are ours)
     void PrependChild(Pane* pChild); // 0x004B7828 (name is ours)
-    void SetTranslate(const nn::math::VEC3& value); // 0x004B7850 (name is ours)
+    DECOMP_EMIT_COPY void SetTranslate(const nn::math::VEC3& value) // 0x004B7850 (name is ours)
+    {
+        m_Translate = value;
+        m_Flag &= ~FLAG_MTX_CONDITION_MASK;
+    }
     void SetName(const char* name); // 0x004B7E34 (name is ours)
     // the commands of the pane and its visible children
     u32* MakeUniformData(u32* pCommand, DrawInfo& drawInfo, Drawer& drawer); // 0x0073CD84 (name is ours)
@@ -130,6 +134,13 @@ public:
 
     // (inline)
     bool IsVisible() const { return (m_Flag & FLAG_VISIBLE) != 0; }
+    // (inline, name is ours)
+    void SetVisible(bool visible)
+    {
+        if (IsVisible() != visible) {
+            m_Flag = (m_Flag & ~FLAG_VISIBLE) | visible;
+        }
+    }
     bool IsUserAllocated() const { return (m_Flag & FLAG_USER_ALLOCATED) != 0; }
     u8 GetBasePositionH() const { return (m_BasePosition & 0xF) % 3; }
     u8 GetBasePositionV() const { return (m_BasePosition & 0xF) / 3; }

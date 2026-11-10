@@ -124,6 +124,19 @@ public:
             m_Calling = false;
         }
     }
+    // (inline) the table of the states; the machine starts in the first one after its transition (name is ours)
+    void Start(const char* name, const Info* infos, u32 count)
+    {
+        this->m_pName = name;
+        this->m_Enabled = false;
+        m_pInfos = infos;
+        m_Count = count;
+        m_Calling = false;
+        if (infos[0].transition != NULL) {
+            (static_cast<T*>(this)->*infos[0].transition)();
+        }
+        m_Callback = infos[0].state;
+    }
     // calls the current state; counts the frames it stays the same
     void Call()
     {

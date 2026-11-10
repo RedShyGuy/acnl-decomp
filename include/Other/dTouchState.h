@@ -26,6 +26,9 @@ struct TouchState
     u8 prevIsTouch;        // 0x1A
     u8 prevIsChanged;      // 0x1B
     s16 prevY;             // 0x1C
+
+    // held for at least 3 frames (game code that is not decompiled yet; name is ours)
+    bool IsHeld() const; // 0x001B7ABC
 };
 ASSERT_SIZE(TouchState, 0x1E);
 

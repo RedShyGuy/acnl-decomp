@@ -94,6 +94,7 @@ def split_signature(sig):
     sig = re.sub(r'^extern\s+"C"\s+', '', sig)        # a C function defined with its linkage
     sig = re.sub(r'(?<=>)\s+(?=>)', '', sig)          # "X<Y<Z> >" (demangler) == "X<Y<Z>>"
     sig = re.sub(r'\s*\bnoexcept$', '', sig)            # a definition with noexcept (not in the mangled name)
+    sig = re.sub(r'\s*\b(?:override|final)\b', '', sig)  # an inline override in a header ("f() const override { }")
     const =sig.endswith(' const') or sig.endswith(')const')
     if const:
         sig = sig[:sig.rindex('const')].rstrip()
@@ -517,8 +518,9 @@ def header_addresses():
                         depth -= 1
                         stmt = ''
                 # the signature line of an inline function over several lines:
-                # "virtual int f(int x) const // 0x..." (the body follows)
-                sig_line = re.search(r'\)\s*(?:const)?\s*$', st) and re.match(r'\s*0x[0-9A-Fa-f]{8}', comment)
+                # "virtual int f(int x) const // 0x..." (the body follows; also "f() override // 0x...")
+                sig_line = re.search(r'\)\s*(?:const\s*)?(?:(?:override|final)\s*)*$', st) and \
+                    re.match(r'\s*0x[0-9A-Fa-f]{8}', comment)
                 if st.endswith(';') or st.endswith(':') or one_line or sig_line:
                     decl, stmt = (one_line or stmt.strip().rstrip(';')), ''
                     m = re.match(r'\s*0x([0-9A-Fa-f]{8})(?![0-9A-Fa-f])', comment)
@@ -952,7 +954,8 @@ def make_fuzzy_pair(mem, db, starts, names, by_source, by_name, variables=None):
         if local:
             # the static of a member function defined inside the namespace: without the classes
             parts = dn.split('::')
-            for k in range(len(parts) - 2, 0, -1):
+            # (down to the bare name: a member function of a class in the global namespace)
+            for k in range(len(parts) - 2, -1, -1):
                 candidates.append('::'.join(parts[:k] + parts[-1:]))
         for c in candidates:
             if guard and variables.get('guard variable for ' + norm(c)) is not None:

@@ -11,18 +11,18 @@ MusicList::~MusicList()
 {
 }
 
-// 0x00770BC4 slot 0x20 | virtual slot, introduced by CatalogBase
-void MusicList::vf_0x20()
+// 0x00770BC4 slot 0x20
+s32 MusicList::GetSelectedId() const
 {
 }
 
-// 0x006E77FC slot 0x34 | virtual slot, introduced by CatalogBase
-void MusicList::vf_0x34()
+// 0x006E77FC slot 0x34
+bool MusicList::SetupItems()
 {
 }
 
-// 0x00770BE0 slot 0x64 | virtual slot, introduced by SelectBase
-void MusicList::vf_0x64()
+// 0x00770BE0 slot 0x64
+script::IWord* MusicList::GetItemWord(s32 index)
 {
 }
 
