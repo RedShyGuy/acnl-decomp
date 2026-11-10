@@ -150,4 +150,16 @@ public:
     s32 m_Index;      // 0x28 the character shown
 };
 ASSERT_SIZE(TextManager::CellPhoneInput, 0x2C);
+
+inline s32 LineManager::GetLineEnd(s32 line)
+{
+    const s32 next = GetLineStartChecked(line + 1);
+    if (next >= 0) {
+        return next - 1;
+    }
+    if (GetLineStartChecked(line) >= 0) {
+        return m_pText->m_Length;
+    }
+    return -1;
+}
 } // namespace sys

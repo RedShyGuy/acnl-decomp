@@ -15,6 +15,30 @@ class BsMenuMgr : public ::Base, public ::state::Mode<BsMenuMgr>
 {
 public:
     struct Menu { u32 _unknown; }; // TODO: real type unknown (placeholder)
+    // the bits of the controller wrapper of the menus (m_Controller): the constructor maps them with the pad config
+    // 0x0084C678 to the bits of the CTR controller (Controller::Pad); names are ours after that mapping
+    enum Input : u32
+    {
+        INPUT_A_0 = 1 << 0,        // (A as well)
+        INPUT_B_1 = 1 << 1,        // (B as well)
+        INPUT_A = 1 << 2,
+        INPUT_B = 1 << 3,
+        INPUT_X = 1 << 4,
+        INPUT_Y = 1 << 5,
+        INPUT_START = 1 << 6,
+        INPUT_SELECT = 1 << 7,
+        INPUT_L = 1 << 8,
+        INPUT_R = 1 << 9,
+        INPUT_DPAD_UP = 1 << 10,
+        INPUT_DPAD_DOWN = 1 << 11,
+        INPUT_DPAD_LEFT = 1 << 12,
+        INPUT_DPAD_RIGHT = 1 << 13,
+        INPUT_CPAD_UP = 1 << 14,
+        INPUT_CPAD_DOWN_15 = 1 << 15,  // (circle pad down as well)
+        INPUT_CPAD_DOWN = 1 << 16,
+        INPUT_CPAD_LEFT = 1 << 17,
+        INPUT_CPAD_RIGHT = 1 << 18,
+    };
     BsMenuMgr(); // ctor candidate(s) 0x006D52B4 (unverified)
     virtual ~BsMenuMgr(); // 0x006D53A4 slot 0x00 | slot vf_0x00 of oml::framework::Process
     // 0x006D5378 slot 0x04 | slot vf_0x04 of oml::framework::Process (deleting dtor)
@@ -38,10 +62,10 @@ public:
     {
         return !applet::ErrEulaMgr::IsInputBlocked() && !m_IsCancel && (m_Controller.mPadHold & input) != 0;
     }
-    // (m_IsCancel counts as released)
+    // (m_IsCancel counts as a release of INPUT_A; gui::RepeatButton tests the bit with other inputs)
     bool IsRelease(u32 input) const
     {
-        return !applet::ErrEulaMgr::IsInputBlocked() && (m_IsCancel || (m_Controller.mPadRelease & input) != 0);
+        return !applet::ErrEulaMgr::IsInputBlocked() && (((input & INPUT_A) != 0 && m_IsCancel) || (m_Controller.mPadRelease & input) != 0);
     }
     // the circle pad (zero while the input is blocked)
     const sead::Vector2<f32>& GetLeftStick() const

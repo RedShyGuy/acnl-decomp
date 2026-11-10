@@ -1,49 +1,42 @@
 #include "gui/dKeySet.h"
 
+#include "gui/dKey.h"
+
 namespace gui {
-// ctor address unknown
-gui::KeySet::KeySet()
+// 0x00896CD0
+extern const u16 g_KanaConvertChars[3] = {1, 2, 3};
+
+// 0x004FE6FC slot 0x0C
+void KeySet::Update()
 {
+    for (s32 i = 0; i < KEY_MAX; i++) {
+        if (m_pKeys[i] != NULL) {
+            m_pKeys[i]->Update();
+        }
+    }
 }
 
-// 0x004FE788 slot 0x00 | slot vf_0x00 of gui::KeySet
-gui::KeySet::~KeySet()
+// 0x004FE734 slot 0x1C
+void KeySet::SetLabel(s32 label)
 {
+    m_Label = label;
+    for (s32 i = 0; i < KEY_MAX; i++) {
+        if (m_pKeys[i] != NULL) {
+            m_pKeys[i]->m_Label = label;
+            m_pKeys[i]->UpdateLabel();
+        }
+    }
 }
 
-// 0x0011C12F slot 0x08 | slot vf_0x00 of ChangeRentalBase
-void gui::KeySet::vf_0x08()
+// 0x004FE788 slot 0x00
+// 0x004FE778 (deleting dtor)
+KeySet::~KeySet()
 {
+    for (s32 i = 0; i < KEY_MAX; i++) {
+        if (m_pKeys[i] != NULL) {
+            delete m_pKeys[i];
+            m_pKeys[i] = NULL;
+        }
+    }
 }
-
-// 0x004FE6FC slot 0x0C | virtual slot, introduced by gui::KeySet
-void gui::KeySet::vf_0x0C()
-{
-}
-
-// 0x0011C12F slot 0x10 | slot vf_0x00 of ChangeRentalBase
-void gui::KeySet::vf_0x10()
-{
-}
-
-// 0x0011C12F slot 0x14 | slot vf_0x00 of ChangeRentalBase
-void gui::KeySet::vf_0x14()
-{
-}
-
-// 0x0011C12F slot 0x18 | slot vf_0x00 of ChangeRentalBase
-void gui::KeySet::vf_0x18()
-{
-}
-
-// 0x004FE734 slot 0x1C | virtual slot, introduced by gui::KeySet
-void gui::KeySet::vf_0x1C()
-{
-}
-
-// 0x0011C12F slot 0x20 | slot vf_0x00 of ChangeRentalBase
-void gui::KeySet::vf_0x20()
-{
-}
-
 } // namespace gui

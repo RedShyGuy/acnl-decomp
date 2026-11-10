@@ -1,35 +1,28 @@
-#include "gui/dKey.h"
 #include "gui/dTglKey.h"
 
 namespace gui {
-// ctor address unknown
-gui::TglKey::TglKey()
+// 0x004FEA60 slot 0x14
+void TglKey::UpdateLabel()
 {
+    SetLabelText(m_Desc2.pButton);
 }
 
-// 0x004FE658 slot 0x00 | slot vf_0x00 of gui::Key
-gui::TglKey::~TglKey()
+// 0x004FEAAC slot 0x10
+ButtonEx* TglKey::GetButton()
 {
+    return m_Desc2.pButton;
 }
 
-// 0x004FEAB4 slot 0x08 | virtual slot, introduced by gui::Key
-void gui::TglKey::vf_0x08()
+// 0x004FEAB4 slot 0x08
+void TglKey::Update()
 {
+    // empty (in the original too)
 }
 
-// 0x00747854 slot 0x0C | virtual slot, introduced by gui::Key
-void gui::TglKey::vf_0x0C()
+// 0x004FE658 slot 0x00
+// 0x004FEAB8 (deleting dtor)
+TglKey::~TglKey()
 {
+    // (only the base is destroyed)
 }
-
-// 0x004FEAAC slot 0x10 | virtual slot, introduced by gui::Key
-void gui::TglKey::vf_0x10()
-{
-}
-
-// 0x004FEA60 slot 0x14 | virtual slot, introduced by gui::Key
-void gui::TglKey::vf_0x14()
-{
-}
-
 } // namespace gui

@@ -37,6 +37,9 @@ inline T* RoundUp(T* pointer, u32 alignment)
     return reinterpret_cast<T*>(RoundUp(reinterpret_cast<uptr>(pointer), alignment));
 }
 
+// vsnprintf with the arguments (the game calls it; name is ours)
+int FormatString(char* pBuffer, size_t bufferSize, const char* format, ...); // 0x0048B8DC
+
 // the smallest x with 1 + x != 1 (2^-23; name is ours)
 const f32 FLOAT_EPSILON = 1.1920929e-7f;
 

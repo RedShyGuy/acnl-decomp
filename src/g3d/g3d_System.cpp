@@ -88,7 +88,8 @@ const s32 RENDER_QUEUE_CAPACITY = 512;
 const u32 DRAW_MODE_TOP_LEFT = 0x400;
 const u32 DRAW_MODE_BOTTOM = 0x401;
 const u32 DRAW_MODE_TOP_RIGHT = 0x410;
-// the scenes Draw and RenderShadow render
+// the scenes DrawFirstScene, Draw and RenderShadow render
+const s32 SCENE_FIRST = 0;
 const s32 SCENE_DRAW = 1;
 const s32 SCENE_SHADOW = 2;
 // the state ResetRenderState resets
@@ -415,6 +416,18 @@ void Draw(u32 drawMode)
         return;
     }
     Render(drawMode, SCENE_DRAW);
+    *s_pRenderContext->m_SceneEnvironment.m_Fogs.begin() = NULL;
+}
+
+// 0x004F36F0 (name is ours)
+void DrawFirstScene(u32 drawMode)
+{
+    // while the engine renders, the game only resets its draw lists
+    if (s_IsRendering) {
+        Func6F01A0();
+        return;
+    }
+    Render(drawMode, SCENE_FIRST);
     *s_pRenderContext->m_SceneEnvironment.m_Fogs.begin() = NULL;
 }
 

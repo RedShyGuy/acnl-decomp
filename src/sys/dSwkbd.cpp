@@ -47,7 +47,7 @@ wchar_t* g_pTextBuffer = NULL;
 // 0x0095F114
 s32 g_Unknown95F114 = 0;
 // 0x0095F118
-s32 g_AllowedCharNum = 0;
+s32 g_ForbiddenCharNum = 0;
 // 0x0095F11C
 TextManager* g_pTextManager = NULL;
 // 0x0095F120
@@ -57,7 +57,7 @@ f32 g_Unknown95F1D8[2] = {0.0f, 0.0f};
 // 0x00AD7140
 KeyboardParam g_KeyboardParam;
 // 0x00AD75C0
-u16 g_AllowedChars[32];
+u16 g_ForbiddenChars[32];
 // 0x00AD7540
 KeyboardSetting g_KeyboardSetting;
 // 0x00AD7580
@@ -70,7 +70,7 @@ ssys::ma::LoadSplit g_StyleFile;
 // 0x00523F60
 bool IsDigitChar(u16 c)
 {
-    if ((g_KeyboardParam.flags & KeyboardParam::FLAG_DIGITS_ONLY) == 0 || g_KeyboardParam.digitOnlyException != 0) {
+    if ((g_KeyboardParam.flags & KeyboardParam::FLAG_DIGITS) == 0 || g_KeyboardParam.maxDigits != 0) {
         return false;
     }
     if ((c >= '0' && c <= '9') || (c >= 0xFF10 && c <= 0xFF19) || (c >= 0x2070 && c <= 0x2079) || (c >= 0x2080 && c <= 0x2089) ||
@@ -106,19 +106,19 @@ void InitSetting()
     }
     setting.kanaMode = kanaMode;
 
-    s32 value0C = setting._unknown0x0C;
-    if (GetRegion() != 0 || static_cast<u32>(value0C) >= 2) {
-        value0C = 0;
+    s32 kanaKeySet = setting.kanaKeySet;
+    if (GetRegion() != 0 || static_cast<u32>(kanaKeySet) >= 2) {
+        kanaKeySet = 0;
     }
-    setting._unknown0x0C = value0C;
+    setting.kanaKeySet = kanaKeySet;
 
-    s32 value10 = setting._unknown0x10;
+    s32 cellPhoneKeySet = setting.cellPhoneKeySet;
     if (GetRegion() != 0) {
-        if (value10 != 2 && value10 != 3 && value10 != 6) {
-            value10 = 2;
+        if (cellPhoneKeySet != 2 && cellPhoneKeySet != 3 && cellPhoneKeySet != 6) {
+            cellPhoneKeySet = 2;
         }
     } else {
-        switch (value10) {
+        switch (cellPhoneKeySet) {
         case 0:
         case 1:
         case 2:
@@ -126,11 +126,11 @@ void InitSetting()
         case 6:
             break;
         default:
-            value10 = 0;
+            cellPhoneKeySet = 0;
             break;
         }
     }
-    setting._unknown0x10 = value10;
+    setting.cellPhoneKeySet = cellPhoneKeySet;
     if (setting._unknown0x14 <= 0) {
         setting._unknown0x14 = 0;
     }
@@ -144,16 +144,16 @@ void InitSetting()
 void ResetSetting(KeyboardSetting* setting)
 {
     setting->kanaMode = 0;
-    setting->_unknown0x0C = 0;
+    setting->kanaKeySet = 0;
     setting->_unknown0x14 = 0;
     setting->_unknown0x18 = 0;
     if (GetRegion() != 0) {
-        setting->_unknown0x10 = 2;
+        setting->cellPhoneKeySet = 2;
         setting->mode = 0;
         setting->defaultMode = 0;
     } else {
         setting->mode = 1;
-        setting->_unknown0x10 = 0;
+        setting->cellPhoneKeySet = 0;
         setting->defaultMode = 1;
     }
 }
@@ -164,15 +164,15 @@ void RestoreSetting()
     KeyboardSetting& setting = g_KeyboardSetting;
     const KeyboardSetting& saved = g_SavedKeyboardSetting;
     setting.defaultMode = saved.defaultMode;
-    setting._unknown0x10 = saved._unknown0x10;
+    setting.cellPhoneKeySet = saved.cellPhoneKeySet;
     setting._unknown0x00 = saved._unknown0x00;
     setting.mode = saved.mode;
     setting.kanaMode = saved.kanaMode;
     setting._unknown0x20 = saved._unknown0x20;
-    setting._unknown0x0C = 0;
+    setting.kanaKeySet = 0;
     setting._unknown0x14 = 0;
     setting._unknown0x18 = 0;
-    setting._unknown0x10 = GetRegion() != 0 ? 2 : 0;
+    setting.cellPhoneKeySet = GetRegion() != 0 ? 2 : 0;
     if (setting.kanaMode == 2) {
         setting.kanaMode = 1;
     }
@@ -244,7 +244,7 @@ bool Create()
     param._unknown0x014 = 0;
     param._unknown0x01C = 0;
     param._unknown0x022 = 0;
-    param.digitOnlyException = 0;
+    param.maxDigits = 0;
     std::memset(param.rows, 0, sizeof(param.rows));
     param._unknown0x08C = 0;
     std::memset(param._unknown0x090, 0, sizeof(param._unknown0x090));
@@ -266,12 +266,12 @@ bool Create()
 
     g_BufferSize = 0;
     g_Unknown95F114 = 0;
-    g_AllowedCharNum = 0;
+    g_ForbiddenCharNum = 0;
     g_IsFinished = false;
     g_Unknown95F1D8[0] = 0.0f;
     g_Unknown95F1D8[1] = 0.0f;
     sead::Heap* heap = ssys::ma::lyt::GetAllocator()->m_pHeap;
-    std::memset(g_AllowedChars, 0, sizeof(g_AllowedChars));
+    std::memset(g_ForbiddenChars, 0, sizeof(g_ForbiddenChars));
     wchar_t* initialText = g_pInitialText;
     param.initialTextOffset = initialText == NULL ? -1 : 0;
     g_Unknown95F0E8 = false;
@@ -318,29 +318,29 @@ bool Create()
     }
 
     if ((param.flags & KeyboardParam::FLAG_AT_SIGN) != 0) {
-        g_AllowedChars[g_AllowedCharNum++] = '@';
-        g_AllowedChars[g_AllowedCharNum++] = 0xFF20;
+        g_ForbiddenChars[g_ForbiddenCharNum++] = '@';
+        g_ForbiddenChars[g_ForbiddenCharNum++] = 0xFF20;
     }
     if ((param.flags & KeyboardParam::FLAG_PERCENT) != 0) {
-        g_AllowedChars[g_AllowedCharNum++] = '%';
+        g_ForbiddenChars[g_ForbiddenCharNum++] = '%';
     }
     if ((param.flags & KeyboardParam::FLAG_BACKSLASH) != 0) {
-        g_AllowedChars[g_AllowedCharNum++] = '\\';
+        g_ForbiddenChars[g_ForbiddenCharNum++] = '\\';
     }
     if (g_Unknown95F0EB == 17 || g_Unknown95F0EB == 18) {
-        g_AllowedChars[g_AllowedCharNum++] = '-';
-        g_AllowedChars[g_AllowedCharNum++] = ':';
-        g_AllowedChars[g_AllowedCharNum++] = '\'';
-        g_AllowedChars[g_AllowedCharNum++] = '`';
-        g_AllowedChars[g_AllowedCharNum++] = ',';
-        g_AllowedChars[g_AllowedCharNum++] = '.';
-        g_AllowedChars[g_AllowedCharNum++] = '\\';
-        g_AllowedChars[g_AllowedCharNum++] = '/';
-        g_AllowedChars[g_AllowedCharNum++] = '=';
-        g_AllowedChars[g_AllowedCharNum++] = '[';
-        g_AllowedChars[g_AllowedCharNum++] = ']';
-        g_AllowedChars[g_AllowedCharNum++] = '?';
-        g_AllowedChars[g_AllowedCharNum++] = '!';
+        g_ForbiddenChars[g_ForbiddenCharNum++] = '-';
+        g_ForbiddenChars[g_ForbiddenCharNum++] = ':';
+        g_ForbiddenChars[g_ForbiddenCharNum++] = '\'';
+        g_ForbiddenChars[g_ForbiddenCharNum++] = '`';
+        g_ForbiddenChars[g_ForbiddenCharNum++] = ',';
+        g_ForbiddenChars[g_ForbiddenCharNum++] = '.';
+        g_ForbiddenChars[g_ForbiddenCharNum++] = '\\';
+        g_ForbiddenChars[g_ForbiddenCharNum++] = '/';
+        g_ForbiddenChars[g_ForbiddenCharNum++] = '=';
+        g_ForbiddenChars[g_ForbiddenCharNum++] = '[';
+        g_ForbiddenChars[g_ForbiddenCharNum++] = ']';
+        g_ForbiddenChars[g_ForbiddenCharNum++] = '?';
+        g_ForbiddenChars[g_ForbiddenCharNum++] = '!';
     }
 
     if (param.initialTextOffset != -1) {

@@ -1,6 +1,7 @@
 #pragma once
 
 #include "decomp.h"
+#include "nn/math/math_Vector2.h"
 
 // The touch screen as the menus of the game see it: updated once per frame by the system task (0x1B7918, reset by
 // 0x1B78E8; both game code that is not decompiled yet). All names are ours.
@@ -33,3 +34,5 @@ struct TouchState
 ASSERT_SIZE(TouchState, 0x1E);
 
 extern TouchState g_TouchState;
+// the touch position in the coordinates of the lower screen layouts (set by the game code of g_TouchState)
+extern nn::math::VEC2 g_TouchPosition;

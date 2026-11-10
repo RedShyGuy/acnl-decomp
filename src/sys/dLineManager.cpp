@@ -48,19 +48,6 @@ s32 sys::LineManager::GetLineOfIndex(s32 index, s32* column)
     return m_LineNum - 1;
 }
 
-// (inline)
-inline s32 sys::LineManager::GetLineEnd(s32 line)
-{
-    const s32 next = GetLineStartChecked(line + 1);
-    if (next >= 0) {
-        return next - 1;
-    }
-    if (GetLineStartChecked(line) >= 0) {
-        return m_pText->m_Length;
-    }
-    return -1;
-}
-
 // 0x00522814
 s32 sys::LineManager::GetLineLength(s32 line)
 {

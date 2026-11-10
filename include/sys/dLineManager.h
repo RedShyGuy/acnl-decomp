@@ -60,11 +60,9 @@ public:
         return m_Writer.m_pFont->GetCharWidth(c) * m_Writer.m_ScaleH;
     }
 
-private:
     // (inline) the last character of the line (the end of the text for the last line; -1: no such line)
-    s32 GetLineEnd(s32 line);
+    s32 GetLineEnd(s32 line); // (defined in dTextManager.h)
 
-public:
     s32 m_LineNum;                                // 0x04
     TextManager* m_pText;                         // 0x08
     u16* m_LineStarts;                            // 0x0C

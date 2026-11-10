@@ -68,6 +68,9 @@ class Allocator;
 // The 3D layer of the game over nw::gfx: models, lights, cameras, animations and their resources, plus the state of
 // the engine (updaters, render context, scenes). Only the class names are from the RTTI and libgarden; all function,
 // member and variable names are ours unless noted.
+// a function of the game that resets 27 draw lists (purpose unknown)
+void Func6F01A0(); // 0x006F01A0
+
 namespace g3d {
 class Model;
 class ResourceLoader;
@@ -120,6 +123,8 @@ void EndRender(); // 0x004F0638
 bool IsRendering(); // 0x004EEBAC
 // the scene of the screen (drawMode as ssys::ma::lyt::Layout) when rendering
 void Draw(u32 drawMode); // 0x004EB3D8
+// the first scene (while the engine renders: Func6F01A0 instead)
+void DrawFirstScene(u32 drawMode); // 0x004F36F0
 // the scene with its camera for the screen: the commands of the scene are saved for the left image of the top
 // screen (0x400) and used again for the other images
 void Render(u32 drawMode, s32 sceneIdx); // 0x004F0194

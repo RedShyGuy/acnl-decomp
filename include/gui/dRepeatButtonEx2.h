@@ -1,20 +1,24 @@
 #pragma once
 
 #include "decomp.h"
-#include "gui/dButtonEx.h"
+#include "gui/dRepeatButtonEx.h"
 
 namespace gui {
+// A RepeatButtonEx that is not pressed by its keys while the touch is held, and whose Reset plays the slide out.
+// Only the class name is from the binary (RTTI); member and function names are ours.
 // RTTI N3gui15RepeatButtonEx2E @ 0x008D0E78
 // vtable 0x00903FC8 (vptr 0x00903FD0), offset_to_top 0, 15 entries
-class RepeatButtonEx2 : public ::gui::ButtonEx
+class RepeatButtonEx2 : public ::gui::RepeatButtonEx
 {
 public:
-    RepeatButtonEx2(); // ctor address unknown
-    virtual void vf_0x00(); // 0x004FE14C slot 0x00 | virtual slot, introduced by gui::Widget
-    virtual void vf_0x04(); // 0x004FE11C slot 0x04 | virtual slot, introduced by gui::Widget
-    virtual void vf_0x0C(); // 0x00747824 slot 0x0C | virtual slot, introduced by gui::Widget
-    virtual void vf_0x1C(); // 0x004FE078 slot 0x1C | virtual slot, introduced by gui::ButtonBase
-    virtual void vf_0x28(); // 0x004FDD6C slot 0x28 | virtual slot, introduced by gui::ButtonBase
-    virtual void vf_0x2C(); // 0x004FDE58 slot 0x2C | virtual slot, introduced by gui::ButtonBase
+    // (inline)
+    explicit RepeatButtonEx2(const Description& desc) : RepeatButtonEx(desc) {}
+    ~RepeatButtonEx2() override; // 0x004FE14C slot 0x00
+    // 0x004FE11C slot 0x04 (deleting dtor)
+    u32 GetKind() const override { return KIND_REPEAT_BUTTON_EX2; } // 0x00747824 slot 0x0C
+    void Reset(bool isRelease) override; // 0x004FE078 slot 0x1C
+    void UpdateIdle() override; // 0x004FDD6C slot 0x28
+    void UpdatePressed() override; // 0x004FDE58 slot 0x2C
 };
+ASSERT_SIZE(RepeatButtonEx2, 0x230);
 } // namespace gui

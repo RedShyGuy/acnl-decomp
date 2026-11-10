@@ -30,7 +30,7 @@ struct KeyboardParam
     s32 _unknown0x01C;            // 0x01C
     u16 maxLength;                // 0x020
     u16 _unknown0x022;            // 0x022
-    u16 digitOnlyException;       // 0x024 with FLAG_DIGITS_ONLY: any character is allowed while it is set
+    u16 maxDigits;                // 0x024 with FLAG_DIGITS: the digits allowed (0: none; after 3dbrew)
     u16 rows[3][17];              // 0x026 characters of three rows (each ends with 0 within 16 characters)
     s32 _unknown0x08C;            // 0x08C
     u16 _unknown0x090[65];        // 0x090
@@ -53,10 +53,11 @@ struct KeyboardParam
     u16 _unknown0x150[257];       // 0x150
 
     // the bits of flags
-    static const u32 FLAG_DIGITS_ONLY = 1 << 0;
-    static const u32 FLAG_AT_SIGN = 1 << 1;      // '@' and '＠' are allowed (Create always sets it)
-    static const u32 FLAG_PERCENT = 1 << 2;      // '%' is allowed
-    static const u32 FLAG_BACKSLASH = 1 << 3;    // '\' is allowed
+    // the filters of the input forbid characters (the bits after the filters of the software keyboard on 3dbrew)
+    static const u32 FLAG_DIGITS = 1 << 0;       // digits (see maxDigits)
+    static const u32 FLAG_AT_SIGN = 1 << 1;      // '@' and '＠' (Create always sets it)
+    static const u32 FLAG_PERCENT = 1 << 2;      // '%'
+    static const u32 FLAG_BACKSLASH = 1 << 3;    // '\'
     static const u32 FLAG_SHORT = 1 << 4;        // at most 64 characters, no line feed
 };
 ASSERT_OFFSET(KeyboardParam, rows, 0x26);
@@ -75,8 +76,8 @@ struct KeyboardSetting
     s32 _unknown0x00;   // 0x00 (-1)
     s32 mode;           // 0x04 (2 and 3: the typed characters speak as 158)
     s32 kanaMode;       // 0x08 2: katakana ('n' becomes ン instead of ん)
-    s32 _unknown0x0C;   // 0x0C
-    s32 _unknown0x10;   // 0x10
+    s32 kanaKeySet;     // 0x0C the key set of the kana keyboard (gui::KanaKeySet: 0 hiragana, 1 katakana)
+    s32 cellPhoneKeySet; // 0x10 the key set of the cellphone keyboard (gui::CellPhoneKeySet)
     s32 _unknown0x14;   // 0x14
     s32 _unknown0x18;   // 0x18
     s32 defaultMode;    // 0x1C mode goes back to it when it is 2
@@ -104,19 +105,19 @@ struct MessageStyleBlock
 extern bool g_Unknown95F0E8;                      // (read and passed through, purpose unknown)
 extern bool g_IsFinished;                         // the keyboard has ended (or could not be made)
 extern bool g_IsBufferOwned;                      // g_pTextBuffer is deleted by Destroy
-extern u8 g_Unknown95F0EB;                        // 17 and 18: more characters are allowed (purpose unknown)
+extern u8 g_Unknown95F0EB;                        // 17 and 18: more characters are forbidden (purpose unknown)
 extern LMS_MessageBinary* g_pMessage;             // swkbd.msbt
 extern const MessageStyleBlock* g_pMessageStyles; // RI.mstl
 extern wchar_t* g_pInitialText;
 extern s32 g_BufferSize;                          // maxLength + 1
 extern wchar_t* g_pTextBuffer;
 extern s32 g_Unknown95F114;
-extern s32 g_AllowedCharNum;
+extern s32 g_ForbiddenCharNum;
 extern TextManager* g_pTextManager;
 extern s32 g_LineNum;
 extern f32 g_Unknown95F1D8[2];
 extern KeyboardParam g_KeyboardParam;
-extern u16 g_AllowedChars[32];                    // characters allowed besides the usual ones
+extern u16 g_ForbiddenChars[32];                   // the characters the filters forbid (the keys of them are disabled)
 extern KeyboardSetting g_KeyboardSetting;
 extern KeyboardSetting g_SavedKeyboardSetting;
 extern ssys::ma::LoadSplit g_MessageFile;
@@ -127,7 +128,7 @@ DECOMP_EMIT_COPY inline LineManager* GetLineManager() // 0x00523F48
 {
     return g_pTextManager != NULL ? g_pTextManager->m_pLineManager : NULL;
 }
-// with FLAG_DIGITS_ONLY (and no exception): the character is a digit (also full-width, circled, roman and the like)
+// with FLAG_DIGITS and maxDigits 0 (no digit allowed): the character is a digit (also full-width, circled, roman and the like)
 bool IsDigitChar(u16 c); // 0x00523F60
 // the settings for the region; saved
 void InitSetting(); // 0x0052402C
