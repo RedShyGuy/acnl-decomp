@@ -16,8 +16,3 @@ void RollText::vf_0x04()
 {
 }
 
-// 0x0082D3F8 slot 0x08 | virtual slot, introduced by RollText
-void RollText::vf_0x08()
-{
-}
-

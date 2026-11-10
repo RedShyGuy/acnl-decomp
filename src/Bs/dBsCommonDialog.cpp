@@ -8,6 +8,8 @@ BsCommonDialog::BsCommonDialog()
 }
 
 // 0x00251E88 slot 0x00 | slot vf_0x00 of oml::framework::Process
+// 0x00777210 (thunk)
+// 0x007771E4 (deleting thunk)
 BsCommonDialog::~BsCommonDialog()
 {
 }

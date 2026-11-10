@@ -19,8 +19,3 @@ void BlackWait::vf_0x04()
 {
 }
 
-// 0x0082D560 slot 0x08 | virtual slot, introduced by BlackWait
-void BlackWait::vf_0x08()
-{
-}
-

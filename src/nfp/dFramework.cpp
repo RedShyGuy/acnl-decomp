@@ -17,9 +17,4 @@ void nfp::Framework::vf_0x04()
 {
 }
 
-// 0x0082D920 slot 0x08 | virtual slot, introduced by nfp::Framework
-void nfp::Framework::vf_0x08()
-{
-}
-
 } // namespace nfp

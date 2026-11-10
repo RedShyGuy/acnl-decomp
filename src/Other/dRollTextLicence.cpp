@@ -16,8 +16,3 @@ void RollTextLicence::vf_0x04()
 {
 }
 
-// 0x0082B940 slot 0x08 | virtual slot, introduced by RollTextLicence
-void RollTextLicence::vf_0x08()
-{
-}
-

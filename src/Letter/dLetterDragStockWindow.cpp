@@ -23,6 +23,8 @@ void LetterDragStockWindow::vf_0x0C()
 }
 
 // 0x00328E90 slot 0x14 | slot vf_0x14 of LetterDragStockWindow
+// 0x00778CC0 (thunk)
+// 0x00778CA8 (deleting thunk)
 LetterDragStockWindow::~LetterDragStockWindow()
 {
 }

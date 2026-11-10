@@ -8,6 +8,8 @@ BsMenuTourSelect::BsMenuTourSelect()
 }
 
 // 0x002B6430 slot 0x00 | slot vf_0x00 of oml::framework::Process
+// 0x00777750 (thunk)
+// 0x0077773C (deleting thunk)
 BsMenuTourSelect::~BsMenuTourSelect()
 {
 }

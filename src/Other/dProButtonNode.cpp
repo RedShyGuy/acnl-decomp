@@ -8,6 +8,8 @@ ProButtonNode::ProButtonNode()
 }
 
 // 0x00240118 slot 0x00 | slot vf_0x00 of ssys::st::ListNode
+// 0x00775E30 (thunk)
+// 0x00775E1C (deleting thunk)
 ProButtonNode::~ProButtonNode()
 {
 }

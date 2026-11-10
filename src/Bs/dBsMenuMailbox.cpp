@@ -9,6 +9,8 @@ BsMenuMailbox::BsMenuMailbox()
 }
 
 // 0x0022011C slot 0x00 | slot vf_0x00 of oml::framework::Process
+// 0x00774C40 (thunk 164)
+// 0x00774C2C (deleting thunk 164)
 BsMenuMailbox::~BsMenuMailbox()
 {
 }

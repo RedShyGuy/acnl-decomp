@@ -8,6 +8,8 @@ BsMenuBorrowThingList::BsMenuBorrowThingList()
 }
 
 // 0x003268D4 slot 0x00 | slot vf_0x00 of oml::framework::Process
+// 0x00777B1C (thunk)
+// 0x00777AA8 (deleting thunk)
 BsMenuBorrowThingList::~BsMenuBorrowThingList()
 {
 }

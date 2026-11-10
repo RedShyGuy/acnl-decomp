@@ -8,6 +8,8 @@ BsMenuBestFriendRegister::BsMenuBestFriendRegister()
 }
 
 // 0x0033AD90 slot 0x00 | slot vf_0x00 of oml::framework::Process
+// 0x00777E80 (thunk)
+// 0x00777E6C (deleting thunk)
 BsMenuBestFriendRegister::~BsMenuBestFriendRegister()
 {
 }

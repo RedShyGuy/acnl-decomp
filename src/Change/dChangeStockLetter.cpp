@@ -8,6 +8,8 @@ ChangeStockLetter::ChangeStockLetter()
 }
 
 // 0x002CCB90 slot 0x00 | slot vf_0x00 of ChangeRentalBase
+// 0x007787A8 (thunk 6280)
+// 0x00778790 (deleting thunk 6280)
 ChangeStockLetter::~ChangeStockLetter()
 {
 }

@@ -16,8 +16,3 @@ void CameraShutter::vf_0x04()
 {
 }
 
-// 0x0082AFE0 slot 0x08 | virtual slot, introduced by CameraShutter
-void CameraShutter::vf_0x08()
-{
-}
-

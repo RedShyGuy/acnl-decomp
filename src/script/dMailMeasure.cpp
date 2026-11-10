@@ -146,8 +146,8 @@ f32 MailMeasure::MeasureWithMenuTextBox(const char16* const* begin, const char16
 
 // 0x005DFAD0 slot 0x00
 // 0x005DFA78 (deleting dtor)
-// 0x00774800 (thunk 140)
-// 0x007747AC (deleting thunk 140)
+// 0x00774800 (thunk)
+// 0x007747AC (deleting thunk)
 MailMeasure::~MailMeasure()
 {
     if (m_pChild != NULL) {

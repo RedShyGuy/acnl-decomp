@@ -16,8 +16,3 @@ void SetDateTimeBg::vf_0x04()
 {
 }
 
-// 0x0082B148 slot 0x08 | virtual slot, introduced by SetDateTimeBg
-void SetDateTimeBg::vf_0x08()
-{
-}
-

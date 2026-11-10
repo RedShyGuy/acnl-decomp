@@ -8,6 +8,8 @@ BsMenuBestFriendList::BsMenuBestFriendList()
 }
 
 // 0x00313898 slot 0x00 | slot vf_0x00 of oml::framework::Process
+// 0x00777A2C (thunk)
+// 0x00777A18 (deleting thunk)
 BsMenuBestFriendList::~BsMenuBestFriendList()
 {
 }

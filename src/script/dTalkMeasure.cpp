@@ -138,8 +138,8 @@ bool TalkMeasure::IsFlag13()
 
 // 0x005E23F4 slot 0x00
 // 0x005E239C (deleting dtor)
-// 0x00774980 (thunk 140)
-// 0x0077492C (deleting thunk 140)
+// 0x00774980 (thunk)
+// 0x0077492C (deleting thunk)
 TalkMeasure::~TalkMeasure()
 {
     if (m_pChild != NULL) {

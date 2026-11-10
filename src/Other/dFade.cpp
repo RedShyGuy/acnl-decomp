@@ -16,8 +16,3 @@ void Fade::vf_0x04()
 {
 }
 
-// 0x0082CED0 slot 0x08 | virtual slot, introduced by Fade
-void Fade::vf_0x08()
-{
-}
-

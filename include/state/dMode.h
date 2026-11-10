@@ -66,8 +66,9 @@ namespace state {
 //   state::Mode<BsMenuSetupTime>  typeinfo 0x008D3314
 //   state::Mode<BsMenuSignList>  typeinfo 0x008D329C
 //   ... 49 more
-// a state machine that calls one member function of T per frame (names after libgarden; the GetName slot of all
-// instances is one folded function returning NULL)
+// a state machine that calls one member function of T per frame (names after libgarden). ARMCC emits GetName per T in
+// the template area 0x82xxxx (instantiations in src/state/dMode.cpp); classes whose machine is a secondary base point
+// their secondary vtable at it directly (it works on the Mode subobject).
 template <typename T>
 class Mode : public ::state::Base<T>
 {
@@ -83,7 +84,10 @@ public:
     };
 
     Mode() : m_Callback(NULL), m_CallbackCounter(0), m_Calling(false), m_pInfos(NULL), m_Count(0) {}
-    virtual const char* GetName(Func) const { return NULL; }
+    // (empty; ARMCC emitted copies for a few T, see src/state/dMode.cpp)
+    virtual ~Mode() {}
+    // the name of a state (debug; see FindName)
+    virtual const char* GetName(Func func) const { return FindName(func); }
 
     // (inline) the name of a state from the table (the last match; none when disabled; name is ours). The classes with
     // a table override GetName with it (copies in the template area, e.g. 0x0082D7B8 for MsgWindow).

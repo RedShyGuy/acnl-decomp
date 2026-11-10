@@ -3,6 +3,8 @@
 #include "Bs/dBsMenuTab.h"
 
 // 0x006D9AB8 slot 0x00 | libgarden
+// 0x00775E0C (thunk)
+// 0x00775DF8 (deleting thunk)
 BsMenuTab::~BsMenuTab()
 {
 }

@@ -11,8 +11,3 @@ PostDragWindow::~PostDragWindow()
 {
 }
 
-// 0x0082B508 slot 0x08 | virtual slot, introduced by PostDragWindow
-void PostDragWindow::vf_0x08()
-{
-}
-

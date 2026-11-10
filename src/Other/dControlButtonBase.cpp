@@ -51,8 +51,8 @@ ControlButtonBase::ControlButtonBase(CommonButtonSingle* buttons, s32 buttonNum)
 
 // 0x002F8184 slot 0x00 | slot vf_0x00 of ssys::st::List
 // 0x002CDA78 (deleting dtor)
-// 0x007760A4 (thunk 228)
-// 0x00776090 (deleting thunk 228)
+// 0x007760A4 (thunk)
+// 0x00776090 (deleting thunk)
 ControlButtonBase::~ControlButtonBase()
 {
     // empty (in the original too)

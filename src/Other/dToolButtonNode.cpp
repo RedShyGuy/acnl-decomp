@@ -8,6 +8,8 @@ ToolButtonNode::ToolButtonNode()
 }
 
 // 0x0027C760 slot 0x00 | slot vf_0x00 of ssys::st::ListNode
+// 0x00775EA4 (thunk)
+// 0x00775E40 (deleting thunk)
 ToolButtonNode::~ToolButtonNode()
 {
 }

@@ -17,8 +17,3 @@ void BsTimeBelWindow::MoneyProc::vf_0x04()
 {
 }
 
-// 0x0082D8A8 slot 0x08 | virtual slot, introduced by BsTimeBelWindow::MoneyProc
-void BsTimeBelWindow::MoneyProc::vf_0x08()
-{
-}
-

@@ -8,6 +8,8 @@ BsMenuRentalHaniwa::BsMenuRentalHaniwa()
 }
 
 // 0x002DE178 slot 0x00 | slot vf_0x00 of oml::framework::Process
+// 0x007779AC (thunk)
+// 0x00777998 (deleting thunk)
 BsMenuRentalHaniwa::~BsMenuRentalHaniwa()
 {
 }

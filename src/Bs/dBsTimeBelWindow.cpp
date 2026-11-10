@@ -8,6 +8,8 @@ BsTimeBelWindow::BsTimeBelWindow()
 }
 
 // 0x00295E68 slot 0x00 | slot vf_0x00 of oml::framework::Process
+// 0x007757C4 (thunk)
+// 0x007757B0 (deleting thunk)
 BsTimeBelWindow::~BsTimeBelWindow()
 {
 }

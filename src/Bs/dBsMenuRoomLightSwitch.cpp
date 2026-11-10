@@ -8,6 +8,8 @@ BsMenuRoomLightSwitch::BsMenuRoomLightSwitch()
 }
 
 // 0x00328160 slot 0x00 | slot vf_0x00 of oml::framework::Process
+// 0x00775910 (thunk)
+// 0x0077589C (deleting thunk)
 BsMenuRoomLightSwitch::~BsMenuRoomLightSwitch()
 {
 }

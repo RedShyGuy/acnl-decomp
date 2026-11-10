@@ -8,6 +8,8 @@ BsMenuWhatTreeIsThisTree::BsMenuWhatTreeIsThisTree()
 }
 
 // 0x0033DAA0 slot 0x00 | slot vf_0x00 of oml::framework::Process
+// 0x00777F44 (thunk)
+// 0x00777E90 (deleting thunk)
 BsMenuWhatTreeIsThisTree::~BsMenuWhatTreeIsThisTree()
 {
 }

@@ -9,6 +9,8 @@ BsSvDemo::BsSvDemo()
 }
 
 // 0x006A36EC slot 0x00 | slot vf_0x00 of oml::framework::Process
+// 0x00774A98 (thunk 144)
+// 0x00774A7C (deleting thunk 144)
 BsSvDemo::~BsSvDemo()
 {
 }

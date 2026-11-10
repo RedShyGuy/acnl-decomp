@@ -31,6 +31,8 @@ BsMenuMgr::BsMenuMgr()
 }
 
 // 0x006D53A4 slot 0x00 | slot vf_0x00 of oml::framework::Process
+// 0x00775DD0 (thunk)
+// 0x00775DA4 (deleting thunk)
 BsMenuMgr::~BsMenuMgr()
 {
 }

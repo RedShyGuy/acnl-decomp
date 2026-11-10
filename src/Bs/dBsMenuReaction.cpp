@@ -8,6 +8,8 @@ BsMenuReaction::BsMenuReaction()
 }
 
 // 0x0025F94C slot 0x00 | slot vf_0x00 of oml::framework::Process
+// 0x007773A4 (thunk)
+// 0x00777390 (deleting thunk)
 BsMenuReaction::~BsMenuReaction()
 {
 }

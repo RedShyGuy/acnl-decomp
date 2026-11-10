@@ -8,6 +8,8 @@ BsMenuPassportForFriend::BsMenuPassportForFriend()
 }
 
 // 0x00334F3C slot 0x00 | slot vf_0x00 of oml::framework::Process
+// 0x00777DD0 (thunk)
+// 0x00777D30 (deleting thunk)
 BsMenuPassportForFriend::~BsMenuPassportForFriend()
 {
 }

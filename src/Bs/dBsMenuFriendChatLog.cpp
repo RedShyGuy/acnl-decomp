@@ -8,6 +8,8 @@ BsMenuFriendChatLog::BsMenuFriendChatLog()
 }
 
 // 0x002F2F78 slot 0x00 | slot vf_0x00 of oml::framework::Process
+// 0x00777A08 (thunk)
+// 0x007779F4 (deleting thunk)
 BsMenuFriendChatLog::~BsMenuFriendChatLog()
 {
 }

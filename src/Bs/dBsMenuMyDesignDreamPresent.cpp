@@ -8,6 +8,8 @@ BsMenuMyDesignDreamPresent::BsMenuMyDesignDreamPresent()
 }
 
 // 0x00342794 slot 0x00 | slot vf_0x00 of oml::framework::Process
+// 0x00778008 (thunk)
+// 0x00777FF4 (deleting thunk)
 BsMenuMyDesignDreamPresent::~BsMenuMyDesignDreamPresent()
 {
 }

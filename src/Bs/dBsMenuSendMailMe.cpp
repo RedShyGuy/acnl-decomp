@@ -8,6 +8,8 @@ BsMenuSendMailMe::BsMenuSendMailMe()
 }
 
 // 0x002B4D74 slot 0x00 | slot vf_0x00 of oml::framework::Process
+// 0x0077772C (thunk)
+// 0x00777718 (deleting thunk)
 BsMenuSendMailMe::~BsMenuSendMailMe()
 {
 }

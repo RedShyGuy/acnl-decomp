@@ -8,6 +8,8 @@ BsMenuMapVillage::BsMenuMapVillage()
 }
 
 // 0x002B401C slot 0x00 | slot vf_0x00 of oml::framework::Process
+// 0x007757E8 (thunk)
+// 0x007757D4 (deleting thunk)
 BsMenuMapVillage::~BsMenuMapVillage()
 {
 }

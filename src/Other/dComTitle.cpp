@@ -16,8 +16,3 @@ void ComTitle::vf_0x04()
 {
 }
 
-// 0x0082D308 slot 0x08 | virtual slot, introduced by ComTitle
-void ComTitle::vf_0x08()
-{
-}
-

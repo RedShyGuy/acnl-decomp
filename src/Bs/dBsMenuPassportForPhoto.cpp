@@ -8,6 +8,8 @@ BsMenuPassportForPhoto::BsMenuPassportForPhoto()
 }
 
 // 0x0032F6DC slot 0x00 | slot vf_0x00 of oml::framework::Process
+// 0x00777CEC (thunk)
+// 0x00777CC0 (deleting thunk)
 BsMenuPassportForPhoto::~BsMenuPassportForPhoto()
 {
 }

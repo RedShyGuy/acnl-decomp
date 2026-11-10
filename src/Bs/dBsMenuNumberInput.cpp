@@ -8,6 +8,8 @@ BsMenuNumberInput::BsMenuNumberInput()
 }
 
 // 0x002C953C slot 0x00 | slot vf_0x00 of oml::framework::Process
+// 0x00777798 (thunk)
+// 0x00777784 (deleting thunk)
 BsMenuNumberInput::~BsMenuNumberInput()
 {
 }

@@ -9,6 +9,8 @@ BsMenuItemChange::BsMenuItemChange()
 }
 
 // 0x002B003C slot 0x00 | slot vf_0x00 of oml::framework::Process
+// 0x00774C88 (thunk 164)
+// 0x00774C74 (deleting thunk 164)
 BsMenuItemChange::~BsMenuItemChange()
 {
 }

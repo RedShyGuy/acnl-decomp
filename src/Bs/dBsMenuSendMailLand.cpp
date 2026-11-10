@@ -8,6 +8,8 @@ BsMenuSendMailLand::BsMenuSendMailLand()
 }
 
 // 0x002DFFEC slot 0x00 | slot vf_0x00 of oml::framework::Process
+// 0x007779D0 (thunk)
+// 0x007779BC (deleting thunk)
 BsMenuSendMailLand::~BsMenuSendMailLand()
 {
 }

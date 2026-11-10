@@ -8,6 +8,8 @@ BsMenuSetupTime::BsMenuSetupTime()
 }
 
 // 0x0028D6E8 slot 0x00 | slot vf_0x00 of oml::framework::Process
+// 0x0077769C (thunk)
+// 0x00777688 (deleting thunk)
 BsMenuSetupTime::~BsMenuSetupTime()
 {
 }

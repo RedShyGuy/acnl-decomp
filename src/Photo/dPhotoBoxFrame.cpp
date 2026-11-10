@@ -16,8 +16,3 @@ void PhotoBoxFrame::vf_0x04()
 {
 }
 
-// 0x0082B058 slot 0x08 | virtual slot, introduced by PhotoBoxFrame
-void PhotoBoxFrame::vf_0x08()
-{
-}
-

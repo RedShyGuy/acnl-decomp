@@ -8,6 +8,8 @@ BsMenuBingoCard::BsMenuBingoCard()
 }
 
 // 0x00288208 slot 0x00 | slot vf_0x00 of oml::framework::Process
+// 0x007775F0 (thunk)
+// 0x007775DC (deleting thunk)
 BsMenuBingoCard::~BsMenuBingoCard()
 {
 }

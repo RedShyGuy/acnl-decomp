@@ -8,6 +8,8 @@ BsMenuRandomHeadsUp::BsMenuRandomHeadsUp()
 }
 
 // 0x002F3914 slot 0x00 | slot vf_0x00 of oml::framework::Process
+// 0x0077584C (thunk)
+// 0x007757F8 (deleting thunk)
 BsMenuRandomHeadsUp::~BsMenuRandomHeadsUp()
 {
 }

@@ -28,6 +28,8 @@ void LetterDragPostWindow::vf_0x14()
 }
 
 // 0x003201B8 slot 0x18 | slot vf_0x18 of LetterDragPostWindow
+// 0x00778C94 (thunk)
+// 0x00778C7C (deleting thunk)
 LetterDragPostWindow::~LetterDragPostWindow()
 {
 }

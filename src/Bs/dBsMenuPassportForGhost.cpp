@@ -8,6 +8,8 @@ BsMenuPassportForGhost::BsMenuPassportForGhost()
 }
 
 // 0x0032EBEC slot 0x00 | slot vf_0x00 of oml::framework::Process
+// 0x00777C28 (thunk)
+// 0x00777B8C (deleting thunk)
 BsMenuPassportForGhost::~BsMenuPassportForGhost()
 {
 }

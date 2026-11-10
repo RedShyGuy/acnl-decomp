@@ -9,6 +9,8 @@ BsMenuExplainPlate::BsMenuExplainPlate()
 }
 
 // 0x002DA06C slot 0x00 | slot vf_0x00 of oml::framework::Process
+// 0x00774CAC (thunk 164)
+// 0x00774C98 (deleting thunk 164)
 BsMenuExplainPlate::~BsMenuExplainPlate()
 {
 }

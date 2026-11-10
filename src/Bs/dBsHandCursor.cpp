@@ -8,6 +8,8 @@ BsHandCursor::BsHandCursor()
 }
 
 // 0x001FACA0 slot 0x00 | slot vf_0x00 of oml::framework::Process
+// 0x00775698 (thunk)
+// 0x00775634 (deleting thunk)
 BsHandCursor::~BsHandCursor()
 {
 }

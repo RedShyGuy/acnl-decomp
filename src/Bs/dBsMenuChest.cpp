@@ -8,6 +8,8 @@ BsMenuChest::BsMenuChest()
 }
 
 // 0x001C44AC slot 0x00 | slot vf_0x00 of oml::framework::Process
+// 0x00777070 (thunk)
+// 0x00776FE8 (deleting thunk)
 BsMenuChest::~BsMenuChest()
 {
 }

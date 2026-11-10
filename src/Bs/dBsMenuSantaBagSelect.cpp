@@ -8,6 +8,8 @@ BsMenuSantaBagSelect::BsMenuSantaBagSelect()
 }
 
 // 0x0031C7F0 slot 0x00 | slot vf_0x00 of oml::framework::Process
+// 0x00777A98 (thunk)
+// 0x00777A84 (deleting thunk)
 BsMenuSantaBagSelect::~BsMenuSantaBagSelect()
 {
 }

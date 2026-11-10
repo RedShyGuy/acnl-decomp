@@ -16,8 +16,3 @@ void Wipe::vf_0x04()
 {
 }
 
-// 0x0082CF48 slot 0x08 | virtual slot, introduced by Wipe
-void Wipe::vf_0x08()
-{
-}
-

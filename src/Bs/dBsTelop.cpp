@@ -8,6 +8,8 @@ BsTelop::BsTelop()
 }
 
 // 0x0060CC50 slot 0x00 | slot vf_0x00 of oml::framework::Process
+// 0x00775B84 (thunk)
+// 0x00775B14 (deleting thunk)
 BsTelop::~BsTelop()
 {
 }

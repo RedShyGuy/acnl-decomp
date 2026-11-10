@@ -8,6 +8,8 @@ BsMenuCoolbox::BsMenuCoolbox()
 }
 
 // 0x0021EC20 slot 0x00 | slot vf_0x00 of oml::framework::Process
+// 0x007771B0 (thunk)
+// 0x0077719C (deleting thunk)
 BsMenuCoolbox::~BsMenuCoolbox()
 {
 }

@@ -11,5 +11,4 @@ public:
     RollTextLicence(); // ctor address unknown
     virtual void vf_0x00(); // 0x002A30F4 slot 0x00 | virtual slot, introduced by RollTextLicence
     virtual void vf_0x04(); // 0x002A30A4 slot 0x04 | virtual slot, introduced by RollTextLicence
-    virtual void vf_0x08(); // 0x0082B940 slot 0x08 | virtual slot, introduced by RollTextLicence
 };

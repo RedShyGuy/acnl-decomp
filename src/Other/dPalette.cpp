@@ -16,11 +16,6 @@ void Palette::vf_0x04()
 {
 }
 
-// 0x0082D1A0 slot 0x08 | virtual slot, introduced by Palette
-void Palette::vf_0x08()
-{
-}
-
 // 0x0075E96C slot 0x0C | virtual slot, introduced by Palette
 void Palette::vf_0x0C()
 {

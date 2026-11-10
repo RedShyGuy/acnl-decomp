@@ -16,8 +16,3 @@ void BookIconBase::vf_0x04()
 {
 }
 
-// 0x0082AAB8 slot 0x08 | virtual slot, introduced by BookIconBase
-void BookIconBase::vf_0x08()
-{
-}
-

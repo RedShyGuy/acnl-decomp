@@ -11,8 +11,3 @@ ItemDragWindow::~ItemDragWindow()
 {
 }
 
-// 0x0082B490 slot 0x08 | virtual slot, introduced by ItemDragWindow
-void ItemDragWindow::vf_0x08()
-{
-}
-

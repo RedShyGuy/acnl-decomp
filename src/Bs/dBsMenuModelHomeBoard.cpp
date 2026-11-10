@@ -8,6 +8,8 @@ BsMenuModelHomeBoard::BsMenuModelHomeBoard()
 }
 
 // 0x00319010 slot 0x00 | slot vf_0x00 of oml::framework::Process
+// 0x00777A50 (thunk)
+// 0x00777A3C (deleting thunk)
 BsMenuModelHomeBoard::~BsMenuModelHomeBoard()
 {
 }

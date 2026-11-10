@@ -8,6 +8,8 @@ BsMenuSignList::BsMenuSignList()
 }
 
 // 0x00260BEC slot 0x00 | slot vf_0x00 of oml::framework::Process
+// 0x00777428 (thunk)
+// 0x007773B4 (deleting thunk)
 BsMenuSignList::~BsMenuSignList()
 {
 }

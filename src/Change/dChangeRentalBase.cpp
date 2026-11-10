@@ -11,11 +11,6 @@ ChangeRentalBase::~ChangeRentalBase()
 {
 }
 
-// 0x0082BC88 slot 0x08 | virtual slot, introduced by ChangeRentalBase
-void ChangeRentalBase::vf_0x08()
-{
-}
-
 // 0x002B7BA0 slot 0x0C | virtual slot, introduced by ChangeRentalBase
 void ChangeRentalBase::vf_0x0C()
 {

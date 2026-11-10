@@ -8,6 +8,8 @@ ChangeStockMyDesign::ChangeStockMyDesign()
 }
 
 // 0x002F94E0 slot 0x00 | slot vf_0x00 of ChangeRentalBase
+// 0x007787D4 (thunk 6280)
+// 0x007787BC (deleting thunk 6280)
 ChangeStockMyDesign::~ChangeStockMyDesign()
 {
 }

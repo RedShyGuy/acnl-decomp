@@ -8,6 +8,8 @@ BsMenuMiiSelect::BsMenuMiiSelect()
 }
 
 // 0x0028A118 slot 0x00 | slot vf_0x00 of oml::framework::Process
+// 0x00777678 (thunk)
+// 0x00777664 (deleting thunk)
 BsMenuMiiSelect::~BsMenuMiiSelect()
 {
 }

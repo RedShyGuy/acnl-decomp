@@ -16,8 +16,3 @@ void AtmWindow::vf_0x04()
 {
 }
 
-// 0x0082D4E8 slot 0x08 | virtual slot, introduced by AtmWindow
-void AtmWindow::vf_0x08()
-{
-}
-

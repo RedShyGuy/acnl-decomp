@@ -8,6 +8,8 @@ BsMenuMailSelect::BsMenuMailSelect()
 }
 
 // 0x002B21D4 slot 0x00 | slot vf_0x00 of oml::framework::Process
+// 0x00777708 (thunk)
+// 0x007776F4 (deleting thunk)
 BsMenuMailSelect::~BsMenuMailSelect()
 {
 }

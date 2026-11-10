@@ -9,6 +9,8 @@ BsSkb::BsSkb()
 }
 
 // 0x00581AB8 slot 0x00 | slot vf_0x00 of oml::framework::Process
+// 0x00581AB0 (thunk 164)
+// 0x00774D04 (deleting thunk 164)
 BsSkb::~BsSkb()
 {
 }

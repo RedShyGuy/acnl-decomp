@@ -11,5 +11,4 @@ public:
     ComDialogA(); // ctor candidate(s) 0x001AA4FC (unverified)
     virtual void vf_0x00(); // 0x001AA6B8 slot 0x00 | virtual slot, introduced by ComDialogA
     virtual void vf_0x04(); // 0x001AA63C slot 0x04 | virtual slot, introduced by ComDialogA
-    virtual void vf_0x08(); // 0x0082A950 slot 0x08 | virtual slot, introduced by ComDialogA
 };

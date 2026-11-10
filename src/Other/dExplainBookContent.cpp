@@ -16,8 +16,3 @@ void ExplainBookContent::vf_0x04()
 {
 }
 
-// 0x0082C228 slot 0x08 | virtual slot, introduced by ExplainBookContent
-void ExplainBookContent::vf_0x08()
-{
-}
-

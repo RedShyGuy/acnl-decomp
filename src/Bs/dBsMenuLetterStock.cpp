@@ -8,6 +8,8 @@ BsMenuLetterStock::BsMenuLetterStock()
 }
 
 // 0x002C8B88 slot 0x00 | slot vf_0x00 of oml::framework::Process
+// 0x00777774 (thunk)
+// 0x00777760 (deleting thunk)
 BsMenuLetterStock::~BsMenuLetterStock()
 {
 }

@@ -19,8 +19,3 @@ void HomeBtnProhibition::vf_0x04()
 {
 }
 
-// 0x0082C2A0 slot 0x08 | virtual slot, introduced by HomeBtnProhibition
-void HomeBtnProhibition::vf_0x08()
-{
-}
-

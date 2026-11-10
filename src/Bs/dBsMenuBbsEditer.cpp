@@ -8,6 +8,8 @@ BsMenuBbsEditer::BsMenuBbsEditer()
 }
 
 // 0x00286824 slot 0x00 | slot vf_0x00 of oml::framework::Process
+// 0x0077753C (thunk)
+// 0x00777498 (deleting thunk)
 BsMenuBbsEditer::~BsMenuBbsEditer()
 {
 }

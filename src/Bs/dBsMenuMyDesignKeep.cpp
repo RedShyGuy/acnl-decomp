@@ -9,6 +9,8 @@ BsMenuMyDesignKeep::BsMenuMyDesignKeep()
 }
 
 // 0x002DCED8 slot 0x00 | slot vf_0x00 of oml::framework::Process
+// 0x00774CD0 (thunk 164)
+// 0x00774CBC (deleting thunk 164)
 BsMenuMyDesignKeep::~BsMenuMyDesignKeep()
 {
 }

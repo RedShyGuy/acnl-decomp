@@ -19,8 +19,3 @@ void Caution::vf_0x04()
 {
 }
 
-// 0x0082D128 slot 0x08 | virtual slot, introduced by Caution
-void Caution::vf_0x08()
-{
-}
-

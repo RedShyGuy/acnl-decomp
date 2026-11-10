@@ -11,5 +11,4 @@ public:
     PhotoBoxFrame(); // ctor address unknown
     virtual void vf_0x00(); // 0x0023D088 slot 0x00 | virtual slot, introduced by PhotoBoxFrame
     virtual void vf_0x04(); // 0x0023D058 slot 0x04 | virtual slot, introduced by PhotoBoxFrame
-    virtual void vf_0x08(); // 0x0082B058 slot 0x08 | virtual slot, introduced by PhotoBoxFrame
 };
