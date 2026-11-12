@@ -1,5 +1,7 @@
 #pragma once
 
+#include <cwchar>
+
 #include "decomp.h"
 #include "nn/fs/CTR/MPCore/detail/fs_UserFileSystem.h"
 #include "nn/fs/ipc/ipc_FileSystem.h"
@@ -29,6 +31,19 @@ public:
     {
         return nn::fs::CTR::MPCore::detail::UserFileSystem::TryDeleteFile(path);
     }
+    // the path converted to UTF-16 first (inline, used by the game's save code)
+    nn::Result TryDeleteFile(const char* path)
+    {
+        wchar_t widePath[0x105 + 3];
+        ToWidePath(widePath, path);
+        return TryDeleteFile(widePath);
+    }
+    nn::Result TryCreateFile(const char* path, s64 size)
+    {
+        wchar_t widePath[0x105 + 3];
+        ToWidePath(widePath, path);
+        return TryCreateFile(widePath, size);
+    }
     nn::Result TryCreateFile(const wchar_t* path, s64 size)
     {
         return nn::fs::CTR::MPCore::detail::UserFileSystem::TryCreateFile(path, size);
@@ -43,6 +58,25 @@ public:
     }
 
 private:
+    // (inline) the path in UTF-16
+    static void ToWidePath(wchar_t* out, const char* path)
+    {
+        mbstate_t state = {};
+        mbsinit(&state);
+        for (;;) {
+            size_t length = mbrlen(path, 0x105, &state);
+            if (length == 0) {
+                break;
+            }
+            if (mbrtowc(out, path, length, &state) == 0) {
+                break;
+            }
+            out++;
+            path += length;
+        }
+        *out = L'\0';
+    }
+
     nn::fs::CTR::MPCore::detail::UserFileSystem* mFileSystem;
 };
 

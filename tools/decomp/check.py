@@ -228,6 +228,7 @@ def param_type(p):
     """'const StationId& stationId' and 'nn::pia::StationId const&' -> 'StationIdconst&': the type
     of a parameter without its name, default value, scopes and typedefs"""
     p = p.split('=')[0].strip()
+    p = re.sub(r'\(\s*\*\s*[A-Za-z_]\w*\s*\)', '(*)', p)    # 'void (*func)(T)' -> 'void (*)(T)'
     m = re.match(r'^(.*[\s*&])([A-Za-z_]\w*)$', p)
     if m and m.group(1).strip() and m.group(2) not in TYPE_WORDS and m.group(2) not in TYPEDEFS:
         p = m.group(1).strip()
@@ -1018,6 +1019,11 @@ def make_fuzzy_pair(mem, db, starts, names, by_source, by_name, variables=None):
             return mine_key(info, is_call=True)
 
         def mine_word(j, w):
+            if j is None:
+                # an address in the original's read-only data reached through a constant table of the sources (see the
+                # 'rconst' case below): a string there, as for the original
+                text = mem_cstr(mem, w) if mem.ro[0] <= w < mem.ro[1] else None
+                return ('str', text) if text else ('k', w)
             info = word_info(j)
             if not info:
                 return ('k', w)
@@ -1026,6 +1032,11 @@ def make_fuzzy_pair(mem, db, starts, names, by_source, by_name, variables=None):
                 return ('k', 0x100000)                     # armlink: the start of the image
             g = global_address(name, typ, secname, value, w)
             if g is not None:
+                # a constant table of the sources at its address in the original's read-only data that starts with a
+                # pointer into the read-only data (a name): the words loaded from it count like the original's, as
+                # constants (see orig_word and fuzzy.rconst_load)
+                if mem.ro[0] <= g < mem.ro[1] - 3 and g % 4 == 0 and mem.ro[0] <= mem.u32(g) < mem.ro[1]:
+                    return ('rconst', g)
                 return ('gaddr', g)
             if typ == 3 and secname.startswith('.rodata._ZTV'):
                 name = secname[len('.rodata.'):]            # section symbol of a local vtable
@@ -1068,7 +1079,16 @@ def make_fuzzy_pair(mem, db, starts, names, by_source, by_name, variables=None):
         else:
             def read_mine(a):
                 return int.from_bytes(data[a:a + 4], 'little') if 0 <= a <= len(data) - 4 else 0
-        f_mine = fuzzy.extract(mine_words, 0, mine_call, mine_word, returns_this, structor, read_word=read_mine)
+        def read_const_mine(a):
+            # the words of the original's constant table (see mine_word): function pointers as functions
+            if not mem.ro[0] <= a < mem.ro[1] - 3:
+                return 0
+            w = mem.u32(a)
+            if mem.in_text(w & ~1) and ((w & ~1) in start_set or (w & ~1) in addr_name):
+                return orig_fn(w & ~1)
+            return w
+        f_mine = fuzzy.extract(mine_words, 0, mine_call, mine_word, returns_this, structor, read_word=read_mine,
+                               read_const=read_const_mine)
         if depth < 4:
             merge_part_clones(f_mine, syminfo, depth)
         return f_mine
@@ -1216,6 +1236,9 @@ def make_fuzzy_pair(mem, db, starts, names, by_source, by_name, variables=None):
                 if p is not None and mem.in_text(p) and (p in start_set or p in addr_name):
                     # a table of function pointers (the step tables of the StepSequenceJobs):
                     # "2C 30 44 00" is not the string ",0D"
+                    return ('rconst', w)
+                if w % 4 == 0 and w in variable_addresses and mem.ro[0] <= mem.u32(w) < mem.ro[1]:
+                    # a table of the sources that starts with a pointer (a name), not a string (its low byte can be 0)
                     return ('rconst', w)
                 s = mem_cstr(mem, w)
                 if not s and mem.mem[w - mem.base] == 0:

@@ -10,11 +10,21 @@
 // g_SvSaveMemory; the players of other towns in a network game lie in g_SvNetPlayerList.
 
 // the save file in memory (names are ours; the save code of the game allocates the copy)
+// (an object of the save code whose heap the save data is allocated from; names are ours)
+namespace sead {
+class Heap;
+} // namespace sead
+struct SvSaveMemoryUnk8
+{
+    u32 unk_0x0;            // 0x0
+    sead::Heap* pHeap;      // 0x4
+};
+
 struct SvSaveMemory
 {
     SvGardenPlus* pData;    // 0x0
     SvGardenPlus* pCopy;    // 0x4 a copy of 0x89B00 bytes
-    u32 unk_0x8;            // 0x8
+    SvSaveMemoryUnk8* unk_0x8; // 0x8 (its heap holds the save data)
 };
 extern SvSaveMemory g_SvSaveMemory;
 // the save data in memory is valid (name is ours)
@@ -33,6 +43,15 @@ extern SvNetPlayerList g_SvNetPlayerList;
 // the player of this console (NULL until the save code sets it)
 extern SvPlayer* g_pSvCurrentPlayer;
 
+// the object whose player SetItem compares and the save I/O writes (class unknown, an object of another file; +0x234 is
+// the current player)
+struct UnkAAFF18
+{
+    u8 unk_0x0[0x234];
+    SvPlayer* pPlayer;  // 0x234
+};
+extern UnkAAFF18 g_UnkAAFF18;
+
 // the save I/O (object 0x00952490, names are ours): whether it is working on these parts of the save file. The
 // access functions call them; only the player functions use the result.
 bool IsSaveIoOnMainData(); // 0x006086B4 (offset 0, size 0x89A60)
@@ -48,6 +67,8 @@ SvSharedData* GetSharedData(); // 0x002FBA0C
 SvCensus* GetCensus(); // 0x002FD00C
 
 SvPlayer* SvGetCurrentPlayer(); // 0x002FBA40 | libgarden [tier A]
+// the slot of the player of g_UnkAAFF18 in its own town (SvPlayer::townSlot; 0 without a player; name is ours)
+u32 SvGetCurrentTownSlot(); // 0x005C7ED8
 PlayerSaveNumber SvGetPlayerSaveNo(netgame::PlayerNo player = netgame::PLAYER_NO_MY_NO); // 0x002FF6CC (name after libgarden's sv.hpp)
 // a player of the town (0..3)
 bool SvIsValidPlayerSaveNo(PlayerSaveNumber save); // 0x0027B0FC (name after libgarden's sv.hpp)

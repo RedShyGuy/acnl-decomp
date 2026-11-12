@@ -308,6 +308,7 @@ def extract(words, base, resolve_call, resolve_word, returns_this=lambda key: Fa
     seen_rconst = set()                   # read-only words already counted (see _access)
     # register tracking: reg -> (origin, offset); origins are arg0..3, or a fresh id
     fresh = [0]
+    call_returns = set()                  # fresh origins that are the return value of a call
 
     def new():
         fresh[0] += 1
@@ -348,7 +349,11 @@ def extract(words, base, resolve_call, resolve_word, returns_this=lambda key: Fa
             keep = regs[0]
         for r in (0, 1, 2, 3, 12, LR):
             regs.pop(r, None)
-        regs[0] = keep if keep else (new(), 0)
+        if keep:
+            regs[0] = keep
+        else:
+            regs[0] = (new(), 0)
+            call_returns.add(regs[0][0])
 
     dropped = Counter()                   # constants that were only arguments of the array helper
     offset_consts = {}                    # constants used as the offset of an access (see _access)
@@ -695,7 +700,7 @@ def extract(words, base, resolve_call, resolve_word, returns_this=lambda key: Fa
                 regs[rd] = (org, o + (val if opc == 4 else -val))
             elif opc in (2, 4) and not imm and not w & 0xFF0 and rn != rm and \
                     _used_as_base(words, i, n, pool, rd) and \
-                    (cofs := _reg_const_offset(get, rn, rm, opc)) is not None:
+                    (cofs := _reg_const_offset(get, rn, rm, opc, call_returns)) is not None:
                 # "ldr r1, =0xFFF1D0AC ; sub r2, r0, r1": ARMCC forms a large member offset (+0xE2F54)
                 # in a register and adds or subtracts it, GCC adds it to the pointer (see _access)
                 org_b, off_b, value, vorg = cofs
@@ -833,12 +838,14 @@ def _used_as_base(words, i, n, pool, rd):
             return True
         if (u & 0x0E000090) == 0x00000090 and u & 0x60 and (u >> 16) & 0xF == rd:  # ldrh / strh / ldrsb ...
             return True
+        if (u & 0x0F000000) == 0x0B000000 and u >> 28 == 0xE and 4 <= rd <= 11:
+            continue                                                              # bl: r4..r11 survive it
         if (u & 0x0E000000) == 0x0A000000 or (u >> 12) & 0xF == rd:               # b / bl, or rd written
             return False
     return False
 
 
-def _reg_const_offset(get, rn, rm, opc):
+def _reg_const_offset(get, rn, rm, opc, call_returns=()):
     """add / sub rd, rn, rm with a known constant (a literal) in one register and a pointer in the
     other: (pointer origin, its offset, the constant offset, the constant's origin) if the result
     is a member of an object up to 1 MB, else None"""
@@ -853,7 +860,9 @@ def _reg_const_offset(get, rn, rm, opc):
         value = vorg[1] if opc == 4 else (-vorg[1]) & 0xFFFFFFFF
         # (only straight from an argument: the offsets of pointers the function moved itself are
         # not tracked well enough, e.g. NetGameMgr::NetGameMgr got worse)
-        if not 0x1000 <= value < 0x100000 or not (isinstance(borg, str) and borg.startswith('arg')) or boff != 0:
+        # (or the pointer a call returned, e.g. "GetGardenData() + 0x6214E")
+        from_arg = isinstance(borg, str) and borg.startswith('arg')
+        if not 0x1000 <= value < 0x100000 or boff != 0 or not (from_arg or borg in call_returns):
             continue
         return borg, boff, value, vorg
     return None

@@ -24,7 +24,7 @@ EventOpusList s_EventOpusList;
 // 0x0058C930
 audio::bgm::EvOpusBase* audio::bgm::EventOpusList::Select()
 {
-    if (netgame::GetNetgameType() == 3) {
+    if (netgame::GetNetgameType() == netgame::TYPE_DREAM) {
         return NULL;
     }
     const nn::fnd::DateTimeParameters* date = time::GetCurrentDate();

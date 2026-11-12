@@ -11,3 +11,6 @@ u32 GetRegionIndex(); // 0x003012B8 (name is ours)
 // sets from nn::cfg (0x95823C region, 0x95823D language). Game code that is not decompiled yet (between math helpers and
 // script, file unknown; name is ours).
 s32 GetRegion(); // 0x005D51AC
+// the region index (as GetRegionIndex) of a region of the game (event::Region; 4 for others; table 0x008884E5;
+// game code that is not decompiled yet, name is ours)
+u32 GetRegionIndexOf(s32 region); // 0x005D5258

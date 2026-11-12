@@ -36,16 +36,16 @@ struct State
     u8 isInitialized;                 // 0x00
     u8 isPlayTimerStarted;            // 0x01
     u8 flags;                         // 0x02 Flag
-    SvTime now;                       // 0x08 the time of the game
-    SvTime realNow;                   // 0x10 the time of the system
-    SvTime offset;                    // 0x18 now - realNow (in the town)
-    SvTime pendingOffset;             // 0x20 ApplyPendingOffset makes it the offset
-    SvTime islandOffset;              // 0x28 now - realNow on the islands
+    s64 now;                       // 0x08 the time of the game
+    s64 realNow;                   // 0x10 the time of the system
+    s64 offset;                    // 0x18 now - realNow (in the town)
+    s64 pendingOffset;             // 0x20 ApplyPendingOffset makes it the offset
+    s64 islandOffset;              // 0x28 now - realNow on the islands
     s64 pausedSeconds;                // 0x30
-    SvTime savedTime;                 // 0x38
+    SvTime savedTime;              // 0x38
     sead::TickTime playTimerStart;    // 0x40
     nn::fnd::DateTime pauseDateTime;  // 0x48
-    SvTime yearsSpan;                 // 0x50 from 2012-01-01 to 2051-01-01
+    s64 yearsSpan;                 // 0x50 from 2012-01-01 to 2051-01-01
     nn::fnd::DateTime baseDateTime;   // 0x58 2000-01-01
     nn::fnd::DateTime firstDateTime;  // 0x60 2012-01-01
     nn::fnd::DateTime endDateTime;    // 0x68 2051-01-01
@@ -64,6 +64,15 @@ void Initialize(); // 0x0056D064
 DECOMP_NOINLINE void Start(); // 0x0056C1DC
 DECOMP_NOINLINE void Update(); // 0x0056D2B0
 void Freeze(); // 0x0056D1C0
+// whether the time is frozen / the time runs again (copies in the shared area; names are ours)
+DECOMP_EMIT_COPY DECOMP_NOINLINE inline bool IsFrozen() // 0x0012D470
+{
+    return (s_State.flags & FLAG_FROZEN) != 0;
+}
+DECOMP_EMIT_COPY DECOMP_NOINLINE inline void Unfreeze() // 0x0012D488
+{
+    s_State.flags &= ~FLAG_FROZEN;
+}
 
 // the date of the game
 DECOMP_EMIT_COPY DECOMP_NOINLINE inline const nn::fnd::DateTimeParameters* GetCurrentDate() // 0x002FB394
@@ -71,26 +80,26 @@ DECOMP_EMIT_COPY DECOMP_NOINLINE inline const nn::fnd::DateTimeParameters* GetCu
     return &s_CurrentDate;
 }
 const nn::fnd::DateTimeParameters* GetRealDate(); // 0x0056C8FC
-SvTime GetNow(); // 0x0056C010
-SvTime GetRealNow(); // 0x0056C448
+s64 GetNow(); // 0x0056C010
+s64 GetRealNow(); // 0x0056C448
 // the time of the date since 2000-01-01
-DECOMP_NOINLINE SvTime ToTime(const nn::fnd::DateTimeParameters& date); // 0x0056C908
-DECOMP_NOINLINE nn::fnd::DateTimeParameters ToParameters(SvTime time); // 0x0056CD40
-SvTime GetSpanFromRealNow(const nn::fnd::DateTimeParameters& date); // 0x0056BF9C
+DECOMP_NOINLINE s64 ToTime(const nn::fnd::DateTimeParameters& date); // 0x0056C908
+DECOMP_NOINLINE nn::fnd::DateTimeParameters ToParameters(s64 time); // 0x0056CD40
+s64 GetSpanFromRealNow(const nn::fnd::DateTimeParameters& date); // 0x0056BF9C
 // a - b; wrap: if b is later, a counts in the next round of years (only with FLAG_BEFORE_FIRST_DAY)
-SvTime GetDifference(const nn::fnd::DateTimeParameters& a, const nn::fnd::DateTimeParameters& b,
+s64 GetDifference(const nn::fnd::DateTimeParameters& a, const nn::fnd::DateTimeParameters& b,
                                 bool wrap); // 0x0056C9D4
 s64 GetDifferenceInSeconds(const nn::fnd::DateTimeParameters& a, const nn::fnd::DateTimeParameters& b,
                            bool wrap); // 0x0056CDA8
 
 // sets the date of the game: the offset (or the island offset) follows
 DECOMP_NOINLINE void SetCurrentDate(const nn::fnd::DateTimeParameters& date); // 0x0056DC84
-void SetOffset(const SvTime* offset); // 0x0056DD18
+void SetOffset(const s64* offset); // 0x0056DD18
 void ResetOffset(); // 0x0056C020
 void LoadOffset(); // 0x0056C038
 void SaveOffset(); // 0x0056C08C
 // the offset that makes the time "time + milliSeconds" now
-void SetPendingOffset(SvTime time, s64 milliSeconds); // 0x0056C0E4
+void SetPendingOffset(s64 time, s64 milliSeconds); // 0x0056C0E4
 void ApplyPendingOffset(); // 0x0056C7EC
 // the island date in the year
 void SetIslandOffset(s32 year); // 0x0056C520
@@ -117,7 +126,7 @@ void ResetSavedTime(); // 0x0056D040
 // 2012-01-01 00:00
 nn::fnd::DateTimeParameters GetFirstDate(); // 0x0056C670
 nn::fnd::DateTimeParameters GetFirstDate2(); // 0x0056DAF4
-SvTime GetFirstTime(); // 0x0056C808
+s64 GetFirstTime(); // 0x0056C808
 // the date of the game (Func308EF0 applied)
 nn::fnd::DateTimeParameters GetGameDate(); // 0x0056CED4
 // the date (of Func3004A8) is another than the date of the game
@@ -127,7 +136,7 @@ s32 GetDaysInMonth(s32 year, s32 month); // 0x0056BFBC
 s32 GetDaysInYear(s32 year); // 0x0056C6C4
 nn::fnd::DayOfWeek GetDayOfWeek(s32 year, s32 month, s32 day); // 0x0056D610
 nn::fnd::DateTimeParameters MakeDate(s32 year, s32 month, s32 day, s32 hour, s32 minute, s32 second); // 0x0056D550
-SvTime MakeTime(s32 year, s32 month, s32 day, s32 hour, s32 minute, s32 second); // 0x0056D594
+s64 MakeTime(s32 year, s32 month, s32 day, s32 hour, s32 minute, s32 second); // 0x0056D594
 // moves the year into [2012, 2051) by 39 years (at most twice, else 2012)
 DECOMP_NOINLINE void WrapYear(nn::fnd::DateTimeParameters* date); // 0x0056D664
 void SetHour(nn::fnd::DateTimeParameters* date, s32 hour); // 0x0056D7CC
@@ -138,7 +147,7 @@ void SetMilliSecond(nn::fnd::DateTimeParameters* date, s32 milliSecond); // 0x00
 void AddHours(nn::fnd::DateTimeParameters* date, s32 hours); // 0x0056D720
 void AddMinutes(nn::fnd::DateTimeParameters* date, s32 minutes); // 0x0056D81C
 void AddSeconds(nn::fnd::DateTimeParameters* date, s32 seconds); // 0x0056D8C4
-SvTime Func56D4F8(SvTime time, s32 a, s32 b, s32 c, f32 d); // 0x0056D4F8
+s64 Func56D4F8(s64 time, s32 a, s32 b, s32 c, f32 d); // 0x0056D4F8
 
 // the part of the day by the hour: 5 (before 5:00), 0 (to 8:00), 1 (to 12:00), 2 (to 16:00, in Spain (event::REGION_EUROPE_SPANISH)
 // to 17:00), 3 (to 19:00 or 21:00), 4

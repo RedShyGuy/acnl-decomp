@@ -32,6 +32,8 @@ DECOMP_NOINLINE bool IsMultiPlayer(); // 0x00300838 | libgarden
 DECOMP_NOINLINE Type GetNetgameType(); // 0x00305ED8 | libgarden
 DECOMP_NOINLINE bool IsHost(); // 0x0030B824 | libgarden
 bool IsMyPlayerHost(); // 0x00625544
+// the save number of the player of this console in the network game (name is ours)
+u8 GetSaveNo(); // 0x0062644C
 DECOMP_NOINLINE PlayerNo GetMyPlayerNo(); // 0x00305EF0 (name after libgarden)
 bool InitNet(); // 0x00617BE8 | libgarden
 bool IsStageControl(); // 0x0061B278 | libgarden
@@ -45,6 +47,25 @@ void SetNetGameType(Type type); // 0x00625B88 | libgarden
 DECOMP_NOINLINE u8 GetPlayerCount(); // 0x00626168 | libgarden
 bool IsConnectedBestFriend(); // 0x00626218 | libgarden
 bool StopNet(); // 0x00627368 | libgarden
+// the Mgr8 of NetGameMgr is done / the join is not finished (names are ours; netgame_Api.cpp)
+bool IsMgr8Done();
+bool IsJoinNotFinished();
+PlayerNo GetLeavingPlayer();
+bool IsLeavingPlayerGone();
+bool ConfirmLeaving();
+bool IsPastLeavingPoint();
+bool IsJoinFlag15Set();
+bool IsSaveConfirmed();
+void ResetSaveDemo();
+bool IsMySaveConfirmed();
+bool StartLeaveExchange();
+bool IsSaveDemoDone();
+bool AreAllPlayersInSave();
+void ConfirmSave();
+void SendSessionOpen();
+bool IsJoining();
+void OnPlayerEntered();
+bool IsSaveDemoWaiting();
 bool StartConnectBestFriend(); // 0x0062739C | libgarden
 bool StopConnectBestFriend(); // 0x00627408 (name is ours)
 void* GetIslandMap(); // 0x006A7988 | libgarden

@@ -12,7 +12,7 @@ public:
     u32 GetMyPrincipalId() const; // 0x0070B660 (name is ours)
     // (names are ours; game code that is not decompiled yet)
     void Update(); // 0x001AAE44
-    void GetFriendCode(const u32* principalId, u32* friendCode); // 0x001AAA58
+    void GetFriendCode(const u32* principalId, u32* localFriendCode); // 0x001AAA58
     bool AddProfile(const void* profile); // 0x001AABE8
     bool IsProfileDone(); // 0x001AAD1C
     bool GetProfile(void* profile); // 0x001AADBC

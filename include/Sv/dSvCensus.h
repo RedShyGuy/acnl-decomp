@@ -13,8 +13,10 @@ struct SvCensusValue {
     /* 0x0000 */ u32 totalPlayerStat; // All player stats combined
     /* 0x0004 */ u32 playerStats[4]; // For each player
 
-    // adds the value for the current player (capped at 999999999; not in the netgame type 3)
+    // adds the value for the current player and to the total (each kept in [0, 999999999]; not in the Dream Suite, netgame::TYPE_DREAM)
     void Add(s32 value); // 0x006B7ED0 (name is ours)
+    // adds the value to the total only (the same rules)
+    DECOMP_NOINLINE void AddTotal(s32 value); // 0x006B6290 (name is ours)
 };
 ASSERT_SIZE(SvCensusValue, 0x14);
 
@@ -298,5 +300,19 @@ struct SvCensus {
     /* 0x1238 */ u32 unk_0x1238[0x83];
 };
 ASSERT_SIZE(SvCensus, 0x1444);
+
+// the census with its checksum (CRC-32 MSB first, nn::util::Crc32Msb), in the shared data (name is ours)
+struct SvCensusData {
+    // (game code, not decompiled yet; the constructor of the save data builds it)
+    SvCensusData(); // 0x002A7110
+
+    // the checksum of the census (names are ours)
+    DECOMP_NOINLINE void UpdateChecksum(); // 0x0071CD88
+    DECOMP_NOINLINE bool IsChecksumValid(); // 0x0071CDAC
+
+    /* 0x0000 */ u32 checksum;
+    /* 0x0004 */ SvCensus census;
+};
+ASSERT_SIZE(SvCensusData, 0x1448);
 
 #pragma pack(pop)

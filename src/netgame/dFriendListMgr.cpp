@@ -72,8 +72,8 @@ void netgame::FriendListMgr::Refresh()
             SvBestFriend* bestFriend = list->GetFriend(i);
             FriendId& id = m_BestFriends[i];
             id.principalId = bestFriend->principalId;
-            id.friendCode[0] = bestFriend->friendCode[0];
-            id.friendCode[1] = bestFriend->friendCode[1];
+            id.localFriendCode[0] = bestFriend->localFriendCode[0];
+            id.localFriendCode[1] = bestFriend->localFriendCode[1];
             AssignPersonalId(&m_PersonalIds[i], &bestFriend->personalId);
             Principal principal;
             principal.Set(bestFriend->personalId, id.principalId);
@@ -84,8 +84,8 @@ void netgame::FriendListMgr::Refresh()
     for (; i < BEST_FRIEND_MAX; i++) {
         FriendId& id = m_BestFriends[i];
         id.principalId = 0;
-        id.friendCode[0] = 0;
-        id.friendCode[1] = 0;
+        id.localFriendCode[0] = 0;
+        id.localFriendCode[1] = 0;
         ClearPersonalId(&m_PersonalIds[i]);
         m_BestFriendsOnline[i] = NULL;
     }
@@ -246,7 +246,7 @@ bool netgame::FriendListMgr::StartAddBestFriend(PlayerNo player)
     m_Player = player;
     FriendId id;
     NetGameMgr::s_pInstance->m_AvatarMgr.GetFriendId(&id, player);
-    bool hasId = id.principalId != 0 || (id.friendCode[0] | id.friendCode[1]) != 0;
+    bool hasId = id.principalId != 0 || (id.localFriendCode[0] | id.localFriendCode[1]) != 0;
     m_State = hasId ? STATE_ADD_BEST_FRIEND : STATE_FETCH_FRIEND_CODE;
     return true;
 }
@@ -323,8 +323,8 @@ netgame::FriendListMgr::FriendListMgr()
     for (s32 i = 0; i < BEST_FRIEND_MAX; i++) {
         FriendId& id = m_BestFriends[i];
         id.principalId = 0;
-        id.friendCode[0] = 0;
-        id.friendCode[1] = 0;
+        id.localFriendCode[0] = 0;
+        id.localFriendCode[1] = 0;
         ClearPersonalId(&m_PersonalIds[i]);
         m_BestFriendsOnline[i] = NULL;
     }
@@ -339,11 +339,11 @@ bool netgame::FriendListMgr::IsBestFriend(PlayerNo player)
         return false;
     }
     FriendId id;
-    id.friendCode[0] = 0;
-    id.friendCode[1] = 0;
+    id.localFriendCode[0] = 0;
+    id.localFriendCode[1] = 0;
     NetGameMgr::s_pInstance->m_AvatarMgr.GetFriendId(&id, player);
     s32 index = -1;
-    if (m_IsInitialized && (id.principalId != 0 || (id.friendCode[0] | id.friendCode[1]) != 0)) {
+    if (m_IsInitialized && (id.principalId != 0 || (id.localFriendCode[0] | id.localFriendCode[1]) != 0)) {
         m_CriticalSection.Enter();
         index = m_BestFriendIds.Find(avatar->avatarId);
         if (index >= 0 && m_BestFriends[index].IsDifferent(id)) {
@@ -396,12 +396,12 @@ bool netgame::FriendListMgr::HasMeAsBestFriend(const u32* principalId)
 s32 netgame::FriendListMgr::FindBestFriend(const u32& principal, const AvatarId& avatar)
 {
     FriendId id;
-    id.friendCode[0] = 0;
-    id.friendCode[1] = 0;
+    id.localFriendCode[0] = 0;
+    id.localFriendCode[1] = 0;
     id.principalId = principal;
-    FriendList::s_pInstance->GetFriendCode(&principal, id.friendCode);
+    FriendList::s_pInstance->GetFriendCode(&principal, id.localFriendCode);
     s32 index = -1;
-    if (m_IsInitialized && (id.principalId != 0 || (id.friendCode[0] | id.friendCode[1]) != 0)) {
+    if (m_IsInitialized && (id.principalId != 0 || (id.localFriendCode[0] | id.localFriendCode[1]) != 0)) {
         m_CriticalSection.Enter();
         index = m_BestFriendIds.Find(avatar);
         if (index >= 0 && m_BestFriends[index].IsDifferent(id)) {

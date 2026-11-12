@@ -70,6 +70,9 @@ if(TARGET lib_clib)
     file(GLOB clib_thumb_sources "${CMAKE_SOURCE_DIR}/lib/clib/src/*/*Thumb.cpp")
     set_source_files_properties(${clib_thumb_sources} PROPERTIES COMPILE_OPTIONS "-mthumb;-mfloat-abi=softfp")
 endif()
+# Thumb code of the game (*Thumb.cpp under src/, e.g. the npc checksum of the save data): the same options
+file(GLOB game_thumb_sources "${CMAKE_SOURCE_DIR}/src/*/*Thumb.cpp")
+set_source_files_properties(${game_thumb_sources} PROPERTIES COMPILE_OPTIONS "-mthumb;-mfloat-abi=softfp")
 
 get_property(units GLOBAL PROPERTY DECOMP_UNITS)
 

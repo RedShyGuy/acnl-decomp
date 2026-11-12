@@ -106,7 +106,9 @@ public:
 
     // the state becomes func if the table has it (its transition is called once; name is ours; copies per T in the
     // template area)
-    DECOMP_NOINLINE void Change(Func func)
+    DECOMP_NOINLINE void Change(Func func) { ChangeInline(func); }
+    // (the same; ARMCC embedded it where the machine is used in the file of T, e.g. BsSvMgr::State_Wait)
+    DECOMP_ALWAYS_INLINE void ChangeInline(Func func)
     {
         Func state = NULL;
         Func transition = NULL;

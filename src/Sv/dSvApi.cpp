@@ -1,5 +1,6 @@
 #include "Sv/dSvApi.h"
 #include "Bs/dBsPartsSaveMgr.h"
+#include "Sv/dSvSave.h"
 
 // the objects that the access functions read (they belong to other files of the game)
 // 0x0095CF94
@@ -39,13 +40,13 @@ SvSharedData* GetSharedData()
 {
     IsSaveIoOnMainData();
     IsSaveIoOnWholeFile();
-    return &g_SvSaveMemory.pData->data.sharedData;
+    return &g_SvSaveMemory.pData->sharedData;
 }
 
 // 0x002FD00C (name is ours)
 SvCensus* GetCensus()
 {
-    return &GetSharedData()->playerStats;
+    return &GetSharedData()->playerStats.census;
 }
 
 // 0x002FBA40 | libgarden [tier A]
@@ -103,8 +104,55 @@ SvPlayer* SvGetNetPlayer(netgame::PlayerNo player)
 // 0x001DF8B4 | libgarden [tier A]
 SvBestFriendList* SvGetBestFriendList()
 {
-    if (BsPartsSaveMgr<SvBestFriendList>::s_HasData && !BsPartsSaveMgr<SvBestFriendList>::s_IsDataBlocked) {
+    if (BsPartsSaveMgr<SvBestFriendList>::s_HasData && !BsPartsSaveMgr<SvBestFriendList>::s_IsSaving) {
         return BsPartsSaveMgr<SvBestFriendList>::s_pData;
     }
     return NULL;
+}
+
+// 0x001DF8E0 (name is ours)
+svholder::Mail* SvGetMail()
+{
+    if (BsPartsSaveMgr<svholder::Mail>::s_HasData && !BsPartsSaveMgr<svholder::Mail>::s_IsSaving) {
+        return BsPartsSaveMgr<svholder::Mail>::s_pData;
+    }
+    return NULL;
+}
+
+// 0x001DF924 (name is ours)
+svholder::MyDesign* SvGetMyDesign()
+{
+    if (BsPartsSaveMgr<svholder::MyDesign>::s_HasData && !BsPartsSaveMgr<svholder::MyDesign>::s_IsSaving) {
+        return BsPartsSaveMgr<svholder::MyDesign>::s_pData;
+    }
+    return NULL;
+}
+
+// 0x001DF950 (name is ours)
+SvBestFriendList* SvGetBestFriendListAlways()
+{
+    return BsPartsSaveMgr<SvBestFriendList>::s_HasData ? BsPartsSaveMgr<SvBestFriendList>::s_pData : NULL;
+}
+
+// 0x001DF970 (name is ours)
+svholder::Mail* SvGetMailAlways()
+{
+    return BsPartsSaveMgr<svholder::Mail>::s_HasData ? BsPartsSaveMgr<svholder::Mail>::s_pData : NULL;
+}
+
+// 0x001DF9C8 (name is ours)
+svholder::MyDesign* SvGetMyDesignAlways()
+{
+    return BsPartsSaveMgr<svholder::MyDesign>::s_HasData ? BsPartsSaveMgr<svholder::MyDesign>::s_pData : NULL;
+}
+
+// 0x005C7ED8 (name is ours)
+u32 SvGetCurrentTownSlot()
+{
+    SvPlayer* player = g_UnkAAFF18.pPlayer;
+    if (player == NULL) {
+        return 0;
+    }
+    const u32 slot = player->townSlot & 3;
+    return slot < 4 ? slot : 0;
 }

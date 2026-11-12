@@ -9,6 +9,7 @@
 #include "net/dNetBase64.h"
 #include "script/dStrMgr.h"
 #include "script/dWordCPtrSv.h"
+#include "time/time_Extern.h"
 #include "script/dWordPtrSv.h"
 #include "sead/seadFixedSafeStringBase.h"
 #include "sead/seadNew.h"
@@ -86,17 +87,14 @@ ASSERT_SIZE(TextHeader, 0x9C);
 } // namespace
 
 // 0x0062BB64 (name is ours)
-netgame::NetGameMgr::BestFriendMgr::Message::Message()
+netgame::NetGameMgr::BestFriendMgr::Message::Message() : principalId(0), townId(0)
 {
-    principalId = 0;
-    townId = 0;
-    SetTime(&time, 0x7FFFFFFFFFFFFFFF);
     isNotification = false;
     isOwn = false;
     ClearPlayerId(&player);
     townName[0] = 0;
     text[0] = 0;
-    SetTimeNow(&time);
+    time::SvTimeClear(&time);
 }
 
 // 0x0062BBB4 (name is ours)
@@ -375,7 +373,7 @@ void netgame::NetGameMgr::BestFriendMgr::Enqueue(Message* message)
             m_IsHistoryCut = true;
         }
     }
-    SetTime(&message->time, GetCurrentTime());
+    message->time = SvTime(GetCurrentTime());
     m_Received.PushBack(message);
     m_CriticalSection.Exit();
 }

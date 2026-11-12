@@ -15,7 +15,7 @@ oml::framework::Result BsAudioLoadSignal::Initialize()
         return oml::framework::RESULT_RETRY;
     }
     AudioObjFurnitureBase::s_IsLoadSignalOn = true;
-    if (netgame::GetNetgameType() == 3) {
+    if (netgame::GetNetgameType() == netgame::TYPE_DREAM) {
         m_HasMix29 = 1;
         audio::bgm::GetTrackMixer()->AddMix(29);
     }

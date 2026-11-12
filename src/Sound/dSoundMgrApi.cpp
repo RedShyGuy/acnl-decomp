@@ -718,7 +718,7 @@ void SoundMgr::SCreateSeaMgr()
         if (s_IsSeaCreated) {
             SoundSeaMgr::s_pInstance->m_Type = SoundSeaMgr::TYPE_VILLAGE;
         }
-        bool side = GetGardenPlus()->data.townData.oceanSide == 1;
+        bool side = GetGardenPlus()->data.townData.unk_0x5C.oceanSide == 1;
         if (s_IsSeaCreated) {
             SoundSeaMgr::s_pInstance->SetOceanSide(side);
         }
@@ -726,7 +726,7 @@ void SoundMgr::SCreateSeaMgr()
         if (s_IsSeaCreated) {
             SoundSeaMgr::s_pInstance->m_Type = SoundSeaMgr::TYPE_DOWNTOWN;
         }
-        bool side = GetGardenPlus()->data.townData.oceanSide == 1;
+        bool side = GetGardenPlus()->data.townData.unk_0x5C.oceanSide == 1;
         if (s_IsSeaCreated) {
             SoundSeaMgr::s_pInstance->SetOceanSide(side);
         }
@@ -1206,7 +1206,7 @@ bool SoundMgr::SIsChimeStage(stage::Name stage)
     if (audio::bgm::GetStageOpusMgr()->m_Flags & audio::bgm::StageOpusMgr::FLAG_CEREMONY) {
         return false;
     }
-    if (netgame::GetNetgameType() == 3) {
+    if (netgame::GetNetgameType() == netgame::TYPE_DREAM) {
         return false;
     }
     return mgr->GetStageSoundKind(stage) != 0;

@@ -195,7 +195,7 @@ void netgame::IslandMgr::Process()
                     u32 first = Func6BDA24(player);
                     u32 second = Func3037DC(reinterpret_cast<u8*>(player) + 0x6B8C);
                     Func6B9808(Func2FD00C(), second);
-                    Func6B7ED0(Func2FD00C(), first);
+                    GetCensus()->bellsEarned.Add(first);
                 }
                 Func5C6688();
                 Func1148DC();
@@ -342,14 +342,14 @@ void netgame::IslandMgr::Process()
             m_ShowingTelop = true;
         } else if (mgr->GetMyPlayerNo() != PLAYER_NO_HOST) {
             unk_0x141 = false;
-            Func608F60();
+            BsSvMgr::SetSaveStartTourFriendMatchNetVst();
             stage::Transition(stage::NAME_PREPARE_TOUR, 1, 0, 1, 1);
             SoundMgr::PlaySound(SE_SYS_TOUR_SHIP_WHISTLE, 0.0f);
             m_State = 0;
         } else {
             unk_0x141 = false;
             if (IsMultiPlayer()) {
-                Func608F44();
+                BsSvMgr::SetSaveStartTourFriendMatchNetHst();
                 stage::Transition(stage::NAME_PREPARE_TOUR, 1, 0, 1, 1);
                 SoundMgr::PlaySound(SE_SYS_TOUR_SHIP_WHISTLE, 0.0f);
                 m_Confirms[1].Update(PLAYER_NO_HOST, false);
@@ -1646,7 +1646,7 @@ void netgame::IslandMgr::StartTourTransition()
             u32 first = Func6BDA24(player);
             u32 second = Func3037DC(reinterpret_cast<u8*>(player) + 0x6B8C);
             Func6B9808(Func2FD00C(), second);
-            Func6B7ED0(Func2FD00C(), first);
+            GetCensus()->bellsEarned.Add(first);
         }
         Func5C6688();
         Func1148DC();

@@ -53,12 +53,12 @@ public:
         void Clear()
         {
             station = nn::pia::StationId(0xFFFFFFFD, 0xFFFFFFFF);
-            friendCode[0] = 0;
-            friendCode[1] = 0;
+            localFriendCode[0] = 0;
+            localFriendCode[1] = 0;
         }
 
         nn::pia::StationId station; // 0x0
-        u32 friendCode[2];          // 0x8
+        u32 localFriendCode[2];     // 0x8 (nn::friends UnscrambleLocalFriendCode of the station)
     };
     ASSERT_SIZE(FriendCode, 0x10);
 

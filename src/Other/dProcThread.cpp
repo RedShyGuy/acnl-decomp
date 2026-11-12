@@ -1,13 +1,26 @@
-#include "sead/seadThread.h"
 #include "Other/dProcThread.h"
 
-// 0x0055D99C slot 0x00 | slot vf_0x00 of sead::IDisposer
+#include "Other/dSaveProcess.h"
+#include "applet/dAppletState.h"
+#include "sead/seadHeapMgr.h"
+
+// 0x0055D99C
+// 0x001AF800 (deleting dtor)
 ProcThread::~ProcThread()
 {
+    // empty (in the original too)
 }
 
-// 0x001AF76C slot 0x40 | virtual slot, introduced by sead::Thread
-void ProcThread::vf_0x40()
+// 0x001AF76C (name after sead::Thread)
+void ProcThread::calc_(sead::MessageQueue::Element message)
 {
+    (void)message;
+    applet::IncrementSaveThreadCount();
+    {
+        sead::ScopedCurrentHeapSetter setter(m_pHeap);
+        SaveProcess process(m_pRequest);
+        process.Run();
+    }
+    quit(false);
+    applet::DecrementSaveThreadCount();
 }
-

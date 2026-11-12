@@ -83,7 +83,7 @@ bool PWorkDeleteList::SetupItems()
         break;
     case 2: {
         // the acres of the town on the map
-        u8* townMap = &GetGardenPlus()->data.townData.oceanSide;
+        u8* townMap = &GetGardenPlus()->data.townData.unk_0x5C.oceanSide;
         for (s32 y = 0; y < MAP_SIZE; y++) {
             for (s32 x = 0; x < MAP_SIZE; x++) {
                 const u16 acre = *Func75EBB4(townMap, x + 1, y);

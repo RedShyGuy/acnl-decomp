@@ -27,6 +27,10 @@ struct ChoiceItemData
     u8 isCapital;        // 0x1D the first character in upper case
     u8 isPeriod;         // 0x1E a "." is appended
     u8 isExclamation;    // 0x1F a "!" is appended
+
+    // (game code; names are ours) no text / the text of the string number of label
+    ChoiceItemData(); // 0x005E40AC
+    void SetLabel(const char* label, s32 number, s32 value, s32 sound, s32 data, u8 kind); // 0x005E3F94
 };
 ASSERT_SIZE(ChoiceItemData, 0x20);
 

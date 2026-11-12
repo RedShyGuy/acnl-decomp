@@ -64,7 +64,7 @@ inline SvTownData& GetTownData()
 } // namespace
 
 // 0x0056BF9C (name is ours)
-SvTime GetSpanFromRealNow(const nn::fnd::DateTimeParameters& date)
+s64 GetSpanFromRealNow(const nn::fnd::DateTimeParameters& date)
 {
     return ToTime(date) - s_State.realNow;
 }
@@ -79,7 +79,7 @@ s32 GetDaysInMonth(s32 year, s32 month)
 }
 
 // 0x0056C010 (name is ours)
-SvTime GetNow()
+s64 GetNow()
 {
     return s_State.now;
 }
@@ -114,10 +114,10 @@ void SaveOffset()
 }
 
 // 0x0056C0E4 (name is ours)
-void SetPendingOffset(SvTime time, s64 milliSeconds)
+void SetPendingOffset(s64 time, s64 milliSeconds)
 {
     nn::fnd::DateTime now = nn::fnd::DateTime::GetNow();
-    SvTime target = time;
+    s64 target = time;
     if (milliSeconds != 0) {
         nn::fnd::DateTime dateTime = s_State.baseDateTime;
         dateTime += nn::fnd::TimeSpan::FromNanoSeconds(time);
@@ -166,7 +166,7 @@ s64 GetPlayTimeSeconds()
 }
 
 // 0x0056C448 (name is ours)
-SvTime GetRealNow()
+s64 GetRealNow()
 {
     return s_State.realNow;
 }
@@ -281,7 +281,7 @@ void ApplyPendingOffset()
 }
 
 // 0x0056C808 (name is ours)
-SvTime GetFirstTime()
+s64 GetFirstTime()
 {
     nn::fnd::DateTimeParameters first = nn::fnd::DateTime(FIRST_YEAR, 1, 1, 0, 0, 0, 0).GetParameters();
     return ToTime(first);
@@ -309,7 +309,7 @@ const nn::fnd::DateTimeParameters* GetRealDate()
 }
 
 // 0x0056C908 (name is ours)
-SvTime ToTime(const nn::fnd::DateTimeParameters& date)
+s64 ToTime(const nn::fnd::DateTimeParameters& date)
 {
     return (nn::fnd::DateTime::FromParameters(date) - s_State.baseDateTime).GetNanoSeconds();
 }
@@ -328,7 +328,7 @@ u8 GetZodiacSign(s32 month, s32 day)
 }
 
 // 0x0056C9D4 (name is ours)
-SvTime GetDifference(const nn::fnd::DateTimeParameters& a, const nn::fnd::DateTimeParameters& b, bool wrap)
+s64 GetDifference(const nn::fnd::DateTimeParameters& a, const nn::fnd::DateTimeParameters& b, bool wrap)
 {
     nn::fnd::DateTime dateTimeA = nn::fnd::DateTime::FromParameters(a);
     nn::fnd::DateTime dateTimeB = nn::fnd::DateTime::FromParameters(b);
@@ -383,7 +383,7 @@ void StartPlayTimer()
 }
 
 // 0x0056CD40 (name is ours)
-nn::fnd::DateTimeParameters ToParameters(SvTime time)
+nn::fnd::DateTimeParameters ToParameters(s64 time)
 {
     nn::fnd::DateTime dateTime = s_State.baseDateTime;
     dateTime += nn::fnd::TimeSpan::FromNanoSeconds(time);
@@ -542,7 +542,7 @@ void Update()
 }
 
 // 0x0056D4F8 (name is ours)
-SvTime Func56D4F8(SvTime time, s32 a, s32 b, s32 c, f32 d)
+s64 Func56D4F8(s64 time, s32 a, s32 b, s32 c, f32 d)
 {
     nn::fnd::DateTimeParameters date = ToParameters(time);
     Func30A5AC(&date, a, b, c, d);
@@ -556,7 +556,7 @@ nn::fnd::DateTimeParameters MakeDate(s32 year, s32 month, s32 day, s32 hour, s32
 }
 
 // 0x0056D594 (name is ours)
-SvTime MakeTime(s32 year, s32 month, s32 day, s32 hour, s32 minute, s32 second)
+s64 MakeTime(s32 year, s32 month, s32 day, s32 hour, s32 minute, s32 second)
 {
     return (nn::fnd::DateTime(year, month, day, hour, minute, second, 0) - s_State.baseDateTime).GetNanoSeconds();
 }
@@ -741,7 +741,7 @@ void SetCurrentDate(const nn::fnd::DateTimeParameters& date)
 }
 
 // 0x0056DD18 (name is ours)
-void SetOffset(const SvTime* offset)
+void SetOffset(const s64* offset)
 {
     s_State.offset = *offset;
     s_State.now = s_State.realNow + s_State.offset;

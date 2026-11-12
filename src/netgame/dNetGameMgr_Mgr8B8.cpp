@@ -27,8 +27,8 @@ void netgame::NetGameMgr::Mgr8B8::Add(PlayerNo no)
 {
     m_Players[no].flags = 0;
     FriendId id;
-    id.friendCode[0] = 0;
-    id.friendCode[1] = 0;
+    id.localFriendCode[0] = 0;
+    id.localFriendCode[1] = 0;
     NetGameMgr::s_pInstance->m_AvatarMgr.GetFriendId(&id, no);
     if (FriendList::s_pInstance->IsFriend(&id)) {
         m_Players[no].flags |= PLAYER_FLAG_DONE;

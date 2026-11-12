@@ -475,6 +475,33 @@ public:
     // the net play may hold the talk (the timer or an error)
     void CheckNet(u8 state); // 0x00604068
     void Finish(); // 0x0060342C
+    // the state (copies in the shared area; names are ours)
+    DECOMP_EMIT_COPY DECOMP_NOINLINE bool IsWaitIconActive() const // 0x0075DD68
+    {
+        return m_WaitIconTime != 0;
+    }
+    DECOMP_EMIT_COPY DECOMP_NOINLINE bool IsIdle() const // 0x0075DD78
+    {
+        return m_State == STATE_IDLE;
+    }
+    DECOMP_EMIT_COPY DECOMP_NOINLINE bool IsKept() const // 0x0075DD8C
+    {
+        return m_State == STATE_KEEP;
+    }
+    DECOMP_EMIT_COPY DECOMP_NOINLINE bool IsPageWait() const // 0x0075DDB4
+    {
+        return m_State == STATE_PAGE;
+    }
+    // the talk is over: idle and the next message is the end (both are evaluated; name is ours)
+    DECOMP_EMIT_COPY DECOMP_NOINLINE bool IsFinished() const // 0x0075E10C
+    {
+        return (m_State == STATE_IDLE) & m_pJump->IsEnd();
+    }
+    // the number of the label of the current message
+    DECOMP_EMIT_COPY DECOMP_NOINLINE s32 GetMessageNumber() const // 0x0075DF98
+    {
+        return m_pMessage->m_Number;
+    }
     // whether the message may be quit now
     DECOMP_EMIT_COPY DECOMP_NOINLINE bool CanQuit(bool isForced) const // 0x0075DFA4
     {

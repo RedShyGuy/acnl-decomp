@@ -11,6 +11,12 @@
 #pragma pack(push, 1)
 
 struct SvMyDesign {
+    // (game code, not decompiled yet; the destructor is empty, armlink shares its bx lr with other empty functions)
+    SvMyDesign(); // 0x001B4F3C
+    ~SvMyDesign(); // 0x0013AB74
+    // the design is cleared (game code, not decompiled yet; name is ours)
+    void Clear(); // 0x00305B40
+
     /* 0x0000 */ char16 title[0x15];
     /* 0x002A */ SvPersonalId creatorData;
     /* 0x0058 */ u8 palette[0xF];

@@ -196,7 +196,7 @@ public:
             u16 townId;        // 0x1A
             char16 townName[9]; // 0x1C
             char16 text[33];   // 0x2E
-            u32 time[2];       // 0x70
+            SvTime time;       // 0x70
             u8 isNotification; // 0x78
             bool isOwn;        // 0x79
         };
@@ -565,7 +565,22 @@ extern s32 g_FrameCounter;
 bool ConnectBestFriendIfAllowed(); // 0x0062CC24
 void MakeParam(u32* param, u16 low, u32 high); // 0x00618E44
 s32 GetLockResult(); // 0x00626D24
+// (the lock requests of the save demos and the save of the network game)
+bool RequestLock2();
+bool RequestLock3();
+void StartSaveContinue();
+void StartSave(bool endSession);
 void BuildSessionData(const SvPersonalId* players); // 0x006295E4
+// the application data of the own session: the first player as Base64, then the names of the players (names are ours;
+// dSessionData.cpp, BsSvMgr sends it)
+struct SessionData
+{
+    static const u32 TEXT_LENGTH = 256;
+
+    char16 text[TEXT_LENGTH];
+    u32 length;
+};
+extern SessionData s_SessionData;
 void ReadSessionPlayers(const void* data, SvPersonalId* players); // 0x00629024
 void CopyNpcInfo(void* npcs, void* info, u32 unknown); // 0x00119184 (Thumb)
 void LoadNpcInfo(void* info, PlayerNo player); // 0x0051DDBC

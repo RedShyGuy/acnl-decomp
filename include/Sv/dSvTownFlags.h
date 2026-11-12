@@ -6,14 +6,34 @@
 
 #include "decomp.h"
 #include "Sv/dSvCommon.h"
+#include <cstring>
 
 #pragma pack(push, 1)
 
 struct SvTownFlags {
+    // (inline in the constructor of the save data) cleared, then Init
+    SvTownFlags()
+    {
+        std::memset(static_cast<void*>(this), 0, sizeof(*this));
+        Init();
+    }
+    // (game code, not decompiled yet; name is ours; also called when the town data is cleared)
+    void Init(); // 0x006F485C
     // the flag or the counter of the number (names are ours)
     u32 GetValue(u32 index) const; // 0x00771494
     void SetValue(u32 index, u32 value); // 0x006F4E7C
     void SetFlag(u32 index, bool value); // 0x006F51C4
+    // (inline) one more in the counter of 10 bits that starts at bit BIT (at most 1000; name is ours)
+    template <u32 BIT>
+    void AddCounter10()
+    {
+        u8* bytes = reinterpret_cast<u8*>(this) + BIT / 8;
+        const u32 shift = BIT % 8;
+        u32 value = (bytes[0] >> shift) + ((bytes[1] & ((1 << (shift + 2)) - 1)) << (8 - shift));
+        value = value + 1 > 1000 ? 1000 : value + 1;
+        bytes[0] = (bytes[0] & ((1 << shift) - 1)) | (value << shift);
+        bytes[1] = (bytes[1] & ~((1 << (shift + 2)) - 1)) | ((value & (0x3FF & ~((1 << (8 - shift)) - 1))) >> (8 - shift));
+    }
 
     /* 0x0000.0 */ u8 unk_0x0_0 : 1;
     /* 0x0000.1 */ u8 earlyBirdOrdinance : 1;
@@ -150,7 +170,9 @@ struct SvTownFlags {
     /* 0x0010.4 */ u8 unk_0x10_4 : 1;
     /* 0x0010.5 */ u8 unk_0x10_5 : 1;
     /* 0x0010.6 */ u8 unk_0x10_6 : 1;
+    /* 0x0010.7 */ u8 unk_0x10_7 : 1;
+    /* 0x0011 */ u8 unk_0x11; // (cleared with the flags by the constructor)
 };
-ASSERT_SIZE(SvTownFlags, 0x11);
+ASSERT_SIZE(SvTownFlags, 0x12);
 
 #pragma pack(pop)

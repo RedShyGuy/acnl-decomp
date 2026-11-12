@@ -41,6 +41,17 @@ public:
     virtual void GetTag5_0(IWord* word) = 0; // slot 0x94
     virtual void GetTag5_1(IWord* word) = 0; // slot 0x98
 
+    // (names are ours) the parts, the files and labels of a letter of the kinds MailN (addressee, text A, sender), MailR
+    // (texts A/B/C) and Bbs (only the text); the status is reset
+    void SetupNormal(IWord* to, IWord* body, IWord* from, s32* toResult, const char* toFile, s32 toLabel,
+                     const char* bodyFile, s32 labelA, const char* fromFile, s32 fromLabel); // 0x005DDE18
+    void SetupRandom(IWord* to, IWord* body, IWord* from, s32* toResult, const char* toFile, s32 toLabel,
+                     const char* bodyFile, s32 labelA, s32 labelB, s32 labelC, const char* fromFile,
+                     s32 fromLabel); // 0x005DDD64
+    void SetupBbs(IWord* body, const char* bodyFile, s32 labelA); // 0x005DDED0
+    // the letter is written (copy in the shared area)
+    DECOMP_EMIT_COPY DECOMP_NOINLINE bool IsDone() const { return m_Status == STATUS_DONE; } // 0x00303C18
+
     IWord* m_pToWord;                   // 0x04 the addressee is written here
     IWord* m_pBodyWord;                 // 0x08 the text
     IWord* m_pFromWord;                 // 0x0C the sender

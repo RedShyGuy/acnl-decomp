@@ -65,7 +65,7 @@ void lyt::TextAreaBoard::vf_0x44()
 // 0x005052DC
 void lyt::TextAreaBoard::FormatLines(bool isEditing)
 {
-    s32 messageNum = Func118B88(GetGardenData()->townData.bBoardMessages);
+    s32 messageNum = Func118B88(GetGardenData()->townData.unk_0x1AE94.bBoardMessages);
     if (messageNum > MESSAGE_NUM_MAX) {
         messageNum = MESSAGE_NUM_MAX;
     }

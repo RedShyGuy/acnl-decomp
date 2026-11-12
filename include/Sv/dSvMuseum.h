@@ -12,6 +12,9 @@
 #pragma pack(push, 1)
 
 struct SvMuseumExhibit {
+    // (game code, not decompiled yet; the constructor of the save data builds it)
+    SvMuseumExhibit(); // 0x001B65E4
+
     /* 0x0000 */ s8 playerIndex; // ctor sets to 0xFF (-1: none)
     /* 0x0001 */ u8 pad_0x1;
     /* 0x0002 */ SvRoom museumRoom;
@@ -23,6 +26,10 @@ ASSERT_SIZE(SvMuseumExhibit, 0xB98);
 
 // the museum (one struct in the original: GetExhibit gets its address)
 struct SvMuseum {
+    // (inline in the constructor of the save data) the members, then Init
+    SvMuseum() { Init(); }
+    // (game code, not decompiled yet; name is ours; also called when the town data is cleared)
+    void Init(); // 0x006BD128
     // the exhibition room (the first one for an index of 4 or more)
     SvMuseumExhibit* GetExhibit(u32 index); // 0x006BCED8 (name is ours)
 

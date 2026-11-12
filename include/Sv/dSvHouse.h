@@ -115,6 +115,9 @@ ASSERT_SIZE(SvPlayerHouse, 0x1228);
 
 // the houses of the four players (name is ours)
 struct SvPlayerHouseList {
+    // (game code, not decompiled yet; the constructor of the save data builds it)
+    SvPlayerHouseList(); // 0x002EC3D8
+
     // the house of the player (the first one for an index of 4 or more)
     SvPlayerHouse* Get(u32 index); // 0x0030F770 (name is ours)
 

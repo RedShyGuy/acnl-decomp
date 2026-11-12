@@ -11,6 +11,16 @@ class VisitorLocalInfo
 public:
     class SingletonDisposer_;
 
+    // (game code, not decompiled yet; called when the player is back in the own town)
+    void Func2C2B28(); // 0x002C2B28
+    // (game code, not decompiled yet; called after loads)
+    void Func2C2AA8(); // 0x002C2AA8
+    void Func2C2ADC(); // 0x002C2ADC
+    void Func2C2B04(); // 0x002C2B04
+    void Func2C2B10(); // 0x002C2B10
+    void Func2C2B34(); // 0x002C2B34
+    void Func2C2CDC(); // 0x002C2CDC
+
     // the 51 flags the flow events 64/65 and the branch 146 use
     struct Flags
     {

@@ -143,7 +143,7 @@ void netgame::JoinMgr::Process()
         }
         break;
     case STATE_SEND_SAVE_DATA:
-        if (!isBusy && unk_0x16 && !IsGardenBusy() && mgr->m_StageMgr.AreAllPlayersIn(stage::NAME_SAVE) &&
+        if (!isBusy && unk_0x16 && !IsSaveIoOnMainData() && mgr->m_StageMgr.AreAllPlayersIn(stage::NAME_SAVE) &&
             mgr->m_StageMgr.GetTransitioningPlayer() >= PLAYER_NO_MAX && SendSaveData(mgr->m_LockMgr.m_SourcePlayer)) {
             SetNetGameType(TYPE_FRIEND_MATCH);
             unk_0x16 = false;
@@ -346,9 +346,8 @@ bool netgame::JoinMgr::SendSaveData(PlayerNo target)
         u32 sent = 0;
         u32 remaining = SAVE_PART_SIZE;
         u8 saveNo = GetDefaultSaveNo(4);
-        // (bytes inside of the town flag)
-        const u8* townFlag = reinterpret_cast<const u8*>(&GetGardenPlus()->data.townData.townFlag);
-        u8 flag = (townFlag[0xB] & 1) != 0 || (townFlag[0xB] & 4) != 0;
+        const u8 townByte = GetGardenPlus()->data.townData.unk_0x1DAC7;
+        u8 flag = (townByte & 1) != 0 || (townByte & 4) != 0;
         u16 entries[PLAYER_NO_MAX];
         if (m_SendOffset < s_SaveHeaderSize) {
             parts[1] = &saveNo;

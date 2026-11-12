@@ -13,20 +13,13 @@ namespace netgame {
 // 0x0088F7B4
 extern const u16 UNKNOWN_TOWN_ID = 0xFFFF;
 
+// 0x00A22D68 (name is ours)
+SessionData s_SessionData;
+
 namespace {
 const u32 HEADER_SIZE = 6;
 const u32 HEADER_TEXT_LENGTH = 8;
-const u32 TEXT_LENGTH = 256;
-
-// the application data of the own session: the first player as Base64, then the names of the players
-struct SessionData
-{
-    char16 text[TEXT_LENGTH];
-    u32 length;
-};
-
-// 0x00A22D68 (name is ours)
-SessionData s_SessionData;
+const u32 TEXT_LENGTH = SessionData::TEXT_LENGTH;
 
 // 0x0087CD8C
 const wchar_t s_Separator[] = L"@";

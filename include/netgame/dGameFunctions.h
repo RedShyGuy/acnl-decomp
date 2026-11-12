@@ -52,7 +52,6 @@ u32 Func2FF63C(u32 max); // 0x002FF63C
 void Func30048C(u32 a, u32 b); // 0x0030048C
 u32 Func3037DC(void* data); // 0x003037DC
 SvPlayer* Func3038EC(u32 saveNo); // 0x003038EC
-void SetTimeNow(void* time); // 0x00303EEC
 void Func3043F4(void* object); // 0x003043F4
 void ClearPersonalId(SvPersonalId* id); // 0x003053D4
 void Func30804C(); // 0x0030804C
@@ -84,12 +83,8 @@ void Func5C7050(); // 0x005C7050
 void Func5C7284(u32 from, u32 to); // 0x005C7284
 void Func5C7AE0(u32 from, u32 to); // 0x005C7AE0
 bool Func5C8B84(u32 param, PlayerNo player); // 0x005C8B84
-void SetTime(void* time, s64 value); // 0x005CEA18
 void ShowError(u32 code, bool unknown); // 0x005CEEA0
 u32 GetDefaultRegion(); // 0x005D51AC
-bool IsGardenBusy(); // 0x006086B4
-void Func608F44(); // 0x00608F44
-void Func608F60(); // 0x00608F60
 void Func61E708(); // 0x0061E708
 void Func61F5F8(); // 0x0061F5F8
 void ResetMgr8(); // 0x00625514
@@ -113,7 +108,6 @@ void Func6A7C4C(); // 0x006A7C4C
 void Func6A7CC4(); // 0x006A7CC4
 bool Func6A7EE8(); // 0x006A7EE8
 bool Func6A7F04(u32 time); // 0x006A7F04
-void Func6B7ED0(void* shared, u32 param); // 0x006B7ED0
 void Func6B9808(void* shared, u32 param); // 0x006B9808
 void MakeTownId(SvTownId* town, const char16* name, u32 region); // 0x006BC944
 void MakeTownId(SvTownId* town, const char16* name, u16 townId, u32 region); // 0x006BCADC

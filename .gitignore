@@ -13,3 +13,4 @@ __pycache__/
 .vscode/
 *.gpr
 *.rep/
+sv_map_core.md

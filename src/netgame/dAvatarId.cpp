@@ -99,8 +99,8 @@ netgame::Principal::~Principal()
 // 0x0051B7AC (name is ours)
 netgame::FriendId::FriendId()
 {
-    friendCode[0] = 0;
-    friendCode[1] = 0;
+    localFriendCode[0] = 0;
+    localFriendCode[1] = 0;
 }
 
 // 0x00748318 (name is ours)
@@ -109,10 +109,10 @@ bool netgame::FriendId::IsDifferent(const FriendId& other) const
     if (principalId != 0 && other.principalId != 0) {
         return other.principalId != principalId;
     }
-    if ((other.friendCode[0] | other.friendCode[1]) == 0) {
+    if ((other.localFriendCode[0] | other.localFriendCode[1]) == 0) {
         return true;
     }
-    return friendCode[0] != other.friendCode[0] || friendCode[1] != other.friendCode[1];
+    return localFriendCode[0] != other.localFriendCode[0] || localFriendCode[1] != other.localFriendCode[1];
 }
 
 // 0x00626214 (name is ours)

@@ -11,6 +11,9 @@
 #pragma pack(push, 1)
 
 struct SvStrc {
+    // (game code, not decompiled yet; the constructor of the save data builds it)
+    SvStrc(); // 0x0020C0E0
+
     /* 0x0000 */ u16 id; // is none, only below 0xFC considered valid
     /* 0x0002 */ u8 xCoord;
     /* 0x0003 */ u8 yCoord;
@@ -131,6 +134,13 @@ struct SvDesignStand {
 ASSERT_SIZE(SvDesignStand, 0x878);
 
 struct SvStrcData {
+    // (game code, not decompiled yet; the constructor of the save data builds it)
+    SvStrcData(); // 0x005CE840
+
+    // the checksum of the data behind it (names are ours; isLogged: passed, not used)
+    DECOMP_NOINLINE void UpdateChecksum(); // 0x0075A2B4
+    DECOMP_NOINLINE bool IsChecksumValid(bool isLogged); // 0x0075A2DC
+
     /* 0x0000 */ u32 checksum; // Checksum of the 0x44B8 of this data
     /* 0x0004 */ u8 normalPwPsAmount;
     /* 0x0005 */ u8 eventPwPsAmount;
@@ -143,6 +153,9 @@ struct SvStrcData {
 ASSERT_SIZE(SvStrcData, 0x44BC);
 
 struct SvPwpProject {
+    // (game code, not decompiled yet; the constructor of the save data builds it)
+    SvPwpProject(); // 0x001B2000
+
     /* 0x0000 */ u8 unk_0x0; // ctor sets to 0
     /* 0x0001 */ u8 unk_0x1; // ctor sets to 0
     /* 0x0002 */ u8 unk_0x2; // ctor sets to 0

@@ -160,6 +160,13 @@ struct SvNpcDataUnk1744C {
 ASSERT_SIZE(SvNpcDataUnk1744C, 0x80);
 
 struct SvNpcData {
+    // (game code, not decompiled yet; the constructor of the save data builds it)
+    SvNpcData(); // 0x00112598 (Thumb)
+
+    // the checksum of the data behind it (names are ours; isLogged: passed, not used)
+    DECOMP_NOINLINE void UpdateChecksum(); // 0x00119870 (Thumb)
+    DECOMP_NOINLINE bool IsChecksumValid(bool isLogged); // 0x0011988C (Thumb)
+
     /* 0x0000 */ u32 checksum; // Checksum of the 0x22BC8 of this data
     /* 0x0004 */ SvNpc npcs[0xA];
     /* 0x172F4 */ u32 unk_0x172F4;

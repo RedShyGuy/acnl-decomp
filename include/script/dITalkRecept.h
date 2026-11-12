@@ -76,6 +76,8 @@ public:
 
     // the name of the speaker (and the byte +0x78 with it)
     void SetName(const IWord& name, u8 value); // 0x005DE040
+    // the file of the next message (name is ours)
+    void SetFile(const char* file); // 0x005DDFEC
     // the number as a text of three digits
     void SetNumberText(s32 number); // 0x005DE088
     // the talk the recept belongs to (copy 0x0075BBE8)

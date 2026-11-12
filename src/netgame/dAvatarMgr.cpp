@@ -393,7 +393,7 @@ bool netgame::AvatarMgr::FetchFriendCode(PlayerNo player)
     if (code == NULL) {
         return true;
     }
-    return net::Net::s_Instance.GetFriendCode(&code->station, const_cast<u64*>(reinterpret_cast<const u64*>(code->friendCode)));
+    return net::Net::s_Instance.GetFriendCode(&code->station, const_cast<u64*>(reinterpret_cast<const u64*>(code->localFriendCode)));
 }
 
 // 0x0062B1FC (name is ours)
@@ -457,7 +457,7 @@ void netgame::AvatarMgr::OnStationJoined(const nn::pia::StationId& stationId, co
             code = const_cast<FriendCode*>(FindFriendCode(InvalidStation()));
         }
         if (code != NULL) {
-            net::Net::s_Instance.GetFriendCodeDirect(&stationId, reinterpret_cast<u64*>(code->friendCode));
+            net::Net::s_Instance.GetFriendCodeDirect(&stationId, reinterpret_cast<u64*>(code->localFriendCode));
             code->station = stationId;
         }
     }
@@ -583,11 +583,11 @@ void netgame::AvatarMgr::GetFriendId(FriendId* id, PlayerNo player) const
         code = FindFriendCode(info->station);
     }
     if (code != NULL && code->station != InvalidStation()) {
-        id->friendCode[0] = code->friendCode[0];
-        id->friendCode[1] = code->friendCode[1];
+        id->localFriendCode[0] = code->localFriendCode[0];
+        id->localFriendCode[1] = code->localFriendCode[1];
     } else {
-        id->friendCode[0] = 0;
-        id->friendCode[1] = 0;
+        id->localFriendCode[0] = 0;
+        id->localFriendCode[1] = 0;
     }
 }
 

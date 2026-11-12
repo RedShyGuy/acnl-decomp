@@ -56,7 +56,9 @@ struct Unknown951718
     u8 mode;   // 0x00
     u8 _1[4];  // 0x01
     u8 flag5;  // 0x05
-    u8 _6[10]; // 0x06
+    u8 _6[2];  // 0x06
+    u8 unk_8;  // 0x08 (set to 1 by the step "preparation of the save" of BsSvMgr)
+    u8 _9[7];  // 0x09
     void* p10; // 0x10
 };
 extern Unknown951718 g_Unknown951718;

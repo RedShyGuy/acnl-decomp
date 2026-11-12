@@ -10,4 +10,8 @@ namespace applet {
 bool IsStateAtLeast2(); // 0x0011EF18
 // validates the whole GPU state again after a library applet
 void RestoreGpuState(); // 0x005CF7CC
+// a counter in the state (+8) that the save thread raises while it runs and lowers after (not below 0); what reads it
+// is unknown
+void IncrementSaveThreadCount(); // 0x005CF84C
+void DecrementSaveThreadCount(); // 0x005CF7A8
 } // namespace applet

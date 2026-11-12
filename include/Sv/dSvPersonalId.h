@@ -34,6 +34,8 @@ struct SvPersonalId {
     /* 0x002C */ u8 tpcCountry;
     /* 0x002D */ u8 tpcCounty;
 
+    // (empty; ARMCC's copy for the array constructors is a bx lr)
+    SvPersonalId() {} // 0x001B5138
     // a player and a town are set
     bool IsValid() const; // 0x002FBE08 (name is ours)
 };

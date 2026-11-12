@@ -51,7 +51,7 @@ struct FriendId
     bool IsDifferent(const FriendId& other) const; // 0x00748318
 
     u32 principalId;   // 0x0
-    u32 friendCode[2]; // 0x4
+    u32 localFriendCode[2]; // 0x4 (the local friend code of nn::friends, only in local play; FriendKey::localFriendCode)
 };
 ASSERT_SIZE(FriendId, 0xC);
 

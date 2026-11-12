@@ -23,6 +23,9 @@ struct SvEmoticons {
 ASSERT_SIZE(SvEmoticons, 0x28);
 
 struct SvMannequin {
+    // (game code, not decompiled yet; the constructor of the save data builds it)
+    SvMannequin(); // 0x001DFA80
+
     /* 0x0000 */ SvFgName hat; // Item ID < 0xXXXX
     /* 0x0004 */ SvFgName accessory; // Item ID < 0xXXXX
     /* 0x0008 */ SvFgName topWear; // Item ID < 0xXXXX
@@ -360,6 +363,15 @@ ASSERT_SIZE(SvPlayerAppearance, 0x27);
 
 // UnknownNotSetYetX = Not set by player ctor
 struct SvPlayer {
+    // (game code, not decompiled yet; the constructor of the save data builds it)
+    SvPlayer(); // 0x006BEBB0
+
+    // the checksum of the first part of the player (checksum1; names are ours, index and isLogged are not used)
+    DECOMP_NOINLINE void UpdateChecksum1(u32 index); // 0x007136FC
+    DECOMP_NOINLINE bool IsChecksum1Valid(u32 index, bool isLogged); // 0x00713724
+    // both checksums (a copy in the shared area; name is ours)
+    DECOMP_EMIT_COPY DECOMP_NOINLINE void UpdateChecksums(u32 index); // 0x0076F0B4
+
     /* 0x0000 */ u32 checksum1; // Checksum of the first 0x6b84 of player data
     /* 0x0004 */ SvPlayerAppearance playerAppearance;
     /* 0x002B */ u8 pad_0x2B;
@@ -463,7 +475,9 @@ struct SvPlayer {
     /* 0x8F2A */ u16 unk_0x8F2A; // Set to 0x7DB in player ctor
     /* 0x8F2C */ u16 unk_0x8F2C; // Set to 0x7DB in player ctor
     /* 0x8F2E */ SvDate unk_0x8F2E; // research name: UnknownDate / Does get set when Katrina tells lucky item
-    /* 0x8F32 */ u8 unk_0x8F32[0x45];
+    /* 0x8F32 */ u8 unk_0x8F32[6];
+    /* 0x8F38 */ u32 unk_0x8F38; // set to 0 after a load (0x005CB274)
+    /* 0x8F3C */ u8 unk_0x8F3C[0x3B];
     /* 0x8F77 */ u8 unk_0x8F77[0x21]; // ctor unsets every bit except in last byte in buffer, it only unsets bits 0 to 5
     /* 0x8F98 */ u8 pad_0x8F98;
     /* 0x8F99 */ u8 unk_0x8F99; // Set to 0 in player ctor
@@ -488,6 +502,9 @@ ASSERT_SIZE(SvPlayer, 0xA480);
 struct SvPlayerData {
     // the player (NULL for an index of 4 or more)
     SvPlayer* Get(u32 index); // 0x002FB9EC (name is ours)
+    // the checksums of the players / all of them are right (names are ours)
+    DECOMP_NOINLINE void UpdateChecksums(); // 0x0071AE00
+    DECOMP_NOINLINE bool AreChecksumsValid(bool isLogged); // 0x0071AE60
 
     /* 0x0000 */ SvPlayer players[4];
 };

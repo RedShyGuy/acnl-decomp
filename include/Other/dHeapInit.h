@@ -18,8 +18,12 @@ extern sead::ExpHeap* s_pStageHeap;
 extern sead::ExpHeap* s_pFontHeap;
 // "PhotoHeap" (set by HeapInit::CreatePhotoHeap)
 extern sead::ExpHeap* s_pPhotoHeap;
+// "SaveHeap" (set by HeapInit::CreateSaveHeap; the save thread lies in it)
+extern sead::ExpHeap* s_pSaveHeap;
 // the parent of the sound heaps 2..4 of SoundDataLoadMgr (set by game code that is not decompiled yet; name is ours)
 extern sead::Heap* s_pSoundDataHeap;
 // the heap of the page array of SearchList (set by game code that is not decompiled yet; name is ours)
 extern sead::Heap* s_pUnknown953CC4;
+// the heap of the data of exhibition.dat (else the stage heap; set by game code that is not decompiled yet; name is ours)
+extern sead::Heap* s_pUnknown953CB4;
 } // namespace HeapInit

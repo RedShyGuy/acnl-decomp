@@ -14,7 +14,7 @@ void audio::bgm::StageOpusPrologue1::Setup(stage::Name)
 // 0x005882E8
 void audio::bgm::StageOpusPrologue1::Ready()
 {
-    if (GetGardenPlus()->data.townData.oceanSide == 1) {
+    if (GetGardenPlus()->data.townData.unk_0x5C.oceanSide == 1) {
         RequestMgr::Times times = {40, -1, 0};
         GetRequestMgr()->Request(KIND_BGM_PREPARED, STRM_BGM_PROLOGUE_01, 0, times);
         return;

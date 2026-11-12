@@ -1214,7 +1214,7 @@ s32 IFlowRecept::BranchBirthday(u32* index, const libms::FlowNodeBranch& node)
 s32 IFlowRecept::Branch29(u32* index, const libms::FlowNodeBranch& node)
 {
     (void)node;
-    return SelectCase(index, netgame::GetNetgameType() == 3);
+    return SelectCase(index, netgame::GetNetgameType() == netgame::TYPE_DREAM);
 }
 
 // 0x005DBB94 (name is ours)
@@ -2245,7 +2245,7 @@ s32 IFlowRecept::Branch38(u32* index, const libms::FlowNodeBranch& node)
         if (Func717120() == 9) {
             for (u32 i = 0; i < 6; i++) {
                 void* entry = Func7171D4(object, static_cast<u8>(i));
-                if (!Func305240() || Func720FC0(entry)) {
+                if (!Func305240(entry) || Func720FC0(entry)) {
                     value = 1;
                     break;
                 }

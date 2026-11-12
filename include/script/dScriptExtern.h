@@ -44,6 +44,8 @@ void GetTownName(script::IWord* word); // 0x0056EB80
 void Func56DE5C(script::WordFix<9>* word, s32 number); // 0x0056DE5C
 // a player name with its sex into the word
 void MakePlayerName(script::WordFix<9>* word, const char16* name, u32 sex); // 0x0056DF70
+// (name after the address) the name of the villager of a letter person (as MakePlayerName)
+void Func56E310(script::WordFix<9>* word, const void* npc); // 0x0056E310
 // the name of the town into the word
 void MakeTownName(script::WordFix<9>* word, const SvTownId* town); // 0x0056EB34
 // a player of the save data (purpose unknown)
@@ -184,7 +186,7 @@ void Func2C02C8(SvPlayerInventory* inventory, u32 value); // 0x002C02C8
 void Func2C1304(u8* data, u32 index, bool value); // 0x002C1304
 void* Func300928(u8* data, s32 entry); // 0x00300928 (Thumb)
 u32 Func3037DC(void* data); // 0x003037DC
-bool Func305240(); // 0x00305240
+bool Func305240(void* entry); // 0x00305240
 bool Func3107F4(const SvFgName* item); // 0x003107F4
 bool Func350D40(); // 0x00350D40
 bool Func5C3750(); // 0x005C3750

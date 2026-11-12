@@ -15,7 +15,7 @@ void audio::bgm::StageOpusVillageDowntown::Setup(stage::Name stage)
     s_TownState.isLow = 0;
     m_IsReady = 0;
     m_IsSuspended = 0;
-    s_TownState.isOceanLeft = GetGardenPlus()->data.townData.oceanSide == 0;
+    s_TownState.isOceanLeft = GetGardenPlus()->data.townData.unk_0x5C.oceanSide == 0;
     m_pEvent = s_EventOpusList.Select();
     if (m_pEvent != NULL && stage == stage::NAME_DOWNTOWN) {
         GetTrackMixer()->AddMix(49);

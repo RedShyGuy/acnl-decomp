@@ -3,13 +3,6 @@
 #include "Sv/dSvCensus.h"
 #include "Item/item_Api.h"
 
-// the object whose player SetItem compares (class unknown, an object of another file; +0x234 is the current player)
-struct UnkAAFF18
-{
-    u8 unk_0x0[0x234];
-    SvPlayer* pPlayer;  // 0x234
-};
-
 // 0x00AAFF18
 UnkAAFF18 g_UnkAAFF18;
 

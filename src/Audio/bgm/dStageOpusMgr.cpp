@@ -363,7 +363,7 @@ u8 audio::bgm::StageOpusMgr::SelectOpus(stage::Name stage)
     if (stage == stage::NAME_INSECT_AWARD_TENT_DEMO || stage == stage::NAME_FISH_AWARD_TENT_DEMO) {
         return 39;
     }
-    if (stage::IsKind(0x200016, stage) && netgame::GetNetgameType() == 2) {
+    if (stage::IsKind(0x200016, stage) && netgame::GetNetgameType() == netgame::TYPE_RANDOM_MATCH) {
         return 38;
     }
     if (stage::IsKind(0x40000, stage)) {

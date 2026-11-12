@@ -18,7 +18,7 @@ void audio::bgm::StageOpusPrologue4::Initialize()
         m_IsHouseChosen = 1;
     }
     m_IsReady = 0;
-    s_TownState.isOceanLeft = GetGardenPlus()->data.townData.oceanSide == 0;
+    s_TownState.isOceanLeft = GetGardenPlus()->data.townData.unk_0x5C.oceanSide == 0;
 }
 
 // 0x00588860
