@@ -44,7 +44,10 @@ struct SvMailPerson {
     // (game code, not decompiled yet; falls through into the copy of the id) the kind 1 and the id
     void SetPlayer(const SvPersonalId* other); // 0x001B503C
     void SetNpc(const void* npc, u8 kind); // 0x005CCF64
-    void Func5CCB40(); // 0x005CCB40
+    // the kind 6 (the receiver of a letter to the future, see SvMail::SetReceiverFuture)
+    void SetKindFuture(); // 0x005CCB40
+    // (open, see docs/pending_names.md) the kind 1/3 becomes 3, 2/4 becomes 4, the others 5 (the villager letters call it
+    // after SetSenderNpc)
     void Func5CCF24(); // 0x005CCF24
 
     /* 0x0000 */ SvPersonalId id;
@@ -75,17 +78,18 @@ struct SvMail {
     // current player (kind 6, future letter) / the sender is a player / a villager / the paper (two copies) / the kind 1
     // becomes 2 / the receiver is the player of a save number (then the header of the current player unless keepHeader)
     // / the kind 3 becomes 1, without an attached item the bits 3..4 become 1 / the bit 0x40 / the texts
-    void Func5CC70C(u32 kind); // 0x005CC70C
-    void Func5CC724(const SvFgName& paper); // 0x005CC724
-    void Func5CC804(s32 npcIndex); // 0x005CC804
-    void Func5CC894(); // 0x005CC894
-    void Func5CC8F4(const SvPersonalId* id); // 0x005CC8F4
-    void Func5CC904(const void* npc); // 0x005CC904
-    void Func5CC914(const SvFgName& paper); // 0x005CC914
-    void Func5CC954(); // 0x005CC954
-    void Func5CC974(const SvFgName& paper); // 0x005CC974
-    void Func5CC9B4(u32 saveNo, bool keepHeader); // 0x005CC9B4
-    void Func5CCAF4(); // 0x005CCAF4
+    void SetStatus(u32 kind); // 0x005CC70C
+    void InitPlayerLetter(const SvFgName& paper); // 0x005CC724
+    void SetReceiverNpc(s32 npcIndex); // 0x005CC804
+    void SetReceiverFuture(); // 0x005CC894
+    void SetSenderPlayer(const SvPersonalId* id); // 0x005CC8F4
+    void SetSenderNpc(const void* npc); // 0x005CC904
+    void SetPaper(const SvFgName& paper); // 0x005CC914
+    void MarkOpened(); // 0x005CC954
+    void SetPaper2(const SvFgName& paper); // 0x005CC974
+    void SetReceiverPlayer(u32 saveNo, bool keepHeader); // 0x005CC9B4
+    void FinishWriting(); // 0x005CCAF4
+    // (open) bit 0x40 of letterFlag is set / cleared (only caller: 0x5026B8)
     void Func5CCF74(); // 0x005CCF74
     void Func5CCFA4(); // 0x005CCFA4
     script::WordPtrSv GetBody(); // 0x005CCF84
@@ -93,7 +97,7 @@ struct SvMail {
     script::WordPtrSv GetHeader(); // 0x005CCFD4
     // the letter is written from messages by MailLoadAdapt (see there; the callback gets the phrase first, the villager
     // is set as the word 2B8/0 of the phrase); true: it is written
-    void Func5CCA48(script::Phrase* phrase, const void* npc); // 0x005CCA48
+    void WriteFromPhrase(script::Phrase* phrase, const void* npc); // 0x005CCA48
     // (game code, not decompiled yet; names are ours) the letter is written from a label of a file to a player on a
     // paper (two values) / it is sent (three values; true: sent)
     bool Func306374(const char* file, s32 label, const SvPersonalId* player, const SvFgName* paper, u32 a,

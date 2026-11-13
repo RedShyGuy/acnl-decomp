@@ -570,50 +570,54 @@ struct SvPlayer : SvPlayerUnk0 {
     // the play time goes up (at most to the largest time); every full minute goes to Func6F0C80(16, minutes), the
     // seconds are collected over the calls (name is ours, after SvGardenData::AddPlaytime)
     void AddPlaytime(s64 time); // 0x006BD504
-    void Func6BD90C(); // 0x006BD90C
-    void Func6BDB84(u32 value); // 0x006BDB84
-    void Func6BD940(); // 0x006BD940
+    void UpdateDebt(); // 0x006BD90C
+    void SetDebt(u32 value); // 0x006BDB84
+    // before / after the player is sent in a network game (0x005836A8 / 0x0058381C, JoinMgr) (names are ours)
+    void PrepareSend(); // 0x006BD500
+    void FinishSend(); // 0x006BD940
     void Func6BD9A0(const SvFgName& item); // 0x006BD9A0
-    void Func6BD9FC(u32 value); // 0x006BD9FC
+    void AddBellsFromReese(u32 value); // 0x006BD9FC
     void Func6BDA0C(); // 0x006BDA0C
-    void Func6BDB48(); // 0x006BDB48
+    void CollectInitiativeCoupons(); // 0x006BDB48
     void Func6BDBCC(u32 index); // 0x006BDBCC
-    // the value of the held item (if Func769644 does not hold for it) and of the inventory items goes to the bank, the
-    // items are removed; returns the sum
-    s32 Func6BDA24(); // 0x006BDA24
+    // when the player leaves the island (tested by the user): the pockets are sold, money at full value, the other
+    // items at 1/80 of their price (fruit 1/400, see Func76A018; the held item unless Func769644 holds for it), the sum
+    // goes to bankAmount (the ABD account), then the pockets are emptied; returns the sum
+    s32 SellPocketsToBank(); // 0x006BDA24
     // each usual item of unk_0xA468 is sent in a letter "Mail_SP_Autocamp" into the letter pool of the shared data, then
     // the remaining entries are moved to the front
-    void Func6BDC0C(); // 0x006BDC0C
+    void SendCampgroundOrders(); // 0x006BDC0C
     // the size in the encyclopedia of an insect, fish or sea creature (0: none) / unk_0x8F28 goes up by a positive value
     // / the item and the value go into the first entry of unk_0xA468 without a usual item / the first such entry is
     // cleared (false: none) / a bit of unk_0xA3E4 / of unk_0xA424 (not for 0xFFFF) / the bits of unk_0x8F3C are cleared
     // / unk_0x8D84 if Func76EE94 holds for the villager, else NULL
-    u16 Func6BDE18(const SvFgName& item) const; // 0x006BDE18
+    u16 GetCreatureSize(const SvFgName& item) const; // 0x006BDE18
     void Func6BDF08(s32 value); // 0x006BDF08
-    void Func6BDF34(const SvFgName& item, u16 value); // 0x006BDF34
-    bool Func6BDFA0(); // 0x006BDFA0
+    void AddCampgroundOrder(const SvFgName& item, u16 value); // 0x006BDF34
+    bool HasFreeCampgroundOrder(); // 0x006BDFA0
     void Func6BE028(u32 index); // 0x006BE028
     void Func6BE05C(u32 index); // 0x006BE05C
     void Func6BE090(); // 0x006BE090
     SvPlayerUnk8D84* Func6BE0A0(const SvNpcRef* npc, s32 index); // 0x006BE0A0
     // the size of an insect, fish or sea creature becomes the one of the item (Func76981C) if it is larger / a new
-    // random unk_0xA464 / the sizes of the encyclopedia are cleared / the player is created again (Func6BE460 first,
+    // random unk_0xA464 / the sizes of the encyclopedia are cleared / the player is created again (Clear first,
     // then Func20C8AC with the arguments, the town, the start values; the census of the town slot goes up by 10)
-    void Func6BE0BC(const SvFgName& item); // 0x006BE0BC
+    void UpdateCreatureSize(const SvFgName& item); // 0x006BE0BC
     void Func6BE210(); // 0x006BE210
-    void Func6BE254(); // 0x006BE254
-    void Func6BE2C4(u32 a, u32 b, u32 c, const SvTownId* town, u32 townSlot); // 0x006BE2C4
+    void ClearCreatureSizes(); // 0x006BE254
+    void InitializeNew(u32 a, u32 b, u32 c, const SvTownId* town, u32 townSlot); // 0x006BE2C4
     // the player is cleared and the parts get their start values (unk_0x8F2A becomes 2011, unk_0x8F2C too unless
     // keepUnk8F2C)
-    void Func6BE460(bool keepUnk8F2C); // 0x006BE460
+    void Clear(bool keepUnk8F2C); // 0x006BE460
     // the debt goes down by a value (to 0 if it is smaller) / medals are added (up to 99999) / hasBeeSting and three
     // other flags are cleared (two of them only if Func5C304C/Func5C6AF4 hold) / medals go down / the player is
     // taken over (Func20CBD8 and the parts with the arguments; letters with bit 7 of letterType are cleared, the
     // others go through Func6BC774)
-    void Func6BE8E8(u32 value); // 0x006BE8E8
-    void Func6BE928(u32 value); // 0x006BE928
+    void PayDebt(u32 value); // 0x006BE8E8
+    void AddMedals(u32 value); // 0x006BE928
+    // (open) only SvApplyGameStart: the bee sting is gone, the flags 0x20.3/0x18.3/0x26.7 are reset under conditions
     void Func6BE93C(); // 0x006BE93C
-    void Func6BE9E8(u32 value); // 0x006BE9E8
+    void SubMedals(u32 value); // 0x006BE9E8
     void Func6BE9F4(u32 a, u32 b, u8 c); // 0x006BE9F4
 
     // (inline in dSvPlayer.cpp; name is ours) the size of an entry of the encyclopedia (0: none)
@@ -683,7 +687,7 @@ struct SvPlayer : SvPlayerUnk0 {
     /* 0x8F2C */ u16 unk_0x8F2C = 2011; // Set to 0x7DB in player ctor
     /* 0x8F2E */ SvDate unk_0x8F2E; // research name: UnknownDate / Does get set when Katrina tells lucky item
     /* 0x8F32 */ u8 unk_0x8F32[2];
-    /* 0x8F34 */ u32 unk_0x8F34; // set to 0 by Func6BE460
+    /* 0x8F34 */ u32 unk_0x8F34; // set to 0 by Clear
     /* 0x8F38 */ u32 unk_0x8F38; // set to 0 after a load (0x005CB274)
     /* 0x8F3C */ u8 unk_0x8F3C[0x32]; // a bit for each index below 0x18F (Func6BDBCC)
     /* 0x8F6E */ u8 unk_0x8F6E[9]; // a bit for each index below 67 of the items of the kind 44 (Func6BD9A0)
@@ -722,7 +726,10 @@ ASSERT_SIZE(SvPlayerData, 0x29200);
 // (game code that the functions of the player call, not decompiled yet; names after the addresses)
 u32 Func76E7CC(SvPlayer* player); // 0x0076E7CC
 void Func58381C(SvPlayer* player); // 0x0058381C
+void Func5836A8(SvPlayer* player); // 0x005836A8
 u32 Func24AC8C(SvPlayerInitiative* initiative); // 0x0024AC8C
+// (open) the value of an item when the pockets are sold on leaving the island: KIND_MONEY at full value, the others
+// price * priceMultiplier / 80 (fruit and KIND_MT_FRUIT a fifth of it, times the count), at least 1 when there is a price
 s32 Func76A018(const SvFgName* item); // 0x0076A018
 bool Func769644(const SvFgName* item); // 0x00769644
 u8 Func70162C(const SvFgName& item); // 0x0070162C
@@ -735,7 +742,7 @@ void Func24E2B4(SvEmoticons* emoticons); // 0x0024E2B4
 void Func6F0B74(u8* data); // 0x006F0B74
 void Func24CE14(SvPlayerSpecialMail* mail); // 0x0024CE14
 void Func24AD90(SvPlayerInitiative* initiative); // 0x0024AD90
-// (the parts of the player when it is cleared, Func6BE460)
+// (the parts of the player when it is cleared, Clear)
 void Func20CABC(SvPlayer* player); // 0x0020CABC
 void Func6F0B80(u8* data); // 0x006F0B80
 void Func5C7230(); // 0x005C7230

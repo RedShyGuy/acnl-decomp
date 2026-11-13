@@ -31,13 +31,21 @@ DECOMP_NOINLINE void SvUpdateCrc(const void* base, const void* data, u32* checks
 void SvClearSaveData(SvGardenPlus* data); // 0x005CB7EC
 // (game code of this file, not decompiled yet; called with the save data)
 // a new secure value and everything cleared
-void Func5CB7F8(SvGardenPlus* data);
+void SvResetSaveData(SvGardenPlus* data);
 // the save data is allocated in the heap of g_SvSaveMemory and built, then reset as above (nothing if it is there)
 void SvAllocateSaveMemory(); // 0x005CB84C
+// (open, see docs/pending_names.md) SvSaveExtra with FLAG_EXTRA: resetPending and unk_0x8F38 of the current player are
+// cleared, 0x116CF4 runs, the town flag unk_0x1_5 is set by a bit of the player
 void Func5CB274(SvGardenPlus* data);
+// (open) before the full saves (save kinds 1 and 5, SvSaveExtra): 0x17D478, then falls through into
+// SvGardenData::Func5CBAB8 (the date of the save?)
 void Func5CBAA0(SvGardenPlus* data);
-void Func5CB4B4(SvGardenPlus* data);
-// (after loads: the parts of the game that depend on the town data; names after the addresses)
+// after the own town is loaded again when a visit ends (step "ロード処理完了" of the modes SaveRetireNetVst and
+// SaveInterruptNetVst): time offset, events, the carried item into Nook's Homes, the town melody
+void SvRestoreAfterNetVisit(SvGardenPlus* data);
+// (open; after loads: the parts of the game that depend on the town data; names after the addresses) 0x5CB2EC/0x5CB49C
+// are called by the game function 0x6E3370, 0x5CB690/0x5CB7CC by 0x22EB34 (which builds a save request), 0x5CB7A4 only
+// by ModuleDream (the time townData.unk_0x1E43C)
 void Func5CB2EC();
 void Func5CB49C();
 void Func5CB690();

@@ -33,7 +33,7 @@ DECOMP_ALWAYS_INLINE void SetHeaderOfPlayer(SvMail* mail, const SvPlayer* player
 }
 
 // (inline) the paper: an item of the kind 42 sets the bit 0x20, its index (0 if it is not a byte)
-DECOMP_ALWAYS_INLINE void SetPaper(SvMail* mail, const SvFgName& paper)
+DECOMP_ALWAYS_INLINE void SetPaperOf(SvMail* mail, const SvFgName& paper)
 {
     if (paper.GetKind() == 42) {
         mail->letterFlag |= 0x20;
@@ -44,16 +44,16 @@ DECOMP_ALWAYS_INLINE void SetPaper(SvMail* mail, const SvFgName& paper)
 } // namespace
 
 // 0x005CC70C (name is ours)
-void SvMail::Func5CC70C(u32 kind)
+void SvMail::SetStatus(u32 kind)
 {
     letterFlag = (letterFlag & ~7) | (kind & 7);
 }
 
 // 0x005CC724 (name is ours)
-void SvMail::Func5CC724(const SvFgName& paper)
+void SvMail::InitPlayerLetter(const SvFgName& paper)
 {
     Clear();
-    SetPaper(this, paper);
+    SetPaperOf(this, paper);
     stringIdOfSender = 0;
     SvPlayer* player = SvGetCurrentPlayer();
     if (player == NULL) {
@@ -70,7 +70,7 @@ void SvMail::Func5CC724(const SvFgName& paper)
 }
 
 // 0x005CC804 (name is ours)
-void SvMail::Func5CC804(s32 npcIndex)
+void SvMail::SetReceiverNpc(s32 npcIndex)
 {
     void* npc = event::Func300928(GetGardenPlus()->data.npcData.npcs, npcIndex);
     if (npc != NULL && Func302050(static_cast<const SvNpcRef*>(npc))) {
@@ -85,7 +85,7 @@ void SvMail::Func5CC804(s32 npcIndex)
 }
 
 // 0x005CC894 (name is ours)
-void SvMail::Func5CC894()
+void SvMail::SetReceiverFuture()
 {
     SvPlayer* player = SvGetCurrentPlayer();
     if (player == NULL) {
@@ -99,40 +99,40 @@ void SvMail::Func5CC894()
 }
 
 // 0x005CC8F4 (name is ours)
-void SvMail::Func5CC8F4(const SvPersonalId* id)
+void SvMail::SetSenderPlayer(const SvPersonalId* id)
 {
     sender.Set(id, 1);
 }
 
 // 0x005CC904 (name is ours)
-void SvMail::Func5CC904(const void* npc)
+void SvMail::SetSenderNpc(const void* npc)
 {
     sender.SetNpc(npc, 2);
 }
 
 // 0x005CC914 (name is ours)
-void SvMail::Func5CC914(const SvFgName& paper)
+void SvMail::SetPaper(const SvFgName& paper)
 {
-    SetPaper(this, paper);
+    SetPaperOf(this, paper);
 }
 
 // 0x005CC954 (name is ours)
-void SvMail::Func5CC954()
+void SvMail::MarkOpened()
 {
     if ((letterFlag & 7) == 1) {
         letterFlag = (letterFlag & ~7) | 2;
     }
 }
 
-// (another copy of Func5CC914)
+// (another copy of SetPaper)
 // 0x005CC974 (name is ours)
-void SvMail::Func5CC974(const SvFgName& paper)
+void SvMail::SetPaper2(const SvFgName& paper)
 {
-    SetPaper(this, paper);
+    SetPaperOf(this, paper);
 }
 
 // 0x005CC9B4 (name is ours)
-void SvMail::Func5CC9B4(u32 saveNo, bool keepHeader)
+void SvMail::SetReceiverPlayer(u32 saveNo, bool keepHeader)
 {
     SvPlayer* player = netgame::Func3038EC(saveNo & 0xFF);
     if (player != NULL && player->playerInfo.IsValid()) {
@@ -148,7 +148,7 @@ void SvMail::Func5CC9B4(u32 saveNo, bool keepHeader)
 }
 
 // 0x005CCAF4 (name is ours)
-void SvMail::Func5CCAF4()
+void SvMail::FinishWriting()
 {
     if ((letterFlag & 7) == 3) {
         letterFlag = (letterFlag & ~7) | 1;
@@ -159,7 +159,7 @@ void SvMail::Func5CCAF4()
 }
 
 // 0x005CCB40 (name is ours)
-void SvMailPerson::Func5CCB40()
+void SvMailPerson::SetKindFuture()
 {
     unk_0x30 = 6;
 }
@@ -267,7 +267,7 @@ inline void SimpleFuncDelegate::invoke(script::Phrase* phrase)
 } // namespace
 
 // 0x005CCA48 (name is ours)
-void SvMail::Func5CCA48(script::Phrase* phrase, const void* npc)
+void SvMail::WriteFromPhrase(script::Phrase* phrase, const void* npc)
 {
     script::WordFix<9> name;
     Func56E310(&name, npc);
@@ -284,7 +284,7 @@ bool SvMail::LoadNpc(const char* toFile, s32 toLabel, const char* bodyFile, s32 
     if (callback != NULL) {
         callback->invoke(adapt.GetPhrase());
     }
-    Func5CCA48(adapt.GetPhrase(), npc);
+    WriteFromPhrase(adapt.GetPhrase(), npc);
     adapt.LoadNpc(this, toFile, toLabel, bodyFile, bodyLabel, fromFile, fromLabel, npc, player, paper);
     adapt.End();
     return adapt.IsDone();
@@ -314,7 +314,7 @@ bool SvMail::LoadNpcRandom(const char* toFile, s32 toLabel, const char* bodyFile
     if (callback != NULL) {
         callback->invoke(adapt.GetPhrase());
     }
-    Func5CCA48(adapt.GetPhrase(), npc);
+    WriteFromPhrase(adapt.GetPhrase(), npc);
     adapt.LoadNpcRandom(this, toFile, toLabel, bodyFile, labelA, labelB, labelC, fromFile, fromLabel, npc, player,
                         paper);
     adapt.End();

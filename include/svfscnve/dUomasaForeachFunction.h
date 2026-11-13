@@ -8,7 +8,7 @@
 
 namespace svfscnve {
 // Marks the NPCs of the list of BsNpcMgr in order (the actor is free and its object passes Func753588) for the Fishing
-// Tourney (SvFishingConvention::Func3039D0; the counterpart of KameyamaForeachFunction of the Bug-Off; member names are
+// Tourney (SvFishingConvention::CanVillagerTakePart; the counterpart of KameyamaForeachFunction of the Bug-Off; member names are
 // ours).
 // RTTI N8svfscnve21UomasaForeachFunctionE @ 0x008D409C
 // vtable 0x0090C200 (vptr 0x0090C208), offset_to_top 0, 1 entries

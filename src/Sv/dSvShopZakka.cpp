@@ -57,7 +57,7 @@ DECOMP_ALWAYS_INLINE SvTownFlags* GetTownFlags()
 } // namespace
 
 // 0x001E5238 (name is ours)
-void SvShopZakka::Func1E5238(u32 value)
+void SvShopZakka::AddBellsSpent(u32 value)
 {
     nooklingBellsSpent.Add(value, 0xFFFFFFFF);
     if (nooklingBellsSpent.Get() >= s_SpentLimits[nooklingState]) {
@@ -66,7 +66,7 @@ void SvShopZakka::Func1E5238(u32 value)
 }
 
 // 0x001E5280 (name is ours)
-void SvShopZakka::Func1E5280(u32 stage, u32 index, s32 x, s32 z, s32 unknown)
+void SvShopZakka::BuyItem(u32 stage, u32 index, s32 x, s32 z, s32 unknown)
 {
     if (index >= 24) {
         return;
@@ -103,14 +103,14 @@ void SvShopZakka::Func1E5280(u32 stage, u32 index, s32 x, s32 z, s32 unknown)
 }
 
 // 0x001E545C (name is ours)
-void SvShopZakka::Func1E545C(u8 level)
+void SvShopZakka::Upgrade(u8 level)
 {
-    if (!time::SvTimeIsValid(&unk_0x0)) {
-        Func5CE904(&unk_0x0);
-        time::SvTimeNormalize(&unk_0x0);
-        Func5CE8B8(&unk_0x0, -1);
+    if (!time::SvTimeIsValid(&renovationDate)) {
+        Func5CE904(&renovationDate);
+        time::SvTimeNormalize(&renovationDate);
+        Func5CE8B8(&renovationDate, -1);
     }
-    nn::fnd::DateTimeParameters date = time::SvTimeToParameters(&unk_0x0);
+    nn::fnd::DateTimeParameters date = time::SvTimeToParameters(&renovationDate);
     event::AddDays(&date, 1);
     SvDate day;
     event::Func30F6DC(&day, &date);
@@ -163,7 +163,7 @@ void SvShopZakka::Func1E545C(u8 level)
 }
 
 // 0x001E57AC (name is ours)
-DECOMP_NOINLINE void SvShopZakka::Func1E57AC(s32 days)
+DECOMP_NOINLINE void SvShopZakka::UpdateUpgrade(s32 days)
 {
     if (days == 0) {
         return;
@@ -193,57 +193,57 @@ DECOMP_NOINLINE void SvShopZakka::Func1E57AC(s32 days)
             }
             if (isRenewed) {
                 nooklingStateUnknown = nooklingState + 1;
-                Func5CE904(&unk_0x0);
-                Func5CE8B8(&unk_0x0, 1);
-                time::SvTimeNormalize(&unk_0x0);
+                Func5CE904(&renovationDate);
+                Func5CE8B8(&renovationDate, 1);
+                time::SvTimeNormalize(&renovationDate);
                 goto renewed;
             }
         }
     }
     if (nooklingState != nooklingStateUnknown) {
         if (days < 0) {
-            Func5CE904(&unk_0x0);
-            time::SvTimeNormalize(&unk_0x0);
-        } else if (Func303850(&unk_0x0, time::GetCurrentDate(), 1, 1) > 0) {
-            Func1E545C(nooklingStateUnknown);
+            Func5CE904(&renovationDate);
+            time::SvTimeNormalize(&renovationDate);
+        } else if (Func303850(&renovationDate, time::GetCurrentDate(), 1, 1) > 0) {
+            Upgrade(nooklingStateUnknown);
         }
     }
 renewed:
     if (nooklingState == nooklingStateUnknown) {
-        SvTime time = unk_0x0;
-        if (time::SvTimeIsValid(&time) && (days < 0 || GetDaysToToday(&unk_0x0) >= 2)) {
-            time::SvTimeClear(&unk_0x0);
+        SvTime time = renovationDate;
+        if (time::SvTimeIsValid(&time) && (days < 0 || GetDaysToToday(&renovationDate) >= 2)) {
+            time::SvTimeClear(&renovationDate);
         }
     }
 }
 
 // 0x001E5A28 (name is ours)
-void SvShopZakka::Func1E5A28(s32 days)
+void SvShopZakka::UpdateDay(s32 days)
 {
-    Func1E57AC(days);
+    UpdateUpgrade(days);
     if (days == 0) {
         return;
     }
     bool isStarted = false;
     if (!GetGardenPlus()->data.townData.townFlags.unk_0x0_0) {
         bool isOpen = true;
-        SvTime time = unk_0x0;
+        SvTime time = renovationDate;
         if (time::SvTimeIsValid(&time)) {
             nn::fnd::DateTimeParameters now;
             time::Func3004A8(&now);
             const nn::fnd::DateTimeParameters today = now;
-            time = unk_0x0;
+            time = renovationDate;
             if (Func303850(&time, &today, 1, 1) == -1) {
                 isOpen = false;
             }
         }
-        if (isOpen && !Func711D04()) {
-            time = unk_0x0;
+        if (isOpen && !IsRenovationDay()) {
+            time = renovationDate;
             if (time::SvTimeIsValid(&time)) {
                 nn::fnd::DateTimeParameters now;
                 time::Func3004A8(&now);
                 const nn::fnd::DateTimeParameters today = now;
-                time = unk_0x0;
+                time = renovationDate;
                 if (Func303850(&time, &today, 1, 1) == 1) {
                     isOpen = false;
                 }
@@ -251,28 +251,28 @@ void SvShopZakka::Func1E5A28(s32 days)
             if (isOpen && GetRandom(10) == 5) {
                 SvTime start;
                 time::SvTimeSet(&start, *time::GetCurrentDate());
-                unk_0x8 = start;
-                time::SvTimeNormalize(&unk_0x8);
-                Func5CE934(&unk_0x8, 0, GetRandom(4) + 10, 0, 0);
+                timeServiceTime = start;
+                time::SvTimeNormalize(&timeServiceTime);
+                Func5CE934(&timeServiceTime, 0, GetRandom(4) + 10, 0, 0);
                 isStarted = true;
             }
         }
     }
     if (!isStarted) {
-        time::SvTimeClear(&unk_0x8);
+        time::SvTimeClear(&timeServiceTime);
     }
-    Func1E5BBC();
+    PostNotices();
 }
 
 // 0x001E5BBC (name is ours)
-void SvShopZakka::Func1E5BBC()
+void SvShopZakka::PostNotices()
 {
-    SvTime time = unk_0x0;
+    SvTime time = renovationDate;
     if (time::SvTimeIsValid(&time)) {
         nn::fnd::DateTimeParameters now;
         time::Func3004A8(&now);
         const nn::fnd::DateTimeParameters today = now;
-        time = unk_0x0;
+        time = renovationDate;
         if (Func303850(&time, &today, 1, 1) == -1) {
             NoticeRenewal notice;
             SvBulletinBoardMessage message;
@@ -283,7 +283,7 @@ void SvShopZakka::Func1E5BBC()
             GetGardenData()->townData.unk_0x1AE94.Func302120(&message);
         }
     }
-    if (!Func711D04() && time::SvTimeIsValid(&unk_0x8) && Func75A6C8(&unk_0x8, 1)) {
+    if (!IsRenovationDay() && time::SvTimeIsValid(&timeServiceTime) && Func75A6C8(&timeServiceTime, 1)) {
         NoticeTimeService notice;
         SvBulletinBoardMessage message;
         s32 label;
@@ -337,51 +337,51 @@ template u8 SvShopZakka::GetNumItems<12u>() const;
 template u8 SvShopZakka::GetNumItems<13u>() const;
 
 // 0x00711C14 (name is ours)
-bool SvShopZakka::Func711C14() const
+bool SvShopZakka::IsDayAfterRenovation() const
 {
-    SvTime time = unk_0x0;
+    SvTime time = renovationDate;
     if (!time::SvTimeIsValid(&time)) {
         return false;
     }
     nn::fnd::DateTimeParameters now;
     time::Func3004A8(&now);
     const nn::fnd::DateTimeParameters today = now;
-    time = unk_0x0;
+    time = renovationDate;
     return Func303850(&time, &today, 1, 1) == 1;
 }
 
 // 0x00711C7C (name is ours)
-bool SvShopZakka::Func711C7C() const
+bool SvShopZakka::IsDayBeforeRenovation() const
 {
-    SvTime time = unk_0x0;
+    SvTime time = renovationDate;
     if (!time::SvTimeIsValid(&time)) {
         return false;
     }
     nn::fnd::DateTimeParameters now;
     time::Func3004A8(&now);
     const nn::fnd::DateTimeParameters today = now;
-    time = unk_0x0;
+    time = renovationDate;
     return Func303850(&time, &today, 1, 1) == -1;
 }
 
 // 0x00711D04 (name is ours)
-DECOMP_NOINLINE bool SvShopZakka::Func711D04() const
+DECOMP_NOINLINE bool SvShopZakka::IsRenovationDay() const
 {
-    SvTime time = unk_0x0;
+    SvTime time = renovationDate;
     if (!time::SvTimeIsValid(&time)) {
         return false;
     }
     nn::fnd::DateTimeParameters now;
     time::Func3004A8(&now);
     const nn::fnd::DateTimeParameters today = now;
-    time = unk_0x0;
+    time = renovationDate;
     return Func303850(&time, &today, 1, 1) == 0;
 }
 
 // 0x00711DE0 (name is ours)
-bool SvShopZakka::Func711DE0() const
+bool SvShopZakka::IsTimeService() const
 {
-    return time::SvTimeIsValid(&unk_0x8) && Func75A6C8(&unk_0x8, 1);
+    return time::SvTimeIsValid(&timeServiceTime) && Func75A6C8(&timeServiceTime, 1);
 }
 
 // 0x0071228C (name is ours)
@@ -405,17 +405,17 @@ u8 SvShopZakka::GetNumItems8() const
 }
 
 // 0x0071224C (name is ours)
-u32 SvShopZakka::Func71224C() const
+u32 SvShopZakka::GetTimeServiceHour() const
 {
     u32 hour = 0;
-    if (time::SvTimeIsValid(&unk_0x8)) {
-        hour = time::SvTimeToParameters(&unk_0x8).hour;
+    if (time::SvTimeIsValid(&timeServiceTime)) {
+        hour = time::SvTimeToParameters(&timeServiceTime).hour;
     }
     return hour;
 }
 
 // 0x00759E24 (name is ours)
-bool SvShopZakka::Func759E24() const
+bool SvShopZakka::IsNightOwlOrdinance() const
 {
     return GetGardenPlus()->data.townData.townFlags.nightOwlOrdinance;
 }

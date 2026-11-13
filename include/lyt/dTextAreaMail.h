@@ -57,7 +57,6 @@ void Func5CCF74(SvMail* mail); // 0x005CCF74
 void Func5CCFA4(SvMail* mail); // 0x005CCFA4
 // (game code) the kind of the letter paper, its item name and the color frame of the paper
 bool Func75910C(); // 0x0075910C
-SvFgName Func6BC8A4(u8 kind, u8 paperId); // 0x006BC8A4
 u32 Func76BF8C(const SvFgName* paper); // 0x0076BF8C
 s32 Func5D51A8(); // 0x005D51A8
 // (a global of the game code: the letter being written lies at +0x118)

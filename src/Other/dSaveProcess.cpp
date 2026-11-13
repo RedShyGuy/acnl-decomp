@@ -20,8 +20,8 @@ namespace {
 // how the loaded data is taken over (SvStepInner::FLAG_APPLY_MASK 1..11)
 // 0x008902CC
 void (*const s_ApplyFunctions[])() = {
-    SvApplyKind1, SvApplyKind2, SvApplyKind3, SvApplyKind4, SvApplyKind5, SvApplyKind6,
-    SvApplyKind7, SvApplyKind8, SvApplyKind9, SvApplyKind10, SvApplyKind11,
+    SvApplyNewTown, SvApplyKind2, SvApplyKind3, SvApplyNewResident, SvApplyGameStart, SvApplyTitleDemoTown,
+    SvApplyLoadedTown, SvApplyNewTownWithMovePlayer, SvApplyKind9, SvApplyBeforeGrowup, SvApplyLoadedOrTitleDemoTown,
 };
 
 // (inline) the error code for a failed result of SvSaveIo

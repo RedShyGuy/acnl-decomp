@@ -131,29 +131,29 @@ struct SvFishingConvention {
     // (functions in the shared area 0x2FF000-0x305000; names are ours, see the SvInsectConvention counterparts) the
     // daily update / a place is removed / a villager / a player enters / a villager catches a fish at random (two ways)
     // / the time passes / cleared / the tourney starts / a villager may take part / the prizes / the result notice
-    void Func2FFF68(); // 0x002FFF68
-    void Func300658(u32 place); // 0x00300658
-    bool Func30096C(const SvNpcRef* npc, const SvFgName* fish, u16 points); // 0x0030096C
-    void Func300CAC(const SvPersonalId* player, const SvFgName* fish, u16 points); // 0x00300CAC
-    bool Func300E90(const SvNpcRef* npc); // 0x00300E90
-    void Func301BDC(const SvNpcRef* npc, const nn::fnd::DateTimeParameters* date, bool isLimited); // 0x00301BDC
-    void Func3022F8(bool a, bool b, bool c); // 0x003022F8
-    void Func303000(bool isReset); // 0x00303000
-    void Func30329C(); // 0x0030329C
-    bool Func3039D0(s32 index, bool a, bool b, bool c); // 0x003039D0
-    void Func303C6C(s32 value); // 0x00303C6C
-    void Func30454C(); // 0x0030454C
+    void UpdateDaily(); // 0x002FFF68
+    void RemovePlace(u32 place); // 0x00300658
+    bool EnterVillager(const SvNpcRef* npc, const SvFgName* fish, u16 points); // 0x0030096C
+    void EnterPlayer(const SvPersonalId* player, const SvFgName* fish, u16 points); // 0x00300CAC
+    bool VillagerCatch(const SvNpcRef* npc); // 0x00300E90
+    void VillagerCatchAtTime(const SvNpcRef* npc, const nn::fnd::DateTimeParameters* date, bool isLimited); // 0x00301BDC
+    void AdvanceTime(bool a, bool b, bool c); // 0x003022F8
+    void Clear(bool isReset); // 0x00303000
+    void Start(); // 0x0030329C
+    bool CanVillagerTakePart(s32 index, bool a, bool b, bool c); // 0x003039D0
+    void GivePrizes(s32 value); // 0x00303C6C
+    void PostResultNotice(); // 0x0030454C
 
-    /* 0x0000 */ u8 unk_0x0; // bit 0: on; bit 3: a villager entered; bits 4-6: a random value 1..2 of the start
+    /* 0x0000 */ u8 flags; // bit 0: on; bit 3: a villager entered; bits 4-6: a random value 1..2 of the start
     /* 0x0001 */ u8 unk_0x1;
-    /* 0x0002 */ SvFgName unk_0x2;   // the fish of the tourney (empty: any fish)
-    /* 0x0006 */ SvTime unk_0x6;
-    /* 0x000E */ SvTime unk_0xE;     // the start
-    /* 0x0016 */ SvTime unk_0x16;    // the end
-    /* 0x001E */ SvPersonalId unk_0x1E[3]; // the players of the places (or none)
-    /* 0x00A8 */ SvNpcRef unk_0xA8[3];     // the villagers of the places (or none)
-    /* 0x0138 */ u16 unk_0x138[3];         // the points of the places
-    /* 0x013E */ SvFgName unk_0x13E[3];    // the fish of the places
+    /* 0x0002 */ SvFgName targetFish;   // the fish of the tourney (empty: any fish)
+    /* 0x0006 */ SvTime progressTime;
+    /* 0x000E */ SvTime startTime;     // the start
+    /* 0x0016 */ SvTime endTime;    // the end
+    /* 0x001E */ SvPersonalId placePlayers[3]; // the players of the places (or none)
+    /* 0x00A8 */ SvNpcRef placeVillagers[3];     // the villagers of the places (or none)
+    /* 0x0138 */ u16 placePoints[3];         // the points of the places
+    /* 0x013E */ SvFgName placeFish[3];    // the fish of the places
 };
 ASSERT_SIZE(SvFishingConvention, 0x14A);
 
@@ -161,8 +161,8 @@ struct SvTownDataUnk1C7A8 {
     // (inline in the constructor of the save data)
     SvTownDataUnk1C7A8()
     {
-        unk_0x1C.Func303000(true);
-        unk_0x1C.unk_0x0 = 0;
+        unk_0x1C.Clear(true);
+        unk_0x1C.flags = 0;
     }
 
     /* 0x0000 */ SvTime unk_0x0;
@@ -177,48 +177,48 @@ struct SvInsectConvention {
     // (inline in the constructor of the save data)
     SvInsectConvention()
     {
-        Func2EB558(true);
-        unk_0x0 = 0;
+        Clear(true);
+        flags = 0;
     }
 
     // (game code of dSvInsectConvention.cpp; names are ours) a place is removed (the places below move up) / the
     // update with a value / a villager enters with points and an insect (false: not entered) / a player enters /
     // a villager catches an insect at random (two ways)
     // the daily update (before: from the start of the day of the Bug-Off on a reset of the Bug-Off of the last day)
-    void Func2EA430(); // 0x002EA430
-    void Func2EA5B0(u32 place); // 0x002EA5B0
-    void Func2EA68C(u32 value); // 0x002EA68C
-    bool Func2EA6D8(const SvNpcRef* npc, const SvFgName* item, u16 points); // 0x002EA6D8
-    void Func2EA888(const SvPersonalId* player, const SvFgName* item, u16 points); // 0x002EA888
-    bool Func2EAA1C(const SvNpcRef* npc); // 0x002EAA1C
-    void Func2EACF4(const SvNpcRef* npc, const nn::fnd::DateTimeParameters* date, bool isLimited); // 0x002EACF4
+    void UpdateDaily(); // 0x002EA430
+    void RemovePlace(u32 place); // 0x002EA5B0
+    void UpdateResults(u32 value); // 0x002EA68C
+    bool EnterVillager(const SvNpcRef* npc, const SvFgName* item, u16 points); // 0x002EA6D8
+    void EnterPlayer(const SvPersonalId* player, const SvFgName* item, u16 points); // 0x002EA888
+    bool VillagerCatch(const SvNpcRef* npc); // 0x002EAA1C
+    void VillagerCatchAtTime(const SvNpcRef* npc, const nn::fnd::DateTimeParameters* date, bool isLimited); // 0x002EACF4
     // the villager / the insect / the player of a place (place 0 for a place from 3)
-    SvNpcRef* Func2EA860(s32 place); // 0x002EA860
-    SvFgName* Func2EA874(s32 place); // 0x002EA874
-    SvPersonalId* Func2EA9FC(s32 place); // 0x002EA9FC
-    // the time passes: in steps of 3 minutes from unk_0x1 to now (until the end unk_0x11) villagers that may take part
+    SvNpcRef* GetPlaceVillager(s32 place); // 0x002EA860
+    SvFgName* GetPlaceInsect(s32 place); // 0x002EA874
+    SvPersonalId* GetPlacePlayer(s32 place); // 0x002EA9FC
+    // the time passes: in steps of 3 minutes from progressTime to now (until the end endTime) villagers that may take part
     // catch insects (a: also before the first 30 minutes, b: the villager check of the first step, c: the points are
     // limited) / cleared (with the prize flags of the players) / the Bug-Off starts (on its day: start and end times,
     // a villager takes the places until all three are set) / a villager may take part (not for index >= 10; a: it must
     // have the state 1, b: unused, c: it must be an NPC of the stage that the KameyamaForeachFunction marks) / the
     // prizes: the players of the places get the prize flag, then (value > 0) the letters "Mail_SP_Kameyama" with the
     // prizes / the result notice on the bulletin board after the end
-    void Func2EB0CC(bool a, bool b, bool c); // 0x002EB0CC
-    void Func2EB558(bool isReset); // 0x002EB558
-    void Func2EB680(); // 0x002EB680
-    bool Func2EB97C(s32 index, bool a, bool b, bool c); // 0x002EB97C
-    void Func2EBB9C(s32 value); // 0x002EBB9C
-    void Func2EBDFC(); // 0x002EBDFC
+    void AdvanceTime(bool a, bool b, bool c); // 0x002EB0CC
+    void Clear(bool isReset); // 0x002EB558
+    void Start(); // 0x002EB680
+    bool CanVillagerTakePart(s32 index, bool a, bool b, bool c); // 0x002EB97C
+    void GivePrizes(s32 value); // 0x002EBB9C
+    void PostResultNotice(); // 0x002EBDFC
 
-    /* 0x0000 */ u8 unk_0x0; // bit 0: on; bit 3: a villager entered (Func2EACF4)
-    /* 0x0001 */ SvTime unk_0x1;
-    /* 0x0009 */ SvTime unk_0x9;
-    /* 0x0011 */ SvTime unk_0x11;
+    /* 0x0000 */ u8 flags; // bit 0: on; bit 3: a villager entered (VillagerCatchAtTime)
+    /* 0x0001 */ SvTime progressTime;
+    /* 0x0009 */ SvTime startTime;
+    /* 0x0011 */ SvTime endTime;
     /* 0x0019 */ u8 unk_0x19;
-    /* 0x001A */ SvPersonalId unk_0x1A[3]; // the players of the places (or none)
-    /* 0x00A4 */ SvNpcRef unk_0xA4[3];     // the villagers of the places (or none)
-    /* 0x0134 */ u16 unk_0x134[3];         // the points of the places
-    /* 0x013A */ SvFgName unk_0x13A[3];    // the insects of the places
+    /* 0x001A */ SvPersonalId placePlayers[3]; // the players of the places (or none)
+    /* 0x00A4 */ SvNpcRef placeVillagers[3];     // the villagers of the places (or none)
+    /* 0x0134 */ u16 placePoints[3];         // the points of the places
+    /* 0x013A */ SvFgName placeInsects[3];    // the insects of the places
 };
 ASSERT_SIZE(SvInsectConvention, 0x146);
 
@@ -256,31 +256,31 @@ struct SvShopZakka {
     // item is bought: it becomes a sold-out sign on the field / the shop is renewed to a level (times, values, notices)
     // / one day passes (the values go down, a renewal is started) / the daily update with a flag / the notices are
     // posted on the bulletin board
-    void Func1E5238(u32 value); // 0x001E5238
-    void Func1E5280(u32 stage, u32 index, s32 x, s32 z, s32 unknown); // 0x001E5280
-    void Func1E545C(u8 level); // 0x001E545C
-    void Func1E57AC(s32 days); // 0x001E57AC
-    void Func1E5A28(s32 days); // 0x001E5A28
-    void Func1E5BBC(); // 0x001E5BBC
+    void AddBellsSpent(u32 value); // 0x001E5238
+    void BuyItem(u32 stage, u32 index, s32 x, s32 z, s32 unknown); // 0x001E5280
+    void Upgrade(u8 level); // 0x001E545C
+    void UpdateUpgrade(s32 days); // 0x001E57AC
+    void UpdateDay(s32 days); // 0x001E5A28
+    void PostNotices(); // 0x001E5BBC
     // (Thumb part) the shop is cleared / it gets new items (with the notice of a featured item) / a seasonal rug in the
     // place 6 or wallpaper in the place 4: harvest (Harvest Festival), Jingle (Toy Day), spooky (Halloween)
-    void Func109610(); // 0x00109610 (Thumb)
-    void Func108C40(); // 0x00108C40 (Thumb)
-    void Func1094FC(); // 0x001094FC (Thumb)
-    void Func109558(); // 0x00109558 (Thumb)
-    void Func1095B4(); // 0x001095B4 (Thumb)
+    void Clear(); // 0x00109610 (Thumb)
+    void Restock(); // 0x00108C40 (Thumb)
+    void SetHarvestItems(); // 0x001094FC (Thumb)
+    void SetJingleItems(); // 0x00109558 (Thumb)
+    void SetSpookyItems(); // 0x001095B4 (Thumb)
 
     // (copies of the inline functions of the shop in the shared area; names are ours)
     // the night owl ordinance (a bit of the town flags; the shop is not read)
-    bool Func759E24() const; // 0x00759E24
-    // the hour of the time service (unk_0x8; 0: none)
-    u32 Func71224C() const; // 0x0071224C
-    // the days from unk_0x0 to today are 1 / -1 / 0 (false without a time)
-    bool Func711C14() const; // 0x00711C14
-    bool Func711C7C() const; // 0x00711C7C
-    bool Func711D04() const; // 0x00711D04
-    // the time service is on (unk_0x8 is valid and Func75A6C8 holds)
-    bool Func711DE0() const; // 0x00711DE0
+    bool IsNightOwlOrdinance() const; // 0x00759E24
+    // the hour of the time service (the half price sale, timeServiceTime; 0: none)
+    u32 GetTimeServiceHour() const; // 0x0071224C
+    // the days from renovationDate to today are 1 / -1 / 0 (false without a time)
+    bool IsDayAfterRenovation() const; // 0x00711C14
+    bool IsDayBeforeRenovation() const; // 0x00711C7C
+    bool IsRenovationDay() const; // 0x00711D04
+    // the time service (the half price sale) is on (timeServiceTime is valid and Func75A6C8 holds)
+    bool IsTimeService() const; // 0x00711DE0
     // the first item that is not bought and has the value 9 of Func769264 (empty: none)
     SvFgName Func71228C() const; // 0x0071228C
     // the number of items of a group of places at the level (the row of s_NumItems; 0 from the level 5) / of the group of
@@ -296,15 +296,20 @@ struct SvShopZakka {
     // and the featured item)
     static const u8 s_NumItems[14][5];
 
-    /* 0x0000 */ SvTime unk_0x0; // ctor sets 0x7FFFFFFFFFFFFFFF (none; the constructor sets it like a time, 0x005CEA18)
-    /* 0x0008 */ SvTime unk_0x8; // ctor sets 0x7FFFFFFFFFFFFFFF (none; the constructor sets it like a time, 0x005CEA18)
-    /* 0x0010 */ s32 unk_0x10; // a value per level (0x00890774), goes down (Func1E57AC)
+    // the date of the renovation: set to tomorrow when the conditions of the next level are met, the level goes up on the
+    // day after it (the shop is closed on that day); none: 0x7FFFFFFFFFFFFFFF (the constructor 0x005CEA18)
+    /* 0x0000 */ SvTime renovationDate;
+    // the time service (the game's name, RTTI NoticeTimeService): the half price sale of the day, "all items in the store
+    // will be half price" (BBS_Kodanuki); with a chance of 1 in 10 per day from a random hour (10..13), not on the days
+    // before, of and after the renovation; none: 0x7FFFFFFFFFFFFFFF (the constructor 0x005CEA18)
+    /* 0x0008 */ SvTime timeServiceTime;
+    /* 0x0010 */ s32 unk_0x10; // a value per level (0x00890774), goes down (UpdateUpgrade)
     /* 0x0014 */ u8 nooklingState; // level of nookling shop
     /* 0x0015 */ u8 nooklingStateUnknown;
     /* 0x0016 */ u8 unk_0x16[2];
     /* 0x0018 */ SvEncValue nooklingBellsSpent;
     /* 0x0020 */ SvFgName nooklingsItems[0x18];
-    /* 0x0080 */ u8 unk_0x80[0x18]; // per item: set to 1 when the item is bought (Func1E5280)
+    /* 0x0080 */ u8 unk_0x80[0x18]; // per item: set to 1 when the item is bought (BuyItem)
     /* 0x0098 */ s32 unk_0x98; // 15 on a renewal to level 0, one less per bought item
 };
 ASSERT_SIZE(SvShopZakka, 0x9C);
@@ -328,7 +333,7 @@ struct SvTownDataUnkEE2C {
     /* 0x4468 */ SvFgName labellesItems[7]; // Accessories in right of shop
     /* 0x4484 */ u8 unk_0x132B0[8]; // likely padding
     /* 0x448C */ SvEncValue unk_0x132B8;
-    // (research: scrappedString[4]; the shop reads the first word as a number, Func1E57AC)
+    // (research: scrappedString[4]; the shop reads the first word as a number, UpdateUpgrade)
     /* 0x4494 */ s32 unk_0x132C0;
     /* 0x4498 */ u8 unk_0x132C4[4];
     /* 0x449C */ SvEncValue unk_0x132C8;
@@ -430,7 +435,9 @@ struct SvTownData {
     /* 0x17A94 */ SvMuseum museum;
     /* 0x1AE50 */ SvTownDataUnk1AE50 unk_0x1AE50;
     /* 0x1AE6E */ SvTime unk_0x1AE6E; // ctor sets 0x7FFFFFFFFFFFFFFF (none; the constructor sets it like a time, 0x005CEA18)
-    /* 0x1AE76 */ u8 unk_0x1AE76[0xA];
+    // the town tune: 16 notes of 4 bits (SoundMelody, PackMelody/UnpackMelody); read by SoundMgr::SUpdateTownMelody
+    /* 0x1AE76 */ u8 townTune[0x8];
+    /* 0x1AE7E */ u8 unk_0x1AE7E[0x2];
     /* 0x1AE80 */ SvPwpProject nextPwpToBuild;
     /* 0x1AE90 */ SvStrc unk_0x1AE90;
     /* 0x1AE94 */ SvTownDataUnk1AE94 unk_0x1AE94;

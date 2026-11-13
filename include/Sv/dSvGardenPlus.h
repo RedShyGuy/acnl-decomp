@@ -76,12 +76,17 @@ struct SvGardenData {
     // (game code of the file of the save data in memory; names are ours) everything is cleared / set up again after
     // a load / the play time goes up (at most to the largest time) / the time 0x1AE6E becomes the current date
     void Clear(); // 0x005CBD3C
-    void Func5CBCAC(); // 0x005CBCAC
+    void SetupNewTown(); // 0x005CBCAC
     void AddPlaytime(s64 time); // 0x005CBA50
+    // (open, see docs/pending_names.md) townData.unk_0x1AE6E becomes the current date; runs at the full saves (save kinds
+    // 1 and 5) through Func5CBAA0, so maybe the date of the last save
     DECOMP_NOINLINE void Func5CBAB8(); // 0x005CBAB8
-    // the parts of a player in the town are removed (saveNo 0..3)
+    // (open) only ModuleTrain: the villager data of a save number (0x10D640) and, for 1..3, 0x1B6BB8 are cleaned up;
+    // maybe the slot for a new resident
     void Func5CBADC(u32 saveNo); // 0x005CBADC
-    void Func5CBB30(u32 saveNo); // 0x005CBB30
+    // the player of a save number (0..3) is removed from the town (only ModulePlSelect, where players are deleted):
+    // shops, museum donors, the sick villager, villager data, houses, structures
+    void RemovePlayer(u32 saveNo); // 0x005CBB30
 
     /* 0x0000 */ SvSaveHeader header; // garden_plus.dat + 0x80
     /* 0x0020 */ SvPlayerData players; // garden_plus.dat + 0xA0

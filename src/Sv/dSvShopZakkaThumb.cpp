@@ -52,7 +52,7 @@ DECOMP_ALWAYS_INLINE void SwapItems(SvFgName* a, SvFgName* b)
 } // namespace
 
 // 0x00108C40 (Thumb) (name is ours)
-void SvShopZakka::Func108C40()
+void SvShopZakka::Restock()
 {
     for (s32 i = 0; i < 24; i++) {
         nooklingsItems[i] = SvFgName::s_Empty;
@@ -61,9 +61,9 @@ void SvShopZakka::Func108C40()
     nn::fnd::DateTimeParameters now;
     time::Func3004A8(&now);
     const nn::fnd::DateTimeParameters today = now;
-    SvTime time = unk_0x0;
+    SvTime time = renovationDate;
     if (time::SvTimeIsValid(&time)) {
-        time = unk_0x0;
+        time = renovationDate;
         if (Func303850(&time, &today, 1, 1) == 0) {
             return;
         }
@@ -241,8 +241,8 @@ void SvShopZakka::Func108C40()
         }
     }
     const u16 value = reinterpret_cast<const u16*>(Func303C0C())[1];
-    if (GetNumItems<13>() != 0 && !GetGardenPlus()->data.townData.townFlags.unk_0x0_0 && !Func711C14() &&
-        !Func711DE0() && static_cast<s32>(GetRandom(100)) < static_cast<s32>(Func77A6D4(value) >> 32) + 20) {
+    if (GetNumItems<13>() != 0 && !GetGardenPlus()->data.townData.townFlags.unk_0x0_0 && !IsDayAfterRenovation() &&
+        !IsTimeService() && static_cast<s32>(GetRandom(100)) < static_cast<s32>(Func77A6D4(value) >> 32) + 20) {
         SvFgNameSet set;
         SvFgName item;
         // the featured item: a furniture of the shop group 9 (covered wagon, moon, garden gnome, ...)
@@ -293,32 +293,32 @@ void SvShopZakka::Func108C40()
 }
 
 // 0x001094FC (Thumb) (name is ours)
-void SvShopZakka::Func1094FC()
+void SvShopZakka::SetHarvestItems()
 {
     SetSeasonalItem(this, SvFgName::NAME_HARVEST_RUG, SvFgName::NAME_HARVEST_WALL);
 }
 
 // 0x00109558 (Thumb) (name is ours)
-void SvShopZakka::Func109558()
+void SvShopZakka::SetJingleItems()
 {
     SetSeasonalItem(this, SvFgName::NAME_JINGLE_CARPET, SvFgName::NAME_JINGLE_WALL);
 }
 
 // 0x001095B4 (Thumb) (name is ours)
-void SvShopZakka::Func1095B4()
+void SvShopZakka::SetSpookyItems()
 {
     SetSeasonalItem(this, SvFgName::NAME_SPOOKY_CARPET, SvFgName::NAME_SPOOKY_WALL);
 }
 
 // 0x00109610 (Thumb) (name is ours)
-void SvShopZakka::Func109610()
+void SvShopZakka::Clear()
 {
     std::memset(static_cast<void*>(this), 0, sizeof(*this));
     nooklingStateUnknown = 0;
     nooklingState = 0;
     unk_0x10 = 10;
-    time::SvTimeClear(&unk_0x0);
-    time::SvTimeClear(&unk_0x8);
+    time::SvTimeClear(&renovationDate);
+    time::SvTimeClear(&timeServiceTime);
     nooklingBellsSpent.Set(0);
     unk_0x98 = 15;
 }
@@ -331,10 +331,10 @@ DECOMP_EMIT_COPY bool NoticeRenewal::Write(SvBulletinBoardMessage* message, cons
 {
     const SvShopZakka* shop = &GetGardenPlus()->data.townData.unk_0xEE2C.shopZakka;
     Begin();
-    SvTime time = shop->unk_0x0;
+    SvTime time = shop->renovationDate;
     const s8 month = time::SvTimeToParameters(&time).month;
     GetPhrase()->SetMonth(month, 0);
-    time = shop->unk_0x0;
+    time = shop->renovationDate;
     const s8 day = time::SvTimeToParameters(&time).day;
     GetPhrase()->SetDay(day, 0);
     Load(message, file, label, date, name, town);
@@ -356,7 +356,7 @@ DECOMP_EMIT_COPY bool NoticeTimeService::Write(SvBulletinBoardMessage* message, 
 {
     const SvShopZakka* shop = &GetGardenPlus()->data.townData.unk_0xEE2C.shopZakka;
     Begin();
-    const u32 hour = shop->Func71224C();
+    const u32 hour = shop->GetTimeServiceHour();
     GetPhrase()->SetTag4_16(hour, 0);
     Load(message, file, label, date, name, town);
     End();

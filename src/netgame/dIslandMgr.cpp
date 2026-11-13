@@ -192,7 +192,7 @@ void netgame::IslandMgr::Process()
                 BsTourMgr::SetState(static_cast<BsTourMgr::State>(2));
                 SvPlayer* player = SvGetCurrentPlayer();
                 if (player != NULL) {
-                    u32 first = player->Func6BDA24();
+                    u32 first = player->SellPocketsToBank();
                     u32 second = player->bankAmount.Get();
                     GetCensus()->UpdateAbdBalance(second);
                     GetCensus()->AddBellsEarned(first);
@@ -1643,7 +1643,7 @@ void netgame::IslandMgr::StartTourTransition()
         BsTourMgr::SetState(static_cast<BsTourMgr::State>(2));
         SvPlayer* player = SvGetCurrentPlayer();
         if (player != NULL) {
-            u32 first = player->Func6BDA24();
+            u32 first = player->SellPocketsToBank();
             u32 second = player->bankAmount.Get();
             GetCensus()->UpdateAbdBalance(second);
             GetCensus()->AddBellsEarned(first);

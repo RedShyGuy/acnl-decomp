@@ -90,26 +90,26 @@ void (svfscnve::FishingBbsNotice::*const s_FishingNoNoticeMethod)(script::Phrase
 } // namespace
 
 // (inline) a place is removed: the places below move up, the last place is cleared
-DECOMP_ALWAYS_INLINE void RemovePlace(SvFishingConvention* convention, u32 place)
+DECOMP_ALWAYS_INLINE void RemovePlaceInline(SvFishingConvention* convention, u32 place)
 {
     switch (place) {
     case 0:
-        netgame::AssignPersonalId(&convention->unk_0x1E[0], &convention->unk_0x1E[1]);
-        Func6148BC(&convention->unk_0xA8[0], &convention->unk_0xA8[1]);
-        convention->unk_0x138[0] = convention->unk_0x138[1];
-        convention->unk_0x13E[0] = convention->unk_0x13E[1];
+        netgame::AssignPersonalId(&convention->placePlayers[0], &convention->placePlayers[1]);
+        Func6148BC(&convention->placeVillagers[0], &convention->placeVillagers[1]);
+        convention->placePoints[0] = convention->placePoints[1];
+        convention->placeFish[0] = convention->placeFish[1];
         // fall through
     case 1:
-        netgame::AssignPersonalId(&convention->unk_0x1E[1], &convention->unk_0x1E[2]);
-        Func6148BC(&convention->unk_0xA8[1], &convention->unk_0xA8[2]);
-        convention->unk_0x138[1] = convention->unk_0x138[2];
-        convention->unk_0x13E[1] = convention->unk_0x13E[2];
+        netgame::AssignPersonalId(&convention->placePlayers[1], &convention->placePlayers[2]);
+        Func6148BC(&convention->placeVillagers[1], &convention->placeVillagers[2]);
+        convention->placePoints[1] = convention->placePoints[2];
+        convention->placeFish[1] = convention->placeFish[2];
         // fall through
     case 2:
-        netgame::ClearPersonalId(&convention->unk_0x1E[2]);
-        Func30836C(&convention->unk_0xA8[2]);
-        convention->unk_0x138[2] = 0;
-        convention->unk_0x13E[2] = SvFgName(SvFgName::s_Empty);
+        netgame::ClearPersonalId(&convention->placePlayers[2]);
+        Func30836C(&convention->placeVillagers[2]);
+        convention->placePoints[2] = 0;
+        convention->placeFish[2] = SvFgName(SvFgName::s_Empty);
         break;
     }
 }
@@ -123,7 +123,7 @@ DECOMP_ALWAYS_INLINE s32 PickVillager(SvFishingConvention* convention, BitSet32*
     s32 index;
     if (isFirst) {
         for (s32 i = 0; i < 10; i++) {
-            if (!convention->Func3039D0(i, false, false, check)) {
+            if (!convention->CanVillagerTakePart(i, false, false, check)) {
                 set.Remove(i);
             }
         }
@@ -133,7 +133,7 @@ DECOMP_ALWAYS_INLINE s32 PickVillager(SvFishingConvention* convention, BitSet32*
     } else {
         set = *villagers;
         for (s32 i = 0; i < 10; i++) {
-            if (convention->Func3039D0(i, true, false, false)) {
+            if (convention->CanVillagerTakePart(i, true, false, false)) {
                 set.Add(i);
             } else {
                 set.Remove(i);
@@ -161,13 +161,13 @@ DECOMP_ALWAYS_INLINE s32 PickVillager(SvFishingConvention* convention, BitSet32*
 }
 
 // 0x002FFF68 (name is ours)
-void SvFishingConvention::Func2FFF68()
+void SvFishingConvention::UpdateDaily()
 {
     bool isReset = false;
-    if (unk_0x0 & 1) {
+    if (flags & 1) {
         const nn::fnd::DateTimeParameters now = *time::GetCurrentDate();
-        const nn::fnd::DateTimeParameters start = time::SvTimeToParameters(&unk_0xE);
-        const nn::fnd::DateTimeParameters end = time::SvTimeToParameters(&unk_0x16);
+        const nn::fnd::DateTimeParameters start = time::SvTimeToParameters(&startTime);
+        const nn::fnd::DateTimeParameters end = time::SvTimeToParameters(&endTime);
         nn::fnd::DateTimeParameters day = start;
         time::Func30A5AC(&day, 0, 21, 0, 0);
         if (Func2FB6DC(day, now) && time::SvTimeIsValid(&GetGardenPlus()->data.townData.unk_0x1AE6E)) {
@@ -181,23 +181,23 @@ void SvFishingConvention::Func2FFF68()
             isReset = true;
         }
     }
-    Func303000(isReset);
-    Func30329C();
-    Func3022F8(true, false, true);
-    Func303C6C(0);
-    if ((unk_0x0 & 1) && !(unk_0x0 & 0x80)) {
-        Func30454C();
+    Clear(isReset);
+    Start();
+    AdvanceTime(true, false, true);
+    GivePrizes(0);
+    if ((flags & 1) && !(flags & 0x80)) {
+        PostResultNotice();
     }
 }
 
 // 0x00300658 (name is ours)
-void SvFishingConvention::Func300658(u32 place)
+void SvFishingConvention::RemovePlace(u32 place)
 {
-    RemovePlace(this, place);
+    RemovePlaceInline(this, place);
 }
 
 // 0x0030096C (name is ours)
-DECOMP_NOINLINE bool SvFishingConvention::Func30096C(const SvNpcRef* npc, const SvFgName* fish, u16 points)
+DECOMP_NOINLINE bool SvFishingConvention::EnterVillager(const SvNpcRef* npc, const SvFgName* fish, u16 points)
 {
     if (!Func302050(npc)) {
         return false;
@@ -205,78 +205,78 @@ DECOMP_NOINLINE bool SvFishingConvention::Func30096C(const SvNpcRef* npc, const 
     if (points >= 16384) {
         return false;
     }
-    if (unk_0x138[0] == points || unk_0x138[1] == points || unk_0x138[2] == points) {
+    if (placePoints[0] == points || placePoints[1] == points || placePoints[2] == points) {
         return false;
     }
-    if (points > unk_0x138[0]) {
-        netgame::AssignPersonalId(&unk_0x1E[2], &unk_0x1E[1]);
-        netgame::AssignPersonalId(&unk_0x1E[1], &unk_0x1E[0]);
-        netgame::ClearPersonalId(&unk_0x1E[0]);
-        Func6148BC(&unk_0xA8[2], &unk_0xA8[1]);
-        Func6148BC(&unk_0xA8[1], &unk_0xA8[0]);
-        Func6148BC(&unk_0xA8[0], npc);
-        unk_0x138[2] = unk_0x138[1];
-        unk_0x138[1] = unk_0x138[0];
-        unk_0x138[0] = points;
-        unk_0x13E[2] = unk_0x13E[1];
-        unk_0x13E[1] = unk_0x13E[0];
-        unk_0x13E[0] = *fish;
-    } else if (unk_0x138[1] < points) {
-        netgame::AssignPersonalId(&unk_0x1E[2], &unk_0x1E[1]);
-        netgame::ClearPersonalId(&unk_0x1E[1]);
-        Func6148BC(&unk_0xA8[2], &unk_0xA8[1]);
-        Func6148BC(&unk_0xA8[1], npc);
-        unk_0x138[2] = unk_0x138[1];
-        unk_0x138[1] = points;
-        unk_0x13E[2] = unk_0x13E[1];
-        unk_0x13E[1] = *fish;
-    } else if (unk_0x138[2] < points) {
-        netgame::ClearPersonalId(&unk_0x1E[2]);
-        Func6148BC(&unk_0xA8[2], npc);
-        unk_0x138[2] = points;
-        unk_0x13E[2] = *fish;
+    if (points > placePoints[0]) {
+        netgame::AssignPersonalId(&placePlayers[2], &placePlayers[1]);
+        netgame::AssignPersonalId(&placePlayers[1], &placePlayers[0]);
+        netgame::ClearPersonalId(&placePlayers[0]);
+        Func6148BC(&placeVillagers[2], &placeVillagers[1]);
+        Func6148BC(&placeVillagers[1], &placeVillagers[0]);
+        Func6148BC(&placeVillagers[0], npc);
+        placePoints[2] = placePoints[1];
+        placePoints[1] = placePoints[0];
+        placePoints[0] = points;
+        placeFish[2] = placeFish[1];
+        placeFish[1] = placeFish[0];
+        placeFish[0] = *fish;
+    } else if (placePoints[1] < points) {
+        netgame::AssignPersonalId(&placePlayers[2], &placePlayers[1]);
+        netgame::ClearPersonalId(&placePlayers[1]);
+        Func6148BC(&placeVillagers[2], &placeVillagers[1]);
+        Func6148BC(&placeVillagers[1], npc);
+        placePoints[2] = placePoints[1];
+        placePoints[1] = points;
+        placeFish[2] = placeFish[1];
+        placeFish[1] = *fish;
+    } else if (placePoints[2] < points) {
+        netgame::ClearPersonalId(&placePlayers[2]);
+        Func6148BC(&placeVillagers[2], npc);
+        placePoints[2] = points;
+        placeFish[2] = *fish;
     }
     return true;
 }
 
 // 0x00300CAC (name is ours)
-void SvFishingConvention::Func300CAC(const SvPersonalId* player, const SvFgName* fish, u16 points)
+void SvFishingConvention::EnterPlayer(const SvPersonalId* player, const SvFgName* fish, u16 points)
 {
     if (!player->IsValid() || points >= 16384) {
         return;
     }
-    if (unk_0x138[0] < points) {
-        netgame::AssignPersonalId(&unk_0x1E[2], &unk_0x1E[1]);
-        netgame::AssignPersonalId(&unk_0x1E[1], &unk_0x1E[0]);
-        netgame::AssignPersonalId(&unk_0x1E[0], player);
-        Func6148BC(&unk_0xA8[2], &unk_0xA8[1]);
-        Func6148BC(&unk_0xA8[1], &unk_0xA8[0]);
-        Func30836C(&unk_0xA8[0]);
-        unk_0x138[2] = unk_0x138[1];
-        unk_0x138[1] = unk_0x138[0];
-        unk_0x138[0] = points;
-        unk_0x13E[2] = unk_0x13E[1];
-        unk_0x13E[1] = unk_0x13E[0];
-        unk_0x13E[0] = *fish;
-    } else if (unk_0x138[1] < points) {
-        netgame::AssignPersonalId(&unk_0x1E[2], &unk_0x1E[1]);
-        netgame::AssignPersonalId(&unk_0x1E[1], player);
-        Func6148BC(&unk_0xA8[2], &unk_0xA8[1]);
-        Func30836C(&unk_0xA8[1]);
-        unk_0x138[2] = unk_0x138[1];
-        unk_0x138[1] = points;
-        unk_0x13E[2] = unk_0x13E[1];
-        unk_0x13E[1] = *fish;
-    } else if (unk_0x138[2] < points) {
-        netgame::AssignPersonalId(&unk_0x1E[2], player);
-        Func30836C(&unk_0xA8[2]);
-        unk_0x138[2] = points;
-        unk_0x13E[2] = *fish;
+    if (placePoints[0] < points) {
+        netgame::AssignPersonalId(&placePlayers[2], &placePlayers[1]);
+        netgame::AssignPersonalId(&placePlayers[1], &placePlayers[0]);
+        netgame::AssignPersonalId(&placePlayers[0], player);
+        Func6148BC(&placeVillagers[2], &placeVillagers[1]);
+        Func6148BC(&placeVillagers[1], &placeVillagers[0]);
+        Func30836C(&placeVillagers[0]);
+        placePoints[2] = placePoints[1];
+        placePoints[1] = placePoints[0];
+        placePoints[0] = points;
+        placeFish[2] = placeFish[1];
+        placeFish[1] = placeFish[0];
+        placeFish[0] = *fish;
+    } else if (placePoints[1] < points) {
+        netgame::AssignPersonalId(&placePlayers[2], &placePlayers[1]);
+        netgame::AssignPersonalId(&placePlayers[1], player);
+        Func6148BC(&placeVillagers[2], &placeVillagers[1]);
+        Func30836C(&placeVillagers[1]);
+        placePoints[2] = placePoints[1];
+        placePoints[1] = points;
+        placeFish[2] = placeFish[1];
+        placeFish[1] = *fish;
+    } else if (placePoints[2] < points) {
+        netgame::AssignPersonalId(&placePlayers[2], player);
+        Func30836C(&placeVillagers[2]);
+        placePoints[2] = points;
+        placeFish[2] = *fish;
     }
 }
 
 // 0x00300E90 (name is ours)
-DECOMP_NOINLINE bool SvFishingConvention::Func300E90(const SvNpcRef* npc)
+DECOMP_NOINLINE bool SvFishingConvention::VillagerCatch(const SvNpcRef* npc)
 {
     if (npc == NULL) {
         return false;
@@ -290,37 +290,37 @@ DECOMP_NOINLINE bool SvFishingConvention::Func300E90(const SvNpcRef* npc)
     }
     SvFgName fish;
     f32 factor;
-    if (unk_0x2.IsEmpty()) {
+    if (targetFish.IsEmpty()) {
         fish = Func6175B0(&factor, kind, -3, -1, time::GetCurrentDate());
     } else {
-        const nn::fnd::DateTimeParameters start = time::SvTimeToParameters(&unk_0xE);
-        fish = Func61749C(&factor, &kind, &unk_0x2, &start);
+        const nn::fnd::DateTimeParameters start = time::SvTimeToParameters(&startTime);
+        fish = Func61749C(&factor, &kind, &targetFish, &start);
         if (factor > 1.0f) {
             return false;
         }
     }
     const u16 points = Func76981C(fish);
-    if (unk_0x138[0] == points || unk_0x138[1] == points || unk_0x138[2] == points) {
+    if (placePoints[0] == points || placePoints[1] == points || placePoints[2] == points) {
         return false;
     }
     bool isEntered = true;
     for (s32 i = 0; i < 3; i++) {
-        if (IsSameNpc(*npc, unk_0xA8[i])) {
-            if (unk_0x138[i] >= points) {
+        if (IsSameNpc(*npc, placeVillagers[i])) {
+            if (placePoints[i] >= points) {
                 isEntered = false;
             } else {
-                RemovePlace(this, i);
+                RemovePlaceInline(this, i);
             }
         }
     }
     if (isEntered) {
-        isEntered = Func30096C(npc, &fish, points);
+        isEntered = EnterVillager(npc, &fish, points);
     }
     return isEntered;
 }
 
 // 0x00301BDC (name is ours)
-DECOMP_NOINLINE void SvFishingConvention::Func301BDC(const SvNpcRef* npc, const nn::fnd::DateTimeParameters* date, bool isLimited)
+DECOMP_NOINLINE void SvFishingConvention::VillagerCatchAtTime(const SvNpcRef* npc, const nn::fnd::DateTimeParameters* date, bool isLimited)
 {
     if (npc == NULL) {
         return;
@@ -348,14 +348,14 @@ DECOMP_NOINLINE void SvFishingConvention::Func301BDC(const SvNpcRef* npc, const 
     }
     SvFgName fish;
     f32 factor;
-    if (unk_0x2.IsEmpty()) {
+    if (targetFish.IsEmpty()) {
         if (isLimited) {
             fish = Func6175B0(&factor, kind, -3, date->hour < 12 ? -1 : 1, date);
         } else {
             fish = Func617798(&factor, kind, date);
         }
     } else {
-        fish = Func61749C(&factor, &kind, &unk_0x2, date);
+        fish = Func61749C(&factor, &kind, &targetFish, date);
         if (isLimited) {
             const s32 direction = date->hour < 12 ? -1 : 1;
             if (factor > 1.0f + static_cast<f32>(direction) * 0.1f) {
@@ -364,39 +364,39 @@ DECOMP_NOINLINE void SvFishingConvention::Func301BDC(const SvNpcRef* npc, const 
         }
     }
     const u16 points = Func76981C(fish);
-    if (unk_0x138[0] == points || unk_0x138[1] == points || unk_0x138[2] == points) {
+    if (placePoints[0] == points || placePoints[1] == points || placePoints[2] == points) {
         return;
     }
     bool isEntered = true;
     for (s32 i = 0; i < 3; i++) {
-        if (IsSameNpc(*npc, unk_0xA8[i])) {
-            if (unk_0x138[i] >= points) {
+        if (IsSameNpc(*npc, placeVillagers[i])) {
+            if (placePoints[i] >= points) {
                 isEntered = false;
             } else {
-                RemovePlace(this, i);
+                RemovePlaceInline(this, i);
             }
         }
     }
-    if (isEntered && Func30096C(npc, &fish, points)) {
-        unk_0x0 |= 8;
+    if (isEntered && EnterVillager(npc, &fish, points)) {
+        flags |= 8;
     }
 }
 
 // 0x003022F8 (name is ours)
-DECOMP_NOINLINE void SvFishingConvention::Func3022F8(bool a, bool b, bool c)
+DECOMP_NOINLINE void SvFishingConvention::AdvanceTime(bool a, bool b, bool c)
 {
-    if (!(unk_0x0 & 1) || (unk_0x0 & 2)) {
+    if (!(flags & 1) || (flags & 2)) {
         return;
     }
     const nn::fnd::DateTimeParameters now = *time::GetCurrentDate();
-    if (!time::SvTimeIsValid(&unk_0x6)) {
+    if (!time::SvTimeIsValid(&progressTime)) {
         return;
     }
-    nn::fnd::DateTimeParameters step = time::SvTimeToParameters(&unk_0x6);
+    nn::fnd::DateTimeParameters step = time::SvTimeToParameters(&progressTime);
     if (!Func2FB6DC(now, step)) {
         return;
     }
-    unk_0x0 &= ~0xC;
+    flags &= ~0xC;
     if (!a) {
         nn::fnd::DateTimeParameters first = step;
         Func312848(&first, 0, 0, 30, 0);
@@ -406,11 +406,11 @@ DECOMP_NOINLINE void SvFishingConvention::Func3022F8(bool a, bool b, bool c)
         a = true;
     }
     Func312848(&step, 0, 0, 3, 0);
-    if (!time::SvTimeIsValid(&unk_0x16)) {
+    if (!time::SvTimeIsValid(&endTime)) {
         return;
     }
-    const nn::fnd::DateTimeParameters end = time::SvTimeToParameters(&unk_0x16);
-    unk_0x0 |= 4;
+    const nn::fnd::DateTimeParameters end = time::SvTimeToParameters(&endTime);
+    flags |= 4;
     BitSet32 villagers;
     villagers.Init(10, true);
     bool isNext = false;
@@ -422,36 +422,36 @@ DECOMP_NOINLINE void SvFishingConvention::Func3022F8(bool a, bool b, bool c)
             }
             SvNpc* npc = static_cast<SvNpc*>(event::Func300928(GetGardenPlus()->data.npcData.npcs, index));
             if (npc != NULL) {
-                Func301BDC(&npc->npc, &step, c);
+                VillagerCatchAtTime(&npc->npc, &step, c);
             }
             isNext = true;
         }
         Func312848(&step, 0, 0, 3, 0);
     }
-    Func5CE904(&unk_0x6);
+    Func5CE904(&progressTime);
 }
 
 // 0x00303000 (name is ours)
-void SvFishingConvention::Func303000(bool isReset)
+void SvFishingConvention::Clear(bool isReset)
 {
-    unk_0x0 &= 0x70;
+    flags &= 0x70;
     Func10F514(GetGardenData()->GetNpcData()->npcs);
-    time::SvTimeClear(&unk_0x6);
-    time::SvTimeClear(&unk_0xE);
-    time::SvTimeClear(&unk_0x16);
-    netgame::ClearPersonalId(&unk_0x1E[0]);
-    netgame::ClearPersonalId(&unk_0x1E[1]);
-    netgame::ClearPersonalId(&unk_0x1E[2]);
-    Func30836C(&unk_0xA8[0]);
-    Func30836C(&unk_0xA8[1]);
-    Func30836C(&unk_0xA8[2]);
-    unk_0x138[0] = 0;
-    unk_0x138[1] = 0;
-    unk_0x138[2] = 0;
-    unk_0x2 = SvFgName::s_Empty;
-    unk_0x13E[0] = SvFgName::s_Empty;
-    unk_0x13E[1] = SvFgName::s_Empty;
-    unk_0x13E[2] = SvFgName::s_Empty;
+    time::SvTimeClear(&progressTime);
+    time::SvTimeClear(&startTime);
+    time::SvTimeClear(&endTime);
+    netgame::ClearPersonalId(&placePlayers[0]);
+    netgame::ClearPersonalId(&placePlayers[1]);
+    netgame::ClearPersonalId(&placePlayers[2]);
+    Func30836C(&placeVillagers[0]);
+    Func30836C(&placeVillagers[1]);
+    Func30836C(&placeVillagers[2]);
+    placePoints[0] = 0;
+    placePoints[1] = 0;
+    placePoints[2] = 0;
+    targetFish = SvFgName::s_Empty;
+    placeFish[0] = SvFgName::s_Empty;
+    placeFish[1] = SvFgName::s_Empty;
+    placeFish[2] = SvFgName::s_Empty;
     SvPlayerData* players = &GetGardenData()->players;
     for (u32 i = 0; i < 4; i++) {
         SvPlayer* player = players->Get(static_cast<u8>(i));
@@ -466,24 +466,24 @@ void SvFishingConvention::Func303000(bool isReset)
 }
 
 // 0x0030329C (name is ours)
-void SvFishingConvention::Func30329C()
+void SvFishingConvention::Start()
 {
     if (!Func2FDE58(event::EVENT_ID_FISHING_TOURNEY)) {
         return;
     }
-    unk_0x0 |= 1;
+    flags |= 1;
     nn::fnd::DateTimeParameters start;
     event::GetStartDate(event::EVENT_ID_FISHING_TOURNEY, &start);
     nn::fnd::DateTimeParameters end;
     event::GetEndDate(event::EVENT_ID_FISHING_TOURNEY, &end);
     Func312848(&start, 0, 3, 0, 0);
     Func312848(&end, 0, -4, 0, 0);
-    time::SvTimeSet(&unk_0x6, start);
-    time::SvTimeSet(&unk_0xE, start);
-    time::SvTimeSet(&unk_0x16, end);
-    if ((unk_0x0 >> 4) == 0) {
+    time::SvTimeSet(&progressTime, start);
+    time::SvTimeSet(&startTime, start);
+    time::SvTimeSet(&endTime, end);
+    if ((flags >> 4) == 0) {
         const u32 random = GetRandom(2) + 1;
-        unk_0x0 = (unk_0x0 & 0x8F) | ((random << 4) & 0x70);
+        flags = (flags & 0x8F) | ((random << 4) & 0x70);
     }
     // the tourneys of January, March, May and November have a fish, the others take any fish
     switch (start.month) {
@@ -492,28 +492,28 @@ void SvFishingConvention::Func30329C()
     case 5:
     case 11: {
         f32 factor;
-        unk_0x2 = Func6173D4(&factor, -3, 0, &start);
+        targetFish = Func6173D4(&factor, -3, 0, &start);
         break;
     }
     case 2:
     case 4:
     case 10:
     case 12:
-        unk_0x2 = SvFgName(SvFgName::s_Empty);
+        targetFish = SvFgName(SvFgName::s_Empty);
         break;
     }
     BitSet32 villagers;
     villagers.Init(10, true);
     bool isNext = false;
     s32 failures = 0;
-    while (!Func302050(&unk_0xA8[2])) {
+    while (!Func302050(&placeVillagers[2])) {
         const s32 index = PickVillager(this, &villagers, !isNext, false);
         if (index < 0 || failures > 45) {
             return;
         }
         villagers.Remove(index);
         SvNpc* npc = static_cast<SvNpc*>(event::Func300928(GetGardenPlus()->data.npcData.npcs, index));
-        if (npc != NULL && !Func300E90(&npc->npc)) {
+        if (npc != NULL && !VillagerCatch(&npc->npc)) {
             villagers.Add(index);
             failures++;
         }
@@ -522,7 +522,7 @@ void SvFishingConvention::Func30329C()
 }
 
 // 0x003039D0 (name is ours)
-DECOMP_NOINLINE bool SvFishingConvention::Func3039D0(s32 index, bool a, bool b, bool c)
+DECOMP_NOINLINE bool SvFishingConvention::CanVillagerTakePart(s32 index, bool a, bool b, bool c)
 {
     (void)b;
     if (static_cast<u32>(index) >= 10) {
@@ -576,18 +576,18 @@ DECOMP_NOINLINE bool SvFishingConvention::Func3039D0(s32 index, bool a, bool b, 
 }
 
 // 0x00303C6C (name is ours)
-DECOMP_NOINLINE void SvFishingConvention::Func303C6C(s32 value)
+DECOMP_NOINLINE void SvFishingConvention::GivePrizes(s32 value)
 {
     const nn::fnd::DateTimeParameters today = time::GetGameDate();
-    if (time::SvTimeIsValid(&unk_0xE)) {
-        const nn::fnd::DateTimeParameters start = time::SvTimeToParameters(&unk_0xE);
+    if (time::SvTimeIsValid(&startTime)) {
+        const nn::fnd::DateTimeParameters start = time::SvTimeToParameters(&startTime);
         if (!event::Func314104(start, today)) {
             for (u32 i = 0; i < 3; i++) {
-                if (unk_0x1E[i].IsValid()) {
+                if (placePlayers[i].IsValid()) {
                     SvPlayerData* players = &GetGardenPlus()->data.players;
-                    const u32 index = Func71AC00(players, &unk_0x1E[i]);
+                    const u32 index = Func71AC00(players, &placePlayers[i]);
                     SvPlayer* player = SvGetPlayer(static_cast<PlayerSaveNumber>(Func30A1FC(players, index)));
-                    if (!(unk_0x0 & 2) && player != NULL) {
+                    if (!(flags & 2) && player != NULL) {
                         reinterpret_cast<u8&>(player->unk_0x8A3C.chipLetter) |= 1 << i;
                     }
                 }
@@ -609,8 +609,7 @@ DECOMP_NOINLINE void SvFishingConvention::Func303C6C(s32 value)
                 continue;
             }
             SvMail mail;
-            SvFgName paper;
-            Func6BC8A4(&paper, 41, 16);
+            SvFgName paper = SvFgName::MakeOfKind(item::KIND_PAPER, 16);
             SvFgName::Name prize = SvFgName::NAME_EMPTY;
             if (i == 0) {
                 prize = SvFgName::NAME_GOLD_FISH_TROPHY;
@@ -630,30 +629,30 @@ DECOMP_NOINLINE void SvFishingConvention::Func303C6C(s32 value)
 }
 
 // 0x0030454C (name is ours)
-DECOMP_NOINLINE void SvFishingConvention::Func30454C()
+DECOMP_NOINLINE void SvFishingConvention::PostResultNotice()
 {
-    if (!time::SvTimeIsValid(&unk_0x16)) {
+    if (!time::SvTimeIsValid(&endTime)) {
         return;
     }
     const nn::fnd::DateTimeParameters now = *time::GetCurrentDate();
-    nn::fnd::DateTimeParameters date = time::SvTimeToParameters(&unk_0x16);
+    nn::fnd::DateTimeParameters date = time::SvTimeToParameters(&endTime);
     time::Func30A5AC(&date, 0, 3, 0, 0);
     if (Func2FB6DC(date, now)) {
         return;
     }
-    unk_0x0 |= 0x80;
+    flags |= 0x80;
     // the result of a tourney with a fish / of a tourney with any fish
-    const s32 label = unk_0x2.IsEmpty() ? 61 : 62;
+    const s32 label = targetFish.IsEmpty() ? 61 : 62;
     SvTownDataUnk1AE94* board = &GetGardenData()->townData.unk_0x1AE94;
     svfscnve::FishingBbsNotice notice;
-    if (!unk_0x2.IsEmpty()) {
-        notice.m_FishId = GetFgNameId(&unk_0x2);
+    if (!targetFish.IsEmpty()) {
+        notice.m_FishId = GetFgNameId(&targetFish);
     }
     for (u32 i = 0; i < 3; i++) {
-        if (unk_0x1E[i].IsValid()) {
-            notice.SetPlayer(i, &unk_0x1E[i]);
-        } else if (Func302050(&unk_0xA8[i])) {
-            notice.SetNpc(i, &unk_0xA8[i]);
+        if (placePlayers[i].IsValid()) {
+            notice.SetPlayer(i, &placePlayers[i]);
+        } else if (Func302050(&placeVillagers[i])) {
+            notice.SetNpc(i, &placeVillagers[i]);
         }
     }
     s_FishingNoticeDelegate.mObject = &notice;

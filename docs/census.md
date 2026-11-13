@@ -180,9 +180,18 @@ is neither today nor yesterday, the value is cleared; if the event takes place t
 ## Unknown values
 
 - `unk_0x550` (index 68): only `AddUnk0x550` (0x6B8DE0) adds to it, called only from ModuleIndoor (thunk +0x392C, call
-  at +0x4AC98) in a talk handler of a villager indoors (flow event 24, near `AcNpcIn::InTalkRcpt`). Before that, the
-  player's town (`SvPlayer::playerInfo`) is written into `SvNpcData` + 0x172F8 (up to three 22-byte entries, count at
-  +0xAB, date at +0xA2; functions 0x5BD3AC/0x5BD354).
+  at +0x4AC98). The caller (+0x4ABF8) is a handler in the PMF table of `AcNpcIn::InTalkRcpt` (+0x61648) for the item
+  menu of flow menu 24 (`IFlowRecept::s_Menus[24]`: BsMenu 32, filter `Func180A9C` = usual items that can be sold).
+  It takes the chosen item, writes the player's `SvPlayerId` into the record at `SvNpcData` + 0x172F8 (0x5BD3AC,
+  entry `[+0xAB]` of three) and stores today's date at +0xA2 (0x5BD354), then adds 1.
+  The record exists once per town: villager index +0xA6, three player entries at +0x8 (22 bytes each), four at +0x4A,
+  flags +0xAA (bit 4+i: entry i handled), state +0xAB. Started by 0x5BD4E8 (state 2), changed daily from 0x5B7C38/0x5B7C88:
+  0x5BD578 adds to a value at +0xA8 (range -4..40, or 60 when the state is 3/6/9/11), 0x5BD5C0 counts +0xA9 up to 3
+  and then sets +0xA7. 0x5BD00C sends each player in the entries a letter (0x30D044, type 5) with an item from 0x5BB4D0
+  that depends on how many of the three entries are that player: 3 → chance of the villager's picture (friendship × 4
+  in 10000, item `NAME_PIC_OF_CYRANO` + villager id), else a random item; 2 → item up to 3000 Bells; 1 → up to 2000 Bells.
+  This matches the sick villager of the wiki (sickness lasts three days with medicine every day, the villager rewards
+  the player afterwards, possibly by letter); not confirmed.
 - `unk_0x564` (index 69): only `AddUnk0x564ForSlot` (0x6B8EC8) adds to it, from 0x5BADA0 (state machine of the entries
   at `SvNpcData` + 0x1744C, two entries of 0x40 per player, the time capsule). +1 for the entry's player when an entry
   goes from state 0/1 to state 3 and the date bytes +0x3C/+0x3D are set. Probably time capsules buried.
@@ -190,8 +199,13 @@ is neither today nor yesterday, the value is cleared; if the event takes place t
   `LytTicketExchangeSmaphoLinkSeq` (+0x139D0). Reads the current player's 6-byte entry at `SvStorageDataUnk153FC` +
   0xC90 (0x2B8858 has tickets, 0x2B8820 count), adds the count to this total, gives MEOW coupons for it (0x2B8890 →
   `AddMeowCouponsEarned`) and clears the entry (0x2B88C8). Counts tickets exchanged via smartphone link.
+  `BsMenuTicketExchange` is the menu of the CAT Machine (layout `Layout/ticket`, talk texts `NPC_Obj_Ticket`). Its
+  states include SmaphoLink/TicketReceipt/LinkCheck/LinkCancel/LinkApply/Unlink and a tax payment sequence
+  (`LytTicketExchangeTaxPaymentsSeq`). The US texts only mention MEOW Coupons, the Town ID and Growth Funds donations;
+  none mentions a smartphone.
 
 ## Open
 
 - The menu/layout that would show the census.
-- The meaning of `unk_0x550` and `unk_0x564`; where the smartphone tickets come from.
+- Confirm `unk_0x550` (sick villager?) and `unk_0x564` (time capsule?).
+- Where the smartphone tickets of the CAT Machine come from.

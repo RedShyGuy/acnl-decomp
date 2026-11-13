@@ -20,6 +20,12 @@ struct SvTownId {
 };
 ASSERT_SIZE(SvTownId, 0x16);
 
+// (names are ours) a town id is made from a name (9 characters, cut with the word functions) and a region: with the id
+// 0xFFFF / a new random id (0x8000 | 0..0x7FFE) / a given id
+void MakeTownId(SvTownId* town, const char16* name, u32 region); // 0x006BC944
+void MakeNewTownId(SvTownId* town, const char16* name, u32 region); // 0x006BCA08
+void MakeTownId(SvTownId* town, const char16* name, u16 tid, u32 region); // 0x006BCADC
+
 struct SvPlayerId {
     /* 0x0000 */ u16 pid;
     /* 0x0002 */ char16 playerName[9];

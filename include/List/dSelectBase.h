@@ -12,9 +12,7 @@ class SvFgName;
 
 // (game functions on item names and item lists, purpose unknown; used by the list helpers of SelectBase)
 bool Func76B6A0(const SvFgName* name); // 0x0076B6A0
-void Func6BA2E8(SvFgName* name); // 0x006BA2E8
 bool Func76BE54(const SvFgName* name); // 0x0076BE54
-void Func6BBCF0(SvFgName* name); // 0x006BBCF0
 bool Func2FE704(const SvFgName* a, const SvFgName* b); // 0x002FE704
 bool Func76BA20(const SvFgName* a, const SvFgName* b); // 0x0076BA20
 bool Func76A66C(const SvFgName* name); // 0x0076A66C

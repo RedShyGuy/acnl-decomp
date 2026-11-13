@@ -75,7 +75,7 @@ bool SvStepInner::Start()
     if (m_Flags & FLAG_CLEAR_SAVE_MEMORY) {
         g_SvIsSaveMemoryValid = 0;
         SvClearSaveData(SvGetSaveMemoryChecked());
-        Func5CB7F8(SvGetSaveMemoryChecked());
+        SvResetSaveData(SvGetSaveMemoryChecked());
     }
     if (m_Flags & FLAG_FREEZE_TIME_MASK) {
         time::Freeze();

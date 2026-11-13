@@ -194,7 +194,7 @@ void netgame::JoinMgr::Process()
                     size_t partSizes[2];
                     SvPlayer* player = SvGetCurrentPlayer();
                     if (player != NULL) {
-                        PrepareSendPlayer(player);
+                        player->PrepareSend();
                         count = 1;
                         parts[0] = player;
                         partSizes[0] = PLAYER_DATA_SIZE;
@@ -203,7 +203,7 @@ void netgame::JoinMgr::Process()
                     partSizes[count] = NPC_INFO_SIZE;
                     if (mgr->SendPacketBatch(source, parts, partSizes, count + 1, PACKET_PLAYER_DATA, 0, 1, 0)) {
                         if (player != NULL) {
-                            FinishSendPlayer(player);
+                            player->FinishSend();
                         }
                         unk_0x16 = false;
                         m_State = STATE_DONE;
@@ -293,7 +293,7 @@ bool netgame::JoinMgr::SendTownData()
     u32 count = 0;
     SvPlayer* player = SvGetCurrentPlayer();
     if (player != NULL) {
-        PrepareSendPlayer(player);
+        player->PrepareSend();
         count = 1;
         partSizes[0] = PLAYER_DATA_SIZE;
         parts[0] = player;
@@ -322,7 +322,7 @@ bool netgame::JoinMgr::SendTownData()
         }
     }
     if (player != NULL) {
-        FinishSendPlayer(player);
+        player->FinishSend();
     }
     return true;
 }
@@ -445,7 +445,7 @@ bool netgame::JoinMgr::SendRandomMatchData(PlayerNo target)
     count++;
     SvPlayer* player = SvGetCurrentPlayer();
     if (player != NULL) {
-        PrepareSendPlayer(player);
+        player->PrepareSend();
         parts[count] = player;
         partSizes[count] = PLAYER_DATA_SIZE;
         count++;
@@ -462,7 +462,7 @@ bool netgame::JoinMgr::SendRandomMatchData(PlayerNo target)
     parts[count + 1] = &islandParam;
     partSizes[count + 1] = sizeof(islandParam);
     if (mgr->SendPacketBatch(target, parts, partSizes, count + 2, PACKET_RANDOM_MATCH_DATA, 0, 1, 0) && player != NULL) {
-        FinishSendPlayer(player);
+        player->FinishSend();
     }
     return true;
 }

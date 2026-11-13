@@ -216,7 +216,7 @@ void BsSvMgr::SaveStep::Step_SetNetSaveEnd()
 // 0x00609680 (name is ours, "成長処理前処理")
 void BsSvMgr::SaveStep::Step_BeforeGrowup()
 {
-    g_SvProc.Func5CD2FC();
+    g_SvProc.ResetTownMapIndex();
     s_ApplyRequest.Reset();
     s_ApplyRequest.m_Flags = SvStepInner::FLAG_KEEP_ERROR | (10 << 6);
     if (s_ApplyRequest.Start()) {
@@ -448,8 +448,8 @@ void BsSvMgr::SaveStep::Step_LoadDone()
     const u8 saveNo = s_SaveNo;
     netgame::SetPlayerActive(myNo, netgame::GetSaveNo(), NULL);
     SvPlayer* player = SvGetPlayer(static_cast<PlayerSaveNumber>(saveNo));
-    Func6BD94C(SvGetCurrentPlayer(), player);
-    Func5CB4B4(SvGetSaveMemoryChecked());
+    SvCopyPlayer(SvGetCurrentPlayer(), player);
+    SvRestoreAfterNetVisit(SvGetSaveMemoryChecked());
     time::GetCurrentDate();
     Next();
 }
@@ -1274,7 +1274,7 @@ void BsSvMgr::SaveStep::Step_InitializeNetSaveTour()
             netgame::NetGameMgr::s_pInstance->m_IslandMgr.IsDepartingInRandomMatch()) {
             SvPlayer* player = SvGetCurrentPlayer();
             if (player != NULL) {
-                const u32 first = player->Func6BDA24();
+                const u32 first = player->SellPocketsToBank();
                 const u32 second = player->bankAmount.Get();
                 GetCensus()->UpdateAbdBalance(second);
                 GetCensus()->AddBellsEarned(first);
@@ -1366,7 +1366,7 @@ void BsSvMgr::SaveStep::Step_StartSaveAllNet()
     if (m_Counter == 0) {
         SvPlayer* player = SvGetCurrentPlayer();
         if (player != NULL) {
-            const u32 first = player->Func6BDA24();
+            const u32 first = player->SellPocketsToBank();
             const u32 second = player->bankAmount.Get();
             GetCensus()->UpdateAbdBalance(second);
             GetCensus()->AddBellsEarned(first);

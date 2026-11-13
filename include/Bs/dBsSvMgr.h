@@ -49,7 +49,7 @@ void Func114CA8(bool value); // 0x00114CA8
 void Func27EBF0(SvStepInner* request); // 0x0027EBF0
 // (called by the steps of the loads and the disconnection; names after the addresses)
 struct SvPlayer;
-void Func6BD94C(SvPlayer* dst, const SvPlayer* src); // 0x006BD94C
+void SvCopyPlayer(SvPlayer* dst, const SvPlayer* src); // 0x006BD94C
 void Func283100(netgame::PlayerNo player); // 0x00283100
 // (called by the steps after the network error, back in the own town and after the game start)
 void Func2932C4(); // 0x002932C4

@@ -283,7 +283,7 @@ void lyt::TextAreaMail::SetupPaper()
     const u8 paperId = m_pMail->paperId;
     ssys::ma::Allocator* allocator = ssys::ma::lyt::GetDeviceAllocator();
     sead::Heap* heap = ssys::ma::lyt::GetDeviceAllocator()->m_pHeap;
-    SvFgName paper = Func6BC8A4(m_PaperKind, paperId);
+    SvFgName paper = SvFgName::MakeOfKind(m_PaperKind, paperId);
     m_PaperLoader.Load(&paper, heap, 0, 0, 0, true, 0);
     const void* image = m_PaperLoader.GetTextureImage(0);
     const u8 format = m_PaperLoader.GetTextureFormat(0);

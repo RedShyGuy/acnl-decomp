@@ -166,7 +166,7 @@ DECOMP_ALWAYS_INLINE void MarkLoaded()
 DECOMP_ALWAYS_INLINE void ApplyTown()
 {
     Func20DE60(&GetGardenData()->townData.currentTime);
-    GetGardenData()->Func5CBCAC();
+    GetGardenData()->SetupNewTown();
     Func1E08AC(GetSharedData());
     Func51D3F4();
 }
@@ -192,7 +192,7 @@ DECOMP_ALWAYS_INLINE void ApplyKind7()
     Func537AD8();
     Func10F168(GetNpcs());
     Func116D0C();
-    g_SvProc.Func5CDB2C();
+    g_SvProc.FinishApply();
     Func30C97C(GetNpcs(), 0, 0);
 }
 
@@ -203,7 +203,7 @@ DECOMP_ALWAYS_INLINE SvMovePlayerPls* GetMovePlayerPls()
 } // namespace
 
 // 0x005CD094 (name is ours)
-void SvApplyKind10()
+void SvApplyBeforeGrowup()
 {
     Func6A6EE0();
     Func2422F0();
@@ -213,12 +213,12 @@ void SvApplyKind10()
     Func6ABAE4();
     Func4E8EF0();
     Func51D910();
-    g_SvProc.Func5CDB2C();
+    g_SvProc.FinishApply();
     Func10CCA8(GetNpcs());
 }
 
 // 0x005CD154 (name is ours)
-void SvApplyKind1()
+void SvApplyNewTown()
 {
     InitializeTownMap();
     Func6A6EE0();
@@ -232,14 +232,14 @@ void SvApplyKind1()
 }
 
 // 0x005CD2FC (name is ours)
-void SvProc::Func5CD2FC()
+void SvProc::ResetTownMapIndex()
 {
     Func27D8CC();
     unk_0x4 = -1;
 }
 
 // 0x005CD314 (name is ours)
-void SvApplyKind6()
+void SvApplyTitleDemoTown()
 {
     Func27D8CC();
     Func27C884(&GetGardenData()->townData.unk_0x5C, 0);
@@ -253,31 +253,34 @@ void SvApplyKind6()
     const char16 townName[10] = {0x30BF, 0x30A4, 0x30C8, 0x30EB, 0x30C7, 0x30E2, 0, 0, 0, 0};
     GetGardenData()->header.saveVerifier2 = 0;
     const s32 region = GetRegion();
-    Func6BCA08(&GetGardenData()->townData.townData1, townName, region);
+    MakeNewTownId(&GetGardenData()->townData.townData1, townName, region);
     ApplyTown();
     ResetGameState();
     Func10F168(GetNpcs());
     event::RequestReset();
     Func116D0C();
-    g_SvProc.Func5CDB2C();
+    g_SvProc.FinishApply();
     Func30C97C(GetNpcs(), 0, 0);
 }
 
 // 0x005CD478 (name is ours)
-void SvApplyKind11()
+void SvApplyLoadedOrTitleDemoTown()
 {
     if (!Func150260()) {
-        SvApplyKind6();
+        SvApplyTitleDemoTown();
         return;
     }
     ApplyKind7();
 }
 
+// (open, see docs/pending_names.md) kind 2, then Lyle's stand in Tom Nook's shop (town flag hhsStandUnlocked) is unlocked
+// when a player has the player flag 0x12.5 (next to talkToLyleForTheFirstTime); the requester is not known yet, probably
+// in a CRO module; not the HHD link (that adds catalog furniture)
 // 0x005CD568 (name is ours)
 void SvApplyKind9()
 {
     Func116D0C();
-    g_SvProc.Func5CDB2C();
+    g_SvProc.FinishApply();
     Func30C97C(GetNpcs(), 0, 0);
     MarkLoaded();
     for (u32 i = 0; i < 4; i++) {
@@ -289,7 +292,7 @@ void SvApplyKind9()
 }
 
 // 0x005CD630 (name is ours)
-void SvApplyKind4()
+void SvApplyNewResident()
 {
     if (time::IsYearClamped()) {
         time::SaveOffset();
@@ -304,18 +307,20 @@ void SvApplyKind4()
     Func116D0C();
     SvGetCurrentPlayer();
     Func537EF8();
-    g_SvProc.Func5CDB2C();
+    g_SvProc.FinishApply();
     SvNpcData* npcData = GetGardenData()->GetNpcData();
     Func30C97C(npcData->npcs, 0, 0);
     Func30C48C(npcData->unk_0x172F8);
 }
 
 // 0x005CD7A4 (name is ours)
-void SvApplyKind7()
+void SvApplyLoadedTown()
 {
     ApplyKind7();
 }
 
+// (open, see docs/pending_names.md) SvApplyNewTown and then the steps of kind 2: a new town that counts as loaded at
+// once (maybe a town made from imported data, e.g. ModuleIncSave; the requester is not known yet)
 // 0x005CD880 (name is ours)
 void SvApplyKind3()
 {
@@ -329,22 +334,25 @@ void SvApplyKind3()
     ResetGameState();
     Func10F168(GetNpcs());
     Func116D0C();
-    g_SvProc.Func5CDB2C();
+    g_SvProc.FinishApply();
     Func30C97C(GetNpcs(), 0, 0);
     MarkLoaded();
 }
 
+// (open, see docs/pending_names.md) only the villagers, FinishApply and "loaded": no town map or first-day setup, so a
+// reload during play rather than the game start (SvApplyGameStart); not the save and continue ("ゲーム継続セーブ" saves
+// without loading); the requester is not known yet
 // 0x005CDADC (name is ours)
 void SvApplyKind2()
 {
     Func116D0C();
-    g_SvProc.Func5CDB2C();
+    g_SvProc.FinishApply();
     Func30C97C(GetNpcs(), 0, 0);
     MarkLoaded();
 }
 
 // 0x005CDB2C (name is ours)
-void SvProc::Func5CDB2C()
+void SvProc::FinishApply()
 {
     GetGardenData()->townData.unk_0xEE2C.Func1144A0(0);
     Func10E9A4(GetNpcs());
@@ -365,7 +373,7 @@ void SvReturnToLoad()
 // 0x005CDBA8 (name is ours)
 void SvProc::ApplyMovePlayerPls()
 {
-    Func6BD94C(GetGardenData()->players.Get(0), &GetMovePlayerPls()->player);
+    SvCopyPlayer(GetGardenData()->players.Get(0), &GetMovePlayerPls()->player);
     Func24E16C(Func3180C8(&GetGardenData()->townData.playerHouses, 0), &GetMovePlayerPls()->house);
     Func6CDAB8(Func1DF90C(GetSharedData(), 0), GetMovePlayerPls()->unk_0xB6B0);
     if (GetMovePlayerPls()->unk_0xC8B0) {
@@ -383,7 +391,7 @@ void SvProc::ApplyMovePlayerPls()
 }
 
 // 0x005CDDEC (name is ours)
-void SvApplyKind5()
+void SvApplyGameStart()
 {
     if (stage::GetCurrent() == stage::NAME_PLAYER_SELECT) {
         if (time::IsYearClamped()) {
@@ -431,7 +439,7 @@ void SvApplyKind5()
         player->Func6BE93C();
     }
     Func537EF8();
-    g_SvProc.Func5CDB2C();
+    g_SvProc.FinishApply();
     Func5D07C0();
     Func304D04();
     Func3052C4();
@@ -439,7 +447,7 @@ void SvApplyKind5()
 }
 
 // 0x005CE080 (name is ours)
-void SvApplyKind8()
+void SvApplyNewTownWithMovePlayer()
 {
     InitializeTownMap();
     g_SvProc.ApplyMovePlayerPls();

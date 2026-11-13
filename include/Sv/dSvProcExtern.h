@@ -42,7 +42,6 @@ void Func1E08AC(SvSharedData* data); // 0x001E08AC
 void Func51D3F4(); // 0x0051D3F4
 void Func1082E4(SvBulletinBoardMessage* messages); // 0x001082E4 (Thumb)
 void Func10F168(SvNpc* npcs); // 0x0010F168 (Thumb)
-void Func6BCA08(SvTownId* town, const char16* name, s32 region); // 0x006BCA08
 void Func116D0C(); // 0x00116D0C (Thumb)
 void Func30C97C(SvNpc* npcs, u32 a, u32 b); // 0x0030C97C (Thumb)
 void Func30C48C(void* data); // 0x0030C48C
@@ -85,7 +84,6 @@ void Func242A28(u32 a, u32 b); // 0x00242A28
 void Func108350(SvBulletinBoardMessage* messages); // 0x00108350 (Thumb)
 void Func226DE4(); // 0x00226DE4
 struct SvFgName;
-void Func6BA474(SvFgName* item); // 0x006BA474
 void Func119298(SvNpc* npcs); // 0x00119298 (Thumb)
 void Func2FC8A4(SvFgName* items, const SvFgName* item); // 0x002FC8A4
 void Func1BB258(); // 0x001BB258
@@ -111,7 +109,6 @@ void Func10D640(SvNpc* npcs, u32 saveNo); // 0x0010D640 (Thumb)
 struct SvTownDataUnk1E368;
 void Func1B6BB8(SvTownDataUnk1E368* data, u32 saveNo); // 0x001B6BB8
 void Func1B66B8(SvTownDataUnk1E368* data, u32 saveNo); // 0x001B66B8
-void Func6BCCBC(SvMuseum* museum, u32 saveNo); // 0x006BCCBC
 void Func10DF18(SvNpc* npcs, u32 saveNo); // 0x0010DF18 (Thumb)
 void Func5BBCF0(SvNpcDataUnk1744C* data, u32 saveNo); // 0x005BBCF0
 void Func10DB4C(SvNpc* npcs, u32 saveNo); // 0x0010DB4C (Thumb)
@@ -128,19 +125,16 @@ void Func2EC334(SvPlayerHouseList* houses); // 0x002EC334
 void Func52B20C(SvTime* time); // 0x0052B20C
 struct SvTownDataUnkEE28;
 void Func1B20B4(SvTownDataUnkEE28* data); // 0x001B20B4
-void Func6BD0F0(SvMuseum* museum); // 0x006BD0F0
 
 void Func6142B0(SvTownDataUnk5C* map); // 0x006142B0
 void Func5CE6C8(SvStrcData* data); // 0x005CE6C8
 void Func27B044(SvPlayerData* players); // 0x0027B044
 void Func2EC368(SvPlayerHouseList* houses); // 0x002EC368
-void Func6BD128(SvMuseum* museum); // 0x006BD128
 void Func112550(SvNpcData* data); // 0x00112550 (Thumb)
 void Func2BFA34(SvMinigameData* data); // 0x002BFA34
 void Func2D4B08(SvGardenDataUnk52BB0* data); // 0x002D4B08
 void Func52B260(SvTime* time); // 0x0052B260
 void Func1B2740(SvFgName* items); // 0x001B2740
-void Func6BCB9C(u8* data); // 0x006BCB9C
 void Func24EFB8(SvPwpProject* project); // 0x0024EFB8
 void Func20C0DC(SvStrc* strc); // 0x0020C0DC
 void Func1082C4(SvBulletinBoardMessage* messages); // 0x001082C4 (Thumb)

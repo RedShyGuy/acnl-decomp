@@ -1,4 +1,5 @@
 #include "Sv/dSvSaveMemory.h"
+#include "Sv/dSvTownTune.h"
 
 #include <cstring>
 
@@ -199,7 +200,7 @@ void Func5CB2EC()
     Func226DE4();
     SvGardenData* garden = GetGardenDataInline();
     for (u32 i = 0; i < 16; i++) {
-        Func6BA474(&garden->townData.unk_0xEDBE.lostAndFoundItems[i]);
+        garden->townData.unk_0xEDBE.lostAndFoundItems[i].ClearCommon();
     }
 }
 
@@ -210,7 +211,7 @@ void Func5CB49C()
 }
 
 // 0x005CB4B4 (name is ours)
-void Func5CB4B4(SvGardenPlus* data)
+void SvRestoreAfterNetVisit(SvGardenPlus* data)
 {
     (void)data;
     VisitorLocalInfo::s_pInstance->Func2C2B04();
@@ -286,7 +287,7 @@ DECOMP_ALWAYS_INLINE void ResetSaveData(SvGardenPlus* data)
 } // namespace
 
 // 0x005CB7F8 (name is ours)
-void Func5CB7F8(SvGardenPlus* data)
+void SvResetSaveData(SvGardenPlus* data)
 {
     ResetSaveData(data);
 }
@@ -373,13 +374,13 @@ void SvGardenData::Func5CBADC(u32 saveNo)
 }
 
 // 0x005CBB30 (name is ours)
-void SvGardenData::Func5CBB30(u32 saveNo)
+void SvGardenData::RemovePlayer(u32 saveNo)
 {
     if (!SvIsValidPlayerSaveNo(static_cast<PlayerSaveNumber>(saveNo))) {
         return;
     }
     townData.unk_0xEE2C.Func20D640(saveNo);
-    Func6BCCBC(&townData.museum, saveNo);
+    townData.museum.RemovePlayer(saveNo);
     IsSaveIoOnNpcData();
     SvNpc* npcs = npcData.npcs;
     Func10DF18(npcs, saveNo);
@@ -408,7 +409,7 @@ void SvGardenData::Func5CBB30(u32 saveNo)
 }
 
 // 0x005CBCAC (name is ours)
-void SvGardenData::Func5CBCAC()
+void SvGardenData::SetupNewTown()
 {
     header.Initialize();
     Func5CE688(&strcData);
@@ -416,7 +417,7 @@ void SvGardenData::Func5CBCAC()
     Func52B20C(&townData.unk_0xEE0E);
     Func1B20B4(&townData.unk_0xEE28);
     townData.unk_0xEE2C.Func10A2C8();
-    Func6BD0F0(&townData.museum);
+    townData.museum.ClearExhibits2();
     Func118A7C(&townData.unk_0x1CA84);
     Func1B44E0(&townData.townFlag, 22);
 }
@@ -430,7 +431,7 @@ void SvGardenData::Clear()
     Func2EC368(&townData.playerHouses);
     townData.unk_0xEE28.Init();
     townData.unk_0xEE2C.Func5CE224();
-    Func6BD128(&townData.museum);
+    townData.museum.Init();
     Func118A8C(&townData.unk_0x1CA84);
     Func112550(&npcData);
     Func2BFA34(&minigameData);
@@ -439,15 +440,15 @@ void SvGardenData::Clear()
     event::Func6140F8(&townData.unk_0x1AE50);
     Func1B2740(townData.unk_0xEDBE.lostAndFoundItems);
     time::SvTimeClear(&townData.unk_0x1AE6E);
-    Func6BCB9C(townData.unk_0x1AE76);
+    InitTownTune(townData.townTune);
     Func24EFB8(&townData.nextPwpToBuild);
     Func20C0DC(&townData.unk_0x1AE90);
     Func1082C4(townData.unk_0x1AE94.bBoardMessages);
     Func77A53C(&townData.unk_0x1C7A8);
-    townData.unk_0x1C7A8.unk_0x1C.Func303000(true);
-    townData.unk_0x1C7A8.unk_0x1C.unk_0x0 = 0;
-    townData.unk_0x1C90E.Func2EB558(true);
-    townData.unk_0x1C90E.unk_0x0 = 0;
+    townData.unk_0x1C7A8.unk_0x1C.Clear(true);
+    townData.unk_0x1C7A8.unk_0x1C.flags = 0;
+    townData.unk_0x1C90E.Clear(true);
+    townData.unk_0x1C90E.flags = 0;
     Func2EC05C(&townData.unk_0x1CA92);
     Func20DE14(townData.snowmen);
     townData.unk_0x1CA8C[4] = 0;

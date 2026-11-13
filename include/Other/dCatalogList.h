@@ -12,11 +12,14 @@ namespace script {
 class RenderGarden;
 } // namespace script
 
-// (game code, not decompiled; names are ours) the first and the last name of the items of a kind
+// (game code, not decompiled; names are ours) the first and the last name and the number of the items of a kind (the
+// table 0x878778 has one entry per item::Kind)
 struct ItemNameRange
 {
     u16 first;  // 0x0
     u16 last;   // 0x2
+    u32 count;  // 0x4
+    u32 unk_0x8;
 };
 const ItemNameRange* Func5360A8(u8 kind); // 0x005360A8
 // (game code, methods of SvMuseum) the item was given to the museum / by a player of the town (the donor is filled in)

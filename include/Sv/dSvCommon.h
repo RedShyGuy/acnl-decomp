@@ -45,6 +45,17 @@ struct SvDate {
 };
 ASSERT_SIZE(SvDate, 0x4);
 
+// a month and a day (name is ours; the constructor takes them from time::GetFirstDate). Only user: a local array of 18
+// of them in the game function 0x104B54 (Thumb; filled with dates through 0x301B70, read with a bounds check 0x301B64);
+// not the birthday of the player (SvPlayer::birthMonth/birthDay are two single bytes)
+struct SvMonthDay {
+    SvMonthDay(); // 0x006BA2A8
+
+    /* 0x0000 */ u8 month;
+    /* 0x0001 */ s8 day;
+};
+ASSERT_SIZE(SvMonthDay, 0x2);
+
 struct SvDateTime {
     /* 0x0000 */ u16 year;
     /* 0x0002 */ u16 unk_0x2; // Maybe padding

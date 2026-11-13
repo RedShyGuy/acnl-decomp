@@ -41,6 +41,12 @@ void SetMailItemWord(script::Phrase* phrase)
 }
 } // namespace
 
+// 0x006BD500 (name is ours)
+void SvPlayer::PrepareSend()
+{
+    Func5836A8(this);
+}
+
 // 0x006BD504 (name is ours)
 void SvPlayer::AddPlaytime(s64 time)
 {
@@ -69,27 +75,27 @@ SvPlayer* SvPlayerData::Get(u32 index)
 }
 
 // 0x006BD90C (name is ours)
-void SvPlayer::Func6BD90C()
+void SvPlayer::UpdateDebt()
 {
     debtAmount.Set(Func76E7CC(this));
     unk_0x8F77.data[12] |= 0x10;
 }
 
 // 0x006BD940 (name is ours)
-void SvPlayer::Func6BD940()
+void SvPlayer::FinishSend()
 {
     Func58381C(this);
 }
 
-// (falls through into Func6BD94C)
+// (falls through into SvCopyPlayer)
 // 0x006BD944 (name is ours)
-void Func6BD944(SvMovePlayerPls* data, const SvPlayer* player)
+void SvCopyPlayerToMovePlayerPls(SvMovePlayerPls* data, const SvPlayer* player)
 {
-    Func6BD94C(&data->player, player);
+    SvCopyPlayer(&data->player, player);
 }
 
 // 0x006BD94C (name is ours)
-void Func6BD94C(SvPlayer* dst, const SvPlayer* src)
+void SvCopyPlayer(SvPlayer* dst, const SvPlayer* src)
 {
     const s32 distance = reinterpret_cast<u8*>(dst) - reinterpret_cast<const u8*>(src);
     if (distance > 0 && static_cast<s32>(sizeof(SvPlayer)) > distance) {
@@ -120,7 +126,7 @@ void SvPlayer::Func6BD9A0(const SvFgName& item)
 }
 
 // 0x006BD9FC (name is ours)
-void SvPlayer::Func6BD9FC(u32 value)
+void SvPlayer::AddBellsFromReese(u32 value)
 {
     bellsFromReeseAmount.Add(value, 0xFFFFFFFF);
 }
@@ -132,7 +138,7 @@ void SvPlayer::Func6BDA0C()
 }
 
 // 0x006BDB48 (name is ours)
-void SvPlayer::Func6BDB48()
+void SvPlayer::CollectInitiativeCoupons()
 {
     SvEncValue* coupons = &unk_0x8D1C.meowCoupons;
     unk_0x8D1C.Func2BF528();
@@ -140,7 +146,7 @@ void SvPlayer::Func6BDB48()
 }
 
 // 0x006BDB84 (name is ours)
-void SvPlayer::Func6BDB84(u32 value)
+void SvPlayer::SetDebt(u32 value)
 {
     debtAmount.Set(value);
     unk_0x8F77.data[12] |= 0x10;
@@ -165,7 +171,7 @@ void SvPlayer::Func6BDBCC(u32 index)
 }
 
 // 0x006BDA24 (name is ours)
-s32 SvPlayer::Func6BDA24()
+s32 SvPlayer::SellPocketsToBank()
 {
     s32 total = 0;
     if (!Func769644(Func71B394(&playerAppearance.playerOutfit))) {
@@ -191,7 +197,7 @@ s32 SvPlayer::Func6BDA24()
 }
 
 // 0x006BDC0C (name is ours)
-void SvPlayer::Func6BDC0C()
+void SvPlayer::SendCampgroundOrders()
 {
     SvMail* letters = GetSharedData()->storageBox.letterPool;
     for (s32 i = 0; i < 3; i++) {
@@ -257,7 +263,7 @@ inline u16 SvPlayer::GetEncyclopediaSize(item::Kind kind, u32 index) const
 }
 
 // 0x006BDE18 (name is ours)
-u16 SvPlayer::Func6BDE18(const SvFgName& item) const
+u16 SvPlayer::GetCreatureSize(const SvFgName& item) const
 {
     switch (item.GetKind()) {
     case item::KIND_INSECT:
@@ -284,7 +290,7 @@ void SvPlayer::Func6BDF08(s32 value)
 }
 
 // 0x006BDF34 (name is ours)
-void SvPlayer::Func6BDF34(const SvFgName& item, u16 value)
+void SvPlayer::AddCampgroundOrder(const SvFgName& item, u16 value)
 {
     for (s32 i = 0; i < 3; i++) {
         if (!unk_0xA468[i].unk_0x0.IsUsual()) {
@@ -296,7 +302,7 @@ void SvPlayer::Func6BDF34(const SvFgName& item, u16 value)
 }
 
 // 0x006BDFA0 (name is ours)
-bool SvPlayer::Func6BDFA0()
+bool SvPlayer::HasFreeCampgroundOrder()
 {
     for (s32 i = 0; i < 3; i++) {
         if (!unk_0xA468[i].unk_0x0.IsUsual()) {
@@ -340,7 +346,7 @@ SvPlayerUnk8D84* SvPlayer::Func6BE0A0(const SvNpcRef* npc, s32 index)
 }
 
 // 0x006BE0BC (name is ours)
-void SvPlayer::Func6BE0BC(const SvFgName& item)
+void SvPlayer::UpdateCreatureSize(const SvFgName& item)
 {
     const u16 size = Func76981C(item);
     const item::Kind itemKind = item.GetKind();
@@ -384,7 +390,7 @@ void SvPlayer::Func6BE210()
 }
 
 // 0x006BE254 (name is ours)
-void SvPlayer::Func6BE254()
+void SvPlayer::ClearCreatureSizes()
 {
     std::memset(encyclopediaSizes.insects, 0, sizeof(encyclopediaSizes.insects));
     std::memset(encyclopediaSizes.fish, 0, sizeof(encyclopediaSizes.fish));
@@ -392,9 +398,9 @@ void SvPlayer::Func6BE254()
 }
 
 // 0x006BE2C4 (name is ours)
-void SvPlayer::Func6BE2C4(u32 a, u32 b, u32 c, const SvTownId* town, u32 townSlot)
+void SvPlayer::InitializeNew(u32 a, u32 b, u32 c, const SvTownId* town, u32 townSlot)
 {
-    Func6BE460(true);
+    Clear(true);
     Func20C8AC(this, a, b, c, town, townSlot);
     if (town != NULL) {
         townData2 = *town;
@@ -416,7 +422,7 @@ void SvPlayer::Func6BE2C4(u32 a, u32 b, u32 c, const SvTownId* town, u32 townSlo
 }
 
 // 0x006BE460 (name is ours)
-void SvPlayer::Func6BE460(bool keepUnk8F2C)
+void SvPlayer::Clear(bool keepUnk8F2C)
 {
     const u16 saved = unk_0x8F2C;
     std::memset(static_cast<void*>(this), 0, sizeof(SvPlayer));
@@ -492,7 +498,7 @@ void SvPlayer::Func6BE460(bool keepUnk8F2C)
 }
 
 // 0x006BE8E8 (name is ours)
-void SvPlayer::Func6BE8E8(u32 value)
+void SvPlayer::PayDebt(u32 value)
 {
     SvEncValue* debt = &debtAmount;
     if (debt->Get() < value) {
@@ -503,7 +509,7 @@ void SvPlayer::Func6BE8E8(u32 value)
 }
 
 // 0x006BE928 (name is ours)
-void SvPlayer::Func6BE928(u32 value)
+void SvPlayer::AddMedals(u32 value)
 {
     medalAmount.Add(value, 99999);
 }
@@ -528,7 +534,7 @@ skip:
 }
 
 // 0x006BE9E8 (name is ours)
-void SvPlayer::Func6BE9E8(u32 value)
+void SvPlayer::SubMedals(u32 value)
 {
     medalAmount.Sub(value);
 }

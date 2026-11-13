@@ -14,3 +14,4 @@ __pycache__/
 *.gpr
 *.rep/
 sv_map_core.md
+docs/pending_names.md

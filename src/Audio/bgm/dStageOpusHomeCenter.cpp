@@ -5,7 +5,7 @@
 // 0x00588BA4
 void audio::bgm::StageOpusHomeCenter::InitCloseHour()
 {
-    m_CloseHour = GetGardenPlus()->data.townData.unk_0xEE2C.shopZakka.Func759E24() ? 27 : 23;
+    m_CloseHour = GetGardenPlus()->data.townData.unk_0xEE2C.shopZakka.IsNightOwlOrdinance() ? 27 : 23;
 }
 
 // 0x00588BD4

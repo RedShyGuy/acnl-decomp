@@ -13,9 +13,9 @@ public:
     virtual ~SvProc();
 
     // (called before the growth processing and in BsSvMgr::Initialize) 0x0027D8CC runs and unk_0x4 becomes -1
-    void Func5CD2FC(); // 0x005CD2FC
+    void ResetTownMapIndex(); // 0x005CD2FC
     // (after every load: game code and the flag resetPending of the current player)
-    void Func5CDB2C(); // 0x005CDB2C
+    void FinishApply(); // 0x005CDB2C
     // the "Move In" character of mvplayer_pls.dat becomes player 0 of the town: player, house and the other parts
     void ApplyMovePlayerPls(); // 0x005CDBA8
 
@@ -52,17 +52,17 @@ void SvReturnToLoad(); // 0x005CDB74
 // how the loaded data is taken over (SvStepInner::FLAG_APPLY_MASK 1..11, table of SaveProcess::Run): the data of the
 // game is built again from the save data (names are ours; kind 5 loads with exhibition.dat, kind 6 names the town
 // "タイトルデモ" (title demo), kind 8 takes over mvplayer_pls.dat, kind 11 is kind 7 or kind 6)
-void SvApplyKind1(); // 0x005CD154
+void SvApplyNewTown(); // 0x005CD154
 void SvApplyKind2(); // 0x005CDADC
 void SvApplyKind3(); // 0x005CD880
-void SvApplyKind4(); // 0x005CD630
-void SvApplyKind5(); // 0x005CDDEC
-void SvApplyKind6(); // 0x005CD314
-void SvApplyKind7(); // 0x005CD7A4
-void SvApplyKind8(); // 0x005CE080
+void SvApplyNewResident(); // 0x005CD630
+void SvApplyGameStart(); // 0x005CDDEC
+void SvApplyTitleDemoTown(); // 0x005CD314
+void SvApplyLoadedTown(); // 0x005CD7A4
+void SvApplyNewTownWithMovePlayer(); // 0x005CE080
 void SvApplyKind9(); // 0x005CD568
-void SvApplyKind10(); // 0x005CD094
-void SvApplyKind11(); // 0x005CD478
+void SvApplyBeforeGrowup(); // 0x005CD094
+void SvApplyLoadedOrTitleDemoTown(); // 0x005CD478
 // the access to the archive ends if no save thread runs
 void SvEndAccessIfIdle(); // 0x005CDDC4
 // (copies in the shared area)

@@ -15,11 +15,11 @@ namespace {
 DECOMP_ALWAYS_INLINE void FinishNpcLetter(MailLoadAdapt* adapt, SvMail* mail, const void* npc, const SvPersonalId* player,
                                           const SvFgName* paper, u8 senderString)
 {
-    mail->Func5CC974(*paper);
+    mail->SetPaper2(*paper);
     mail->stringIdOfSender = senderString;
     mail->receiver.SetPlayer(player);
-    mail->Func5CC904(npc);
-    mail->Func5CC70C(1);
+    mail->SetSenderNpc(npc);
+    mail->SetStatus(1);
     if (adapt->m_NameIndent >= 0) {
         mail->receiverNameIndent = adapt->m_NameIndent;
     } else {
@@ -112,11 +112,11 @@ bool MailLoadAdapt::LoadPlayer(SvMail* mail, const char* file, s32 toLabel, s32 
         mail->Clear();
         return false;
     }
-    mail->Func5CC974(*paper);
+    mail->SetPaper2(*paper);
     mail->stringIdOfSender = senderString;
     mail->receiver.SetPlayer(player);
     mail->sender.Func5CCF24();
-    mail->Func5CC70C(1);
+    mail->SetStatus(1);
     if (m_NameIndent >= 0) {
         mail->receiverNameIndent = m_NameIndent;
     } else {

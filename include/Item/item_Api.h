@@ -239,7 +239,9 @@ ASSERT_SIZE(KindParamEntry, 0x3);
 // the parameters of a field object (names are ours; only the kind is known)
 struct ParamFgEntry
 {
-    u8 unk_0x0[10];
+    u8 unk_0x0[2];
+    u16 unk_0x2;    // 0x2 for the fruit trees the name of their fruit (SvFgName::GrowFruit)
+    u8 unk_0x4[6];
     u8 fgKind;      // 0xA SvFgName::FgKind
 };
 

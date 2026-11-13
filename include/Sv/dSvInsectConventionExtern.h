@@ -38,7 +38,6 @@ bool Func753588(const void* object); // 0x00753588
 // the insect that is caught, its size and a factor (the kind 0..5 decides the insects) on a date
 void Func701518(SvFgName* item, u8* size, f32* factor, u32 kind, const nn::fnd::DateTimeParameters* date); // 0x00701518
 // a paper item of a group (the prize letters of the Bug-Off use 41 and 16)
-void Func6BC8A4(SvFgName* item, u32 a, u32 b); // 0x006BC8A4
 
 // the fish that a villager of the Fishing Tourney catches with a factor of its size (svfscnve; names after the
 // addresses): a fish of a kind (the next two values: -3 and a direction 1 / -1 after the hour) / a fish like the fish of

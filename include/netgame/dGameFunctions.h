@@ -106,10 +106,6 @@ void Func6A7C4C(); // 0x006A7C4C
 void Func6A7CC4(); // 0x006A7CC4
 bool Func6A7EE8(); // 0x006A7EE8
 bool Func6A7F04(u32 time); // 0x006A7F04
-void MakeTownId(SvTownId* town, const char16* name, u32 region); // 0x006BC944
-void MakeTownId(SvTownId* town, const char16* name, u16 townId, u32 region); // 0x006BCADC
-void PrepareSendPlayer(SvPlayer* player); // 0x006BD500
-void FinishSendPlayer(SvPlayer* player); // 0x006BD940
 stage::Name Func6C4514(s8 kind); // 0x006C4514
 void Func6C45A8(nn::math::VEC3_* center); // 0x006C45A8
 stage::Name Func6C4734(s8 kind); // 0x006C4734

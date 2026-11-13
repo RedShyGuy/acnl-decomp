@@ -22,7 +22,7 @@ public:
                const script::IWord* name, const script::IWord* town); // 0x0010BEB4 (Thumb)
 };
 
-// the notice of the time service (the hour is the word of the tag 4/16)
+// the notice of the time service, the half price sale of the day (the hour is the word of the tag 4/16)
 // RTTI N40_GLOBAL__N__16_dSvShopZakka_cpp_9075ecaf17NoticeTimeServiceE
 // vtable 0x0089083C (vptr 0x00890844)
 class NoticeTimeService : public NoticeLoadAdapt

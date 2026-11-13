@@ -68,7 +68,7 @@ oml::framework::Result BsSvMgr::Initialize()
     m_Callback = m_pInfos[0].state;
     unk_0x118 = SvStepInner::FLAG_KEEP_ERROR;
     if (stage::GetCurrent() == stage::NAME_LOAD && s_NextMode == NULL) {
-        g_SvProc.Func5CD2FC();
+        g_SvProc.ResetTownMapIndex();
         s_NextMode = g_Unknown95D35D ? &BsSvMgr::State_LoadAfterSaveError : &BsSvMgr::State_Load;
     }
     return oml::framework::RESULT_SUCCESS;

@@ -48,38 +48,38 @@ DECOMP_ALWAYS_INLINE u16 GetPoints(u8 size, f32 factor, f32 random)
 } // namespace
 
 // (inline) a place is removed: the places below move up, the last place is cleared
-DECOMP_ALWAYS_INLINE void RemovePlace(SvInsectConvention* convention, u32 place)
+DECOMP_ALWAYS_INLINE void RemovePlaceInline(SvInsectConvention* convention, u32 place)
 {
     switch (place) {
     case 0:
-        netgame::AssignPersonalId(&convention->unk_0x1A[0], &convention->unk_0x1A[1]);
-        Func6148BC(&convention->unk_0xA4[0], &convention->unk_0xA4[1]);
-        convention->unk_0x134[0] = convention->unk_0x134[1];
-        convention->unk_0x13A[0] = convention->unk_0x13A[1];
+        netgame::AssignPersonalId(&convention->placePlayers[0], &convention->placePlayers[1]);
+        Func6148BC(&convention->placeVillagers[0], &convention->placeVillagers[1]);
+        convention->placePoints[0] = convention->placePoints[1];
+        convention->placeInsects[0] = convention->placeInsects[1];
         // fall through
     case 1:
-        netgame::AssignPersonalId(&convention->unk_0x1A[1], &convention->unk_0x1A[2]);
-        Func6148BC(&convention->unk_0xA4[1], &convention->unk_0xA4[2]);
-        convention->unk_0x134[1] = convention->unk_0x134[2];
-        convention->unk_0x13A[1] = convention->unk_0x13A[2];
+        netgame::AssignPersonalId(&convention->placePlayers[1], &convention->placePlayers[2]);
+        Func6148BC(&convention->placeVillagers[1], &convention->placeVillagers[2]);
+        convention->placePoints[1] = convention->placePoints[2];
+        convention->placeInsects[1] = convention->placeInsects[2];
         // fall through
     case 2:
-        netgame::ClearPersonalId(&convention->unk_0x1A[2]);
-        Func30836C(&convention->unk_0xA4[2]);
-        convention->unk_0x134[2] = 0;
-        convention->unk_0x13A[2] = SvFgName(SvFgName::s_Empty);
+        netgame::ClearPersonalId(&convention->placePlayers[2]);
+        Func30836C(&convention->placeVillagers[2]);
+        convention->placePoints[2] = 0;
+        convention->placeInsects[2] = SvFgName(SvFgName::s_Empty);
         break;
     }
 }
 
 // 0x002EA430 (name is ours)
-void SvInsectConvention::Func2EA430()
+void SvInsectConvention::UpdateDaily()
 {
     bool isReset = false;
-    if (unk_0x0 & 1) {
+    if (flags & 1) {
         const nn::fnd::DateTimeParameters now = *time::GetCurrentDate();
-        const nn::fnd::DateTimeParameters start = time::SvTimeToParameters(&unk_0x9);
-        const nn::fnd::DateTimeParameters end = time::SvTimeToParameters(&unk_0x11);
+        const nn::fnd::DateTimeParameters start = time::SvTimeToParameters(&startTime);
+        const nn::fnd::DateTimeParameters end = time::SvTimeToParameters(&endTime);
         nn::fnd::DateTimeParameters day = start;
         time::Func30A5AC(&day, 0, 21, 0, 0);
         if (Func2FB6DC(day, now) && time::SvTimeIsValid(&GetGardenPlus()->data.townData.unk_0x1AE6E)) {
@@ -93,33 +93,33 @@ void SvInsectConvention::Func2EA430()
             isReset = true;
         }
     }
-    Func2EB558(isReset);
-    Func2EB680();
-    Func2EB0CC(true, false, true);
-    Func2EBB9C(0);
-    if ((unk_0x0 & 1) && !(unk_0x0 & 0x80)) {
-        Func2EBDFC();
+    Clear(isReset);
+    Start();
+    AdvanceTime(true, false, true);
+    GivePrizes(0);
+    if ((flags & 1) && !(flags & 0x80)) {
+        PostResultNotice();
     }
 }
 
 // 0x002EA5B0 (name is ours)
-void SvInsectConvention::Func2EA5B0(u32 place)
+void SvInsectConvention::RemovePlace(u32 place)
 {
-    RemovePlace(this, place);
+    RemovePlaceInline(this, place);
 }
 
 // 0x002EA68C (name is ours)
-void SvInsectConvention::Func2EA68C(u32 value)
+void SvInsectConvention::UpdateResults(u32 value)
 {
-    Func2EB0CC(1, 0, 0);
-    Func2EBB9C(value);
-    if ((unk_0x0 & 1) && !(unk_0x0 & 0x80)) {
-        Func2EBDFC();
+    AdvanceTime(1, 0, 0);
+    GivePrizes(value);
+    if ((flags & 1) && !(flags & 0x80)) {
+        PostResultNotice();
     }
 }
 
 // 0x002EA6D8 (name is ours)
-DECOMP_NOINLINE bool SvInsectConvention::Func2EA6D8(const SvNpcRef* npc, const SvFgName* item, u16 points)
+DECOMP_NOINLINE bool SvInsectConvention::EnterVillager(const SvNpcRef* npc, const SvFgName* item, u16 points)
 {
     if (!Func302050(npc)) {
         return false;
@@ -127,96 +127,96 @@ DECOMP_NOINLINE bool SvInsectConvention::Func2EA6D8(const SvNpcRef* npc, const S
     if (points >= 1024) {
         return false;
     }
-    if (unk_0x134[0] == points || unk_0x134[1] == points || unk_0x134[2] == points) {
+    if (placePoints[0] == points || placePoints[1] == points || placePoints[2] == points) {
         return false;
     }
-    if (points > unk_0x134[0]) {
-        netgame::AssignPersonalId(&unk_0x1A[2], &unk_0x1A[1]);
-        netgame::AssignPersonalId(&unk_0x1A[1], &unk_0x1A[0]);
-        netgame::ClearPersonalId(&unk_0x1A[0]);
-        Func6148BC(&unk_0xA4[2], &unk_0xA4[1]);
-        Func6148BC(&unk_0xA4[1], &unk_0xA4[0]);
-        Func6148BC(&unk_0xA4[0], npc);
-        unk_0x134[2] = unk_0x134[1];
-        unk_0x134[1] = unk_0x134[0];
-        unk_0x134[0] = points;
-        unk_0x13A[2] = unk_0x13A[1];
-        unk_0x13A[1] = unk_0x13A[0];
-        unk_0x13A[0] = *item;
-    } else if (unk_0x134[1] < points) {
-        netgame::AssignPersonalId(&unk_0x1A[2], &unk_0x1A[1]);
-        netgame::ClearPersonalId(&unk_0x1A[1]);
-        Func6148BC(&unk_0xA4[2], &unk_0xA4[1]);
-        Func6148BC(&unk_0xA4[1], npc);
-        unk_0x134[2] = unk_0x134[1];
-        unk_0x134[1] = points;
-        unk_0x13A[2] = unk_0x13A[1];
-        unk_0x13A[1] = *item;
-    } else if (unk_0x134[2] < points) {
-        netgame::ClearPersonalId(&unk_0x1A[2]);
-        Func6148BC(&unk_0xA4[2], npc);
-        unk_0x134[2] = points;
-        unk_0x13A[2] = *item;
+    if (points > placePoints[0]) {
+        netgame::AssignPersonalId(&placePlayers[2], &placePlayers[1]);
+        netgame::AssignPersonalId(&placePlayers[1], &placePlayers[0]);
+        netgame::ClearPersonalId(&placePlayers[0]);
+        Func6148BC(&placeVillagers[2], &placeVillagers[1]);
+        Func6148BC(&placeVillagers[1], &placeVillagers[0]);
+        Func6148BC(&placeVillagers[0], npc);
+        placePoints[2] = placePoints[1];
+        placePoints[1] = placePoints[0];
+        placePoints[0] = points;
+        placeInsects[2] = placeInsects[1];
+        placeInsects[1] = placeInsects[0];
+        placeInsects[0] = *item;
+    } else if (placePoints[1] < points) {
+        netgame::AssignPersonalId(&placePlayers[2], &placePlayers[1]);
+        netgame::ClearPersonalId(&placePlayers[1]);
+        Func6148BC(&placeVillagers[2], &placeVillagers[1]);
+        Func6148BC(&placeVillagers[1], npc);
+        placePoints[2] = placePoints[1];
+        placePoints[1] = points;
+        placeInsects[2] = placeInsects[1];
+        placeInsects[1] = *item;
+    } else if (placePoints[2] < points) {
+        netgame::ClearPersonalId(&placePlayers[2]);
+        Func6148BC(&placeVillagers[2], npc);
+        placePoints[2] = points;
+        placeInsects[2] = *item;
     }
     return true;
 }
 
 // 0x002EA860 (name is ours)
-SvNpcRef* SvInsectConvention::Func2EA860(s32 place)
+SvNpcRef* SvInsectConvention::GetPlaceVillager(s32 place)
 {
-    return &unk_0xA4[place < 3 ? place : 0];
+    return &placeVillagers[place < 3 ? place : 0];
 }
 
 // 0x002EA874 (name is ours)
-SvFgName* SvInsectConvention::Func2EA874(s32 place)
+SvFgName* SvInsectConvention::GetPlaceInsect(s32 place)
 {
-    return &unk_0x13A[place < 3 ? place : 0];
+    return &placeInsects[place < 3 ? place : 0];
 }
 
 // 0x002EA888 (name is ours)
-void SvInsectConvention::Func2EA888(const SvPersonalId* player, const SvFgName* item, u16 points)
+void SvInsectConvention::EnterPlayer(const SvPersonalId* player, const SvFgName* item, u16 points)
 {
     if (!player->IsValid() || points >= 1024) {
         return;
     }
-    if (unk_0x134[0] < points) {
-        netgame::AssignPersonalId(&unk_0x1A[2], &unk_0x1A[1]);
-        netgame::AssignPersonalId(&unk_0x1A[1], &unk_0x1A[0]);
-        netgame::AssignPersonalId(&unk_0x1A[0], player);
-        Func6148BC(&unk_0xA4[2], &unk_0xA4[1]);
-        Func6148BC(&unk_0xA4[1], &unk_0xA4[0]);
-        Func30836C(&unk_0xA4[0]);
-        unk_0x134[2] = unk_0x134[1];
-        unk_0x134[1] = unk_0x134[0];
-        unk_0x134[0] = points;
-        unk_0x13A[2] = unk_0x13A[1];
-        unk_0x13A[1] = unk_0x13A[0];
-        unk_0x13A[0] = *item;
-    } else if (unk_0x134[1] < points) {
-        netgame::AssignPersonalId(&unk_0x1A[2], &unk_0x1A[1]);
-        netgame::AssignPersonalId(&unk_0x1A[1], player);
-        Func6148BC(&unk_0xA4[2], &unk_0xA4[1]);
-        Func30836C(&unk_0xA4[1]);
-        unk_0x134[2] = unk_0x134[1];
-        unk_0x134[1] = points;
-        unk_0x13A[2] = unk_0x13A[1];
-        unk_0x13A[1] = *item;
-    } else if (unk_0x134[2] < points) {
-        netgame::AssignPersonalId(&unk_0x1A[2], player);
-        Func30836C(&unk_0xA4[2]);
-        unk_0x134[2] = points;
-        unk_0x13A[2] = *item;
+    if (placePoints[0] < points) {
+        netgame::AssignPersonalId(&placePlayers[2], &placePlayers[1]);
+        netgame::AssignPersonalId(&placePlayers[1], &placePlayers[0]);
+        netgame::AssignPersonalId(&placePlayers[0], player);
+        Func6148BC(&placeVillagers[2], &placeVillagers[1]);
+        Func6148BC(&placeVillagers[1], &placeVillagers[0]);
+        Func30836C(&placeVillagers[0]);
+        placePoints[2] = placePoints[1];
+        placePoints[1] = placePoints[0];
+        placePoints[0] = points;
+        placeInsects[2] = placeInsects[1];
+        placeInsects[1] = placeInsects[0];
+        placeInsects[0] = *item;
+    } else if (placePoints[1] < points) {
+        netgame::AssignPersonalId(&placePlayers[2], &placePlayers[1]);
+        netgame::AssignPersonalId(&placePlayers[1], player);
+        Func6148BC(&placeVillagers[2], &placeVillagers[1]);
+        Func30836C(&placeVillagers[1]);
+        placePoints[2] = placePoints[1];
+        placePoints[1] = points;
+        placeInsects[2] = placeInsects[1];
+        placeInsects[1] = *item;
+    } else if (placePoints[2] < points) {
+        netgame::AssignPersonalId(&placePlayers[2], player);
+        Func30836C(&placeVillagers[2]);
+        placePoints[2] = points;
+        placeInsects[2] = *item;
     }
 }
 
 // 0x002EA9FC (name is ours)
-SvPersonalId* SvInsectConvention::Func2EA9FC(s32 place)
+SvPersonalId* SvInsectConvention::GetPlacePlayer(s32 place)
 {
-    return &unk_0x1A[place < 3 ? place : 0];
+    return &placePlayers[place < 3 ? place : 0];
 }
 
 // 0x002EAA1C (name is ours)
-DECOMP_NOINLINE bool SvInsectConvention::Func2EAA1C(const SvNpcRef* npc)
+DECOMP_NOINLINE bool SvInsectConvention::VillagerCatch(const SvNpcRef* npc)
 {
     if (npc == NULL) {
         return false;
@@ -239,27 +239,27 @@ DECOMP_NOINLINE bool SvInsectConvention::Func2EAA1C(const SvNpcRef* npc)
         return false;
     }
     const u16 points = GetPoints(size, sizeFactor, factor);
-    if (unk_0x134[0] == points || unk_0x134[1] == points || unk_0x134[2] == points) {
+    if (placePoints[0] == points || placePoints[1] == points || placePoints[2] == points) {
         return false;
     }
     bool isEntered = true;
     for (s32 i = 0; i < 3; i++) {
-        if (IsSameNpc(*npc, unk_0xA4[i])) {
-            if (unk_0x134[i] >= points) {
+        if (IsSameNpc(*npc, placeVillagers[i])) {
+            if (placePoints[i] >= points) {
                 isEntered = false;
             } else {
-                RemovePlace(this, i);
+                RemovePlaceInline(this, i);
             }
         }
     }
     if (isEntered) {
-        isEntered = Func2EA6D8(npc, &item, points);
+        isEntered = EnterVillager(npc, &item, points);
     }
     return isEntered;
 }
 
 // 0x002EACF4 (name is ours)
-DECOMP_NOINLINE void SvInsectConvention::Func2EACF4(const SvNpcRef* npc, const nn::fnd::DateTimeParameters* date, bool isLimited)
+DECOMP_NOINLINE void SvInsectConvention::VillagerCatchAtTime(const SvNpcRef* npc, const nn::fnd::DateTimeParameters* date, bool isLimited)
 {
     if (npc == NULL) {
         return;
@@ -270,7 +270,7 @@ DECOMP_NOINLINE void SvInsectConvention::Func2EACF4(const SvNpcRef* npc, const n
     const u32 random = GetRandom(1000);
     u32 kind = 0;
     f32 factor = 0.7f;
-    if (unk_0x134[0] < 80) {
+    if (placePoints[0] < 80) {
         if (random < 10) {
             kind = 3;
         } else if (random - 10 < 10) {
@@ -337,21 +337,21 @@ DECOMP_NOINLINE void SvInsectConvention::Func2EACF4(const SvNpcRef* npc, const n
             return;
         }
     }
-    if (unk_0x134[0] == points || unk_0x134[1] == points || unk_0x134[2] == points) {
+    if (placePoints[0] == points || placePoints[1] == points || placePoints[2] == points) {
         return;
     }
     bool isEntered = true;
     for (s32 i = 0; i < 3; i++) {
-        if (IsSameNpc(*npc, unk_0xA4[i])) {
-            if (unk_0x134[i] >= points) {
+        if (IsSameNpc(*npc, placeVillagers[i])) {
+            if (placePoints[i] >= points) {
                 isEntered = false;
             } else {
-                RemovePlace(this, i);
+                RemovePlaceInline(this, i);
             }
         }
     }
-    if (isEntered && Func2EA6D8(npc, &item, points)) {
-        unk_0x0 |= 8;
+    if (isEntered && EnterVillager(npc, &item, points)) {
+        flags |= 8;
     }
 }
 
@@ -459,7 +459,7 @@ DECOMP_ALWAYS_INLINE s32 PickVillager(SvInsectConvention* convention, BitSet32* 
     s32 index;
     if (isFirst) {
         for (s32 i = 0; i < 10; i++) {
-            if (!convention->Func2EB97C(i, false, false, check)) {
+            if (!convention->CanVillagerTakePart(i, false, false, check)) {
                 set.Remove(i);
             }
         }
@@ -469,7 +469,7 @@ DECOMP_ALWAYS_INLINE s32 PickVillager(SvInsectConvention* convention, BitSet32* 
     } else {
         set = *villagers;
         for (s32 i = 0; i < 10; i++) {
-            if (convention->Func2EB97C(i, true, false, false)) {
+            if (convention->CanVillagerTakePart(i, true, false, false)) {
                 set.Add(i);
             } else {
                 set.Remove(i);
@@ -497,20 +497,20 @@ DECOMP_ALWAYS_INLINE s32 PickVillager(SvInsectConvention* convention, BitSet32* 
 }
 
 // 0x002EB0CC (name is ours)
-DECOMP_NOINLINE void SvInsectConvention::Func2EB0CC(bool a, bool b, bool c)
+DECOMP_NOINLINE void SvInsectConvention::AdvanceTime(bool a, bool b, bool c)
 {
-    if (!(unk_0x0 & 1) || (unk_0x0 & 2)) {
+    if (!(flags & 1) || (flags & 2)) {
         return;
     }
     const nn::fnd::DateTimeParameters now = *time::GetCurrentDate();
-    if (!time::SvTimeIsValid(&unk_0x1)) {
+    if (!time::SvTimeIsValid(&progressTime)) {
         return;
     }
-    nn::fnd::DateTimeParameters step = time::SvTimeToParameters(&unk_0x1);
+    nn::fnd::DateTimeParameters step = time::SvTimeToParameters(&progressTime);
     if (!Func2FB6DC(now, step)) {
         return;
     }
-    unk_0x0 &= ~0xC;
+    flags &= ~0xC;
     if (!a) {
         nn::fnd::DateTimeParameters first = step;
         Func312848(&first, 0, 0, 30, 0);
@@ -520,11 +520,11 @@ DECOMP_NOINLINE void SvInsectConvention::Func2EB0CC(bool a, bool b, bool c)
         a = true;
     }
     Func312848(&step, 0, 0, 3, 0);
-    if (!time::SvTimeIsValid(&unk_0x11)) {
+    if (!time::SvTimeIsValid(&endTime)) {
         return;
     }
-    const nn::fnd::DateTimeParameters end = time::SvTimeToParameters(&unk_0x11);
-    unk_0x0 |= 4;
+    const nn::fnd::DateTimeParameters end = time::SvTimeToParameters(&endTime);
+    flags |= 4;
     BitSet32 villagers;
     villagers.Init(10, true);
     bool isNext = false;
@@ -536,35 +536,35 @@ DECOMP_NOINLINE void SvInsectConvention::Func2EB0CC(bool a, bool b, bool c)
             }
             SvNpc* npc = static_cast<SvNpc*>(event::Func300928(GetGardenPlus()->data.npcData.npcs, index));
             if (npc != NULL) {
-                Func2EACF4(&npc->npc, &step, c);
+                VillagerCatchAtTime(&npc->npc, &step, c);
             }
             isNext = true;
         }
         Func312848(&step, 0, 0, 3, 0);
     }
-    Func5CE904(&unk_0x1);
+    Func5CE904(&progressTime);
 }
 
 // 0x002EB558 (name is ours)
-void SvInsectConvention::Func2EB558(bool isReset)
+void SvInsectConvention::Clear(bool isReset)
 {
-    unk_0x0 &= 0x70;
+    flags &= 0x70;
     Func10F514(GetGardenData()->GetNpcData()->npcs);
-    time::SvTimeClear(&unk_0x1);
-    time::SvTimeClear(&unk_0x9);
-    time::SvTimeClear(&unk_0x11);
-    netgame::ClearPersonalId(&unk_0x1A[0]);
-    netgame::ClearPersonalId(&unk_0x1A[1]);
-    netgame::ClearPersonalId(&unk_0x1A[2]);
-    Func30836C(&unk_0xA4[0]);
-    Func30836C(&unk_0xA4[1]);
-    Func30836C(&unk_0xA4[2]);
-    unk_0x134[0] = 0;
-    unk_0x134[1] = 0;
-    unk_0x134[2] = 0;
-    unk_0x13A[0] = SvFgName::s_Empty;
-    unk_0x13A[1] = SvFgName::s_Empty;
-    unk_0x13A[2] = SvFgName::s_Empty;
+    time::SvTimeClear(&progressTime);
+    time::SvTimeClear(&startTime);
+    time::SvTimeClear(&endTime);
+    netgame::ClearPersonalId(&placePlayers[0]);
+    netgame::ClearPersonalId(&placePlayers[1]);
+    netgame::ClearPersonalId(&placePlayers[2]);
+    Func30836C(&placeVillagers[0]);
+    Func30836C(&placeVillagers[1]);
+    Func30836C(&placeVillagers[2]);
+    placePoints[0] = 0;
+    placePoints[1] = 0;
+    placePoints[2] = 0;
+    placeInsects[0] = SvFgName::s_Empty;
+    placeInsects[1] = SvFgName::s_Empty;
+    placeInsects[2] = SvFgName::s_Empty;
     SvPlayerData* players = &GetGardenData()->players;
     for (u32 i = 0; i < 4; i++) {
         SvPlayer* player = players->Get(static_cast<u8>(i));
@@ -579,36 +579,36 @@ void SvInsectConvention::Func2EB558(bool isReset)
 }
 
 // 0x002EB680 (name is ours)
-void SvInsectConvention::Func2EB680()
+void SvInsectConvention::Start()
 {
     if (!Func2FDE58(event::EVENT_ID_BUG_OFF)) {
         return;
     }
-    unk_0x0 |= 1;
+    flags |= 1;
     nn::fnd::DateTimeParameters start;
     event::GetStartDate(event::EVENT_ID_BUG_OFF, &start);
     nn::fnd::DateTimeParameters end;
     event::GetEndDate(event::EVENT_ID_BUG_OFF, &end);
     Func312848(&start, 0, 3, 0, 0);
     Func312848(&end, 0, -4, 0, 0);
-    time::SvTimeSet(&unk_0x1, start);
-    time::SvTimeSet(&unk_0x9, start);
-    time::SvTimeSet(&unk_0x11, end);
-    if ((unk_0x0 >> 4) == 0) {
+    time::SvTimeSet(&progressTime, start);
+    time::SvTimeSet(&startTime, start);
+    time::SvTimeSet(&endTime, end);
+    if ((flags >> 4) == 0) {
         const u32 random = GetRandom(2) + 1;
-        unk_0x0 = (unk_0x0 & 0x8F) | ((random << 4) & 0x70);
+        flags = (flags & 0x8F) | ((random << 4) & 0x70);
     }
     BitSet32 villagers;
     villagers.Init(10, true);
     bool isNext = false;
-    while (!Func302050(&unk_0xA4[2])) {
+    while (!Func302050(&placeVillagers[2])) {
         const s32 index = PickVillager(this, &villagers, !isNext, false);
         if (index < 0) {
             return;
         }
         villagers.Remove(index);
         SvNpc* npc = static_cast<SvNpc*>(event::Func300928(GetGardenPlus()->data.npcData.npcs, index));
-        if (npc != NULL && !Func2EAA1C(&npc->npc)) {
+        if (npc != NULL && !VillagerCatch(&npc->npc)) {
             villagers.Add(index);
         }
         isNext = true;
@@ -616,7 +616,7 @@ void SvInsectConvention::Func2EB680()
 }
 
 // 0x002EB97C (name is ours)
-DECOMP_NOINLINE bool SvInsectConvention::Func2EB97C(s32 index, bool a, bool b, bool c)
+DECOMP_NOINLINE bool SvInsectConvention::CanVillagerTakePart(s32 index, bool a, bool b, bool c)
 {
     (void)b;
     if (static_cast<u32>(index) >= 10) {
@@ -664,18 +664,18 @@ DECOMP_NOINLINE bool SvInsectConvention::Func2EB97C(s32 index, bool a, bool b, b
 }
 
 // 0x002EBB9C (name is ours)
-DECOMP_NOINLINE void SvInsectConvention::Func2EBB9C(s32 value)
+DECOMP_NOINLINE void SvInsectConvention::GivePrizes(s32 value)
 {
     const nn::fnd::DateTimeParameters today = time::GetGameDate();
-    if (time::SvTimeIsValid(&unk_0x9)) {
-        const nn::fnd::DateTimeParameters start = time::SvTimeToParameters(&unk_0x9);
+    if (time::SvTimeIsValid(&startTime)) {
+        const nn::fnd::DateTimeParameters start = time::SvTimeToParameters(&startTime);
         if (!event::Func314104(start, today)) {
             for (u32 i = 0; i < 3; i++) {
-                if (unk_0x1A[i].IsValid()) {
+                if (placePlayers[i].IsValid()) {
                     SvPlayerData* players = &GetGardenPlus()->data.players;
-                    const u32 index = Func71AC00(players, &unk_0x1A[i]);
+                    const u32 index = Func71AC00(players, &placePlayers[i]);
                     SvPlayer* player = SvGetPlayer(static_cast<PlayerSaveNumber>(Func30A1FC(players, index)));
-                    if (!(unk_0x0 & 2) && player != NULL) {
+                    if (!(flags & 2) && player != NULL) {
                         reinterpret_cast<u8&>(player->unk_0x8A3C.natLetter) |= 1 << i;
                     }
                 }
@@ -697,8 +697,7 @@ DECOMP_NOINLINE void SvInsectConvention::Func2EBB9C(s32 value)
                 continue;
             }
             SvMail mail;
-            SvFgName paper;
-            Func6BC8A4(&paper, 41, 16);
+            SvFgName paper = SvFgName::MakeOfKind(item::KIND_PAPER, 16);
             SvFgName::Name prize = SvFgName::NAME_EMPTY;
             if (i == 0) {
                 prize = SvFgName::NAME_GOLD_BUG_TROPHY;
@@ -718,27 +717,27 @@ DECOMP_NOINLINE void SvInsectConvention::Func2EBB9C(s32 value)
 }
 
 // 0x002EBDFC (name is ours)
-DECOMP_NOINLINE void SvInsectConvention::Func2EBDFC()
+DECOMP_NOINLINE void SvInsectConvention::PostResultNotice()
 {
-    if (!time::SvTimeIsValid(&unk_0x11)) {
+    if (!time::SvTimeIsValid(&endTime)) {
         return;
     }
     const nn::fnd::DateTimeParameters now = *time::GetCurrentDate();
-    nn::fnd::DateTimeParameters date = time::SvTimeToParameters(&unk_0x11);
+    nn::fnd::DateTimeParameters date = time::SvTimeToParameters(&endTime);
     time::Func30A5AC(&date, 0, 3, 0, 0);
     if (Func2FB6DC(date, now)) {
         return;
     }
-    unk_0x0 |= 0x80;
+    flags |= 0x80;
     SvTownDataUnk1AE94* board = &GetGardenData()->townData.unk_0x1AE94;
     InsectBbsNotice notice;
     for (u32 i = 0; i < 3; i++) {
-        if (unk_0x1A[i].IsValid()) {
-            netgame::AssignPersonalId(&notice.m_Players[i], &unk_0x1A[i]);
-        } else if (Func302050(&unk_0xA4[i])) {
-            Func6148BC(&notice.m_Npcs[i], &unk_0xA4[i]);
+        if (placePlayers[i].IsValid()) {
+            netgame::AssignPersonalId(&notice.m_Players[i], &placePlayers[i]);
+        } else if (Func302050(&placeVillagers[i])) {
+            Func6148BC(&notice.m_Npcs[i], &placeVillagers[i]);
         }
-        notice.m_Points[i] = unk_0x134[i];
+        notice.m_Points[i] = placePoints[i];
     }
     s_NoticeDelegate.mObject = &notice;
     s_NoticeDelegate.mMethod = s_NoticeMethod;

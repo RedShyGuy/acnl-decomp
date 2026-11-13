@@ -223,9 +223,9 @@ void SelectBase::AddName(SvFgName* names, s32* num, const SvFgName& name)
 {
     SvFgName tmp(name);
     if (Func76B6A0(&tmp)) {
-        Func6BA2E8(&tmp);
+        tmp.ConvertFromWallKind();
     } else if (Func76BE54(&tmp)) {
-        Func6BBCF0(&tmp);
+        tmp.Func6BBCF0();
     }
     for (s32 i = 0; i < *num; i++) {
         const item::Kind kind = tmp.GetKind();

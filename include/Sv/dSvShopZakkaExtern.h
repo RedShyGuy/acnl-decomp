@@ -29,7 +29,7 @@ bool Func30B658(const SvFgName* item); // 0x0030B658
 void Func4EA100(s32 x, s32 z, u32 kind, s32 unknown); // 0x004EA100
 void Func59F144(s32 x, s32 z, u32 value); // 0x0059F144
 
-// (the restocking, Func108C40) the item sets: the group item::GROUP_WALL_FURNITURE (SetupFgNameSet with 51; the group
+// (the restocking, Restock) the item sets: the group item::GROUP_WALL_FURNITURE (SetupFgNameSet with 51; the group
 // is ParamItemEntry::group) / the items of a category with a group (special groups 1..8) / a value
 // / the items are picked at random into the places / the number of items of the set
 struct SvFgNameSet;
