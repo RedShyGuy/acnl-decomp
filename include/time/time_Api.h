@@ -147,7 +147,7 @@ void SetMilliSecond(nn::fnd::DateTimeParameters* date, s32 milliSecond); // 0x00
 void AddHours(nn::fnd::DateTimeParameters* date, s32 hours); // 0x0056D720
 void AddMinutes(nn::fnd::DateTimeParameters* date, s32 minutes); // 0x0056D81C
 void AddSeconds(nn::fnd::DateTimeParameters* date, s32 seconds); // 0x0056D8C4
-s64 Func56D4F8(s64 time, s32 a, s32 b, s32 c, f32 d); // 0x0056D4F8
+s64 Func56D4F8(s64 time, s32 a, s32 b, s32 c, s32 d); // 0x0056D4F8
 
 // the part of the day by the hour: 5 (before 5:00), 0 (to 8:00), 1 (to 12:00), 2 (to 16:00, in Spain (event::REGION_EUROPE_SPANISH)
 // to 17:00), 3 (to 19:00 or 21:00), 4

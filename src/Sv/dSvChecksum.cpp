@@ -152,13 +152,13 @@ bool SvPlayerData::AreChecksumsValid(bool isLogged)
 // 0x0071CD88 (name is ours)
 void SvCensusData::UpdateChecksum()
 {
-    checksum = nn::util::Crc32Msb::Calculate(&census, sizeof(SvCensus), 0);
+    checksum = nn::util::Crc32Msb::Calculate(&census, sizeof(SvCensusData) - sizeof(checksum), 0);
 }
 
 // 0x0071CDAC (name is ours)
 bool SvCensusData::IsChecksumValid()
 {
-    return nn::util::Crc32Msb::Calculate(&census, sizeof(SvCensus), 0) == checksum;
+    return nn::util::Crc32Msb::Calculate(&census, sizeof(SvCensusData) - sizeof(checksum), 0) == checksum;
 }
 
 // 0x0071E67C (name is ours)

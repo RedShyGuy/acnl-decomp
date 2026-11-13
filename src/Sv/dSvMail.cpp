@@ -24,11 +24,11 @@ namespace {
 DECOMP_ALWAYS_INLINE void SetHeaderOfPlayer(SvMail* mail, const SvPlayer* player)
 {
     if (mail->receiver.unk_0x30 == 6) {
-        mail->receiverNameIndent = player->defaultFutureLtrReceiverNameIndent;
-        std::memcpy(mail->header, player->futureLetterHeader, sizeof(mail->header));
+        mail->receiverNameIndent = player->unk_0x8908.defaultFutureLtrReceiverNameIndent;
+        std::memcpy(mail->header, player->unk_0x8908.futureLetterHeader, sizeof(mail->header));
     } else {
-        mail->receiverNameIndent = player->defaultLtrReceiverNameIndent;
-        std::memcpy(mail->header, player->letterHeader, sizeof(mail->header));
+        mail->receiverNameIndent = player->unk_0x8908.defaultLtrReceiverNameIndent;
+        std::memcpy(mail->header, player->unk_0x8908.letterHeader, sizeof(mail->header));
     }
 }
 
@@ -62,10 +62,10 @@ void SvMail::Func5CC724(const SvFgName& paper)
     sender.unk_0x30 = 1;
     netgame::AssignPersonalId(&sender.id, &player->playerInfo);
     letterFlag = (letterFlag & ~7) | 3;
-    if (player->defaultFutureLtrReceiverNameIndent >= 32) {
-        Func1B29AC(player->letterHeader);
+    if (player->unk_0x8908.defaultFutureLtrReceiverNameIndent >= 32) {
+        Func1B29AC(player->unk_0x8908.letterHeader);
     }
-    std::memcpy(signature, player->letterSignature, sizeof(signature));
+    std::memcpy(signature, player->unk_0x8908.letterSignature, sizeof(signature));
     SetHeaderOfPlayer(this, player);
 }
 
@@ -73,9 +73,10 @@ void SvMail::Func5CC724(const SvFgName& paper)
 void SvMail::Func5CC804(s32 npcIndex)
 {
     void* npc = event::Func300928(GetGardenPlus()->data.npcData.npcs, npcIndex);
-    if (npc != NULL && Func302050(npc)) {
+    if (npc != NULL && Func302050(static_cast<const SvNpcRef*>(npc))) {
         receiver.unk_0x30 = 2;
-        Func6148BC(&receiver.id, npc);
+        // (the person holds a villager reference in place of the player)
+        Func6148BC(reinterpret_cast<SvNpcRef*>(&receiver.id), static_cast<const SvNpcRef*>(npc));
     }
     SvPlayer* player = SvGetCurrentPlayer();
     if (player != NULL) {
@@ -93,8 +94,8 @@ void SvMail::Func5CC894()
     receiver.unk_0x30 = 1;
     netgame::AssignPersonalId(&receiver.id, &player->playerInfo);
     receiver.unk_0x30 = 6;
-    receiverNameIndent = player->defaultFutureLtrReceiverNameIndent;
-    std::memcpy(header, player->futureLetterHeader, sizeof(header));
+    receiverNameIndent = player->unk_0x8908.defaultFutureLtrReceiverNameIndent;
+    std::memcpy(header, player->unk_0x8908.futureLetterHeader, sizeof(header));
 }
 
 // 0x005CC8F4 (name is ours)
@@ -185,7 +186,7 @@ void SvMailPerson::Func5CCF24()
 void SvMailPerson::SetNpc(const void* npc, u8 kind)
 {
     unk_0x30 = kind;
-    Func6148BC(&id, npc);
+    Func6148BC(reinterpret_cast<SvNpcRef*>(&id), static_cast<const SvNpcRef*>(npc));
 }
 
 // 0x005CCF6C (name is ours)

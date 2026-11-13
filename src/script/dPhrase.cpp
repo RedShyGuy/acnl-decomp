@@ -181,4 +181,34 @@ void Phrase::SetTag20_1(const IWord& word, u32 index)
 {
     m_pInsert->SetTag20_1(word, index);
 }
+// 0x002FEAF8
+void Phrase::SetWord2C0(const IWord& word, u32 index)
+{
+    m_pInsert->SetWord2C0(word, index);
+}
+
+// 0x00300894
+void Phrase::SetMonth(s32 month, u32 index)
+{
+    m_pInsert->SetMonth(month, index);
+}
+
+// 0x003008A4
+void Phrase::SetDay(s32 day, u32 index)
+{
+    m_pInsert->SetDay(day, index);
+}
+
+// 0x00300B6C
+void Phrase::SetWord2B4(const IWord& word, u32 index)
+{
+    m_pInsert->SetWord2B4(word, index);
+}
+
+// 0x00312D28
+void Phrase::SetTag4_6(const WordNumDigit& number, u32 index)
+{
+    m_pInsert->SetTag4_6(number, index);
+}
+
 } // namespace script

@@ -53,7 +53,7 @@ DECOMP_ALWAYS_INLINE ITalkRecept* GetActorTalkRecept(DemoActor* actor)
 // (inline) the save data at +0x290A4 of the garden (purpose unknown; the Sv structures have it in the 4th player)
 DECOMP_ALWAYS_INLINE u8* GetUnknownData290A4()
 {
-    return &GetGardenPlus()->data.players.players[3].unk_0x9604[0xC80];
+    return &GetGardenPlus()->data.players.players[3].unk_0xA284[0];
 }
 
 // (inline) the flag of the visited town by its number (-1: none)
@@ -337,7 +337,7 @@ s32 IFlowRecept::OnEvent(libms::Flow* flow, const libms::FlowNodeEvent& node)
     if (result != RESULT_NONE) {
         return result;
     }
-    u8* playerData = player->unk_0x8F77;
+    u8* playerData = player->unk_0x8F77.data;
     switch (node.GetId()) {
     case 61:
         Func2C1304(playerData, node.GetParam(), true);
@@ -355,7 +355,7 @@ s32 IFlowRecept::OnEvent(libms::Flow* flow, const libms::FlowNodeEvent& node)
         return RESULT_DONE;
     }
     }
-    u8* playerByte = &player->unk_0x8F99;
+    u8* playerByte = &player->unk_0x8F99.value;
     switch (node.GetId()) {
     case 89:
         switch (node.GetParam()) {
@@ -557,14 +557,14 @@ s32 IFlowRecept::OnBranch(u32* index, const libms::FlowNodeBranch& node)
     case 143:
         return SelectCase(index, playerFlags->GetValue(198) >= node.GetParam());
     }
-    const u8* playerData = player->unk_0x8F77;
+    const u8* playerData = player->unk_0x8F77.data;
     switch (node.GetId()) {
     case 144:
         return SelectCase(index, Func71E9A4(playerData, node.GetParam()) == 1);
     case 145:
         return SelectCase(index, Func71E9A4(playerData, 56) >= node.GetParam());
     }
-    const u8* playerByte = &player->unk_0x8F99;
+    const u8* playerByte = &player->unk_0x8F99.value;
     if (node.GetId() == 153) {
         switch (node.GetParam()) {
         case 0:
@@ -774,10 +774,10 @@ s32 IFlowRecept::Event0(libms::Flow* flow, const libms::FlowNodeEvent& node)
         if (player != NULL && player->playerInfo.IsValid()) {
             if (node.GetId() != 0) {
                 Func2C02C8(&player->inventory, value);
-                Func6B9468(GetCensus(), value);
+                GetCensus()->AddBellsSpent(value);
             } else {
                 Func2C00A8(&player->inventory, value);
-                GetCensus()->bellsEarned.Add(value);
+                GetCensus()->AddBellsEarned(value);
             }
         }
     }
@@ -888,7 +888,7 @@ s32 IFlowRecept::BranchNookling(u32* index, const libms::FlowNodeBranch& node)
     u32 param;
     node.GetParam(&param);
     u32 value = 0;
-    switch (GetGardenPlus()->data.townData.nooklingState) {
+    switch (GetGardenPlus()->data.townData.unk_0xEE2C.shopZakka.nooklingState) {
     case 1:
         value = 1;
         break;
@@ -1471,7 +1471,7 @@ s32 IFlowRecept::BranchMeowCoupons(u32* index, const libms::FlowNodeBranch& node
     node.GetParam(&param);
     u32 value = 1;
     SvPlayer* player = g_pSvCurrentPlayer;
-    if (player != NULL && Func3037DC(&player->meowCoupons) != 0) {
+    if (player != NULL && player->unk_0x8D1C.meowCoupons.Get() != 0) {
         value = 0;
     }
     *index = value;
@@ -2061,7 +2061,7 @@ s32 IFlowRecept::Branch47(u32* index, const libms::FlowNodeBranch& node)
     node.GetCaseNum();
     u32 value = 0;
     SvPlayer* player = g_pSvCurrentPlayer;
-    if (player != NULL && player->playerInfo.IsValid() && (player->unk_0x8F77[4] & 4) != 0) {
+    if (player != NULL && player->playerInfo.IsValid() && (player->unk_0x8F77.data[4] & 4) != 0) {
         value = 1;
     }
     *index = value;
@@ -2295,7 +2295,7 @@ s32 IFlowRecept::Branch50(u32* index, const libms::FlowNodeBranch& node)
     node.GetCaseNum();
     u32 value = 1;
     SvPlayer* player = g_pSvCurrentPlayer;
-    if (player != NULL && player->unk_0x8D38 >= 7) {
+    if (player != NULL && static_cast<s32>(player->unk_0x8D1C.unk_0x8[2].data[1]) >= 7) {
         value = 0;
     }
     *index = value;
@@ -2315,7 +2315,7 @@ s32 IFlowRecept::Branch51(u32* index, const libms::FlowNodeBranch& node)
     node.GetCaseNum();
     u32 value = 1;
     SvPlayer* player = g_pSvCurrentPlayer;
-    if (player != NULL && player->unk_0x8D38 >= 30) {
+    if (player != NULL && static_cast<s32>(player->unk_0x8D1C.unk_0x8[2].data[1]) >= 30) {
         value = 0;
     }
     *index = value;

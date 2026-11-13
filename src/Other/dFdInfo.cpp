@@ -6,7 +6,7 @@ void FdInfo::ToUnit(long&, long&, nn::math::Vector<float, 3u> const&)
 }
 
 // 0x006A690C | libgarden [tier A]
-void FdInfo::GetCurrentField()
+Field* FdInfo::GetCurrentField()
 {
 }
 

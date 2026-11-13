@@ -173,7 +173,7 @@ void Func5CB274(SvGardenPlus* data)
     player->playerFlags.resetPending = 0;
     player->unk_0x8F38 = 0;
     Func116CF4();
-    if (player->unk_0x8F77[4] & 0x40) {
+    if (player->unk_0x8F77.data[4] & 0x40) {
         GetGardenDataInline()->townData.townFlags.unk_0x1_5 = 1;
     }
 }
@@ -226,7 +226,7 @@ void Func5CB4B4(SvGardenPlus* data)
     netgame::Func582F4C();
     netgame::Func30048C(1, 1);
     SvPlayer* player = g_UnkAAFF18.pPlayer;
-    Func2FC8A4(GetGardenDataInline()->townData.nooksHomeItems, &player->unk_0x8F0A);
+    Func2FC8A4(GetGardenDataInline()->townData.unk_0xEE2C.nooksHomeItems, &player->unk_0x8F0A);
     SvGetCurrentPlayer()->unk_0x8F0A = SvFgName::s_Empty;
     SoundMgr::SUpdateTownMelody();
     SvTownData& town = GetGardenDataInline()->townData;
@@ -378,7 +378,7 @@ void SvGardenData::Func5CBB30(u32 saveNo)
     if (!SvIsValidPlayerSaveNo(static_cast<PlayerSaveNumber>(saveNo))) {
         return;
     }
-    Func20D640(&townData.unk_0xEE2C, saveNo);
+    townData.unk_0xEE2C.Func20D640(saveNo);
     Func6BCCBC(&townData.museum, saveNo);
     IsSaveIoOnNpcData();
     SvNpc* npcs = npcData.npcs;
@@ -415,7 +415,7 @@ void SvGardenData::Func5CBCAC()
     Func2EC334(&townData.playerHouses);
     Func52B20C(&townData.unk_0xEE0E);
     Func1B20B4(&townData.unk_0xEE28);
-    Func10A2C8(&townData.unk_0xEE2C);
+    townData.unk_0xEE2C.Func10A2C8();
     Func6BD0F0(&townData.museum);
     Func118A7C(&townData.unk_0x1CA84);
     Func1B44E0(&townData.townFlag, 22);
@@ -429,7 +429,7 @@ void SvGardenData::Clear()
     Func27B044(&players);
     Func2EC368(&townData.playerHouses);
     townData.unk_0xEE28.Init();
-    Func5CE224(&townData.unk_0xEE2C);
+    townData.unk_0xEE2C.Func5CE224();
     Func6BD128(&townData.museum);
     Func118A8C(&townData.unk_0x1CA84);
     Func112550(&npcData);
@@ -444,9 +444,9 @@ void SvGardenData::Clear()
     Func20C0DC(&townData.unk_0x1AE90);
     Func1082C4(townData.unk_0x1AE94.bBoardMessages);
     Func77A53C(&townData.unk_0x1C7A8);
-    Func303000(&townData.unk_0x1C7A8.unk_0x1C, 1);
-    townData.unk_0x1C7A8.unk_0x1C = 0;
-    Func2EB558(&townData.unk_0x1C90E.unk_0x0, 1);
+    townData.unk_0x1C7A8.unk_0x1C.Func303000(true);
+    townData.unk_0x1C7A8.unk_0x1C.unk_0x0 = 0;
+    townData.unk_0x1C90E.Func2EB558(true);
     townData.unk_0x1C90E.unk_0x0 = 0;
     Func2EC05C(&townData.unk_0x1CA92);
     Func20DE14(townData.snowmen);

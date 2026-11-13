@@ -13,6 +13,11 @@ struct SvEncValue {
     // (game code, not decompiled yet; names are ours) the value 0 / a value is stored obfuscated
     SvEncValue() { Set(0); } // 0x00614898
     void Set(u32 value); // 0x003036A4
+    // (game code, not decompiled yet) the value goes up, at most to max
+    void Add(u32 value, u32 max); // 0x00614764
+    // (game code, not decompiled yet; names are ours) the value / the value goes down
+    u32 Get() const; // 0x003037DC
+    void Sub(u32 value); // 0x00614810
 
     /* 0x0000 */ u32 data[2];
 };

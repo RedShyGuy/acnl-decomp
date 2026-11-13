@@ -9,6 +9,7 @@
 #include "script/dInflectEngine.h"
 #include "script/dInsertEngine.h"
 #include "script/dNumberFormat.h"
+#include "Item/item_Api.h"
 #include "script/dScriptExtern.h"
 #include "script/dStrMgr.h"
 #include "script/dWordFix.h"
@@ -884,7 +885,7 @@ void Insert::UpdateTag5_33(u32 index)
     WordKey<45, int>* word = &m_Tag5_33[index];
     if (IsEmpty(*word)) {
         SvFgNameSet set;
-        SetupFgNameSet(&set, 74);
+        SetupFgNameSet(&set, item::GROUP_FLOWERS);
         for (WordKey<45, int>* other = m_Tag5_33; other != m_Tag5_33 + 10; other++) {
             if (!IsEmpty(*other)) {
                 SvFgName name(static_cast<SvFgName::ID>(other->m_Key));

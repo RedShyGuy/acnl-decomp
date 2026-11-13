@@ -41,6 +41,17 @@ public:
         }
         return length;
     }
+    // whether the text is empty (no text, no size or the end at the start; name is ours)
+    DECOMP_EMIT_COPY DECOMP_NOINLINE bool IsEmpty() const // 0x0075C908
+    {
+        const char16* text = GetWord();
+        u32 size = GetSize();
+        bool isEmpty = true;
+        if (text != NULL && size != 0 && *text != 0) {
+            isEmpty = false;
+        }
+        return isEmpty;
+    }
     // whether the text has tags (name is ours)
     DECOMP_EMIT_COPY bool HasTag() const; // 0x0075C82C
 };

@@ -5,6 +5,7 @@
 namespace script {
 class Insert;
 class IWord;
+class WordNumDigit;
 
 // The phrase of a message: the game sets the inserted words through it (the functions pass the values to the
 // insert). Function names after the slots of Insert (ours).
@@ -46,6 +47,12 @@ public:
     void SetTag20_0(const IWord& word, u32 index); // 0x005F1E34
     void SetTag20_3(const IWord& word); // 0x005F1E44
     void SetTag20_1(const IWord& word, u32 index); // 0x005F1E54
+    // (a copy outside the file, called by the letters of the player)
+    void SetWord2C0(const IWord& word, u32 index); // 0x002FEAF8
+    void SetMonth(s32 month, u32 index); // 0x00300894
+    void SetDay(s32 day, u32 index); // 0x003008A4
+    void SetWord2B4(const IWord& word, u32 index); // 0x00300B6C
+    void SetTag4_6(const WordNumDigit& number, u32 index); // 0x00312D28
     // (inline copy)
     Insert* GetInsert() { return m_pInsert; } // 0x005F1E64
 

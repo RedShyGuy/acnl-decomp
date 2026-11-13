@@ -61,7 +61,7 @@ DECOMP_NOINLINE bool SvPlayerInventory::SetItem(unsigned int index, const SvFgNa
         SvPlayer* player = g_UnkAAFF18.pPlayer;
         if (player != NULL && &player->inventory == this && newItem.GetUnkFlag0()) {
             s32 price = item::GetPrice(newItem);
-            GetCensus()->bellsEarned.Add(price);
+            GetCensus()->AddBellsEarned(price);
         }
         newItem.ClearUnkFlag0();
     }

@@ -192,10 +192,10 @@ void netgame::IslandMgr::Process()
                 BsTourMgr::SetState(static_cast<BsTourMgr::State>(2));
                 SvPlayer* player = SvGetCurrentPlayer();
                 if (player != NULL) {
-                    u32 first = Func6BDA24(player);
-                    u32 second = Func3037DC(reinterpret_cast<u8*>(player) + 0x6B8C);
-                    Func6B9808(Func2FD00C(), second);
-                    GetCensus()->bellsEarned.Add(first);
+                    u32 first = player->Func6BDA24();
+                    u32 second = player->bankAmount.Get();
+                    GetCensus()->UpdateAbdBalance(second);
+                    GetCensus()->AddBellsEarned(first);
                 }
                 Func5C6688();
                 Func1148DC();
@@ -1643,10 +1643,10 @@ void netgame::IslandMgr::StartTourTransition()
         BsTourMgr::SetState(static_cast<BsTourMgr::State>(2));
         SvPlayer* player = SvGetCurrentPlayer();
         if (player != NULL) {
-            u32 first = Func6BDA24(player);
-            u32 second = Func3037DC(reinterpret_cast<u8*>(player) + 0x6B8C);
-            Func6B9808(Func2FD00C(), second);
-            GetCensus()->bellsEarned.Add(first);
+            u32 first = player->Func6BDA24();
+            u32 second = player->bankAmount.Get();
+            GetCensus()->UpdateAbdBalance(second);
+            GetCensus()->AddBellsEarned(first);
         }
         Func5C6688();
         Func1148DC();

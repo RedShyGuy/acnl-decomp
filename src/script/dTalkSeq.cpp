@@ -1536,7 +1536,7 @@ void TalkSeq::Tag10_18(const Tag* tag)
 {
     u16 labels[5];
     GetTagArgs(tag, labels, 5);
-    u32 index = GetGardenPlus()->data.townData.nooklingState;
+    u32 index = GetGardenPlus()->data.townData.unk_0xEE2C.shopZakka.nooklingState;
     if (index >= 5) {
         index = 0;
     }

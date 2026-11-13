@@ -178,7 +178,8 @@ struct ParamItemEntry
     u8 roomOrientation[6];      // 0x04
     u8 kind;                    // 0x0A Kind
     u8 modelID;                 // 0x0B
-    u8 unk_0xC[2];              // 0x0C
+    u8 unk_0xC;                 // 0x0C
+    u8 group;                   // 0x0D Group: the group of the item for the random item sets (name is ours)
     s8 priceMultiplier;         // 0x0E
     u8 unk_0xF[2];              // 0x0F
     u8 ftr;                     // 0x11
@@ -188,6 +189,43 @@ struct ParamItemEntry
     u8 unk_0x1B[3];             // 0x1B
 };
 ASSERT_SIZE(ParamItemEntry, 0x1E);
+
+// The groups of the items for the random item sets (ParamItemEntry::group; SetupFgNameSet and 0x002FECF8 take them).
+// The game has no names for them: the enumerators are ours, after the items of the group in romfs Item/Param/Item.bin;
+// only the groups that the decompiled code uses are listed so far.
+enum Group : u8 {
+    GROUP_SPECIAL_1 = 1,                         // no items: 0x002FECF8 treats it specially (with a category: all of it?)
+    GROUP_FEATURED_FURNITURE = 9,                // covered wagon, moon, garden gnome, king, queen, ... (the featured item
+                                                 // of the Nooklings)
+    GROUP_STATIONERY = 25,                       // the mail papers
+    GROUP_MELODY_PAPER = 26,
+    GROUP_MEDICINE = 27,
+    GROUP_WRAPPING_PAPER = 29,
+    GROUP_PARTY_POPPER_AND_GLOW_WANDS = 30,
+    GROUP_BEANS_AND_GOOD_LUCK_ROLL = 31,
+    GROUP_CANDY = 32,
+    GROUP_FORTUNE_COOKIE = 34,
+    GROUP_JINGLE_SERIES = 35,
+    GROUP_SPOOKY_SERIES = 36,
+    GROUP_HARVEST_SERIES = 37,
+    GROUP_HINANINGYO_AND_BLOSSOM_LANTERN = 38,
+    GROUP_CARP_BANNER = 39,
+    GROUP_NET_ROD_SHOVEL = 42,                   // net, fishing rod, shovel
+    GROUP_SLINGSHOT_MEGAPHONE_TIMER = 43,        // slingshot, megaphone, timer
+    GROUP_WALL_FURNITURE = 51,                   // wall shelves, wall clocks, wall lamps, ...
+    GROUP_KK_SONGS_1 = 64,                       // K.K. March, K.K. Samba, K.K. Calypso, ...
+    GROUP_KK_SONGS_2 = 65,                       // K.K. Tango, Lucky K.K., K.K. Steppe, ...
+    GROUP_KK_SONGS_3 = 66,                       // K.K. Swing, K.K. Jazz, K.K. Fusion, ...
+    GROUP_KK_SONGS_4 = 67,                       // K.K. Chorale, K.K. Waltz, K.K. Etude, ...
+    GROUP_KK_SONGS_5 = 68,                       // K.K. Folk, K.K. Gumbo, The K. Funk, ...
+    GROUP_FLOWERS = 74,                          // red, white, yellow tulips/pansies/cosmos/..., the first colors
+    GROUP_FIREWORKS = 131,                       // sparkler, roman candle, fountain firework
+    GROUP_KK_SONGS_6 = 155,                      // K.K. Groove, Bubblegum K.K., K.K. Disco
+    GROUP_KK_SONGS_7 = 156,                      // K.K. Adventure, K.K. Bazaar, K.K. Jongara, K.K. Flamenco
+    GROUP_KK_SONGS_8 = 157,                      // K.K. Moody, K.K. Synth
+    GROUP_KK_SONGS_9 = 158,                      // K.K. Milonga
+    GROUP_KK_SONGS_10 = 159,                     // Space K.K., K.K. Oasis
+};
 
 // the parameters of a kind of item (names are ours)
 struct KindParamEntry

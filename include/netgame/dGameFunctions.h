@@ -47,10 +47,8 @@ void Func29D43C(void* object); // 0x0029D43C
 void Func2C2644(void* object); // 0x002C2644
 void Func2D5DC0(); // 0x002D5DC0
 void Func2FA1FC(void* object); // 0x002FA1FC
-void* Func2FD00C(); // 0x002FD00C
 u32 Func2FF63C(u32 max); // 0x002FF63C
 void Func30048C(u32 a, u32 b); // 0x0030048C
-u32 Func3037DC(void* data); // 0x003037DC
 SvPlayer* Func3038EC(u32 saveNo); // 0x003038EC
 void Func3043F4(void* object); // 0x003043F4
 void ClearPersonalId(SvPersonalId* id); // 0x003053D4
@@ -108,12 +106,10 @@ void Func6A7C4C(); // 0x006A7C4C
 void Func6A7CC4(); // 0x006A7CC4
 bool Func6A7EE8(); // 0x006A7EE8
 bool Func6A7F04(u32 time); // 0x006A7F04
-void Func6B9808(void* shared, u32 param); // 0x006B9808
 void MakeTownId(SvTownId* town, const char16* name, u32 region); // 0x006BC944
 void MakeTownId(SvTownId* town, const char16* name, u16 townId, u32 region); // 0x006BCADC
 void PrepareSendPlayer(SvPlayer* player); // 0x006BD500
 void FinishSendPlayer(SvPlayer* player); // 0x006BD940
-u32 Func6BDA24(SvPlayer* player); // 0x006BDA24
 stage::Name Func6C4514(s8 kind); // 0x006C4514
 void Func6C45A8(nn::math::VEC3_* center); // 0x006C45A8
 stage::Name Func6C4734(s8 kind); // 0x006C4734

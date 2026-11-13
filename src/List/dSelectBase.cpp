@@ -290,7 +290,7 @@ void SelectBase::SetNames(script::WordFix<33>* words, const u16* ids, u32 num)
 // 0x001B062C
 s32 SelectBase::CollectIds(u16* ids, u8 group, bool isSome)
 {
-    const u32* bits = g_pSvCurrentPlayer->unlockedItems;
+    const u32* bits = g_pSvCurrentPlayer->unlockedItems.bits;
     u8 list[7104];
     Func6F05B8(list);
     if (isSome) {

@@ -1398,6 +1398,9 @@ def main():
 
     funcs = []                                    # (obj, mangled, section, value, size, relocs)
     thumb_symbols = set()                         # our functions in Thumb code
+    # inline functions (weak copies) can be in ARM and Thumb objects: the ARM copy counts, a function
+    # is Thumb only when all its copies are Thumb
+    thumb_defs, arm_defs, func_is_thumb = set(), set(), []
     # GCC's address point of each vtable (offset of the first function pointer): behind the
     # typeinfo pointer; with virtual bases there are more entries before it than ARMCC's 8 bytes
     VTABLE_ADDRESS_POINTS.clear()
@@ -1416,8 +1419,7 @@ def main():
         for s in e.symbols:
             if s.type == elf32.STT_FUNC and 0 < s.shndx < len(e.sections):
                 per_section.setdefault(s.shndx, []).append(s)
-                if s.value & 1:
-                    thumb_symbols.add(s.name)
+                (thumb_defs if s.value & 1 else arm_defs).add(s.name)
         for shndx, syms in per_section.items():
             sec = e.sections[shndx]
             relocs = e.relocations(sec)
@@ -1435,6 +1437,10 @@ def main():
                         syminfo[o] = (rs.name, rs.type, sec2.name if sec2 else '',
                                       sec2.data if sec2 else b'', rs.value)
                 funcs.append((os.path.relpath(path, a.build_dir), s.name, data, size, rel, syminfo))
+                func_is_thumb.append(bool(s.value & 1))
+
+    thumb_symbols = thumb_defs - arm_defs
+    funcs = [f for f, t in zip(funcs, func_is_thumb) if not (t and f[1] in arm_defs)]
 
     # vtables of classes in an unnamed namespace are local: GCC refers to them through the section
     # symbol of '.rodata._ZTV...', so demangle the section names, too
@@ -1475,8 +1481,9 @@ def main():
         is_thunk = mangled.startswith('_ZThn')
         if mangled.startswith(('_ZTv', '_ZTc')):
             continue                              # virtual / covariant thunks: not compared
-        is_deleting = re.search(r'D0E', mangled) is not None
         name = names.get(mangled, mangled)
+        # (only a destructor: "D0E" can also end a name in the mangled form, SvFishingConvention::Func3039D0)
+        is_deleting = re.search(r'D0E', mangled) is not None and '::~' in name
         if is_thunk:
             name = re.sub(r'^non-virtual thunk to ', '', name)
         parsed = split_signature(name)

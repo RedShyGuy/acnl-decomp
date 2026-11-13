@@ -35,8 +35,6 @@ u8 Func62FB14(); // 0x0062FB14
 // the 16 notes of a tune packed into 8 bytes
 struct SoundMelody;
 void UnpackMelody(const u8* packed, SoundMelody* melody); // 0x0076D700
-// the night owl ordinance is on (a byte of SvTownFlags; called with &townData.unk_0xEE2C, which it does not read)
-bool Func759E24(const void* obj); // 0x00759E24
 // the event of the game that is going on (event::EventId)
 u8 Func3189EC(); // 0x003189EC
 // the event of the game is on at the date

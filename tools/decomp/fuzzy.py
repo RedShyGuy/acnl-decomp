@@ -125,7 +125,7 @@ def _is_exit(w, external_branch):
             or (w & 0x0F000000) == 0x0A000000 and external_branch)       # b <other function>
 
 
-def function_end(words, pool, resolve_call):
+def function_end(words, pool, resolve_call, base=None):
     """number of words that belong to the function: ends after an exit that no internal branch
     jumps past, plus its literal pool (guards against a missing function start in the original)"""
     n = len(words)
@@ -139,8 +139,18 @@ def function_end(words, pool, resolve_call):
                 reach = max(reach, i + 2 + _sext24(w & 0xFFFFFF))
             else:
                 external = True
-        elif (w & 0x0000F000) == 0x0000F000 and w >> 28 != COND_AL and ((w >> 25) & 7) in (0, 1, 2, 3):
-            reach = n                                                     # conditional pc write: jump table
+        elif (w & 0x0FFFFFF0) == 0x079FF100 and base is not None and i + 2 < n and i + 2 in pool:
+            # "ldrcc pc, [pc, rX, lsl #2]": the cases are the table words behind it (in the pool)
+            k = i + 2
+            while k in pool:
+                t = words[k]
+                if base <= t < base + 4 * n and t % 4 == 0:
+                    reach = max(reach, (t - base) // 4)
+                k += 1
+        elif (w & 0x0000F000) == 0x0000F000 and w >> 28 != COND_AL and ((w >> 25) & 7) in (0, 1, 2, 3) \
+                and (w & 0x0FFFFFF0) != 0x012FFF10:
+            # conditional pc write: jump table (not "bxeq lr", an early exit: its bits 12-15 are 1 as well)
+            reach = n
         elif w >> 28 == COND_AL and (w & 0x0E00F010) == 0x0000F000 and (w >> 16) & 0xF == PC \
                 and (w >> 21) & 0xF == 4:
             reach = n                                                     # GCC: add pc, pc, rX, lsl #2
@@ -293,7 +303,7 @@ def extract(words, base, resolve_call, resolve_word, returns_this=lambda key: Fa
                 if 0 <= k < n:
                     pool.add(k)
 
-    n = function_end(words, pool, resolve_call)
+    n = function_end(words, pool, resolve_call, base)
     words = words[:n]
     code = [i for i in range(n) if i not in pool]
     fallthrough = next_key is not None and code and words[code[-1]] == NOP and code[-1] == n - 1

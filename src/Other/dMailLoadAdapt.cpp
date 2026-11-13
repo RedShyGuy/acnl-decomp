@@ -50,7 +50,7 @@ bool MailLoadAdapt::LoadNpc(SvMail* mail, const char* file, s32 label, const voi
                             const SvFgName* paper)
 {
     TakeLetter(this, mail);
-    Func6148BC(reinterpret_cast<SvPersonalId*>(m_Npc), npc);
+    Func6148BC(&m_Npc, static_cast<const SvNpcRef*>(npc));
     netgame::AssignPersonalId(&m_Player, player);
     mail->Clear();
     SetupNormal(&m_Header, &m_Body, &m_Signature, &m_NameIndent, file, label, file, label, file, label);
@@ -74,7 +74,7 @@ bool MailLoadAdapt::LoadPlayer(SvMail* mail, const char* file, s32 label, const 
 void MailLoadAdapt::GetTag5_1(script::IWord* word)
 {
     script::WordFix<9> name;
-    Func56E310(&name, m_Npc);
+    Func56E310(&name, &m_Npc);
     word->Copy(name);
 }
 
@@ -84,7 +84,7 @@ bool MailLoadAdapt::LoadNpc(SvMail* mail, const char* toFile, s32 toLabel, const
                             const SvFgName* paper)
 {
     TakeLetter(this, mail);
-    Func6148BC(reinterpret_cast<SvPersonalId*>(m_Npc), npc);
+    Func6148BC(&m_Npc, static_cast<const SvNpcRef*>(npc));
     netgame::AssignPersonalId(&m_Player, player);
     mail->Clear();
     SetupNormal(&m_Header, &m_Body, &m_Signature, &m_NameIndent, toFile, toLabel, bodyFile, bodyLabel, fromFile,
@@ -103,7 +103,7 @@ bool MailLoadAdapt::LoadPlayer(SvMail* mail, const char* file, s32 toLabel, s32 
                                const SvPersonalId* player, const SvFgName* paper, u8 senderString)
 {
     TakeLetter(this, mail);
-    Func30836C(m_Npc);
+    Func30836C(&m_Npc);
     netgame::AssignPersonalId(&m_Player, player);
     mail->Clear();
     SetupNormal(&m_Header, &m_Body, &m_Signature, &m_NameIndent, file, toLabel, file, bodyLabel, file, fromLabel);
@@ -132,7 +132,7 @@ bool MailLoadAdapt::LoadNpcRandom(SvMail* mail, const char* toFile, s32 toLabel,
                                   const SvPersonalId* player, const SvFgName* paper)
 {
     TakeLetter(this, mail);
-    Func6148BC(reinterpret_cast<SvPersonalId*>(m_Npc), npc);
+    Func6148BC(&m_Npc, static_cast<const SvNpcRef*>(npc));
     netgame::AssignPersonalId(&m_Player, player);
     mail->Clear();
     SetupRandom(&m_Header, &m_Body, &m_Signature, &m_NameIndent, toFile, toLabel, bodyFile, labelA, labelB, labelC,
@@ -167,7 +167,7 @@ script::MailPhrase* MailLoadAdapt::GetPhrase()
 // 0x0022E648 (name after the RTTI)
 MailLoadAdapt::MailLoadAdapt() : m_NameIndent(-1)
 {
-    std::memset(m_Npc, 0, sizeof(m_Npc));
+    std::memset(static_cast<void*>(&m_Npc), 0, sizeof(m_Npc));
 }
 
 // 0x0022E6F4 slot 0x00
@@ -181,16 +181,16 @@ MailLoadAdapt::~MailLoadAdapt()
 // 0x00632518 slot 0x88 (name after IRecept)
 s32 MailLoadAdapt::GetValue88(u8 gender)
 {
-    return Func632534(Func2FE510(m_Npc), gender);
+    return Func632534(Func2FE510(&m_Npc), gender);
 }
 
 // 0x00714330 slot 0x8C (name after IRecept)
 s32 MailLoadAdapt::GetSex()
 {
     s32 sex = 4;
-    if (Func302050(m_Npc)) {
+    if (Func302050(&m_Npc)) {
         script::WordFix<9> name;
-        Func56E310(&name, m_Npc);
+        Func56E310(&name, &m_Npc);
         const script::WordInfo* info = static_cast<const script::IWord&>(name).GetInfo();
         if (info != NULL) {
             sex = info->color;

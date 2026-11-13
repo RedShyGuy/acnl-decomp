@@ -20,6 +20,7 @@ void SetTimeFlag(s64* time); // 0x0020DED0
 void ClearTimeFlag2(s64* time); // 0x0020DEE0
 bool Func630200(u8 part); // 0x00630200
 void Func308EF0(nn::fnd::DateTimeParameters* date); // 0x00308EF0
-void Func30A5AC(nn::fnd::DateTimeParameters* date, s32 a, s32 b, s32 c, f32 d); // 0x0030A5AC
+// (the date goes on by days, hours, minutes, seconds; the days are counted in nanoseconds of a day)
+void Func30A5AC(nn::fnd::DateTimeParameters* date, s32 days, s32 hours, s32 minutes, s32 seconds); // 0x0030A5AC
 void Func3004A8(nn::fnd::DateTimeParameters* date); // 0x003004A8
 } // namespace time

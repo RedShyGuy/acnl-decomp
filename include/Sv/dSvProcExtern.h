@@ -54,7 +54,6 @@ void Func27AB50(SvPlayerData* players); // 0x0027AB50
 void* Func5C2320(SvPlayer* player); // 0x005C2320
 bool Func76E7C0(SvPlayer* player); // 0x0076E7C0
 void* Func3180E4(void* object, u8 index); // 0x003180E4
-void Func6BE93C(SvPlayer* player); // 0x006BE93C
 void Func5D07C0(); // 0x005D07C0
 void Func3052C4(); // 0x003052C4
 void Func305080(); // 0x00305080
@@ -62,7 +61,6 @@ void Func2904BC(); // 0x002904BC
 void Func27D8CC(); // 0x0027D8CC
 struct SvTownDataUnk5C;
 void Func27C884(SvTownDataUnk5C* map, s32 index); // 0x0027C884
-void Func1144A0(SvTime* time, u32 a); // 0x001144A0 (Thumb)
 void Func10E9A4(SvNpc* npcs); // 0x0010E9A4 (Thumb)
 
 // (the parts of a player that SvProc::ApplyMovePlayerPls copies from mvplayer_pls.dat)
@@ -113,7 +111,6 @@ void Func10D640(SvNpc* npcs, u32 saveNo); // 0x0010D640 (Thumb)
 struct SvTownDataUnk1E368;
 void Func1B6BB8(SvTownDataUnk1E368* data, u32 saveNo); // 0x001B6BB8
 void Func1B66B8(SvTownDataUnk1E368* data, u32 saveNo); // 0x001B66B8
-void Func20D640(SvTime* time, u32 saveNo); // 0x0020D640
 void Func6BCCBC(SvMuseum* museum, u32 saveNo); // 0x006BCCBC
 void Func10DF18(SvNpc* npcs, u32 saveNo); // 0x0010DF18 (Thumb)
 void Func5BBCF0(SvNpcDataUnk1744C* data, u32 saveNo); // 0x005BBCF0
@@ -131,14 +128,12 @@ void Func2EC334(SvPlayerHouseList* houses); // 0x002EC334
 void Func52B20C(SvTime* time); // 0x0052B20C
 struct SvTownDataUnkEE28;
 void Func1B20B4(SvTownDataUnkEE28* data); // 0x001B20B4
-void Func10A2C8(SvTime* time); // 0x0010A2C8
 void Func6BD0F0(SvMuseum* museum); // 0x006BD0F0
 
 void Func6142B0(SvTownDataUnk5C* map); // 0x006142B0
 void Func5CE6C8(SvStrcData* data); // 0x005CE6C8
 void Func27B044(SvPlayerData* players); // 0x0027B044
 void Func2EC368(SvPlayerHouseList* houses); // 0x002EC368
-void Func5CE224(SvTime* time); // 0x005CE224
 void Func6BD128(SvMuseum* museum); // 0x006BD128
 void Func112550(SvNpcData* data); // 0x00112550 (Thumb)
 void Func2BFA34(SvMinigameData* data); // 0x002BFA34

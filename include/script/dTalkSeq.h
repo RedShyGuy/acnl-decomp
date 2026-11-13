@@ -140,7 +140,7 @@ private:
         if (player == NULL || !player->playerInfo.IsValid()) {
             return 0;
         }
-        u32 percent = Func770F68(player->unlockedItems, kind);
+        u32 percent = Func770F68(player->unlockedItems.bits, kind);
         if (percent == 0) {
             return 0;
         }

@@ -8,4 +8,6 @@ class BsNpcMgr::NpcForeachFunction
 {
 public:
     NpcForeachFunction(); // ctor address unknown
+    // (the derived functions get each NPC of the list; name is ours)
+    virtual void Invoke(AcNpc* npc);
 };

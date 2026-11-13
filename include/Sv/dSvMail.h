@@ -23,10 +23,11 @@ template <typename T0>
 class IDelegate1;
 } // namespace sead
 
-// (game code, not decompiled yet; names after the addresses) the person from a villager / the villager (it may be
-// written to) / a text of a player is checked / the attached item is checked
-void Func6148BC(SvPersonalId* id, const void* npc); // 0x006148BC
-bool Func302050(void* npc); // 0x00302050
+// (game code, not decompiled yet; names after the addresses) a villager reference is copied / it is set (the villager
+// below 0x18F, the personality below 8) / a text of a player is checked / the attached item is checked
+struct SvNpcRef;
+void Func6148BC(SvNpcRef* dst, const SvNpcRef* src); // 0x006148BC
+bool Func302050(const SvNpcRef* npc); // 0x00302050
 void Func1B29AC(char16* header); // 0x001B29AC
 bool Func769190(const SvFgName* item); // 0x00769190
 
@@ -93,6 +94,15 @@ struct SvMail {
     // the letter is written from messages by MailLoadAdapt (see there; the callback gets the phrase first, the villager
     // is set as the word 2B8/0 of the phrase); true: it is written
     void Func5CCA48(script::Phrase* phrase, const void* npc); // 0x005CCA48
+    // (game code, not decompiled yet; names are ours) the letter is written from a label of a file to a player on a
+    // paper (two values) / it is sent (three values; true: sent)
+    bool Func306374(const char* file, s32 label, const SvPersonalId* player, const SvFgName* paper, u32 a,
+                    u32 b); // 0x00306374
+    bool Func2FF418(u32 a, u32 b, u32 c); // 0x002FF418
+    // (game code, not decompiled yet; names are ours) no kind in the bits 0..2 of letterFlag / the attached item and
+    // the bits 3..4 of letterFlag
+    bool Func759120() const; // 0x00759120
+    void Func769154(const SvFgName& item, u32 value); // 0x00769154
     bool LoadNpc(const char* toFile, s32 toLabel, const char* bodyFile, s32 bodyLabel, const char* fromFile,
                  s32 fromLabel, const void* npc, const SvPersonalId* player, const SvFgName* paper,
                  sead::IDelegate1<script::Phrase*>* callback); // 0x005CCB4C
@@ -202,5 +212,10 @@ struct SvFutureMail {
     /* 0x0280 */ SvTime receiveDate; // ctor sets 0x7FFFFFFFFFFFFFFF (max positive U64)
 };
 ASSERT_SIZE(SvFutureMail, 0x288);
+
+// (game code, not decompiled yet; names are ours) the first free one of the 80 letters of the pool (-1: none) / a letter
+// is copied to an index
+s32 Func711124(SvMail* letters); // 0x00711124
+void Func1E4904(SvMail* letters, u32 index, const SvMail* mail); // 0x001E4904
 
 #pragma pack(pop)

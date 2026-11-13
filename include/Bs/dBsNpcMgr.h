@@ -21,8 +21,14 @@ public:
     virtual oml::framework::Result Calc(); // 0x006A26E8 slot 0x24 | slot vf_0x24 of oml::framework::Process
     virtual oml::framework::Result Draw(); // 0x006A266C slot 0x30 | slot vf_0x30 of oml::framework::Process
 
-    // (names are ours; only what the stage code uses)
+    // (names are ours; only what the stage code and the Bug-Off use)
     static BsNpcMgr* s_pInstance;
+    // the number of NPCs of the list
+    u32 GetNpcNum() const { return m_pNpcsEnd - m_pNpcsBegin; }
     // creates the special NPCs of a stage (command 3 of a stage definition)
     bool CreateSpecialNpcs(const stage::Command* command); // 0x006967BC
+
+    u8 unk_0x14[0xEB54 - 0x14];
+    AcNpc** m_pNpcsBegin; // 0xEB54 the NPCs (a vector)
+    AcNpc** m_pNpcsEnd;   // 0xEB58
 };

@@ -25,26 +25,26 @@ void audio::bgm::StageOpusVillageDowntown::Setup(stage::Name stage)
         SoundMgr::SetNextBgmParam(1);
     }
     // the music of Main Street changes with the upgrades of the Nookling store (and with the buildings of the street)
-    switch (GetGardenPlus()->data.townData.nooklingState) {
+    switch (GetGardenPlus()->data.townData.unk_0xEE2C.shopZakka.nooklingState) {
     case 2:
         SoundMgr::SSetDowntownLevel(1);
         break;
     case 3: {
         // the buildings of Main Street
         s32 count = 0;
-        if (GetGardenPlus()->data.townData.fortuneTellerUnlockStatus == 1) {
+        if (GetGardenPlus()->data.townData.unk_0xEE2C.fortuneTellerUnlockStatus == 1) {
             count = 1;
         }
-        if (GetGardenPlus()->data.townData.dreamSuiteUnlockStatus == 1) {
+        if (GetGardenPlus()->data.townData.unk_0xEE2C.dreamSuiteUnlockStatus == 1) {
             count++;
         }
-        if (GetGardenPlus()->data.townData.clubLolUnlockState == 2) {
+        if (GetGardenPlus()->data.townData.unk_0xEE2C.clubLolUnlockState == 2) {
             count++;
         }
-        if (GetGardenPlus()->data.townData.shampoodleUnlockStatus == 2) {
+        if (GetGardenPlus()->data.townData.unk_0xEE2C.shampoodleUnlockStatus == 2) {
             count++;
         }
-        if (GetGardenPlus()->data.townData.kickUnlockStatus == 2) {
+        if (GetGardenPlus()->data.townData.unk_0xEE2C.kickUnlockStatus == 2) {
             count++;
         }
         SoundMgr::SSetDowntownLevel(count >= 3 ? 2 : 1);
@@ -172,7 +172,7 @@ void audio::bgm::StageOpusVillageDowntown::UpdateAmbience()
     }
     if (stage::GetCurrent() == stage::NAME_DOWNTOWN) {
         s_TownState.envSoundId =
-            GetGardenPlus()->data.townData.kickUnlockStatus == 2 ? SE_ENV_DOWNTOWN_2 : SE_ENV_DOWNTOWN_1;
+            GetGardenPlus()->data.townData.unk_0xEE2C.kickUnlockStatus == 2 ? SE_ENV_DOWNTOWN_2 : SE_ENV_DOWNTOWN_1;
         SoundMgr::PlaySound(static_cast<SeID>(s_TownState.envSoundId), 0.0f);
     }
 }

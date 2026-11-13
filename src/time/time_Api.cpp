@@ -542,7 +542,7 @@ void Update()
 }
 
 // 0x0056D4F8 (name is ours)
-s64 Func56D4F8(s64 time, s32 a, s32 b, s32 c, f32 d)
+s64 Func56D4F8(s64 time, s32 a, s32 b, s32 c, s32 d)
 {
     nn::fnd::DateTimeParameters date = ToParameters(time);
     Func30A5AC(&date, a, b, c, d);

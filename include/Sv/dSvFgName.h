@@ -18,11 +18,11 @@ class WordFix;
 class SvFgName
 {
 public:
-    // Item ID. 0x7FFE is the empty item: the game uses (SvFgName::Name)32766 as
-    // template argument of ExchangeBankKeywordFgNameEx and the save constructors fill
-    // empty slots with it. The other values are not named yet.
+    // Item ID. The game has this enumeration (it uses (SvFgName::Name)32766, the empty item, as template argument of
+    // ExchangeBankKeywordFgNameEx; the save constructors fill empty slots with it), the binary has no identifiers: the
+    // enumerators are generated from the item list of the project (tools/build/gen_item_names.py).
     enum Name {
-        NAME_EMPTY = 0x7FFE,
+#include "Sv/dSvFgNameList.inc"
     };
 
     // an item ID as the game passes it to the constructor (bit 15 is dropped)

@@ -6,206 +6,227 @@
 
 #include "decomp.h"
 #include "Sv/dSvCommon.h"
-
-#pragma pack(push, 1)
+#include "nn/fnd/fnd_DateTime.h"
 
 struct SvCensusValue {
     /* 0x0000 */ u32 totalPlayerStat; // All player stats combined
     /* 0x0004 */ u32 playerStats[4]; // For each player
 
-    // adds the value for the current player and to the total (each kept in [0, 999999999]; not in the Dream Suite, netgame::TYPE_DREAM)
-    void Add(s32 value); // 0x006B7ED0 (name is ours)
-    // adds the value to the total only (the same rules)
-    DECOMP_NOINLINE void AddTotal(s32 value); // 0x006B6290 (name is ours)
+    // (inline; name is ours) everything 0
+    void Clear()
+    {
+        totalPlayerStat = 0;
+        playerStats[0] = 0;
+        playerStats[1] = 0;
+        playerStats[2] = 0;
+        playerStats[3] = 0;
+    }
 };
 ASSERT_SIZE(SvCensusValue, 0x14);
 
-struct SvInsectCatchCounts {
-    /* 0x0000 */ u32 commonButterflyCaught;
-    /* 0x0004 */ u32 yellowButterflyCaught;
-    /* 0x0008 */ u32 tigerButterflyCaught;
-    /* 0x000C */ u32 peacockButterflyCaught;
-    /* 0x0010 */ u32 monarchButterflyCaught;
-    /* 0x0014 */ u32 emperorButterflyCaught;
-    /* 0x0018 */ u32 agriasButterflyCaught;
-    /* 0x001C */ u32 rajaBCaught;
-    /* 0x0020 */ u32 birdwingButterflyCaught;
-    /* 0x0024 */ u32 mothCaught;
-    /* 0x0028 */ u32 oakSilkMothCaught;
-    /* 0x002C */ u32 honeybeeCaught;
-    /* 0x0030 */ u32 beeCaught;
-    /* 0x0034 */ u32 longLocustCaught;
-    /* 0x0038 */ u32 migratoryLocustCaught;
-    /* 0x003C */ u32 riceGrasshopperCaught;
-    /* 0x0040 */ u32 mantisCaught;
-    /* 0x0044 */ u32 orchidMantisCaught;
-    /* 0x0048 */ u32 brownCicadaCaught;
-    /* 0x004C */ u32 robustCicadaCaught;
-    /* 0x0050 */ u32 giantCicadaCaught;
-    /* 0x0054 */ u32 walkerCicadaCaught;
-    /* 0x0058 */ u32 eveningCicadaCaught;
-    /* 0x005C */ u32 cicadaShellCaught;
-    /* 0x0060 */ u32 lanternFlyCaught;
-    /* 0x0064 */ u32 redDragonflyCaught;
-    /* 0x0068 */ u32 darnerDragonflyCaught;
-    /* 0x006C */ u32 bandedDragonflyCaught;
-    /* 0x0070 */ u32 petaltailDragonflyCaught;
-    /* 0x0074 */ u32 antCaught;
-    /* 0x0078 */ u32 pondskaterCaught;
-    /* 0x007C */ u32 divingBeetleCaught;
-    /* 0x0080 */ u32 stinkbugCaught;
-    /* 0x0084 */ u32 snailCaught;
-    /* 0x0088 */ u32 cricketCaught;
-    /* 0x008C */ u32 bellCricketCaught;
-    /* 0x0090 */ u32 grasshopperCaught;
-    /* 0x0094 */ u32 moleCricketCaught;
-    /* 0x0098 */ u32 walkingLeafCaught;
-    /* 0x009C */ u32 walkingStickCaught;
-    /* 0x00A0 */ u32 bagwormCaught;
-    /* 0x00A4 */ u32 ladybugCaught;
-    /* 0x00A8 */ u32 violinBeetleCaught;
-    /* 0x00AC */ u32 longhornBeetleCaught;
-    /* 0x00B0 */ u32 tigerBeetleCaught;
-    /* 0x00B4 */ u32 dungBeetleCaught;
-    /* 0x00B8 */ u32 wharfRoachCaught;
-    /* 0x00BC */ u32 hermitCrabCaught;
-    /* 0x00C0 */ u32 fireflyCaught;
-    /* 0x00C4 */ u32 fruitBeetleCaught;
-    /* 0x00C8 */ u32 scarabBeetleCaught;
-    /* 0x00CC */ u32 jewelBeetleCaught;
-    /* 0x00D0 */ u32 miyamaStagCaught;
-    /* 0x00D4 */ u32 sawStagCaught;
-    /* 0x00D8 */ u32 giantStagCaught;
-    /* 0x00DC */ u32 rainbowStagCaught;
-    /* 0x00E0 */ u32 cyclommatusStagCaught;
-    /* 0x00E4 */ u32 goldenStagCaught;
-    /* 0x00E8 */ u32 hornedDynastidCaught;
-    /* 0x00EC */ u32 hornedAtlasCaught;
-    /* 0x00F0 */ u32 hornedElephantCaught;
-    /* 0x00F4 */ u32 hornedHerculesCaught;
-    /* 0x00F8 */ u32 goliathBeetleCaught;
-    /* 0x00FC */ u32 fleaCaught;
-    /* 0x0100 */ u32 pillBugCaught;
-    /* 0x0104 */ u32 mosquitoCaught;
-    /* 0x0108 */ u32 flyCaught;
-    /* 0x010C */ u32 houseCentipedeCaught;
-    /* 0x0110 */ u32 centipedeCaught;
-    /* 0x0114 */ u32 spiderCaught;
-    /* 0x0118 */ u32 tarantulaCaught;
-    /* 0x011C */ u32 scorpionCaught;
+// The indices of the catch counts of the census (the order of the research names of the save data; the
+// census code indexes the tables with them).
+enum SvCensusInsect {
+    INSECT_COMMON_BUTTERFLY = 0,
+    INSECT_YELLOW_BUTTERFLY = 1,
+    INSECT_TIGER_BUTTERFLY = 2,
+    INSECT_PEACOCK_BUTTERFLY = 3,
+    INSECT_MONARCH_BUTTERFLY = 4,
+    INSECT_EMPEROR_BUTTERFLY = 5,
+    INSECT_AGRIAS_BUTTERFLY = 6,
+    INSECT_RAJA_B = 7,
+    INSECT_BIRDWING_BUTTERFLY = 8,
+    INSECT_MOTH = 9,
+    INSECT_OAK_SILK_MOTH = 10,
+    INSECT_HONEYBEE = 11,
+    INSECT_BEE = 12,
+    INSECT_LONG_LOCUST = 13,
+    INSECT_MIGRATORY_LOCUST = 14,
+    INSECT_RICE_GRASSHOPPER = 15,
+    INSECT_MANTIS = 16,
+    INSECT_ORCHID_MANTIS = 17,
+    INSECT_BROWN_CICADA = 18,
+    INSECT_ROBUST_CICADA = 19,
+    INSECT_GIANT_CICADA = 20,
+    INSECT_WALKER_CICADA = 21,
+    INSECT_EVENING_CICADA = 22,
+    INSECT_CICADA_SHELL = 23,
+    INSECT_LANTERN_FLY = 24,
+    INSECT_RED_DRAGONFLY = 25,
+    INSECT_DARNER_DRAGONFLY = 26,
+    INSECT_BANDED_DRAGONFLY = 27,
+    INSECT_PETALTAIL_DRAGONFLY = 28,
+    INSECT_ANT = 29,
+    INSECT_PONDSKATER = 30,
+    INSECT_DIVING_BEETLE = 31,
+    INSECT_STINKBUG = 32,
+    INSECT_SNAIL = 33,
+    INSECT_CRICKET = 34,
+    INSECT_BELL_CRICKET = 35,
+    INSECT_GRASSHOPPER = 36,
+    INSECT_MOLE_CRICKET = 37,
+    INSECT_WALKING_LEAF = 38,
+    INSECT_WALKING_STICK = 39,
+    INSECT_BAGWORM = 40,
+    INSECT_LADYBUG = 41,
+    INSECT_VIOLIN_BEETLE = 42,
+    INSECT_LONGHORN_BEETLE = 43,
+    INSECT_TIGER_BEETLE = 44,
+    INSECT_DUNG_BEETLE = 45,
+    INSECT_WHARF_ROACH = 46,
+    INSECT_HERMIT_CRAB = 47,
+    INSECT_FIREFLY = 48,
+    INSECT_FRUIT_BEETLE = 49,
+    INSECT_SCARAB_BEETLE = 50,
+    INSECT_JEWEL_BEETLE = 51,
+    INSECT_MIYAMA_STAG = 52,
+    INSECT_SAW_STAG = 53,
+    INSECT_GIANT_STAG = 54,
+    INSECT_RAINBOW_STAG = 55,
+    INSECT_CYCLOMMATUS_STAG = 56,
+    INSECT_GOLDEN_STAG = 57,
+    INSECT_HORNED_DYNASTID = 58,
+    INSECT_HORNED_ATLAS = 59,
+    INSECT_HORNED_ELEPHANT = 60,
+    INSECT_HORNED_HERCULES = 61,
+    INSECT_GOLIATH_BEETLE = 62,
+    INSECT_FLEA = 63,
+    INSECT_PILL_BUG = 64,
+    INSECT_MOSQUITO = 65,
+    INSECT_FLY = 66,
+    INSECT_HOUSE_CENTIPEDE = 67,
+    INSECT_CENTIPEDE = 68,
+    INSECT_SPIDER = 69,
+    INSECT_TARANTULA = 70,
+    INSECT_SCORPION = 71,
+    INSECT_NUM = 72,
 };
-ASSERT_SIZE(SvInsectCatchCounts, 0x120);
 
-struct SvFishCatchCounts {
-    /* 0x0000 */ u32 bitterlingCaught;
-    /* 0x0004 */ u32 paleChubCaught;
-    /* 0x0008 */ u32 crucianCarpCaught;
-    /* 0x000C */ u32 daceCaught;
-    /* 0x0010 */ u32 barbelSteedCaught;
-    /* 0x0014 */ u32 carpCaught;
-    /* 0x0018 */ u32 koiCaught;
-    /* 0x001C */ u32 goldfishCaught;
-    /* 0x0020 */ u32 popEyedGoldfishCaught;
-    /* 0x0024 */ u32 killifishCaught;
-    /* 0x0028 */ u32 crawfishCaught;
-    /* 0x002C */ u32 softShelledTurtleCaught;
-    /* 0x0030 */ u32 tadpoleCaught;
-    /* 0x0034 */ u32 frogCaught;
-    /* 0x0038 */ u32 freshwaterGobyCaught;
-    /* 0x003C */ u32 loachCaught;
-    /* 0x0040 */ u32 catfishCaught;
-    /* 0x0044 */ u32 eelCaught;
-    /* 0x0048 */ u32 giantSnakeheadCaught;
-    /* 0x004C */ u32 bluegillCaught;
-    /* 0x0050 */ u32 yellowPerchCaught;
-    /* 0x0054 */ u32 blackBassCaught;
-    /* 0x0058 */ u32 pikeCaught;
-    /* 0x005C */ u32 pondSmeltCaught;
-    /* 0x0060 */ u32 sweetfishCaught;
-    /* 0x0064 */ u32 cherrySalmonCaught;
-    /* 0x0068 */ u32 charCaught;
-    /* 0x006C */ u32 rainbowTroutCaught;
-    /* 0x0070 */ u32 stringfishCaught;
-    /* 0x0074 */ u32 salmonCaught;
-    /* 0x0078 */ u32 kingSalmonCaught;
-    /* 0x007C */ u32 mittenCrabCaught;
-    /* 0x0080 */ u32 guppyCaught;
-    /* 0x0084 */ u32 nibbleFishCaught;
-    /* 0x0088 */ u32 angelfishCaught;
-    /* 0x008C */ u32 neonTetraCaught;
-    /* 0x0090 */ u32 piranhaCaught;
-    /* 0x0094 */ u32 arowanaCaught;
-    /* 0x0098 */ u32 doradoCaught;
-    /* 0x009C */ u32 garCaught;
-    /* 0x00A0 */ u32 arapaimaCaught;
-    /* 0x00A4 */ u32 saddledBichirCaught;
-    /* 0x00A8 */ u32 seaButterflyCaught;
-    /* 0x00AC */ u32 seaHorseCaught;
-    /* 0x00B0 */ u32 clownFishCaught;
-    /* 0x00B4 */ u32 surgeonfishCaught;
-    /* 0x00B8 */ u32 butterflyFishCaught;
-    /* 0x00BC */ u32 napoleonfishCaught;
-    /* 0x00C0 */ u32 zebraTurkeyfishCaught;
-    /* 0x00C4 */ u32 blowfishCaught;
-    /* 0x00C8 */ u32 pufferFishCaught;
-    /* 0x00CC */ u32 horsemackerelCaught;
-    /* 0x00D0 */ u32 barredKnifejawCaught;
-    /* 0x00D4 */ u32 seaBassCaught;
-    /* 0x00D8 */ u32 redSnapperCaught;
-    /* 0x00DC */ u32 dabCaught;
-    /* 0x00E0 */ u32 oliveFlounderCaught;
-    /* 0x00E4 */ u32 squidCaught;
-    /* 0x00E8 */ u32 morayEelCaught;
-    /* 0x00EC */ u32 ribbonEelCaught;
-    /* 0x00F0 */ u32 footballFishCaught;
-    /* 0x00F4 */ u32 tunaCaught;
-    /* 0x00F8 */ u32 blueMarlinCaught;
-    /* 0x00FC */ u32 giantTrevallyCaught;
-    /* 0x0100 */ u32 rayCaught;
-    /* 0x0104 */ u32 oceanSunfishCaught;
-    /* 0x0108 */ u32 hammerheadSharkCaught;
-    /* 0x010C */ u32 sharkCaught;
-    /* 0x0110 */ u32 sawSharkCaught;
-    /* 0x0114 */ u32 whaleSharkCaught;
-    /* 0x0118 */ u32 oarfishCaught;
-    /* 0x011C */ u32 coelacanthCaught;
+enum SvCensusFish {
+    FISH_BITTERLING = 0,
+    FISH_PALE_CHUB = 1,
+    FISH_CRUCIAN_CARP = 2,
+    FISH_DACE = 3,
+    FISH_BARBEL_STEED = 4,
+    FISH_CARP = 5,
+    FISH_KOI = 6,
+    FISH_GOLDFISH = 7,
+    FISH_POP_EYED_GOLDFISH = 8,
+    FISH_KILLIFISH = 9,
+    FISH_CRAWFISH = 10,
+    FISH_SOFT_SHELLED_TURTLE = 11,
+    FISH_TADPOLE = 12,
+    FISH_FROG = 13,
+    FISH_FRESHWATER_GOBY = 14,
+    FISH_LOACH = 15,
+    FISH_CATFISH = 16,
+    FISH_EEL = 17,
+    FISH_GIANT_SNAKEHEAD = 18,
+    FISH_BLUEGILL = 19,
+    FISH_YELLOW_PERCH = 20,
+    FISH_BLACK_BASS = 21,
+    FISH_PIKE = 22,
+    FISH_POND_SMELT = 23,
+    FISH_SWEETFISH = 24,
+    FISH_CHERRY_SALMON = 25,
+    FISH_CHAR = 26,
+    FISH_RAINBOW_TROUT = 27,
+    FISH_STRINGFISH = 28,
+    FISH_SALMON = 29,
+    FISH_KING_SALMON = 30,
+    FISH_MITTEN_CRAB = 31,
+    FISH_GUPPY = 32,
+    FISH_NIBBLE_FISH = 33,
+    FISH_ANGELFISH = 34,
+    FISH_NEON_TETRA = 35,
+    FISH_PIRANHA = 36,
+    FISH_AROWANA = 37,
+    FISH_DORADO = 38,
+    FISH_GAR = 39,
+    FISH_ARAPAIMA = 40,
+    FISH_SADDLED_BICHIR = 41,
+    FISH_SEA_BUTTERFLY = 42,
+    FISH_SEA_HORSE = 43,
+    FISH_CLOWN_FISH = 44,
+    FISH_SURGEONFISH = 45,
+    FISH_BUTTERFLY_FISH = 46,
+    FISH_NAPOLEONFISH = 47,
+    FISH_ZEBRA_TURKEYFISH = 48,
+    FISH_BLOWFISH = 49,
+    FISH_PUFFER_FISH = 50,
+    FISH_HORSEMACKEREL = 51,
+    FISH_BARRED_KNIFEJAW = 52,
+    FISH_SEA_BASS = 53,
+    FISH_RED_SNAPPER = 54,
+    FISH_DAB = 55,
+    FISH_OLIVE_FLOUNDER = 56,
+    FISH_SQUID = 57,
+    FISH_MORAY_EEL = 58,
+    FISH_RIBBON_EEL = 59,
+    FISH_FOOTBALL_FISH = 60,
+    FISH_TUNA = 61,
+    FISH_BLUE_MARLIN = 62,
+    FISH_GIANT_TREVALLY = 63,
+    FISH_RAY = 64,
+    FISH_OCEAN_SUNFISH = 65,
+    FISH_HAMMERHEAD_SHARK = 66,
+    FISH_SHARK = 67,
+    FISH_SAW_SHARK = 68,
+    FISH_WHALE_SHARK = 69,
+    FISH_OARFISH = 70,
+    FISH_COELACANTH = 71,
+    FISH_NUM = 72,
 };
-ASSERT_SIZE(SvFishCatchCounts, 0x120);
 
-struct SvSeaCreatureCatchCounts {
-    /* 0x0000 */ u32 seaweedCaught;
-    /* 0x0004 */ u32 seaGrapesCaught;
-    /* 0x0008 */ u32 seaUrchinCaught;
-    /* 0x000C */ u32 acornBarnacleCaught;
-    /* 0x0010 */ u32 oysterCaught;
-    /* 0x0014 */ u32 turbanShellCaught;
-    /* 0x0018 */ u32 abaloneCaught;
-    /* 0x001C */ u32 earShellCaught;
-    /* 0x0020 */ u32 clamCaught;
-    /* 0x0024 */ u32 pearlOysterCaught;
-    /* 0x0028 */ u32 scallopCaught;
-    /* 0x002C */ u32 seaAnemoneCaught;
-    /* 0x0030 */ u32 seaStarCaught;
-    /* 0x0034 */ u32 seaCucumberCaught;
-    /* 0x0038 */ u32 seaSlugCaught;
-    /* 0x003C */ u32 flatwormCaught;
-    /* 0x0040 */ u32 mantisShrimpCaught;
-    /* 0x0044 */ u32 sweetShrimpCaught;
-    /* 0x0048 */ u32 tigerPrawnCaught;
-    /* 0x004C */ u32 spinyLobsterCaught;
-    /* 0x0050 */ u32 lobsterCaught;
-    /* 0x0054 */ u32 snowCrabCaught;
-    /* 0x0058 */ u32 horsehairCrabCaught;
-    /* 0x005C */ u32 redKingCrabCaught;
-    /* 0x0060 */ u32 spiderCrabCaught;
-    /* 0x0064 */ u32 octopusCaught;
-    /* 0x0068 */ u32 spottedGardenEelCaught;
-    /* 0x006C */ u32 chamberedNautilusCaught;
-    /* 0x0070 */ u32 horseshoeCrabCaught;
-    /* 0x0074 */ u32 giantIsopodCaught;
-    /* 0x0078 */ u32 waterEggCaught; // The other eggs are not listed as a stat, idk why
+// (the research had a 31st entry "waterEggCaught" at +0x78: that is the first word of the table per player, ACNL has
+// 30 sea creatures)
+enum SvCensusSeaCreature {
+    SEA_CREATURE_SEAWEED = 0,
+    SEA_CREATURE_SEA_GRAPES = 1,
+    SEA_CREATURE_SEA_URCHIN = 2,
+    SEA_CREATURE_ACORN_BARNACLE = 3,
+    SEA_CREATURE_OYSTER = 4,
+    SEA_CREATURE_TURBAN_SHELL = 5,
+    SEA_CREATURE_ABALONE = 6,
+    SEA_CREATURE_EAR_SHELL = 7,
+    SEA_CREATURE_CLAM = 8,
+    SEA_CREATURE_PEARL_OYSTER = 9,
+    SEA_CREATURE_SCALLOP = 10,
+    SEA_CREATURE_SEA_ANEMONE = 11,
+    SEA_CREATURE_SEA_STAR = 12,
+    SEA_CREATURE_SEA_CUCUMBER = 13,
+    SEA_CREATURE_SEA_SLUG = 14,
+    SEA_CREATURE_FLATWORM = 15,
+    SEA_CREATURE_MANTIS_SHRIMP = 16,
+    SEA_CREATURE_SWEET_SHRIMP = 17,
+    SEA_CREATURE_TIGER_PRAWN = 18,
+    SEA_CREATURE_SPINY_LOBSTER = 19,
+    SEA_CREATURE_LOBSTER = 20,
+    SEA_CREATURE_SNOW_CRAB = 21,
+    SEA_CREATURE_HORSEHAIR_CRAB = 22,
+    SEA_CREATURE_RED_KING_CRAB = 23,
+    SEA_CREATURE_SPIDER_CRAB = 24,
+    SEA_CREATURE_OCTOPUS = 25,
+    SEA_CREATURE_SPOTTED_GARDEN_EEL = 26,
+    SEA_CREATURE_CHAMBERED_NAUTILUS = 27,
+    SEA_CREATURE_HORSESHOE_CRAB = 28,
+    SEA_CREATURE_GIANT_ISOPOD = 29,
+    SEA_CREATURE_NUM = 30,
 };
-ASSERT_SIZE(SvSeaCreatureCatchCounts, 0x7C);
+
+// the other things caught with the fishing rod
+enum SvCensusJunk {
+    JUNK_EMPTY_CAN = 0,
+    JUNK_BOOT = 1,
+    JUNK_OLD_TIRE = 2,
+    JUNK_NUM = 3,
+};
+
+// the limits of the census values (names are ours): most values, the counts (the catches and several values), the public
+// works projects
+const u32 CENSUS_VALUE_MAX = 999999999;
+const u32 CENSUS_COUNT_MAX = 9999;
+const u32 CENSUS_PUBLIC_WORKS_MAX = 99;
 
 struct SvCensus {
     /* 0x0000 */ SvCensusValue bellsEarned;
@@ -288,31 +309,265 @@ struct SvCensus {
     /* 0x0604 */ SvCensusValue meowCouponsEarned;
     /* 0x0618 */ SvCensusValue meowCouponsSpent;
     /* 0x062C */ SvCensusValue unk_0x62C; // NON_PLAYER_SPECIFIC / KOKT82
-    /* 0x0640 */ SvInsectCatchCounts insectsCaughtData;
-    /* 0x0760 */ u32 unk_0x760[0x120];
-    /* 0x0BE0 */ SvFishCatchCounts fishCaughtData;
-    /* 0x0D00 */ u32 unk_0xD00[0x120];
-    /* 0x1180 */ u32 emptyCanCaught;
-    /* 0x1184 */ u32 bootCaught;
-    /* 0x1188 */ u32 oldTireCaught;
-    /* 0x118C */ u32 unk_0x118C[0xC];
-    /* 0x11BC */ SvSeaCreatureCatchCounts seaCreaturesCaughtData;
-    /* 0x1238 */ u32 unk_0x1238[0x83];
+    // the catch counts: all players, then per player [index][town slot]
+    /* 0x0640 */ u32 insectCatchCounts[INSECT_NUM];
+    /* 0x0760 */ u32 insectCatchCountsPerPlayer[INSECT_NUM][4];
+    /* 0x0BE0 */ u32 fishCatchCounts[FISH_NUM];
+    /* 0x0D00 */ u32 fishCatchCountsPerPlayer[FISH_NUM][4];
+    /* 0x1180 */ u32 junkCatchCounts[JUNK_NUM];
+    /* 0x118C */ u32 junkCatchCountsPerPlayer[JUNK_NUM][4];
+    /* 0x11BC */ u32 seaCreatureCatchCounts[SEA_CREATURE_NUM];
+    /* 0x1234 */ u32 seaCreatureCatchCountsPerPlayer[SEA_CREATURE_NUM][4];
+
+    // (inline in the constructor of SvCensusData)
+    SvCensus() { Clear(); }
+    // everything is 0
+    void Clear(); // 0x006B9B88
+
+    // (the census functions of the game, one copy per value; names are ours, the values after the research names)
+    // Add<Value>: to the value of the current player (SvGetCurrentTownSlot) and to the total; Add<Value>Total: to the
+    // total only; ...ForSlot: for a player by its town slot; Set<Value>: the value of the player is set, the total
+    // changes by the part of the value above the limit; Clear<Value>: everything 0; Add<Kind>Catch(index): a catch of the
+    // player and of all. Nothing changes in the Dream Suite (netgame::TYPE_DREAM). The values stay in [0, limit].
+    // the values of a player are cleared (the player leaves the town)
+    void ClearPlayer(u32 townSlot); // 0x006B59E8
+    DECOMP_NOINLINE void AddJunkCatchTotal(u32 index, s32 value); // 0x006B5BF0
+    DECOMP_NOINLINE void AddFishCatchTotal(u32 index, s32 value); // 0x006B5C4C
+    DECOMP_NOINLINE void AddInsectCatchTotal(u32 index, s32 value); // 0x006B5CA4
+    void ClearTotalBingoWins(); // 0x006B5CFC
+    void ClearEggsGivenToZipper(); // 0x006B5D18
+    DECOMP_NOINLINE void AddSeaCreatureCatchTotal(u32 index, s32 value); // 0x006B5D34
+    DECOMP_NOINLINE void AddStreetPassVisitorsTotal(s32 value); // 0x006B5D90
+    DECOMP_NOINLINE void AddTreesCutDownTotal(s32 value); // 0x006B5DE0
+    void ClearPartyPoppersPoppedAtNewYears(); // 0x006B5E30
+    void ClearHarvestFestivalCoursesDone(); // 0x006B5E4C
+    void ClearSnowmenBuiltByYouInTown(); // 0x006B5E68
+    DECOMP_NOINLINE void AddJobsAtTheRoostTotal(s32 value); // 0x006B5E84
+    DECOMP_NOINLINE void AddDjkkVisitsTotal(s32 value); // 0x006B5ED4
+    DECOMP_NOINLINE void AddPlayedHideAndSeekTotal(s32 value); // 0x006B5F24
+    DECOMP_NOINLINE void AddHelpedGulliverTotal(s32 value); // 0x006B5F74
+    DECOMP_NOINLINE void AddFlowersPlantedTotal(s32 value); // 0x006B5FC4
+    DECOMP_NOINLINE void AddLettersSentTotal(s32 value); // 0x006B6014
+    DECOMP_NOINLINE void AddTourVisitsTotal(s32 value); // 0x006B6064
+    DECOMP_NOINLINE void AddWeedsPulledTotal(s32 value); // 0x006B60B4
+    DECOMP_NOINLINE void AddAmiiboScannedTotal(s32 value); // 0x006B6104
+    void ClearFestivalFeathersCaught(); // 0x006B6154
+    void ClearFireworkDesignsGivenToIsabelle(); // 0x006B6170
+    DECOMP_NOINLINE void AddEarnedBadgesTotal(s32 value); // 0x006B61A0
+    DECOMP_NOINLINE void AddTotalBingoWinsTotal(s32 value); // 0x006B61F0
+    DECOMP_NOINLINE void AddHelpedKatieTravelTotal(s32 value); // 0x006B6240
+    DECOMP_NOINLINE void AddBellsEarnedTotal(s32 value); // 0x006B6290
+    DECOMP_NOINLINE void AddTreesPlantedTotal(s32 value); // 0x006B62E0
+    DECOMP_NOINLINE void AddShampoodleVisitsTotal(s32 value); // 0x006B6330
+    DECOMP_NOINLINE void AddShrunkSketchesAttendedTotal(s32 value); // 0x006B6380
+    DECOMP_NOINLINE void AddTownsVisitedTotal(s32 value); // 0x006B63D0
+    void ClearFoundImposterBlanca(); // 0x006B6420
+    void ClearGivenToyDayPresents(); // 0x006B643C
+    void ClearReceivedCandyOnHalloween(); // 0x006B6458
+    void AddJunkCatch(u32 index, s32 value); // 0x006B6474
+    void AddFishCatch(u32 index, s32 value); // 0x006B64FC
+    DECOMP_NOINLINE void AddSeaCreaturesCaughtTotal(s32 value); // 0x006B657C
+    DECOMP_NOINLINE void AddEggsGivenToZipperTotal(s32 value); // 0x006B65CC
+    DECOMP_NOINLINE void AddMeowCouponsEarnedTotal(s32 value); // 0x006B661C
+    DECOMP_NOINLINE void AddIslandVisitsTotal(s32 value); // 0x006B666C
+    DECOMP_NOINLINE void AddShootingStarWishesTotal(s32 value); // 0x006B66BC
+    DECOMP_NOINLINE void AddSaharaRedecorationsTotal(s32 value); // 0x006B670C
+    DECOMP_NOINLINE void AddFurnitureCustomizedTotal(s32 value); // 0x006B675C
+    DECOMP_NOINLINE void AddAbdBalanceTotal(s32 value); // 0x006B67AC
+    DECOMP_NOINLINE void AddMeowCouponsSpentTotal(s32 value); // 0x006B67FC
+    DECOMP_NOINLINE void AddBalloonsPoppedTotal(s32 value); // 0x006B684C
+    DECOMP_NOINLINE void AddNpcPicturesReceivedTotal(s32 value); // 0x006B689C
+    DECOMP_NOINLINE void AddPartyPoppersPoppedAtNewYearsTotal(s32 value); // 0x006B68EC
+    DECOMP_NOINLINE void AddFishCaughtTotal(s32 value); // 0x006B693C
+    DECOMP_NOINLINE void AddHarvestFestivalCoursesDoneTotal(s32 value); // 0x006B698C
+    DECOMP_NOINLINE void AddBoughtArtAtReddsTotal(s32 value); // 0x006B69DC
+    DECOMP_NOINLINE void AddPublicWorkExpensesTotal(s32 value); // 0x006B6A2C
+    DECOMP_NOINLINE void AddResetSurveillanceCenterVisitsTotal(s32 value); // 0x006B6A7C
+    DECOMP_NOINLINE void AddScallopsGivenToPascalTotal(s32 value); // 0x006B6ACC
+    DECOMP_NOINLINE void AddRecycleShopEarningsTotal(s32 value); // 0x006B6B1C
+    DECOMP_NOINLINE void AddSnowmenBuiltByYouInTownTotal(s32 value); // 0x006B6B6C
+    DECOMP_NOINLINE void AddTownVisitorsTotal(s32 value); // 0x006B6BBC
+    void ClearTourneyFishCaught(); // 0x006B6C0C
+    void AddInsectCatch(u32 index, s32 value); // 0x006B6C28
+    DECOMP_NOINLINE void AddBlueRosesCreatedTotal(s32 value); // 0x006B6CA8
+    DECOMP_NOINLINE void AddFestivalFeathersCaughtTotal(s32 value); // 0x006B6CF8
+    DECOMP_NOINLINE void AddBugsCaughtTotal(s32 value); // 0x006B6D48
+    DECOMP_NOINLINE void AddDreamTownsVisitedTotal(s32 value); // 0x006B6D98
+    DECOMP_NOINLINE void AddFireworkDesignsGivenToIsabelleTotal(s32 value); // 0x006B6DE8
+    DECOMP_NOINLINE void AddGoldenRosesCreatedTotal(s32 value); // 0x006B6E38
+    DECOMP_NOINLINE void AddUnk0x550Total(s32 value); // 0x006B6E88
+    DECOMP_NOINLINE void AddKicksExpensesTotal(s32 value); // 0x006B6ED8
+    DECOMP_NOINLINE void AddKkSliderConcertsAttendedTotal(s32 value); // 0x006B6F28
+    DECOMP_NOINLINE void AddFlowersWateredTotal(s32 value); // 0x006B6F78
+    void ClearTourneyInsectCaught(); // 0x006B6FC8
+    DECOMP_NOINLINE void AddFossilsAnalyzedTotal(s32 value); // 0x006B6FE4
+    DECOMP_NOINLINE void AddFoundImposterBlancaTotal(s32 value); // 0x006B7034
+    DECOMP_NOINLINE void AddGivenToyDayPresentsTotal(s32 value); // 0x006B7084
+    DECOMP_NOINLINE void AddProDesignsCreatedTotal(s32 value); // 0x006B70D4
+    DECOMP_NOINLINE void AddReceivedCandyOnHalloweenTotal(s32 value); // 0x006B7124
+    void AddBellsEarnedForSlot(u32 townSlot, s32 value); // 0x006B7174
+    DECOMP_NOINLINE void AddGraciesExpensesTotal(s32 value); // 0x006B71DC
+    void SetEarnedBadgesForSlot(u32 townSlot, s32 value); // 0x006B722C
+    void AddSeaCreatureCatch(u32 index, s32 value); // 0x006B7280
+    DECOMP_NOINLINE void AddTurnipsBoughtTotal(s32 value); // 0x006B7308
+    void AddMeowCouponsEarnedForSlot(u32 townSlot, s32 value); // 0x006B7358
+    void AddTreesCutDown(s32 value); // 0x006B73C0
+    DECOMP_NOINLINE void AddUnk0x62CTotal(s32 value); // 0x006B7434
+    DECOMP_NOINLINE void AddLoanPaidTotal(s32 value); // 0x006B7484
+    DECOMP_NOINLINE void AddAbleSistersExpensesTotal(s32 value); // 0x006B74D4
+    void SetPublicWorksBuiltTotal(s32 value); // 0x006B7524
+    void SetAbdBalanceForSlot(u32 townSlot, s32 value); // 0x006B7558
+    void AddJobsAtTheRoost(s32 value); // 0x006B75AC
+    DECOMP_NOINLINE void AddBellsSpentTotal(s32 value); // 0x006B7620
+    void AddDjkkVisits(s32 value); // 0x006B7670
+    DECOMP_NOINLINE void AddTourneyFishCaughtTotal(s32 value); // 0x006B76E4
+    void AddPlayedHideAndSeek(s32 value); // 0x006B7734
+    DECOMP_NOINLINE void AddTownInitiativesCompletedTotal(s32 value); // 0x006B77A8
+    DECOMP_NOINLINE void AddLostItemsGivenBackTotal(s32 value); // 0x006B77F8
+    void AddHelpedGulliver(s32 value); // 0x006B7848
+    void AddFlowersPlanted(s32 value); // 0x006B78BC
+    DECOMP_NOINLINE void AddTurnipsSoldTotal(s32 value); // 0x006B7930
+    void AddLettersSent(s32 value); // 0x006B7980
+    DECOMP_NOINLINE void AddKatrinaVisitsTotal(s32 value); // 0x006B79F4
+    DECOMP_NOINLINE void AddSnowflakesCaughtTotal(s32 value); // 0x006B7A44
+    DECOMP_NOINLINE void AddUnk0x564Total(s32 value); // 0x006B7A94
+    void AddTourVisits(s32 value); // 0x006B7AE4
+    DECOMP_NOINLINE void AddYouVisitedVillagersTotal(s32 value); // 0x006B7B58
+    void AddWeedsPulled(s32 value); // 0x006B7BA8
+    void AddAmiiboScanned(s32 value); // 0x006B7C1C
+    void AddTotalBingoWins(s32 value); // 0x006B7C90
+    DECOMP_NOINLINE void AddTurnipExpensesTotal(s32 value); // 0x006B7D04
+    DECOMP_NOINLINE void AddTourneyInsectCaughtTotal(s32 value); // 0x006B7D54
+    DECOMP_NOINLINE void AddVillagersVisitedYouTotal(s32 value); // 0x006B7DA4
+    void AddFireworkDesignsGivenToIsabelleForSlot(u32 townSlot, s32 value); // 0x006B7DF4
+    void AddHelpedKatieTravel(s32 value); // 0x006B7E5C
+    void AddBellsEarned(s32 value); // 0x006B7ED0
+    void AddTreesPlanted(s32 value); // 0x006B7F44
+    void AddShampoodleVisits(s32 value); // 0x006B7FB8
+    void AddShrunkSketchesAttended(s32 value); // 0x006B802C
+    void AddTownsVisited(s32 value); // 0x006B80A0
+    void SetEarnedBadges(s32 value); // 0x006B8114
+    void AddSeaCreaturesCaught(s32 value); // 0x006B8178
+    void AddEggsGivenToZipper(s32 value); // 0x006B81EC
+    void AddMeowCouponsEarned(s32 value); // 0x006B8260
+    void AddIslandVisits(s32 value); // 0x006B82D4
+    void AddShootingStarWishes(s32 value); // 0x006B8348
+    void AddSaharaRedecorations(s32 value); // 0x006B83BC
+    void AddFurnitureCustomized(s32 value); // 0x006B8430
+    DECOMP_NOINLINE void AddTurnipProfitsTotal(s32 value); // 0x006B84A4
+    DECOMP_NOINLINE void AddGardeningShopExpensesTotal(s32 value); // 0x006B84F4
+    DECOMP_NOINLINE void AddNooklingsExpensesTotal(s32 value); // 0x006B8544
+    void AddMeowCouponsSpent(s32 value); // 0x006B8594
+    void SetAbdBalance(s32 value); // 0x006B8608
+    void AddBalloonsPopped(s32 value); // 0x006B866C
+    void AddPartyPoppersPoppedAtNewYears(s32 value); // 0x006B86E0
+    DECOMP_NOINLINE void AddFamousMushroomsEatenTotal(s32 value); // 0x006B8754
+    void AddFishCaught(s32 value); // 0x006B87A4
+    void AddHarvestFestivalCoursesDone(s32 value); // 0x006B8818
+    void AddBoughtArtAtRedds(s32 value); // 0x006B888C
+    void AddPublicWorkExpenses(s32 value); // 0x006B8900
+    void AddResetSurveillanceCenterVisits(s32 value); // 0x006B8974
+    void AddScallopsGivenToPascal(s32 value); // 0x006B89E8
+    void AddRecycleShopEarnings(s32 value); // 0x006B8A5C
+    void AddSnowmenBuiltByYouInTown(s32 value); // 0x006B8AD0
+    void AddTownVisitors(s32 value); // 0x006B8B44
+    void SetNpcPicturesReceived(s32 value); // 0x006B8BB8
+    void AddFestivalFeathersCaught(s32 value); // 0x006B8C1C
+    void AddBugsCaught(s32 value); // 0x006B8C90
+    void AddDreamTownsVisited(s32 value); // 0x006B8D04
+    void AddTownInitiativesCompletedForSlot(u32 townSlot, s32 value); // 0x006B8D78
+    void AddUnk0x550(s32 value); // 0x006B8DE0
+    void AddKicksExpenses(s32 value); // 0x006B8E54
+    void AddUnk0x564ForSlot(u32 townSlot, s32 value); // 0x006B8EC8
+    void AddKkSliderConcertsAttended(s32 value); // 0x006B8F30
+    void AddFlowersWatered(s32 value); // 0x006B8FA4
+    void UpdateAbdBalanceForSlot(u32 townSlot, s32 value); // 0x006B9018
+    void AddFossilsAnalyzed(s32 value); // 0x006B9054
+    void AddFoundImposterBlanca(s32 value); // 0x006B90C8
+    void AddGivenToyDayPresents(s32 value); // 0x006B913C
+    void AddProDesignsCreated(s32 value); // 0x006B91B0
+    void AddReceivedCandyOnHalloween(s32 value); // 0x006B9224
+    void AddGraciesExpenses(s32 value); // 0x006B9298
+    void AddTurnipsBought(s32 value); // 0x006B930C
+    void AddLoanPaid(s32 value); // 0x006B9380
+    void AddAbleSistersExpenses(s32 value); // 0x006B93F4
+    void AddBellsSpent(s32 value); // 0x006B9468
+    void AddTourneyFishCaught(s32 value); // 0x006B94DC
+    void AddTownInitiativesCompleted(s32 value); // 0x006B9550
+    void AddLostItemsGivenBack(s32 value); // 0x006B95C4
+    void AddTurnipsSold(s32 value); // 0x006B9638
+    void AddKatrinaVisits(s32 value); // 0x006B96AC
+    void AddSnowflakesCaught(s32 value); // 0x006B9720
+    void AddYouVisitedVillagers(s32 value); // 0x006B9794
+    void UpdateAbdBalance(s32 value); // 0x006B9808
+    void AddTurnipExpenses(s32 value); // 0x006B985C
+    void AddTourneyInsectCaught(s32 value); // 0x006B98D0
+    void AddVillagersVisitedYou(s32 value); // 0x006B9944
+    void AddTurnipProfits(s32 value); // 0x006B99B8
+    void AddGardeningShopExpenses(s32 value); // 0x006B9A2C
+    void AddNooklingsExpenses(s32 value); // 0x006B9AA0
+    void AddFamousMushroomsEaten(s32 value); // 0x006B9B14
 };
-ASSERT_SIZE(SvCensus, 0x1444);
+ASSERT_SIZE(SvCensus, 0x1414);
 
 // the census with its checksum (CRC-32 MSB first, nn::util::Crc32Msb), in the shared data (name is ours)
-struct SvCensusData {
-    // (game code, not decompiled yet; the constructor of the save data builds it)
-    SvCensusData(); // 0x002A7110
+// the census of the save data in memory: the same as GetCensus (dSvApi.h), but through GardenPlus (name is ours)
+SvCensus* GetCensusOfGardenPlus(); // 0x006B618C
 
-    // the checksum of the census (names are ours)
+// The values of the census that count during an event (the census value indices 49..61, from tourneyFishCaught to
+// totalBingoWins): whether the event of a value takes place today (names after the address).
+bool Func4DD108(u8 valueIndex); // 0x004DD108
+
+// The census values that start at 0 again for every event, by their index in the census (the order of the values).
+enum SvCensusEventValue {
+    CENSUS_EVENT_TOURNEY_FISH_CAUGHT = 49,
+    CENSUS_EVENT_TOURNEY_INSECT_CAUGHT = 50,
+    CENSUS_EVENT_FESTIVAL_FEATHERS_CAUGHT = 51,
+    CENSUS_EVENT_EGGS_GIVEN_TO_ZIPPER = 52,
+    CENSUS_EVENT_FOUND_IMPOSTER_BLANCA = 53,
+    CENSUS_EVENT_FIREWORK_DESIGNS_GIVEN_TO_ISABELLE = 54,
+    CENSUS_EVENT_RECEIVED_CANDY_ON_HALLOWEEN = 55,
+    CENSUS_EVENT_HARVEST_FESTIVAL_COURSES_DONE = 56,
+    CENSUS_EVENT_SNOWMEN_BUILT_BY_YOU_IN_TOWN = 57,
+    CENSUS_EVENT_GIVEN_TOY_DAY_PRESENTS = 58,
+    CENSUS_EVENT_SNOWFLAKES_CAUGHT = 59,
+    CENSUS_EVENT_PARTY_POPPERS_POPPED_AT_NEW_YEARS = 60,
+    CENSUS_EVENT_TOTAL_BINGO_WINS = 61,
+};
+
+struct SvCensusData {
+    // (the constructor of the save data builds it; names are ours)
+    SvCensusData(); // 0x002A7110
+    // the census and the event dates are cleared (the dates of the party poppers and the bingo, whose events go over
+    // the new year, stay)
+    void Clear(); // 0x002A6BCC
+    DECOMP_NOINLINE void ClearEventDates(); // 0x002A6BE8
+    // an event value: the date is the last day of its event; on the first day of a new event (the date is not today or
+    // yesterday) the value is cleared, unless isSameSeason (the date is set to today when the event takes place today;
+    // true: not cleared) / all event values for today (the snowflakes are cleared with the snowmen of the same winter)
+    DECOMP_NOINLINE bool UpdateEventValue(SvDate* date, const nn::fnd::DateTimeParameters* today, u8 valueIndex,
+                          void (SvCensus::*clear)(), bool isSameSeason); // 0x002A6CB8
+    void UpdateEventValues(const nn::fnd::DateTimeParameters* today); // 0x002A6E18
+
+    // the checksum of the census and the event dates (names are ours)
     DECOMP_NOINLINE void UpdateChecksum(); // 0x0071CD88
     DECOMP_NOINLINE bool IsChecksumValid(); // 0x0071CDAC
 
     /* 0x0000 */ u32 checksum;
     /* 0x0004 */ SvCensus census;
+    // the last day of the event of each event value (the snowflakes have no date of their own)
+    /* 0x1418 */ SvDate tourneyFishCaughtDate;
+    /* 0x141C */ SvDate tourneyInsectCaughtDate;
+    /* 0x1420 */ SvDate festivalFeathersCaughtDate;
+    /* 0x1424 */ SvDate eggsGivenToZipperDate;
+    /* 0x1428 */ SvDate foundImposterBlancaDate;
+    /* 0x142C */ SvDate fireworkDesignsGivenToIsabelleDate;
+    /* 0x1430 */ SvDate receivedCandyOnHalloweenDate;
+    /* 0x1434 */ SvDate harvestFestivalCoursesDoneDate;
+    /* 0x1438 */ SvDate snowmenBuiltByYouInTownDate;
+    /* 0x143C */ SvDate givenToyDayPresentsDate;
+    /* 0x1440 */ SvDate partyPoppersPoppedAtNewYearsDate;
+    /* 0x1444 */ SvDate totalBingoWinsDate;
 };
 ASSERT_SIZE(SvCensusData, 0x1448);
 
-#pragma pack(pop)

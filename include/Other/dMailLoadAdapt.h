@@ -1,6 +1,7 @@
 #pragma once
 
 #include "decomp.h"
+#include "Sv/dSvNpcRef.h"
 #include "Sv/dSvPersonalId.h"
 #include "script/dIMailRecept.h"
 #include "script/dWordPtr.h"
@@ -53,13 +54,13 @@ public:
     script::WordPtr m_Body;         // 0x0BC
     script::WordPtr m_Signature;    // 0x0C8
     s32 m_NameIndent;               // 0x0D4 the indent of the name of the addressee (-1: none)
-    u8 m_Npc[0x30];                 // 0x0D8 the villager (as the id of a person of a letter)
+    SvNpcRef m_Npc;                 // 0x0D8 the villager
     SvPersonalId m_Player;          // 0x108 the player
 };
 ASSERT_SIZE(MailLoadAdapt, 0x138);
 
 // (game code, not decompiled yet; names after the addresses) the villager of a letter person is cleared / its kind /
 // the value of the kind and the gender
-void Func30836C(void* npc); // 0x0030836C
+void Func30836C(SvNpcRef* npc); // 0x0030836C
 u32 Func2FE510(const void* npc); // 0x002FE510
 s32 Func632534(u32 kind, u8 gender); // 0x00632534

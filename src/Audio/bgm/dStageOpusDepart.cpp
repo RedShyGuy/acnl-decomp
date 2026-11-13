@@ -5,7 +5,7 @@
 // 0x00587108
 void audio::bgm::StageOpusDepart::InitCloseHour()
 {
-    m_CloseHour = Func759E24(&GetGardenPlus()->data.townData.unk_0xEE2C) ? 24 : 21;
+    m_CloseHour = GetGardenPlus()->data.townData.unk_0xEE2C.shopZakka.Func759E24() ? 24 : 21;
 }
 
 // 0x00587138

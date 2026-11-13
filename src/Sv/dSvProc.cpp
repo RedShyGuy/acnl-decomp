@@ -346,7 +346,7 @@ void SvApplyKind2()
 // 0x005CDB2C (name is ours)
 void SvProc::Func5CDB2C()
 {
-    Func1144A0(&GetGardenData()->townData.unk_0xEE2C, 0);
+    GetGardenData()->townData.unk_0xEE2C.Func1144A0(0);
     Func10E9A4(GetNpcs());
     SvPlayer* player = SvGetCurrentPlayer();
     if (player != NULL) {
@@ -428,7 +428,7 @@ void SvApplyKind5()
     Func51D910();
     SvPlayer* player = SvGetCurrentPlayer();
     if (player != NULL) {
-        Func6BE93C(player);
+        player->Func6BE93C();
     }
     Func537EF8();
     g_SvProc.Func5CDB2C();

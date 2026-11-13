@@ -23,17 +23,9 @@ class Animal;
 namespace svqst {
 class TimeCapsule;
 } // namespace svqst
-namespace svfscnve {
-class FishingBbsNotice;
-} // namespace svfscnve
 namespace ugc {
 class Text;
 } // namespace ugc
-
-namespace {
-// a class of the unnamed namespace of a file of the game that is not known
-class InsectBbsNotice;
-} // namespace
 
 namespace sead {
 class CalculateTask;
@@ -105,10 +97,6 @@ template sead::IDelegate1<script::Phrase*>* sead::Delegate1<SetCommonStrItemName
 template void sead::Delegate1<SetCommonStrTownNameForMail, script::Phrase*>::invoke(script::Phrase*);
 // 0x0082A188 slot 0x04
 template sead::IDelegate1<script::Phrase*>* sead::Delegate1<SetCommonStrTownNameForMail, script::Phrase*>::clone(Heap*) const;
-// 0x0081471C slot 0x00
-template void sead::Delegate1<InsectBbsNotice, script::Phrase*>::invoke(script::Phrase*);
-// 0x0082A218 slot 0x04
-template sead::IDelegate1<script::Phrase*>* sead::Delegate1<InsectBbsNotice, script::Phrase*>::clone(Heap*) const;
 // 0x00814774 slot 0x00
 template void sead::Delegate1<svnpc::Animal, script::Phrase*>::invoke(script::Phrase*);
 // 0x0082A260 slot 0x04
@@ -117,10 +105,6 @@ template sead::IDelegate1<script::Phrase*>* sead::Delegate1<svnpc::Animal, scrip
 template void sead::Delegate1<svqst::TimeCapsule, script::Phrase*>::invoke(script::Phrase*);
 // 0x0082A2A8 slot 0x04
 template sead::IDelegate1<script::Phrase*>* sead::Delegate1<svqst::TimeCapsule, script::Phrase*>::clone(Heap*) const;
-// 0x00814824 slot 0x00
-template void sead::Delegate1<svfscnve::FishingBbsNotice, script::Phrase*>::invoke(script::Phrase*);
-// 0x0082A2F0 slot 0x04
-template sead::IDelegate1<script::Phrase*>* sead::Delegate1<svfscnve::FishingBbsNotice, script::Phrase*>::clone(Heap*) const;
 // 0x0081487C slot 0x00
 template void sead::Delegate1<sead::FaderTaskBase, sead::TaskBase*>::invoke(sead::TaskBase*);
 // 0x0082A338 slot 0x04

@@ -1274,18 +1274,17 @@ void BsSvMgr::SaveStep::Step_InitializeNetSaveTour()
             netgame::NetGameMgr::s_pInstance->m_IslandMgr.IsDepartingInRandomMatch()) {
             SvPlayer* player = SvGetCurrentPlayer();
             if (player != NULL) {
-                const u32 first = netgame::Func6BDA24(player);
-                const u32 second = netgame::Func3037DC(&player->bankAmount);
-                netgame::Func6B9808(GetCensus(), second);
-                GetCensus()->bellsEarned.Add(first);
+                const u32 first = player->Func6BDA24();
+                const u32 second = player->bankAmount.Get();
+                GetCensus()->UpdateAbdBalance(second);
+                GetCensus()->AddBellsEarned(first);
             }
             netgame::Func5C6688();
         } else {
             SvPlayer* player = SvGetCurrentPlayer();
             if (player != NULL) {
                 SvPlayerOutfit* outfit = &player->playerAppearance.playerOutfit;
-                Func71B3B8(outfit);
-                if (Func769644()) {
+                if (Func769644(Func71B3B8(outfit))) {
                     Func27B1EC(outfit);
                     s_Unknown9516CF = 1;
                 }
@@ -1329,8 +1328,7 @@ void BsSvMgr::SaveStep::Step_InitializeNetSaveRandomMatch()
         SvPlayer* player = SvGetCurrentPlayer();
         if (player != NULL) {
             SvPlayerOutfit* outfit = &player->playerAppearance.playerOutfit;
-            Func71B3B8(outfit);
-            if (Func769644()) {
+            if (Func769644(Func71B3B8(outfit))) {
                 Func27B1EC(outfit);
                 s_Unknown9516CF = 1;
             }
@@ -1354,7 +1352,7 @@ void BsSvMgr::SaveStep::Step_RestorePlayerState()
     if (s_Unknown9516CF) {
         SvPlayer* player = SvGetCurrentPlayer();
         if (player != NULL) {
-            SvFgName item(static_cast<SvFgName::ID>(0x26ED));
+            SvFgName item(static_cast<SvFgName::ID>(SvFgName::NAME_RENTAL_WET_SUIT));
             Func27B1F4(&player->playerAppearance.playerOutfit, &item);
         }
         s_Unknown9516CF = 0;
@@ -1368,10 +1366,10 @@ void BsSvMgr::SaveStep::Step_StartSaveAllNet()
     if (m_Counter == 0) {
         SvPlayer* player = SvGetCurrentPlayer();
         if (player != NULL) {
-            const u32 first = netgame::Func6BDA24(player);
-            const u32 second = netgame::Func3037DC(&player->bankAmount);
-            netgame::Func6B9808(GetCensus(), second);
-            GetCensus()->bellsEarned.Add(first);
+            const u32 first = player->Func6BDA24();
+            const u32 second = player->bankAmount.Get();
+            GetCensus()->UpdateAbdBalance(second);
+            GetCensus()->AddBellsEarned(first);
         }
         netgame::Func5C6688();
         UpdatePlayersForSave();

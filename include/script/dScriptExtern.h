@@ -64,9 +64,10 @@ struct SvFgNameSet
 {
     SvFgNameSet(); // 0x002FC318
 
-    u8 _data[0x340];
+    // (the constructor clears 0x2E8 bytes with 0x0024ABA8, like SvPlayerUnlockedItems: one bit per item index)
+    u32 bits[0xBA];
 };
-void SetupFgNameSet(SvFgNameSet* set, s32 kind); // 0x002FC334
+void SetupFgNameSet(SvFgNameSet* set, s32 group); // 0x002FC334 (item::Group)
 void RemoveFgName(SvFgNameSet* set, const SvFgName* name); // 0x002FED0C
 SvFgName PickFgName(SvFgNameSet* set); // 0x002FED5C
 u16 GetFgNameId(const SvFgName* name); // 0x0030B6BC
@@ -185,7 +186,6 @@ void Func2C00A8(SvPlayerInventory* inventory, u32 value); // 0x002C00A8
 void Func2C02C8(SvPlayerInventory* inventory, u32 value); // 0x002C02C8
 void Func2C1304(u8* data, u32 index, bool value); // 0x002C1304
 void* Func300928(u8* data, s32 entry); // 0x00300928 (Thumb)
-u32 Func3037DC(void* data); // 0x003037DC
 bool Func305240(void* entry); // 0x00305240
 bool Func3107F4(const SvFgName* item); // 0x003107F4
 bool Func350D40(); // 0x00350D40
@@ -194,7 +194,6 @@ void Func5C8CC4(); // 0x005C8CC4
 void Func5CE494(SvStrcData* data, u32 value); // 0x005CE494
 s32 Func606170(void* object, u32* index, const libms::FlowNodeBranch& node); // 0x00606170
 u8 Func62FB14(); // 0x0062FB14
-void Func6B9468(SvCensus* census, s32 value); // 0x006B9468
 bool Func710100(); // 0x00710100
 void* Func7171D4(void* object, u8 index); // 0x007171D4
 u32 Func71E9A4(const u8* data, u32 index); // 0x0071E9A4
