@@ -13,8 +13,6 @@ namespace netgame {
 struct FriendId;
 } // namespace netgame
 
-#pragma pack(push, 1)
-
 struct SvBestFriend {
     /* 0x0000 */ u8 unk_0x0[0x1404];
     /* 0x1404 */ u32 principalId;
@@ -57,4 +55,3 @@ struct SvBestFriendList {
 };
 ASSERT_SIZE(SvBestFriendList, 0x29608);
 
-#pragma pack(pop)

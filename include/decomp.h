@@ -12,7 +12,12 @@
 // code is compared by structure, not byte for byte (tools/decomp/check.py, tools/decomp/fuzzy.py).
 
 // Layout checks for structures whose size / member offsets are known.
-#ifdef __cplusplus
+// (Not for the IntelliSense of the VS Code C/C++ extension: its front end lays out u16 bit-fields that cross a byte
+// boundary under #pragma pack(1) differently from GCC and reports wrong sizes for the save structures; the build checks.)
+#if defined(__INTELLISENSE__)
+#define ASSERT_SIZE(type, size) static_assert(true, "")
+#define ASSERT_OFFSET(type, member, offset) static_assert(true, "")
+#elif defined(__cplusplus)
 #define ASSERT_SIZE(type, size) \
     static_assert(sizeof(type) == (size), #type " has the wrong size")
 #define ASSERT_OFFSET(type, member, offset) \

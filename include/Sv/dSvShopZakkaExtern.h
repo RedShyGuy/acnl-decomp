@@ -12,9 +12,6 @@ struct SvFgName;
 struct SvShopZakka;
 struct SvTownDataUnk1E368;
 
-// a time goes on by days / a part of the time is set (the arguments are not understood yet)
-void Func5CE8B8(SvTime* time, s32 days); // 0x005CE8B8
-void Func5CE934(SvTime* time, s32 a, u8 b, s32 c, s32 d); // 0x005CE934
 // the days between a time and a date (the last two arguments are always 1)
 s32 Func303850(const SvTime* time, const nn::fnd::DateTimeParameters* date, s32 a, s32 b); // 0x00303850
 bool Func75A6C8(const SvTime* time, s32 a); // 0x0075A6C8
@@ -40,7 +37,6 @@ void Func30031C(SvFgName* items, u32 num, SvFgNameSet* set); // 0x0030031C
 u32 Func302FC0(const SvFgNameSet* set); // 0x00302FC0
 // a check of the date (the first value and three values; the restocking uses (5, today, 0, 30, 1))
 bool Func30141C(u32 a, nn::fnd::DateTimeParameters date, s32 b, s32 c, s32 d); // 0x0030141C
-bool Func2FDE58(u32 a); // 0x002FDE58
 // the value and a flag of an item by which the last places are sorted
 u32 Func302EDC(const SvFgName* item); // 0x00302EDC
 bool Func303C2C(const SvFgName* item); // 0x00303C2C

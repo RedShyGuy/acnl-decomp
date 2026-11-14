@@ -164,13 +164,13 @@ bool SvCensusData::IsChecksumValid()
 // 0x0071E67C (name is ours)
 void SvMinigameData::UpdateChecksum()
 {
-    checksum = nn::util::Crc32Msb::Calculate(unk_0x4, sizeof(unk_0x4), 0);
+    checksum = nn::util::Crc32Msb::Calculate(&checksum + 1, sizeof(*this) - sizeof(checksum), 0);
 }
 
 // 0x0071E6A0 (name is ours)
 bool SvMinigameData::IsChecksumValid()
 {
-    return nn::util::Crc32Msb::Calculate(unk_0x4, sizeof(unk_0x4), 0) == checksum;
+    return nn::util::Crc32Msb::Calculate(&checksum + 1, sizeof(*this) - sizeof(checksum), 0) == checksum;
 }
 
 // 0x007208A4 (name is ours)
@@ -188,13 +188,13 @@ bool SvSharedDataUnk24::IsChecksumValid()
 // 0x00720B00 (name is ours)
 void SvGardenDataUnk52BB0::UpdateChecksum()
 {
-    checksum = nn::util::Crc32Msb::Calculate(unk_0x4, sizeof(unk_0x4), 0);
+    checksum = nn::util::Crc32Msb::Calculate(&checksum + 1, sizeof(*this) - sizeof(checksum), 0);
 }
 
 // 0x00720B20 (name is ours)
 bool SvGardenDataUnk52BB0::IsChecksumValid()
 {
-    return nn::util::Crc32Msb::Calculate(unk_0x4, sizeof(unk_0x4), 0) == checksum;
+    return nn::util::Crc32Msb::Calculate(&checksum + 1, sizeof(*this) - sizeof(checksum), 0) == checksum;
 }
 
 // 0x00758D18 (name is ours)

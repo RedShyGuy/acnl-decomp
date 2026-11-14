@@ -103,6 +103,11 @@ stage::Name GetAutoCampStage(); // 0x006FA0A0
 // buildings of Main Street; 0xFC "Empty Space")
 enum StructureId : u8
 {
+    // the houses of the players 1..4 (Building ID list of the user)
+    STRUCTURE_PLAYER_1_HOUSE = 0x00,
+    STRUCTURE_PLAYER_2_HOUSE = 0x01,
+    STRUCTURE_PLAYER_3_HOUSE = 0x02,
+    STRUCTURE_PLAYER_4_HOUSE = 0x03,
     STRUCTURE_TOWN_HALL_CLASSIC = 0x50,
     STRUCTURE_TOWN_HALL_ZEN = 0x51,
     STRUCTURE_TOWN_HALL_FAIRY_TALE = 0x52,

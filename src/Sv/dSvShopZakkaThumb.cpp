@@ -6,6 +6,7 @@
 #include <cstring>
 
 #include "Other/dRegion.h"
+#include "event/event_Api.h"
 #include "Sv/dSvApi.h"
 #include "Sv/dSvGardenPlus.h"
 #include "Sv/dSvShopZakkaExtern.h"
@@ -74,7 +75,7 @@ void SvShopZakka::Restock()
         SetupFgNameSet(&set, item::GROUP_NET_ROD_SHOVEL);
         Func30031C(&items[0], GetNumItems<0>(), &set);
     } else {
-        if (Func2FDE58(5)) {
+        if (event::IsActive(event::EVENT_ID_HARVEST_FESTIVAL)) {
             items[0] = SvFgName(static_cast<SvFgName::ID>(SvFgName::NAME_FISHING_ROD));
         } else {
             SvFgNameSet set;

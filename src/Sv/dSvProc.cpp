@@ -310,7 +310,7 @@ void SvApplyNewResident()
     g_SvProc.FinishApply();
     SvNpcData* npcData = GetGardenData()->GetNpcData();
     Func30C97C(npcData->npcs, 0, 0);
-    Func30C48C(npcData->unk_0x172F8);
+    Func30C48C(&npcData->unk_0x172F8);
 }
 
 // 0x005CD7A4 (name is ours)

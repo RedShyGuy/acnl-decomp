@@ -6,6 +6,7 @@
 struct SvBulletinBoardMessage;
 struct SvGardenData;
 struct SvGardenDataUnk52BB0;
+struct SvNpcDataUnk172F8;
 struct SvMinigameData;
 struct SvNpc;
 struct SvPlayer;
@@ -44,7 +45,7 @@ void Func1082E4(SvBulletinBoardMessage* messages); // 0x001082E4 (Thumb)
 void Func10F168(SvNpc* npcs); // 0x0010F168 (Thumb)
 void Func116D0C(); // 0x00116D0C (Thumb)
 void Func30C97C(SvNpc* npcs, u32 a, u32 b); // 0x0030C97C (Thumb)
-void Func30C48C(void* data); // 0x0030C48C
+void Func30C48C(SvNpcDataUnk172F8* data); // 0x0030C48C
 bool Func150260(); // 0x00150260
 void Func537AD8(); // 0x00537AD8
 void Func537EF8(); // 0x00537EF8
@@ -89,7 +90,6 @@ void Func2FC8A4(SvFgName* items, const SvFgName* item); // 0x002FC8A4
 void Func1BB258(); // 0x001BB258
 void Func2FC0D0(); // 0x002FC0D0
 void Func2FC0DC(); // 0x002FC0DC
-void Func5CE904(SvTime* time); // 0x005CE904
 
 // (called by the functions of SvGardenData in dSvSaveMemory.cpp: the parts of the town data; names after the addresses)
 struct SvGardenDataUnk52BB0;
@@ -112,22 +112,19 @@ void Func1B66B8(SvTownDataUnk1E368* data, u32 saveNo); // 0x001B66B8
 void Func10DF18(SvNpc* npcs, u32 saveNo); // 0x0010DF18 (Thumb)
 void Func5BBCF0(SvNpcDataUnk1744C* data, u32 saveNo); // 0x005BBCF0
 void Func10DB4C(SvNpc* npcs, u32 saveNo); // 0x0010DB4C (Thumb)
-void Func5BD3D0(u8* data, const SvPersonalId* player); // 0x005BD3D0
-void Func5BD46C(u8* data, const SvPersonalId* player); // 0x005BD46C
+void Func5BD3D0(SvNpcDataUnk172F8* data, const SvPersonalId* player); // 0x005BD3D0
+void Func5BD46C(SvNpcDataUnk172F8* data, const SvPersonalId* player); // 0x005BD46C
 void Func10F040(SvNpc* npcs, SvPlayer* player); // 0x0010F040 (Thumb)
 struct SvTownDataUnk1C7A8;
 void Func32CEB4(SvTownDataUnk1C7A8* data, u32 saveNo); // 0x0032CEB4
-void Func5CE370(SvStrcData* data, u32 saveNo); // 0x005CE370
 void Func2EC314(SvPlayerHouseList* houses, u32 saveNo); // 0x002EC314
 void Func1147C0(u32 saveNo); // 0x001147C0 (Thumb)
-void Func5CE688(SvStrcData* data); // 0x005CE688
 void Func2EC334(SvPlayerHouseList* houses); // 0x002EC334
 void Func52B20C(SvTime* time); // 0x0052B20C
 struct SvTownDataUnkEE28;
 void Func1B20B4(SvTownDataUnkEE28* data); // 0x001B20B4
 
 void Func6142B0(SvTownDataUnk5C* map); // 0x006142B0
-void Func5CE6C8(SvStrcData* data); // 0x005CE6C8
 void Func27B044(SvPlayerData* players); // 0x0027B044
 void Func2EC368(SvPlayerHouseList* houses); // 0x002EC368
 void Func112550(SvNpcData* data); // 0x00112550 (Thumb)

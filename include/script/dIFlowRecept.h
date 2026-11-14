@@ -110,7 +110,7 @@ public:
     s32 BranchBirthday(u32* index, const libms::FlowNodeBranch& node); // 0x005DBACC
     s32 Branch29(u32* index, const libms::FlowNodeBranch& node); // 0x005DBB6C
     s32 EventCloseTalk(libms::Flow* flow, const libms::FlowNodeEvent& node); // 0x005DBB94
-    s32 Event13(libms::Flow* flow, const libms::FlowNodeEvent& node); // 0x005DBC48
+    s32 EventUnlockSpecialPwp(libms::Flow* flow, const libms::FlowNodeEvent& node); // 0x005DBC48
     s32 Branch32(u32* index, const libms::FlowNodeBranch& node); // 0x005DBDF4
     s32 BranchStage(u32* index, const libms::FlowNodeBranch& node); // 0x005DBE18
     s32 BranchChoice12(u32* index, const libms::FlowNodeBranch& node); // 0x005DBF48

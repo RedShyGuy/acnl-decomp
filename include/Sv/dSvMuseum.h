@@ -9,8 +9,6 @@
 #include "Sv/dSvHouse.h"
 #include "Sv/dSvMyDesign.h"
 
-#pragma pack(push, 1)
-
 struct SvMuseumExhibit {
     // (game code, not decompiled yet; the constructor of the save data builds it)
     SvMuseumExhibit(); // 0x001B65E4
@@ -78,4 +76,3 @@ ASSERT_SIZE(SvMuseum, 0x33BC);
 void Func1B63DC(SvMuseumExhibit* exhibit); // 0x001B63DC
 void Func1B6538(SvMuseumExhibit* exhibit); // 0x001B6538
 
-#pragma pack(pop)

@@ -8,6 +8,9 @@
 #include "Sv/dSvCommon.h"
 #include "nn/fnd/fnd_DateTime.h"
 
+// (dSvApi.h; declared here because dSvApi.h includes this header through SvGardenPlus)
+u32 SvGetCurrentTownSlot();
+
 struct SvCensusValue {
     /* 0x0000 */ u32 totalPlayerStat; // All player stats combined
     /* 0x0004 */ u32 playerStats[4]; // For each player
@@ -23,6 +26,94 @@ struct SvCensusValue {
     }
 };
 ASSERT_SIZE(SvCensusValue, 0x14);
+
+// The values of the census by their index (the order of the values in SvCensus; the census menu, its tables and the
+// event code use it)
+enum SvCensusValueId : u8 {
+    CENSUS_VALUE_BELLS_EARNED = 0,
+    CENSUS_VALUE_ABD_BALANCE = 1,
+    CENSUS_VALUE_BELLS_SPENT = 2,
+    CENSUS_VALUE_LOAN_PAID = 3,
+    CENSUS_VALUE_TURNIPS_BOUGHT = 4,
+    CENSUS_VALUE_TURNIPS_SOLD = 5,
+    CENSUS_VALUE_TURNIP_EXPENSES = 6,
+    CENSUS_VALUE_TURNIP_PROFITS = 7,
+    CENSUS_VALUE_PUBLIC_WORK_EXPENSES = 8,
+    CENSUS_VALUE_RECYCLE_SHOP_EARNINGS = 9,
+    CENSUS_VALUE_FLOWERS_WATERED = 10,
+    CENSUS_VALUE_FISH_CAUGHT = 11,
+    CENSUS_VALUE_BUGS_CAUGHT = 12,
+    CENSUS_VALUE_SEA_CREATURES_CAUGHT = 13,
+    CENSUS_VALUE_PUBLIC_WORKS_BUILT = 14,
+    CENSUS_VALUE_FRUIT_GROWN = 15,
+    CENSUS_VALUE_PERFECT_FRUIT_GROWN = 16,
+    CENSUS_VALUE_FRUITS_GROWN_ON_THE_BEACH = 17,
+    CENSUS_VALUE_FLOWERS_PLANTED = 18,
+    CENSUS_VALUE_TREES_PLANTED = 19,
+    CENSUS_VALUE_TREES_CUT_DOWN = 20,
+    CENSUS_VALUE_DREAM_TOWNS_VISITED = 21,
+    CENSUS_VALUE_KK_SLIDER_CONCERTS_ATTENDED = 22,
+    CENSUS_VALUE_SHRUNK_SKETCHES_ATTENDED = 23,
+    CENSUS_VALUE_TOUR_VISITS = 24,
+    CENSUS_VALUE_ISLAND_VISITS = 25,
+    CENSUS_VALUE_LETTERS_SENT = 26,
+    CENSUS_VALUE_FURNITURE_CUSTOMIZED = 27,
+    CENSUS_VALUE_NOOKLINGS_EXPENSES = 28,
+    CENSUS_VALUE_GRACIES_EXPENSES = 29,
+    CENSUS_VALUE_GARDENING_SHOP_EXPENSES = 30,
+    CENSUS_VALUE_WEEDS_PULLED = 31,
+    CENSUS_VALUE_ABLE_SISTERS_EXPENSES = 32,
+    CENSUS_VALUE_KICKS_EXPENSES = 33,
+    CENSUS_VALUE_KATRINA_VISITS = 34,
+    CENSUS_VALUE_STREET_PASS_VISITORS = 35,
+    CENSUS_VALUE_TOWNS_VISITED = 36,
+    CENSUS_VALUE_TOWN_VISITORS = 37,
+    CENSUS_VALUE_SAHARA_REDECORATIONS = 38,
+    CENSUS_VALUE_JOBS_AT_THE_ROOST = 39,
+    CENSUS_VALUE_FOSSILS_ANALYZED = 40,
+    CENSUS_VALUE_PRO_DESIGNS_CREATED = 41,
+    CENSUS_VALUE_EARNED_BADGES = 42,
+    CENSUS_VALUE_HELPED_GULLIVER = 43,
+    CENSUS_VALUE_SHAMPOODLE_VISITS = 44,
+    CENSUS_VALUE_BOUGHT_ART_AT_REDDS = 45,
+    CENSUS_VALUE_SCALLOPS_GIVEN_TO_PASCAL = 46,
+    CENSUS_VALUE_HELPED_KATIE_TRAVEL = 47,
+    CENSUS_VALUE_BALLOONS_POPPED = 48,
+    CENSUS_VALUE_TOURNEY_FISH_CAUGHT = 49,
+    CENSUS_VALUE_TOURNEY_INSECT_CAUGHT = 50,
+    CENSUS_VALUE_FESTIVAL_FEATHERS_CAUGHT = 51,
+    CENSUS_VALUE_EGGS_GIVEN_TO_ZIPPER = 52,
+    CENSUS_VALUE_FOUND_IMPOSTER_BLANCA = 53,
+    CENSUS_VALUE_FIREWORK_DESIGNS_GIVEN_TO_ISABELLE = 54,
+    CENSUS_VALUE_RECEIVED_CANDY_ON_HALLOWEEN = 55,
+    CENSUS_VALUE_HARVEST_FESTIVAL_COURSES_DONE = 56,
+    CENSUS_VALUE_SNOWMEN_BUILT_BY_YOU_IN_TOWN = 57,
+    CENSUS_VALUE_GIVEN_TOY_DAY_PRESENTS = 58,
+    CENSUS_VALUE_SNOWFLAKES_CAUGHT = 59,
+    CENSUS_VALUE_PARTY_POPPERS_POPPED_AT_NEW_YEARS = 60,
+    CENSUS_VALUE_TOTAL_BINGO_WINS = 61,
+    CENSUS_VALUE_SHOOTING_STAR_WISHES = 62,
+    CENSUS_VALUE_NPC_PICTURES_RECEIVED = 63,
+    CENSUS_VALUE_LOST_ITEMS_GIVEN_BACK = 64,
+    CENSUS_VALUE_YOU_VISITED_VILLAGERS = 65,
+    CENSUS_VALUE_VILLAGERS_VISITED_YOU = 66,
+    CENSUS_VALUE_PLAYED_HIDE_AND_SEEK = 67,
+    CENSUS_VALUE_UNK_0x550 = 68,
+    CENSUS_VALUE_UNK_0x564 = 69,
+    CENSUS_VALUE_AMIIBO_SCANNED = 70,
+    CENSUS_VALUE_RESET_SURVEILLANCE_CENTER_VISITS = 71,
+    CENSUS_VALUE_DJKK_VISITS = 72,
+    CENSUS_VALUE_GOLDEN_ROSES_CREATED = 73,
+    CENSUS_VALUE_BLUE_ROSES_CREATED = 74,
+    CENSUS_VALUE_FAMOUS_MUSHROOMS_EATEN = 75,
+    CENSUS_VALUE_TOWN_INITIATIVES_COMPLETED = 76,
+    CENSUS_VALUE_MEOW_COUPONS_EARNED = 77,
+    CENSUS_VALUE_MEOW_COUPONS_SPENT = 78,
+    CENSUS_VALUE_UNK_0x62C = 79,
+    CENSUS_VALUE_NUM = 80,
+    // the census menu has four more rows after the values (always shown, no value)
+    CENSUS_ROW_NUM = 84,
+};
 
 // The indices of the catch counts of the census (the order of the research names of the save data; the
 // census code indexes the tables with them).
@@ -507,12 +598,224 @@ struct SvCensus {
     void AddGardeningShopExpenses(s32 value); // 0x006B9A2C
     void AddNooklingsExpenses(s32 value); // 0x006B9AA0
     void AddFamousMushroomsEaten(s32 value); // 0x006B9B14
+
+    // the getters of the values (copies in the shared area; names are ours): Get<Value>Total, Get<Value>ForSlot(town slot)
+    // and Get<Value> (the current player, SvGetCurrentTownSlot); signed like in the original (the census menu tests > 0)
+    DECOMP_EMIT_COPY DECOMP_NOINLINE s32 GetStreetPassVisitorsTotal() const { return streetPassVisitors.totalPlayerStat; } // 0x007680D4
+    DECOMP_EMIT_COPY DECOMP_NOINLINE s32 GetTreesCutDownTotal() const { return treesCutDown.totalPlayerStat; } // 0x007680DC
+    DECOMP_EMIT_COPY DECOMP_NOINLINE s32 GetJobsAtTheRoostTotal() const { return jobsAtTheRoost.totalPlayerStat; } // 0x007680E4
+    DECOMP_EMIT_COPY DECOMP_NOINLINE s32 GetDjkkVisitsTotal() const { return djkkVisits.totalPlayerStat; } // 0x007680EC
+    DECOMP_EMIT_COPY DECOMP_NOINLINE s32 GetPlayedHideAndSeekTotal() const { return playedHideAndSeek.totalPlayerStat; } // 0x007680F4
+    DECOMP_EMIT_COPY DECOMP_NOINLINE s32 GetHelpedGulliverTotal() const { return helpedGulliver.totalPlayerStat; } // 0x007680FC
+    DECOMP_EMIT_COPY DECOMP_NOINLINE s32 GetFlowersPlantedTotal() const { return flowersPlanted.totalPlayerStat; } // 0x00768104
+    DECOMP_EMIT_COPY DECOMP_NOINLINE s32 GetLettersSentTotal() const { return lettersSent.totalPlayerStat; } // 0x0076810C
+    DECOMP_EMIT_COPY DECOMP_NOINLINE s32 GetTourVisitsTotal() const { return tourVisits.totalPlayerStat; } // 0x00768114
+    DECOMP_EMIT_COPY DECOMP_NOINLINE s32 GetWeedsPulledTotal() const { return weedsPulled.totalPlayerStat; } // 0x0076811C
+    DECOMP_EMIT_COPY DECOMP_NOINLINE s32 GetAmiiboScannedTotal() const { return amiiboScanned.totalPlayerStat; } // 0x00768124
+    DECOMP_EMIT_COPY DECOMP_NOINLINE s32 GetEarnedBadgesTotal() const { return earnedBadges.totalPlayerStat; } // 0x0076812C
+    DECOMP_EMIT_COPY DECOMP_NOINLINE s32 GetTotalBingoWinsTotal() const { return totalBingoWins.totalPlayerStat; } // 0x00768134
+    DECOMP_EMIT_COPY DECOMP_NOINLINE s32 GetHelpedKatieTravelTotal() const { return helpedKatieTravel.totalPlayerStat; } // 0x0076813C
+    DECOMP_EMIT_COPY DECOMP_NOINLINE s32 GetBellsEarnedTotal() const { return bellsEarned.totalPlayerStat; } // 0x00768144
+    DECOMP_EMIT_COPY DECOMP_NOINLINE s32 GetTreesPlantedTotal() const { return treesPlanted.totalPlayerStat; } // 0x0076814C
+    DECOMP_EMIT_COPY DECOMP_NOINLINE s32 GetShampoodleVisitsTotal() const { return shampoodleVisits.totalPlayerStat; } // 0x00768154
+    DECOMP_EMIT_COPY DECOMP_NOINLINE s32 GetShrunkSketchesAttendedTotal() const { return shrunkSketchesAttended.totalPlayerStat; } // 0x0076815C
+    DECOMP_EMIT_COPY DECOMP_NOINLINE s32 GetTownsVisitedTotal() const { return townsVisited.totalPlayerStat; } // 0x00768164
+    DECOMP_EMIT_COPY DECOMP_NOINLINE s32 GetSeaCreaturesCaughtTotal() const { return seaCreaturesCaught.totalPlayerStat; } // 0x0076816C
+    DECOMP_EMIT_COPY DECOMP_NOINLINE s32 GetEggsGivenToZipperTotal() const { return eggsGivenToZipper.totalPlayerStat; } // 0x00768174
+    DECOMP_EMIT_COPY DECOMP_NOINLINE s32 GetMeowCouponsEarnedTotal() const { return meowCouponsEarned.totalPlayerStat; } // 0x0076817C
+    DECOMP_EMIT_COPY DECOMP_NOINLINE s32 GetIslandVisitsTotal() const { return islandVisits.totalPlayerStat; } // 0x00768184
+    DECOMP_EMIT_COPY DECOMP_NOINLINE s32 GetShootingStarWishesTotal() const { return shootingStarWishes.totalPlayerStat; } // 0x0076818C
+    DECOMP_EMIT_COPY DECOMP_NOINLINE s32 GetSaharaRedecorationsTotal() const { return saharaRedecorations.totalPlayerStat; } // 0x00768194
+    DECOMP_EMIT_COPY DECOMP_NOINLINE s32 GetFurnitureCustomizedTotal() const { return furnitureCustomized.totalPlayerStat; } // 0x0076819C
+    DECOMP_EMIT_COPY DECOMP_NOINLINE s32 GetAbdBalanceTotal() const { return abdBalance.totalPlayerStat; } // 0x007681A4
+    DECOMP_EMIT_COPY DECOMP_NOINLINE s32 GetMeowCouponsSpentTotal() const { return meowCouponsSpent.totalPlayerStat; } // 0x007681AC
+    DECOMP_EMIT_COPY DECOMP_NOINLINE s32 GetBalloonsPoppedTotal() const { return balloonsPopped.totalPlayerStat; } // 0x007681B4
+    DECOMP_EMIT_COPY DECOMP_NOINLINE s32 GetNpcPicturesReceivedTotal() const { return npcPicturesReceived.totalPlayerStat; } // 0x007681BC
+    DECOMP_EMIT_COPY DECOMP_NOINLINE s32 GetPartyPoppersPoppedAtNewYearsTotal() const { return partyPoppersPoppedAtNewYears.totalPlayerStat; } // 0x007681C4
+    DECOMP_EMIT_COPY DECOMP_NOINLINE s32 GetFishCaughtTotal() const { return fishCaught.totalPlayerStat; } // 0x007681CC
+    DECOMP_EMIT_COPY DECOMP_NOINLINE s32 GetHarvestFestivalCoursesDoneTotal() const { return harvestFestivalCoursesDone.totalPlayerStat; } // 0x007681D4
+    DECOMP_EMIT_COPY DECOMP_NOINLINE s32 GetTreesCutDownForSlot(u32 townSlot) const { return treesCutDown.playerStats[townSlot]; } // 0x007681DC
+    DECOMP_EMIT_COPY DECOMP_NOINLINE s32 GetBoughtArtAtReddsTotal() const { return boughtArtAtRedds.totalPlayerStat; } // 0x007681E8
+    DECOMP_EMIT_COPY DECOMP_NOINLINE s32 GetPublicWorkExpensesTotal() const { return publicWorkExpenses.totalPlayerStat; } // 0x007681F0
+    DECOMP_EMIT_COPY DECOMP_NOINLINE s32 GetResetSurveillanceCenterVisitsTotal() const { return resetSurveillanceCenterVisits.totalPlayerStat; } // 0x007681F8
+    DECOMP_EMIT_COPY DECOMP_NOINLINE s32 GetScallopsGivenToPascalTotal() const { return scallopsGivenToPascal.totalPlayerStat; } // 0x00768200
+    DECOMP_EMIT_COPY DECOMP_NOINLINE s32 GetRecycleShopEarningsTotal() const { return recycleShopEarnings.totalPlayerStat; } // 0x00768208
+    DECOMP_EMIT_COPY DECOMP_NOINLINE s32 GetSnowmenBuiltByYouInTownTotal() const { return snowmenBuiltByYouInTown.totalPlayerStat; } // 0x00768210
+    DECOMP_EMIT_COPY DECOMP_NOINLINE s32 GetTownVisitorsTotal() const { return townVisitors.totalPlayerStat; } // 0x00768218
+    DECOMP_EMIT_COPY DECOMP_NOINLINE s32 GetBlueRosesCreatedTotal() const { return blueRosesCreated.totalPlayerStat; } // 0x00768220
+    DECOMP_EMIT_COPY DECOMP_NOINLINE s32 GetJobsAtTheRoostForSlot(u32 townSlot) const { return jobsAtTheRoost.playerStats[townSlot]; } // 0x00768228
+    DECOMP_EMIT_COPY DECOMP_NOINLINE s32 GetFestivalFeathersCaughtTotal() const { return festivalFeathersCaught.totalPlayerStat; } // 0x00768234
+    DECOMP_EMIT_COPY DECOMP_NOINLINE s32 GetBugsCaughtTotal() const { return bugsCaught.totalPlayerStat; } // 0x0076823C
+    DECOMP_EMIT_COPY DECOMP_NOINLINE s32 GetDjkkVisitsForSlot(u32 townSlot) const { return djkkVisits.playerStats[townSlot]; } // 0x00768244
+    DECOMP_EMIT_COPY DECOMP_NOINLINE s32 GetDreamTownsVisitedTotal() const { return dreamTownsVisited.totalPlayerStat; } // 0x00768250
+    DECOMP_EMIT_COPY DECOMP_NOINLINE s32 GetFireworkDesignsGivenToIsabelleTotal() const { return fireworkDesignsGivenToIsabelle.totalPlayerStat; } // 0x00768258
+    DECOMP_EMIT_COPY DECOMP_NOINLINE s32 GetGoldenRosesCreatedTotal() const { return goldenRosesCreated.totalPlayerStat; } // 0x00768260
+    DECOMP_EMIT_COPY DECOMP_NOINLINE s32 GetPlayedHideAndSeekForSlot(u32 townSlot) const { return playedHideAndSeek.playerStats[townSlot]; } // 0x00768268
+    DECOMP_EMIT_COPY DECOMP_NOINLINE s32 GetUnk0x550Total() const { return unk_0x550.totalPlayerStat; } // 0x00768274
+    DECOMP_EMIT_COPY DECOMP_NOINLINE s32 GetHelpedGulliverForSlot(u32 townSlot) const { return helpedGulliver.playerStats[townSlot]; } // 0x0076827C
+    DECOMP_EMIT_COPY DECOMP_NOINLINE s32 GetFlowersPlantedForSlot(u32 townSlot) const { return flowersPlanted.playerStats[townSlot]; } // 0x00768288
+    DECOMP_EMIT_COPY DECOMP_NOINLINE s32 GetLettersSentForSlot(u32 townSlot) const { return lettersSent.playerStats[townSlot]; } // 0x00768294
+    DECOMP_EMIT_COPY DECOMP_NOINLINE s32 GetKicksExpensesTotal() const { return kicksExpenses.totalPlayerStat; } // 0x007682A0
+    DECOMP_EMIT_COPY DECOMP_NOINLINE s32 GetKkSliderConcertsAttendedTotal() const { return kkSliderConcertsAttended.totalPlayerStat; } // 0x007682A8
+    DECOMP_EMIT_COPY DECOMP_NOINLINE s32 GetTourVisitsForSlot(u32 townSlot) const { return tourVisits.playerStats[townSlot]; } // 0x007682B0
+    DECOMP_EMIT_COPY DECOMP_NOINLINE s32 GetFlowersWateredTotal() const { return flowersWatered.totalPlayerStat; } // 0x007682BC
+    DECOMP_EMIT_COPY DECOMP_NOINLINE s32 GetWeedsPulledForSlot(u32 townSlot) const { return weedsPulled.playerStats[townSlot]; } // 0x007682C4
+    DECOMP_EMIT_COPY DECOMP_NOINLINE s32 GetAmiiboScannedForSlot(u32 townSlot) const { return amiiboScanned.playerStats[townSlot]; } // 0x007682D0
+    DECOMP_EMIT_COPY DECOMP_NOINLINE s32 GetFossilsAnalyzedTotal() const { return fossilsAnalyzed.totalPlayerStat; } // 0x007682DC
+    DECOMP_EMIT_COPY DECOMP_NOINLINE s32 GetFoundImposterBlancaTotal() const { return foundImposterBlanca.totalPlayerStat; } // 0x007682E4
+    DECOMP_EMIT_COPY DECOMP_NOINLINE s32 GetEarnedBadgesForSlot(u32 townSlot) const { return earnedBadges.playerStats[townSlot]; } // 0x007682EC
+    DECOMP_EMIT_COPY DECOMP_NOINLINE s32 GetTotalBingoWinsForSlot(u32 townSlot) const { return totalBingoWins.playerStats[townSlot]; } // 0x007682F8
+    DECOMP_EMIT_COPY DECOMP_NOINLINE s32 GetGivenToyDayPresentsTotal() const { return givenToyDayPresents.totalPlayerStat; } // 0x00768304
+    DECOMP_EMIT_COPY DECOMP_NOINLINE s32 GetProDesignsCreatedTotal() const { return proDesignsCreated.totalPlayerStat; } // 0x0076830C
+    DECOMP_EMIT_COPY DECOMP_NOINLINE s32 GetPerfectFruitGrownTotal() const { return perfectFruitGrown.totalPlayerStat; } // 0x00768314
+    DECOMP_EMIT_COPY DECOMP_NOINLINE s32 GetReceivedCandyOnHalloweenTotal() const { return receivedCandyOnHalloween.totalPlayerStat; } // 0x0076831C
+    DECOMP_EMIT_COPY DECOMP_NOINLINE s32 GetHelpedKatieTravelForSlot(u32 townSlot) const { return helpedKatieTravel.playerStats[townSlot]; } // 0x00768324
+    DECOMP_EMIT_COPY DECOMP_NOINLINE s32 GetBellsEarnedForSlot(u32 townSlot) const { return bellsEarned.playerStats[townSlot]; } // 0x00768330
+    DECOMP_EMIT_COPY DECOMP_NOINLINE s32 GetTreesPlantedForSlot(u32 townSlot) const { return treesPlanted.playerStats[townSlot]; } // 0x0076833C
+    DECOMP_EMIT_COPY DECOMP_NOINLINE s32 GetShampoodleVisitsForSlot(u32 townSlot) const { return shampoodleVisits.playerStats[townSlot]; } // 0x00768348
+    DECOMP_EMIT_COPY DECOMP_NOINLINE s32 GetGraciesExpensesTotal() const { return graciesExpenses.totalPlayerStat; } // 0x00768354
+    DECOMP_EMIT_COPY DECOMP_NOINLINE s32 GetShrunkSketchesAttendedForSlot(u32 townSlot) const { return shrunkSketchesAttended.playerStats[townSlot]; } // 0x0076835C
+    DECOMP_EMIT_COPY DECOMP_NOINLINE s32 GetTownsVisitedForSlot(u32 townSlot) const { return townsVisited.playerStats[townSlot]; } // 0x00768368
+    DECOMP_EMIT_COPY DECOMP_NOINLINE s32 GetTurnipsBoughtTotal() const { return turnipsBought.totalPlayerStat; } // 0x00768374
+    DECOMP_EMIT_COPY DECOMP_NOINLINE s32 GetSeaCreaturesCaughtForSlot(u32 townSlot) const { return seaCreaturesCaught.playerStats[townSlot]; } // 0x0076837C
+    DECOMP_EMIT_COPY DECOMP_NOINLINE s32 GetEggsGivenToZipperForSlot(u32 townSlot) const { return eggsGivenToZipper.playerStats[townSlot]; } // 0x00768388
+    DECOMP_EMIT_COPY DECOMP_NOINLINE s32 GetMeowCouponsEarnedForSlot(u32 townSlot) const { return meowCouponsEarned.playerStats[townSlot]; } // 0x00768394
+    DECOMP_EMIT_COPY DECOMP_NOINLINE s32 GetIslandVisitsForSlot(u32 townSlot) const { return islandVisits.playerStats[townSlot]; } // 0x007683A0
+    DECOMP_EMIT_COPY DECOMP_NOINLINE s32 GetShootingStarWishesForSlot(u32 townSlot) const { return shootingStarWishes.playerStats[townSlot]; } // 0x007683AC
+    DECOMP_EMIT_COPY DECOMP_NOINLINE s32 GetPublicWorksBuiltTotal() const { return publicWorksBuilt.totalPlayerStat; } // 0x007683B8
+    DECOMP_EMIT_COPY DECOMP_NOINLINE s32 GetUnk0x62CTotal() const { return unk_0x62C.totalPlayerStat; } // 0x007683C0
+    DECOMP_EMIT_COPY DECOMP_NOINLINE s32 GetLoanPaidTotal() const { return loanPaid.totalPlayerStat; } // 0x007683C8
+    DECOMP_EMIT_COPY DECOMP_NOINLINE s32 GetSaharaRedecorationsForSlot(u32 townSlot) const { return saharaRedecorations.playerStats[townSlot]; } // 0x007683D0
+    DECOMP_EMIT_COPY DECOMP_NOINLINE s32 GetFurnitureCustomizedForSlot(u32 townSlot) const { return furnitureCustomized.playerStats[townSlot]; } // 0x007683DC
+    DECOMP_EMIT_COPY DECOMP_NOINLINE s32 GetAbdBalanceForSlot(u32 townSlot) const { return abdBalance.playerStats[townSlot]; } // 0x007683E8
+    DECOMP_EMIT_COPY DECOMP_NOINLINE s32 GetAbleSistersExpensesTotal() const { return ableSistersExpenses.totalPlayerStat; } // 0x007683F4
+    DECOMP_EMIT_COPY DECOMP_NOINLINE s32 GetMeowCouponsSpentForSlot(u32 townSlot) const { return meowCouponsSpent.playerStats[townSlot]; } // 0x007683FC
+    DECOMP_EMIT_COPY DECOMP_NOINLINE s32 GetBalloonsPoppedForSlot(u32 townSlot) const { return balloonsPopped.playerStats[townSlot]; } // 0x00768408
+    DECOMP_EMIT_COPY DECOMP_NOINLINE s32 GetNpcPicturesReceivedForSlot(u32 townSlot) const { return npcPicturesReceived.playerStats[townSlot]; } // 0x00768414
+    DECOMP_EMIT_COPY DECOMP_NOINLINE s32 GetJobsAtTheRoost() const { return jobsAtTheRoost.playerStats[SvGetCurrentTownSlot()]; } // 0x00768420
+    DECOMP_EMIT_COPY DECOMP_NOINLINE s32 GetBellsSpentTotal() const { return bellsSpent.totalPlayerStat; } // 0x00768438
+    DECOMP_EMIT_COPY DECOMP_NOINLINE s32 GetPartyPoppersPoppedAtNewYearsForSlot(u32 townSlot) const { return partyPoppersPoppedAtNewYears.playerStats[townSlot]; } // 0x00768440
+    DECOMP_EMIT_COPY DECOMP_NOINLINE s32 GetDjkkVisits() const { return djkkVisits.playerStats[SvGetCurrentTownSlot()]; } // 0x0076844C
+    DECOMP_EMIT_COPY DECOMP_NOINLINE s32 GetTourneyFishCaughtTotal() const { return tourneyFishCaught.totalPlayerStat; } // 0x00768464
+    DECOMP_EMIT_COPY DECOMP_NOINLINE s32 GetFishCaughtForSlot(u32 townSlot) const { return fishCaught.playerStats[townSlot]; } // 0x0076846C
+    DECOMP_EMIT_COPY DECOMP_NOINLINE s32 GetHarvestFestivalCoursesDoneForSlot(u32 townSlot) const { return harvestFestivalCoursesDone.playerStats[townSlot]; } // 0x00768478
+    DECOMP_EMIT_COPY DECOMP_NOINLINE s32 GetPlayedHideAndSeek() const { return playedHideAndSeek.playerStats[SvGetCurrentTownSlot()]; } // 0x00768484
+    DECOMP_EMIT_COPY DECOMP_NOINLINE s32 GetTownInitiativesCompletedTotal() const { return townInitiativesCompleted.totalPlayerStat; } // 0x0076849C
+    DECOMP_EMIT_COPY DECOMP_NOINLINE s32 GetLostItemsGivenBackTotal() const { return lostItemsGivenBack.totalPlayerStat; } // 0x007684A4
+    DECOMP_EMIT_COPY DECOMP_NOINLINE s32 GetFruitsGrownOnTheBeachTotal() const { return fruitsGrownOnTheBeach.totalPlayerStat; } // 0x007684AC
+    DECOMP_EMIT_COPY DECOMP_NOINLINE s32 GetBoughtArtAtReddsForSlot(u32 townSlot) const { return boughtArtAtRedds.playerStats[townSlot]; } // 0x007684B4
+    DECOMP_EMIT_COPY DECOMP_NOINLINE s32 GetHelpedGulliver() const { return helpedGulliver.playerStats[SvGetCurrentTownSlot()]; } // 0x007684C0
+    DECOMP_EMIT_COPY DECOMP_NOINLINE s32 GetPublicWorkExpensesForSlot(u32 townSlot) const { return publicWorkExpenses.playerStats[townSlot]; } // 0x007684D8
+    DECOMP_EMIT_COPY DECOMP_NOINLINE s32 GetResetSurveillanceCenterVisitsForSlot(u32 townSlot) const { return resetSurveillanceCenterVisits.playerStats[townSlot]; } // 0x007684E4
+    DECOMP_EMIT_COPY DECOMP_NOINLINE s32 GetScallopsGivenToPascalForSlot(u32 townSlot) const { return scallopsGivenToPascal.playerStats[townSlot]; } // 0x007684F0
+    DECOMP_EMIT_COPY DECOMP_NOINLINE s32 GetTurnipsSoldTotal() const { return turnipsSold.totalPlayerStat; } // 0x007684FC
+    DECOMP_EMIT_COPY DECOMP_NOINLINE s32 GetRecycleShopEarningsForSlot(u32 townSlot) const { return recycleShopEarnings.playerStats[townSlot]; } // 0x00768504
+    DECOMP_EMIT_COPY DECOMP_NOINLINE s32 GetLettersSent() const { return lettersSent.playerStats[SvGetCurrentTownSlot()]; } // 0x00768510
+    DECOMP_EMIT_COPY DECOMP_NOINLINE s32 GetKatrinaVisitsTotal() const { return katrinaVisits.totalPlayerStat; } // 0x00768528
+    DECOMP_EMIT_COPY DECOMP_NOINLINE s32 GetSnowflakesCaughtTotal() const { return snowflakesCaught.totalPlayerStat; } // 0x00768530
+    DECOMP_EMIT_COPY DECOMP_NOINLINE s32 GetSnowmenBuiltByYouInTownForSlot(u32 townSlot) const { return snowmenBuiltByYouInTown.playerStats[townSlot]; } // 0x00768538
+    DECOMP_EMIT_COPY DECOMP_NOINLINE s32 GetUnk0x564Total() const { return unk_0x564.totalPlayerStat; } // 0x00768544
+    DECOMP_EMIT_COPY DECOMP_NOINLINE s32 GetTourVisits() const { return tourVisits.playerStats[SvGetCurrentTownSlot()]; } // 0x0076854C
+    DECOMP_EMIT_COPY DECOMP_NOINLINE s32 GetYouVisitedVillagersTotal() const { return youVisitedVillagers.totalPlayerStat; } // 0x00768564
+    DECOMP_EMIT_COPY DECOMP_NOINLINE s32 GetTownVisitorsForSlot(u32 townSlot) const { return townVisitors.playerStats[townSlot]; } // 0x0076856C
+    DECOMP_EMIT_COPY DECOMP_NOINLINE s32 GetAmiiboScanned() const { return amiiboScanned.playerStats[SvGetCurrentTownSlot()]; } // 0x00768578
+    DECOMP_EMIT_COPY DECOMP_NOINLINE s32 GetEarnedBadges() const { return earnedBadges.playerStats[SvGetCurrentTownSlot()]; } // 0x00768590
+    DECOMP_EMIT_COPY DECOMP_NOINLINE s32 GetTotalBingoWins() const { return totalBingoWins.playerStats[SvGetCurrentTownSlot()]; } // 0x007685A8
+    DECOMP_EMIT_COPY DECOMP_NOINLINE s32 GetTurnipExpensesTotal() const { return turnipExpenses.totalPlayerStat; } // 0x007685C0
+    DECOMP_EMIT_COPY DECOMP_NOINLINE s32 GetFestivalFeathersCaughtForSlot(u32 townSlot) const { return festivalFeathersCaught.playerStats[townSlot]; } // 0x007685C8
+    DECOMP_EMIT_COPY DECOMP_NOINLINE s32 GetTourneyInsectCaughtTotal() const { return tourneyInsectCaught.totalPlayerStat; } // 0x007685D4
+    DECOMP_EMIT_COPY DECOMP_NOINLINE s32 GetBugsCaughtForSlot(u32 townSlot) const { return bugsCaught.playerStats[townSlot]; } // 0x007685DC
+    DECOMP_EMIT_COPY DECOMP_NOINLINE s32 GetVillagersVisitedYouTotal() const { return villagersVisitedYou.totalPlayerStat; } // 0x007685E8
+    DECOMP_EMIT_COPY DECOMP_NOINLINE s32 GetDreamTownsVisitedForSlot(u32 townSlot) const { return dreamTownsVisited.playerStats[townSlot]; } // 0x007685F0
+    DECOMP_EMIT_COPY DECOMP_NOINLINE s32 GetFireworkDesignsGivenToIsabelleForSlot(u32 townSlot) const { return fireworkDesignsGivenToIsabelle.playerStats[townSlot]; } // 0x007685FC
+    DECOMP_EMIT_COPY DECOMP_NOINLINE s32 GetHelpedKatieTravel() const { return helpedKatieTravel.playerStats[SvGetCurrentTownSlot()]; } // 0x00768608
+    DECOMP_EMIT_COPY DECOMP_NOINLINE s32 GetUnk0x550ForSlot(u32 townSlot) const { return unk_0x550.playerStats[townSlot]; } // 0x00768620
+    DECOMP_EMIT_COPY DECOMP_NOINLINE s32 GetShampoodleVisits() const { return shampoodleVisits.playerStats[SvGetCurrentTownSlot()]; } // 0x0076862C
+    DECOMP_EMIT_COPY DECOMP_NOINLINE s32 GetKicksExpensesForSlot(u32 townSlot) const { return kicksExpenses.playerStats[townSlot]; } // 0x00768644
+    DECOMP_EMIT_COPY DECOMP_NOINLINE s32 GetShrunkSketchesAttended() const { return shrunkSketchesAttended.playerStats[SvGetCurrentTownSlot()]; } // 0x00768650
+    DECOMP_EMIT_COPY DECOMP_NOINLINE s32 GetFruitGrownTotal() const { return fruitGrown.totalPlayerStat; } // 0x00768668
+    DECOMP_EMIT_COPY DECOMP_NOINLINE s32 GetKkSliderConcertsAttendedForSlot(u32 townSlot) const { return kkSliderConcertsAttended.playerStats[townSlot]; } // 0x00768670
+    DECOMP_EMIT_COPY DECOMP_NOINLINE s32 GetTownsVisited() const { return townsVisited.playerStats[SvGetCurrentTownSlot()]; } // 0x0076867C
+    DECOMP_EMIT_COPY DECOMP_NOINLINE s32 GetFlowersWateredForSlot(u32 townSlot) const { return flowersWatered.playerStats[townSlot]; } // 0x00768694
+    DECOMP_EMIT_COPY DECOMP_NOINLINE s32 GetFossilsAnalyzedForSlot(u32 townSlot) const { return fossilsAnalyzed.playerStats[townSlot]; } // 0x007686A0
+    DECOMP_EMIT_COPY DECOMP_NOINLINE s32 GetFoundImposterBlancaForSlot(u32 townSlot) const { return foundImposterBlanca.playerStats[townSlot]; } // 0x007686AC
+    DECOMP_EMIT_COPY DECOMP_NOINLINE s32 GetGivenToyDayPresentsForSlot(u32 townSlot) const { return givenToyDayPresents.playerStats[townSlot]; } // 0x007686B8
+    DECOMP_EMIT_COPY DECOMP_NOINLINE s32 GetProDesignsCreatedForSlot(u32 townSlot) const { return proDesignsCreated.playerStats[townSlot]; } // 0x007686C4
+    DECOMP_EMIT_COPY DECOMP_NOINLINE s32 GetReceivedCandyOnHalloweenForSlot(u32 townSlot) const { return receivedCandyOnHalloween.playerStats[townSlot]; } // 0x007686D0
+    DECOMP_EMIT_COPY DECOMP_NOINLINE s32 GetIslandVisits() const { return islandVisits.playerStats[SvGetCurrentTownSlot()]; } // 0x007686DC
+    DECOMP_EMIT_COPY DECOMP_NOINLINE s32 GetShootingStarWishes() const { return shootingStarWishes.playerStats[SvGetCurrentTownSlot()]; } // 0x007686F4
+    DECOMP_EMIT_COPY DECOMP_NOINLINE s32 GetSaharaRedecorations() const { return saharaRedecorations.playerStats[SvGetCurrentTownSlot()]; } // 0x0076870C
+    DECOMP_EMIT_COPY DECOMP_NOINLINE s32 GetFurnitureCustomized() const { return furnitureCustomized.playerStats[SvGetCurrentTownSlot()]; } // 0x00768724
+    DECOMP_EMIT_COPY DECOMP_NOINLINE s32 GetTurnipProfitsTotal() const { return turnipProfits.totalPlayerStat; } // 0x0076873C
+    DECOMP_EMIT_COPY DECOMP_NOINLINE s32 GetGardeningShopExpensesTotal() const { return gardeningShopExpenses.totalPlayerStat; } // 0x00768744
+    DECOMP_EMIT_COPY DECOMP_NOINLINE s32 GetGraciesExpensesForSlot(u32 townSlot) const { return graciesExpenses.playerStats[townSlot]; } // 0x0076874C
+    DECOMP_EMIT_COPY DECOMP_NOINLINE s32 GetNooklingsExpensesTotal() const { return nooklingsExpenses.totalPlayerStat; } // 0x00768758
+    DECOMP_EMIT_COPY DECOMP_NOINLINE s32 GetBalloonsPopped() const { return balloonsPopped.playerStats[SvGetCurrentTownSlot()]; } // 0x00768760
+    DECOMP_EMIT_COPY DECOMP_NOINLINE s32 GetNpcPicturesReceived() const { return npcPicturesReceived.playerStats[SvGetCurrentTownSlot()]; } // 0x00768778
+    DECOMP_EMIT_COPY DECOMP_NOINLINE s32 GetTurnipsBoughtForSlot(u32 townSlot) const { return turnipsBought.playerStats[townSlot]; } // 0x00768790
+    DECOMP_EMIT_COPY DECOMP_NOINLINE s32 GetFamousMushroomsEatenTotal() const { return famousMushroomsEaten.totalPlayerStat; } // 0x0076879C
+    DECOMP_EMIT_COPY DECOMP_NOINLINE s32 GetBoughtArtAtRedds() const { return boughtArtAtRedds.playerStats[SvGetCurrentTownSlot()]; } // 0x007687A4
+    DECOMP_EMIT_COPY DECOMP_NOINLINE s32 GetLoanPaidForSlot(u32 townSlot) const { return loanPaid.playerStats[townSlot]; } // 0x007687BC
+    DECOMP_EMIT_COPY DECOMP_NOINLINE s32 GetResetSurveillanceCenterVisits() const { return resetSurveillanceCenterVisits.playerStats[SvGetCurrentTownSlot()]; } // 0x007687C8
+    DECOMP_EMIT_COPY DECOMP_NOINLINE s32 GetScallopsGivenToPascal() const { return scallopsGivenToPascal.playerStats[SvGetCurrentTownSlot()]; } // 0x007687E0
+    DECOMP_EMIT_COPY DECOMP_NOINLINE s32 GetAbleSistersExpensesForSlot(u32 townSlot) const { return ableSistersExpenses.playerStats[townSlot]; } // 0x007687F8
+    DECOMP_EMIT_COPY DECOMP_NOINLINE s32 GetTownVisitors() const { return townVisitors.playerStats[SvGetCurrentTownSlot()]; } // 0x00768804
+    DECOMP_EMIT_COPY DECOMP_NOINLINE s32 GetBellsSpentForSlot(u32 townSlot) const { return bellsSpent.playerStats[townSlot]; } // 0x0076881C
+    DECOMP_EMIT_COPY DECOMP_NOINLINE s32 GetDreamTownsVisited() const { return dreamTownsVisited.playerStats[SvGetCurrentTownSlot()]; } // 0x00768828
+    DECOMP_EMIT_COPY DECOMP_NOINLINE s32 GetTourneyFishCaughtForSlot(u32 townSlot) const { return tourneyFishCaught.playerStats[townSlot]; } // 0x00768840
+    DECOMP_EMIT_COPY DECOMP_NOINLINE s32 GetTownInitiativesCompletedForSlot(u32 townSlot) const { return townInitiativesCompleted.playerStats[townSlot]; } // 0x0076884C
+    DECOMP_EMIT_COPY DECOMP_NOINLINE s32 GetLostItemsGivenBackForSlot(u32 townSlot) const { return lostItemsGivenBack.playerStats[townSlot]; } // 0x00768858
+    DECOMP_EMIT_COPY DECOMP_NOINLINE s32 GetUnk0x550() const { return unk_0x550.playerStats[SvGetCurrentTownSlot()]; } // 0x00768864
+    DECOMP_EMIT_COPY DECOMP_NOINLINE s32 GetTurnipsSoldForSlot(u32 townSlot) const { return turnipsSold.playerStats[townSlot]; } // 0x0076887C
+    DECOMP_EMIT_COPY DECOMP_NOINLINE s32 GetKatrinaVisitsForSlot(u32 townSlot) const { return katrinaVisits.playerStats[townSlot]; } // 0x00768888
+    DECOMP_EMIT_COPY DECOMP_NOINLINE s32 GetKicksExpenses() const { return kicksExpenses.playerStats[SvGetCurrentTownSlot()]; } // 0x00768894
+    DECOMP_EMIT_COPY DECOMP_NOINLINE s32 GetSnowflakesCaughtForSlot(u32 townSlot) const { return snowflakesCaught.playerStats[townSlot]; } // 0x007688AC
+    DECOMP_EMIT_COPY DECOMP_NOINLINE s32 GetUnk0x564ForSlot(u32 townSlot) const { return unk_0x564.playerStats[townSlot]; } // 0x007688B8
+    DECOMP_EMIT_COPY DECOMP_NOINLINE s32 GetKkSliderConcertsAttended() const { return kkSliderConcertsAttended.playerStats[SvGetCurrentTownSlot()]; } // 0x007688C4
+    DECOMP_EMIT_COPY DECOMP_NOINLINE s32 GetYouVisitedVillagersForSlot(u32 townSlot) const { return youVisitedVillagers.playerStats[townSlot]; } // 0x007688DC
+    DECOMP_EMIT_COPY DECOMP_NOINLINE s32 GetFossilsAnalyzed() const { return fossilsAnalyzed.playerStats[SvGetCurrentTownSlot()]; } // 0x007688E8
+    DECOMP_EMIT_COPY DECOMP_NOINLINE s32 GetTurnipExpensesForSlot(u32 townSlot) const { return turnipExpenses.playerStats[townSlot]; } // 0x00768900
+    DECOMP_EMIT_COPY DECOMP_NOINLINE s32 GetTourneyInsectCaughtForSlot(u32 townSlot) const { return tourneyInsectCaught.playerStats[townSlot]; } // 0x0076890C
+    DECOMP_EMIT_COPY DECOMP_NOINLINE s32 GetVillagersVisitedYouForSlot(u32 townSlot) const { return villagersVisitedYou.playerStats[townSlot]; } // 0x00768918
+    DECOMP_EMIT_COPY DECOMP_NOINLINE s32 GetProDesignsCreated() const { return proDesignsCreated.playerStats[SvGetCurrentTownSlot()]; } // 0x00768924
+    DECOMP_EMIT_COPY DECOMP_NOINLINE s32 GetGraciesExpenses() const { return graciesExpenses.playerStats[SvGetCurrentTownSlot()]; } // 0x0076893C
+    DECOMP_EMIT_COPY DECOMP_NOINLINE s32 GetTurnipProfitsForSlot(u32 townSlot) const { return turnipProfits.playerStats[townSlot]; } // 0x00768954
+    DECOMP_EMIT_COPY DECOMP_NOINLINE s32 GetGardeningShopExpensesForSlot(u32 townSlot) const { return gardeningShopExpenses.playerStats[townSlot]; } // 0x00768960
+    DECOMP_EMIT_COPY DECOMP_NOINLINE s32 GetNooklingsExpensesForSlot(u32 townSlot) const { return nooklingsExpenses.playerStats[townSlot]; } // 0x0076896C
+    DECOMP_EMIT_COPY DECOMP_NOINLINE s32 GetFamousMushroomsEatenForSlot(u32 townSlot) const { return famousMushroomsEaten.playerStats[townSlot]; } // 0x00768978
+    DECOMP_EMIT_COPY DECOMP_NOINLINE s32 GetLostItemsGivenBack() const { return lostItemsGivenBack.playerStats[SvGetCurrentTownSlot()]; } // 0x00768984
+    DECOMP_EMIT_COPY DECOMP_NOINLINE s32 GetKatrinaVisits() const { return katrinaVisits.playerStats[SvGetCurrentTownSlot()]; } // 0x0076899C
+    DECOMP_EMIT_COPY DECOMP_NOINLINE s32 GetSnowflakesCaught() const { return snowflakesCaught.playerStats[SvGetCurrentTownSlot()]; } // 0x007689B4
+    DECOMP_EMIT_COPY DECOMP_NOINLINE s32 GetUnk0x564() const { return unk_0x564.playerStats[SvGetCurrentTownSlot()]; } // 0x007689CC
+    DECOMP_EMIT_COPY DECOMP_NOINLINE s32 GetYouVisitedVillagers() const { return youVisitedVillagers.playerStats[SvGetCurrentTownSlot()]; } // 0x007689E4
+    DECOMP_EMIT_COPY DECOMP_NOINLINE s32 GetVillagersVisitedYou() const { return villagersVisitedYou.playerStats[SvGetCurrentTownSlot()]; } // 0x007689FC
+    DECOMP_EMIT_COPY DECOMP_NOINLINE s32 GetGardeningShopExpenses() const { return gardeningShopExpenses.playerStats[SvGetCurrentTownSlot()]; } // 0x00768A14
+    DECOMP_EMIT_COPY DECOMP_NOINLINE s32 GetFamousMushroomsEaten() const { return famousMushroomsEaten.playerStats[SvGetCurrentTownSlot()]; } // 0x00768A2C
 };
 ASSERT_SIZE(SvCensus, 0x1414);
 
 // the census with its checksum (CRC-32 MSB first, nn::util::Crc32Msb), in the shared data (name is ours)
 // the census of the save data in memory: the same as GetCensus (dSvApi.h), but through GardenPlus (name is ours)
 SvCensus* GetCensusOfGardenPlus(); // 0x006B618C
+
+// The census menu (unused, see SvPlayerFlags::canUseCensusMenu; names are ours). The menu shows its rows in the order of
+// GetCensusValueOfRow; a value index (SvCensusValueId) selects the value, its title (STR_Kokusei_Title) and unit
+// (STR_Kokusei_Unit).
+// whether the row of a value is shown for the current player: the money and nature values always, the others once the
+// player has done it (value > 0), the event values while their event takes place
+bool IsCensusValueShown(u32 index); // 0x005D10F8
+// (game code, not decompiled yet; name after the address) a bit of the four player entries of GardenPlus; the bingo row
+// of the census menu depends on it
+bool Func226D48(); // 0x00226D48
+// the value index of a row of the menu (no range check)
+u8 GetCensusValueOfRow(u32 row); // 0x005D1908
+// the value of a player by its town slot; the values without player values give the total
+s32 GetCensusValueForSlot(u32 index, u32 townSlot); // 0x005D1918
+// the total of a value (0 for an unknown index)
+s32 GetCensusValueTotal(u32 index); // 0x005D2010
+// the message index of the unit (STR_Kokusei_Unit) and of the title (STR_Kokusei_Title) of a value (0 out of range)
+u32 GetCensusUnitIndex(u32 index); // 0x005D27A8
+u32 GetCensusTitleIndex(u32 index); // 0x005D27C0
 
 // The values of the census that count during an event (the census value indices 49..61, from tourneyFishCaught to
 // totalBingoWins): whether the event of a value takes place today (names after the address).

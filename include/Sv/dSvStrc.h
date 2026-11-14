@@ -8,11 +8,16 @@
 #include "Sv/dSvCommon.h"
 #include "Sv/dSvMyDesign.h"
 
-#pragma pack(push, 1)
-
 struct SvStrc {
     // (game code, not decompiled yet; the constructor of the save data builds it)
     SvStrc(); // 0x0020C0E0
+
+    // (names are ours) no structure (id 0xFC and above) / the id (the low byte) / a structure is placed when the place is
+    // empty and the id valid / the place is emptied (id 0xFC, x and y 0)
+    DECOMP_NOINLINE bool IsEmpty() const; // 0x00718EC8
+    DECOMP_NOINLINE u8 GetId() const; // 0x00302720
+    DECOMP_NOINLINE void Set(u16 id, u8 x, u8 y); // 0x0024EF94
+    DECOMP_NOINLINE void Clear(); // 0x0024EFD8
 
     /* 0x0000 */ u16 id; // is none, only below 0xFC considered valid
     /* 0x0002 */ u8 xCoord;
@@ -126,6 +131,92 @@ struct SvPwpUnlockFlags {
 };
 ASSERT_SIZE(SvPwpUnlockFlags, 0xC);
 
+// The index of a bit of SvPwpUnlockFlags (SvStrcData::UnlockPwp; names after the fields)
+enum SvPwpUnlockId : u8 {
+    PWP_UNLOCK_DEFAULT = 0, // All unlocked at default (cobblestone bridge, suspension bridge, yellow bench, water well, fountain, park clock, street lamp, campsite, fence, fire hydrant, custom-design sign, face-cutout standee, do-not-enter sign)
+    PWP_UNLOCK_TOPIARIES = 1, // round, square, tulip
+    PWP_UNLOCK_DREAM_SUITE = 2,
+    PWP_UNLOCK_MUSEUM_RENOVATION = 3,
+    PWP_UNLOCK_CAFE = 4,
+    PWP_UNLOCK_RESET_CENTER = 5,
+    PWP_UNLOCK_PERFECT_TOWN = 6, // town-hall renovations & flower clock
+    PWP_UNLOCK_STATION_RECONSTRUCTION = 7,
+    PWP_UNLOCK_DRINKING_FOUNTAIN = 8,
+    PWP_UNLOCK_GARBAGE_CAN = 9,
+    PWP_UNLOCK_FLOWER_BED = 10,
+    PWP_UNLOCK_OUTDOOR_CHAIR = 11,
+    PWP_UNLOCK_FLOWER_ARCH = 12,
+    PWP_UNLOCK_FAIRY_TALE_CLOCK = 13,
+    PWP_UNLOCK_FAIRY_TALE_BENCH = 14,
+    PWP_UNLOCK_FAIRY_TALE_STREETLIGHT = 15,
+    PWP_UNLOCK_FAIRY_TALE_BRIDGE = 16,
+    PWP_UNLOCK_METAL_BENCH = 17,
+    PWP_UNLOCK_ROUND_STREETLIGHT = 18,
+    PWP_UNLOCK_ILLUMINATED_HEART = 19,
+    PWP_UNLOCK_ILLUMINATED_CLOCK = 20,
+    PWP_UNLOCK_ILLUMINATED_TREE = 21,
+    PWP_UNLOCK_BELL = 22,
+    PWP_UNLOCK_ARCHWAY_SCULPTURE = 23,
+    PWP_UNLOCK_STATUE_FOUNTAIN = 24,
+    PWP_UNLOCK_HOT_SPRING = 25,
+    PWP_UNLOCK_STREETLIGHT = 26,
+    PWP_UNLOCK_ILLUMINATED_ARCH = 27,
+    PWP_UNLOCK_TOWER = 28,
+    PWP_UNLOCK_MODERN_CLOCK = 29,
+    PWP_UNLOCK_MODERN_BENCH = 30,
+    PWP_UNLOCK_MODERN_STREETLIGHT = 31,
+    PWP_UNLOCK_SCARECROW = 32,
+    PWP_UNLOCK_GEYSER = 33,
+    PWP_UNLOCK_WINDMILL = 34,
+    PWP_UNLOCK_WOOD_BENCH = 35,
+    PWP_UNLOCK_WISTERIA_TRELLIS = 36,
+    PWP_UNLOCK_LOG_BENCH = 37,
+    PWP_UNLOCK_BUS_STOP = 38,
+    PWP_UNLOCK_PICNIC_BLANKET = 39,
+    PWP_UNLOCK_BALLOON_ARCH = 40,
+    PWP_UNLOCK_TIRE_TOY = 41,
+    PWP_UNLOCK_PILE_OF_PIPES = 42,
+    PWP_UNLOCK_CAMPING_COT = 43,
+    PWP_UNLOCK_JUNGLE_GYM = 44,
+    PWP_UNLOCK_SANDBOX = 45,
+    PWP_UNLOCK_HAMMOCK = 46,
+    PWP_UNLOCK_WATER_PUMP = 47,
+    PWP_UNLOCK_INSTRUMENT_SHELTER = 48,
+    PWP_UNLOCK_TORCH = 49,
+    PWP_UNLOCK_FIRE_PIT = 50,
+    PWP_UNLOCK_SOLAR_PANEL = 51,
+    PWP_UNLOCK_BLUE_BENCH = 52,
+    PWP_UNLOCK_TRAFFIC_SIGNAL = 53,
+    PWP_UNLOCK_STADIUM_LIGHT = 54,
+    PWP_UNLOCK_VIDEO_SCREEN = 55,
+    PWP_UNLOCK_WOODEN_BRIDGE = 56,
+    PWP_UNLOCK_ZEN_GARDEN = 57,
+    PWP_UNLOCK_ZEN_BELL = 58,
+    PWP_UNLOCK_RACK_OF_RICE = 59,
+    PWP_UNLOCK_DRILLING_RIG = 60,
+    PWP_UNLOCK_ZEN_CLOCK = 61,
+    PWP_UNLOCK_ZEN_BENCH = 62,
+    PWP_UNLOCK_ZEN_STREETLIGHT = 63,
+    PWP_UNLOCK_SPHINX = 64,
+    PWP_UNLOCK_TOTEM_POLE = 65,
+    PWP_UNLOCK_PARABOLIC_ANTENNA = 66,
+    PWP_UNLOCK_MOAI_STATUE = 67,
+    PWP_UNLOCK_STONEHENGE = 68,
+    PWP_UNLOCK_PYRAMID = 69,
+    PWP_UNLOCK_CUBE_SCULPTURE = 70,
+    PWP_UNLOCK_CHAIR_SCULPTURE = 71,
+    PWP_UNLOCK_POLICE_STATIONS = 72, // modern & classic
+    PWP_UNLOCK_LIGHTHOUSE = 73,
+    PWP_UNLOCK_BRICK_BRIDGE = 74,
+    PWP_UNLOCK_MODERN_BRIDGE = 75,
+    PWP_UNLOCK_STONE_TABLET = 76,
+    PWP_UNLOCK_WIND_TURBINE = 77,
+    PWP_UNLOCK_CAUTION_SIGN = 78,
+    PWP_UNLOCK_YIELD_SIGN = 79,
+    PWP_UNLOCK_FORTUNE_TELLERS_SHOP = 80,
+    PWP_UNLOCK_NUM = 81,
+};
+
 struct SvDesignStand {
     /* 0x0000 */ SvMyDesign pattern;
     /* 0x0870 */ u32 xCoord; // if none placed (idk why 32bit was needed, world coords are 8bit..)
@@ -141,6 +232,25 @@ struct SvStrcData {
     DECOMP_NOINLINE void UpdateChecksum(); // 0x0075A2B4
     DECOMP_NOINLINE bool IsChecksumValid(bool isLogged); // 0x0075A2DC
 
+    // (names are ours) the house of a player (structure id = save number 0..3) is removed / a public works project is
+    // unlocked (bit of unlockedPwPs, index < 81) / a structure (index 0 for 56 or more) / the two event structures are
+    // emptied (true) / the design stands / a structure is added in the first empty place (the index; 0 if none is
+    // empty) / an event structure is added / a structure with this id and place is removed (true if found) / for a new
+    // town: no town tree, the design stands and the unlocked projects start again / everything is cleared / the size of
+    // the town tree: the smaller of the steps by play hours (5, 20, 50, 100, 150, 200, 250) and by days played (5, 20,
+    // 50, 100, 180, 300, 500)
+    void RemovePlayerHouse(u32 saveNo); // 0x005CE370
+    void UnlockPwp(SvPwpUnlockId index); // 0x005CE494
+    SvStrc* GetStrc(u32 index); // 0x005CE4C8
+    bool ClearEventPwps(); // 0x005CE4D8
+    SvDesignStand* GetDesignStands(); // 0x005CE50C
+    u32 AddStrc(u16 id, u8 x, u8 y); // 0x005CE514
+    u32 AddEventPwp(u16 id, u8 x, u8 y); // 0x005CE584
+    bool RemoveStrc(u16 id, u8 x, u8 y); // 0x005CE5F4
+    void SetupNewTown(); // 0x005CE688
+    void Clear(); // 0x005CE6C8
+    void UpdateTownTreeSize(); // 0x005CE748
+
     /* 0x0000 */ u32 checksum; // Checksum of the 0x44B8 of this data
     /* 0x0004 */ u8 normalPwPsAmount;
     /* 0x0005 */ u8 eventPwPsAmount;
@@ -151,6 +261,10 @@ struct SvStrcData {
     /* 0x44B0 */ SvPwpUnlockFlags unlockedPwPs;
 };
 ASSERT_SIZE(SvStrcData, 0x44BC);
+
+// (game code, not decompiled yet; names are ours) the design stands are set up for a new town / cleared
+void Func27A61C(SvDesignStand* stands); // 0x0027A61C
+void Func27A65C(SvDesignStand* stands); // 0x0027A65C
 
 struct SvPwpProject {
     // (game code, not decompiled yet; the constructor of the save data builds it)
@@ -166,4 +280,3 @@ struct SvPwpProject {
 };
 ASSERT_SIZE(SvPwpProject, 0x10);
 
-#pragma pack(pop)

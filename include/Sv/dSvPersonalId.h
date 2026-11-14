@@ -7,8 +7,6 @@
 #include "decomp.h"
 #include "Sv/dSvCommon.h"
 
-#pragma pack(push, 1)
-
 struct SvTownId {
     /* 0x0000 */ u16 tid; // Default is 0
     /* 0x0002 */ char16 dataTownName[9]; // Default is 0
@@ -47,4 +45,3 @@ struct SvPersonalId {
 };
 ASSERT_SIZE(SvPersonalId, 0x2E);
 
-#pragma pack(pop)

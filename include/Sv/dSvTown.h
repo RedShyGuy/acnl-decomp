@@ -23,8 +23,6 @@ struct DateTimeParameters;
 } // namespace fnd
 } // namespace nn
 
-#pragma pack(push, 1)
-
 struct SvBulletinBoardMessage {
     // (game code of the bulletin board, not decompiled yet) cleared
     SvBulletinBoardMessage(); // 0x003011F4 (Thumb)
@@ -61,6 +59,22 @@ ASSERT_SIZE(SvSnowman, 0xC);
 
 // The part of the town data from 0x5C on: the map (built by its own constructor; the type and the member name are
 // ours, the field names after the research).
+// the items of one acre, 16*16 (the town and island constructors build arrays of them; name is ours)
+struct SvAcreItems {
+    DECOMP_EMIT_COPY SvAcreItems() {} // 0x006F08EC
+
+    /* 0x0000 */ SvFgName items[0x100];
+};
+ASSERT_SIZE(SvAcreItems, 0x400);
+
+// one byte per slot of an acre, 16*16 (the grass of the town; name is ours)
+struct SvAcreGrass {
+    DECOMP_EMIT_COPY SvAcreGrass() {} // 0x001E0928 (empty in the original too)
+
+    /* 0x0000 */ u8 slots[0x100];
+};
+ASSERT_SIZE(SvAcreGrass, 0x100);
+
 struct SvTownDataUnk5C {
     SvTownDataUnk5C(); // 0x0061423C (game code, not decompiled yet)
 
@@ -69,8 +83,8 @@ struct SvTownDataUnk5C {
     /* 0x0002 */ u8 cliffType; // [0-2]; This is unused/scrapped. All 3 cliff texture in the ROM are the exact same.; Ctor sets to 2
     /* 0x0003 */ u8 pad_0x3;
     /* 0x0004 */ u16 townAcres[0x2A]; // 42 acres in total; 7 columns, 6 rows. Game reads Acre IDs as u16; ctor sets each to 265 (0x109)
-    /* 0x0058 */ SvFgName townItems[0x1400]; // 16*16 items per acre; Items only cover map acres (5*4); 0x1400 of items
-    /* 0x5058 */ u8 mapGrassToday[0x1400]; // 16*16 slots per acre; Grass deterioration only affects map acres
+    /* 0x0058 */ SvAcreItems townItems[20]; // Items only cover map acres (5*4)
+    /* 0x5058 */ SvAcreGrass mapGrassToday[20]; // Grass deterioration only affects map acres
     /* 0x6458 */ u8 unk_0x6458[0x28]; // Town data ctor never initializes this, so likely not used.
     /* 0x6480 */ u8 mapGrass[0x3000];
     /* 0x9480 */ u8 unk_0x9480[0x1000]; // Town data actually includes it with MapGrass (0x8000 in total)
@@ -105,6 +119,7 @@ struct SvTownDataUnkEF14 {
 };
 ASSERT_SIZE(SvTownDataUnkEF14, 0x4380);
 
+#pragma pack(push, 1)
 struct SvTownDataUnk1AE50 {
     SvTownDataUnk1AE50(); // 0x00614130
 
@@ -113,6 +128,7 @@ struct SvTownDataUnk1AE50 {
     /* 0x000F */ SvTime unk_0xF;
     /* 0x0017 */ u8 unk_0x17[7];
 };
+#pragma pack(pop)
 ASSERT_SIZE(SvTownDataUnk1AE50, 0x1E);
 
 struct SvTownDataUnk1AE94 {
@@ -127,6 +143,7 @@ ASSERT_SIZE(SvTownDataUnk1AE94, 0x1914);
 // The Fishing Tourney of the town (the counterpart of SvInsectConvention; the binary has the namespace svfscnve for its
 // classes, the class name is ours): the fish of the tourney, the three best places with a player or a villager each,
 // the size points and the fish.
+#pragma pack(push, 1)
 struct SvFishingConvention {
     // (functions in the shared area 0x2FF000-0x305000; names are ours, see the SvInsectConvention counterparts) the
     // daily update / a place is removed / a villager / a player enters / a villager catches a fish at random (two ways)
@@ -155,8 +172,10 @@ struct SvFishingConvention {
     /* 0x0138 */ u16 placePoints[3];         // the points of the places
     /* 0x013E */ SvFgName placeFish[3];    // the fish of the places
 };
+#pragma pack(pop)
 ASSERT_SIZE(SvFishingConvention, 0x14A);
 
+#pragma pack(push, 1)
 struct SvTownDataUnk1C7A8 {
     // (inline in the constructor of the save data)
     SvTownDataUnk1C7A8()
@@ -169,10 +188,12 @@ struct SvTownDataUnk1C7A8 {
     /* 0x0008 */ u8 unk_0x8[0x14];
     /* 0x001C */ SvFishingConvention unk_0x1C;
 };
+#pragma pack(pop)
 ASSERT_SIZE(SvTownDataUnk1C7A8, 0x166);
 
 // The Bug-Off of the town (the class name is from the original file dSvInsectConvention.cpp; all other names are ours):
 // the three best places are a player or a villager each, with the points and the insect.
+#pragma pack(push, 1)
 struct SvInsectConvention {
     // (inline in the constructor of the save data)
     SvInsectConvention()
@@ -220,6 +241,7 @@ struct SvInsectConvention {
     /* 0x0134 */ u16 placePoints[3];         // the points of the places
     /* 0x013A */ SvFgName placeInsects[3];    // the insects of the places
 };
+#pragma pack(pop)
 ASSERT_SIZE(SvInsectConvention, 0x146);
 
 struct SvTownDataUnk1CA92 {
@@ -228,7 +250,7 @@ struct SvTownDataUnk1CA92 {
     /* 0x0000 */ u8 islandGrassType; // [0-2]; 0: Triangle | 1: Circle | 2: Square;
     /* 0x0001 */ u8 pad_0x1;
     /* 0x0002 */ u16 islandAcres[0x10]; // 16 acres in total; 4 columns, 4 rows. Game reads Acre IDs as u16;
-    /* 0x0022 */ SvFgName islandItems[0x400]; // 16*16 items per acre; Items only cover map acres (2*2); 0x400 of items
+    /* 0x0022 */ SvAcreItems islandItems[4]; // Items only cover map acres (2*2)
     /* 0x1022 */ SvStrc islandBuildings[2]; // Island Hut and Lloid
 };
 ASSERT_SIZE(SvTownDataUnk1CA92, 0x102A);
@@ -319,7 +341,8 @@ ASSERT_SIZE(SvShopZakka, 0x9C);
 struct SvTownDataUnkEE2C {
     // (game code of the shops, not decompiled yet; names are ours) the daily update of all shops / after a load with
     // the save number / (Thumb) / (Thumb) with a value
-    void Func5CE224(); // 0x005CE224
+    // all shops are cleared: the Nooklings and the clear functions of the other shops, then the last values (name is ours)
+    void Clear(); // 0x005CE224
     void Func20D640(u32 saveNo); // 0x0020D640
     void Func10A2C8(); // 0x0010A2C8
     void Func1144A0(u32 value); // 0x001144A0 (Thumb)
@@ -381,8 +404,7 @@ struct SvTownDataUnkEE2C {
     /* 0x8AA7 */ u8 pad_0x178D3;
     /* 0x8AA8 */ SvFgName gracieItems[0x12];
     /* 0x8AF0 */ u8 unk_0x1791C[0x12]; // likely padding
-    /* 0x8B02 */ SvMannequin gracieMannequin1;
-    /* 0x8B1A */ SvMannequin gracieMannequin2;
+    /* 0x8B02 */ SvMannequin gracieMannequins[2]; // the mannequins in Gracie's shop (one array in the constructor)
     /* 0x8B32 */ u8 clubLolUnlockState;
     /* 0x8B33 */ u8 unk_0x1795F[0xF];
     /* 0x8B42 */ SvFgName clubLolGyroids[4];
@@ -409,6 +431,28 @@ struct SvTownDataUnkEE2C {
 };
 ASSERT_SIZE(SvTownDataUnkEE2C, 0x8C68);
 
+// (game code, not decompiled yet; names after the addresses) the clear functions of the shops that
+// SvTownDataUnkEE2C::Clear calls, with the first field of each shop
+void Func314144(SvEncValue* turnips); // 0x00314144 (unk_0x179A4, before the turnip prices)
+void Func109FF4(SvFgName* items); // 0x00109FF4 (Thumb; ablesItems)
+void Func2A809C(SvFgName* items); // 0x002A809C (labellesItems)
+void Func10B38C(s32* data); // 0x0010B38C (Thumb; unk_0x132C0, before leifUnlockStatus)
+void Func10A7FC(SvFgName* items); // 0x0010A7FC (Thumb; reddItems)
+void Func108B54(u8* data); // 0x00108B54 (Thumb; unk_0x133F8, before kickUnlockStatus)
+void Func20D8E4(SvFgName* items); // 0x0020D8E4 (unk_0x13428)
+void Func10AB28(SvFgName* items); // 0x0010AB28 (Thumb; reTailPremiumItems)
+void Func10AF5C(u8* data); // 0x0010AF5C (Thumb; museumShopUnlockState)
+void Func10B6CC(SvFgName* items); // 0x0010B6CC (Thumb; nooksHomeItems)
+void Func108A98(u8* data); // 0x00108A98 (Thumb; gracieUnlockStatus)
+void Func10A3FC(u8* data); // 0x0010A3FC (Thumb; clubLolUnlockState)
+void Func108444(u8* data); // 0x00108444 (Thumb; dreamSuiteUnlockStatus)
+void Func10A4A4(u8* data); // 0x0010A4A4 (Thumb; fortuneTellerUnlockStatus)
+void Func10B438(u8* data); // 0x0010B438 (Thumb; unk_0x17981 + 0xB)
+void Func20D628(SvFgName* items); // 0x0020D628 (islandShopItems)
+void Func10B1E0(SvFgName* item); // 0x0010B1E0 (Thumb; unk_0x17A24)
+void Func106BAC(SvFgName* items); // 0x00106BAC (Thumb; campgroundShopItems)
+
+#pragma pack(push, 1)
 struct SvTownData {
     // (inline in the constructor of the save data: the members and these values)
     DECOMP_ALWAYS_INLINE SvTownData() : unk_0x1DABC(0), unk_0x1DAC6(0), unk_0x1DAC7(0), unk_0x1DAC8(0) {}
@@ -417,9 +461,9 @@ struct SvTownData {
     /* 0x0004 */ u8 unk_0x4[0x58];
     /* 0x005C */ SvTownDataUnk5C unk_0x5C;
     /* 0xA4DC */ SvPlayerHouseList playerHouses;
-    /* 0xED7C */ s64 currentTime;
-    /* 0xED84 */ s64 unk_0xED84;
-    /* 0xED8C */ s64 playtime;
+    /* 0xED7C */ SvS64 currentTime;
+    /* 0xED84 */ SvS64 unk_0xED84;
+    /* 0xED8C */ SvS64 playtime;
     /* 0xED94 */ SvTownId townData1;
     /* 0xEDAA */ u8 unk_0xEDAA; // low four bits: the region of the game (event::Region), from the console
     /* 0xEDAB */ SvTownFlags townFlags;
@@ -460,6 +504,6 @@ struct SvTownData {
     /* 0x1E444 */ SvDate unk_0x1E444;
     /* 0x1E448 */ SvTownDataUnk1E448 unk_0x1E448;
 };
+#pragma pack(pop)
 ASSERT_SIZE(SvTownData, 0x1E4DC);
 
-#pragma pack(pop)

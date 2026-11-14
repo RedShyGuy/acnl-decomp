@@ -127,8 +127,6 @@ public:
 };
 ASSERT_SIZE(SvSaveIo::State, 0x14);
 
-
-
 // (other files of the game; names are ours) cleared by Format
 extern u8 g_Unknown9510F0;
 extern u8 g_Unknown9510F1;

@@ -78,7 +78,7 @@ SvPlayer* SvPlayerData::Get(u32 index)
 void SvPlayer::UpdateDebt()
 {
     debtAmount.Set(Func76E7CC(this));
-    unk_0x8F77.data[12] |= 0x10;
+    unk_0x8F77.unk_0xC_4 = 1;
 }
 
 // 0x006BD940 (name is ours)
@@ -149,7 +149,7 @@ void SvPlayer::CollectInitiativeCoupons()
 void SvPlayer::SetDebt(u32 value)
 {
     debtAmount.Set(value);
-    unk_0x8F77.data[12] |= 0x10;
+    unk_0x8F77.unk_0xC_4 = 1;
 }
 
 // 0x006BDBB0 (name is ours)
@@ -556,12 +556,12 @@ void SvPlayer::Func6BE9F4(u32 a, u32 b, u8 c)
         }
     }
     Func24DD34(&unk_0x8A3C);
-    const u8 bit = (unk_0x8F77.data[12] >> 4) & 1;
+    const u8 bit = unk_0x8F77.unk_0xC_4;
     unk_0x8F77.Init();
     if (bit) {
-        unk_0x8F77.data[12] |= 0x10;
+        unk_0x8F77.unk_0xC_4 = 1;
     } else {
-        unk_0x8F77.data[12] &= ~0x10;
+        unk_0x8F77.unk_0xC_4 = 0;
     }
     unk_0x8F28 = 0;
     unk_0x8F2A = 2011;

@@ -428,7 +428,7 @@ DECOMP_NOINLINE void SvFishingConvention::AdvanceTime(bool a, bool b, bool c)
         }
         Func312848(&step, 0, 0, 3, 0);
     }
-    Func5CE904(&progressTime);
+    time::SvTimeSetNow(&progressTime);
 }
 
 // 0x00303000 (name is ours)
@@ -468,7 +468,7 @@ void SvFishingConvention::Clear(bool isReset)
 // 0x0030329C (name is ours)
 void SvFishingConvention::Start()
 {
-    if (!Func2FDE58(event::EVENT_ID_FISHING_TOURNEY)) {
+    if (!event::IsActive(event::EVENT_ID_FISHING_TOURNEY)) {
         return;
     }
     flags |= 1;

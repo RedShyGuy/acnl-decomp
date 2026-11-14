@@ -13,9 +13,7 @@ struct SvStrcData;
 // is none (id 252 or more) or can be demolished, the low byte of its id, the public works project of an id; the acre
 // of a map position (x, y) of the town map from SvTownData::oceanSide on (the acres follow at +4)
 SvStrc* Func75A28C(SvStrcData* strcData, s32 index); // 0x0075A28C
-bool Func718EC8(const SvStrc* strc); // 0x00718EC8
 bool Func6CC848(const SvStrc* strc); // 0x006CC848
-u8 Func302720(const SvStrc* strc); // 0x00302720
 u8 Func5CA270(u8 id); // 0x005CA270
 u16* Func75EBB4(u8* townMap, s32 x, s32 y); // 0x0075EBB4
 

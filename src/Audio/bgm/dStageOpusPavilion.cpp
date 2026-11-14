@@ -10,8 +10,8 @@
 // 0x00587B8C
 void audio::bgm::StageOpusPavilion::Setup(stage::Name)
 {
-    // the index at npcData.unk_0x176A6 (an entry of the table 0xA8449C)
-    u16 index = *reinterpret_cast<const u16*>(GetGardenPlus()->data.npcData.unk_0x176A6);
+    // the villager of npcData.unk_0x1767A (an entry of the table 0xA8449C)
+    u16 index = GetGardenPlus()->data.npcData.unk_0x1767A.unk_0x0.villagerId;
     UnknownA8449CEntry* entries = g_UnknownA8449C.entries;
     UnknownA8449CEntry* entry;
     if (entries != NULL && index < 0x18F && (entry = &entries[index]) != NULL) {

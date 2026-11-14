@@ -12,8 +12,40 @@
 #include "Sv/dSvStrc.h"
 #include "Sv/dSvTown.h"
 
-#pragma pack(push, 1)
+// (names are ours) An element of SvMinigameData::unk_0x8 (constructor 0x002BF60C, game code)
+struct SvMinigameDataUnk8 {
+    SvMinigameDataUnk8(); // 0x002BF60C
 
+    /* 0x0000 */ u16 unk_0x0;
+    /* 0x0002 */ u8 unk_0x2;
+    /* 0x0003 */ u8 unk_0x3;
+    /* 0x0004 */ u8 unk_0x4[0xC];
+};
+ASSERT_SIZE(SvMinigameDataUnk8, 0x10);
+
+#pragma pack(push, 1)
+struct SvMinigameDataUnk27A8 {
+    /* 0x0000 */ u32 unk_0x0;
+    /* 0x0004 */ u32 unk_0x4;
+    /* 0x0008 */ u8 unk_0x8;
+};
+#pragma pack(pop)
+ASSERT_SIZE(SvMinigameDataUnk27A8, 0x9);
+
+#pragma pack(push, 1)
+struct SvMinigameDataUnk27CC {
+    /* 0x0000 */ u32 unk_0x0[4];
+    /* 0x0010 */ u16 unk_0x10;
+    /* 0x0012 */ u32 unk_0x12[4];
+    /* 0x0022 */ u16 unk_0x22;
+    /* 0x0024 */ u32 unk_0x24[4];
+    /* 0x0034 */ u16 unk_0x34;
+};
+#pragma pack(pop)
+ASSERT_SIZE(SvMinigameDataUnk27CC, 0x36);
+
+// The data of four players, stored per field (index = player 0..3). Func2BF890 (0x002BF890) copies one player from a
+// block of 0xA3C bytes (SvMovePlayerPls::unk_0xBC84: 0x10, 0x9D8, 9 + 1 padding, 0x36, five words) into the arrays.
 struct SvMinigameData {
     // (game code, not decompiled yet; the constructor of the save data builds it)
     SvMinigameData(); // 0x002BFB40
@@ -23,7 +55,16 @@ struct SvMinigameData {
     DECOMP_NOINLINE bool IsChecksumValid(); // 0x0071E6A0
 
     /* 0x0000 */ u32 checksum; // Checksum of the 0x28F0 of this data
-    /* 0x0004 */ u8 unk_0x4[0x28F0];
+    /* 0x0004 */ u32 unk_0x4; // 4 after the constructor
+    /* 0x0008 */ SvMinigameDataUnk8 unk_0x8[4];
+    /* 0x0048 */ u8 unk_0x48[4][0x9D8];
+    /* 0x27A8 */ SvMinigameDataUnk27A8 unk_0x27A8[4];
+    /* 0x27CC */ SvMinigameDataUnk27CC unk_0x27CC[4];
+    /* 0x28A4 */ u32 unk_0x28A4[4];
+    /* 0x28B4 */ u32 unk_0x28B4[4];
+    /* 0x28C4 */ u32 unk_0x28C4[4];
+    /* 0x28D4 */ u32 unk_0x28D4[4]; // flags; bit 0 is read by 0x106E84 (Thumb), Func2BF9E4 sets bit 10 of a random player
+    /* 0x28E4 */ u32 unk_0x28E4[4];
 };
 ASSERT_SIZE(SvMinigameData, 0x28F4);
 
@@ -35,13 +76,17 @@ struct SvGardenDataUnk52BB0 {
     DECOMP_NOINLINE void UpdateChecksum(); // 0x00720B00
     DECOMP_NOINLINE bool IsChecksumValid(); // 0x00720B20
 
+    // (the constructor clears unk_0x4, unk_0x6C and unk_0x7EC; unk_0x20 keeps its value)
     /* 0x0000 */ u32 checksum; // Checksum of the 0x7F0 of this data
-    /* 0x0004 */ u8 unk_0x4[0x7F0];
+    /* 0x0004 */ u32 unk_0x4[7];
+    /* 0x0020 */ u8 unk_0x20[0x4C];
+    /* 0x006C */ u8 unk_0x6C[0x780];
+    /* 0x07EC */ u16 unk_0x7EC[4];
 };
 ASSERT_SIZE(SvGardenDataUnk52BB0, 0x7F4);
 
 struct SvSecureValueHeader {
-    /* 0x0000 */ u64 secureValue; // Unused in ACNL WA
+    /* 0x0000 */ SvU64 secureValue; // Unused in ACNL WA
     /* 0x0008 */ u32 saveInitialized; // Has to be exactly 1
     /* 0x000C */ u8 pad_0xC[0x74]; // Always 0
 };
@@ -111,4 +156,3 @@ struct SvGardenPlus {
 };
 ASSERT_SIZE(SvGardenPlus, 0x89B00);
 
-#pragma pack(pop)

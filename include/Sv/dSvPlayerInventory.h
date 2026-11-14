@@ -7,8 +7,6 @@
 #include "decomp.h"
 #include "Sv/dSvFgName.h"
 
-#pragma pack(push, 1)
-
 struct SvPlayerInventory {
     // how an item in the inventory looks (names after libgarden)
     enum ItemAppearance : u8 {
@@ -33,4 +31,3 @@ struct SvPlayerInventory {
 };
 ASSERT_SIZE(SvPlayerInventory, 0x50);
 
-#pragma pack(pop)

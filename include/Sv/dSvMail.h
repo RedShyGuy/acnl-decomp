@@ -10,8 +10,6 @@
 #include "Sv/dSvPersonalId.h"
 #include <cstring>
 
-#pragma pack(push, 1)
-
 // a person of a letter (the type and the names are ours): the id and its kind (1 a player, 2 and 6 see the functions of
 // the letter; the constructor clears both)
 namespace script {
@@ -31,6 +29,7 @@ bool Func302050(const SvNpcRef* npc); // 0x00302050
 void Func1B29AC(char16* header); // 0x001B29AC
 bool Func769190(const SvFgName* item); // 0x00769190
 
+#pragma pack(push, 1)
 struct SvMailPerson {
     SvMailPerson()
     {
@@ -54,6 +53,7 @@ struct SvMailPerson {
     /* 0x002E */ u16 pad_0x2E;
     /* 0x0030 */ u8 unk_0x30;
 };
+#pragma pack(pop)
 ASSERT_SIZE(SvMailPerson, 0x31);
 
 // the 8 bytes at the end of a letter (type and name ours): an empty constructor, copied with its own assignment
@@ -222,4 +222,3 @@ ASSERT_SIZE(SvFutureMail, 0x288);
 s32 Func711124(SvMail* letters); // 0x00711124
 void Func1E4904(SvMail* letters, u32 index, const SvMail* mail); // 0x001E4904
 
-#pragma pack(pop)

@@ -7,8 +7,6 @@
 #include "decomp.h"
 #include "Sv/dSvCommon.h"
 
-#pragma pack(push, 1)
-
 struct SvInitiative {
     enum Name {
         None = 0x0,
@@ -133,7 +131,7 @@ struct SvPlayerInitiative {
     // (game code, not decompiled yet)
     SvPlayerInitiative(); // 0x0024BCEC
 
-    /* 0x0000 */ u64 unk_0x0; // ???; Set to 0, then 0x7FFFFFFFFFFFFFFF in player ctor
+    /* 0x0000 */ SvU64 unk_0x0; // ???; Set to 0, then 0x7FFFFFFFFFFFFFFF in player ctor
     /* 0x0008 */ u8 weeklyInitiatives[2]; // SvInitiative::Name / Set to 0 in player ctor
     /* 0x000A */ SvInitiativeWeek dailyInitiatives[2]; // Set to 0 in player ctor
     /* 0x0018 */ u8 unk_0x18; // ???; Set to 0x65 in player ctor
@@ -168,4 +166,3 @@ static const u32 kSvInitiativeGoals[102] = {
     3, 1, 1, 1, 1, 5,
 };
 
-#pragma pack(pop)

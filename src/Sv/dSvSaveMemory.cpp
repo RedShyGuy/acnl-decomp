@@ -174,7 +174,7 @@ void Func5CB274(SvGardenPlus* data)
     player->playerFlags.resetPending = 0;
     player->unk_0x8F38 = 0;
     Func116CF4();
-    if (player->unk_0x8F77.data[4] & 0x40) {
+    if (player->unk_0x8F77.unk_0x4_6) {
         GetGardenDataInline()->townData.townFlags.unk_0x1_5 = 1;
     }
 }
@@ -263,7 +263,7 @@ void Func5CB690()
 // 0x005CB7A4 (name is ours)
 void Func5CB7A4()
 {
-    Func5CE904(&GetGardenDataInline()->townData.unk_0x1E43C);
+    time::SvTimeSetNow(&GetGardenDataInline()->townData.unk_0x1E43C);
 }
 
 // 0x005CB7CC (name is ours)
@@ -388,15 +388,15 @@ void SvGardenData::RemovePlayer(u32 saveNo)
     Func10DB4C(npcs, saveNo);
     SvPlayer* player = players.Get(saveNo);
     if (player != NULL) {
-        Func5BD3D0(npcData.unk_0x172F8, &player->playerInfo);
-        Func5BD46C(npcData.unk_0x172F8, &player->playerInfo);
+        Func5BD3D0(&npcData.unk_0x172F8, &player->playerInfo);
+        Func5BD46C(&npcData.unk_0x172F8, &player->playerInfo);
     }
     player = players.Get(saveNo);
     if (player != NULL) {
         Func10F040(npcs, player);
     }
     Func32CEB4(&townData.unk_0x1C7A8, saveNo);
-    Func5CE370(&strcData, saveNo);
+    strcData.RemovePlayerHouse(saveNo);
     Func2EC314(&townData.playerHouses, saveNo);
     Func1147C0(saveNo);
     if (saveNo != 0) {
@@ -412,7 +412,7 @@ void SvGardenData::RemovePlayer(u32 saveNo)
 void SvGardenData::SetupNewTown()
 {
     header.Initialize();
-    Func5CE688(&strcData);
+    strcData.SetupNewTown();
     Func2EC334(&townData.playerHouses);
     Func52B20C(&townData.unk_0xEE0E);
     Func1B20B4(&townData.unk_0xEE28);
@@ -426,11 +426,11 @@ void SvGardenData::SetupNewTown()
 void SvGardenData::Clear()
 {
     Func6142B0(&townData.unk_0x5C);
-    Func5CE6C8(&strcData);
+    strcData.Clear();
     Func27B044(&players);
     Func2EC368(&townData.playerHouses);
     townData.unk_0xEE28.Init();
-    townData.unk_0xEE2C.Func5CE224();
+    townData.unk_0xEE2C.Clear();
     townData.museum.Init();
     Func118A8C(&townData.unk_0x1CA84);
     Func112550(&npcData);

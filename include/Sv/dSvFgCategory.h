@@ -7,8 +7,6 @@
 #include "decomp.h"
 #include "Sv/dSvCommon.h"
 
-#pragma pack(push, 1)
-
 struct SvFgCategory {
     enum Name {
         MiiHead = 0x0, // (0x2000)
@@ -170,4 +168,3 @@ struct SvFgCategory {
     };
 };
 
-#pragma pack(pop)

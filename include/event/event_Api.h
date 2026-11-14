@@ -130,6 +130,8 @@ void SetFlag0(); // 0x0058EF3C
 void SetFlag1(); // 0x0058F9F4
 bool GetFlag1(); // 0x0058F80C
 bool IsNotDream(); // 0x0058F7E8
+// whether an event of the id is active (in the list of the active events; never in the Dream Suite; name is ours)
+bool IsActive(u8 id); // 0x002FDE58
 
 // an event of the id is on the date (isGameDate: Func308EF0 first)
 bool IsEventOnDate(u8 id, nn::fnd::DateTimeParameters date, bool isGameDate); // 0x0058E768

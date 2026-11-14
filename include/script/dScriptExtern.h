@@ -184,19 +184,16 @@ void Func2BFDE0(SvPlayerInventory* inventory, u32 a, u32 b, u32 c); // 0x002BFDE
 void Func2BFF98(SvPlayerInventory* inventory, u32 slot, const SvFgName* item, u32 a, u32 b); // 0x002BFF98
 void Func2C00A8(SvPlayerInventory* inventory, u32 value); // 0x002C00A8
 void Func2C02C8(SvPlayerInventory* inventory, u32 value); // 0x002C02C8
-void Func2C1304(u8* data, u32 index, bool value); // 0x002C1304
 void* Func300928(u8* data, s32 entry); // 0x00300928 (Thumb)
 bool Func305240(void* entry); // 0x00305240
 bool Func3107F4(const SvFgName* item); // 0x003107F4
 bool Func350D40(); // 0x00350D40
 bool Func5C3750(); // 0x005C3750
 void Func5C8CC4(); // 0x005C8CC4
-void Func5CE494(SvStrcData* data, u32 value); // 0x005CE494
 s32 Func606170(void* object, u32* index, const libms::FlowNodeBranch& node); // 0x00606170
 u8 Func62FB14(); // 0x0062FB14
 bool Func710100(); // 0x00710100
 void* Func7171D4(void* object, u8 index); // 0x007171D4
-u32 Func71E9A4(const u8* data, u32 index); // 0x0071E9A4
 bool Func720FC0(void* entry); // 0x00720FC0
 bool Func758CDC(SvGardenData* data); // 0x00758CDC
 u32 Func75A27C(SvStrcData* data); // 0x0075A27C

@@ -106,9 +106,9 @@ void SvShopZakka::BuyItem(u32 stage, u32 index, s32 x, s32 z, s32 unknown)
 void SvShopZakka::Upgrade(u8 level)
 {
     if (!time::SvTimeIsValid(&renovationDate)) {
-        Func5CE904(&renovationDate);
+        time::SvTimeSetNow(&renovationDate);
         time::SvTimeNormalize(&renovationDate);
-        Func5CE8B8(&renovationDate, -1);
+        time::SvTimeAddDays(&renovationDate, -1);
     }
     nn::fnd::DateTimeParameters date = time::SvTimeToParameters(&renovationDate);
     event::AddDays(&date, 1);
@@ -193,8 +193,8 @@ DECOMP_NOINLINE void SvShopZakka::UpdateUpgrade(s32 days)
             }
             if (isRenewed) {
                 nooklingStateUnknown = nooklingState + 1;
-                Func5CE904(&renovationDate);
-                Func5CE8B8(&renovationDate, 1);
+                time::SvTimeSetNow(&renovationDate);
+                time::SvTimeAddDays(&renovationDate, 1);
                 time::SvTimeNormalize(&renovationDate);
                 goto renewed;
             }
@@ -202,7 +202,7 @@ DECOMP_NOINLINE void SvShopZakka::UpdateUpgrade(s32 days)
     }
     if (nooklingState != nooklingStateUnknown) {
         if (days < 0) {
-            Func5CE904(&renovationDate);
+            time::SvTimeSetNow(&renovationDate);
             time::SvTimeNormalize(&renovationDate);
         } else if (Func303850(&renovationDate, time::GetCurrentDate(), 1, 1) > 0) {
             Upgrade(nooklingStateUnknown);
@@ -253,7 +253,7 @@ void SvShopZakka::UpdateDay(s32 days)
                 time::SvTimeSet(&start, *time::GetCurrentDate());
                 timeServiceTime = start;
                 time::SvTimeNormalize(&timeServiceTime);
-                Func5CE934(&timeServiceTime, 0, GetRandom(4) + 10, 0, 0);
+                time::SvTimeAdd(&timeServiceTime, 0, GetRandom(4) + 10, 0, 0);
                 isStarted = true;
             }
         }

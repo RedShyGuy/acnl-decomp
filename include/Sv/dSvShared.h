@@ -10,9 +10,6 @@
 #include "Sv/dSvFgName.h"
 #include "Sv/dSvMail.h"
 
-#pragma pack(push, 1)
-
-
 struct SvSharedFlags {
     /* 0x0000.0 */ u8 flag1 : 1;
     /* 0x0000.1 */ u8 flag2 : 1;
@@ -201,4 +198,3 @@ struct SvSharedData {
 };
 ASSERT_SIZE(SvSharedData, 0x18200);
 
-#pragma pack(pop)

@@ -686,6 +686,21 @@ bool IsEventDay2(nn::fnd::DateTimeParameters date, bool withoutPersonal)
     return false;
 }
 
+// (the copy lies in the shared area 0x2Fxxxx: an inline function of the original header)
+// 0x002FDE58 (name is ours)
+bool IsActive(u8 id)
+{
+    if (IsDream()) {
+        return false;
+    }
+    for (EventBase* event = s_pActiveEvents; event != NULL; event = event->m_pNext) {
+        if (event->m_Info.id == id) {
+            return true;
+        }
+    }
+    return false;
+}
+
 // 0x0058FB7C (name is ours)
 u8 GetActiveSpecialEventId()
 {

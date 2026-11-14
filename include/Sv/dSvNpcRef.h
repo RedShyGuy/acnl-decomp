@@ -8,8 +8,6 @@
 #include "Sv/dSvCommon.h"
 #include "Sv/dSvPersonalId.h"
 
-#pragma pack(push, 1)
-
 struct SvNpcRef {
     /* 0x0000 */ SvTownId townData1;
     /* 0x0016 */ SvTownId townData2;
@@ -19,4 +17,3 @@ struct SvNpcRef {
 };
 ASSERT_SIZE(SvNpcRef, 0x30);
 
-#pragma pack(pop)

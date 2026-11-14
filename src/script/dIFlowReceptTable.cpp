@@ -93,7 +93,7 @@ const IFlowRecept::EventHandler IFlowRecept::s_EventHandlers[EVENT_HANDLER_NUM] 
     {9, &IFlowRecept::EventStartMessage},
     {10, &IFlowRecept::EventCallEntry},
     {11, &IFlowRecept::EventTransition},
-    {13, &IFlowRecept::Event13},
+    {13, &IFlowRecept::EventUnlockSpecialPwp},
     {16, &IFlowRecept::EventMenu},
     {17, &IFlowRecept::EventOpenMenu},
     {18, &IFlowRecept::EventMenu2},

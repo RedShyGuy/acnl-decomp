@@ -8,15 +8,28 @@
 #include "Sv/dSvCommon.h"
 #include "Sv/dSvFgName.h"
 
-#pragma pack(push, 1)
-
 // If furniture is "active", meaning if the lamp is turned on, if the tv is turned on, etc.
 // By default every spot in the room is active
 // Its a u16 : 1 bitflag
 struct SvRoomActiveFlags {
+    SvRoomActiveFlags(); // 0x005835F0
+    // every spot is active (all bits set; name is ours)
+    void SetAllActive(); // 0x005835CC
+
     /* 0x0000 */ u16 activeStates[0x10]; // default active
 };
 ASSERT_SIZE(SvRoomActiveFlags, 0x20);
+
+// the active flags of both item layers of a room (the room constructor inlines its constructor; the out-of-line copy
+// builds the global array 0xAD61F4 of the game; names are ours)
+struct SvRoomActiveLayers {
+    SvRoomActiveLayers(); // 0x00583648
+    // every spot of both layers is active
+    void SetAllActive(); // 0x0058358C
+
+    /* 0x0000 */ SvRoomActiveFlags layers[2]; // [0] roomItems, [1] roomItemsPlacedOnOtherRoomItems
+};
+ASSERT_SIZE(SvRoomActiveLayers, 0x40);
 
 // 0x5D904 and 0x5D90D
 struct SvHouseExterior {
@@ -72,8 +85,7 @@ ASSERT_SIZE(SvRoomState, 0x22);
 
 struct SvRoom {
     /* 0x0000 */ SvRoomState flags;
-    /* 0x0022 */ SvRoomActiveFlags roomItemsActiveStates;
-    /* 0x0042 */ SvRoomActiveFlags roomItemsPlacedOnOtherRoomItemsActiveStates;
+    /* 0x0022 */ SvRoomActiveLayers activeStates;
     /* 0x0062 */ SvFgName roomItems[0x64];
     /* 0x01F2 */ SvFgName roomItemsPlacedOnOtherRoomItems[0x40];
     /* 0x02F2 */ SvFgName wallpaper;
@@ -125,4 +137,3 @@ struct SvPlayerHouseList {
 };
 ASSERT_SIZE(SvPlayerHouseList, 0x48A0);
 
-#pragma pack(pop)

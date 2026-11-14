@@ -170,12 +170,39 @@ is neither today nor yesterday, the value is cleared; if the event takes place t
 - The winter of the stored date is computed with `year > 10` instead of `month > 10`, so the stored year always counts
   one year later.
 
-## Readers
+## Census menu
 
-- `0x5D10F8`: for each census index 0..83, whether the entry is shown. Event values (49..61) via their event check, most
-  others when the current player's value is above 0 (getter copies at 0x768xxx); indices 0..20, 28, 31, 32 and 76..83
-  always. Reads via `GetCensusOfGardenPlus()`.
-- `0x5D1918`: switch over the same indices that returns the value.
+The functions of the (unused) census menu are in [src/Sv/dSvCensusMenu.cpp](../src/Sv/dSvCensusMenu.cpp); the menu
+itself is game code (0x2CB804, 0x2CB9E8; the layout classes `CensusWindow`, `CensusContentList` and `CensusBG` in
+src/Other are not written yet). The index of a value is `SvCensusValueId` (the order of the table above,
+`CENSUS_VALUE_NUM` = 80); the menu has `CENSUS_ROW_NUM` = 84 rows, the last four have no value.
+
+| Function | Address | Content |
+|---|---|---|
+| `GetCensusValueOfRow(row)` | 0x5D1908 | the value index shown in a row (table 0x8588E4, no range check) |
+| `IsCensusValueShown(index)` | 0x5D10F8 | whether the row of a value is shown for the current player |
+| `GetCensusValueForSlot(index, townSlot)` | 0x5D1918 | the value of a player; the values without player values (14..17, 35, 73, 74, 79) give the total |
+| `GetCensusValueTotal(index)` | 0x5D2010 | the total of a value (0 for index ≥ 80) |
+| `GetCensusUnitIndex(index)` | 0x5D27A8 | the message of the unit in `STR_Kokusei_Unit` (table 0x858740, 9 messages) |
+| `GetCensusTitleIndex(index)` | 0x5D27C0 | the message of the title in `STR_Kokusei_Title` (table 0x8585F0, 82 messages) |
+
+"Kokusei" (国勢) is Japanese for census. The texts of both message files are empty in this version of the game.
+
+`IsCensusValueShown`:
+- always: 0..20 (money, turnips, catches, public works, fruit, nature), 28 (Nooklings), 31 (weeds), 32 (Able Sisters),
+  76..79 and the rows 80..83;
+- the event values while their event takes place (`event::IsActive`, see the event table above); snowflakes (59) in
+  January or December when the player has caught some; party poppers (60) on January 1 before 6:00; snowmen (57) and
+  bingo (61) after 0x63061C (bingo also 0x226D48, and the player needs a win);
+- `streetPassVisitors` (35), `goldenRosesCreated` (73), `blueRosesCreated` (74): when the total is above 0;
+- all others when the current player's value is above 0 (the player has done it once).
+
+The menu shows the event values first. Row order (value indices): 51 52 53 54 55 56 58 60 49 50 57 59 61 0 2 1 3 8 14
+26 36 37 28 32 30 33 29 9 27 70 76 77 78 79 11 12 13 40 10 31 18 73 74 19 15 16 17 20 75 25 24 4 5 6 7 64 65 66 67 68
+69 63 72 22 23 44 39 71 45 38 34 62 47 43 46 21 35 41 48 42.
+
+The getters of `SvCensus` (copies 0x7680D4–0x768A40): `Get<Value>Total()`, `Get<Value>ForSlot(townSlot)` and
+`Get<Value>()` (current player). They return `s32` (the menu compares with `> 0` signed).
 
 ## Unknown values
 

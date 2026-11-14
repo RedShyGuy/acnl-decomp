@@ -542,7 +542,7 @@ DECOMP_NOINLINE void SvInsectConvention::AdvanceTime(bool a, bool b, bool c)
         }
         Func312848(&step, 0, 0, 3, 0);
     }
-    Func5CE904(&progressTime);
+    time::SvTimeSetNow(&progressTime);
 }
 
 // 0x002EB558 (name is ours)
@@ -581,7 +581,7 @@ void SvInsectConvention::Clear(bool isReset)
 // 0x002EB680 (name is ours)
 void SvInsectConvention::Start()
 {
-    if (!Func2FDE58(event::EVENT_ID_BUG_OFF)) {
+    if (!event::IsActive(event::EVENT_ID_BUG_OFF)) {
         return;
     }
     flags |= 1;

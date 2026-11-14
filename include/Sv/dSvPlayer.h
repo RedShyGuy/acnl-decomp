@@ -17,8 +17,6 @@
 #include "Sv/dSvPersonalId.h"
 #include "Sv/dSvPlayerFlags.h"
 
-#pragma pack(push, 1)
-
 struct SvEmoticons {
     /* 0x0000 */ u8 emoticons[0x28];
 };
@@ -128,6 +126,7 @@ struct SvSnowmanBingoCard {
 ASSERT_SIZE(SvSnowmanBingoCard, 0x4);
 
 // 24CA98 31F2FA5C, 0
+#pragma pack(push, 1)
 struct SvPlayerSpecialMail {
     // (game code, not decompiled yet)
     SvPlayerSpecialMail(); // 0x0024DEB8
@@ -207,13 +206,14 @@ struct SvPlayerSpecialMail {
     /* 0x0069 */ u8 unk_0x69; // Set to 0 in Player ctor
     /* 0x006A */ SvTownId katieTraveledToTownData; // Will be shown in katies letter
 };
+#pragma pack(pop)
 ASSERT_SIZE(SvPlayerSpecialMail, 0x80);
 
 struct SvPlayerUnk8D4C {
     // (game code, not decompiled yet)
     SvPlayerUnk8D4C(); // 0x005BDD04
 
-    /* 0x0000 */ s64 unk_0x0; // ???; Set to 0, then 0x7FFFFFFFFFFFFFFF in player ctor
+    /* 0x0000 */ SvS64 unk_0x0; // ???; Set to 0, then 0x7FFFFFFFFFFFFFFF in player ctor
     /* 0x0008 */ u8 unk_0x8; // ???; Set to 0x21 in player ctor
     /* 0x0009 */ u8 unk_0x9; // ???; Set to 0xFF in player ctor
     /* 0x000A */ u8 unk_0xA; // ???; Set to 0x9 in player ctor
@@ -229,7 +229,7 @@ struct SvPlayerUnk8D5C {
     // (game code, not decompiled yet)
     SvPlayerUnk8D5C(); // 0x005BDECC
 
-    /* 0x0000 */ s64 unk_0x0; // ???; Set to 0, then 0x7FFFFFFFFFFFFFFF in player ctor
+    /* 0x0000 */ SvS64 unk_0x0; // ???; Set to 0, then 0x7FFFFFFFFFFFFFFF in player ctor
     /* 0x0008 */ u8 unk_0x8; // ???; Set to 0x21 in player ctor
     /* 0x0009 */ u8 unk_0x9; // ???; Set to 0xFF in player ctor
     /* 0x000A */ u8 unk_0xA; // ???; Set to 0x9 in player ctor
@@ -245,7 +245,7 @@ struct SvPlayerUnk8D6C {
     // (game code, not decompiled yet)
     SvPlayerUnk8D6C(); // 0x005BE570
 
-    /* 0x0000 */ s64 unk_0x0; // ???; Set to 0, then 0x7FFFFFFFFFFFFFFF in player ctor
+    /* 0x0000 */ SvS64 unk_0x0; // ???; Set to 0, then 0x7FFFFFFFFFFFFFFF in player ctor
     /* 0x0008 */ u8 unk_0x8; // ???; Set to 0x21 in player ctor
     /* 0x0009 */ u8 unk_0x9; // ???; Set to 0xFF in player ctor
     /* 0x000A */ u8 unk_0xA; // ???; Set to 0x9 in player ctor
@@ -259,11 +259,12 @@ struct SvPlayerUnk8D6C {
 };
 ASSERT_SIZE(SvPlayerUnk8D6C, 0x18);
 
+#pragma pack(push, 1)
 struct SvPlayerUnk8D84 {
     // (game code, not decompiled yet)
     SvPlayerUnk8D84(); // 0x005BEC6C
 
-    /* 0x0000 */ s64 unk_0x0; // ???; Set to 0, then 0x7FFFFFFFFFFFFFFF in player ctor
+    /* 0x0000 */ SvS64 unk_0x0; // ???; Set to 0, then 0x7FFFFFFFFFFFFFFF in player ctor
     /* 0x0008 */ u8 unk_0x8; // ???; Set to 0x21 in player ctor
     /* 0x0009 */ u8 unk_0x9; // ???; Set to 0xFF in player ctor
     /* 0x000A */ u8 unk_0xA; // ???; Set to 0x9 in player ctor
@@ -275,14 +276,16 @@ struct SvPlayerUnk8D84 {
     /* 0x0074 */ u8 unk_0x74; // ???; Set to 0 in player ctor
     /* 0x0075 */ u8 unk_0x75; // ???; Set to 0 in player ctor
 };
+#pragma pack(pop)
 ASSERT_SIZE(SvPlayerUnk8D84, 0x76);
 
 // Probably exact same struct as UnknownStruct4 but is set differently
+#pragma pack(push, 1)
 struct SvPlayerUnk8DFA {
     // (game code, not decompiled yet)
     SvPlayerUnk8DFA(); // 0x005BC4C0
 
-    /* 0x0000 */ s64 unk_0x0; // ???; Set to 0, then 0x7FFFFFFFFFFFFFFF in player ctor
+    /* 0x0000 */ SvS64 unk_0x0; // ???; Set to 0, then 0x7FFFFFFFFFFFFFFF in player ctor
     /* 0x0008 */ u8 unk_0x8; // ???; Set to 0x21 in player ctor
     /* 0x0009 */ u8 unk_0x9; // ???; Set to 0xFF in player ctor
     /* 0x000A */ u8 unk_0xA; // ???; Set to 0x9 in player ctor
@@ -290,6 +293,7 @@ struct SvPlayerUnk8DFA {
     /* 0x000C */ u8 unk_0xC; // ???; Set to 0xFF in player ctor
     /* 0x000D */ u8 pad_0xD; // Padding: Not set in ctor
 };
+#pragma pack(pop)
 ASSERT_SIZE(SvPlayerUnk8DFA, 0xE);
 
 // Similar to UnknownStruct3
@@ -297,7 +301,7 @@ struct SvPlayerUnk8E08 {
     // (game code, not decompiled yet)
     SvPlayerUnk8E08(); // 0x005BDAEC
 
-    /* 0x0000 */ s64 unk_0x0; // ???; Set to 0, then 0x7FFFFFFFFFFFFFFF in player ctor
+    /* 0x0000 */ SvS64 unk_0x0; // ???; Set to 0, then 0x7FFFFFFFFFFFFFFF in player ctor
     /* 0x0008 */ u8 unk_0x8; // ???; Set to 0x21 in player ctor
     /* 0x0009 */ u8 unk_0x9; // ???; Set to 0xFF in player ctor
     /* 0x000A */ u8 unk_0xA; // ???; Set to 0x9 in player ctor
@@ -305,6 +309,7 @@ struct SvPlayerUnk8E08 {
 };
 ASSERT_SIZE(SvPlayerUnk8E08, 0xC);
 
+#pragma pack(push, 1)
 struct SvPlayerUnk8EE0 {
     // (game code, not decompiled yet)
     SvPlayerUnk8EE0(); // 0x0020C484
@@ -325,6 +330,7 @@ struct SvPlayerUnk8EE0 {
     /* 0x0028 */ u8 unk_0x28; // ???; Set to 0 in player ctor
     /* 0x0029 */ u8 pad_0x29; // Padding: Not set in ctor
 };
+#pragma pack(pop)
 ASSERT_SIZE(SvPlayerUnk8EE0, 0x2A);
 
 struct SvPlayerUnkA468 {
@@ -371,6 +377,7 @@ struct SvPlayerFeatures {
 };
 ASSERT_SIZE(SvPlayerFeatures, 0x6);
 
+#pragma pack(push, 1)
 struct SvPlayerOutfit {
     /* 0x0000 */ SvFgName hat; // Item ID < 0xXXXX
     /* 0x0004 */ SvFgName accessory; // Item ID < 0xXXXX
@@ -382,12 +389,15 @@ struct SvPlayerOutfit {
     /* 0x001C */ SvFgName heldItem; // Item ID < 0xXXXX
     /* 0x0020 */ u8 unk_0x20; // Inverted gender(?): 1 for male, 0 for female. Default = 1 in PlayerConstructor (EUR 1.5 0x20D27C)
 };
+#pragma pack(pop)
 ASSERT_SIZE(SvPlayerOutfit, 0x21);
 
+#pragma pack(push, 1)
 struct SvPlayerAppearance {
     /* 0x0000 */ SvPlayerFeatures playerFeatures;
     /* 0x0006 */ SvPlayerOutfit playerOutfit;
 };
+#pragma pack(pop)
 ASSERT_SIZE(SvPlayerAppearance, 0x27);
 
 // UnknownNotSetYetX = Not set by player ctor
@@ -455,17 +465,414 @@ struct SvPlayerUnk8EBE {
 };
 ASSERT_SIZE(SvPlayerUnk8EBE, 0x16);
 
+// The value IDs of SvPlayerUnk8F77::GetValue/SetFlag (a second set of flags and small counters of the player like
+// SvPlayerFlags; names after the bit positions until the meanings are known)
+enum SvPlayerUnk8F77Id : u8 {
+    PLAYER_8F77_UNK_0x0_0 = 0,
+    PLAYER_8F77_UNK_0x0_1 = 1,
+    PLAYER_8F77_UNK_0x0_2 = 2,
+    PLAYER_8F77_UNK_0x0_3 = 3,
+    PLAYER_8F77_UNK_0x0_4 = 4,
+    PLAYER_8F77_UNK_0x0_5 = 5,
+    PLAYER_8F77_UNK_0x0_6 = 6,
+    PLAYER_8F77_UNK_0x0_7 = 7,
+    PLAYER_8F77_UNK_0x1_0 = 8,
+    PLAYER_8F77_UNK_0x1_1 = 9,
+    PLAYER_8F77_UNK_0x1_2 = 10,
+    PLAYER_8F77_UNK_0x1_3 = 11,
+    PLAYER_8F77_UNK_0x1_4 = 12,
+    PLAYER_8F77_UNK_0x1_5 = 13,
+    PLAYER_8F77_UNK_0x1_6 = 14,
+    PLAYER_8F77_UNK_0x1_7 = 15,
+    PLAYER_8F77_UNK_0x2_0 = 16,
+    PLAYER_8F77_UNK_0x2_1 = 17,
+    PLAYER_8F77_UNK_0x2_2 = 18,
+    PLAYER_8F77_UNK_0x2_3 = 19,
+    PLAYER_8F77_UNK_0x2_4 = 20,
+    PLAYER_8F77_UNK_0x2_5 = 21,
+    PLAYER_8F77_UNK_0x2_6 = 22,
+    PLAYER_8F77_UNK_0x2_7 = 23,
+    PLAYER_8F77_UNK_0x3_0 = 24,
+    PLAYER_8F77_UNK_0x3_1 = 25,
+    PLAYER_8F77_UNK_0x3_2 = 26,
+    PLAYER_8F77_UNK_0x3_3 = 27,
+    PLAYER_8F77_UNK_0x3_4 = 28,
+    PLAYER_8F77_UNK_0x3_5 = 29,
+    PLAYER_8F77_UNK_0x3_6 = 30,
+    PLAYER_8F77_UNK_0x3_7 = 31,
+    PLAYER_8F77_UNK_0x4_0 = 32,
+    PLAYER_8F77_UNK_0x4_1 = 33,
+    PLAYER_8F77_UNK_0x4_2 = 34,
+    PLAYER_8F77_UNK_0x4_3 = 35,
+    PLAYER_8F77_UNK_0x4_4 = 36,
+    PLAYER_8F77_UNK_0x4_5 = 37,
+    PLAYER_8F77_UNK_0x4_6 = 38,
+    PLAYER_8F77_UNK_0x4_7 = 39,
+    PLAYER_8F77_UNK_0x5_0 = 40,
+    PLAYER_8F77_UNK_0x5_1 = 41,
+    PLAYER_8F77_UNK_0x5_2 = 42,
+    PLAYER_8F77_UNK_0x5_3 = 43,
+    PLAYER_8F77_UNK_0x5_4 = 44,
+    PLAYER_8F77_UNK_0x5_5 = 45,
+    PLAYER_8F77_UNK_0x5_6 = 46,
+    PLAYER_8F77_UNK_0x5_7 = 47,
+    PLAYER_8F77_UNK_0x6_0 = 48,
+    PLAYER_8F77_UNK_0x6_1 = 49,
+    PLAYER_8F77_UNK_0x6_2 = 50,
+    PLAYER_8F77_UNK_0x6_3 = 51,
+    PLAYER_8F77_UNK_0x6_4 = 52,
+    PLAYER_8F77_UNK_0x6_5 = 53,
+    PLAYER_8F77_UNK_0x6_6 = 54,
+    PLAYER_8F77_UNK_0x6_7 = 55,
+    PLAYER_8F77_UNK_0x7_0 = 56, // 5 bits
+    PLAYER_8F77_UNK_0x7_5 = 57,
+    PLAYER_8F77_UNK_0x7_6 = 58,
+    PLAYER_8F77_UNK_0x7_7 = 59,
+    PLAYER_8F77_UNK_0x8_0 = 60,
+    PLAYER_8F77_UNK_0x8_1 = 61,
+    PLAYER_8F77_UNK_0x8_2 = 62,
+    PLAYER_8F77_UNK_0x8_3 = 63,
+    PLAYER_8F77_UNK_0x8_4 = 64,
+    PLAYER_8F77_UNK_0x8_5 = 65,
+    PLAYER_8F77_UNK_0x8_6 = 66,
+    PLAYER_8F77_UNK_0x8_7 = 67,
+    PLAYER_8F77_UNK_0x9_0 = 68,
+    PLAYER_8F77_UNK_0x9_1 = 69,
+    PLAYER_8F77_UNK_0x9_2 = 70,
+    PLAYER_8F77_UNK_0x9_3 = 71,
+    PLAYER_8F77_UNK_0x9_4 = 72,
+    PLAYER_8F77_UNK_0x9_5 = 73,
+    PLAYER_8F77_UNK_0x9_6 = 74,
+    PLAYER_8F77_UNK_0x9_7 = 75,
+    PLAYER_8F77_UNK_0xA_0 = 76,
+    PLAYER_8F77_UNK_0xA_1 = 77,
+    PLAYER_8F77_UNK_0xA_2 = 78,
+    PLAYER_8F77_UNK_0xA_3 = 79,
+    PLAYER_8F77_UNK_0xA_4 = 80,
+    PLAYER_8F77_UNK_0xA_5 = 81,
+    PLAYER_8F77_UNK_0xA_6 = 82,
+    PLAYER_8F77_UNK_0xA_7 = 83,
+    PLAYER_8F77_UNK_0xB_0 = 84,
+    PLAYER_8F77_UNK_0xB_1 = 85,
+    PLAYER_8F77_UNK_0xB_2 = 86,
+    PLAYER_8F77_UNK_0xB_3 = 87,
+    PLAYER_8F77_UNK_0xB_4 = 88,
+    PLAYER_8F77_UNK_0xB_5 = 89,
+    PLAYER_8F77_UNK_0xB_6 = 90,
+    PLAYER_8F77_UNK_0xB_7 = 91,
+    PLAYER_8F77_UNK_0xC_0 = 92,
+    PLAYER_8F77_UNK_0xC_1 = 93,
+    PLAYER_8F77_UNK_0xC_2 = 94,
+    PLAYER_8F77_UNK_0xC_3 = 95,
+    PLAYER_8F77_UNK_0xC_4 = 96,
+    PLAYER_8F77_UNK_0xC_5 = 97,
+    PLAYER_8F77_UNK_0xC_6 = 98,
+    PLAYER_8F77_UNK_0xC_7 = 99,
+    PLAYER_8F77_UNK_0xD_0 = 100,
+    PLAYER_8F77_UNK_0xD_1 = 101,
+    PLAYER_8F77_UNK_0xD_2 = 102,
+    PLAYER_8F77_UNK_0xD_3 = 103,
+    PLAYER_8F77_UNK_0xD_4 = 104,
+    PLAYER_8F77_UNK_0xD_5 = 105,
+    PLAYER_8F77_UNK_0xD_6 = 106,
+    PLAYER_8F77_UNK_0xD_7 = 107,
+    PLAYER_8F77_UNK_0xE_0 = 108,
+    PLAYER_8F77_UNK_0xE_1 = 109,
+    PLAYER_8F77_UNK_0xE_2 = 110,
+    PLAYER_8F77_UNK_0xE_3 = 111,
+    PLAYER_8F77_UNK_0xE_4 = 112,
+    PLAYER_8F77_UNK_0xE_5 = 113,
+    PLAYER_8F77_UNK_0xE_6 = 114,
+    PLAYER_8F77_UNK_0xE_7 = 115,
+    PLAYER_8F77_UNK_0xF_0 = 116,
+    PLAYER_8F77_UNK_0xF_1 = 117,
+    PLAYER_8F77_UNK_0xF_2 = 118,
+    PLAYER_8F77_UNK_0xF_3 = 119,
+    PLAYER_8F77_UNK_0xF_4 = 120,
+    PLAYER_8F77_UNK_0xF_5 = 121,
+    PLAYER_8F77_UNK_0xF_6 = 122,
+    PLAYER_8F77_UNK_0xF_7 = 123,
+    PLAYER_8F77_UNK_0x10_0 = 124,
+    PLAYER_8F77_UNK_0x10_1 = 125,
+    PLAYER_8F77_UNK_0x10_2 = 126,
+    PLAYER_8F77_UNK_0x10_3 = 127,
+    PLAYER_8F77_UNK_0x10_4 = 128,
+    PLAYER_8F77_UNK_0x10_5 = 129,
+    PLAYER_8F77_UNK_0x10_6 = 130,
+    PLAYER_8F77_UNK_0x10_7 = 131,
+    PLAYER_8F77_UNK_0x11_0 = 132,
+    PLAYER_8F77_UNK_0x11_1 = 133,
+    PLAYER_8F77_UNK_0x11_2 = 134, // 4 bits
+    PLAYER_8F77_UNK_0x11_6 = 135,
+    PLAYER_8F77_UNK_0x11_7 = 136,
+    PLAYER_8F77_UNK_0x12_0 = 137,
+    PLAYER_8F77_UNK_0x12_1 = 138, // 10 bits
+    PLAYER_8F77_UNK_0x13_3 = 139, // 10 bits
+    PLAYER_8F77_UNK_0x14_5 = 140, // 5 bits
+    PLAYER_8F77_UNK_0x15_2 = 141, // 8 bits
+    PLAYER_8F77_UNK_0x16_2 = 142, // 8 bits
+    PLAYER_8F77_UNK_0x17_2 = 143, // 8 bits
+    PLAYER_8F77_UNK_0x18_2 = 144, // 9 bits
+    PLAYER_8F77_UNK_0x19_3 = 145, // 4 bits
+    PLAYER_8F77_UNK_0x19_7 = 146, // 5 bits
+    PLAYER_8F77_UNK_0x1A_4 = 147,
+    PLAYER_8F77_UNK_0x1A_5 = 148,
+    PLAYER_8F77_UNK_0x1A_6 = 149,
+    PLAYER_8F77_UNK_0x1A_7 = 150,
+    PLAYER_8F77_UNK_0x1B_0 = 151,
+    PLAYER_8F77_UNK_0x1B_1 = 152,
+    PLAYER_8F77_UNK_0x1B_2 = 153,
+    PLAYER_8F77_UNK_0x1B_3 = 154,
+    PLAYER_8F77_UNK_0x1B_4 = 155,
+    PLAYER_8F77_UNK_0x1B_5 = 156,
+    PLAYER_8F77_UNK_0x1B_6 = 157,
+    PLAYER_8F77_UNK_0x1B_7 = 158,
+    PLAYER_8F77_UNK_0x1C_0 = 159,
+    PLAYER_8F77_UNK_0x1C_1 = 160,
+    PLAYER_8F77_UNK_0x1C_2 = 161,
+    PLAYER_8F77_UNK_0x1C_3 = 162,
+    PLAYER_8F77_UNK_0x1C_4 = 163,
+    PLAYER_8F77_UNK_0x1C_5 = 164,
+    PLAYER_8F77_UNK_0x1C_6 = 165,
+    PLAYER_8F77_UNK_0x1C_7 = 166,
+    PLAYER_8F77_UNK_0x1D_0 = 167,
+    PLAYER_8F77_UNK_0x1D_1 = 168,
+    PLAYER_8F77_UNK_0x1D_2 = 169,
+    PLAYER_8F77_UNK_0x1D_3 = 170,
+    PLAYER_8F77_UNK_0x1D_4 = 171, // 10 bits
+    PLAYER_8F77_UNK_0x1E_6 = 172,
+    PLAYER_8F77_UNK_0x1E_7 = 173,
+    PLAYER_8F77_UNK_0x1F_0 = 174,
+    PLAYER_8F77_UNK_0x1F_1 = 175,
+    PLAYER_8F77_UNK_0x1F_2 = 176,
+    PLAYER_8F77_UNK_0x1F_3 = 177,
+    PLAYER_8F77_UNK_0x1F_4 = 178,
+    PLAYER_8F77_UNK_0x1F_5 = 179,
+    PLAYER_8F77_UNK_0x1F_6 = 180,
+    PLAYER_8F77_UNK_0x1F_7 = 181,
+    PLAYER_8F77_UNK_0x20_0 = 182,
+    PLAYER_8F77_UNK_0x20_1 = 183,
+    PLAYER_8F77_UNK_0x20_2 = 184,
+    PLAYER_8F77_UNK_0x20_3 = 185,
+    PLAYER_8F77_UNK_0x20_4 = 186,
+    PLAYER_8F77_UNK_0x20_5 = 187,
+    PLAYER_8F77_NUM = 188,
+};
+
+#pragma pack(push, 1)
 struct SvPlayerUnk8F77 {
     SvPlayerUnk8F77()
     {
-        std::memset(data, 0, sizeof(data));
+        std::memset(static_cast<void*>(this), 0, sizeof(*this));
         Init();
     }
     // (game code, not decompiled yet)
     void Init(); // 0x002C0614
+    // (game code, not decompiled yet; names are ours, after SvPlayerFlags) the flag or the counter of the number /
+    // a flag is set or cleared (index: SvPlayerUnk8F77Id, passed as u32 like in the original)
+    u32 GetValue(u32 index) const; // 0x0071E9A4
+    void SetFlag(u32 index, bool value); // 0x002C1304
 
-    /* 0x0000 */ u8 data[0x22];
+    /* 0x0000.0 */ u8 unk_0x0_0 : 1;
+    /* 0x0000.1 */ u8 unk_0x0_1 : 1;
+    /* 0x0000.2 */ u8 unk_0x0_2 : 1;
+    /* 0x0000.3 */ u8 unk_0x0_3 : 1;
+    /* 0x0000.4 */ u8 unk_0x0_4 : 1;
+    /* 0x0000.5 */ u8 unk_0x0_5 : 1;
+    /* 0x0000.6 */ u8 unk_0x0_6 : 1;
+    /* 0x0000.7 */ u8 unk_0x0_7 : 1;
+    /* 0x0001.0 */ u8 unk_0x1_0 : 1;
+    /* 0x0001.1 */ u8 unk_0x1_1 : 1;
+    /* 0x0001.2 */ u8 unk_0x1_2 : 1;
+    /* 0x0001.3 */ u8 unk_0x1_3 : 1;
+    /* 0x0001.4 */ u8 unk_0x1_4 : 1;
+    /* 0x0001.5 */ u8 unk_0x1_5 : 1;
+    /* 0x0001.6 */ u8 unk_0x1_6 : 1;
+    /* 0x0001.7 */ u8 unk_0x1_7 : 1;
+    /* 0x0002.0 */ u8 unk_0x2_0 : 1;
+    /* 0x0002.1 */ u8 unk_0x2_1 : 1;
+    /* 0x0002.2 */ u8 unk_0x2_2 : 1;
+    /* 0x0002.3 */ u8 unk_0x2_3 : 1;
+    /* 0x0002.4 */ u8 unk_0x2_4 : 1;
+    /* 0x0002.5 */ u8 unk_0x2_5 : 1;
+    /* 0x0002.6 */ u8 unk_0x2_6 : 1;
+    /* 0x0002.7 */ u8 unk_0x2_7 : 1;
+    /* 0x0003.0 */ u8 unk_0x3_0 : 1;
+    /* 0x0003.1 */ u8 unk_0x3_1 : 1;
+    /* 0x0003.2 */ u8 unk_0x3_2 : 1;
+    /* 0x0003.3 */ u8 unk_0x3_3 : 1;
+    /* 0x0003.4 */ u8 unk_0x3_4 : 1;
+    /* 0x0003.5 */ u8 unk_0x3_5 : 1;
+    /* 0x0003.6 */ u8 unk_0x3_6 : 1;
+    /* 0x0003.7 */ u8 unk_0x3_7 : 1;
+    /* 0x0004.0 */ u8 unk_0x4_0 : 1;
+    /* 0x0004.1 */ u8 unk_0x4_1 : 1;
+    /* 0x0004.2 */ u8 unk_0x4_2 : 1;
+    /* 0x0004.3 */ u8 unk_0x4_3 : 1;
+    /* 0x0004.4 */ u8 unk_0x4_4 : 1;
+    /* 0x0004.5 */ u8 unk_0x4_5 : 1;
+    /* 0x0004.6 */ u8 unk_0x4_6 : 1;
+    /* 0x0004.7 */ u8 unk_0x4_7 : 1;
+    /* 0x0005.0 */ u8 unk_0x5_0 : 1;
+    /* 0x0005.1 */ u8 unk_0x5_1 : 1;
+    /* 0x0005.2 */ u8 unk_0x5_2 : 1;
+    /* 0x0005.3 */ u8 unk_0x5_3 : 1;
+    /* 0x0005.4 */ u8 unk_0x5_4 : 1;
+    /* 0x0005.5 */ u8 unk_0x5_5 : 1;
+    /* 0x0005.6 */ u8 unk_0x5_6 : 1;
+    /* 0x0005.7 */ u8 unk_0x5_7 : 1;
+    /* 0x0006.0 */ u8 unk_0x6_0 : 1;
+    /* 0x0006.1 */ u8 unk_0x6_1 : 1;
+    /* 0x0006.2 */ u8 unk_0x6_2 : 1;
+    /* 0x0006.3 */ u8 unk_0x6_3 : 1;
+    /* 0x0006.4 */ u8 unk_0x6_4 : 1;
+    /* 0x0006.5 */ u8 unk_0x6_5 : 1;
+    /* 0x0006.6 */ u8 unk_0x6_6 : 1;
+    /* 0x0006.7 */ u8 unk_0x6_7 : 1;
+    /* 0x0007.0 */ u8 unk_0x7_0 : 5;
+    /* 0x0007.5 */ u8 unk_0x7_5 : 1;
+    /* 0x0007.6 */ u8 unk_0x7_6 : 1;
+    /* 0x0007.7 */ u8 unk_0x7_7 : 1;
+    /* 0x0008.0 */ u8 unk_0x8_0 : 1;
+    /* 0x0008.1 */ u8 unk_0x8_1 : 1;
+    /* 0x0008.2 */ u8 unk_0x8_2 : 1;
+    /* 0x0008.3 */ u8 unk_0x8_3 : 1;
+    /* 0x0008.4 */ u8 unk_0x8_4 : 1;
+    /* 0x0008.5 */ u8 unk_0x8_5 : 1;
+    /* 0x0008.6 */ u8 unk_0x8_6 : 1;
+    /* 0x0008.7 */ u8 unk_0x8_7 : 1;
+    /* 0x0009.0 */ u8 unk_0x9_0 : 1;
+    /* 0x0009.1 */ u8 unk_0x9_1 : 1;
+    /* 0x0009.2 */ u8 unk_0x9_2 : 1;
+    /* 0x0009.3 */ u8 unk_0x9_3 : 1;
+    /* 0x0009.4 */ u8 unk_0x9_4 : 1;
+    /* 0x0009.5 */ u8 unk_0x9_5 : 1;
+    /* 0x0009.6 */ u8 unk_0x9_6 : 1;
+    /* 0x0009.7 */ u8 unk_0x9_7 : 1;
+    /* 0x000A.0 */ u8 unk_0xA_0 : 1;
+    /* 0x000A.1 */ u8 unk_0xA_1 : 1;
+    /* 0x000A.2 */ u8 unk_0xA_2 : 1;
+    /* 0x000A.3 */ u8 unk_0xA_3 : 1;
+    /* 0x000A.4 */ u8 unk_0xA_4 : 1;
+    /* 0x000A.5 */ u8 unk_0xA_5 : 1;
+    /* 0x000A.6 */ u8 unk_0xA_6 : 1;
+    /* 0x000A.7 */ u8 unk_0xA_7 : 1;
+    /* 0x000B.0 */ u8 unk_0xB_0 : 1;
+    /* 0x000B.1 */ u8 unk_0xB_1 : 1;
+    /* 0x000B.2 */ u8 unk_0xB_2 : 1;
+    /* 0x000B.3 */ u8 unk_0xB_3 : 1;
+    /* 0x000B.4 */ u8 unk_0xB_4 : 1;
+    /* 0x000B.5 */ u8 unk_0xB_5 : 1;
+    /* 0x000B.6 */ u8 unk_0xB_6 : 1;
+    /* 0x000B.7 */ u8 unk_0xB_7 : 1;
+    /* 0x000C.0 */ u8 unk_0xC_0 : 1;
+    /* 0x000C.1 */ u8 unk_0xC_1 : 1;
+    /* 0x000C.2 */ u8 unk_0xC_2 : 1;
+    /* 0x000C.3 */ u8 unk_0xC_3 : 1;
+    /* 0x000C.4 */ u8 unk_0xC_4 : 1;
+    /* 0x000C.5 */ u8 unk_0xC_5 : 1;
+    /* 0x000C.6 */ u8 unk_0xC_6 : 1;
+    /* 0x000C.7 */ u8 unk_0xC_7 : 1;
+    /* 0x000D.0 */ u8 unk_0xD_0 : 1;
+    /* 0x000D.1 */ u8 unk_0xD_1 : 1;
+    /* 0x000D.2 */ u8 unk_0xD_2 : 1;
+    /* 0x000D.3 */ u8 unk_0xD_3 : 1;
+    /* 0x000D.4 */ u8 unk_0xD_4 : 1;
+    /* 0x000D.5 */ u8 unk_0xD_5 : 1;
+    /* 0x000D.6 */ u8 unk_0xD_6 : 1;
+    /* 0x000D.7 */ u8 unk_0xD_7 : 1;
+    /* 0x000E.0 */ u8 unk_0xE_0 : 1;
+    /* 0x000E.1 */ u8 unk_0xE_1 : 1;
+    /* 0x000E.2 */ u8 unk_0xE_2 : 1;
+    /* 0x000E.3 */ u8 unk_0xE_3 : 1;
+    /* 0x000E.4 */ u8 unk_0xE_4 : 1;
+    /* 0x000E.5 */ u8 unk_0xE_5 : 1;
+    /* 0x000E.6 */ u8 unk_0xE_6 : 1;
+    /* 0x000E.7 */ u8 unk_0xE_7 : 1;
+    /* 0x000F.0 */ u8 unk_0xF_0 : 1;
+    /* 0x000F.1 */ u8 unk_0xF_1 : 1;
+    /* 0x000F.2 */ u8 unk_0xF_2 : 1;
+    /* 0x000F.3 */ u8 unk_0xF_3 : 1;
+    /* 0x000F.4 */ u8 unk_0xF_4 : 1;
+    /* 0x000F.5 */ u8 unk_0xF_5 : 1;
+    /* 0x000F.6 */ u8 unk_0xF_6 : 1;
+    /* 0x000F.7 */ u8 unk_0xF_7 : 1;
+    /* 0x0010.0 */ u8 unk_0x10_0 : 1;
+    /* 0x0010.1 */ u8 unk_0x10_1 : 1;
+    /* 0x0010.2 */ u8 unk_0x10_2 : 1;
+    /* 0x0010.3 */ u8 unk_0x10_3 : 1;
+    /* 0x0010.4 */ u8 unk_0x10_4 : 1;
+    /* 0x0010.5 */ u8 unk_0x10_5 : 1;
+    /* 0x0010.6 */ u8 unk_0x10_6 : 1;
+    /* 0x0010.7 */ u8 unk_0x10_7 : 1;
+    /* 0x0011.0 */ u8 unk_0x11_0 : 1;
+    /* 0x0011.1 */ u8 unk_0x11_1 : 1;
+    /* 0x0011.2 */ u8 unk_0x11_2 : 4;
+    /* 0x0011.6 */ u8 unk_0x11_6 : 1;
+    /* 0x0011.7 */ u8 unk_0x11_7 : 1;
+    /* 0x0012.0 */ u8 unk_0x12_0 : 1;
+    /* 0x0012.1 */ u16 unk_0x12_1 : 10;
+    /* 0x0013.3 */ u16 unk_0x13_3 : 10;
+    /* 0x0014.5 */ u16 unk_0x14_5 : 5;
+    /* 0x0015.2 */ u16 unk_0x15_2 : 8;
+    /* 0x0016.2 */ u16 unk_0x16_2 : 8;
+    /* 0x0017.2 */ u16 unk_0x17_2 : 8;
+    /* 0x0018.2 */ u16 unk_0x18_2 : 9;
+    /* 0x0019.3 */ u8 unk_0x19_3 : 4;
+    /* 0x0019.7 */ u16 unk_0x19_7 : 5;
+    /* 0x001A.4 */ u8 unk_0x1A_4 : 1;
+    /* 0x001A.5 */ u8 unk_0x1A_5 : 1;
+    /* 0x001A.6 */ u8 unk_0x1A_6 : 1;
+    /* 0x001A.7 */ u8 unk_0x1A_7 : 1;
+    /* 0x001B.0 */ u8 unk_0x1B_0 : 1;
+    /* 0x001B.1 */ u8 unk_0x1B_1 : 1;
+    /* 0x001B.2 */ u8 unk_0x1B_2 : 1;
+    /* 0x001B.3 */ u8 unk_0x1B_3 : 1;
+    /* 0x001B.4 */ u8 unk_0x1B_4 : 1;
+    /* 0x001B.5 */ u8 unk_0x1B_5 : 1;
+    /* 0x001B.6 */ u8 unk_0x1B_6 : 1;
+    /* 0x001B.7 */ u8 unk_0x1B_7 : 1;
+    /* 0x001C.0 */ u8 unk_0x1C_0 : 1;
+    /* 0x001C.1 */ u8 unk_0x1C_1 : 1;
+    /* 0x001C.2 */ u8 unk_0x1C_2 : 1;
+    /* 0x001C.3 */ u8 unk_0x1C_3 : 1;
+    /* 0x001C.4 */ u8 unk_0x1C_4 : 1;
+    /* 0x001C.5 */ u8 unk_0x1C_5 : 1;
+    /* 0x001C.6 */ u8 unk_0x1C_6 : 1;
+    /* 0x001C.7 */ u8 unk_0x1C_7 : 1;
+    /* 0x001D.0 */ u8 unk_0x1D_0 : 1;
+    /* 0x001D.1 */ u8 unk_0x1D_1 : 1;
+    /* 0x001D.2 */ u8 unk_0x1D_2 : 1;
+    /* 0x001D.3 */ u8 unk_0x1D_3 : 1;
+    /* 0x001D.4 */ u16 unk_0x1D_4 : 10;
+    /* 0x001E.6 */ u8 unk_0x1E_6 : 1;
+    /* 0x001E.7 */ u8 unk_0x1E_7 : 1;
+    /* 0x001F.0 */ u8 unk_0x1F_0 : 1;
+    /* 0x001F.1 */ u8 unk_0x1F_1 : 1;
+    /* 0x001F.2 */ u8 unk_0x1F_2 : 1;
+    /* 0x001F.3 */ u8 unk_0x1F_3 : 1;
+    /* 0x001F.4 */ u8 unk_0x1F_4 : 1;
+    /* 0x001F.5 */ u8 unk_0x1F_5 : 1;
+    /* 0x001F.6 */ u8 unk_0x1F_6 : 1;
+    /* 0x001F.7 */ u8 unk_0x1F_7 : 1;
+    /* 0x0020.0 */ u8 unk_0x20_0 : 1;
+    /* 0x0020.1 */ u8 unk_0x20_1 : 1;
+    /* 0x0020.2 */ u8 unk_0x20_2 : 1;
+    /* 0x0020.3 */ u8 unk_0x20_3 : 1;
+    /* 0x0020.4 */ u8 unk_0x20_4 : 1;
+    /* 0x0020.5 */ u8 unk_0x20_5 : 1;
+    /* 0x0020.6 */ u8 unk_0x20_6 : 1; // no value ID
+    /* 0x0020.7 */ u8 unk_0x20_7 : 1; // no value ID
+    /* 0x0021.0 */ u8 unk_0x21_0 : 1; // no value ID
+    /* 0x0021.1 */ u8 unk_0x21_1 : 1; // no value ID
+    /* 0x0021.2 */ u8 unk_0x21_2 : 1; // no value ID
+    /* 0x0021.3 */ u8 unk_0x21_3 : 1; // no value ID
+    /* 0x0021.4 */ u8 unk_0x21_4 : 1; // no value ID
+    /* 0x0021.5 */ u8 unk_0x21_5 : 1; // no value ID
+    /* 0x0021.6 */ u8 unk_0x21_6 : 1; // no value ID
+    /* 0x0021.7 */ u8 unk_0x21_7 : 1; // no value ID
 };
+#pragma pack(pop)
 ASSERT_SIZE(SvPlayerUnk8F77, 0x22);
 
 struct SvPlayerUnk8F99 {
@@ -532,10 +939,7 @@ struct SvPlayerUnk0 {
     /* 0x5540 */ u8 hasMii; // Values: 0 = No Mii, 1 = Has Mii, <1 = Has Mii, face doesn't show
     /* 0x5541 */ u8 pad_0x5541; // Not Verified: U8 Zero Padding; Always 0x00
     /* 0x5542 */ u16 pad_0x5542; // Not Verified: U16 Zero Padding; Always 0x0000
-    /* 0x5544 */ SvMannequin mannequin1;
-    /* 0x555C */ SvMannequin mannequin2;
-    /* 0x5574 */ SvMannequin mannequin3;
-    /* 0x558C */ SvMannequin mannequin4;
+    /* 0x5544 */ SvMannequin mannequins[4]; // (the constructor builds them as one array)
     /* 0x55A4 */ u16 pad_0x55A4;
     /* 0x55A6 */ SvPersonalId playerInfo;
     /* 0x55D4 */ u8 birthMonth;
@@ -560,6 +964,7 @@ struct SvPlayerUnk0 {
 };
 ASSERT_SIZE(SvPlayerUnk0, 0x6B88);
 
+#pragma pack(push, 1)
 struct SvPlayer : SvPlayerUnk0 {
     // (the members are built one after the other; the constructor of the save data builds it)
     SvPlayer(); // 0x006BEBB0
@@ -635,7 +1040,7 @@ struct SvPlayer : SvPlayerUnk0 {
     /* 0x6B9C */ SvEncValue medalAmount;
     /* 0x6BA4 */ SvEncValue bellsFromReeseAmount;
     /* 0x6BAC */ u32 pad_0x6BAC;
-    /* 0x6BB0 */ s64 playtime;
+    /* 0x6BB0 */ SvS64 playtime;
     /* 0x6BB8 */ SvTownId townData2;
     /* 0x6BCE */ u16 pad_0x6BCE;
     /* 0x6BD0 */ SvPlayerInventory inventory;
@@ -709,6 +1114,7 @@ struct SvPlayer : SvPlayerUnk0 {
     /* 0xA47A */ SvPlayerUnkA47A unk_0xA47A; // Some Item; Set to 0x00007ffe in player ctor
     /* 0xA47E */ u16 pad_0xA47E;
 };
+#pragma pack(pop)
 ASSERT_SIZE(SvPlayer, 0xA480);
 
 // the four players of the town (name after libgarden)
@@ -773,4 +1179,3 @@ void Func6BC774(SvMail* mail, u32 a, SvPersonalId* player, u32 b); // 0x006BC774
 void Func24DD34(SvPlayerSpecialMail* mail); // 0x0024DD34
 void Func5BD8D4(SvPlayerUnk8E08* data, SvPlayer* player); // 0x005BD8D4
 
-#pragma pack(pop)

@@ -69,7 +69,7 @@ public:
     };
 
     // the empty item (inline after libgarden's SvFgName header)
-    constexpr SvFgName() : id(NAME_EMPTY), flags(0) {}
+    DECOMP_EMIT_COPY constexpr SvFgName() : id(NAME_EMPTY), flags(0) {} // 0x002FC18C
     explicit SvFgName(SvFgName::ID); // 0x002FCC14 | libgarden [tier A]
     SvFgName(const SvFgName& other); // 0x002FC9C4
     SvFgName& operator=(const SvFgName& other); // 0x002FC978

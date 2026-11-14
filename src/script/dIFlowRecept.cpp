@@ -273,10 +273,10 @@ s32 IFlowRecept::OnEvent(libms::Flow* flow, const libms::FlowNodeEvent& node)
         townFlags->SetFlag(node.GetParam(), false);
         return RESULT_DONE;
     case 78:
-        townFlags->SetValue(35, node.GetParam());
+        townFlags->SetValue(TOWN_FLAG_UNK_0x6_3, node.GetParam());
         return RESULT_DONE;
     case 79:
-        townFlags->SetValue(56, node.GetParam());
+        townFlags->SetValue(TOWN_FLAG_UNK_0xC_1, node.GetParam());
         return RESULT_DONE;
     }
     SvPlayer* player = SvGetCurrentPlayer();
@@ -286,7 +286,7 @@ s32 IFlowRecept::OnEvent(libms::Flow* flow, const libms::FlowNodeEvent& node)
     SvPlayerFlags* playerFlags = &player->playerFlags;
     switch (node.GetId()) {
     case 49:
-        playerFlags->SetValue(0, node.GetParam());
+        playerFlags->SetValue(PLAYER_FLAG_UNK_0x0_0, node.GetParam());
         result = RESULT_DONE;
         break;
     case 50:
@@ -298,60 +298,60 @@ s32 IFlowRecept::OnEvent(libms::Flow* flow, const libms::FlowNodeEvent& node)
         result = RESULT_DONE;
         break;
     case 52:
-        playerFlags->SetValue(67, node.GetParam());
+        playerFlags->SetValue(PLAYER_FLAG_UNK_0x9_5, node.GetParam());
         result = RESULT_DONE;
         break;
     case 53:
-        playerFlags->SetValue(80, node.GetParam());
+        playerFlags->SetValue(PLAYER_FLAG_UNK_0xC_0, node.GetParam());
         result = RESULT_DONE;
         break;
     case 54:
-        playerFlags->SetValue(111, node.GetParam());
+        playerFlags->SetValue(PLAYER_FLAG_BEFRIEND_SABLE, node.GetParam());
         result = RESULT_DONE;
         break;
     case 55:
-        playerFlags->SetValue(154, node.GetParam());
+        playerFlags->SetValue(PLAYER_FLAG_UNK_0x16_4, node.GetParam());
         result = RESULT_DONE;
         break;
     case 56:
-        playerFlags->SetValue(171, node.GetParam());
+        playerFlags->SetValue(PLAYER_FLAG_UNK_0x1B_4, node.GetParam());
         result = RESULT_DONE;
         break;
     case 57:
-        playerFlags->SetValue(172, node.GetParam());
+        playerFlags->SetValue(PLAYER_FLAG_UNK_0x1C_3, node.GetParam());
         result = RESULT_DONE;
         break;
     case 58:
-        playerFlags->SetValue(173, node.GetParam());
+        playerFlags->SetValue(PLAYER_FLAG_UNK_0x1D_2, node.GetParam());
         result = RESULT_DONE;
         break;
     case 59:
-        playerFlags->SetValue(169, node.GetParam());
+        playerFlags->SetValue(PLAYER_FLAG_PERMIT_POINTS, node.GetParam());
         result = RESULT_DONE;
         break;
     case 60:
-        playerFlags->SetValue(198, node.GetParam());
+        playerFlags->SetValue(PLAYER_FLAG_UNK_0x22_1, node.GetParam());
         result = RESULT_DONE;
         break;
     }
     if (result != RESULT_NONE) {
         return result;
     }
-    u8* playerData = player->unk_0x8F77.data;
+    SvPlayerUnk8F77* playerData = &player->unk_0x8F77;
     switch (node.GetId()) {
     case 61:
-        Func2C1304(playerData, node.GetParam(), true);
+        playerData->SetFlag(node.GetParam(), true);
         return RESULT_DONE;
     case 62:
-        Func2C1304(playerData, node.GetParam(), false);
+        playerData->SetFlag(node.GetParam(), false);
         return RESULT_DONE;
     case 63: {
         s32 param = node.GetParam();
-        u32 value = (playerData[7] & 0x1F) + param;
+        u32 value = playerData->unk_0x7_0 + param;
         if (value > 30) {
             value = param > 0 ? 30 : 0;
         }
-        playerData[7] = (playerData[7] & ~0x1F) | (value & 0x1F);
+        playerData->unk_0x7_0 = value;
         return RESULT_DONE;
     }
     }
@@ -498,13 +498,13 @@ s32 IFlowRecept::OnBranch(u32* index, const libms::FlowNodeBranch& node)
     case 119:
         return SelectCase(index, townFlags->GetValue(node.GetParam()) == 1);
     case 120:
-        return SelectCase(index, townFlags->GetValue(5) >= node.GetParam());
+        return SelectCase(index, townFlags->GetValue(TOWN_FLAG_UNK_0x0_5) >= node.GetParam());
     case 121:
-        return SelectCase(index, townFlags->GetValue(31) >= node.GetParam());
+        return SelectCase(index, townFlags->GetValue(TOWN_FLAG_UNK_0x4_7) >= node.GetParam());
     case 122:
-        return SelectCase(index, townFlags->GetValue(35) >= node.GetParam());
+        return SelectCase(index, townFlags->GetValue(TOWN_FLAG_UNK_0x6_3) >= node.GetParam());
     case 123:
-        return SelectCase(index, townFlags->GetValue(56) >= node.GetParam());
+        return SelectCase(index, townFlags->GetValue(TOWN_FLAG_UNK_0xC_1) >= node.GetParam());
     }
     VisitorLocalInfo* visitor = VisitorLocalInfo::s_pInstance;
     townFlags = visitor->GetTownFlags();
@@ -512,13 +512,13 @@ s32 IFlowRecept::OnBranch(u32* index, const libms::FlowNodeBranch& node)
     case 124:
         return SelectCase(index, townFlags->GetValue(node.GetParam()) == 1);
     case 125:
-        return SelectCase(index, townFlags->GetValue(5) >= node.GetParam());
+        return SelectCase(index, townFlags->GetValue(TOWN_FLAG_UNK_0x0_5) >= node.GetParam());
     case 126:
-        return SelectCase(index, townFlags->GetValue(31) >= node.GetParam());
+        return SelectCase(index, townFlags->GetValue(TOWN_FLAG_UNK_0x4_7) >= node.GetParam());
     case 127:
-        return SelectCase(index, townFlags->GetValue(35) >= node.GetParam());
+        return SelectCase(index, townFlags->GetValue(TOWN_FLAG_UNK_0x6_3) >= node.GetParam());
     case 128:
-        return SelectCase(index, townFlags->GetValue(56) >= node.GetParam());
+        return SelectCase(index, townFlags->GetValue(TOWN_FLAG_UNK_0xC_1) >= node.GetParam());
     }
     SvPlayer* player = SvGetCurrentPlayer();
     if (player == NULL) {
@@ -529,40 +529,40 @@ s32 IFlowRecept::OnBranch(u32* index, const libms::FlowNodeBranch& node)
     case 129:
         return SelectCase(index, playerFlags->GetValue(node.GetParam()) == 1);
     case 130:
-        return SelectCase(index, playerFlags->GetValue(0) >= node.GetParam());
+        return SelectCase(index, playerFlags->GetValue(PLAYER_FLAG_UNK_0x0_0) >= node.GetParam());
     case 131:
-        return SelectCase(index, playerFlags->GetValue(8) >= node.GetParam());
+        return SelectCase(index, playerFlags->GetValue(PLAYER_FLAG_UNK_0x1_3) >= node.GetParam());
     case 132:
-        return SelectCase(index, playerFlags->GetValue(42) >= node.GetParam());
+        return SelectCase(index, playerFlags->GetValue(PLAYER_FLAG_UNK_0x6_1) >= node.GetParam());
     case 133:
-        return SelectCase(index, playerFlags->GetValue(67) >= node.GetParam());
+        return SelectCase(index, playerFlags->GetValue(PLAYER_FLAG_UNK_0x9_5) >= node.GetParam());
     case 134:
-        return SelectCase(index, playerFlags->GetValue(80) >= node.GetParam());
+        return SelectCase(index, playerFlags->GetValue(PLAYER_FLAG_UNK_0xC_0) >= node.GetParam());
     case 135:
-        return SelectCase(index, playerFlags->GetValue(111) >= node.GetParam());
+        return SelectCase(index, playerFlags->GetValue(PLAYER_FLAG_BEFRIEND_SABLE) >= node.GetParam());
     case 136:
-        return SelectCase(index, playerFlags->GetValue(117) >= node.GetParam());
+        return SelectCase(index, playerFlags->GetValue(PLAYER_FLAG_UNK_0x11_4) >= node.GetParam());
     case 137:
-        return SelectCase(index, playerFlags->GetValue(154) >= node.GetParam());
+        return SelectCase(index, playerFlags->GetValue(PLAYER_FLAG_UNK_0x16_4) >= node.GetParam());
     case 138:
-        return SelectCase(index, playerFlags->GetValue(160) >= node.GetParam());
+        return SelectCase(index, playerFlags->GetValue(PLAYER_FLAG_UNK_0x18_5) >= node.GetParam());
     case 139:
-        return SelectCase(index, playerFlags->GetValue(169) >= node.GetParam());
+        return SelectCase(index, playerFlags->GetValue(PLAYER_FLAG_PERMIT_POINTS) >= node.GetParam());
     case 140:
-        return SelectCase(index, playerFlags->GetValue(171) >= node.GetParam());
+        return SelectCase(index, playerFlags->GetValue(PLAYER_FLAG_UNK_0x1B_4) >= node.GetParam());
     case 141:
-        return SelectCase(index, playerFlags->GetValue(172) >= node.GetParam());
+        return SelectCase(index, playerFlags->GetValue(PLAYER_FLAG_UNK_0x1C_3) >= node.GetParam());
     case 142:
-        return SelectCase(index, playerFlags->GetValue(173) >= node.GetParam());
+        return SelectCase(index, playerFlags->GetValue(PLAYER_FLAG_UNK_0x1D_2) >= node.GetParam());
     case 143:
-        return SelectCase(index, playerFlags->GetValue(198) >= node.GetParam());
+        return SelectCase(index, playerFlags->GetValue(PLAYER_FLAG_UNK_0x22_1) >= node.GetParam());
     }
-    const u8* playerData = player->unk_0x8F77.data;
+    const SvPlayerUnk8F77* playerData = &player->unk_0x8F77;
     switch (node.GetId()) {
     case 144:
-        return SelectCase(index, Func71E9A4(playerData, node.GetParam()) == 1);
+        return SelectCase(index, playerData->GetValue(node.GetParam()) == 1);
     case 145:
-        return SelectCase(index, Func71E9A4(playerData, 56) >= node.GetParam());
+        return SelectCase(index, playerData->GetValue(PLAYER_8F77_UNK_0x7_0) >= node.GetParam());
     }
     const u8* playerByte = &player->unk_0x8F99.value;
     if (node.GetId() == 153) {
@@ -1242,40 +1242,42 @@ s32 IFlowRecept::EventCloseTalk(libms::Flow* flow, const libms::FlowNodeEvent& n
     return RESULT_DONE;
 }
 
+// a public works project that a character or an event unlocks in a talk (parameter 0..7: Perfect Town, station
+// reconstruction, museum renovation, cafe, Dream Suite, Reset Center, topiaries, fortune teller's shop)
 // 0x005DBC48 (name is ours)
-s32 IFlowRecept::Event13(libms::Flow* flow, const libms::FlowNodeEvent& node)
+s32 IFlowRecept::EventUnlockSpecialPwp(libms::Flow* flow, const libms::FlowNodeEvent& node)
 {
     (void)flow;
     u32 param;
     node.GetParam(&param);
-    u32 value = 0;
+    SvPwpUnlockId value = PWP_UNLOCK_DEFAULT;
     switch (param) {
     case 0:
-        value = 6;
+        value = PWP_UNLOCK_PERFECT_TOWN;
         break;
     case 1:
-        value = 7;
+        value = PWP_UNLOCK_STATION_RECONSTRUCTION;
         break;
     case 2:
-        value = 3;
+        value = PWP_UNLOCK_MUSEUM_RENOVATION;
         break;
     case 3:
-        value = 4;
+        value = PWP_UNLOCK_CAFE;
         break;
     case 4:
-        value = 2;
+        value = PWP_UNLOCK_DREAM_SUITE;
         break;
     case 5:
-        value = 5;
+        value = PWP_UNLOCK_RESET_CENTER;
         break;
     case 6:
-        value = 1;
+        value = PWP_UNLOCK_TOPIARIES;
         break;
     case 7:
-        value = 80;
+        value = PWP_UNLOCK_FORTUNE_TELLERS_SHOP;
         break;
     }
-    Func5CE494(&GetGardenData()->strcData, value);
+    GetGardenData()->strcData.UnlockPwp(value);
     return RESULT_DONE;
 }
 
@@ -2061,7 +2063,7 @@ s32 IFlowRecept::Branch47(u32* index, const libms::FlowNodeBranch& node)
     node.GetCaseNum();
     u32 value = 0;
     SvPlayer* player = g_pSvCurrentPlayer;
-    if (player != NULL && player->playerInfo.IsValid() && (player->unk_0x8F77.data[4] & 4) != 0) {
+    if (player != NULL && player->playerInfo.IsValid() && player->unk_0x8F77.unk_0x4_2) {
         value = 1;
     }
     *index = value;

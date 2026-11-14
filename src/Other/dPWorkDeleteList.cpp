@@ -59,7 +59,7 @@ u32 PWorkDeleteList::vf_0x2C()
         return 0;
     }
     SvStrcData* strcData = &GetGardenPlus()->data.strcData;
-    return Func5CACA4(Func302720(Func75A28C(strcData, GetSelectedId()))) / 10;
+    return Func5CACA4(Func75A28C(strcData, GetSelectedId())->GetId()) / 10;
 }
 
 // 0x0029EA84 slot 0x34
@@ -102,12 +102,12 @@ bool PWorkDeleteList::SetupItems()
         s32 found = 0;
         for (s32 i = 0; found < strcNum; i++) {
             SvStrc* strc = Func75A28C(strcData, i);
-            if (Func718EC8(strc)) {
+            if (strc->IsEmpty()) {
                 continue;
             }
             if (Func6CC848(strc)) {
                 m_StrcIndices[num] = i;
-                m_Ids[num] = Func5CA270(Func302720(strc));
+                m_Ids[num] = Func5CA270(strc->GetId());
                 num++;
             }
             found++;

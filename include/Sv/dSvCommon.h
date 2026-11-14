@@ -6,7 +6,11 @@
 
 #include "decomp.h"
 
-#pragma pack(push, 1)
+// The 64-bit values of the save data have an alignment of 4 in the original (ARMCC reads them with ldm/stm, the time
+// constructor copies with __ARM_common_memcpy4_8, and they lie at offsets that are only multiples of 4), so the save
+// structures need no packing for them (names are ours).
+typedef s64 SvS64 __attribute__((aligned(4)));
+typedef u64 SvU64 __attribute__((aligned(4)));
 
 // Values that the game stores obfuscated (bells, medals, ...): see SvEncValue tools.
 struct SvEncValue {
@@ -24,13 +28,13 @@ struct SvEncValue {
 ASSERT_SIZE(SvEncValue, 0x8);
 
 // A time in the save data: nanoseconds since 2000-01-01 00:00:00 (not since 1970); 0x7FFFFFFFFFFFFFFF is no time.
-// The constructor clears it and copies the value in (the struct is packed). The clock itself calculates with s64.
+// The constructor clears it and copies the value in. The clock itself calculates with s64.
 struct SvTime {
     static const s64 NONE = 0x7FFFFFFFFFFFFFFFll;
 
     SvTime(s64 time = NONE); // 0x005CEA18 (name is ours)
 
-    /* 0x0000 */ s64 value;
+    /* 0x0000 */ SvS64 value;
 };
 ASSERT_SIZE(SvTime, 0x8);
 
@@ -69,4 +73,3 @@ struct SvDateTime {
 };
 ASSERT_SIZE(SvDateTime, 0xC);
 
-#pragma pack(pop)

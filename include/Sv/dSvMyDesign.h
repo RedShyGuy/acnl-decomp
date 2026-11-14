@@ -8,8 +8,6 @@
 #include "Sv/dSvCommon.h"
 #include "Sv/dSvPersonalId.h"
 
-#pragma pack(push, 1)
-
 struct SvMyDesign {
     // (game code, not decompiled yet; the destructor is empty, armlink shares its bx lr with other empty functions)
     SvMyDesign(); // 0x001B4F3C
@@ -32,4 +30,3 @@ struct SvMyDesign {
 };
 ASSERT_SIZE(SvMyDesign, 0x870);
 
-#pragma pack(pop)
