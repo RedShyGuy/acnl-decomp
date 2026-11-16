@@ -120,7 +120,13 @@ struct SvNpc {
     /* 0x24A6 */ SvFgName carpet; // 247A - 247D
     /* 0x24AA */ SvFgName umbrella; // 247E - 2481
     /* 0x24AE */ SvFgName furniture[0x10]; // 2482 - 24C1
-    /* 0x24EE */ SvDate date1; // 24C2 - 24C5
+    // (not a date as in the research: the constructor builds no SvDate here, and the save data has values below 399, like
+    // an index of the villager tables; meaning not shown by code yet)
+    /* 0x24EE */ u16 unk_0x24EE; // 24C2 - 24C3
+    // the key of the room layout of the house of the villager (FieldFactory::Create reads it signed for the layout 2 of
+    // Func6E565C, like UnknownA8449CEntry::roomLayout)
+    /* 0x24F0 */ s8 roomLayout; // 24C4
+    /* 0x24F1 */ u8 pad_0x24F1; // 24C5
     /* 0x24F2 */ char16 catchphrase[0xB]; // Last character is null terminator | 24C6 - 24DB
     /* 0x2508 */ u8 unk_0x2508; // ctor sets to 7
     /* 0x2509 */ u8 pad_0x2509;

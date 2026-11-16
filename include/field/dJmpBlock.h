@@ -62,6 +62,8 @@ public:
     DECOMP_EMIT_COPY DECOMP_NOINLINE s32 GetHeightEast() const { return (m_Heights[SIDE_EAST] & 0x1F) << 3; }   // 0x0075E874
 
     DECOMP_EMIT_COPY DECOMP_NOINLINE FieldAttribute GetAttribute() const { return m_Attribute; } // 0x0075E644
+    // (its calls were replaced by its instruction)
+    void SetAttribute(FieldAttribute attribute) { m_Attribute = attribute; }
     DECOMP_EMIT_COPY DECOMP_NOINLINE u8 GetKind() const { return m_Flags & FLAG_KIND_MASK; } // 0x0075E838
     DECOMP_EMIT_COPY DECOMP_NOINLINE bool IsFlat() const { return (m_Flags & FLAG_FLAT) >> 6; } // 0x0075E8A4
     DECOMP_EMIT_COPY DECOMP_NOINLINE bool IsUnknownFlag80() const { return (m_Flags & FLAG_UNKNOWN_80) >> 7; } // 0x0075E8D4
@@ -85,6 +87,9 @@ class JmpBlock
 {
 public:
     class Visitor;
+
+    // the size of the units of a block for SetUnits (name is ours)
+    static const u32 DATA_SIZE = sizeof(JmpUnit) * UNIT_BASE_NUM * UNIT_BASE_NUM;
 
     JmpBlock();  // 0x006AA30C
     ~JmpBlock(); // 0x006AA354
@@ -112,6 +117,7 @@ public:
     DECOMP_EMIT_COPY DECOMP_NOINLINE u8 GetKind(s32 unitX, s32 unitZ) { return GetUnit(unitX, unitZ)->GetKind(); }           // 0x0075E818
     DECOMP_EMIT_COPY DECOMP_NOINLINE bool IsFlat(s32 unitX, s32 unitZ) { return GetUnit(unitX, unitZ)->IsFlat(); }          // 0x0075E884
     DECOMP_EMIT_COPY DECOMP_NOINLINE bool IsUnknownFlag80(s32 unitX, s32 unitZ) { return GetUnit(unitX, unitZ)->IsUnknownFlag80(); } // 0x0075E8B4
+    DECOMP_EMIT_COPY DECOMP_NOINLINE void SetAttribute(s32 unitX, s32 unitZ, FieldAttribute attribute) { GetUnit(unitX, unitZ)->SetAttribute(attribute); } // 0x0060DB7C
     DECOMP_EMIT_COPY DECOMP_NOINLINE void SetUnit(s32 unitX, s32 unitZ, const JmpUnit& unit) { *GetUnit(unitX, unitZ) = unit; } // 0x0060DD3C
     DECOMP_EMIT_COPY DECOMP_NOINLINE void CopyUnit(JmpUnit* out, s32 unitX, s32 unitZ) { *out = *GetUnit(unitX, unitZ); } // 0x007677C4
 

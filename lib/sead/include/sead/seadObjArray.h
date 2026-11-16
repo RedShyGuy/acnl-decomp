@@ -77,6 +77,23 @@ public:
         }
         return element;
     }
+    // a copy of item at the end (nothing if the array is full)
+    void pushBack(const T& item)
+    {
+        if (mPtrNum >= mPtrNumMax) {
+            return;
+        }
+        void* memory = mFreeList.get();
+        T* element = memory != nullptr ? new (memory) T(item) : nullptr;
+        if (mPtrNum < mPtrNumMax) {
+            mPtrs[mPtrNum] = element;
+            mPtrNum++;
+        }
+    }
+    // the element at index (NULL outside of the array; name is ours)
+    T* get(s32 index) const { return static_cast<u32>(index) < static_cast<u32>(mPtrNum) ? at(index) : nullptr; }
+    // the first element (NULL if the array is empty)
+    T* front() const { return get(0); }
     void erase(s32 pos)
     {
         destroy(at(pos));

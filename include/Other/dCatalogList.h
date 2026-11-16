@@ -22,8 +22,7 @@ struct ItemNameRange
     u32 unk_0x8;
 };
 const ItemNameRange* Func5360A8(u8 kind); // 0x005360A8
-// (game code, methods of SvMuseum) the item was given to the museum / by a player of the town (the donor is filled in)
-bool Func76D8A8(SvMuseum* museum, const SvFgName* name); // 0x0076D8A8
+// (game code, a method of SvMuseum) the item was given to the museum by a player of the town (the donor is filled in)
 bool Func76D974(SvMuseum* museum, SvPersonalId* donor, const SvFgName* name); // 0x0076D974
 
 // The list of the donation board outside the museum (Nookipedia "Museum": "a board that lists every exhibit and their

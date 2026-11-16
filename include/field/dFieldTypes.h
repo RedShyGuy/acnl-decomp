@@ -29,6 +29,9 @@ const u32 ISLAND_FG_BLOCK_Z_NUM = ISLAND_BLOCK_Z_NUM - 2;
 enum FieldName : u8
 {
     FIELD_NAME_CURRENT = 0,
+    // the fields of the island huts Island_Hut0..9 (the table 0x00953728 of the stage of a field)
+    FIELD_NAME_ISLAND_HUT_0 = 32,
+    FIELD_NAME_ISLAND_HUT_9 = 41,
 };
 
 // a position in blocks or units (x, z); the original passes it by reference and calls its copy constructor and
@@ -50,6 +53,12 @@ struct Vector2i {
         x += other.x;
         y += other.y;
         return *this;
+    }
+
+    // (a copy in the shared area of the inline functions)
+    DECOMP_EMIT_COPY DECOMP_NOINLINE bool operator!=(const Vector2i& other) const // 0x00748E44
+    {
+        return !(other.x == x && other.y == y);
     }
 
     // (0, 0) (name is ours)

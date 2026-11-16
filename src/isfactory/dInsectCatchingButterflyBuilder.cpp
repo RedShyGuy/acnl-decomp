@@ -1,65 +1,53 @@
-#include "isfactory/dVillageBuilder.h"
 #include "isfactory/dInsectCatchingButterflyBuilder.h"
+#include "field/dFdInfo.h"
+#include "field/dField.h"
+#include "field/dJmpBlock.h"
+#include "field/field_Extern.h"
+#include "Item/item_Api.h"
+#include "script/dScriptExtern.h"
+#include "sead/seadRandom.h"
+#include "Sv/dSvFgName.h"
 
 namespace isfactory {
-// ctor address unknown
-isfactory::InsectCatchingButterflyBuilder::InsectCatchingButterflyBuilder()
+// 0x00707A2C slot 0x00
+// 0x00707A1C (deleting dtor)
+isfactory::InsectCatchingButterflyBuilder::~InsectCatchingButterflyBuilder()
 {
+    // empty (in the original too)
 }
 
-// 0x00707A2C slot 0x00 | virtual slot, introduced by FieldBuilder
-void isfactory::InsectCatchingButterflyBuilder::vf_0x00()
+// 0x007077DC slot 0x1C (name is ours)
+void isfactory::InsectCatchingButterflyBuilder::Setup1C()
 {
-}
-
-// 0x00707A1C slot 0x04 | virtual slot, introduced by FieldBuilder
-void isfactory::InsectCatchingButterflyBuilder::vf_0x04()
-{
-}
-
-// 0x00704CF4 slot 0x08 | virtual slot, introduced by FieldBuilder
-void isfactory::InsectCatchingButterflyBuilder::vf_0x08()
-{
-}
-
-// 0x007033FC slot 0x0C | virtual slot, introduced by FieldBuilder
-void isfactory::InsectCatchingButterflyBuilder::vf_0x0C()
-{
-}
-
-// 0x00704EB4 slot 0x10 | virtual slot, introduced by FieldBuilder
-void isfactory::InsectCatchingButterflyBuilder::vf_0x10()
-{
-}
-
-// 0x00703350 slot 0x14 | virtual slot, introduced by FieldBuilder
-void isfactory::InsectCatchingButterflyBuilder::vf_0x14()
-{
-}
-
-// 0x00703134 slot 0x18 | virtual slot, introduced by FieldBuilder
-void isfactory::InsectCatchingButterflyBuilder::vf_0x18()
-{
-}
-
-// 0x007077DC slot 0x1C | virtual slot, introduced by FieldBuilder
-void isfactory::InsectCatchingButterflyBuilder::vf_0x1C()
-{
-}
-
-// 0x00703270 slot 0x20 | virtual slot, introduced by FieldBuilder
-void isfactory::InsectCatchingButterflyBuilder::vf_0x20()
-{
-}
-
-// 0x0070334C slot 0x24 | virtual slot, introduced by FieldBuilder
-void isfactory::InsectCatchingButterflyBuilder::vf_0x24()
-{
-}
-
-// 0x00703130 slot 0x28 | virtual slot, introduced by FieldBuilder
-void isfactory::InsectCatchingButterflyBuilder::vf_0x28()
-{
+    // flowers on 5 % of the free soil units of all blocks but one
+    SvFgNameSet flowers;
+    Func302978(&flowers, item::KIND_FLOWER);
+    Func302A90(&flowers, 74);
+    const FieldRect& units = m_pField->GetUnitBounds();
+    Vector2i excluded;
+    Func6FAD4C(&excluded.x, &excluded.y);
+    for (FieldRect::iterator it = units.begin(); it != units.end(); ++it) {
+        const Vector2i block = FdInfo::ToBlock(*it);
+        if (!(excluded != block)) {
+            continue;
+        }
+        const Vector2i unit = FdInfo::ToLocalUnit(*it);
+        JmpBlock* jmpBlock = m_pField->GetJmpBlock(block.x, block.y);
+        if (jmpBlock == NULL || jmpBlock->GetAttribute(unit.x, unit.y) != FIELD_ATTRIBUTE_SOIL_14) {
+            continue;
+        }
+        if (m_pRandom->getU32() % 100 >= 5) {
+            continue;
+        }
+        const SvFgName* item = m_pField->GetFg((*it).x, (*it).y, 0);
+        if (item == NULL || !item->IsEmpty()) {
+            continue;
+        }
+        const SvFgName flower = Func1AD2E0(&flowers, m_pRandom->getU32());
+        SvFgName plant;
+        Func768A60(&flower, &plant);
+        m_pField->PlaceItem(plant, (*it).x, (*it).y, 0);
+    }
 }
 
 } // namespace isfactory

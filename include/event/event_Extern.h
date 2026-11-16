@@ -41,6 +41,10 @@ struct UnknownA84AEC
 {
     u32 _0;
     u8* table;
+    u8 _8[8];
+    // pointers to the entries of the villagers (the u16 at +0 is the villager, the byte +0x1C a kind in its low four
+    // bits; read by ishutfact2::BuildFields)
+    const u8* entries[399]; // 0x10
 };
 extern UnknownA84AEC g_UnknownA84AEC;
 extern void* g_pUnknown94FE58;

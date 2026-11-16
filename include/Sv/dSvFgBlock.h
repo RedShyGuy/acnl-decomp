@@ -23,6 +23,8 @@ struct SvFgBlock {
 
     // the item of a unit; s_EmptyItem outside of the block
     SvFgName* GetFgChecked(s32 x, s32 z); // 0x00771380
+    // sets the item of a unit (nothing outside of the block)
+    void SetFg(const SvFgName& item, s32 x, s32 z); // 0x002FCC78
 
     // the item that Clear writes and GetFgChecked returns outside of the block
     static SvFgName s_EmptyItem;
@@ -30,3 +32,12 @@ struct SvFgBlock {
     /* 0x0000 */ SvFgName items[UNIT_BASE_NUM][UNIT_BASE_NUM];
 };
 ASSERT_SIZE(SvFgBlock, 0x400);
+
+// An item at a unit of a block and its layer, returned by value by the item lists of the rooms (names are ours).
+struct FgPlacement {
+    /* 0x0 */ SvFgName item;
+    /* 0x4 */ s32 x;
+    /* 0x8 */ s32 z;
+    /* 0xC */ u8 layer;
+};
+ASSERT_SIZE(FgPlacement, 0x10);

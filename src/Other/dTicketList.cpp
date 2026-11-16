@@ -50,7 +50,7 @@ bool TicketList::SetupItems()
         const void* object = Func75E9AC(scene);
         if (object != NULL) {
             for (s32 i = 0; i < LIST0_NUM; i++) {
-                const SvFgName name = Func71FF94(object, i);
+                const SvFgName name = Func71FF94(object, i).item;
                 if (!name.IsEmpty()) {
                     const s32 group = GetKindGroup(name);
                     AddName(groups[group], &counts[group], name);

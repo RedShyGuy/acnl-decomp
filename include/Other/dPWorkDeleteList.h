@@ -4,6 +4,7 @@
 #include "Bs/dBsMenuMapBase.h"
 #include "Other/dLayout.h"
 #include "Other/dPWorkList.h"
+#include "field/field_Extern.h"
 #include "ssys/ma/lyt/dArcResAccReader.h"
 
 struct SvStrc;
@@ -15,7 +16,6 @@ struct SvStrcData;
 SvStrc* Func75A28C(SvStrcData* strcData, s32 index); // 0x0075A28C
 bool Func6CC848(const SvStrc* strc); // 0x006CC848
 u8 Func5CA270(u8 id); // 0x005CA270
-u16* Func75EBB4(u8* townMap, s32 x, s32 y); // 0x0075EBB4
 
 // The list of the public works projects of the town that can be demolished, next to a map of the town that marks the
 // selected one. The items are collected over four frames. Only the class name is from the RTTI; all other names are

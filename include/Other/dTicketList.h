@@ -3,13 +3,14 @@
 #include "decomp.h"
 #include "List/dInstSelect.h"
 #include "script/dWordFix.h"
+#include "Sv/dSvFgBlock.h"
 
 class ScStage;
 
 // (game code, not decompiled; names are ours) an object of the current scene (NULL on some stages) with items:
 // two lists (24 and 16 items) and two single items, a wallpaper and a carpet
 void* Func75E9AC(ScStage* scene); // 0x0075E9AC
-SvFgName Func71FF94(const void* object, s32 index); // 0x0071FF94
+FgPlacement Func71FF94(const void* object, s32 index); // 0x0071FF94 (the item with its unit and layer)
 SvFgName Func720184(const void* object, s32 index); // 0x00720184
 SvFgName Func2FCC0C(const void* object); // 0x002FCC0C (the item of the name at +2)
 SvFgName Func7202FC(const void* object); // 0x007202FC (the item of the name at +4)

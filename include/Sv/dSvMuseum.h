@@ -48,6 +48,8 @@ struct SvMuseum {
     // donated; 1..4: save number + 1, DONOR_FORMER) / the kind and index have a place in the museum / all fish and sea
     // creatures / all pictures and sculptures are donated
     DECOMP_NOINLINE u8 GetDonor(const SvFgName& item) const; // 0x0076E684
+    // whether the item is donated (GetDonor is not 0)
+    DECOMP_NOINLINE bool IsDonated(const SvFgName& item) const; // 0x0076D8A8
     DECOMP_NOINLINE static bool HasPlace(u8 kind, u32 index); // 0x0076E730
     DECOMP_NOINLINE bool IsFishComplete() const; // 0x0076D8D4
     DECOMP_NOINLINE bool IsArtComplete() const; // 0x0076E150

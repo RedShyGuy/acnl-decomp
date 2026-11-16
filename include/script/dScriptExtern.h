@@ -63,6 +63,8 @@ u32 GetRandom(u32 max); // 0x002FF63C
 struct SvFgNameSet
 {
     SvFgNameSet(); // 0x002FC318
+    // all bits are cleared (the code of SvPlayerUnlockedItems::Clear; armlink folded them)
+    void Clear(); // 0x0024ABA8 (folded)
 
     // (the constructor clears 0x2E8 bytes with 0x0024ABA8, like SvPlayerUnlockedItems: one bit per item index)
     u32 bits[0xBA];

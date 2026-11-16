@@ -41,16 +41,11 @@ public:
     // whether a unit position is inside of a block (0..15)
     static bool IsInside(s32 unitX, s32 unitZ); // 0x0057C714
 
+    // the units of a block (inline in IsInside and GetFg, called by the other files)
+    static const FieldRect& GetLocalUnitRect(); // 0x0057C680
+
 private:
     friend class FdInfo;
-
-    // the units of a block (shared by IsInside and GetFg)
-    static const FieldRect& GetLocalUnitRect()
-    {
-        // 0x0098B124 (guard 0x0094F4D0)
-        static FieldRect s_LocalUnitRect(Vector2i::Zero(), Vector2i(UNIT_BASE_NUM - 1, UNIT_BASE_NUM - 1));
-        return s_LocalUnitRect;
-    }
 
     /* 0x0 */ SvBgName m_Name;
     /* 0x4 */ SvFgBlock* m_pBlocks[MAX_LAYER_NUM];
@@ -112,6 +107,8 @@ public:
     bool PlaceItem(const SvFgName& fg, s32 blockX, s32 blockZ, s32 unitX, s32 unitZ, u8 layer); // 0x00581F10
 
     FieldGrass* GetGrass() const; // 0x0058229C
+    // the grass in use (inline in the field builders; name is ours)
+    void SetGrass(FieldGrass* grass) { m_pGrass = grass; }
 
     // the fields by FieldName (name is ours; the field code clears 30, 31 and 32..41)
     static Field* s_pFields[42];

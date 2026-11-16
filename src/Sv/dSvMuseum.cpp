@@ -212,6 +212,12 @@ u8 SvMuseum::GetDonor(const SvFgName& item) const
     return donations[first + index];
 }
 
+// 0x0076D8A8 (name is ours)
+bool SvMuseum::IsDonated(const SvFgName& item) const
+{
+    return GetDonor(item) != 0;
+}
+
 // 0x0076E730 (name is ours)
 bool SvMuseum::HasPlace(u8 kind, u32 index)
 {

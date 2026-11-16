@@ -1,65 +1,37 @@
-#include "isfactory/dVillageBuilder.h"
 #include "isfactory/dInsectCatchingRiseStoneBuilder.h"
+#include "field/dField.h"
+#include "field/field_Extern.h"
+#include "sead/seadRandom.h"
+#include "Sv/dSvFgName.h"
 
 namespace isfactory {
-// ctor address unknown
-isfactory::InsectCatchingRiseStoneBuilder::InsectCatchingRiseStoneBuilder()
+// 0x00707B88 slot 0x00
+// 0x00707B78 (deleting dtor)
+isfactory::InsectCatchingRiseStoneBuilder::~InsectCatchingRiseStoneBuilder()
 {
+    // empty (in the original too)
 }
 
-// 0x00707B88 slot 0x00 | virtual slot, introduced by FieldBuilder
-void isfactory::InsectCatchingRiseStoneBuilder::vf_0x00()
+// 0x00707A30 slot 0x1C (name is ours)
+void isfactory::InsectCatchingRiseStoneBuilder::Setup1C()
 {
-}
-
-// 0x00707B78 slot 0x04 | virtual slot, introduced by FieldBuilder
-void isfactory::InsectCatchingRiseStoneBuilder::vf_0x04()
-{
-}
-
-// 0x00704CF4 slot 0x08 | virtual slot, introduced by FieldBuilder
-void isfactory::InsectCatchingRiseStoneBuilder::vf_0x08()
-{
-}
-
-// 0x007033FC slot 0x0C | virtual slot, introduced by FieldBuilder
-void isfactory::InsectCatchingRiseStoneBuilder::vf_0x0C()
-{
-}
-
-// 0x00704EB4 slot 0x10 | virtual slot, introduced by FieldBuilder
-void isfactory::InsectCatchingRiseStoneBuilder::vf_0x10()
-{
-}
-
-// 0x00703350 slot 0x14 | virtual slot, introduced by FieldBuilder
-void isfactory::InsectCatchingRiseStoneBuilder::vf_0x14()
-{
-}
-
-// 0x00703134 slot 0x18 | virtual slot, introduced by FieldBuilder
-void isfactory::InsectCatchingRiseStoneBuilder::vf_0x18()
-{
-}
-
-// 0x00707A30 slot 0x1C | virtual slot, introduced by FieldBuilder
-void isfactory::InsectCatchingRiseStoneBuilder::vf_0x1C()
-{
-}
-
-// 0x00703270 slot 0x20 | virtual slot, introduced by FieldBuilder
-void isfactory::InsectCatchingRiseStoneBuilder::vf_0x20()
-{
-}
-
-// 0x0070334C slot 0x24 | virtual slot, introduced by FieldBuilder
-void isfactory::InsectCatchingRiseStoneBuilder::vf_0x24()
-{
-}
-
-// 0x00703130 slot 0x28 | virtual slot, introduced by FieldBuilder
-void isfactory::InsectCatchingRiseStoneBuilder::vf_0x28()
-{
+    // twice as many rocks again
+    const FieldRect& units = m_pField->GetUnitBounds();
+    Field* field = m_pField;
+    u32 rockNum = 0;
+    for (FieldRect::iterator it = units.begin(); it != units.end(); ++it) {
+        if (field == NULL) {
+            continue;
+        }
+        const SvFgName* item = field->GetFg((*it).x, (*it).y, 0);
+        if (item != NULL && item->GetFgKind() == SvFgName::FG_KIND_ROCK) {
+            rockNum++;
+        }
+    }
+    for (u32 i = 0; i < rockNum * 2; i++) {
+        const SvFgName rock(static_cast<SvFgName::ID>(SvFgName::NAME_ROCK_A + m_pRandom->getU32(5)));
+        Func527094(m_pField, &units, &rock, m_pRandom);
+    }
 }
 
 } // namespace isfactory

@@ -1,7 +1,10 @@
 #pragma once
 
 #include "decomp.h"
+
+class FgDataLoader;
 #include "isfactory/dBasicBuilder.h"
+#include "isfactory/isfactory_Api.h"
 
 namespace isfactory {
 // RTTI N9isfactory19TreasureHuntBuilderE @ 0x008D41CC
@@ -9,17 +12,16 @@ namespace isfactory {
 class TreasureHuntBuilder : public ::isfactory::BasicBuilder
 {
 public:
-    TreasureHuntBuilder(); // ctor address unknown
-    virtual void vf_0x00(); // 0x0070656C slot 0x00 | virtual slot, introduced by FieldBuilder
-    virtual void vf_0x04(); // 0x0070655C slot 0x04 | virtual slot, introduced by FieldBuilder
-    virtual void vf_0x08(); // 0x007059EC slot 0x08 | virtual slot, introduced by FieldBuilder
-    virtual void vf_0x0C(); // 0x007033FC slot 0x0C | virtual slot, introduced by FieldBuilder
-    virtual void vf_0x10(); // 0x0070326C slot 0x10 | virtual slot, introduced by FieldBuilder
-    virtual void vf_0x14(); // 0x00703350 slot 0x14 | virtual slot, introduced by FieldBuilder
-    virtual void vf_0x18(); // 0x00705AB0 slot 0x18 | virtual slot, introduced by FieldBuilder
-    virtual void vf_0x1C(); // 0x00705DCC slot 0x1C | virtual slot, introduced by FieldBuilder
-    virtual void vf_0x20(); // 0x00703270 slot 0x20 | virtual slot, introduced by FieldBuilder
-    virtual void vf_0x24(); // 0x0070334C slot 0x24 | virtual slot, introduced by FieldBuilder
-    virtual void vf_0x28(); // 0x00703130 slot 0x28 | virtual slot, introduced by FieldBuilder
+    TreasureHuntBuilder(Field* field, sead::Random* random, TourData* tourData) : BasicBuilder(field, random, tourData), m_PlayerCount(Func6E1510()), m_pData(NULL)
+    {
+    }
+    ~TreasureHuntBuilder() override;
+    void SetupBlocks() override;
+    void SetupItems() override;
+    void Setup1C() override;
+
+    u32 m_PlayerCount;     // 0x10
+    FgDataLoader* m_pData; // 0x14 the item layout (SetupItems)
 };
+ASSERT_SIZE(TreasureHuntBuilder, 0x18);
 } // namespace isfactory

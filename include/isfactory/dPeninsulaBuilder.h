@@ -4,10 +4,16 @@
 #include "isfactory/dBasicBuilder.h"
 
 namespace isfactory {
-// RTTI N9isfactory16PeninsulaBuilderE @ 0x008D41B4
+// the tours on the peninsula
+// RTTI N9isfactory16PeninsulaBuilderE @ 0x008D4184
 class PeninsulaBuilder : public ::isfactory::BasicBuilder
 {
 public:
-    PeninsulaBuilder(); // ctor address unknown
+    PeninsulaBuilder(Field* field, sead::Random* random, TourData* tourData) : BasicBuilder(field, random, tourData)
+    {
+    }
+    void SetupBlocks() override;
+    void Setup10() override;
 };
+ASSERT_SIZE(PeninsulaBuilder, 0x10);
 } // namespace isfactory

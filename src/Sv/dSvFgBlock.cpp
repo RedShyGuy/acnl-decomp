@@ -26,6 +26,14 @@ void SvFgBlock::Clear()
     }
 }
 
+// 0x002FCC78 (name is ours)
+void SvFgBlock::SetFg(const SvFgName& item, s32 x, s32 z)
+{
+    if (BgInfo::IsInside(x, z)) {
+        items[z][x] = item;
+    }
+}
+
 // 0x00771380 (name is ours)
 SvFgName* SvFgBlock::GetFgChecked(s32 x, s32 z)
 {

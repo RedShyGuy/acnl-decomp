@@ -1,65 +1,66 @@
-#include "isfactory/dVillageBuilder.h"
 #include "isfactory/dInsectCatchingReduceTreeBuilder.h"
+#include "Bs/dBsTourFieldResMgr.h"
+#include "field/dField.h"
+#include "field/dFieldBuilderUtil.h"
+#include "sead/seadRandom.h"
+#include "Sv/dSvFgName.h"
+
+namespace {
+// the items of the default layout, the grown trees only with a chance of 50 %
+struct ReduceTreeItemsSetter
+{
+    ReduceTreeItemsSetter(Field* field, const FgDataLoader* data, sead::Random* random)
+        : m_pField(field), m_pData(data), m_pRandom(random)
+    {
+    }
+
+    void operator()(const Vector2i& block)
+    {
+        if (m_pField == NULL) {
+            return;
+        }
+        BgInfo* bg = m_pField->GetBg(block.x, block.y);
+        if (bg == NULL || !m_pData->IsLoaded()) {
+            return;
+        }
+        const u32 num = m_pData->GetItems(m_Items, sizeof(m_Items), bg->GetName());
+        for (u32 i = 0; i < num; i++) {
+            const FgDataItem& entry = m_Items[i];
+            const SvFgName item(static_cast<SvFgName::ID>(entry.id));
+            if (item.IsGrownTree() && m_pRandom->getU32() % 100 >= 50) {
+                continue;
+            }
+            bg->SetFg(item, entry.x, entry.z, 0);
+        }
+    }
+
+    Field* m_pField;
+    const FgDataLoader* m_pData;
+    sead::Random* m_pRandom;
+    FgDataItem m_Items[FgDataLoader::ITEM_BUFFER_SIZE / sizeof(FgDataItem)];
+};
+} // namespace
 
 namespace isfactory {
-// ctor address unknown
-isfactory::InsectCatchingReduceTreeBuilder::InsectCatchingReduceTreeBuilder()
+// 0x00707DB8 slot 0x00
+// 0x00707DA8 (deleting dtor)
+isfactory::InsectCatchingReduceTreeBuilder::~InsectCatchingReduceTreeBuilder()
 {
+    // empty (in the original too)
 }
 
-// 0x00707DB8 slot 0x00 | virtual slot, introduced by FieldBuilder
-void isfactory::InsectCatchingReduceTreeBuilder::vf_0x00()
+// 0x00707B8C slot 0x18 (name is ours)
+void isfactory::InsectCatchingReduceTreeBuilder::SetupItems()
 {
-}
-
-// 0x00707DA8 slot 0x04 | virtual slot, introduced by FieldBuilder
-void isfactory::InsectCatchingReduceTreeBuilder::vf_0x04()
-{
-}
-
-// 0x00704CF4 slot 0x08 | virtual slot, introduced by FieldBuilder
-void isfactory::InsectCatchingReduceTreeBuilder::vf_0x08()
-{
-}
-
-// 0x007033FC slot 0x0C | virtual slot, introduced by FieldBuilder
-void isfactory::InsectCatchingReduceTreeBuilder::vf_0x0C()
-{
-}
-
-// 0x00704EB4 slot 0x10 | virtual slot, introduced by FieldBuilder
-void isfactory::InsectCatchingReduceTreeBuilder::vf_0x10()
-{
-}
-
-// 0x00703350 slot 0x14 | virtual slot, introduced by FieldBuilder
-void isfactory::InsectCatchingReduceTreeBuilder::vf_0x14()
-{
-}
-
-// 0x00707B8C slot 0x18 | virtual slot, introduced by FieldBuilder
-void isfactory::InsectCatchingReduceTreeBuilder::vf_0x18()
-{
-}
-
-// 0x00703268 slot 0x1C | virtual slot, introduced by FieldBuilder
-void isfactory::InsectCatchingReduceTreeBuilder::vf_0x1C()
-{
-}
-
-// 0x00703270 slot 0x20 | virtual slot, introduced by FieldBuilder
-void isfactory::InsectCatchingReduceTreeBuilder::vf_0x20()
-{
-}
-
-// 0x0070334C slot 0x24 | virtual slot, introduced by FieldBuilder
-void isfactory::InsectCatchingReduceTreeBuilder::vf_0x24()
-{
-}
-
-// 0x00703130 slot 0x28 | virtual slot, introduced by FieldBuilder
-void isfactory::InsectCatchingReduceTreeBuilder::vf_0x28()
-{
+    BsTourFieldResMgr* mgr = BsTourFieldResMgr::GetInstance();
+    if (mgr == NULL) {
+        return;
+    }
+    FgDataLoader* data = mgr->GetFgData("FgDataTour/Default.bin");
+    if (data == NULL) {
+        return;
+    }
+    ForEachBlock(m_pField->GetBlockBounds(), ReduceTreeItemsSetter(m_pField, data, m_pRandom));
 }
 
 } // namespace isfactory

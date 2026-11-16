@@ -1998,7 +1998,7 @@ namespace minigame0 {
 
 namespace mutil { 
     class LoaderWrapper;
-    template <typename T0, auto T1> class BaseResourceMgr;
+    template <typename T0, u32 T1> class BaseResourceMgr;
 }
 
 namespace mw { namespace qrd { 

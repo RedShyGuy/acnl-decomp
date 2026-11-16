@@ -71,12 +71,15 @@ bool Func6A6640(); // 0x006A6640
 bool Func4E212C(); // 0x004E212C
 // a state of the game for StageOpusPrologue2 (1: the first arrival?)
 s32 Func5C58C0(); // 0x005C58C0
-// a table of the game at 0xA8449C: +4 points to 399 entries of 88 bytes with an item at +4 (StageOpusPavilion)
+// a table of the game at 0xA8449C: +4 points to 399 entries of 88 bytes, one for each villager, with an item at +4
+// (StageOpusPavilion) and the key of the room layout at +0x56 (FieldFactory, ishutfact2; like SvNpc+0x24F0)
 struct UnknownA8449CEntry
 {
     u32 _0;
     u8 item[4]; // an SvFgName
-    u8 _8[0x50];
+    u8 _8[0x4E];
+    s8 roomLayout; // 0x56
+    u8 _57;
 };
 struct UnknownA8449C
 {

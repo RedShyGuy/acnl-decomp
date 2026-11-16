@@ -6,6 +6,7 @@
 #include "Item/item_Api.h"
 #include "Sv/dSvApi.h"
 #include "Sv/dSvGardenPlus.h"
+#include "Sv/dSvMuseum.h"
 #include "nw/lyt/lyt_TextBox.h"
 #include "script/dRenderGarden.h"
 #include "script/dScriptExtern.h"
@@ -124,7 +125,7 @@ s32 CatalogList::CollectPart(s32 part, u8 kind)
     for (s32 i = range->first; i <= range->last; i++) {
         *ids = i;
         const SvFgName name(static_cast<SvFgName::ID>(i));
-        if (Func76D8A8(museum, &name)) {
+        if (museum->IsDonated(name)) {
             num++;
             item::GetName(names, name, NULL);
             SvPersonalId donor;

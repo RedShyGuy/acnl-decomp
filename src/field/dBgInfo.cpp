@@ -2,6 +2,14 @@
 
 #include "Sv/dSvApi.h"
 
+// 0x0057C680 (name is ours)
+const FieldRect& BgInfo::GetLocalUnitRect()
+{
+    // 0x0098B124 (guard 0x0094F4D0)
+    static FieldRect s_LocalUnitRect(Vector2i::Zero(), Vector2i(UNIT_BASE_NUM - 1, UNIT_BASE_NUM - 1));
+    return s_LocalUnitRect;
+}
+
 // 0x0057C708 (name is ours)
 void BgInfo::SetBlocks(SvFgBlock* layer0, SvFgBlock* layer1)
 {
