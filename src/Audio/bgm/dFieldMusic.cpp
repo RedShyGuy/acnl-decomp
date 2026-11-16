@@ -2,7 +2,7 @@
 #include "Audio/bgm/dBgmRequestMgr.h"
 #include "Audio/bgm/dBgmTrackMixer.h"
 #include "Bs/dBsTelop.h"
-#include "Other/dTourResult.h"
+#include "Other/dTourData.h"
 #include "Sound/dSoundLabel.h"
 #include "Sound/dSoundMgr.h"
 #include "stage/stage_Extern.h"
@@ -254,7 +254,7 @@ void audio::bgm::FieldMusic::FadeBingo()
 // 0x0058B164
 void audio::bgm::FieldMusic::SetupIslandGame()
 {
-    gameIndex = GetTourType(TourResult::s_pInstance->m_Tour);
+    gameIndex = GetTourType(TourData::s_pInstance->m_Tour);
     if (time::GetCurrentDate()->hour > 6 && time::GetCurrentDate()->hour <= 18) {
         gameColumn = 0;
     } else {

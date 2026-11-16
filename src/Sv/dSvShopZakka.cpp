@@ -3,14 +3,15 @@
 
 #include "Sv/dSvTown.h"
 
-#include "Other/dFdInfo.h"
+#include "field/dFdInfo.h"
 #include "Other/dOrderList.h"
-#include "Other/dField.h"
+#include "field/dField.h"
 #include "Sv/dSvApi.h"
 #include "Sv/dSvGardenPlus.h"
 #include "Item/item_Api.h"
 #include "Sv/dSvProcExtern.h"
 #include "Sv/dSvShopZakkaExtern.h"
+#include "fgobj/fgobj_Api.h"
 #include "dSvShopZakkaNotice.h"
 #include "event/event_Extern.h"
 #include "script/dScriptExtern.h"
@@ -97,7 +98,7 @@ void SvShopZakka::BuyItem(u32 stage, u32 index, s32 x, s32 z, s32 unknown)
         Field* field = FdInfo::GetCurrentField();
         if (field != NULL) {
             field->PlaceItem(SvFgName(static_cast<SvFgName::ID>(SvFgName::NAME_GENERAL_SOLD_OUT_SIGN)), x, z, 0);
-            Func59F144(x, z, 1);
+            fgobj::RefreshUnit(x, z, true);
         }
     }
 }

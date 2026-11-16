@@ -8,13 +8,9 @@ bsobjchkmgr::ActorBody::ActorBody()
 {
 }
 
-// 0x006F89D8 slot 0x00 | virtual slot, introduced by collision::World::Body
-void bsobjchkmgr::ActorBody::vf_0x00()
-{
-}
-
-// 0x001E5EA8 slot 0x04 | virtual slot, introduced by collision::World::Body
-void bsobjchkmgr::ActorBody::vf_0x04()
+// 0x006F89D8 slot 0x00
+// 0x001E5EA8 (deleting dtor)
+bsobjchkmgr::ActorBody::~ActorBody()
 {
 }
 

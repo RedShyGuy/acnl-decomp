@@ -9,9 +9,9 @@ namespace collision {
 class AABB : public ::collision::Shape
 {
 public:
-    AABB(); // ctor candidate(s) 0x006F8910 (unverified)
-    virtual void vf_0x00(); // 0x006F892C slot 0x00 | virtual slot, introduced by collision::AABB
-    virtual void vf_0x04(); // 0x006F8928 slot 0x04 | virtual slot, introduced by collision::AABB
-    virtual void vf_0x08(); // 0x006F87AC slot 0x08 | virtual slot, introduced by collision::AABB
+    AABB(); // 0x006F8910
+    virtual ~AABB(); // 0x006F892C slot 0x00
+    // 0x006F8928 (deleting dtor)
+    void Translate(const nn::math::VEC3& offset) override; // 0x006F87AC slot 0x08
 };
 } // namespace collision

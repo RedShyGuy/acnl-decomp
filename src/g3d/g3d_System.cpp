@@ -636,7 +636,8 @@ void ResetRenderState(s32 hashFlags)
 }
 
 // 0x004F0C70 (name is ours)
-void UpdateWorldTransform(nw::gfx::CalculatedTransform* worldTransform, const nw::gfx::CalculatedTransform& transform)
+void UpdateWorldTransform(nw::gfx::CalculatedTransform* worldTransform, const nw::gfx::CalculatedTransform& transform,
+                          const nw::gfx::CalculatedTransform&)
 {
     nn::math::VEC3 scale;
     s_pWorldMatrixUpdater->CalculateWorldBasic(&worldTransform->m_TransformMatrix, &scale, transform,

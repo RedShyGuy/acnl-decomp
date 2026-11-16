@@ -9,7 +9,7 @@ namespace audio {
 namespace bgm {
 
 // 0x0094F4A0
-TownState s_TownState = {0, 0, 0, 0, 0, 0, 0, static_cast<f32>(static_cast<u16>(FIELD_UNIT_SIZE_X * 0.2f))};
+TownState s_TownState = {0, 0, 0, 0, 0, 0, 0, static_cast<f32>(static_cast<u16>(FdInfo::UNIT_WORLD_SIZE_XF * 0.2f))};
 // 0x0094F4B0
 ParameterHIO s_ParameterHIO;
 // 0x0098B074

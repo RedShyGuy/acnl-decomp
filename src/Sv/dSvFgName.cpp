@@ -687,7 +687,7 @@ inline void SetCommonBits(SvFgName* item, u32 value)
 }
 
 // the fruit trees: a perfect fruit (bit 3) and its decay (bits 4..6, -1 if the fruit is not perfect)
-inline s32 GetPerfectFruitDecay(const SvFgName* item)
+inline s32 GetPerfectFruitDecayOf(const SvFgName* item)
 {
     if ((item->flags & 8) == 0) {
         return -1;
@@ -1021,7 +1021,7 @@ void SvFgName::GrowFruit(u32 count, u32 mode)
             // the perfect fruit decays
             if (mode == 0 || (mode == 1 && Func2FC2EC(2) == 0)) {
                 if (Func76BFA4() && (GetUniqueBits(this) & 8) != 0) {
-                    SetUniqueBits(this, (GetUniqueBits(this) & ~0x70) | (((GetPerfectFruitDecay(this) + 1) & 7) << 4));
+                    SetUniqueBits(this, (GetUniqueBits(this) & ~0x70) | (((GetPerfectFruitDecayOf(this) + 1) & 7) << 4));
                 }
             }
         } else {
@@ -1770,4 +1770,204 @@ void Func6BC774(SvMail* mail, u32 a, SvPersonalId* player, u32 b)
         Func1B50DC(&sender->id, a);
     }
     mail->attachedItem.Func6BC820(b);
+}
+
+// 0x0076D644 (name is ours)
+item::ModelID SvFgName::GetModelID() const
+{
+    const item::ParamItemEntry* entry = item::GetParamItemEntry(*this);
+    if (entry == NULL) {
+        return item::MODEL_ID_DEFAULT;
+    }
+    return entry->modelID < item::MODEL_ID_COUNT ? static_cast<item::ModelID>(entry->modelID) : item::MODEL_ID_DEFAULT;
+}
+
+// 0x0076D664
+bool SvFgName::Func76D664() const
+{
+    if (Func7694C0() && (flags & ~FLAGS_COMMON) != 0) {
+        return true;
+    }
+    return false;
+}
+
+// 0x003132A8
+bool SvFgName::Func3132A8() const
+{
+    if (Func7694C0() && (flags & ~FLAGS_COMMON) != 0 && Func76CB50() == 8) {
+        return true;
+    }
+    return false;
+}
+
+// 0x00769C44 (name is ours)
+bool SvFgName::IsPattern() const
+{
+    return (id & ~0x8000) == NAME_PATTERN;
+}
+
+// 0x002FCF6C (name is ours)
+bool SvFgName::IsWatered() const
+{
+    return (flags >> 14) & 1;
+}
+
+// 0x002FE44C (name is ours)
+void SvFgName::SetWatered()
+{
+    flags = (flags & ~0xC000) | (((flags >> 14) | 1) << 14);
+}
+
+// 0x0076A938 (name is ours)
+bool SvFgName::IsFlowerOrWilted() const
+{
+    const u8 fgKind = GetFgKind();
+    switch (fgKind) {
+    case FG_KIND_TULIP:
+    case FG_KIND_PANSY:
+    case FG_KIND_COSMOS:
+    case FG_KIND_ROSE:
+    case FG_KIND_LILY:
+    case FG_KIND_VIOLET:
+    case FG_KIND_CARNATION:
+    case FG_KIND_GOLD_ROSE:
+    case FG_KIND_JACOBS_LADDER:
+    case FG_KIND_DANDELION:
+    case FG_KIND_WILTED_FLOWER:
+        return true;
+    default:
+        return false;
+    }
+}
+
+// 0x0076AA90 (name is ours)
+s32 SvFgName::GetCoinStonePlayer() const
+{
+    if (GetFgKind() == FG_KIND_ROCK && (flags & 0x800) != 0) {
+        return flags & 3;
+    }
+    return -1;
+}
+
+// 0x007695E0 (name is ours)
+bool SvFgName::IsOreRock() const
+{
+    if (GetFgKind() != FG_KIND_ROCK) {
+        return false;
+    }
+    return (flags & 0x400) >> 10;
+}
+
+// 0x0076B268 (name is ours)
+u32 SvFgName::GetOreIndex() const
+{
+    if (GetFgKind() == FG_KIND_ROCK && (flags & 0x400) != 0) {
+        return flags & 7;
+    }
+    return 0;
+}
+
+// 0x002FE90C (name is ours)
+bool SvFgName::IsEggRock() const
+{
+    if (GetFgKind() != FG_KIND_ROCK) {
+        return false;
+    }
+    return (flags & 0x200) >> 9;
+}
+
+// 0x0076BD40 (name is ours)
+s32 SvFgName::GetPerfectFruitDecay() const
+{
+    if (Func76BFA4() && (flags & 8) != 0) {
+        return (flags >> 4) & 7;
+    }
+    return -1;
+}
+
+// 0x002FCD48 (name is ours)
+bool SvFgName::IsGrownTreeFgKind(u8 fgKind)
+{
+    return fgKind == FG_KIND_TREE || fgKind == FG_KIND_PALM_TREE || fgKind == FG_KIND_CEDAR_TREE || fgKind == FG_KIND_BAMBOO;
+}
+
+// 0x002FE930 (name is ours)
+bool SvFgName::IsGrownTree() const
+{
+    u8 fgKind = GetFgKind();
+    return fgKind == FG_KIND_TREE || fgKind == FG_KIND_PALM_TREE || fgKind == FG_KIND_CEDAR_TREE || fgKind == FG_KIND_BAMBOO;
+}
+
+// 0x007692A8 (name is ours)
+bool SvFgName::HasIcon() const
+{
+    const item::ParamItemEntry* entry = item::GetParamItemEntry(*this);
+    if (entry == NULL) {
+        return false;
+    }
+    return entry->iconID < ICON_COUNT;
+}
+
+// 0x0076A8C0 (name is ours)
+bool SvFgName::IsBush() const
+{
+    return GetFgKind() == FG_KIND_BUSH;
+}
+
+// 0x00769BC4 (name is ours)
+bool SvFgName::IsFlower() const
+{
+    const u8 fgKind = GetFgKind();
+    return fgKind == FG_KIND_TULIP || fgKind == FG_KIND_PANSY || fgKind == FG_KIND_COSMOS || fgKind == FG_KIND_ROSE ||
+           fgKind == FG_KIND_LILY || fgKind == FG_KIND_VIOLET || fgKind == FG_KIND_CARNATION || fgKind == FG_KIND_GOLD_ROSE ||
+           fgKind == FG_KIND_JACOBS_LADDER || fgKind == FG_KIND_DANDELION;
+}
+
+// 0x002FF060 (name is ours)
+bool SvFgName::IsFruitRipe() const
+{
+    if (!IsFruitTree()) {
+        return false;
+    }
+    return (flags & 7) == 0;
+}
+
+// 0x002FE670 (name is ours)
+bool SvFgName::GetFruit(SvFgName* out) const
+{
+    if (!IsFruitTree()) {
+        return false;
+    }
+    const SvFgName name(static_cast<ID>(item::GetParamFgEntry(*this)->unk_0x2));
+    if (!name.IsUsual()) {
+        return false;
+    }
+    *out = name;
+    return true;
+}
+
+// 0x0076BB98 (name is ours)
+bool SvFgName::HasPerfectFruitAt(u32 index) const
+{
+    if (!Func76BFA4()) {
+        return false;
+    }
+    if (Func76BFA4() && (flags & 8) >> 3) {
+        return true;
+    }
+    return ((1u << (index + 7)) & ~FLAGS_COMMON & flags) != 0;
+}
+
+// 0x002FF668 (name is ours)
+void SvFgName::SetBuried()
+{
+    SetCommonBits(this, GetCommonBits(this) | 2);
+}
+
+// 0x002FCEBC (name is ours)
+bool SvFgName::IsFlowerFgKind(u8 fgKind)
+{
+    return fgKind == FG_KIND_TULIP || fgKind == FG_KIND_PANSY || fgKind == FG_KIND_COSMOS || fgKind == FG_KIND_ROSE ||
+           fgKind == FG_KIND_LILY || fgKind == FG_KIND_VIOLET || fgKind == FG_KIND_CARNATION || fgKind == FG_KIND_GOLD_ROSE ||
+           fgKind == FG_KIND_JACOBS_LADDER || fgKind == FG_KIND_DANDELION;
 }

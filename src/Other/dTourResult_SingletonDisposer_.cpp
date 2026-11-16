@@ -1,7 +1,7 @@
 #include "sead/seadIDisposer.h"
 #include "Other/dTourResult_SingletonDisposer_.h"
 
-// ctor candidate(s) 0x001B7C44 (unverified)
+// (inline in TourResult::createInstance 0x001B7C44)
 TourResult::SingletonDisposer_::SingletonDisposer_()
 {
 }

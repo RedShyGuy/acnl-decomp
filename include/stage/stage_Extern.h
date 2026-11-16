@@ -1,6 +1,7 @@
 #pragma once
 
 #include "decomp.h"
+#include "field/dFdInfo.h"
 #include "math/dAngle16.h"
 #include "nn/math/math_Vector3.h"
 #include "netgame/netgame_Api.h"
@@ -10,6 +11,9 @@
 
 // The functions and objects of the game that the stage code uses, as far as it needs them. Their classes are not
 // decompiled yet; all names are ours unless noted, the declarations move to their classes later.
+
+// the field of a stage (the town 1, player houses 2.., ...)
+FieldName GetFieldName(stage::Name name); // 0x006FA188
 
 // the house save of a player house stage, or of the model house (NULL for another stage)
 SvPlayerHouse* GetHouseOfStage(stage::Name name); // 0x006F9774
@@ -75,12 +79,8 @@ extern const f32 PLAYER_BED_SLEEP_OFFSET;
 // the start and entrance position of the player in CampingCarA/B
 extern const nn::math::VEC3 CAMPING_CAR_ENTRANCE_POSITION;
 
-// the field
-extern const f32 FIELD_UNIT_SIZE_X; // one unit in world units
-extern const f32 FIELD_UNIT_SIZE_Z;
-extern const f32 FIELD_HALF_UNIT_SIZE_X;
-extern const f32 FIELD_HALF_UNIT_SIZE_Z;
 extern const nn::math::VEC3 VEC3_ZERO;
+extern const nn::math::VEC3 VEC3_ONE;
 extern const math::Angle16Vec3 ANGLE16_VEC3_ZERO;
 // rotates the vector around the Y axis
 void RotateY(nn::math::VEC3_* v, math::Angle16 angle); // 0x0056AD0C

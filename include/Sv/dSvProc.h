@@ -39,7 +39,7 @@ extern u32 g_SvIdentity;
 extern const char* g_SvIdentityFileName;
 // the running save thread
 extern ProcThread* g_pSvProcThread;
-// (FIELD_UNIT_SIZE_X / 5, through u16; nothing in code.bin reads it)
+// (FdInfo::UNIT_WORLD_SIZE_XF / 5, through u16; nothing in code.bin reads it)
 extern f32 g_Unknown95D36C;
 // a request that a running process is pointed at when its own request goes away
 extern SvStepInner g_SvDummyRequest;

@@ -3,7 +3,7 @@
 #include "Audio/bgm/dBgmRequestMgr.h"
 #include "Audio/bgm/dBgmTrackMixer.h"
 #include "Other/dHeapInit.h"
-#include "Other/dTourResult.h"
+#include "Other/dTourData.h"
 #include "Sound/dSoundBarcarollePlayer.h"
 #include "Sound/dSoundDJPlayer.h"
 #include "Sound/dSoundDataLoadThread.h"
@@ -731,12 +731,12 @@ void SoundMgr::SCreateSeaMgr()
             SoundSeaMgr::s_pInstance->SetOceanSide(side);
         }
     } else if (stage::IsKind(stage::KIND_TOUR, stage::GetCurrent())) {
-        u8 state = TourResult::s_pInstance->m_State;
+        u8 state = TourData::s_pInstance->m_State;
         if (state == 0) {
             if (s_IsSeaCreated) {
                 SoundSeaMgr::s_pInstance->m_Type = SoundSeaMgr::TYPE_VILLAGE;
             }
-            bool side = TourResult::s_pInstance->m_OceanSide == 1;
+            bool side = TourData::s_pInstance->m_OceanSide == 1;
             if (s_IsSeaCreated) {
                 SoundSeaMgr::s_pInstance->SetOceanSide(side);
             }

@@ -13,8 +13,8 @@
 #include "sead/seadExpHeap.h"
 #include "sead/seadNew.h"
 #include "sead/seadRandom.h"
+#include "field/dFdInfo.h"
 
-extern const f32 FIELD_UNIT_SIZE_X;
 
 namespace {
 // ticks and frames of the music
@@ -103,7 +103,7 @@ SoundDJPlayer::SingletonDisposer_* SoundDJPlayer::s_pSingletonDisposer = NULL;
 namespace {
 // nothing reads it
 // 0x0094DD14
-f32 s_UnusedSixthOfUnit = static_cast<f32>(static_cast<u16>(FIELD_UNIT_SIZE_X * 0.2f));
+f32 s_UnusedSixthOfUnit = static_cast<f32>(static_cast<u16>(FdInfo::UNIT_WORLD_SIZE_XF * 0.2f));
 } // namespace
 
 // 0x0094DD18

@@ -16,6 +16,7 @@ void Func321FD4(); // 0x00321FD4
 s32 Func1668A0(); // 0x001668A0
 // m_GroundCover of EnterStage (a value of 0x1E6444 is 5..7 or 9)
 bool Func6305DC(); // 0x006305DC
+// true when the stage is not of stage kind 0x20000 and Func1E6444(0) is 9
 bool Func63061C(); // 0x0063061C
 // a curve from (x0, y0) to (x1, y1)
 f32 Func4DC39C(s32 kind, f32 x, f32 x0, f32 x1, f32 y0, f32 y1, f32 curve); // 0x004DC39C

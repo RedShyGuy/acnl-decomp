@@ -11,7 +11,7 @@ class ActorBody : public ::collision::World::Body
 {
 public:
     ActorBody(); // ctor candidate(s) 0x001E5E88 (unverified)
-    virtual void vf_0x00(); // 0x006F89D8 slot 0x00 | virtual slot, introduced by collision::World::Body
-    virtual void vf_0x04(); // 0x001E5EA8 slot 0x04 | virtual slot, introduced by collision::World::Body
+    virtual ~ActorBody(); // 0x006F89D8 slot 0x00
+    // 0x001E5EA8 (deleting dtor)
 };
 } // namespace bsobjchkmgr

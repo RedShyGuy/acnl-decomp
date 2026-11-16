@@ -43,6 +43,8 @@ public:
 
     // (inline; a copy for the game)
     DECOMP_EMIT_COPY ssys::ma::HeapAllocator* GetHeapAllocator() { return &m_HeapAllocator; } // 0x00746E84
+    // (inline; a copy for the game) the end frame of the evaluator
+    DECOMP_EMIT_COPY f32 GetEndFrame() { return GetAnimObject()->m_AnimFrameController.m_EndFrame; } // 0x00746D70
     // the next frame
     void UpdateFrame(); // 0x004F2CA8
     // a member animation that does not animate its group member any more

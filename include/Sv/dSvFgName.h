@@ -9,6 +9,7 @@
 
 namespace item {
 enum Kind : u8;
+enum ModelID : u8;
 } // namespace item
 namespace script {
 template <u32 N>
@@ -235,7 +236,50 @@ public:
     DECOMP_NOINLINE bool IsFruitTree() const; // 0x0076B388
     DECOMP_NOINLINE bool Func76BFA4() const; // 0x0076BFA4
     bool Func7694C0() const; // 0x007694C0
+    // the model of the item on the field (item::MODEL_ID_DEFAULT without parameters or with a model out of range)
+    item::ModelID GetModelID() const; // 0x0076D644
+    // Func7694C0 and item bits / and item bits and Func76CB50 is 8
+    bool Func76D664() const; // 0x0076D664
+    bool Func3132A8() const; // 0x003132A8
+    // the name is NAME_PATTERN
+    bool IsPattern() const; // 0x00769C44
+    // the stumps and further field objects (with checkRock also FG_KIND_ROCK; not when Func76F6E8 of the object 0x0095D6F0 is 8)
+    bool Func769DE0(bool checkRock) const; // 0x00769DE0
+    // bit 14 of the flags (the low bit of the orientation inside): a flower was watered (fgobj::WaterFlowers sets it;
+    // names are ours) / it is set / the FgKind is a flower (IsFlower) or FG_KIND_WILTED_FLOWER
+    bool IsWatered() const; // 0x002FCF6C
+    void SetWatered(); // 0x002FE44C
+    bool IsFlowerOrWilted() const; // 0x0076A938
+    // (names are ours) the rocks (FG_KIND_ROCK): the save number of the player whose coin stone it is (bit 11, the low two
+    // bits; -1 for other rocks) / a rock that breaks into an ore (bit 10) and its index (the low three bits, 0 for other
+    // rocks) / a rock with a stone egg (bit 9)
+    s32 GetCoinStonePlayer() const; // 0x0076AA90
+    bool IsOreRock() const; // 0x007695E0
+    u32 GetOreIndex() const; // 0x0076B268
+    bool IsEggRock() const; // 0x002FE90C
+    // the decay of the perfect fruit of a perfect tree (bits 4..6 of the flags; -1 for other trees; name is ours)
+    s32 GetPerfectFruitDecay() const; // 0x0076BD40
+    // the FgKinds of the grown trees (tree, palm, cedar, bamboo) / of the flowers (tulip, pansy, cosmos, rose, gold rose,
+    // carnation, Jacob's ladder, dandelion, lily, violet)
+    static bool IsGrownTreeFgKind(u8 fgKind); // 0x002FCD48
+    // the FgKind is FG_KIND_TREE, FG_KIND_PALM_TREE, FG_KIND_CEDAR_TREE or FG_KIND_BAMBOO
+    bool IsGrownTree() const; // 0x002FE930
+    // the FgKind is FG_KIND_BUSH
+    bool IsBush() const; // 0x0076A8C0
+    // (names are ours) the FgKind is a flower (as IsFlowerFgKind) / a fruit tree with ripe fruit (fruit growth 0) / the fruit
+    // of a fruit tree (false for other items or a fruit that is not a usual item) / an apple, orange, pear, peach or cherry
+    // tree with a perfect fruit at the place index (0..2) or a perfect tree / bit 15 of the flags is set (buried outside)
+    DECOMP_NOINLINE bool IsFlower() const; // 0x00769BC4
+    bool IsFruitRipe() const; // 0x002FF060
+    bool GetFruit(SvFgName* out) const; // 0x002FE670
+    DECOMP_NOINLINE bool HasPerfectFruitAt(u32 index) const; // 0x0076BB98
+    void SetBuried(); // 0x002FF668
+    // the item has parameters with an icon (ParamItemEntry::iconID below the 507 icons)
+    bool HasIcon() const; // 0x007692A8
+    static bool IsFlowerFgKind(u8 fgKind); // 0x002FCEBC
     s32 Func76CAE0() const; // 0x0076CAE0
+    // a value of the item bits 4..7 / 8..11 (fgobj: for patterns the design is Func76CAE0() + Func76C1FC() * 10)
+    u32 Func76C1FC() const; // 0x0076C1FC
     u32 Func76CB50() const; // 0x0076CB50
     SvFgName Func76C010(u32 value) const; // 0x0076C010
 
@@ -255,3 +299,8 @@ private:
     static const InitFlagsFunction s_InitFlagsFunctions[2]; // (name is ours)
 };
 ASSERT_SIZE(SvFgName, 0x4);
+
+// (name after the address until more is known) the two names are equal without bit 15
+bool Func2FE704(const SvFgName* a, const SvFgName* b); // 0x002FE704
+// the field object of the item item (out; false when there is none; the purpose of the other conversions is unknown)
+bool Func768A60(const SvFgName* item, SvFgName* out); // 0x00768A60

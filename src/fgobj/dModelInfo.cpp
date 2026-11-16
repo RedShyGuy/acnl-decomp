@@ -1,0 +1,190 @@
+#include "fgobj/dObjectBase.h"
+#include "Item/item_Api.h"
+
+namespace fgobj {
+// the models of the items on the field, by item::ModelID (the table and its type after libgarden; generated from the
+// binary)
+// 0x008791A0
+extern const ModelInfo s_ModelInfos[item::MODEL_ID_COUNT] = {
+    {"fg_apple_out", "fg_apple", TEXTURE_ID_T_FG_OUTSIDE, TEXTURE_ID_DEFAULT}, // 0
+    {"fg_apple_out", "fg_apple", TEXTURE_ID_T_FG_OUTSIDE, TEXTURE_ID_DEFAULT}, // 1
+    {"fg_orange_out", "fg_orange", TEXTURE_ID_T_FG_OUTSIDE, TEXTURE_ID_DEFAULT}, // 2
+    {"fg_pear_out", "fg_pear", TEXTURE_ID_T_FG_OUTSIDE, TEXTURE_ID_DEFAULT}, // 3
+    {"fg_peach_out", "fg_peach", TEXTURE_ID_T_FG_OUTSIDE, TEXTURE_ID_DEFAULT}, // 4
+    {"fg_cherry_out", "fg_cherry", TEXTURE_ID_T_FG_OUTSIDE, TEXTURE_ID_DEFAULT}, // 5
+    {"fg_coconut_out", "fg_coconut", TEXTURE_ID_DEFAULT, TEXTURE_ID_DEFAULT}, // 6
+    {"fg_leaf_out", "fg_leaf", TEXTURE_ID_T_FG_OUTSIDE, TEXTURE_ID_DEFAULT}, // 7
+    {"fg_leaf_R_out", "fg_leaf_R", TEXTURE_ID_T_FG_OUTSIDE, TEXTURE_ID_DEFAULT}, // 8
+    {"fg_leaf_R_out", "fg_leaf_M", TEXTURE_ID_T_FG_OUTSIDE, TEXTURE_ID_DEFAULT}, // 9
+    {"fg_paperbag_out", "fg_seed", TEXTURE_ID_T_FG_OUTSIDE, TEXTURE_ID_DEFAULT}, // 10
+    {"fg_paperbag_out", "fg_seedling", TEXTURE_ID_T_FG_OUTSIDE, TEXTURE_ID_DEFAULT}, // 11
+    {"fg_paperbag_out", "fg_seedling_c", TEXTURE_ID_T_FG_OUTSIDE, TEXTURE_ID_DEFAULT}, // 12
+    {"fg_paperbag_out", "fg_seedling_b", TEXTURE_ID_T_FG_OUTSIDE, TEXTURE_ID_DEFAULT}, // 13
+    {"fg_toolbox_D_out", "fg_scoop", TEXTURE_ID_T_FG_OUTSIDE, TEXTURE_ID_DEFAULT}, // 14
+    {"fg_toolbox_E_out", "fg_axe", TEXTURE_ID_T_FG_OUTSIDE, TEXTURE_ID_DEFAULT}, // 15
+    {"fg_toolbox_A_out", "fg_net", TEXTURE_ID_T_FG_OUTSIDE, TEXTURE_ID_DEFAULT}, // 16
+    {"fg_toolbox_B_out", "fg_pole", TEXTURE_ID_T_FG_OUTSIDE, TEXTURE_ID_DEFAULT}, // 17
+    {"fg_toolbox_C_out", "fg_jyoro", TEXTURE_ID_T_FG_OUTSIDE, TEXTURE_ID_DEFAULT}, // 18
+    {"fg_toolbox_F_out", "fg_sling", TEXTURE_ID_T_FG_OUTSIDE, TEXTURE_ID_DEFAULT}, // 19
+    {"fg_box_out", "fg_timer", TEXTURE_ID_T_FG_OUTSIDE, TEXTURE_ID_DEFAULT}, // 20
+    {"fg_G_toolbox_D_out", "fg_G_scoop", TEXTURE_ID_T_FG_OUTSIDE, TEXTURE_ID_DEFAULT}, // 21
+    {"fg_G_toolbox_E_out", "fg_G_axe", TEXTURE_ID_T_FG_OUTSIDE, TEXTURE_ID_DEFAULT}, // 22
+    {"fg_G_toolbox_A_out", "fg_G_net", TEXTURE_ID_T_FG_OUTSIDE, TEXTURE_ID_DEFAULT}, // 23
+    {"fg_G_toolbox_B_out", "fg_G_pole", TEXTURE_ID_T_FG_OUTSIDE, TEXTURE_ID_DEFAULT}, // 24
+    {"fg_G_toolbox_C_out", "fg_G_jyoro", TEXTURE_ID_T_FG_OUTSIDE, TEXTURE_ID_DEFAULT}, // 25
+    {"fg_G_toolbox_F_out", "fg_G_sling", TEXTURE_ID_T_FG_OUTSIDE, TEXTURE_ID_DEFAULT}, // 26
+    {"fg_S_toolbox_D_out", "fg_S_scoop", TEXTURE_ID_T_FG_OUTSIDE, TEXTURE_ID_DEFAULT}, // 27
+    {"fg_S_toolbox_E_out", "fg_S_axe", TEXTURE_ID_T_FG_OUTSIDE, TEXTURE_ID_DEFAULT}, // 28
+    {"fg_S_toolbox_A_out", "fg_S_net", TEXTURE_ID_T_FG_OUTSIDE, TEXTURE_ID_DEFAULT}, // 29
+    {"fg_S_toolbox_B_out", "fg_S_pole", TEXTURE_ID_T_FG_OUTSIDE, TEXTURE_ID_DEFAULT}, // 30
+    {"fg_S_toolbox_C_out", "fg_S_jyoro", TEXTURE_ID_T_FG_OUTSIDE, TEXTURE_ID_DEFAULT}, // 31
+    {"fg_S_toolbox_F_out", "fg_S_sling", TEXTURE_ID_T_FG_OUTSIDE, TEXTURE_ID_DEFAULT}, // 32
+    {"fg_umbrella_out", "fg_umbrella", TEXTURE_ID_T_FG_OUTSIDE, TEXTURE_ID_DEFAULT}, // 33
+    {"fg_conch_out", "fg_conch", TEXTURE_ID_T_FG_OUTSIDE, TEXTURE_ID_DEFAULT}, // 34
+    {"fg_bivalve_out", "fg_bivalve", TEXTURE_ID_T_FG_OUTSIDE, TEXTURE_ID_DEFAULT}, // 35
+    {"fg_coral_out", "fg_coral", TEXTURE_ID_T_FG_OUTSIDE, TEXTURE_ID_DEFAULT}, // 36
+    {"fg_mush0_out", "fg_mush0", TEXTURE_ID_T_FG_OUTSIDE, TEXTURE_ID_DEFAULT}, // 37
+    {"fg_mush1_out", "fg_mush1", TEXTURE_ID_T_FG_OUTSIDE, TEXTURE_ID_DEFAULT}, // 38
+    {"fg_mush2_out", "fg_mush2", TEXTURE_ID_T_FG_OUTSIDE, TEXTURE_ID_DEFAULT}, // 39
+    {"fg_mush3_out", "fg_mush3", TEXTURE_ID_T_FG_OUTSIDE, TEXTURE_ID_DEFAULT}, // 40
+    {"fg_mush4_out", "fg_mush4", TEXTURE_ID_T_FG_OUTSIDE, TEXTURE_ID_DEFAULT}, // 41
+    {"fg_fossil_out", "fg_fossil", TEXTURE_ID_T_FG_OUTSIDE, TEXTURE_ID_DEFAULT}, // 42
+    {"fg_bone_out", "fg_bone", TEXTURE_ID_T_FG_OUTSIDE, TEXTURE_ID_DEFAULT}, // 43
+    {"fg_moneybag_out", "fg_moneybag", TEXTURE_ID_T_FG_OUTSIDE, TEXTURE_ID_DEFAULT}, // 44
+    {"fg_coin_out", "fg_coin", TEXTURE_ID_T_FG_OUTSIDE, TEXTURE_ID_DEFAULT}, // 45
+    {"fg_cloth_out", "fg_cloth", TEXTURE_ID_T_FG_OUTSIDE, TEXTURE_ID_DEFAULT}, // 46
+    {"fg_can_out", "fg_can", TEXTURE_ID_T_FG_OUTSIDE, TEXTURE_ID_DEFAULT}, // 47
+    {"fg_boot_out", "fg_boot", TEXTURE_ID_T_FG_OUTSIDE, TEXTURE_ID_DEFAULT}, // 48
+    {"fg_tire_out", "fg_tire", TEXTURE_ID_T_FG_OUTSIDE, TEXTURE_ID_DEFAULT}, // 49
+    {"fg_haniwa_out", "fg_haniwa", TEXTURE_ID_T_FG_OUTSIDE, TEXTURE_ID_DEFAULT}, // 50
+    {"fg_kabu_out", "fg_kabu", TEXTURE_ID_T_FG_OUTSIDE, TEXTURE_ID_DEFAULT}, // 51
+    {"fg_kabu_x_out", "fg_kabu_x", TEXTURE_ID_T_FG_OUTSIDE, TEXTURE_ID_DEFAULT}, // 52
+    {"fg_honeycomb_out", "fg_honeycomb", TEXTURE_ID_T_FG_OUTSIDE, TEXTURE_ID_DEFAULT}, // 53
+    {"fg_paperbag_out", "fg_paperbag", TEXTURE_ID_T_FG_OUTSIDE, TEXTURE_ID_DEFAULT}, // 54
+    {"fg_present_gr_out", "fg_present_gr", TEXTURE_ID_T_FG_OUTSIDE, TEXTURE_ID_DEFAULT}, // 55
+    {"fg_present_out", "fg_present", TEXTURE_ID_T_FG_OUTSIDE, TEXTURE_ID_DEFAULT}, // 56
+    {"fg_cage_out", "fg_cage", TEXTURE_ID_T_FG_OUTSIDE_2, TEXTURE_ID_DEFAULT}, // 57
+    {"fg_letter_out", "fg_letter", TEXTURE_ID_T_FG_OUTSIDE_2, TEXTURE_ID_DEFAULT}, // 58
+    {"fg_seedpitfall_out", "fg_seedpitfall", TEXTURE_ID_T_FG_OUTSIDE, TEXTURE_ID_DEFAULT}, // 59
+    {"fg_candy_out", "fg_candy", TEXTURE_ID_T_FG_OUTSIDE, TEXTURE_ID_DEFAULT}, // 60
+    {"fg_music_out", "fg_music", TEXTURE_ID_T_FG_OUTSIDE, TEXTURE_ID_DEFAULT}, // 61
+    {"fg_paperbag_out", "fg_medicine", TEXTURE_ID_T_FG_OUTSIDE, TEXTURE_ID_DEFAULT}, // 62
+    {"fg_wall_out", "fg_wall", TEXTURE_ID_T_FG_OUTSIDE, TEXTURE_ID_DEFAULT}, // 63
+    {"fg_carpet_out", "fg_carpet", TEXTURE_ID_T_FG_OUTSIDE, TEXTURE_ID_DEFAULT}, // 64
+    {"fg_cap_out", "fg_cap", TEXTURE_ID_T_FG_OUTSIDE, TEXTURE_ID_DEFAULT}, // 65
+    {"fg_wig_out", "fg_wig", TEXTURE_ID_T_FG_OUTSIDE, TEXTURE_ID_DEFAULT}, // 66
+    {"fg_glass_out", "fg_glass", TEXTURE_ID_T_FG_OUTSIDE, TEXTURE_ID_DEFAULT}, // 67
+    {"fg_soldout", "fg_soldout", TEXTURE_ID_DEFAULT, TEXTURE_ID_DEFAULT}, // 68
+    {"fg_paperbag_out", "fg_grace_soldout", TEXTURE_ID_T_FG_OUTSIDE, TEXTURE_ID_DEFAULT}, // 69
+    {"fg_paper_out", "fg_paper", TEXTURE_ID_T_FG_OUTSIDE, TEXTURE_ID_DEFAULT}, // 70
+    {"fg_durian_out", "fg_durian", TEXTURE_ID_T_FG_OUTSIDE, TEXTURE_ID_DEFAULT}, // 71
+    {"fg_lemon_out", "fg_lemon", TEXTURE_ID_T_FG_OUTSIDE, TEXTURE_ID_DEFAULT}, // 72
+    {"fg_lychee_out", "fg_lychee", TEXTURE_ID_T_FG_OUTSIDE, TEXTURE_ID_DEFAULT}, // 73
+    {"fg_mango_out", "fg_mango", TEXTURE_ID_T_FG_OUTSIDE, TEXTURE_ID_DEFAULT}, // 74
+    {"fg_persimmon_out", "fg_persimmon", TEXTURE_ID_T_FG_OUTSIDE, TEXTURE_ID_DEFAULT}, // 75
+    {"fg_banana_out", "fg_banana", TEXTURE_ID_DEFAULT, TEXTURE_ID_DEFAULT}, // 76
+    {"fg_banbooshoot_out", "fg_banbooshoot", TEXTURE_ID_T_FG_OUTSIDE, TEXTURE_ID_DEFAULT}, // 77
+    {"fg_box_out", "fg_hammer", TEXTURE_ID_T_FG_OUTSIDE, TEXTURE_ID_DEFAULT}, // 78
+    {"fg_S_seedpitfall_out", "fg_S_seedpitfall", TEXTURE_ID_T_FG_OUTSIDE, TEXTURE_ID_DEFAULT}, // 79
+    {"fg_easter_ticket_out", "fg_easter_ticket", TEXTURE_ID_T_FG_OUTSIDE, TEXTURE_ID_DEFAULT}, // 80
+    {"fg_g_easter_ticket_out", "fg_g_easter_ticket", TEXTURE_ID_T_FG_OUTSIDE, TEXTURE_ID_DEFAULT}, // 81
+    {"fg_g_ore_out", "fg_g_ore", TEXTURE_ID_T_FG_OUTSIDE, TEXTURE_ID_DEFAULT}, // 82
+    {"fg_s_ore_out", "fg_s_ore", TEXTURE_ID_T_FG_OUTSIDE, TEXTURE_ID_DEFAULT}, // 83
+    {"fg_ruby_out", "fg_ruby", TEXTURE_ID_T_FG_OUTSIDE, TEXTURE_ID_DEFAULT}, // 84
+    {"fg_sapphire_out", "fg_sapphire", TEXTURE_ID_T_FG_OUTSIDE, TEXTURE_ID_DEFAULT}, // 85
+    {"fg_emerald_out", "fg_emerald", TEXTURE_ID_T_FG_OUTSIDE, TEXTURE_ID_DEFAULT}, // 86
+    {"fg_amethyst_out", "fg_amethyst", TEXTURE_ID_T_FG_OUTSIDE, TEXTURE_ID_DEFAULT}, // 87
+    {"fg_apple_d_out", "fg_apple_d", TEXTURE_ID_T_FG_OUTSIDE, TEXTURE_ID_DEFAULT}, // 88
+    {"fg_orange_d_out", "fg_orange_d", TEXTURE_ID_T_FG_OUTSIDE, TEXTURE_ID_DEFAULT}, // 89
+    {"fg_pear_d_out", "fg_pear_d", TEXTURE_ID_T_FG_OUTSIDE, TEXTURE_ID_DEFAULT}, // 90
+    {"fg_peach_d_out", "fg_peach_d", TEXTURE_ID_T_FG_OUTSIDE, TEXTURE_ID_DEFAULT}, // 91
+    {"fg_cherry_d_out", "fg_cherry_d", TEXTURE_ID_T_FG_OUTSIDE, TEXTURE_ID_DEFAULT}, // 92
+    {"fg_fireworks_out", "fg_fireworks", TEXTURE_ID_T_FG_OUTSIDE, TEXTURE_ID_DEFAULT}, // 93
+    {"fg_fertilizer_out", "fg_fertilizer", TEXTURE_ID_T_FG_OUTSIDE, TEXTURE_ID_DEFAULT}, // 94
+    {"fg_omikuji_out", "fg_omikuji", TEXTURE_ID_T_FG_OUTSIDE_2, TEXTURE_ID_DEFAULT}, // 95
+    {"fg_shoes_out", "fg_shoes", TEXTURE_ID_T_FG_OUTSIDE, TEXTURE_ID_DEFAULT}, // 96
+    {"fg_socks_out", "fg_socks", TEXTURE_ID_T_FG_OUTSIDE, TEXTURE_ID_DEFAULT}, // 97
+    {"fg_egg0_out", "fg_egg0", TEXTURE_ID_T_FG_OUTSIDE, TEXTURE_ID_DEFAULT}, // 98
+    {"fg_egg1_out", "fg_egg1", TEXTURE_ID_T_FG_OUTSIDE, TEXTURE_ID_DEFAULT}, // 99
+    {"fg_egg2_out", "fg_egg2", TEXTURE_ID_T_FG_OUTSIDE, TEXTURE_ID_DEFAULT}, // 100
+    {"fg_egg3_out", "fg_egg3", TEXTURE_ID_T_FG_OUTSIDE, TEXTURE_ID_DEFAULT}, // 101
+    {"fg_egg4_out", "fg_egg4", TEXTURE_ID_T_FG_OUTSIDE, TEXTURE_ID_DEFAULT}, // 102
+    {"fg_egg5_out", "fg_egg5", TEXTURE_ID_T_FG_OUTSIDE, TEXTURE_ID_DEFAULT}, // 103
+    {"fg_paper_out", "fg_m_paper", TEXTURE_ID_T_FG_OUTSIDE, TEXTURE_ID_DEFAULT}, // 104
+    {"fg_wrapping_out", "fg_wrapping", TEXTURE_ID_T_FG_OUTSIDE, TEXTURE_ID_DEFAULT}, // 105
+    {"fg_paperbag_out", "fg_butter", TEXTURE_ID_T_FG_OUTSIDE, TEXTURE_ID_DEFAULT}, // 106
+    {"fg_paperbag_out", "fg_milk", TEXTURE_ID_T_FG_OUTSIDE, TEXTURE_ID_DEFAULT}, // 107
+    {"fg_paperbag_out", "fg_vinegar", TEXTURE_ID_T_FG_OUTSIDE, TEXTURE_ID_DEFAULT}, // 108
+    {"fg_paperbag_out", "fg_flour", TEXTURE_ID_T_FG_OUTSIDE, TEXTURE_ID_DEFAULT}, // 109
+    {"fg_paperbag_out", "fg_sugar", TEXTURE_ID_T_FG_OUTSIDE, TEXTURE_ID_DEFAULT}, // 110
+    {"fg_badge_g_out", "fg_badge_g", TEXTURE_ID_T_FG_OUTSIDE_2, TEXTURE_ID_DEFAULT}, // 111
+    {"fg_badge_s_out", "fg_badge_s", TEXTURE_ID_T_FG_OUTSIDE_2, TEXTURE_ID_DEFAULT}, // 112
+    {"fg_badge_c_out", "fg_badge_c", TEXTURE_ID_T_FG_OUTSIDE_2, TEXTURE_ID_DEFAULT}, // 113
+    {"fg_signature_form_out", "fg_signature_form", TEXTURE_ID_T_FG_OUTSIDE_2, TEXTURE_ID_DEFAULT}, // 114
+    {"fg_villagercard_out", "fg_villagercard", TEXTURE_ID_T_FG_OUTSIDE_2, TEXTURE_ID_DEFAULT}, // 115
+    {"fg_map_out", "fg_map", TEXTURE_ID_T_FG_OUTSIDE_2, TEXTURE_ID_DEFAULT}, // 116
+    {"fg_pouch_out", "fg_pouch", TEXTURE_ID_T_FG_OUTSIDE, TEXTURE_ID_DEFAULT}, // 117
+    {"fg_glove_out", "fg_glove", TEXTURE_ID_T_FG_OUTSIDE, TEXTURE_ID_DEFAULT}, // 118
+    {"fg_paperbag_y_out", "fg_paperbag_y", TEXTURE_ID_T_FG_OUTSIDE, TEXTURE_ID_DEFAULT}, // 119
+    {"fg_book_out", "fg_book", TEXTURE_ID_T_FG_OUTSIDE, TEXTURE_ID_DEFAULT}, // 120
+    {"fg_paperbag_out", "fg_wrappingpaper", TEXTURE_ID_T_FG_OUTSIDE, TEXTURE_ID_DEFAULT}, // 121
+    {"fg_fortune_cookie_out", "fg_fortune_cookie", TEXTURE_ID_T_FG_OUTSIDE, TEXTURE_ID_DEFAULT}, // 122
+    {"fg_paperbag_out", "fg_coffee_beans", TEXTURE_ID_T_FG_OUTSIDE, TEXTURE_ID_DEFAULT}, // 123
+    {"fg_paperbag_out", "fg_G_trophy", TEXTURE_ID_T_FG_OUTSIDE, TEXTURE_ID_DEFAULT}, // 124
+    {"fg_paperbag_out", "fg_S_trophy", TEXTURE_ID_T_FG_OUTSIDE, TEXTURE_ID_DEFAULT}, // 125
+    {"fg_paperbag_out", "fg_B_trophy", TEXTURE_ID_T_FG_OUTSIDE, TEXTURE_ID_DEFAULT}, // 126
+    {"fg_paperbag_out", "fg_coffee", TEXTURE_ID_T_FG_OUTSIDE, TEXTURE_ID_DEFAULT}, // 127
+    {"fg_apple_pile_out", "fg_apple_pile", TEXTURE_ID_T_FG_OUTSIDE, TEXTURE_ID_DEFAULT}, // 128
+    {"fg_orange_pile_out", "fg_orange_pile", TEXTURE_ID_T_FG_OUTSIDE, TEXTURE_ID_DEFAULT}, // 129
+    {"fg_pear_pile_out", "fg_pear_pile", TEXTURE_ID_T_FG_OUTSIDE, TEXTURE_ID_DEFAULT}, // 130
+    {"fg_peach_pile_out", "fg_peach_pile", TEXTURE_ID_T_FG_OUTSIDE, TEXTURE_ID_DEFAULT}, // 131
+    {"fg_cherry_pile_out", "fg_cherry_pile", TEXTURE_ID_T_FG_OUTSIDE, TEXTURE_ID_DEFAULT}, // 132
+    {"fg_coconut_pile_out", "fg_coconut_pile", TEXTURE_ID_T_FG_OUTSIDE, TEXTURE_ID_DEFAULT}, // 133
+    {"fg_durian_pile_out", "fg_durian_pile", TEXTURE_ID_T_FG_OUTSIDE, TEXTURE_ID_DEFAULT}, // 134
+    {"fg_lemon_pile_out", "fg_lemon_pile", TEXTURE_ID_T_FG_OUTSIDE, TEXTURE_ID_DEFAULT}, // 135
+    {"fg_lychee_pile_out", "fg_lychee_pile", TEXTURE_ID_T_FG_OUTSIDE, TEXTURE_ID_DEFAULT}, // 136
+    {"fg_mango_pile_out", "fg_mango_pile", TEXTURE_ID_T_FG_OUTSIDE, TEXTURE_ID_DEFAULT}, // 137
+    {"fg_persimmon_pile_out", "fg_persimmon_pile", TEXTURE_ID_T_FG_OUTSIDE, TEXTURE_ID_DEFAULT}, // 138
+    {"fg_banana_pile_out", "fg_banana_pile", TEXTURE_ID_T_FG_OUTSIDE, TEXTURE_ID_DEFAULT}, // 139
+    {"fg_banbooshoot_pile_out", "fg_banbooshoot_pile", TEXTURE_ID_T_FG_OUTSIDE, TEXTURE_ID_DEFAULT}, // 140
+    {"fg_timecapsule_out", "fg_timecapsule", TEXTURE_ID_T_FG_OUTSIDE_2, TEXTURE_ID_DEFAULT}, // 141
+    {"fg_paperbag_out", "fg_R_soldout", TEXTURE_ID_T_FG_OUTSIDE, TEXTURE_ID_DEFAULT}, // 142
+    {"fg_plume_out", "fg_plume", TEXTURE_ID_T_FG_OUTSIDE, TEXTURE_ID_DEFAULT}, // 143
+    {"fg_paperbag_out", "fg_wall_soldout", TEXTURE_ID_T_FG_OUTSIDE, TEXTURE_ID_DEFAULT}, // 144
+    {"fg_cake_out", "fg_cake", TEXTURE_ID_T_FG_OUTSIDE, TEXTURE_ID_DEFAULT}, // 145
+    {"fg_chocolate_out", "fg_chocolate", TEXTURE_ID_T_FG_OUTSIDE, TEXTURE_ID_DEFAULT}, // 146
+    {"fg_bottoms_out", "fg_bottoms", TEXTURE_ID_T_FG_OUTSIDE, TEXTURE_ID_DEFAULT}, // 147
+    {"fg_mush5_out", "fg_mush5", TEXTURE_ID_T_FG_OUTSIDE, TEXTURE_ID_DEFAULT}, // 148
+    {"fg_lollipop_out", "fg_lollipop", TEXTURE_ID_T_FG_OUTSIDE, TEXTURE_ID_DEFAULT}, // 149
+    {"fg_apple_d_pile_out", "fg_apple_d_pile", TEXTURE_ID_T_FG_OUTSIDE, TEXTURE_ID_DEFAULT}, // 150
+    {"fg_orange_d_pile_out", "fg_orange_d_pile", TEXTURE_ID_T_FG_OUTSIDE, TEXTURE_ID_DEFAULT}, // 151
+    {"fg_pear_d_pile_out", "fg_pear_d_pile", TEXTURE_ID_T_FG_OUTSIDE, TEXTURE_ID_DEFAULT}, // 152
+    {"fg_peach_d_pile_out", "fg_peach_d_pile", TEXTURE_ID_T_FG_OUTSIDE, TEXTURE_ID_DEFAULT}, // 153
+    {"fg_cherry_d_pile_out", "fg_cherry_d_pile", TEXTURE_ID_T_FG_OUTSIDE, TEXTURE_ID_DEFAULT}, // 154
+    {"fg_santasack_out", "fg_santasack", TEXTURE_ID_T_FG_OUTSIDE_2, TEXTURE_ID_DEFAULT}, // 155
+    {"fg_box_out", "fg_santasack", TEXTURE_ID_T_FG_OUTSIDE, TEXTURE_ID_DEFAULT}, // 156
+    {"fg_paperbag_out", "fg_tsunekichi_soldout", TEXTURE_ID_T_FG_OUTSIDE, TEXTURE_ID_DEFAULT}, // 157
+    {"fg_paperbag_out", "fg_wall_g_soldout", TEXTURE_ID_T_FG_OUTSIDE, TEXTURE_ID_DEFAULT}, // 158
+    {"fg_box_out", "fg_megaphone", TEXTURE_ID_T_FG_OUTSIDE, TEXTURE_ID_DEFAULT}, // 159
+    {"fg_wall_ftrS", "fg_wall_ftrS", TEXTURE_ID_DEFAULT, TEXTURE_ID_DEFAULT}, // 160
+    {"fg_wall_ftrL", "fg_wall_ftrL", TEXTURE_ID_DEFAULT, TEXTURE_ID_DEFAULT}, // 161
+    {"fg_paperbag_out", "fg_towel", TEXTURE_ID_T_FG_OUTSIDE, TEXTURE_ID_DEFAULT}, // 162
+    {"fg_4leaf_clover_out", "fg_leaf", TEXTURE_ID_T_FG_OUTSIDE_2, TEXTURE_ID_DEFAULT}, // 163
+    {"fg_seed_out", "fg_seed", TEXTURE_ID_T_FG_OUTSIDE_2, TEXTURE_ID_DEFAULT}, // 164
+    {"fg_seedling_out", "fg_seedling", TEXTURE_ID_T_FG_OUTSIDE_2, TEXTURE_ID_DEFAULT}, // 165
+    {"fg_seedling_c_out", "fg_seedling_c", TEXTURE_ID_T_FG_OUTSIDE_2, TEXTURE_ID_DEFAULT}, // 166
+    {"fg_seedling_b_out", "fg_seedling_b", TEXTURE_ID_T_FG_OUTSIDE_2, TEXTURE_ID_DEFAULT}, // 167
+    {"fg_box_out", "fg_cloth", TEXTURE_ID_T_FG_OUTSIDE, TEXTURE_ID_DEFAULT}, // 168
+    {"fg_lamp_out", "fg_leaf", TEXTURE_ID_T_FG_OUTSIDE_2, TEXTURE_ID_DEFAULT}, // 169
+};
+
+// 0x0053678C (name after libgarden, which has the declaration commented out)
+const char* GetModelName(const item::ModelID& modelID, bool isOutside)
+{
+    const u32 id = modelID;
+    if (id >= item::MODEL_ID_COUNT) {
+        return s_ModelInfos[0].nameOutside;
+    }
+    return isOutside ? s_ModelInfos[id].nameOutside : s_ModelInfos[id].nameInside;
+}
+} // namespace fgobj

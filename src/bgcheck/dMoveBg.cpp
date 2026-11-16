@@ -8,13 +8,9 @@ bgcheck::MoveBg::MoveBg()
 {
 }
 
-// 0x00615384 slot 0x00 | virtual slot, introduced by collision::World::Body
-void bgcheck::MoveBg::vf_0x00()
-{
-}
-
-// 0x00615360 slot 0x04 | virtual slot, introduced by collision::World::Body
-void bgcheck::MoveBg::vf_0x04()
+// 0x00615384 slot 0x00
+// 0x00615360 (deleting dtor)
+bgcheck::MoveBg::~MoveBg()
 {
 }
 

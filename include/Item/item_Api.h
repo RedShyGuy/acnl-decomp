@@ -171,6 +171,23 @@ enum Kind : u8
 };
 
 // the parameters of an item (layout and names after libgarden's item::ParamItemEntry)
+// The model of an item on the field (ParamItemEntry::modelID; the index of fgobj::s_ModelInfos). libgarden names DEFAULT,
+// APPLE, ORANGE and COUNT; the other enumerators are ours, after the names of the models in fgobj::s_ModelInfos (only those
+// the decompiled code uses).
+enum ModelID : u8
+{
+    MODEL_ID_DEFAULT = 0,
+    MODEL_ID_APPLE = 1,
+    MODEL_ID_ORANGE = 2,
+    MODEL_ID_LEAF_R = 8,            // fg_leaf_R
+    MODEL_ID_LEAF_M = 9,            // fg_leaf_R_out / fg_leaf_M
+    MODEL_ID_MONEYBAG = 44,         // fg_moneybag
+    MODEL_ID_COIN = 45,             // fg_coin
+    MODEL_ID_CAN = 47,              // fg_can
+    MODEL_ID_4LEAF_CLOVER = 163,    // fg_4leaf_clover_out / fg_leaf
+    MODEL_ID_COUNT = 0xAA,
+};
+
 struct ParamItemEntry
 {
     u16 iconID;                 // 0x00
@@ -239,17 +256,27 @@ ASSERT_SIZE(KindParamEntry, 0x3);
 // the parameters of a field object (names are ours; only the kind is known)
 struct ParamFgEntry
 {
-    u8 unk_0x0[2];
+    s16 unk_0x0;    // 0x0 the field object that stays after a shake or cut (fgobj::PlaceSwing; 254 and more: the empty one)
     u16 unk_0x2;    // 0x2 for the fruit trees the name of their fruit (SvFgName::GrowFruit)
     u8 unk_0x4[6];
     u8 fgKind;      // 0xA SvFgName::FgKind
+    u8 unk_0xB;
+    u8 fgModel;     // 0xC the index of the model of the field object in the table of the fgobj::Proc (fgobj::FgModel)
+    s8 size;        // 0xD the size of trees and bushes (tables of fgobj::ObjectSwing by it; cutting needs 3, a bush is 1 or 2)
+    u8 unk_0xE;
+    u8 unk_0xF;     // 0xF bit 2: drawn with the texture setting 1 (fgobj::ObjectBase::InitializeDrawFunc)
 };
+ASSERT_SIZE(ParamFgEntry, 0x10);
 
 const ParamItemEntry* GetParamItemEntry(const SvFgName& item); // 0x00536854 (name after libgarden's item header)
 // the entry of the kind of the item (NULL if it has none)
 const KindParamEntry* GetKindParamEntry(const SvFgName& item); // 0x005368C0 (name is ours)
 // the entry of a field object (the names up to 0xFD)
 const ParamFgEntry* GetParamFgEntry(const SvFgName& item); // 0x002FCFB4 (name is ours)
+// the index of the field object (the 254 field objects; -1 for other items; a copy of an inline function; name is ours)
+DECOMP_NOINLINE s32 GetFgIndex(const SvFgName& item); // 0x0076A3B8
+// the number of field objects (entries of Fg/Param/Fg.bin; name is ours)
+const u32 FG_NUM = 254;
 void GetName(script::WordPtr* out, const SvFgName& item, void* myDesign); // 0x0056E93C (name after libgarden's item header)
 // whether the item is of KIND_MONEY
 bool IsMoney(const SvFgName& item); // 0x002FE6CC (name is ours)

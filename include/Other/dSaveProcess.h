@@ -2,6 +2,7 @@
 
 #include "decomp.h"
 
+class JmpUnit;
 class SvStepInner;
 namespace sead {
 class Heap;
@@ -53,5 +54,7 @@ bool SvRunSaveProcess(SvStepInner* request); // 0x005CDA94
 // local static, its wait for the heap, a Thumb function before and one after
 void* Func3044DC(); // 0x003044DC
 bool Func1C2530(void* object, sead::Heap* heap); // 0x001C2530
+// the default units of a ground (0xA00 bytes; NULL if not loaded)
+const JmpUnit* Func1C2588(void* object, u32 bgName); // 0x001C2588
 void Func110CF0(); // 0x00110CF0
 void Func139580(void* object); // 0x00139580

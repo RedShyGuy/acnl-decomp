@@ -598,8 +598,8 @@ void BsSvMgr::SaveStep::Step_ForceToTown()
         if (!netgame::GetStructurePosition(&position, STRUCTURE_ISLAND_STORAGE_BIN)) {
             goto fallback;
         }
-        position.x += FIELD_UNIT_SIZE_X;
-        position.z += FIELD_UNIT_SIZE_Z * 5.0f;
+        position.x += FdInfo::UNIT_WORLD_SIZE_XF;
+        position.z += FdInfo::UNIT_WORLD_SIZE_ZF * 5.0f;
     } else {
         if (!netgame::GetStructurePosition(&position, STRUCTURE_STATION_CLASSIC) &&
             !netgame::GetStructurePosition(&position, STRUCTURE_STATION_ZEN) &&
@@ -607,7 +607,7 @@ void BsSvMgr::SaveStep::Step_ForceToTown()
             !netgame::GetStructurePosition(&position, STRUCTURE_STATION_MODERN)) {
             goto fallback;
         }
-        position.z += FIELD_UNIT_SIZE_Z * 1.5f;
+        position.z += FdInfo::UNIT_WORLD_SIZE_ZF * 1.5f;
     }
     stage::GetTransitionMgr()->TransitionTo(stage::NAME_VILLAGE, &position, &ANGLE16_VEC3_ZERO, PLAYER_ACTION_IDLE, 0, 0, 1, 1);
     goto end;

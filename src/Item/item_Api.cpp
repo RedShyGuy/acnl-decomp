@@ -1,7 +1,32 @@
 #include "Item/item_Api.h"
 #include "Sv/dSvFgName.h"
+#include "fgobj/fgobj_Api.h"
+#include "ssys/ma/dFileData.h"
 
 namespace item {
+// 0x0076A3B8 (name is ours)
+s32 GetFgIndex(const SvFgName& item)
+{
+    u32 index = item.id & ~0x8000;
+    if (index > FG_NUM - 1) {
+        return -1;
+    }
+    return index;
+}
+
+// 0x002FCFB4 (name is ours)
+const ParamFgEntry* GetParamFgEntry(const SvFgName& item)
+{
+    if (fgobj::s_pFgParam != NULL) {
+        u32 index = GetFgIndex(item);
+        const ParamFgEntry* entries = reinterpret_cast<const ParamFgEntry*>(fgobj::s_pFgParam->m_pData);
+        if (entries != NULL && index < FG_NUM) {
+            return &entries[index];
+        }
+    }
+    return NULL;
+}
+
 // 0x006D9BA8 (name after libgarden)
 u32 ToInsectFishID(const SvFgName& item)
 {

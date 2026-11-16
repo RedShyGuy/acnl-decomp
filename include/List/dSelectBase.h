@@ -7,13 +7,13 @@
 #include "List/dContentNode.h"
 #include "Item/item_Api.h"
 #include "script/dWordFix.h"
+#include "Sv/dSvFgName.h"
 
 class SvFgName;
 
 // (game functions on item names and item lists, purpose unknown; used by the list helpers of SelectBase)
 bool Func76B6A0(const SvFgName* name); // 0x0076B6A0
 bool Func76BE54(const SvFgName* name); // 0x0076BE54
-bool Func2FE704(const SvFgName* a, const SvFgName* b); // 0x002FE704
 bool Func76BA20(const SvFgName* a, const SvFgName* b); // 0x0076BA20
 bool Func76A66C(const SvFgName* name); // 0x0076A66C
 // a list of item IDs (7104 bytes) built from a bit field of the player

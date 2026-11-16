@@ -2,6 +2,20 @@
 #include "Other/dBase.h"
 #include "Bs/dBsWaveMgr.h"
 
+// 0x0095182C
+BsWaveMgr* BsWaveMgr::s_pInstance;
+
+// 0x006E1B0C (name is ours)
+BsWaveMgr* BsWaveMgr::GetInstance()
+{
+    return s_pInstance;
+}
+
+// 0x006E1708 (name is ours)
+FieldAttribute BsWaveMgr::GetShoreAttribute(FieldAttribute, const nn::math::VEC3&) const
+{
+}
+
 // ctor candidate(s) 0x006E1BBC (unverified)
 BsWaveMgr::BsWaveMgr()
 {

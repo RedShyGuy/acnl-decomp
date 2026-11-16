@@ -9,7 +9,8 @@
 class TourResult::SingletonDisposer_ : public ::sead::IDisposer
 {
 public:
-    SingletonDisposer_(); // ctor candidate(s) 0x001B7C44 (unverified)
+    // (inline in TourResult::createInstance)
+    SingletonDisposer_();
     virtual ~SingletonDisposer_(); // 0x001B7E14 slot 0x00 | slot vf_0x00 of sead::IDisposer
     // 0x001B7DD0 slot 0x04 | slot vf_0x04 of sead::IDisposer (deleting dtor)
 };

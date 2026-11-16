@@ -10,8 +10,8 @@ class Capsule : public ::collision::Shape
 {
 public:
     Capsule(); // ctor candidate(s) 0x006F8D78 (unverified)
-    virtual void vf_0x00(); // 0x006F8DA0 slot 0x00 | virtual slot, introduced by collision::Capsule
-    virtual void vf_0x04(); // 0x006F8D9C slot 0x04 | virtual slot, introduced by collision::Capsule
-    virtual void vf_0x08(); // 0x006F8CD8 slot 0x08 | virtual slot, introduced by collision::Capsule
+    virtual ~Capsule(); // 0x006F8DA0 slot 0x00
+    // 0x006F8D9C (deleting dtor)
+    void Translate(const nn::math::VEC3& offset) override; // 0x006F8CD8 slot 0x08
 };
 } // namespace collision

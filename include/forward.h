@@ -738,7 +738,7 @@ class FdBkSearchCand;
 class FdInfo;
 class Field;
 class FieldBuilder;
-class FieldRect;
+struct FieldRect; // field/dFieldRect.h
 class FishAwardSeqTalkRecept;
 class FishingCandCB;
 class FlagFunctor;
@@ -1127,13 +1127,12 @@ class WanderSearchMaxMinCandCB;
 class WaterCurtain;
 class Wipe;
 class dLoadSplit;
-struct FieldName { u32 _unknown; }; // placeholder, real type unknown
+enum FieldName : u8; // field/dFieldTypes.h
 enum PicaDataColor : u8; // nn/gr/CTR/gr_Types.h
 enum PicaDataDepth : u8; // nn/gr/CTR/gr_Types.h
 enum PicaDataDrawMode : u8; // nn/gr/CTR/gr_Types.h
 struct PlayerCapBankKeyword { u32 _unknown; }; // placeholder, real type unknown
 struct PlayerHeadBankKeyword { u32 _unknown; }; // placeholder, real type unknown
-struct PlayerNumber { u32 _unknown; }; // placeholder, real type unknown
 enum PlayerSaveNumber : u8; // Player/dPlayerApi.h
 struct PlayerState { u32 _unknown; }; // placeholder, real type unknown
 enum ProcName : u16; // Other/dProcMgr.h
@@ -1620,10 +1619,10 @@ namespace fgobj {
     class ObjectThrow;
     class ObjectThrowHole;
     class ObjectTimer;
-    class Packet;
+    struct Packet;
     class Proc;
-    struct FindUnitForPlayerCheck { u32 _unknown; }; // placeholder, real type unknown
-    struct PlaceType { u32 _unknown; }; // placeholder, real type unknown
+    enum FindUnitForPlayerCheck : u8; // fgobj/fgobj_Api.h
+    enum PlaceType : u8;              // fgobj/fgobj_Api.h
 }
 
 namespace font { 
@@ -4431,7 +4430,6 @@ namespace ssys { namespace st {
 
 namespace stage { 
     class TransitionMgr;
-    enum FieldName : u8; // stage/stage_Api.h
     enum Kind : u32; // stage/stage_Api.h
     enum Name : u8; // stage/stage_Api.h
     struct Command; // stage/stage_Api.h

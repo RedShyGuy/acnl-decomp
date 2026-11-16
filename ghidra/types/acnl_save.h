@@ -25,15 +25,42 @@ typedef struct SvFgName {
 //
 // Offsets in /* */ are relative to the struct and verified by the ASSERT_SIZE checks.
 
-// Values that the game stores obfuscated (bells, medals, ...): see SvEncValue tools.
+// The 64-bit values of the save data have an alignment of 4 in the original (ARMCC reads them with ldm/stm, the time
+// constructor copies with __ARM_common_memcpy4_8, and they lie at offsets that are only multiples of 4), so the save
+// structures need no packing for them (names are ours).
+typedef s64 SvS64 __attribute__((aligned(4)));
+typedef u64 SvU64 __attribute__((aligned(4)));
 
-// Nanoseconds since 2000-01-01 00:00:00 (not since 1970).
+// Values that the game stores obfuscated (bells, medals, ...): see SvEncValue tools.
+typedef struct SvEncValue {
+
+    /* 0x0000 */ u32 data[2];
+} SvEncValue;
+
+// A time in the save data: nanoseconds since 2000-01-01 00:00:00 (not since 1970); 0x7FFFFFFFFFFFFFFF is no time.
+// The constructor clears it and copies the value in. The clock itself calculates with s64.
+typedef struct SvTime {
+
+    /* 0x0000 */ SvS64 value;
+} SvTime;
 
 typedef struct SvDate {
+    // (names are ours) cleared / cleared and set (SetSvDate)
+    constexpr SvDate() : year(0), month(0), day(0) {} // 0x003020B8
+
     /* 0x0000 */ u16 year;
     /* 0x0002 */ u8 month;
     /* 0x0003 */ u8 day;
 } SvDate;
+
+// a month and a day (name is ours; the constructor takes them from time::GetFirstDate). Only user: a local array of 18
+// of them in the game function 0x104B54 (Thumb; filled with dates through 0x301B70, read with a bounds check 0x301B64);
+// not the birthday of the player (SvPlayer::birthMonth/birthDay are two single bytes)
+typedef struct SvMonthDay {
+
+    /* 0x0000 */ u8 month;
+    /* 0x0001 */ s8 day;
+} SvMonthDay;
 
 typedef struct SvDateTime {
     /* 0x0000 */ u16 year;
@@ -224,6 +251,12 @@ typedef struct SvTownId {
 
 } SvTownId;
 
+// (names are ours) a town id is made from a name (9 characters, cut with the word functions) and a region: with the id
+// 0xFFFF / a new random id (0x8000 | 0..0x7FFE) / a given id
+void MakeTownId(SvTownId* town, const char16* name, u32 region); // 0x006BC944
+void MakeNewTownId(SvTownId* town, const char16* name, u32 region); // 0x006BCA08
+void MakeTownId(SvTownId* town, const char16* name, u16 tid, u32 region); // 0x006BCADC
+
 typedef struct SvPlayerId {
     /* 0x0000 */ u16 pid;
     /* 0x0002 */ char16 playerName[9];
@@ -237,6 +270,8 @@ typedef struct SvPersonalId {
     /* 0x002C */ u8 tpcCountry;
     /* 0x002D */ u8 tpcCounty;
 
+    // (empty; ARMCC's copy for the array constructors is a bx lr)
+    SvPersonalId() {} // 0x001B5138
 } SvPersonalId;
 
 /* ---- dSvMyDesign.h ---- */
@@ -245,6 +280,7 @@ typedef struct SvPersonalId {
 // Offsets in /* */ are relative to the struct and verified by the ASSERT_SIZE checks.
 
 typedef struct SvMyDesign {
+
     /* 0x0000 */ char16 title[0x15];
     /* 0x002A */ SvPersonalId creatorData;
     /* 0x0058 */ u8 palette[0xF];
@@ -264,19 +300,67 @@ typedef struct SvMyDesign {
 //
 // Offsets in /* */ are relative to the struct and verified by the ASSERT_SIZE checks.
 
-typedef struct SvMail {
-    /* 0x0000 */ SvPersonalId receiver;
+// a person of a letter (the type and the names are ours): the id and its kind (1 a player, 2 and 6 see the functions of
+// the letter; the constructor clears both)
+namespace script {
+class Phrase;
+class WordPtrSv;
+} // namespace script
+namespace sead {
+template <typename T0>
+class IDelegate1;
+} // namespace sead
+
+// (game code, not decompiled yet; names after the addresses) a villager reference is copied / it is set (the villager
+// below 0x18F, the personality below 8) / a text of a player is checked / the attached item is checked
+struct SvNpcRef;
+void Func6148BC(SvNpcRef* dst, const SvNpcRef* src); // 0x006148BC
+u8 Func302050(const SvNpcRef* npc); // 0x00302050
+void Func1B29AC(char16* header); // 0x001B29AC
+u8 Func769190(const SvFgName* item); // 0x00769190
+
+typedef struct SvMailPerson {
+    SvMailPerson()
+    {
+        unk_0x30 = 0;
+    }
+
+    /* 0x0000 */ SvPersonalId id;
     /* 0x002E */ u16 pad_0x2E;
-    /* 0x0030 */ u16 receiverId;
-    /* 0x0032 */ u8 pad_0x32[0x32];
-    /* 0x0064 */ u16 unk_0x64; // Some form of ID?
-    /* 0x0066 */ u16 pad_0x66;
-    /* 0x0068 */ char16 header[0x20]; // Max amount is 32 UTF-16 characters
-    /* 0x00A8 */ u16 pad_0xA8;
-    /* 0x00AA */ char16 body[0xC0]; // Max amount is 192 UTF-16 characters
-    /* 0x022A */ u16 pad_0x22A;
-    /* 0x022C */ char16 signature[0x20]; // Max amount is 32 UTF-16 characters
-    /* 0x026C */ u16 pad_0x26C;
+    /* 0x0030 */ u8 unk_0x30;
+} SvMailPerson;
+
+// the 8 bytes at the end of a letter (type and name ours): an empty constructor, copied with its own assignment
+typedef struct SvMailUnk278 {
+    SvMailUnk278() {}
+
+    /* 0x0000 */ u32 data[2];
+} SvMailUnk278;
+
+typedef struct SvMail {
+    // (game code, not decompiled yet; names are ours) the letter is written from a label of a file to a player on a
+    // paper (two values) / it is sent (three values; true: sent)
+    u8 Func306374(const char* file, s32 label, const SvPersonalId* player, const SvFgName* paper, u32 a,
+                    u32 b); // 0x00306374
+    u8 LoadNpc(const char* toFile, s32 toLabel, const char* bodyFile, s32 bodyLabel, const char* fromFile,
+                 s32 fromLabel, const void* npc, const SvPersonalId* player, const SvFgName* paper,
+                 sead::IDelegate1<script::Phrase*>* callback); // 0x005CCB4C
+    u8 LoadPlayer(const char* file, s32 toLabel, s32 bodyLabel, s32 fromLabel, const SvPersonalId* player,
+                    const SvFgName* paper, u8 senderString,
+                    sead::IDelegate1<script::Phrase*>* callback); // 0x005CCC30
+    u8 LoadNpcRandom(const char* toFile, s32 toLabel, const char* bodyFile, s32 labelA, s32 labelB, s32 labelC,
+                       const char* fromFile, s32 fromLabel, const void* npc, const SvPersonalId* player,
+                       const SvFgName* paper, sead::IDelegate1<script::Phrase*>* callback); // 0x005CCCE0
+    u8 LoadPlayer(const char* file, s32 label, const SvPersonalId* player, const SvFgName* paper, u8 senderString,
+    u8 LoadPlayer(const char* file, s32 toLabel, s32 bodyLabel, s32 fromLabel, const SvPersonalId* player,
+
+    /* 0x0000 */ SvMailPerson receiver;
+    /* 0x0031 */ u8 pad_0x31[3];
+    /* 0x0034 */ SvMailPerson sender;
+    /* 0x0065 */ u8 pad_0x65[3];
+    /* 0x0068 */ char16 header[0x21]; // Max amount is 32 UTF-16 characters (and the terminator)
+    /* 0x00AA */ char16 body[0xC1]; // Max amount is 192 UTF-16 characters (and the terminator)
+    /* 0x022C */ char16 signature[0x21]; // Max amount is 32 UTF-16 characters (and the terminator)
     /* 0x026E */ u8 receiverNameIndent;
     /* 0x026F */ u8 paperId;
     /* 0x0270 */ u8 letterFlag; // 9 closed
@@ -284,7 +368,7 @@ typedef struct SvMail {
     /* 0x0272 */ u8 letterType; // 0x88 time capsule
     /* 0x0273 */ u8 unk_0x273;
     /* 0x0274 */ SvFgName attachedItem;
-    /* 0x0278 */ u64 unk_0x278;
+    /* 0x0278 */ SvMailUnk278 unk_0x278;
 } SvMail;
 
 typedef enum SvGulliverMail {
@@ -360,18 +444,327 @@ typedef struct SvFutureMail {
     /* 0x0280 */ SvTime receiveDate; // ctor sets 0x7FFFFFFFFFFFFFFF (max positive U64)
 } SvFutureMail;
 
+// (game code, not decompiled yet; names are ours) the first free one of the 80 letters of the pool (-1: none) / a letter
+// is copied to an index
+s32 Func711124(SvMail* letters); // 0x00711124
+void Func1E4904(SvMail* letters, u32 index, const SvMail* mail); // 0x001E4904
+
 /* ---- dSvPlayerFlags.h ---- */
 // Progress / tutorial flags of a player (0x34 bytes of bits).
 //
 // Offsets in /* */ are relative to the struct and verified by the ASSERT_SIZE checks.
 
+// The value IDs of SvPlayerFlags::GetValue/SetValue/SetFlag (names after the fields; a value of several bits is a
+// counter or a small number)
+enum SvPlayerFlagId : u16 {
+    PLAYER_FLAG_UNK_0x0_0 = 0, // 4 bits
+    PLAYER_FLAG_PLAYER_SET_NAME_AND_TOWN_NAME = 1,
+    PLAYER_FLAG_REDD_INTRODUCED = 2,
+    PLAYER_FLAG_UNK_0x0_6 = 3,
+    PLAYER_FLAG_UNK_0x0_7 = 4,
+    PLAYER_FLAG_UNK_0x1_0 = 5,
+    PLAYER_FLAG_FINISHED_FIRST_DAY = 6,
+    PLAYER_FLAG_UNK_0x1_2 = 7,
+    PLAYER_FLAG_UNK_0x1_3 = 8, // 5 bits
+    PLAYER_FLAG_UNK_0x2_0 = 9,
+    PLAYER_FLAG_UNK_0x2_1 = 10,
+    PLAYER_FLAG_UNK_0x2_2 = 11,
+    PLAYER_FLAG_UNK_0x2_3 = 12,
+    PLAYER_FLAG_UNK_0x2_4 = 13,
+    PLAYER_FLAG_UNK_0x2_5 = 14,
+    PLAYER_FLAG_UNK_0x2_6 = 15,
+    PLAYER_FLAG_UNK_0x2_7 = 16,
+    PLAYER_FLAG_UNK_0x3_0 = 17,
+    PLAYER_FLAG_UNK_0x3_1 = 18,
+    PLAYER_FLAG_UNK_0x3_2 = 19,
+    PLAYER_FLAG_TOM_NOOK_INTRODUCED = 20,
+    PLAYER_FLAG_BLATHERS_INTRODUCED = 21,
+    PLAYER_FLAG_UNK_0x3_5 = 22,
+    PLAYER_FLAG_CELESTE_INTRODUCED = 23,
+    PLAYER_FLAG_CYRUS_INTRODUCED = 24,
+    PLAYER_FLAG_UNK_0x4_0 = 25,
+    PLAYER_FLAG_UNK_0x4_1 = 26,
+    PLAYER_FLAG_UNK_0x4_2 = 27,
+    PLAYER_FLAG_UNK_0x4_3 = 28,
+    PLAYER_FLAG_TOM_NOOK_DOWN_FIRST_PAYMENT = 29,
+    PLAYER_FLAG_CHOOSE_HOUSE_LOCATION = 30,
+    PLAYER_FLAG_MAIN_STREET_UNLOCKED = 31,
+    PLAYER_FLAG_HOUSE_LOCATION_CHOSEN = 32,
+    PLAYER_FLAG_KNOW_ISABELLE_NAME = 33,
+    PLAYER_FLAG_KNOW_KAPPN = 34,
+    PLAYER_FLAG_UNK_0x5_2 = 35,
+    PLAYER_FLAG_UNK_0x5_3 = 36,
+    PLAYER_FLAG_UNK_0x5_4 = 37,
+    PLAYER_FLAG_UNK_0x5_5 = 38,
+    PLAYER_FLAG_UNK_0x5_6 = 39,
+    PLAYER_FLAG_UNK_0x5_7 = 40,
+    PLAYER_FLAG_UNK_0x6_0 = 41,
+    PLAYER_FLAG_UNK_0x6_1 = 42, // 4 bits
+    PLAYER_FLAG_UNK_0x6_5 = 43,
+    PLAYER_FLAG_UNK_0x6_6 = 44,
+    PLAYER_FLAG_UNK_0x6_7 = 45,
+    PLAYER_FLAG_UNK_0x7_0 = 46,
+    PLAYER_FLAG_UNK_0x7_1 = 47,
+    PLAYER_FLAG_UNK_0x7_2 = 48,
+    PLAYER_FLAG_UNK_0x7_3 = 49,
+    PLAYER_FLAG_UNK_0x7_4 = 50,
+    PLAYER_FLAG_UNK_0x7_5 = 51,
+    PLAYER_FLAG_UNK_0x7_6 = 52,
+    PLAYER_FLAG_UNK_0x7_7 = 53,
+    PLAYER_FLAG_UNK_0x8_0 = 54,
+    PLAYER_FLAG_UNK_0x8_1 = 55,
+    PLAYER_FLAG_UNK_0x8_2 = 56,
+    PLAYER_FLAG_UNK_0x8_3 = 57,
+    PLAYER_FLAG_UNK_0x8_4 = 58,
+    PLAYER_FLAG_UNK_0x8_5 = 59,
+    PLAYER_FLAG_UNK_0x8_6 = 60,
+    PLAYER_FLAG_UNK_0x8_7 = 61,
+    PLAYER_FLAG_UNK_0x9_0 = 62,
+    PLAYER_FLAG_UNK_0x9_1 = 63,
+    PLAYER_FLAG_UNK_0x9_2 = 64,
+    PLAYER_FLAG_UNK_0x9_3 = 65,
+    PLAYER_FLAG_UNK_0x9_4 = 66,
+    PLAYER_FLAG_UNK_0x9_5 = 67, // 4 bits
+    PLAYER_FLAG_RESET_PENDING = 68,
+    PLAYER_FLAG_UNK_0xA_2 = 69, // 4 bits
+    PLAYER_FLAG_UNK_0xA_6 = 70,
+    PLAYER_FLAG_PETE_INTRODUCTION = 71,
+    PLAYER_FLAG_UNK_0xB_0 = 72,
+    PLAYER_FLAG_UNK_0xB_1 = 73,
+    PLAYER_FLAG_UNK_0xB_2 = 74,
+    PLAYER_FLAG_EXTERIOR_RENOVATIONS_UNLOCKED = 75,
+    PLAYER_FLAG_HOUSE_LOAN_REPAID = 76,
+    PLAYER_FLAG_UNK_0xB_5 = 77,
+    PLAYER_FLAG_UNK_0xB_6 = 78,
+    PLAYER_FLAG_HOUSE_UPGRADE_FINISHED = 79,
+    PLAYER_FLAG_UNK_0xC_0 = 80, // 5 bits
+    PLAYER_FLAG_MUSEUM_EXHIBIT_EXPLAINED = 81,
+    PLAYER_FLAG_UNK_0xC_6 = 82,
+    PLAYER_FLAG_UNK_0xC_7 = 83,
+    PLAYER_FLAG_PERMIT_APPROVAL_ARRIVED = 84,
+    PLAYER_FLAG_MAYOR_JOB_INTRODUCTION = 85,
+    PLAYER_FLAG_PERMIT_APPROVAL = 86,
+    PLAYER_FLAG_PERMIT_INTRODUCTION = 87,
+    PLAYER_FLAG_CITIZEN_SATISFACTION_EXPLAINED = 88,
+    PLAYER_FLAG_TOWN_FLAG_EXPLAINED = 89,
+    PLAYER_FLAG_TOWN_TUNE_EXPLAINED = 90,
+    PLAYER_FLAG_PWP_EXPLAINED = 91,
+    PLAYER_FLAG_ORDINANCE_EXPLAINED = 92,
+    PLAYER_FLAG_UNK_0xE_1 = 93,
+    PLAYER_FLAG_UNK_0xE_2 = 94,
+    PLAYER_FLAG_PERMIT_FINISHED = 95,
+    PLAYER_FLAG_UNK_0xE_4 = 96,
+    PLAYER_FLAG_UNK_0xE_5 = 97,
+    PLAYER_FLAG_HAS_BEE_STING = 98,
+    PLAYER_FLAG_UNK_0xE_7 = 99,
+    PLAYER_FLAG_EDIT_DESIGN_INTRO = 100,
+    PLAYER_FLAG_UNK_0xF_1 = 101,
+    PLAYER_FLAG_UNK_0xF_2 = 102,
+    PLAYER_FLAG_CAN_TRAVEL = 103,
+    PLAYER_FLAG_HAS_TPC_PICTURE = 104,
+    PLAYER_FLAG_UNK_0xF_5 = 105,
+    PLAYER_FLAG_UNK_0xF_6 = 106,
+    PLAYER_FLAG_UNK_0xF_7 = 107,
+    PLAYER_FLAG_UNK_0x10_0 = 108,
+    PLAYER_FLAG_UNK_0x10_1 = 109,
+    PLAYER_FLAG_UNK_0x10_2 = 110,
+    PLAYER_FLAG_BEFRIEND_SABLE = 111, // 4 bits
+    PLAYER_FLAG_UNK_0x10_7 = 112,
+    PLAYER_FLAG_BEFRIEND_SABLE3 = 113,
+    PLAYER_FLAG_UNK_0x11_1 = 114,
+    PLAYER_FLAG_UNK_0x11_2 = 115,
+    PLAYER_FLAG_UNK_0x11_3 = 116,
+    PLAYER_FLAG_UNK_0x11_4 = 117, // 4 bits
+    PLAYER_FLAG_UNK_0x12_0 = 118,
+    PLAYER_FLAG_UNK_0x12_1 = 119,
+    PLAYER_FLAG_TALK_TO_LYLE_FOR_THE_FIRST_TIME = 120,
+    PLAYER_FLAG_UNK_0x12_3 = 121,
+    PLAYER_FLAG_UNK_0x12_4 = 122,
+    PLAYER_FLAG_UNK_0x12_5 = 123,
+    PLAYER_FLAG_UNK_0x12_6 = 124,
+    PLAYER_FLAG_UNLOCKED_KAPPN = 125,
+    PLAYER_FLAG_LYLE_INTRODUCTION = 126,
+    PLAYER_FLAG_UNK_0x13_1 = 127,
+    PLAYER_FLAG_RECEIVED_HHS_INTRO = 128,
+    PLAYER_FLAG_UNK_0x13_3 = 129,
+    PLAYER_FLAG_UNK_0x13_4 = 130,
+    PLAYER_FLAG_UNK_0x13_5 = 131,
+    PLAYER_FLAG_UNK_0x13_6 = 132,
+    PLAYER_FLAG_UNK_0x13_7 = 133,
+    PLAYER_FLAG_UNK_0x14_0 = 134,
+    PLAYER_FLAG_UNK_0x14_1 = 135,
+    PLAYER_FLAG_FINISHED_SHRUNK_SIGNATURES = 136,
+    PLAYER_FLAG_UNK_0x14_3 = 137,
+    PLAYER_FLAG_UNK_0x14_4 = 138,
+    PLAYER_FLAG_UNK_0x14_5 = 139,
+    PLAYER_FLAG_UNK_0x14_6 = 140,
+    PLAYER_FLAG_UNK_0x14_7 = 141,
+    PLAYER_FLAG_UNK_0x15_0 = 142,
+    PLAYER_FLAG_UNK_0x15_1 = 143,
+    PLAYER_FLAG_UNK_0x15_2 = 144,
+    PLAYER_FLAG_UNK_0x15_3 = 145,
+    PLAYER_FLAG_ISABELLE_WALLPAPER_GIFT_FOR_GETTING_HOUSE = 146,
+    PLAYER_FLAG_KICK_INTRODUCED = 147,
+    PLAYER_FLAG_UNK_0x15_6 = 148,
+    PLAYER_FLAG_UNK_0x15_7 = 149,
+    PLAYER_FLAG_UNK_0x16_0 = 150,
+    PLAYER_FLAG_UNK_0x16_1 = 151,
+    PLAYER_FLAG_UNK_0x16_2 = 152,
+    PLAYER_FLAG_UNK_0x16_3 = 153,
+    PLAYER_FLAG_UNK_0x16_4 = 154, // 7 bits
+    PLAYER_FLAG_UNK_0x17_3 = 155, // 3 bits
+    PLAYER_FLAG_UNK_0x17_6 = 156,
+    PLAYER_FLAG_UNK_0x17_7 = 157, // 4 bits
+    PLAYER_FLAG_UNK_0x18_3 = 158,
+    PLAYER_FLAG_UNK_0x18_4 = 159,
+    PLAYER_FLAG_UNK_0x18_5 = 160, // 4 bits
+    PLAYER_FLAG_UNK_0x19_1 = 161,
+    PLAYER_FLAG_UNK_0x19_2 = 162,
+    PLAYER_FLAG_UNK_0x19_3 = 163,
+    PLAYER_FLAG_UNK_0x19_4 = 164,
+    PLAYER_FLAG_UNK_0x19_5 = 165,
+    PLAYER_FLAG_UNK_0x19_6 = 166,
+    PLAYER_FLAG_KNOWS_PERMIT_REQUIREMENTS = 167,
+    PLAYER_FLAG_TOM_NOOK_TOLD_YOU_FIRST_PAYMENT = 168,
+    PLAYER_FLAG_PERMIT_POINTS = 169, // 10 bits
+    PLAYER_FLAG_UNK_0x1B_3 = 170,
+    PLAYER_FLAG_UNK_0x1B_4 = 171, // 7 bits
+    PLAYER_FLAG_UNK_0x1C_3 = 172, // 7 bits
+    PLAYER_FLAG_UNK_0x1D_2 = 173, // 7 bits
+    PLAYER_FLAG_UNK_0x1E_1 = 174, // 4 bits
+    PLAYER_FLAG_UNK_0x1E_5 = 175, // 4 bits
+    PLAYER_FLAG_UNK_0x1F_1 = 176,
+    PLAYER_FLAG_HAS_CLUB_TORTIMER_MEMBERSHIP = 177,
+    PLAYER_FLAG_CLUB_TORTIMER_FIRST_ASKED = 178,
+    PLAYER_FLAG_CLUB_TORTIMER_RULES_EXPLAINED = 179,
+    PLAYER_FLAG_UNK_0x1F_5 = 180,
+    PLAYER_FLAG_UNK_0x1F_6 = 181,
+    PLAYER_FLAG_UNK_0x1F_7 = 182,
+    PLAYER_FLAG_UNK_0x20_0 = 183,
+    PLAYER_FLAG_UNK_0x20_1 = 184,
+    PLAYER_FLAG_UNK_0x20_2 = 185,
+    PLAYER_FLAG_UNK_0x20_3 = 186,
+    PLAYER_FLAG_UNK_0x20_4 = 187,
+    PLAYER_FLAG_UNK_0x20_5 = 188,
+    PLAYER_FLAG_UNK_0x20_6 = 189,
+    PLAYER_FLAG_UNK_0x20_7 = 190,
+    PLAYER_FLAG_UNK_0x21_0 = 191,
+    PLAYER_FLAG_UNK_0x21_1 = 192,
+    PLAYER_FLAG_UNK_0x21_2 = 193,
+    PLAYER_FLAG_UNK_0x21_3 = 194,
+    PLAYER_FLAG_UNK_0x21_4 = 195,
+    PLAYER_FLAG_UNK_0x21_5 = 196, // 3 bits
+    PLAYER_FLAG_UNK_0x22_0 = 197,
+    PLAYER_FLAG_UNK_0x22_1 = 198, // 7 bits
+    PLAYER_FLAG_UNK_0x23_0 = 199,
+    PLAYER_FLAG_UNK_0x23_1 = 200,
+    PLAYER_FLAG_UNK_0x23_2 = 201,
+    PLAYER_FLAG_UNK_0x23_3 = 202,
+    PLAYER_FLAG_UNK_0x23_4 = 203,
+    PLAYER_FLAG_UNK_0x23_5 = 204,
+    PLAYER_FLAG_UNK_0x23_6 = 205,
+    PLAYER_FLAG_UNK_0x23_7 = 206,
+    PLAYER_FLAG_UNK_0x24_0 = 207,
+    PLAYER_FLAG_UNK_0x24_1 = 208,
+    PLAYER_FLAG_UNK_0x24_2 = 209,
+    PLAYER_FLAG_UNK_0x24_3 = 210,
+    PLAYER_FLAG_UNK_0x24_4 = 211,
+    PLAYER_FLAG_UNK_0x24_5 = 212,
+    PLAYER_FLAG_UNK_0x24_6 = 213,
+    PLAYER_FLAG_UNK_0x24_7 = 214,
+    PLAYER_FLAG_UNK_0x25_0 = 215,
+    PLAYER_FLAG_UNK_0x25_1 = 216,
+    PLAYER_FLAG_UNK_0x25_2 = 217,
+    PLAYER_FLAG_UNK_0x25_3 = 218,
+    PLAYER_FLAG_UNK_0x25_4 = 219,
+    PLAYER_FLAG_UNK_0x25_5 = 220, // 3 bits
+    PLAYER_FLAG_UNK_0x26_0 = 221,
+    PLAYER_FLAG_UNK_0x26_1 = 222,
+    PLAYER_FLAG_UNK_0x26_2 = 223,
+    PLAYER_FLAG_UNK_0x26_3 = 224,
+    PLAYER_FLAG_UNK_0x26_4 = 225,
+    PLAYER_FLAG_UNK_0x26_5 = 226,
+    PLAYER_FLAG_UNK_0x26_6 = 227,
+    PLAYER_FLAG_UNK_0x26_7 = 228,
+    PLAYER_FLAG_UNK_0x27_0 = 229,
+    PLAYER_FLAG_UNK_0x27_1 = 230,
+    PLAYER_FLAG_SECRET_STORAGE_EXPLAINED = 231,
+    PLAYER_FLAG_UNK_0x27_3 = 232,
+    PLAYER_FLAG_UNK_0x27_4 = 233,
+    PLAYER_FLAG_UNK_0x27_5 = 234,
+    PLAYER_FLAG_BUILDING_SECRET_STORAGE = 235,
+    PLAYER_FLAG_UNLOCKED_SECRET_STORAGE = 236,
+    PLAYER_FLAG_UNK_0x28_0 = 237,
+    PLAYER_FLAG_UNK_0x28_1 = 238,
+    PLAYER_FLAG_UNK_0x28_2 = 239, // 10 bits
+    PLAYER_FLAG_UNK_0x29_4 = 240, // 10 bits
+    PLAYER_FLAG_UNK_0x2A_6 = 241,
+    PLAYER_FLAG_UNK_0x2A_7 = 242,
+    PLAYER_FLAG_UNK_0x2B_0 = 243,
+    PLAYER_FLAG_UNK_0x2B_1 = 244,
+    PLAYER_FLAG_UNK_0x2B_2 = 245,
+    PLAYER_FLAG_UNK_0x2B_3 = 246,
+    PLAYER_FLAG_UNK_0x2B_4 = 247,
+    PLAYER_FLAG_UNK_0x2B_5 = 248,
+    PLAYER_FLAG_UNK_0x2B_6 = 249,
+    PLAYER_FLAG_UNK_0x2B_7 = 250,
+    PLAYER_FLAG_UNK_0x2C_0 = 251,
+    PLAYER_FLAG_UNK_0x2C_1 = 252, // 2 bits
+    PLAYER_FLAG_UNLOCKED_HOUSE_EDITOR = 253,
+    PLAYER_FLAG_UNK_0x2C_4 = 254,
+    PLAYER_FLAG_UNK_0x2C_5 = 255,
+    PLAYER_FLAG_UNK_0x2C_6 = 256,
+    PLAYER_FLAG_RECEIVED_CAT_INTRO = 257,
+    PLAYER_FLAG_UNK_0x2D_0 = 258,
+    PLAYER_FLAG_UNK_0x2D_1 = 259,
+    PLAYER_FLAG_UNK_0x2D_2 = 260,
+    PLAYER_FLAG_UNK_0x2D_3 = 261,
+    PLAYER_FLAG_UNK_0x2D_4 = 262,
+    PLAYER_FLAG_UNK_0x2D_5 = 263,
+    PLAYER_FLAG_UNK_0x2D_6 = 264,
+    PLAYER_FLAG_UNK_0x2D_7 = 265,
+    PLAYER_FLAG_UNK_0x2E_0 = 266,
+    PLAYER_FLAG_UNK_0x2E_1 = 267,
+    PLAYER_FLAG_UNK_0x2E_2 = 268,
+    PLAYER_FLAG_UNK_0x2E_3 = 269,
+    PLAYER_FLAG_UNK_0x2E_4 = 270,
+    PLAYER_FLAG_UNK_0x2E_5 = 271,
+    PLAYER_FLAG_UNK_0x2E_6 = 272,
+    PLAYER_FLAG_UNK_0x2E_7 = 273,
+    PLAYER_FLAG_UNK_0x2F_0 = 274,
+    PLAYER_FLAG_UNK_0x2F_1 = 275,
+    PLAYER_FLAG_UNK_0x2F_2 = 276,
+    PLAYER_FLAG_UNK_0x2F_3 = 277,
+    PLAYER_FLAG_UNK_0x2F_4 = 278,
+    PLAYER_FLAG_UNK_0x2F_5 = 279,
+    PLAYER_FLAG_CAN_USE_CENSUS_MENU = 280,
+    PLAYER_FLAG_UNK_0x2F_7 = 281,
+    PLAYER_FLAG_UNK_0x30_0 = 282,
+    PLAYER_FLAG_UNK_0x30_1 = 283,
+    PLAYER_FLAG_UNK_0x30_2 = 284,
+    PLAYER_FLAG_UNK_0x30_3 = 285,
+    PLAYER_FLAG_UNK_0x30_4 = 286,
+    PLAYER_FLAG_UNK_0x30_5 = 287,
+    PLAYER_FLAG_UNK_0x30_6 = 288,
+    PLAYER_FLAG_UNK_0x30_7 = 289,
+    PLAYER_FLAG_UNK_0x31_0 = 290,
+    PLAYER_FLAG_UNK_0x31_1 = 291,
+    PLAYER_FLAG_UNK_0x31_2 = 292,
+    PLAYER_FLAG_UNK_0x31_3 = 293,
+    PLAYER_FLAG_UNK_0x31_4 = 294,
+    PLAYER_FLAG_UNK_0x31_5 = 295,
+    PLAYER_FLAG_UNK_0x31_6 = 296,
+    PLAYER_FLAG_UNK_0x31_7 = 297,
+    PLAYER_FLAG_UNK_0x32_0 = 298,
+    PLAYER_FLAG_UNK_0x32_1 = 299,
+    PLAYER_FLAG_NUM = 300,
+};
+
 // 0x57A0 -> 0x57D3
+
 typedef struct SvPlayerFlags {
 
-    /* 0x0000.0 */ u8 unk_0x0_0 : 1;
-    /* 0x0000.1 */ u8 unk_0x0_1 : 1;
-    /* 0x0000.2 */ u8 unk_0x0_2 : 1;
-    /* 0x0000.3 */ u8 unk_0x0_3 : 1;
+    /* 0x0000.0 */ u8 unk_0x0_0 : 4;
     /* 0x0000.4 */ u8 playerSetNameAndTownName : 1; // most likely player set their name and townname
     /* 0x0000.5 */ u8 reddIntroduced : 1;
     /* 0x0000.6 */ u8 unk_0x0_6 : 1;
@@ -379,11 +772,7 @@ typedef struct SvPlayerFlags {
     /* 0x0001.0 */ u8 unk_0x1_0 : 1;
     /* 0x0001.1 */ u8 finishedFirstDay : 1; // Introduction day finished
     /* 0x0001.2 */ u8 unk_0x1_2 : 1; // Meet Tommy or Timmy in shop for first time
-    /* 0x0001.3 */ u8 unk_0x1_3 : 1;
-    /* 0x0001.4 */ u8 unk_0x1_4 : 1;
-    /* 0x0001.5 */ u8 unk_0x1_5 : 1;
-    /* 0x0001.6 */ u8 unk_0x1_6 : 1;
-    /* 0x0001.7 */ u8 unk_0x1_7 : 1;
+    /* 0x0001.3 */ u8 unk_0x1_3 : 5;
     /* 0x0002.0 */ u8 unk_0x2_0 : 1;
     /* 0x0002.1 */ u8 unk_0x2_1 : 1;
     /* 0x0002.2 */ u8 unk_0x2_2 : 1;
@@ -417,10 +806,7 @@ typedef struct SvPlayerFlags {
     /* 0x0005.6 */ u8 unk_0x5_6 : 1;
     /* 0x0005.7 */ u8 unk_0x5_7 : 1;
     /* 0x0006.0 */ u8 unk_0x6_0 : 1; // Met Resetti for the first time
-    /* 0x0006.1 */ u8 unk_0x6_1 : 1;
-    /* 0x0006.2 */ u8 unk_0x6_2 : 1;
-    /* 0x0006.3 */ u8 unk_0x6_3 : 1;
-    /* 0x0006.4 */ u8 unk_0x6_4 : 1;
+    /* 0x0006.1 */ u8 unk_0x6_1 : 4;
     /* 0x0006.5 */ u8 unk_0x6_5 : 1;
     /* 0x0006.6 */ u8 unk_0x6_6 : 1;
     /* 0x0006.7 */ u8 unk_0x6_7 : 1;
@@ -445,15 +831,9 @@ typedef struct SvPlayerFlags {
     /* 0x0009.2 */ u8 unk_0x9_2 : 1;
     /* 0x0009.3 */ u8 unk_0x9_3 : 1;
     /* 0x0009.4 */ u8 unk_0x9_4 : 1;
-    /* 0x0009.5 */ u8 unk_0x9_5 : 1;
-    /* 0x0009.6 */ u8 unk_0x9_6 : 1;
-    /* 0x0009.7 */ u8 unk_0x9_7 : 1;
-    /* 0x000A.0 */ u8 unk_0xA_0 : 1;
+    /* 0x0009.5 */ u16 unk_0x9_5 : 4;
     /* 0x000A.1 */ u8 resetPending : 1;
-    /* 0x000A.2 */ u8 unk_0xA_2 : 1; // Villager related
-    /* 0x000A.3 */ u8 unk_0xA_3 : 1; // Villager related
-    /* 0x000A.4 */ u8 unk_0xA_4 : 1; // Villager related
-    /* 0x000A.5 */ u8 unk_0xA_5 : 1;
+    /* 0x000A.2 */ u8 unk_0xA_2 : 4; // Villager related
     /* 0x000A.6 */ u8 unk_0xA_6 : 1; // isabelle welcomed you in your tent (actually also gets set when placing any item in house for first time, if never been in tent)
     /* 0x000A.7 */ u8 peteIntroduction : 1;
     /* 0x000B.0 */ u8 unk_0xB_0 : 1; // Reese and Tommy conversation (ReTail)
@@ -464,11 +844,7 @@ typedef struct SvPlayerFlags {
     /* 0x000B.5 */ u8 unk_0xB_5 : 1;
     /* 0x000B.6 */ u8 unk_0xB_6 : 1; // Gets set when you talk to tom nook after your house was built = 0
     /* 0x000B.7 */ u8 houseUpgradeFinished : 1; // next day when house upgrade is finished = 1 | when you talk to tom nook after your house was built = 0
-    /* 0x000C.0 */ u8 unk_0xC_0 : 1;
-    /* 0x000C.1 */ u8 unk_0xC_1 : 1;
-    /* 0x000C.2 */ u8 unk_0xC_2 : 1;
-    /* 0x000C.3 */ u8 unk_0xC_3 : 1;
-    /* 0x000C.4 */ u8 unk_0xC_4 : 1;
+    /* 0x000C.0 */ u8 unk_0xC_0 : 5;
     /* 0x000C.5 */ u8 museumExhibitExplained : 1;
     /* 0x000C.6 */ u8 unk_0xC_6 : 1;
     /* 0x000C.7 */ u8 unk_0xC_7 : 1;
@@ -499,19 +875,13 @@ typedef struct SvPlayerFlags {
     /* 0x0010.0 */ u8 unk_0x10_0 : 1;
     /* 0x0010.1 */ u8 unk_0x10_1 : 1;
     /* 0x0010.2 */ u8 unk_0x10_2 : 1;
-    /* 0x0010.3 */ u8 unk_0x10_3 : 1;
-    /* 0x0010.4 */ u8 befriendSable1 : 1;
-    /* 0x0010.5 */ u8 unk_0x10_5 : 1;
-    /* 0x0010.6 */ u8 befriendSable2 : 1;
+    /* 0x0010.3 */ u8 befriendSable : 4; // 4-bit value (the research read bit 1 and bit 3 of it as befriendSable1/2)
     /* 0x0010.7 */ u8 unk_0x10_7 : 1;
     /* 0x0011.0 */ u8 befriendSable3 : 1;
     /* 0x0011.1 */ u8 unk_0x11_1 : 1;
     /* 0x0011.2 */ u8 unk_0x11_2 : 1;
     /* 0x0011.3 */ u8 unk_0x11_3 : 1; // Gets set when you talk to tom nook after your house was built
-    /* 0x0011.4 */ u8 unk_0x11_4 : 1;
-    /* 0x0011.5 */ u8 unk_0x11_5 : 1;
-    /* 0x0011.6 */ u8 unk_0x11_6 : 1;
-    /* 0x0011.7 */ u8 unk_0x11_7 : 1;
+    /* 0x0011.4 */ u8 unk_0x11_4 : 4;
     /* 0x0012.0 */ u8 unk_0x12_0 : 1;
     /* 0x0012.1 */ u8 unk_0x12_1 : 1;
     /* 0x0012.2 */ u8 talkToLyleForTheFirstTime : 1;
@@ -548,27 +918,13 @@ typedef struct SvPlayerFlags {
     /* 0x0016.1 */ u8 unk_0x16_1 : 1;
     /* 0x0016.2 */ u8 unk_0x16_2 : 1;
     /* 0x0016.3 */ u8 unk_0x16_3 : 1;
-    /* 0x0016.4 */ u8 unk_0x16_4 : 1;
-    /* 0x0016.5 */ u8 unk_0x16_5 : 1;
-    /* 0x0016.6 */ u8 unk_0x16_6 : 1;
-    /* 0x0016.7 */ u8 unk_0x16_7 : 1;
-    /* 0x0017.0 */ u8 unk_0x17_0 : 1;
-    /* 0x0017.1 */ u8 unk_0x17_1 : 1;
-    /* 0x0017.2 */ u8 unk_0x17_2 : 1;
-    /* 0x0017.3 */ u8 unk_0x17_3 : 1;
-    /* 0x0017.4 */ u8 unk_0x17_4 : 1;
-    /* 0x0017.5 */ u8 unk_0x17_5 : 1;
+    /* 0x0016.4 */ u16 unk_0x16_4 : 7;
+    /* 0x0017.3 */ u8 unk_0x17_3 : 3;
     /* 0x0017.6 */ u8 unk_0x17_6 : 1;
-    /* 0x0017.7 */ u8 unk_0x17_7 : 1; // Gets set and unset at a new day
-    /* 0x0018.0 */ u8 unk_0x18_0 : 1; // Gets set and unset at a new day
-    /* 0x0018.1 */ u8 unk_0x18_1 : 1; // Gets set and unset at a new day
-    /* 0x0018.2 */ u8 unk_0x18_2 : 1;
+    /* 0x0017.7 */ u16 unk_0x17_7 : 4; // Gets set and unset at a new day
     /* 0x0018.3 */ u8 unk_0x18_3 : 1;
     /* 0x0018.4 */ u8 unk_0x18_4 : 1;
-    /* 0x0018.5 */ u8 unk_0x18_5 : 1;
-    /* 0x0018.6 */ u8 unk_0x18_6 : 1;
-    /* 0x0018.7 */ u8 unk_0x18_7 : 1;
-    /* 0x0019.0 */ u8 unk_0x19_0 : 1;
+    /* 0x0018.5 */ u16 unk_0x18_5 : 4;
     /* 0x0019.1 */ u8 unk_0x19_1 : 1;
     /* 0x0019.2 */ u8 unk_0x19_2 : 1;
     /* 0x0019.3 */ u8 unk_0x19_3 : 1;
@@ -577,46 +933,13 @@ typedef struct SvPlayerFlags {
     /* 0x0019.6 */ u8 unk_0x19_6 : 1;
     /* 0x0019.7 */ u8 knowsPermitRequirements : 1; // Isabelle explained how to obtain mayor permit
     /* 0x001A.0 */ u8 tomNookToldYouFirstPayment : 1;
-    /* 0x001A.1 */ u8 permitPoints1 : 1; // written to bulletin board? (1 points)
-    /* 0x001A.2 */ u8 permitPoints2 : 1; // mayor permit (2 points)
-    /* 0x001A.3 */ u8 permitPoints3 : 1; // written to bulletin board? (4 points)
-    /* 0x001A.4 */ u8 permitPoints4 : 1; // mayor permit (8 points)
-    /* 0x001A.5 */ u8 permitPoints5 : 1; // mayor permit (16 points)
-    /* 0x001A.6 */ u8 permitPoints6 : 1; // mayor permit (32 points)
-    /* 0x001A.7 */ u8 permitPoints7 : 1; // mayor permit (64 points)
-    /* 0x001B.0 */ u8 permitPoints8 : 1; // mayor permit? (128 points?)
-    /* 0x001B.1 */ u8 permitPoints9 : 1; // mayor permit? (256 points?)
-    /* 0x001B.2 */ u8 permitPoints10 : 1; // mayor permit? (512 points?)
+    /* 0x001A.1 */ u16 permitPoints : 10; // counter (the research read its bits as 1, 2, 4, ..., 512 points)
     /* 0x001B.3 */ u8 unk_0x1B_3 : 1;
-    /* 0x001B.4 */ u8 unk_0x1B_4 : 1;
-    /* 0x001B.5 */ u8 unk_0x1B_5 : 1;
-    /* 0x001B.6 */ u8 unk_0x1B_6 : 1;
-    /* 0x001B.7 */ u8 unk_0x1B_7 : 1;
-    /* 0x001C.0 */ u8 unk_0x1C_0 : 1;
-    /* 0x001C.1 */ u8 unk_0x1C_1 : 1;
-    /* 0x001C.2 */ u8 unk_0x1C_2 : 1;
-    /* 0x001C.3 */ u8 unk_0x1C_3 : 1;
-    /* 0x001C.4 */ u8 unk_0x1C_4 : 1;
-    /* 0x001C.5 */ u8 unk_0x1C_5 : 1;
-    /* 0x001C.6 */ u8 unk_0x1C_6 : 1;
-    /* 0x001C.7 */ u8 unk_0x1C_7 : 1;
-    /* 0x001D.0 */ u8 unk_0x1D_0 : 1;
-    /* 0x001D.1 */ u8 unk_0x1D_1 : 1;
-    /* 0x001D.2 */ u8 unk_0x1D_2 : 1;
-    /* 0x001D.3 */ u8 unk_0x1D_3 : 1;
-    /* 0x001D.4 */ u8 unk_0x1D_4 : 1;
-    /* 0x001D.5 */ u8 unk_0x1D_5 : 1;
-    /* 0x001D.6 */ u8 unk_0x1D_6 : 1;
-    /* 0x001D.7 */ u8 unk_0x1D_7 : 1;
-    /* 0x001E.0 */ u8 unk_0x1E_0 : 1;
-    /* 0x001E.1 */ u8 unk_0x1E_1 : 1; // Gets set and unset at a new day
-    /* 0x001E.2 */ u8 unk_0x1E_2 : 1; // Gets set and unset at a new day
-    /* 0x001E.3 */ u8 unk_0x1E_3 : 1; // Gets set and unset at a new day
-    /* 0x001E.4 */ u8 unk_0x1E_4 : 1; // Gets set and unset at a new day
-    /* 0x001E.5 */ u8 unk_0x1E_5 : 1; // Gets set and unset at a new day
-    /* 0x001E.6 */ u8 unk_0x1E_6 : 1; // Gets set and unset at a new day
-    /* 0x001E.7 */ u8 unk_0x1E_7 : 1; // Gets set and unset at a new day
-    /* 0x001F.0 */ u8 unk_0x1F_0 : 1; // Gets set and unset at a new day
+    /* 0x001B.4 */ u16 unk_0x1B_4 : 7;
+    /* 0x001C.3 */ u16 unk_0x1C_3 : 7;
+    /* 0x001D.2 */ u16 unk_0x1D_2 : 7;
+    /* 0x001E.1 */ u8 unk_0x1E_1 : 4; // Gets set and unset at a new day
+    /* 0x001E.5 */ u16 unk_0x1E_5 : 4; // Gets set and unset at a new day
     /* 0x001F.1 */ u8 unk_0x1F_1 : 1;
     /* 0x001F.2 */ u8 hasClubTortimerMembership : 1;
     /* 0x001F.3 */ u8 clubTortimerFirstAsked : 1; // Kappn asks user for the first time
@@ -637,17 +960,9 @@ typedef struct SvPlayerFlags {
     /* 0x0021.2 */ u8 unk_0x21_2 : 1; // maybe donated fossil?
     /* 0x0021.3 */ u8 unk_0x21_3 : 1;
     /* 0x0021.4 */ u8 unk_0x21_4 : 1;
-    /* 0x0021.5 */ u8 unk_0x21_5 : 1;
-    /* 0x0021.6 */ u8 unk_0x21_6 : 1;
-    /* 0x0021.7 */ u8 unk_0x21_7 : 1;
+    /* 0x0021.5 */ u8 unk_0x21_5 : 3;
     /* 0x0022.0 */ u8 unk_0x22_0 : 1; // Island People Here Tutorial
-    /* 0x0022.1 */ u8 unk_0x22_1 : 1;
-    /* 0x0022.2 */ u8 unk_0x22_2 : 1;
-    /* 0x0022.3 */ u8 unk_0x22_3 : 1;
-    /* 0x0022.4 */ u8 unk_0x22_4 : 1;
-    /* 0x0022.5 */ u8 unk_0x22_5 : 1;
-    /* 0x0022.6 */ u8 unk_0x22_6 : 1;
-    /* 0x0022.7 */ u8 unk_0x22_7 : 1;
+    /* 0x0022.1 */ u8 unk_0x22_1 : 7;
     /* 0x0023.0 */ u8 unk_0x23_0 : 1; // Tommy/Timmy first time selling item
     /* 0x0023.1 */ u8 unk_0x23_1 : 1;
     /* 0x0023.2 */ u8 unk_0x23_2 : 1;
@@ -669,9 +984,7 @@ typedef struct SvPlayerFlags {
     /* 0x0025.2 */ u8 unk_0x25_2 : 1;
     /* 0x0025.3 */ u8 unk_0x25_3 : 1; // Isabelle ask first advice (Talk to new villager)
     /* 0x0025.4 */ u8 unk_0x25_4 : 1;
-    /* 0x0025.5 */ u8 unk_0x25_5 : 1;
-    /* 0x0025.6 */ u8 unk_0x25_6 : 1;
-    /* 0x0025.7 */ u8 unk_0x25_7 : 1;
+    /* 0x0025.5 */ u8 unk_0x25_5 : 3;
     /* 0x0026.0 */ u8 unk_0x26_0 : 1;
     /* 0x0026.1 */ u8 unk_0x26_1 : 1;
     /* 0x0026.2 */ u8 unk_0x26_2 : 1;
@@ -690,26 +1003,8 @@ typedef struct SvPlayerFlags {
     /* 0x0027.7 */ u8 unlockedSecretStorage : 1;
     /* 0x0028.0 */ u8 unk_0x28_0 : 1;
     /* 0x0028.1 */ u8 unk_0x28_1 : 1; // Talking to harvey for the first time
-    /* 0x0028.2 */ u8 unk_0x28_2 : 1;
-    /* 0x0028.3 */ u8 unk_0x28_3 : 1;
-    /* 0x0028.4 */ u8 unk_0x28_4 : 1;
-    /* 0x0028.5 */ u8 unk_0x28_5 : 1;
-    /* 0x0028.6 */ u8 unk_0x28_6 : 1;
-    /* 0x0028.7 */ u8 unk_0x28_7 : 1;
-    /* 0x0029.0 */ u8 unk_0x29_0 : 1;
-    /* 0x0029.1 */ u8 unk_0x29_1 : 1;
-    /* 0x0029.2 */ u8 unk_0x29_2 : 1;
-    /* 0x0029.3 */ u8 unk_0x29_3 : 1;
-    /* 0x0029.4 */ u8 unk_0x29_4 : 1;
-    /* 0x0029.5 */ u8 unk_0x29_5 : 1;
-    /* 0x0029.6 */ u8 unk_0x29_6 : 1;
-    /* 0x0029.7 */ u8 unk_0x29_7 : 1;
-    /* 0x002A.0 */ u8 unk_0x2A_0 : 1;
-    /* 0x002A.1 */ u8 unk_0x2A_1 : 1;
-    /* 0x002A.2 */ u8 unk_0x2A_2 : 1;
-    /* 0x002A.3 */ u8 unk_0x2A_3 : 1;
-    /* 0x002A.4 */ u8 unk_0x2A_4 : 1;
-    /* 0x002A.5 */ u8 unk_0x2A_5 : 1;
+    /* 0x0028.2 */ u16 unk_0x28_2 : 10;
+    /* 0x0029.4 */ u16 unk_0x29_4 : 10;
     /* 0x002A.6 */ u8 unk_0x2A_6 : 1;
     /* 0x002A.7 */ u8 unk_0x2A_7 : 1;
     /* 0x002B.0 */ u8 unk_0x2B_0 : 1;
@@ -721,8 +1016,7 @@ typedef struct SvPlayerFlags {
     /* 0x002B.6 */ u8 unk_0x2B_6 : 1; // after talking to cat in train at beginning of game
     /* 0x002B.7 */ u8 unk_0x2B_7 : 1;
     /* 0x002C.0 */ u8 unk_0x2C_0 : 1;
-    /* 0x002C.1 */ u8 unk_0x2C_1 : 1;
-    /* 0x002C.2 */ u8 unk_0x2C_2 : 1;
+    /* 0x002C.1 */ u8 unk_0x2C_1 : 2;
     /* 0x002C.3 */ u8 unlockedHouseEditor : 1;
     /* 0x002C.4 */ u8 unk_0x2C_4 : 1;
     /* 0x002C.5 */ u8 unk_0x2C_5 : 1; // talking to harvey for the first time
@@ -909,7 +1203,8 @@ typedef struct SvInitiativeWeek {
 
 // Initiatives
 typedef struct SvPlayerInitiative {
-    /* 0x0000 */ u64 unk_0x0; // ???; Set to 0, then 0x7FFFFFFFFFFFFFFF in player ctor
+
+    /* 0x0000 */ SvU64 unk_0x0; // ???; Set to 0, then 0x7FFFFFFFFFFFFFFF in player ctor
     /* 0x0008 */ u8 weeklyInitiatives[2]; // SvInitiative::Name / Set to 0 in player ctor
     /* 0x000A */ SvInitiativeWeek dailyInitiatives[2]; // Set to 0 in player ctor
     /* 0x0018 */ u8 unk_0x18; // ???; Set to 0x65 in player ctor
@@ -966,6 +1261,7 @@ typedef struct SvEmoticons {
 } SvEmoticons;
 
 typedef struct SvMannequin {
+
     /* 0x0000 */ SvFgName hat; // Item ID < 0xXXXX
     /* 0x0004 */ SvFgName accessory; // Item ID < 0xXXXX
     /* 0x0008 */ SvFgName topWear; // Item ID < 0xXXXX
@@ -1061,7 +1357,9 @@ typedef struct SvSnowmanBingoCard {
 } SvSnowmanBingoCard;
 
 // 24CA98 31F2FA5C, 0
+
 typedef struct SvPlayerSpecialMail {
+
     /* 0x0000 */ u32 unk_0x0; // Set to 0 in Player ctor
     /* 0x0004 */ SvFgName gulliverGift;
     /* 0x0008 */ u8 gulliverLetter; // SvGulliverMail::Name / received the next day
@@ -1139,7 +1437,8 @@ typedef struct SvPlayerSpecialMail {
 } SvPlayerSpecialMail;
 
 typedef struct SvPlayerUnk8D4C {
-    /* 0x0000 */ s64 unk_0x0; // ???; Set to 0, then 0x7FFFFFFFFFFFFFFF in player ctor
+
+    /* 0x0000 */ SvS64 unk_0x0; // ???; Set to 0, then 0x7FFFFFFFFFFFFFFF in player ctor
     /* 0x0008 */ u8 unk_0x8; // ???; Set to 0x21 in player ctor
     /* 0x0009 */ u8 unk_0x9; // ???; Set to 0xFF in player ctor
     /* 0x000A */ u8 unk_0xA; // ???; Set to 0x9 in player ctor
@@ -1151,7 +1450,8 @@ typedef struct SvPlayerUnk8D4C {
 
 // Probably exact same struct as UnknownStruct3 but is set differently
 typedef struct SvPlayerUnk8D5C {
-    /* 0x0000 */ s64 unk_0x0; // ???; Set to 0, then 0x7FFFFFFFFFFFFFFF in player ctor
+
+    /* 0x0000 */ SvS64 unk_0x0; // ???; Set to 0, then 0x7FFFFFFFFFFFFFFF in player ctor
     /* 0x0008 */ u8 unk_0x8; // ???; Set to 0x21 in player ctor
     /* 0x0009 */ u8 unk_0x9; // ???; Set to 0xFF in player ctor
     /* 0x000A */ u8 unk_0xA; // ???; Set to 0x9 in player ctor
@@ -1163,7 +1463,8 @@ typedef struct SvPlayerUnk8D5C {
 
 // Similar to UnknownStruct3
 typedef struct SvPlayerUnk8D6C {
-    /* 0x0000 */ s64 unk_0x0; // ???; Set to 0, then 0x7FFFFFFFFFFFFFFF in player ctor
+
+    /* 0x0000 */ SvS64 unk_0x0; // ???; Set to 0, then 0x7FFFFFFFFFFFFFFF in player ctor
     /* 0x0008 */ u8 unk_0x8; // ???; Set to 0x21 in player ctor
     /* 0x0009 */ u8 unk_0x9; // ???; Set to 0xFF in player ctor
     /* 0x000A */ u8 unk_0xA; // ???; Set to 0x9 in player ctor
@@ -1177,7 +1478,8 @@ typedef struct SvPlayerUnk8D6C {
 } SvPlayerUnk8D6C;
 
 typedef struct SvPlayerUnk8D84 {
-    /* 0x0000 */ s64 unk_0x0; // ???; Set to 0, then 0x7FFFFFFFFFFFFFFF in player ctor
+
+    /* 0x0000 */ SvS64 unk_0x0; // ???; Set to 0, then 0x7FFFFFFFFFFFFFFF in player ctor
     /* 0x0008 */ u8 unk_0x8; // ???; Set to 0x21 in player ctor
     /* 0x0009 */ u8 unk_0x9; // ???; Set to 0xFF in player ctor
     /* 0x000A */ u8 unk_0xA; // ???; Set to 0x9 in player ctor
@@ -1191,8 +1493,10 @@ typedef struct SvPlayerUnk8D84 {
 } SvPlayerUnk8D84;
 
 // Probably exact same struct as UnknownStruct4 but is set differently
+
 typedef struct SvPlayerUnk8DFA {
-    /* 0x0000 */ s64 unk_0x0; // ???; Set to 0, then 0x7FFFFFFFFFFFFFFF in player ctor
+
+    /* 0x0000 */ SvS64 unk_0x0; // ???; Set to 0, then 0x7FFFFFFFFFFFFFFF in player ctor
     /* 0x0008 */ u8 unk_0x8; // ???; Set to 0x21 in player ctor
     /* 0x0009 */ u8 unk_0x9; // ???; Set to 0xFF in player ctor
     /* 0x000A */ u8 unk_0xA; // ???; Set to 0x9 in player ctor
@@ -1203,7 +1507,8 @@ typedef struct SvPlayerUnk8DFA {
 
 // Similar to UnknownStruct3
 typedef struct SvPlayerUnk8E08 {
-    /* 0x0000 */ s64 unk_0x0; // ???; Set to 0, then 0x7FFFFFFFFFFFFFFF in player ctor
+
+    /* 0x0000 */ SvS64 unk_0x0; // ???; Set to 0, then 0x7FFFFFFFFFFFFFFF in player ctor
     /* 0x0008 */ u8 unk_0x8; // ???; Set to 0x21 in player ctor
     /* 0x0009 */ u8 unk_0x9; // ???; Set to 0xFF in player ctor
     /* 0x000A */ u8 unk_0xA; // ???; Set to 0x9 in player ctor
@@ -1211,6 +1516,7 @@ typedef struct SvPlayerUnk8E08 {
 } SvPlayerUnk8E08;
 
 typedef struct SvPlayerUnk8EE0 {
+
     /* 0x0000 */ u16 unk_0x0; // ???; Set to 0 in player ctor
     /* 0x0002 */ u8 unk_0x2; // ???; Set to 0 in player ctor
     /* 0x0003 */ u8 unk_0x3; // ???; Set to 0 in player ctor
@@ -1229,6 +1535,7 @@ typedef struct SvPlayerUnk8EE0 {
 } SvPlayerUnk8EE0;
 
 typedef struct SvPlayerUnkA468 {
+
     /* 0x0000 */ SvFgName unk_0x0; // Some Item; Set to 0x00007ffe in player ctor
     /* 0x0004 */ u16 unk_0x4; // ???; Set to 0 in player ctor
 } SvPlayerUnkA468;
@@ -1282,7 +1589,491 @@ typedef struct SvPlayerAppearance {
 } SvPlayerAppearance;
 
 // UnknownNotSetYetX = Not set by player ctor
-typedef struct SvPlayer {
+// (the parts of the player with their own constructors; names are ours)
+// the bit field of the unlocked items (one bit per item index)
+typedef struct SvPlayerUnlockedItems {
+
+    /* 0x0000 */ u32 bits[0xBA];
+} SvPlayerUnlockedItems;
+
+// the texts of the letters of the player (cleared, both indents 0xFF)
+typedef struct SvPlayerUnk8908 {
+
+    /* 0x0000 */ char16 letterHeader[0x20];
+    /* 0x0040 */ u16 pad_0x8948;
+    /* 0x0042 */ char16 futureLetterHeader[0x20];
+    /* 0x0082 */ u16 pad_0x898A;
+    /* 0x0084 */ char16 letterSignature[0x20];
+    /* 0x00C4 */ u16 pad_0x89CC;
+    /* 0x00C6 */ u8 defaultLtrReceiverNameIndent;
+    /* 0x00C7 */ u8 defaultFutureLtrReceiverNameIndent; // Cannot be >= 0x20
+} SvPlayerUnk8908;
+
+typedef struct SvPlayerUnk89FA {
+    SvPlayerUnk89FA()
+    {
+        for (s32 i = 0; i < 0x20; i++) {
+            ids[i] = 0xFFFF;
+        }
+    }
+
+    /* 0x0000 */ u16 ids[0x20]; // Not Verified; 0xFFFF is default, then 0xXXXX is ID of DLC recieved
+} SvPlayerUnk89FA;
+
+// the meow coupons and five values that 0x002BF528 adds to them
+typedef struct SvPlayerUnk8D1C {
+
+    /* 0x0000 */ SvEncValue meowCoupons;
+    // (research: the flows read the second word of [2] as a count)
+    /* 0x0008 */ SvEncValue unk_0x8[5];
+} SvPlayerUnk8D1C;
+
+typedef struct SvPlayerUnk8EBE {
+
+    /* 0x0000 */ u8 data[0x16]; // Always contains 0x16 0xFF bytes. ctor sets this.
+} SvPlayerUnk8EBE;
+
+// The value IDs of SvPlayerUnk8F77::GetValue/SetFlag (a second set of flags and small counters of the player like
+// SvPlayerFlags; names after the bit positions until the meanings are known)
+enum SvPlayerUnk8F77Id : u8 {
+    PLAYER_8F77_UNK_0x0_0 = 0,
+    PLAYER_8F77_UNK_0x0_1 = 1,
+    PLAYER_8F77_UNK_0x0_2 = 2,
+    PLAYER_8F77_UNK_0x0_3 = 3,
+    PLAYER_8F77_UNK_0x0_4 = 4,
+    PLAYER_8F77_UNK_0x0_5 = 5,
+    PLAYER_8F77_UNK_0x0_6 = 6,
+    PLAYER_8F77_UNK_0x0_7 = 7,
+    PLAYER_8F77_UNK_0x1_0 = 8,
+    PLAYER_8F77_UNK_0x1_1 = 9,
+    PLAYER_8F77_UNK_0x1_2 = 10,
+    PLAYER_8F77_UNK_0x1_3 = 11,
+    PLAYER_8F77_UNK_0x1_4 = 12,
+    PLAYER_8F77_UNK_0x1_5 = 13,
+    PLAYER_8F77_UNK_0x1_6 = 14,
+    PLAYER_8F77_UNK_0x1_7 = 15,
+    PLAYER_8F77_UNK_0x2_0 = 16,
+    PLAYER_8F77_UNK_0x2_1 = 17,
+    PLAYER_8F77_UNK_0x2_2 = 18,
+    PLAYER_8F77_UNK_0x2_3 = 19,
+    PLAYER_8F77_UNK_0x2_4 = 20,
+    PLAYER_8F77_UNK_0x2_5 = 21,
+    PLAYER_8F77_UNK_0x2_6 = 22,
+    PLAYER_8F77_UNK_0x2_7 = 23,
+    PLAYER_8F77_UNK_0x3_0 = 24,
+    PLAYER_8F77_UNK_0x3_1 = 25,
+    PLAYER_8F77_UNK_0x3_2 = 26,
+    PLAYER_8F77_UNK_0x3_3 = 27,
+    PLAYER_8F77_UNK_0x3_4 = 28,
+    PLAYER_8F77_UNK_0x3_5 = 29,
+    PLAYER_8F77_UNK_0x3_6 = 30,
+    PLAYER_8F77_UNK_0x3_7 = 31,
+    PLAYER_8F77_UNK_0x4_0 = 32,
+    PLAYER_8F77_UNK_0x4_1 = 33,
+    PLAYER_8F77_UNK_0x4_2 = 34,
+    PLAYER_8F77_UNK_0x4_3 = 35,
+    PLAYER_8F77_UNK_0x4_4 = 36,
+    PLAYER_8F77_UNK_0x4_5 = 37,
+    PLAYER_8F77_UNK_0x4_6 = 38,
+    PLAYER_8F77_UNK_0x4_7 = 39,
+    PLAYER_8F77_UNK_0x5_0 = 40,
+    PLAYER_8F77_UNK_0x5_1 = 41,
+    PLAYER_8F77_UNK_0x5_2 = 42,
+    PLAYER_8F77_UNK_0x5_3 = 43,
+    PLAYER_8F77_UNK_0x5_4 = 44,
+    PLAYER_8F77_UNK_0x5_5 = 45,
+    PLAYER_8F77_UNK_0x5_6 = 46,
+    PLAYER_8F77_UNK_0x5_7 = 47,
+    PLAYER_8F77_UNK_0x6_0 = 48,
+    PLAYER_8F77_UNK_0x6_1 = 49,
+    PLAYER_8F77_UNK_0x6_2 = 50,
+    PLAYER_8F77_UNK_0x6_3 = 51,
+    PLAYER_8F77_UNK_0x6_4 = 52,
+    PLAYER_8F77_UNK_0x6_5 = 53,
+    PLAYER_8F77_UNK_0x6_6 = 54,
+    PLAYER_8F77_UNK_0x6_7 = 55,
+    PLAYER_8F77_UNK_0x7_0 = 56, // 5 bits
+    PLAYER_8F77_UNK_0x7_5 = 57,
+    PLAYER_8F77_UNK_0x7_6 = 58,
+    PLAYER_8F77_UNK_0x7_7 = 59,
+    PLAYER_8F77_UNK_0x8_0 = 60,
+    PLAYER_8F77_UNK_0x8_1 = 61,
+    PLAYER_8F77_UNK_0x8_2 = 62,
+    PLAYER_8F77_UNK_0x8_3 = 63,
+    PLAYER_8F77_UNK_0x8_4 = 64,
+    PLAYER_8F77_UNK_0x8_5 = 65,
+    PLAYER_8F77_UNK_0x8_6 = 66,
+    PLAYER_8F77_UNK_0x8_7 = 67,
+    PLAYER_8F77_UNK_0x9_0 = 68,
+    PLAYER_8F77_UNK_0x9_1 = 69,
+    PLAYER_8F77_UNK_0x9_2 = 70,
+    PLAYER_8F77_UNK_0x9_3 = 71,
+    PLAYER_8F77_UNK_0x9_4 = 72,
+    PLAYER_8F77_UNK_0x9_5 = 73,
+    PLAYER_8F77_UNK_0x9_6 = 74,
+    PLAYER_8F77_UNK_0x9_7 = 75,
+    PLAYER_8F77_UNK_0xA_0 = 76,
+    PLAYER_8F77_UNK_0xA_1 = 77,
+    PLAYER_8F77_UNK_0xA_2 = 78,
+    PLAYER_8F77_UNK_0xA_3 = 79,
+    PLAYER_8F77_UNK_0xA_4 = 80,
+    PLAYER_8F77_UNK_0xA_5 = 81,
+    PLAYER_8F77_UNK_0xA_6 = 82,
+    PLAYER_8F77_UNK_0xA_7 = 83,
+    PLAYER_8F77_UNK_0xB_0 = 84,
+    PLAYER_8F77_UNK_0xB_1 = 85,
+    PLAYER_8F77_UNK_0xB_2 = 86,
+    PLAYER_8F77_UNK_0xB_3 = 87,
+    PLAYER_8F77_UNK_0xB_4 = 88,
+    PLAYER_8F77_UNK_0xB_5 = 89,
+    PLAYER_8F77_UNK_0xB_6 = 90,
+    PLAYER_8F77_UNK_0xB_7 = 91,
+    PLAYER_8F77_UNK_0xC_0 = 92,
+    PLAYER_8F77_UNK_0xC_1 = 93,
+    PLAYER_8F77_UNK_0xC_2 = 94,
+    PLAYER_8F77_UNK_0xC_3 = 95,
+    PLAYER_8F77_UNK_0xC_4 = 96,
+    PLAYER_8F77_UNK_0xC_5 = 97,
+    PLAYER_8F77_UNK_0xC_6 = 98,
+    PLAYER_8F77_UNK_0xC_7 = 99,
+    PLAYER_8F77_UNK_0xD_0 = 100,
+    PLAYER_8F77_UNK_0xD_1 = 101,
+    PLAYER_8F77_UNK_0xD_2 = 102,
+    PLAYER_8F77_UNK_0xD_3 = 103,
+    PLAYER_8F77_UNK_0xD_4 = 104,
+    PLAYER_8F77_UNK_0xD_5 = 105,
+    PLAYER_8F77_UNK_0xD_6 = 106,
+    PLAYER_8F77_UNK_0xD_7 = 107,
+    PLAYER_8F77_UNK_0xE_0 = 108,
+    PLAYER_8F77_UNK_0xE_1 = 109,
+    PLAYER_8F77_UNK_0xE_2 = 110,
+    PLAYER_8F77_UNK_0xE_3 = 111,
+    PLAYER_8F77_UNK_0xE_4 = 112,
+    PLAYER_8F77_UNK_0xE_5 = 113,
+    PLAYER_8F77_UNK_0xE_6 = 114,
+    PLAYER_8F77_UNK_0xE_7 = 115,
+    PLAYER_8F77_UNK_0xF_0 = 116,
+    PLAYER_8F77_UNK_0xF_1 = 117,
+    PLAYER_8F77_UNK_0xF_2 = 118,
+    PLAYER_8F77_UNK_0xF_3 = 119,
+    PLAYER_8F77_UNK_0xF_4 = 120,
+    PLAYER_8F77_UNK_0xF_5 = 121,
+    PLAYER_8F77_UNK_0xF_6 = 122,
+    PLAYER_8F77_UNK_0xF_7 = 123,
+    PLAYER_8F77_UNK_0x10_0 = 124,
+    PLAYER_8F77_UNK_0x10_1 = 125,
+    PLAYER_8F77_UNK_0x10_2 = 126,
+    PLAYER_8F77_UNK_0x10_3 = 127,
+    PLAYER_8F77_UNK_0x10_4 = 128,
+    PLAYER_8F77_UNK_0x10_5 = 129,
+    PLAYER_8F77_UNK_0x10_6 = 130,
+    PLAYER_8F77_UNK_0x10_7 = 131,
+    PLAYER_8F77_UNK_0x11_0 = 132,
+    PLAYER_8F77_UNK_0x11_1 = 133,
+    PLAYER_8F77_UNK_0x11_2 = 134, // 4 bits
+    PLAYER_8F77_UNK_0x11_6 = 135,
+    PLAYER_8F77_UNK_0x11_7 = 136,
+    PLAYER_8F77_UNK_0x12_0 = 137,
+    PLAYER_8F77_UNK_0x12_1 = 138, // 10 bits
+    PLAYER_8F77_UNK_0x13_3 = 139, // 10 bits
+    PLAYER_8F77_UNK_0x14_5 = 140, // 5 bits
+    PLAYER_8F77_UNK_0x15_2 = 141, // 8 bits
+    PLAYER_8F77_UNK_0x16_2 = 142, // 8 bits
+    PLAYER_8F77_UNK_0x17_2 = 143, // 8 bits
+    PLAYER_8F77_UNK_0x18_2 = 144, // 9 bits
+    PLAYER_8F77_UNK_0x19_3 = 145, // 4 bits
+    PLAYER_8F77_UNK_0x19_7 = 146, // 5 bits
+    PLAYER_8F77_UNK_0x1A_4 = 147,
+    PLAYER_8F77_UNK_0x1A_5 = 148,
+    PLAYER_8F77_UNK_0x1A_6 = 149,
+    PLAYER_8F77_UNK_0x1A_7 = 150,
+    PLAYER_8F77_UNK_0x1B_0 = 151,
+    PLAYER_8F77_UNK_0x1B_1 = 152,
+    PLAYER_8F77_UNK_0x1B_2 = 153,
+    PLAYER_8F77_UNK_0x1B_3 = 154,
+    PLAYER_8F77_UNK_0x1B_4 = 155,
+    PLAYER_8F77_UNK_0x1B_5 = 156,
+    PLAYER_8F77_UNK_0x1B_6 = 157,
+    PLAYER_8F77_UNK_0x1B_7 = 158,
+    PLAYER_8F77_UNK_0x1C_0 = 159,
+    PLAYER_8F77_UNK_0x1C_1 = 160,
+    PLAYER_8F77_UNK_0x1C_2 = 161,
+    PLAYER_8F77_UNK_0x1C_3 = 162,
+    PLAYER_8F77_UNK_0x1C_4 = 163,
+    PLAYER_8F77_UNK_0x1C_5 = 164,
+    PLAYER_8F77_UNK_0x1C_6 = 165,
+    PLAYER_8F77_UNK_0x1C_7 = 166,
+    PLAYER_8F77_UNK_0x1D_0 = 167,
+    PLAYER_8F77_UNK_0x1D_1 = 168,
+    PLAYER_8F77_UNK_0x1D_2 = 169,
+    PLAYER_8F77_UNK_0x1D_3 = 170,
+    PLAYER_8F77_UNK_0x1D_4 = 171, // 10 bits
+    PLAYER_8F77_UNK_0x1E_6 = 172,
+    PLAYER_8F77_UNK_0x1E_7 = 173,
+    PLAYER_8F77_UNK_0x1F_0 = 174,
+    PLAYER_8F77_UNK_0x1F_1 = 175,
+    PLAYER_8F77_UNK_0x1F_2 = 176,
+    PLAYER_8F77_UNK_0x1F_3 = 177,
+    PLAYER_8F77_UNK_0x1F_4 = 178,
+    PLAYER_8F77_UNK_0x1F_5 = 179,
+    PLAYER_8F77_UNK_0x1F_6 = 180,
+    PLAYER_8F77_UNK_0x1F_7 = 181,
+    PLAYER_8F77_UNK_0x20_0 = 182,
+    PLAYER_8F77_UNK_0x20_1 = 183,
+    PLAYER_8F77_UNK_0x20_2 = 184,
+    PLAYER_8F77_UNK_0x20_3 = 185,
+    PLAYER_8F77_UNK_0x20_4 = 186,
+    PLAYER_8F77_UNK_0x20_5 = 187,
+    PLAYER_8F77_NUM = 188,
+};
+
+typedef struct SvPlayerUnk8F77 {
+    SvPlayerUnk8F77()
+    {
+    }
+
+    /* 0x0000.0 */ u8 unk_0x0_0 : 1;
+    /* 0x0000.1 */ u8 unk_0x0_1 : 1;
+    /* 0x0000.2 */ u8 unk_0x0_2 : 1;
+    /* 0x0000.3 */ u8 unk_0x0_3 : 1;
+    /* 0x0000.4 */ u8 unk_0x0_4 : 1;
+    /* 0x0000.5 */ u8 unk_0x0_5 : 1;
+    /* 0x0000.6 */ u8 unk_0x0_6 : 1;
+    /* 0x0000.7 */ u8 unk_0x0_7 : 1;
+    /* 0x0001.0 */ u8 unk_0x1_0 : 1;
+    /* 0x0001.1 */ u8 unk_0x1_1 : 1;
+    /* 0x0001.2 */ u8 unk_0x1_2 : 1;
+    /* 0x0001.3 */ u8 unk_0x1_3 : 1;
+    /* 0x0001.4 */ u8 unk_0x1_4 : 1;
+    /* 0x0001.5 */ u8 unk_0x1_5 : 1;
+    /* 0x0001.6 */ u8 unk_0x1_6 : 1;
+    /* 0x0001.7 */ u8 unk_0x1_7 : 1;
+    /* 0x0002.0 */ u8 unk_0x2_0 : 1;
+    /* 0x0002.1 */ u8 unk_0x2_1 : 1;
+    /* 0x0002.2 */ u8 unk_0x2_2 : 1;
+    /* 0x0002.3 */ u8 unk_0x2_3 : 1;
+    /* 0x0002.4 */ u8 unk_0x2_4 : 1;
+    /* 0x0002.5 */ u8 unk_0x2_5 : 1;
+    /* 0x0002.6 */ u8 unk_0x2_6 : 1;
+    /* 0x0002.7 */ u8 unk_0x2_7 : 1;
+    /* 0x0003.0 */ u8 unk_0x3_0 : 1;
+    /* 0x0003.1 */ u8 unk_0x3_1 : 1;
+    /* 0x0003.2 */ u8 unk_0x3_2 : 1;
+    /* 0x0003.3 */ u8 unk_0x3_3 : 1;
+    /* 0x0003.4 */ u8 unk_0x3_4 : 1;
+    /* 0x0003.5 */ u8 unk_0x3_5 : 1;
+    /* 0x0003.6 */ u8 unk_0x3_6 : 1;
+    /* 0x0003.7 */ u8 unk_0x3_7 : 1;
+    /* 0x0004.0 */ u8 unk_0x4_0 : 1;
+    /* 0x0004.1 */ u8 unk_0x4_1 : 1;
+    /* 0x0004.2 */ u8 unk_0x4_2 : 1;
+    /* 0x0004.3 */ u8 unk_0x4_3 : 1;
+    /* 0x0004.4 */ u8 unk_0x4_4 : 1;
+    /* 0x0004.5 */ u8 unk_0x4_5 : 1;
+    /* 0x0004.6 */ u8 unk_0x4_6 : 1;
+    /* 0x0004.7 */ u8 unk_0x4_7 : 1;
+    /* 0x0005.0 */ u8 unk_0x5_0 : 1;
+    /* 0x0005.1 */ u8 unk_0x5_1 : 1;
+    /* 0x0005.2 */ u8 unk_0x5_2 : 1;
+    /* 0x0005.3 */ u8 unk_0x5_3 : 1;
+    /* 0x0005.4 */ u8 unk_0x5_4 : 1;
+    /* 0x0005.5 */ u8 unk_0x5_5 : 1;
+    /* 0x0005.6 */ u8 unk_0x5_6 : 1;
+    /* 0x0005.7 */ u8 unk_0x5_7 : 1;
+    /* 0x0006.0 */ u8 unk_0x6_0 : 1;
+    /* 0x0006.1 */ u8 unk_0x6_1 : 1;
+    /* 0x0006.2 */ u8 unk_0x6_2 : 1;
+    /* 0x0006.3 */ u8 unk_0x6_3 : 1;
+    /* 0x0006.4 */ u8 unk_0x6_4 : 1;
+    /* 0x0006.5 */ u8 unk_0x6_5 : 1;
+    /* 0x0006.6 */ u8 unk_0x6_6 : 1;
+    /* 0x0006.7 */ u8 unk_0x6_7 : 1;
+    /* 0x0007.0 */ u8 unk_0x7_0 : 5;
+    /* 0x0007.5 */ u8 unk_0x7_5 : 1;
+    /* 0x0007.6 */ u8 unk_0x7_6 : 1;
+    /* 0x0007.7 */ u8 unk_0x7_7 : 1;
+    /* 0x0008.0 */ u8 unk_0x8_0 : 1;
+    /* 0x0008.1 */ u8 unk_0x8_1 : 1;
+    /* 0x0008.2 */ u8 unk_0x8_2 : 1;
+    /* 0x0008.3 */ u8 unk_0x8_3 : 1;
+    /* 0x0008.4 */ u8 unk_0x8_4 : 1;
+    /* 0x0008.5 */ u8 unk_0x8_5 : 1;
+    /* 0x0008.6 */ u8 unk_0x8_6 : 1;
+    /* 0x0008.7 */ u8 unk_0x8_7 : 1;
+    /* 0x0009.0 */ u8 unk_0x9_0 : 1;
+    /* 0x0009.1 */ u8 unk_0x9_1 : 1;
+    /* 0x0009.2 */ u8 unk_0x9_2 : 1;
+    /* 0x0009.3 */ u8 unk_0x9_3 : 1;
+    /* 0x0009.4 */ u8 unk_0x9_4 : 1;
+    /* 0x0009.5 */ u8 unk_0x9_5 : 1;
+    /* 0x0009.6 */ u8 unk_0x9_6 : 1;
+    /* 0x0009.7 */ u8 unk_0x9_7 : 1;
+    /* 0x000A.0 */ u8 unk_0xA_0 : 1;
+    /* 0x000A.1 */ u8 unk_0xA_1 : 1;
+    /* 0x000A.2 */ u8 unk_0xA_2 : 1;
+    /* 0x000A.3 */ u8 unk_0xA_3 : 1;
+    /* 0x000A.4 */ u8 unk_0xA_4 : 1;
+    /* 0x000A.5 */ u8 unk_0xA_5 : 1;
+    /* 0x000A.6 */ u8 unk_0xA_6 : 1;
+    /* 0x000A.7 */ u8 unk_0xA_7 : 1;
+    /* 0x000B.0 */ u8 unk_0xB_0 : 1;
+    /* 0x000B.1 */ u8 unk_0xB_1 : 1;
+    /* 0x000B.2 */ u8 unk_0xB_2 : 1;
+    /* 0x000B.3 */ u8 unk_0xB_3 : 1;
+    /* 0x000B.4 */ u8 unk_0xB_4 : 1;
+    /* 0x000B.5 */ u8 unk_0xB_5 : 1;
+    /* 0x000B.6 */ u8 unk_0xB_6 : 1;
+    /* 0x000B.7 */ u8 unk_0xB_7 : 1;
+    /* 0x000C.0 */ u8 unk_0xC_0 : 1;
+    /* 0x000C.1 */ u8 unk_0xC_1 : 1;
+    /* 0x000C.2 */ u8 unk_0xC_2 : 1;
+    /* 0x000C.3 */ u8 unk_0xC_3 : 1;
+    /* 0x000C.4 */ u8 unk_0xC_4 : 1;
+    /* 0x000C.5 */ u8 unk_0xC_5 : 1;
+    /* 0x000C.6 */ u8 unk_0xC_6 : 1;
+    /* 0x000C.7 */ u8 unk_0xC_7 : 1;
+    /* 0x000D.0 */ u8 unk_0xD_0 : 1;
+    /* 0x000D.1 */ u8 unk_0xD_1 : 1;
+    /* 0x000D.2 */ u8 unk_0xD_2 : 1;
+    /* 0x000D.3 */ u8 unk_0xD_3 : 1;
+    /* 0x000D.4 */ u8 unk_0xD_4 : 1;
+    /* 0x000D.5 */ u8 unk_0xD_5 : 1;
+    /* 0x000D.6 */ u8 unk_0xD_6 : 1;
+    /* 0x000D.7 */ u8 unk_0xD_7 : 1;
+    /* 0x000E.0 */ u8 unk_0xE_0 : 1;
+    /* 0x000E.1 */ u8 unk_0xE_1 : 1;
+    /* 0x000E.2 */ u8 unk_0xE_2 : 1;
+    /* 0x000E.3 */ u8 unk_0xE_3 : 1;
+    /* 0x000E.4 */ u8 unk_0xE_4 : 1;
+    /* 0x000E.5 */ u8 unk_0xE_5 : 1;
+    /* 0x000E.6 */ u8 unk_0xE_6 : 1;
+    /* 0x000E.7 */ u8 unk_0xE_7 : 1;
+    /* 0x000F.0 */ u8 unk_0xF_0 : 1;
+    /* 0x000F.1 */ u8 unk_0xF_1 : 1;
+    /* 0x000F.2 */ u8 unk_0xF_2 : 1;
+    /* 0x000F.3 */ u8 unk_0xF_3 : 1;
+    /* 0x000F.4 */ u8 unk_0xF_4 : 1;
+    /* 0x000F.5 */ u8 unk_0xF_5 : 1;
+    /* 0x000F.6 */ u8 unk_0xF_6 : 1;
+    /* 0x000F.7 */ u8 unk_0xF_7 : 1;
+    /* 0x0010.0 */ u8 unk_0x10_0 : 1;
+    /* 0x0010.1 */ u8 unk_0x10_1 : 1;
+    /* 0x0010.2 */ u8 unk_0x10_2 : 1;
+    /* 0x0010.3 */ u8 unk_0x10_3 : 1;
+    /* 0x0010.4 */ u8 unk_0x10_4 : 1;
+    /* 0x0010.5 */ u8 unk_0x10_5 : 1;
+    /* 0x0010.6 */ u8 unk_0x10_6 : 1;
+    /* 0x0010.7 */ u8 unk_0x10_7 : 1;
+    /* 0x0011.0 */ u8 unk_0x11_0 : 1;
+    /* 0x0011.1 */ u8 unk_0x11_1 : 1;
+    /* 0x0011.2 */ u8 unk_0x11_2 : 4;
+    /* 0x0011.6 */ u8 unk_0x11_6 : 1;
+    /* 0x0011.7 */ u8 unk_0x11_7 : 1;
+    /* 0x0012.0 */ u8 unk_0x12_0 : 1;
+    /* 0x0012.1 */ u16 unk_0x12_1 : 10;
+    /* 0x0013.3 */ u16 unk_0x13_3 : 10;
+    /* 0x0014.5 */ u16 unk_0x14_5 : 5;
+    /* 0x0015.2 */ u16 unk_0x15_2 : 8;
+    /* 0x0016.2 */ u16 unk_0x16_2 : 8;
+    /* 0x0017.2 */ u16 unk_0x17_2 : 8;
+    /* 0x0018.2 */ u16 unk_0x18_2 : 9;
+    /* 0x0019.3 */ u8 unk_0x19_3 : 4;
+    /* 0x0019.7 */ u16 unk_0x19_7 : 5;
+    /* 0x001A.4 */ u8 unk_0x1A_4 : 1;
+    /* 0x001A.5 */ u8 unk_0x1A_5 : 1;
+    /* 0x001A.6 */ u8 unk_0x1A_6 : 1;
+    /* 0x001A.7 */ u8 unk_0x1A_7 : 1;
+    /* 0x001B.0 */ u8 unk_0x1B_0 : 1;
+    /* 0x001B.1 */ u8 unk_0x1B_1 : 1;
+    /* 0x001B.2 */ u8 unk_0x1B_2 : 1;
+    /* 0x001B.3 */ u8 unk_0x1B_3 : 1;
+    /* 0x001B.4 */ u8 unk_0x1B_4 : 1;
+    /* 0x001B.5 */ u8 unk_0x1B_5 : 1;
+    /* 0x001B.6 */ u8 unk_0x1B_6 : 1;
+    /* 0x001B.7 */ u8 unk_0x1B_7 : 1;
+    /* 0x001C.0 */ u8 unk_0x1C_0 : 1;
+    /* 0x001C.1 */ u8 unk_0x1C_1 : 1;
+    /* 0x001C.2 */ u8 unk_0x1C_2 : 1;
+    /* 0x001C.3 */ u8 unk_0x1C_3 : 1;
+    /* 0x001C.4 */ u8 unk_0x1C_4 : 1;
+    /* 0x001C.5 */ u8 unk_0x1C_5 : 1;
+    /* 0x001C.6 */ u8 unk_0x1C_6 : 1;
+    /* 0x001C.7 */ u8 unk_0x1C_7 : 1;
+    /* 0x001D.0 */ u8 unk_0x1D_0 : 1;
+    /* 0x001D.1 */ u8 unk_0x1D_1 : 1;
+    /* 0x001D.2 */ u8 unk_0x1D_2 : 1;
+    /* 0x001D.3 */ u8 unk_0x1D_3 : 1;
+    /* 0x001D.4 */ u16 unk_0x1D_4 : 10;
+    /* 0x001E.6 */ u8 unk_0x1E_6 : 1;
+    /* 0x001E.7 */ u8 unk_0x1E_7 : 1;
+    /* 0x001F.0 */ u8 unk_0x1F_0 : 1;
+    /* 0x001F.1 */ u8 unk_0x1F_1 : 1;
+    /* 0x001F.2 */ u8 unk_0x1F_2 : 1;
+    /* 0x001F.3 */ u8 unk_0x1F_3 : 1;
+    /* 0x001F.4 */ u8 unk_0x1F_4 : 1;
+    /* 0x001F.5 */ u8 unk_0x1F_5 : 1;
+    /* 0x001F.6 */ u8 unk_0x1F_6 : 1;
+    /* 0x001F.7 */ u8 unk_0x1F_7 : 1;
+    /* 0x0020.0 */ u8 unk_0x20_0 : 1;
+    /* 0x0020.1 */ u8 unk_0x20_1 : 1;
+    /* 0x0020.2 */ u8 unk_0x20_2 : 1;
+    /* 0x0020.3 */ u8 unk_0x20_3 : 1;
+    /* 0x0020.4 */ u8 unk_0x20_4 : 1;
+    /* 0x0020.5 */ u8 unk_0x20_5 : 1;
+    /* 0x0020.6 */ u8 unk_0x20_6 : 1; // no value ID
+    /* 0x0020.7 */ u8 unk_0x20_7 : 1; // no value ID
+    /* 0x0021.0 */ u8 unk_0x21_0 : 1; // no value ID
+    /* 0x0021.1 */ u8 unk_0x21_1 : 1; // no value ID
+    /* 0x0021.2 */ u8 unk_0x21_2 : 1; // no value ID
+    /* 0x0021.3 */ u8 unk_0x21_3 : 1; // no value ID
+    /* 0x0021.4 */ u8 unk_0x21_4 : 1; // no value ID
+    /* 0x0021.5 */ u8 unk_0x21_5 : 1; // no value ID
+    /* 0x0021.6 */ u8 unk_0x21_6 : 1; // no value ID
+    /* 0x0021.7 */ u8 unk_0x21_7 : 1; // no value ID
+} SvPlayerUnk8F77;
+
+typedef struct SvPlayerUnk8F99 {
+    // (the byte is cleared, then the bits 0..2 one by one)
+    SvPlayerUnk8F99()
+    {
+        value = 0;
+        for (s32 i = 0; i < 3; i++) {
+            switch (i) {
+            case 0:
+                value &= ~1;
+                break;
+            case 1:
+                value &= ~2;
+                break;
+            case 2:
+                value &= ~4;
+                break;
+            }
+        }
+    }
+
+    /* 0x0000 */ u8 value;
+} SvPlayerUnk8F99;
+
+typedef struct SvPlayerUnk8FD0 {
+
+    /* 0x0000 */ u8 data[0x320]; // Always 0?? Game just memclr's in player ctor
+} SvPlayerUnk8FD0;
+
+typedef struct SvPlayerUnk9604 {
+
+    /* 0x0000 */ SvMail unk_0x0[5];
+} SvPlayerUnk9604;
+
+typedef struct SvPlayerUnkA47A {
+
+    /* 0x0000 */ SvFgName item;
+} SvPlayerUnkA47A;
+
+// the first part of the player (checksum1 and the data it covers); the player constructor builds it first
+// (name is ours)
+typedef struct SvPlayerUnk0 {
+
     /* 0x0000 */ u32 checksum1; // Checksum of the first 0x6b84 of player data
     /* 0x0004 */ SvPlayerAppearance playerAppearance;
     /* 0x002B */ u8 pad_0x2B;
@@ -1293,10 +2084,7 @@ typedef struct SvPlayer {
     /* 0x5540 */ u8 hasMii; // Values: 0 = No Mii, 1 = Has Mii, <1 = Has Mii, face doesn't show
     /* 0x5541 */ u8 pad_0x5541; // Not Verified: U8 Zero Padding; Always 0x00
     /* 0x5542 */ u16 pad_0x5542; // Not Verified: U16 Zero Padding; Always 0x0000
-    /* 0x5544 */ SvMannequin mannequin1;
-    /* 0x555C */ SvMannequin mannequin2;
-    /* 0x5574 */ SvMannequin mannequin3;
-    /* 0x558C */ SvMannequin mannequin4;
+    /* 0x5544 */ SvMannequin mannequins[4]; // (the constructor builds them as one array)
     /* 0x55A4 */ u16 pad_0x55A4;
     /* 0x55A6 */ SvPersonalId playerInfo;
     /* 0x55D4 */ u8 birthMonth;
@@ -1318,17 +2106,21 @@ typedef struct SvPlayer {
     /* 0x6B7C */ u32 unk_0x6B7C;
     /* 0x6B80 */ u32 unk_0x6B80;
     /* 0x6B84 */ u32 pad_0x6B84;
+} SvPlayerUnk0;
+
+struct SvPlayer : SvPlayerUnk0 {
+
     /* 0x6B88 */ u32 checksum2;
     /* 0x6B8C */ SvEncValue bankAmount;
     /* 0x6B94 */ SvEncValue debtAmount;
     /* 0x6B9C */ SvEncValue medalAmount;
     /* 0x6BA4 */ SvEncValue bellsFromReeseAmount;
     /* 0x6BAC */ u32 pad_0x6BAC;
-    /* 0x6BB0 */ s64 playtime;
+    /* 0x6BB0 */ SvS64 playtime;
     /* 0x6BB8 */ SvTownId townData2;
     /* 0x6BCE */ u16 pad_0x6BCE;
     /* 0x6BD0 */ SvPlayerInventory inventory;
-    /* 0x6C20 */ u32 unlockedItems[0xBA]; // Game uses one big bitfield for items 'unlocked'. Bits correspond to item ids. Used for catalog, encyclopedia, etc
+    /* 0x6C20 */ SvPlayerUnlockedItems unlockedItems; // Game uses one big bitfield for items 'unlocked'. Bits correspond to item ids. Used for catalog, encyclopedia, etc
     /* 0x6F08 */ SvEncValue pocketMoney;
     /* 0x6F10 */ SvFgName islandBox[0x28];
     /* 0x6FB0 */ SvFgName islandInventory[0x10];
@@ -1336,18 +2128,11 @@ typedef struct SvPlayer {
     /* 0x7000 */ SvFgName unk_0x7000;
     /* 0x7004 */ SvFgName unk_0x7004;
     /* 0x7008 */ SvMail letters[0xA];
-    /* 0x8908 */ char16 letterHeader[0x20];
-    /* 0x8948 */ u16 pad_0x8948;
-    /* 0x894A */ char16 futureLetterHeader[0x20];
-    /* 0x898A */ u16 pad_0x898A;
-    /* 0x898C */ char16 letterSignature[0x20];
-    /* 0x89CC */ u16 pad_0x89CC;
-    /* 0x89CE */ u8 defaultLtrReceiverNameIndent;
-    /* 0x89CF */ u8 defaultFutureLtrReceiverNameIndent; // Cannot be >= 0x20
+    /* 0x8908 */ SvPlayerUnk8908 unk_0x8908;
     /* 0x89D0 */ SvEmoticons emotes; // Players Emotes (40 slots)
     /* 0x89F8 */ s8 emotePage; // 0xFF = Page 1, 0x00 = Page 2
     /* 0x89F9 */ u8 pad_0x89F9;
-    /* 0x89FA */ u16 spotpassDlcReceivedIds[0x20]; // Not Verified; 0xFFFF is default, then 0xXXXX is ID of DLC recieved
+    /* 0x89FA */ SvPlayerUnk89FA spotpassDlcReceivedIds; // Not Verified; 0xFFFF is default, then 0xXXXX is ID of DLC recieved
     /* 0x8A3A */ u16 pad_0x8A3A;
     /* 0x8A3C */ SvPlayerSpecialMail unk_0x8A3C;
     /* 0x8ABC */ u16 pad_0x8ABC;
@@ -1359,13 +2144,7 @@ typedef struct SvPlayer {
     /* 0x8AC3 */ u8 hhaUnk2; // READU8(CurrentHouseTheme+1) | 0x80; Only When Exterior/Theme???
     /* 0x8AC4 */ u8 hhaUnk3[0x1C]; // Come back to later
     /* 0x8AE0 */ SvPlayerInitiative initiative;
-    /* 0x8D1C */ SvEncValue meowCoupons;
-    /* 0x8D24 */ SvEncValue unk_0x8D24;
-    /* 0x8D2C */ SvEncValue unk_0x8D2C;
-    /* 0x8D34 */ u32 unk_0x8D34; // (research: an SvEncValue with the next word; the flows read the next word as a count)
-    /* 0x8D38 */ s32 unk_0x8D38;
-    /* 0x8D3C */ SvEncValue unk_0x8D3C;
-    /* 0x8D44 */ SvEncValue unk_0x8D44;
+    /* 0x8D1C */ SvPlayerUnk8D1C unk_0x8D1C;
     /* 0x8D4C */ SvPlayerUnk8D4C unk_0x8D4C;
     /* 0x8D5C */ SvPlayerUnk8D5C unk_0x8D5C;
     /* 0x8D6C */ SvPlayerUnk8D6C unk_0x8D6C;
@@ -1373,44 +2152,100 @@ typedef struct SvPlayer {
     /* 0x8DFA */ SvPlayerUnk8DFA unk_0x8DFA;
     /* 0x8E08 */ SvPlayerUnk8E08 unk_0x8E08;
     /* 0x8E14 */ u8 unk_0x8E14[0x56];
-    /* 0x8E6A */ SvFgName requestExteriorToRealtor; // when in a different town, go to tom nook and request the exterior
-    /* 0x8E6E */ SvFgName unk_0x8E6E;
+    // (research: an item; the constructor builds no SvFgName here)
+    /* 0x8E6A */ u32 requestExteriorToRealtor; // when in a different town, go to tom nook and request the exterior
+    /* 0x8E6E */ u32 unk_0x8E6E;
     /* 0x8E72 */ u8 unk_0x8E72[0x4C];
-    /* 0x8EBE */ u8 filledWithFF[0x16]; // Always contains 0x16 0xFF bytes. ctor sets this.
+    /* 0x8EBE */ SvPlayerUnk8EBE filledWithFF; // Always contains 0x16 0xFF bytes. ctor sets this.
     /* 0x8ED4 */ u8 unk_0x8ED4[0xC];
     /* 0x8EE0 */ SvPlayerUnk8EE0 unk_0x8EE0;
     /* 0x8F0A */ SvFgName unk_0x8F0A;
     /* 0x8F0E */ SvFgName unk_0x8F0E;
     /* 0x8F12 */ u8 unk_0x8F12[0xE];
-    /* 0x8F20 */ u8 unk_0x8F20[0xA];
-    /* 0x8F2A */ u16 unk_0x8F2A; // Set to 0x7DB in player ctor
-    /* 0x8F2C */ u16 unk_0x8F2C; // Set to 0x7DB in player ctor
+    /* 0x8F20 */ u8 unk_0x8F20[8];
+    /* 0x8F28 */ u16 unk_0x8F28; // a counter up to 0xFFFF (Func6BDF08)
+    /* 0x8F2A */ u16 unk_0x8F2A = 2011; // Set to 0x7DB in player ctor
+    /* 0x8F2C */ u16 unk_0x8F2C = 2011; // Set to 0x7DB in player ctor
     /* 0x8F2E */ SvDate unk_0x8F2E; // research name: UnknownDate / Does get set when Katrina tells lucky item
-    /* 0x8F32 */ u8 unk_0x8F32[0x45];
-    /* 0x8F77 */ u8 unk_0x8F77[0x21]; // ctor unsets every bit except in last byte in buffer, it only unsets bits 0 to 5
-    /* 0x8F98 */ u8 pad_0x8F98;
-    /* 0x8F99 */ u8 unk_0x8F99; // Set to 0 in player ctor
+    /* 0x8F32 */ u8 unk_0x8F32[2];
+    /* 0x8F34 */ u32 unk_0x8F34; // set to 0 by Clear
+    /* 0x8F38 */ u32 unk_0x8F38; // set to 0 after a load (0x005CB274)
+    /* 0x8F3C */ u8 unk_0x8F3C[0x32]; // a bit for each index below 0x18F (Func6BDBCC)
+    /* 0x8F6E */ u8 unk_0x8F6E[9]; // a bit for each index below 67 of the items of the kind 44 (Func6BD9A0)
+    /* 0x8F77 */ SvPlayerUnk8F77 unk_0x8F77; // ctor unsets every bit except in last byte in buffer, it only unsets bits 0 to 5
+    /* 0x8F99 */ SvPlayerUnk8F99 unk_0x8F99; // Set to 0 in player ctor
     /* 0x8F9A */ u16 pad_0x8F9A;
     /* 0x8F9C */ u32 addedSongs[3]; // Bitfield for added songs
     /* 0x8FA8 */ SvFgName santaBagInv[0xA];
-    /* 0x8FD0 */ u8 filledWithZero[0x320]; // Always 0?? Game just memclr's in player ctor
+    /* 0x8FD0 */ SvPlayerUnk8FD0 filledWithZero; // Always 0?? Game just memclr's in player ctor
     /* 0x92F0 */ SvFgName dressers[0xB4]; // Each dresser is 60 long
     /* 0x95C0 */ char16 bDayWish[0x22];
-    /* 0x9604 */ u8 unk_0x9604[0xC84];
+    /* 0x9604 */ SvPlayerUnk9604 unk_0x9604;
+    /* 0xA284 */ u8 unk_0xA284[4];
     /* 0xA288 */ SvEncyclopediaSizes encyclopediaSizes;
-    /* 0xA3E4 */ u8 unk_0xA3E4[0x84];
-    /* 0xA468 */ SvPlayerUnkA468 unk_0xA468;
-    /* 0xA46E */ SvPlayerUnkA468 unk_0xA46E;
-    /* 0xA474 */ SvPlayerUnkA468 unk_0xA474;
-    /* 0xA47A */ SvFgName unk_0xA47A; // Some Item; Set to 0x00007ffe in player ctor
+    /* 0xA3E4 */ u8 unk_0xA3E4[0x40] = {}; // a bit for each index below 512 (Func6BE028)
+    /* 0xA424 */ u8 unk_0xA424[0x40] = {}; // a bit for each index below 512 (Func6BE05C)
+    /* 0xA464 */ s32 unk_0xA464; // a random value 0..4, another one than before (Func6BE210)
+    /* 0xA468 */ SvPlayerUnkA468 unk_0xA468[3];
+    /* 0xA47A */ SvPlayerUnkA47A unk_0xA47A; // Some Item; Set to 0x00007ffe in player ctor
     /* 0xA47E */ u16 pad_0xA47E;
-} SvPlayer;
+};
 
 // the four players of the town (name after libgarden)
 typedef struct SvPlayerData {
 
     /* 0x0000 */ SvPlayer players[4];
 } SvPlayerData;
+
+// (game code that the functions of the player call, not decompiled yet; names after the addresses)
+u32 Func76E7CC(SvPlayer* player); // 0x0076E7CC
+void Func58381C(SvPlayer* player); // 0x0058381C
+void Func5836A8(SvPlayer* player); // 0x005836A8
+u32 Func24AC8C(SvPlayerInitiative* initiative); // 0x0024AC8C
+// (open) the value of an item when the pockets are sold on leaving the island: KIND_MONEY at full value, the others
+// price * priceMultiplier / 80 (fruit and KIND_MT_FRUIT a fifth of it, times the count), at least 1 when there is a price
+s32 Func76A018(const SvFgName* item); // 0x0076A018
+u8 Func769644(const SvFgName* item); // 0x00769644
+u8 Func70162C(const SvFgName& item); // 0x0070162C
+u8 Func61643C(const SvFgName& item); // 0x0061643C
+void Func617740(s32* index, item::Kind* kind, s32 id); // 0x00617740
+u8 Func76EE94(SvPlayer* player, const SvNpcRef* npc, s32 index); // 0x0076EE94
+u16 Func76981C(const SvFgName& item); // 0x0076981C
+void Func20C8AC(SvPlayer* player, u32 a, u32 b, u32 c, const SvTownId* town, u32 townSlot); // 0x0020C8AC
+void Func24E2B4(SvEmoticons* emoticons); // 0x0024E2B4
+void Func6F0B74(u8* data); // 0x006F0B74
+void Func24CE14(SvPlayerSpecialMail* mail); // 0x0024CE14
+void Func24AD90(SvPlayerInitiative* initiative); // 0x0024AD90
+// (the parts of the player when it is cleared, Clear)
+void Func20CABC(SvPlayer* player); // 0x0020CABC
+void Func6F0B80(u8* data); // 0x006F0B80
+void Func5C7230(); // 0x005C7230
+void Func24E2D0(SvEmoticons* emoticons); // 0x0024E2D0
+void Func24CE90(SvPlayerSpecialMail* mail); // 0x0024CE90
+void Func305A94(u8* data); // 0x00305A94
+void Func5BDB2C(SvPlayerUnk8D4C* data); // 0x005BDB2C
+void Func5BDD70(SvPlayerUnk8D5C* data); // 0x005BDD70
+void Func5BE334(SvPlayerUnk8D6C* data); // 0x005BE334
+void Func5BEBCC(SvPlayerUnk8D84* data); // 0x005BEBCC
+void Func30A834(SvPlayerUnk8DFA* data); // 0x0030A834
+void Func5BD6CC(SvPlayerUnk8E08* data, SvPlayer* player); // 0x005BD6CC
+void Func20C3D8(SvPlayerUnk8EE0* data); // 0x0020C3D8
+void Func6CD8A4(SvFgName* dressers); // 0x006CD8A4
+void Func1B5184(SvFgName* santaBagInv); // 0x001B5184
+void Func24AE04(SvPlayerInitiative* initiative); // 0x0024AE04
+// (the flags of Func6BE93C and the parts of Func6BE9F4)
+u8 Func5C304C(SvPlayer* player); // 0x005C304C
+u8 Func5C6AF4(SvPlayer* player); // 0x005C6AF4
+void Func20CBD8(SvPlayer* player, u32 a, u32 b, u8 c); // 0x0020CBD8
+void Func3238AC(SvPlayerInventory* inventory, u32 b); // 0x003238AC
+void Func6CD8D0(SvFgName* dressers, u32 b); // 0x006CD8D0
+void Func2D5004(SvFgName* islandBox, u32 b); // 0x002D5004
+struct SvSharedData;
+void Func6CDB2C(void* data, u32 b); // 0x006CDB2C
+void Func332E88(SvPlayerUnk9604* data, u32 a, SvPersonalId* player, u32 b); // 0x00332E88
+void Func6BC774(SvMail* mail, u32 a, SvPersonalId* player, u32 b); // 0x006BC774
+void Func24DD34(SvPlayerSpecialMail* mail); // 0x0024DD34
+void Func5BD8D4(SvPlayerUnk8E08* data, SvPlayer* player); // 0x005BD8D4
 
 /* ---- dSvNpc.h ---- */
 // Villagers (NPCs) living in the town.
@@ -1445,7 +2280,7 @@ typedef struct SvNpcHomeHistory {
     /* 0x00B6 */ u8 unk_0xB6[8];
     /* 0x00BE */ u16 unk_0xBE;
     /* 0x00C0 */ SvTownId unk_0xC0;
-    /* 0x00D6 */ u64 unk_0xD6; // ctor sets 0x7FFFFFFFFFFFFFFF (max positive U64)
+    /* 0x00D6 */ SvU64 unk_0xD6; // ctor sets 0x7FFFFFFFFFFFFFFF (max positive U64)
     /* 0x00DE */ SvDate date1;
     /* 0x00E2 */ SvDate date2;
     /* 0x00E6 */ SvDate date3;
@@ -1495,7 +2330,7 @@ typedef struct SvNpc {
     /* 0x0030 */ SvMyDesign pattern;
     /* 0x08A0 */ SvTownId townId1;
     /* 0x08B6 */ u32 unk_0x8B6[2]; // Game copies value from 0x6E29A, otherwise gens random number, gets u32 value then does something to it (EUR 1.5 IDA: 0x6BBBD4)
-    /* 0x08BE */ u64 unk_0x8BE; // ctor sets 0x7FFFFFFFFFFFFFFF (max positive U64)
+    /* 0x08BE */ SvU64 unk_0x8BE; // ctor sets 0x7FFFFFFFFFFFFFFF (max positive U64)
     /* 0x08C6 */ SvFgName unk_0x8C6; // Group 1; Some Item; Set to 0x00007ffe in player ctor
     /* 0x08CA */ SvFgName unk_0x8CA; // Group 1; Some Item; Set to 0x00007ffe in player ctor
     /* 0x08CE */ SvFgName unk_0x8CE; // Group 1; Some Item; Set to 0x00007ffe in player ctor
@@ -1546,7 +2381,7 @@ typedef struct SvNpcDataUnk1744CUnk0Unk9 {
 } SvNpcDataUnk1744CUnk0Unk9;
 
 typedef struct SvNpcDataUnk1744CUnk0 {
-    /* 0x0000 */ u64 unk_0x0; // ctor sets 0x7FFFFFFFFFFFFFFF (max positive U64)
+    /* 0x0000 */ SvU64 unk_0x0; // ctor sets 0x7FFFFFFFFFFFFFFF (max positive U64)
     /* 0x0008 */ u8 unk_0x8;
     /* 0x0009 */ SvNpcDataUnk1744CUnk0Unk9 unk_0x9; // Time capsule? / 2 = Return Time Capsule | 9 = Time Capsule Returned
     /* 0x000A */ u8 unk_0xA[0x36];
@@ -1556,16 +2391,91 @@ typedef struct SvNpcDataUnk1744C {
     /* 0x0000 */ SvNpcDataUnk1744CUnk0 unk_0x0[2];
 } SvNpcDataUnk1744C;
 
+// A time with three state bytes; the constructors set the time to "none" (SvTime()) and the bytes to 33, 0xFF, 9
+// (names are ours; the meaning of the bytes is open)
+
+typedef struct SvNpcDataUnk1764E {
+    /* 0x0000 */ SvTime time;
+    /* 0x0008 */ u8 unk_0x8; // 33
+    /* 0x0009 */ u8 unk_0x9; // 0xFF
+    /* 0x000A */ u8 unk_0xA; // 9
+} SvNpcDataUnk1764E;
+
+// One record per town (docs/census.md, value unk_0x550: maybe the sick villager; constructor 0x005BD5EC)
+typedef struct SvNpcDataUnk172F8 {
+    /* 0x0000 */ SvTime unk_0x0;
+    /* 0x0008 */ SvPlayerId unk_0x8[3];
+    /* 0x004A */ SvPlayerId unk_0x4A[4];
+    /* 0x00A2 */ SvDate unk_0xA2; // set to today (0x5BD354)
+    /* 0x00A6 */ u8 unk_0xA6; // a villager index; 0xFF: none
+    /* 0x00A7 */ u8 unk_0xA7;
+    /* 0x00A8 */ s8 unk_0xA8; // -4 at the start; 0x5BD578 adds to it (range -4..40 or 60)
+    /* 0x00A9 */ u8 unk_0xA9; // counted up to 3 by 0x5BD5C0
+    /* 0x00AA */ u8 unk_0xAA; // flags (bit 4+i: entry i handled); 2 at the start
+    /* 0x00AB */ u8 unk_0xAB; // state; 3 at the start
+} SvNpcDataUnk172F8;
+
+// constructor 0x00311418
+typedef struct SvNpcDataUnk173A4 {
+    /* 0x0000 */ SvPlayerId unk_0x0;
+    /* 0x0016 */ SvNpcDataUnk1764E unk_0x16;
+    /* 0x0021 */ u8 unk_0x21; // 0xFF
+    /* 0x0022 */ u8 unk_0x22;
+    /* 0x0023 */ u8 unk_0x23;
+    /* 0x0024 */ u8 unk_0x24;
+    /* 0x0025 */ u8 unk_0x25;
+} SvNpcDataUnk173A4;
+
+// constructor 0x005BC85C, cleared by 0x0030B260
+typedef struct SvNpcDataUnk173F0 {
+    /* 0x0000 */ SvPlayerId unk_0x0;
+    /* 0x0016 */ SvNpcRef unk_0x16;
+    /* 0x0046 */ SvNpcDataUnk1764E unk_0x46; // unk_0x9 is 5 after the constructor
+    /* 0x0051 */ u8 unk_0x51;
+    /* 0x0052 */ SvFgName unk_0x52;
+    /* 0x0056 */ u8 unk_0x56[3];
+    /* 0x0059 */ u8 unk_0x59; // 0xFE
+    /* 0x005A */ u8 unk_0x5A[2];
+} SvNpcDataUnk173F0;
+
+// A villager with 16 homes (like SvNpc::home) and a player (two of them in SvNpcData; the first villager id selects the
+// music of the pavilion, see dStageOpusPavilion.cpp)
+typedef struct SvNpcDataUnk1767A {
+    /* 0x0000 */ SvNpcRef unk_0x0;
+    /* 0x0030 */ SvNpcHomeHistory unk_0x30[0x10];
+    /* 0x0F50 */ u8 unk_0xF50[0x16];
+    /* 0x0F66 */ SvPlayerId unk_0xF66;
+} SvNpcDataUnk1767A;
+
+// constructor 0x001141E8 (Thumb)
+typedef struct SvNpcDataUnk19574 {
+    /* 0x0000 */ u8 unk_0x0[8];
+    /* 0x0008 */ SvDate unk_0x8;
+} SvNpcDataUnk19574;
+
 typedef struct SvNpcData {
+
     /* 0x0000 */ u32 checksum; // Checksum of the 0x22BC8 of this data
     /* 0x0004 */ SvNpc npcs[0xA];
     /* 0x172F4 */ u32 unk_0x172F4;
-    /* 0x172F8 */ u8 unk_0x172F8[0x154];
+    // (the constructor 0x00111D5C builds npcs .. unk_0x196FE as one part: the original has a type for 0x0004..0x1976C)
+    /* 0x172F8 */ SvNpcDataUnk172F8 unk_0x172F8;
+    /* 0x173A4 */ SvNpcDataUnk173A4 unk_0x173A4;
+    /* 0x173CA */ SvNpcDataUnk173A4 unk_0x173CA;
+    /* 0x173F0 */ SvNpcDataUnk173F0 unk_0x173F0;
     /* 0x1744C */ SvNpcDataUnk1744C unk_0x1744C[4]; // for each player one struct
-    /* 0x1764C */ u8 unk_0x1764C[0x2E];
-    /* 0x1767A */ SvTownId townId1; // has something to do with the campsite / 0x4091A
-    /* 0x17690 */ SvTownId townId2; // has something to do with the campsite / 0x40930
-    /* 0x176A6 */ u8 unk_0x176A6[0x20C6];
+    /* 0x1764C */ u8 unk_0x1764C[2];
+    /* 0x1764E */ SvNpcDataUnk1764E unk_0x1764E;
+    /* 0x17659 */ u8 unk_0x17659[0x21];
+    /* 0x1767A */ SvNpcDataUnk1767A unk_0x1767A; // (the research named its SvNpcRef parts townId1/townId2: campsite?)
+    /* 0x185F6 */ SvNpcDataUnk1767A unk_0x185F6;
+    /* 0x19572 */ u8 unk_0x19572[2];
+    /* 0x19574 */ SvNpcDataUnk19574 unk_0x19574[0x10];
+    /* 0x19634 */ SvNpcDataUnk19574 unk_0x19634[0x10];
+    /* 0x196F4 */ u8 unk_0x196F4[2];
+    /* 0x196F6 */ u16 unk_0x196F6[4]; // a year each, 2011 after the constructor (an element type with the constructor
+                                     // 0x006137E4, like SvPlayer::unk_0x8F2A)
+    /* 0x196FE */ u8 unk_0x196FE[0x6E];
     /* 0x1976C */ SvNpc unk_0x1976C[4];
     /* 0x22BCC */ u8 unk_0x22BCC[0x14];
 } SvNpcData;
@@ -1576,6 +2486,7 @@ typedef struct SvNpcData {
 // Offsets in /* */ are relative to the struct and verified by the ASSERT_SIZE checks.
 
 typedef struct SvStrc {
+
     /* 0x0000 */ u16 id; // is none, only below 0xFC considered valid
     /* 0x0002 */ u8 xCoord;
     /* 0x0003 */ u8 yCoord;
@@ -1685,6 +2596,92 @@ typedef struct SvPwpUnlockFlags {
     /* 0x000B.7 */ u8 unk_0xB_7 : 1;
 } SvPwpUnlockFlags;
 
+// The index of a bit of SvPwpUnlockFlags (SvStrcData::UnlockPwp; names after the fields)
+enum SvPwpUnlockId : u8 {
+    PWP_UNLOCK_DEFAULT = 0, // All unlocked at default (cobblestone bridge, suspension bridge, yellow bench, water well, fountain, park clock, street lamp, campsite, fence, fire hydrant, custom-design sign, face-cutout standee, do-not-enter sign)
+    PWP_UNLOCK_TOPIARIES = 1, // round, square, tulip
+    PWP_UNLOCK_DREAM_SUITE = 2,
+    PWP_UNLOCK_MUSEUM_RENOVATION = 3,
+    PWP_UNLOCK_CAFE = 4,
+    PWP_UNLOCK_RESET_CENTER = 5,
+    PWP_UNLOCK_PERFECT_TOWN = 6, // town-hall renovations & flower clock
+    PWP_UNLOCK_STATION_RECONSTRUCTION = 7,
+    PWP_UNLOCK_DRINKING_FOUNTAIN = 8,
+    PWP_UNLOCK_GARBAGE_CAN = 9,
+    PWP_UNLOCK_FLOWER_BED = 10,
+    PWP_UNLOCK_OUTDOOR_CHAIR = 11,
+    PWP_UNLOCK_FLOWER_ARCH = 12,
+    PWP_UNLOCK_FAIRY_TALE_CLOCK = 13,
+    PWP_UNLOCK_FAIRY_TALE_BENCH = 14,
+    PWP_UNLOCK_FAIRY_TALE_STREETLIGHT = 15,
+    PWP_UNLOCK_FAIRY_TALE_BRIDGE = 16,
+    PWP_UNLOCK_METAL_BENCH = 17,
+    PWP_UNLOCK_ROUND_STREETLIGHT = 18,
+    PWP_UNLOCK_ILLUMINATED_HEART = 19,
+    PWP_UNLOCK_ILLUMINATED_CLOCK = 20,
+    PWP_UNLOCK_ILLUMINATED_TREE = 21,
+    PWP_UNLOCK_BELL = 22,
+    PWP_UNLOCK_ARCHWAY_SCULPTURE = 23,
+    PWP_UNLOCK_STATUE_FOUNTAIN = 24,
+    PWP_UNLOCK_HOT_SPRING = 25,
+    PWP_UNLOCK_STREETLIGHT = 26,
+    PWP_UNLOCK_ILLUMINATED_ARCH = 27,
+    PWP_UNLOCK_TOWER = 28,
+    PWP_UNLOCK_MODERN_CLOCK = 29,
+    PWP_UNLOCK_MODERN_BENCH = 30,
+    PWP_UNLOCK_MODERN_STREETLIGHT = 31,
+    PWP_UNLOCK_SCARECROW = 32,
+    PWP_UNLOCK_GEYSER = 33,
+    PWP_UNLOCK_WINDMILL = 34,
+    PWP_UNLOCK_WOOD_BENCH = 35,
+    PWP_UNLOCK_WISTERIA_TRELLIS = 36,
+    PWP_UNLOCK_LOG_BENCH = 37,
+    PWP_UNLOCK_BUS_STOP = 38,
+    PWP_UNLOCK_PICNIC_BLANKET = 39,
+    PWP_UNLOCK_BALLOON_ARCH = 40,
+    PWP_UNLOCK_TIRE_TOY = 41,
+    PWP_UNLOCK_PILE_OF_PIPES = 42,
+    PWP_UNLOCK_CAMPING_COT = 43,
+    PWP_UNLOCK_JUNGLE_GYM = 44,
+    PWP_UNLOCK_SANDBOX = 45,
+    PWP_UNLOCK_HAMMOCK = 46,
+    PWP_UNLOCK_WATER_PUMP = 47,
+    PWP_UNLOCK_INSTRUMENT_SHELTER = 48,
+    PWP_UNLOCK_TORCH = 49,
+    PWP_UNLOCK_FIRE_PIT = 50,
+    PWP_UNLOCK_SOLAR_PANEL = 51,
+    PWP_UNLOCK_BLUE_BENCH = 52,
+    PWP_UNLOCK_TRAFFIC_SIGNAL = 53,
+    PWP_UNLOCK_STADIUM_LIGHT = 54,
+    PWP_UNLOCK_VIDEO_SCREEN = 55,
+    PWP_UNLOCK_WOODEN_BRIDGE = 56,
+    PWP_UNLOCK_ZEN_GARDEN = 57,
+    PWP_UNLOCK_ZEN_BELL = 58,
+    PWP_UNLOCK_RACK_OF_RICE = 59,
+    PWP_UNLOCK_DRILLING_RIG = 60,
+    PWP_UNLOCK_ZEN_CLOCK = 61,
+    PWP_UNLOCK_ZEN_BENCH = 62,
+    PWP_UNLOCK_ZEN_STREETLIGHT = 63,
+    PWP_UNLOCK_SPHINX = 64,
+    PWP_UNLOCK_TOTEM_POLE = 65,
+    PWP_UNLOCK_PARABOLIC_ANTENNA = 66,
+    PWP_UNLOCK_MOAI_STATUE = 67,
+    PWP_UNLOCK_STONEHENGE = 68,
+    PWP_UNLOCK_PYRAMID = 69,
+    PWP_UNLOCK_CUBE_SCULPTURE = 70,
+    PWP_UNLOCK_CHAIR_SCULPTURE = 71,
+    PWP_UNLOCK_POLICE_STATIONS = 72, // modern & classic
+    PWP_UNLOCK_LIGHTHOUSE = 73,
+    PWP_UNLOCK_BRICK_BRIDGE = 74,
+    PWP_UNLOCK_MODERN_BRIDGE = 75,
+    PWP_UNLOCK_STONE_TABLET = 76,
+    PWP_UNLOCK_WIND_TURBINE = 77,
+    PWP_UNLOCK_CAUTION_SIGN = 78,
+    PWP_UNLOCK_YIELD_SIGN = 79,
+    PWP_UNLOCK_FORTUNE_TELLERS_SHOP = 80,
+    PWP_UNLOCK_NUM = 81,
+};
+
 typedef struct SvDesignStand {
     /* 0x0000 */ SvMyDesign pattern;
     /* 0x0870 */ u32 xCoord; // if none placed (idk why 32bit was needed, world coords are 8bit..)
@@ -1692,6 +2689,7 @@ typedef struct SvDesignStand {
 } SvDesignStand;
 
 typedef struct SvStrcData {
+
     /* 0x0000 */ u32 checksum; // Checksum of the 0x44B8 of this data
     /* 0x0004 */ u8 normalPwPsAmount;
     /* 0x0005 */ u8 eventPwPsAmount;
@@ -1702,7 +2700,12 @@ typedef struct SvStrcData {
     /* 0x44B0 */ SvPwpUnlockFlags unlockedPwPs;
 } SvStrcData;
 
+// (game code, not decompiled yet; names are ours) the design stands are set up for a new town / cleared
+void Func27A61C(SvDesignStand* stands); // 0x0027A61C
+void Func27A65C(SvDesignStand* stands); // 0x0027A65C
+
 typedef struct SvPwpProject {
+
     /* 0x0000 */ u8 unk_0x0; // ctor sets to 0
     /* 0x0001 */ u8 unk_0x1; // ctor sets to 0
     /* 0x0002 */ u8 unk_0x2; // ctor sets to 0
@@ -1721,8 +2724,16 @@ typedef struct SvPwpProject {
 // By default every spot in the room is active
 // Its a u16 : 1 bitflag
 typedef struct SvRoomActiveFlags {
+
     /* 0x0000 */ u16 activeStates[0x10]; // default active
 } SvRoomActiveFlags;
+
+// the active flags of both item layers of a room (the room constructor inlines its constructor; the out-of-line copy
+// builds the global array 0xAD61F4 of the game; names are ours)
+typedef struct SvRoomActiveLayers {
+
+    /* 0x0000 */ SvRoomActiveFlags layers[2]; // [0] roomItems, [1] roomItemsPlacedOnOtherRoomItems
+} SvRoomActiveLayers;
 
 // 0x5D904 and 0x5D90D
 typedef struct SvHouseExterior {
@@ -1776,8 +2787,7 @@ typedef struct SvRoomState {
 
 typedef struct SvRoom {
     /* 0x0000 */ SvRoomState flags;
-    /* 0x0022 */ SvRoomActiveFlags roomItemsActiveStates;
-    /* 0x0042 */ SvRoomActiveFlags roomItemsPlacedOnOtherRoomItemsActiveStates;
+    /* 0x0022 */ SvRoomActiveLayers activeStates;
     /* 0x0062 */ SvFgName roomItems[0x64];
     /* 0x01F2 */ SvFgName roomItemsPlacedOnOtherRoomItems[0x40];
     /* 0x02F2 */ SvFgName wallpaper;
@@ -1824,6 +2834,7 @@ typedef struct SvPlayerHouseList {
 // Offsets in /* */ are relative to the struct and verified by the ASSERT_SIZE checks.
 
 typedef struct SvMuseumExhibit {
+
     /* 0x0000 */ s8 playerIndex; // ctor sets to 0xFF (-1: none)
     /* 0x0001 */ u8 pad_0x1;
     /* 0x0002 */ SvRoom museumRoom;
@@ -1835,27 +2846,142 @@ typedef struct SvMuseumExhibit {
 // the museum (one struct in the original: GetExhibit gets its address)
 typedef struct SvMuseum {
 
+    // the places of the groups in donationDates and donations: fossils 67, fish 72, sea creatures 30, insects 72, pictures
+    // 25, sculptures 8 (names are ours)
+    enum {
+        FOSSIL_FIRST = 0,
+        FISH_FIRST = 67,
+        DIVE_FISH_FIRST = 139,
+        INSECT_FIRST = 169,
+        PICTURE_FIRST = 241,
+        SCULPTURE_FIRST = 266,
+    };
+
     /* 0x0000 */ SvDate donationDates[0x112];
     /* 0x0448 */ u8 donations[0x112];
     /* 0x055A */ u8 pad_0x55A[2];
     /* 0x055C */ SvMuseumExhibit exhibits[4];
 } SvMuseum;
 
+// (game code, not decompiled yet; names are ours) an exhibition room is cleared / set to its defaults
+void Func1B63DC(SvMuseumExhibit* exhibit); // 0x001B63DC
+void Func1B6538(SvMuseumExhibit* exhibit); // 0x001B6538
+
 /* ---- dSvTownFlags.h ---- */
 // Town wide progress flags.
 //
 // Offsets in /* */ are relative to the struct and verified by the ASSERT_SIZE checks.
 
+// The value IDs of SvTownFlags::GetValue/SetValue/SetFlag (names after the fields; a value of several bits is a
+// counter or a small number)
+enum SvTownFlagId : u8 {
+    TOWN_FLAG_UNK_0x0_0 = 0,
+    TOWN_FLAG_EARLY_BIRD_ORDINANCE = 1,
+    TOWN_FLAG_NIGHT_OWL_ORDINANCE = 2,
+    TOWN_FLAG_BELL_BOOM_ORDINANCE = 3,
+    TOWN_FLAG_BEAUTIFUL_ORDINANCE = 4,
+    TOWN_FLAG_UNK_0x0_5 = 5, // 3 bits
+    TOWN_FLAG_UNK_0x1_0 = 6,
+    TOWN_FLAG_UNK_0x1_1 = 7,
+    TOWN_FLAG_UNK_0x1_2 = 8,
+    TOWN_FLAG_UNK_0x1_3 = 9,
+    TOWN_FLAG_UNK_0x1_4 = 10,
+    TOWN_FLAG_UNK_0x1_5 = 11,
+    TOWN_FLAG_UNK_0x1_6 = 12,
+    TOWN_FLAG_UNK_0x1_7 = 13, // 5 bits
+    TOWN_FLAG_UNK_0x2_4 = 14,
+    TOWN_FLAG_UNK_0x2_5 = 15,
+    TOWN_FLAG_UNK_0x2_6 = 16,
+    TOWN_FLAG_UNK_0x2_7 = 17,
+    TOWN_FLAG_UNK_0x3_0 = 18,
+    TOWN_FLAG_UNK_0x3_1 = 19,
+    TOWN_FLAG_UNK_0x3_2 = 20,
+    TOWN_FLAG_UNK_0x3_3 = 21,
+    TOWN_FLAG_UNK_0x3_4 = 22,
+    TOWN_FLAG_UNK_0x3_5 = 23,
+    TOWN_FLAG_UNK_0x3_6 = 24,
+    TOWN_FLAG_UNK_0x3_7 = 25,
+    TOWN_FLAG_UNK_0x4_0 = 26,
+    TOWN_FLAG_UNK_0x4_1 = 27,
+    TOWN_FLAG_UNK_0x4_2 = 28,
+    TOWN_FLAG_UNK_0x4_3 = 29,
+    TOWN_FLAG_UNK_0x4_4 = 30, // 3 bits
+    TOWN_FLAG_UNK_0x4_7 = 31, // 4 bits
+    TOWN_FLAG_UNK_0x5_3 = 32, // 6 bits
+    TOWN_FLAG_UNK_0x6_1 = 33,
+    TOWN_FLAG_UNK_0x6_2 = 34,
+    TOWN_FLAG_UNK_0x6_3 = 35, // 4 bits
+    TOWN_FLAG_QR_MACHINE_UNLOCKED = 36,
+    TOWN_FLAG_UNK_0x7_0 = 37,
+    TOWN_FLAG_UNK_0x7_1 = 38,
+    TOWN_FLAG_UNK_0x7_2 = 39,
+    TOWN_FLAG_UNK_0x7_3 = 40, // 10 bits
+    TOWN_FLAG_UNK_0x8_5 = 41,
+    TOWN_FLAG_UNK_0x8_6 = 42,
+    TOWN_FLAG_UNK_0x8_7 = 43,
+    TOWN_FLAG_UNK_0x9_0 = 44, // 3 bits
+    TOWN_FLAG_UNK_0x9_3 = 45,
+    TOWN_FLAG_UNK_0x9_4 = 46, // 10 bits
+    TOWN_FLAG_UNK_0xA_6 = 47,
+    TOWN_FLAG_OPEN_PUBLIC_WORK_PROJECT = 48,
+    TOWN_FLAG_UNK_0xB_0 = 49,
+    TOWN_FLAG_UNK_0xB_1 = 50, // 3 bits
+    TOWN_FLAG_UNK_0xB_4 = 51,
+    TOWN_FLAG_UNK_0xB_5 = 52,
+    TOWN_FLAG_UNK_0xB_6 = 53,
+    TOWN_FLAG_UNK_0xB_7 = 54,
+    TOWN_FLAG_UNK_0xC_0 = 55,
+    TOWN_FLAG_UNK_0xC_1 = 56, // 6 bits
+    TOWN_FLAG_UNK_0xC_7 = 57,
+    TOWN_FLAG_HHS_STAND_UNLOCKED = 58,
+    TOWN_FLAG_UNK_0xD_1 = 59,
+    TOWN_FLAG_UNK_0xD_2 = 60,
+    TOWN_FLAG_UNK_0xD_3 = 61,
+    TOWN_FLAG_UNK_0xD_4 = 62,
+    TOWN_FLAG_UNK_0xD_5 = 63,
+    TOWN_FLAG_UNK_0xD_6 = 64,
+    TOWN_FLAG_UNK_0xD_7 = 65,
+    TOWN_FLAG_UNK_0xE_0 = 66,
+    TOWN_FLAG_UNK_0xE_1 = 67,
+    TOWN_FLAG_UNK_0xE_2 = 68,
+    TOWN_FLAG_UNK_0xE_3 = 69,
+    TOWN_FLAG_UNK_0xE_4 = 70,
+    TOWN_FLAG_UNK_0xE_5 = 71,
+    TOWN_FLAG_UNK_0xE_6 = 72,
+    TOWN_FLAG_UNK_0xE_7 = 73,
+    TOWN_FLAG_UNK_0xF_0 = 74,
+    TOWN_FLAG_UNK_0xF_1 = 75,
+    TOWN_FLAG_UNK_0xF_2 = 76,
+    TOWN_FLAG_UNK_0xF_3 = 77,
+    TOWN_FLAG_UNK_0xF_4 = 78,
+    TOWN_FLAG_UNK_0xF_5 = 79,
+    TOWN_FLAG_UNK_0xF_6 = 80,
+    TOWN_FLAG_UNK_0xF_7 = 81,
+    TOWN_FLAG_UNK_0x10_0 = 82,
+    TOWN_FLAG_UNK_0x10_1 = 83,
+    TOWN_FLAG_UNK_0x10_2 = 84,
+    TOWN_FLAG_NUM = 85,
+};
+
 typedef struct SvTownFlags {
+    // (inline in the constructor of the save data) cleared, then Init
+    SvTownFlags()
+    {
+    }
+    // (inline) one more in the counter of 10 bits that starts at bit BIT (at most 1000; name is ours)
+    template <u32 BIT>
+    void AddCounter10()
+    {
+        const u32 shift = BIT % 8;
+        value = value + 1 > 1000 ? 1000 : value + 1;
+    }
 
     /* 0x0000.0 */ u8 unk_0x0_0 : 1;
     /* 0x0000.1 */ u8 earlyBirdOrdinance : 1;
     /* 0x0000.2 */ u8 nightOwlOrdinance : 1;
     /* 0x0000.3 */ u8 bellBoomOrdinance : 1;
     /* 0x0000.4 */ u8 beautifulOrdinance : 1;
-    /* 0x0000.5 */ u8 unk_0x0_5 : 1;
-    /* 0x0000.6 */ u8 unk_0x0_6 : 1;
-    /* 0x0000.7 */ u8 unk_0x0_7 : 1;
+    /* 0x0000.5 */ u8 unk_0x0_5 : 3;
     /* 0x0001.0 */ u8 unk_0x1_0 : 1;
     /* 0x0001.1 */ u8 unk_0x1_1 : 1;
     /* 0x0001.2 */ u8 unk_0x1_2 : 1; // gulliver woken up?
@@ -1863,11 +2989,7 @@ typedef struct SvTownFlags {
     /* 0x0001.4 */ u8 unk_0x1_4 : 1;
     /* 0x0001.5 */ u8 unk_0x1_5 : 1;
     /* 0x0001.6 */ u8 unk_0x1_6 : 1;
-    /* 0x0001.7 */ u8 unk_0x1_7 : 1;
-    /* 0x0002.0 */ u8 unk_0x2_0 : 1;
-    /* 0x0002.1 */ u8 unk_0x2_1 : 1;
-    /* 0x0002.2 */ u8 unk_0x2_2 : 1;
-    /* 0x0002.3 */ u8 unk_0x2_3 : 1;
+    /* 0x0001.7 */ u16 unk_0x1_7 : 5;
     /* 0x0002.4 */ u8 unk_0x2_4 : 1;
     /* 0x0002.5 */ u8 unk_0x2_5 : 1;
     /* 0x0002.6 */ u8 unk_0x2_6 : 1;
@@ -1884,73 +3006,33 @@ typedef struct SvTownFlags {
     /* 0x0004.1 */ u8 unk_0x4_1 : 1;
     /* 0x0004.2 */ u8 unk_0x4_2 : 1;
     /* 0x0004.3 */ u8 unk_0x4_3 : 1;
-    /* 0x0004.4 */ u8 unk_0x4_4 : 1;
-    /* 0x0004.5 */ u8 unk_0x4_5 : 1;
-    /* 0x0004.6 */ u8 unk_0x4_6 : 1; // ctor sets this bit
-    /* 0x0004.7 */ u8 unk_0x4_7 : 1;
-    /* 0x0005.0 */ u8 unk_0x5_0 : 1;
-    /* 0x0005.1 */ u8 unk_0x5_1 : 1;
-    /* 0x0005.2 */ u8 unk_0x5_2 : 1;
-    /* 0x0005.3 */ u8 unk_0x5_3 : 1;
-    /* 0x0005.4 */ u8 unk_0x5_4 : 1;
-    /* 0x0005.5 */ u8 unk_0x5_5 : 1;
-    /* 0x0005.6 */ u8 unk_0x5_6 : 1;
-    /* 0x0005.7 */ u8 unk_0x5_7 : 1;
-    /* 0x0006.0 */ u8 unk_0x6_0 : 1;
+    /* 0x0004.4 */ u8 unk_0x4_4 : 3; // ctor sets this bit
+    /* 0x0004.7 */ u16 unk_0x4_7 : 4;
+    /* 0x0005.3 */ u16 unk_0x5_3 : 6;
     /* 0x0006.1 */ u8 unk_0x6_1 : 1;
     /* 0x0006.2 */ u8 unk_0x6_2 : 1;
-    /* 0x0006.3 */ u8 unk_0x6_3 : 1;
-    /* 0x0006.4 */ u8 unk_0x6_4 : 1;
-    /* 0x0006.5 */ u8 unk_0x6_5 : 1;
-    /* 0x0006.6 */ u8 unk_0x6_6 : 1;
+    /* 0x0006.3 */ u8 unk_0x6_3 : 4;
     /* 0x0006.7 */ u8 qrMachineUnlocked : 1;
     /* 0x0007.0 */ u8 unk_0x7_0 : 1;
     /* 0x0007.1 */ u8 unk_0x7_1 : 1;
     /* 0x0007.2 */ u8 unk_0x7_2 : 1;
-    /* 0x0007.3 */ u8 unk_0x7_3 : 1;
-    /* 0x0007.4 */ u8 unk_0x7_4 : 1;
-    /* 0x0007.5 */ u8 unk_0x7_5 : 1;
-    /* 0x0007.6 */ u8 unk_0x7_6 : 1;
-    /* 0x0007.7 */ u8 unk_0x7_7 : 1;
-    /* 0x0008.0 */ u8 unk_0x8_0 : 1;
-    /* 0x0008.1 */ u8 unk_0x8_1 : 1;
-    /* 0x0008.2 */ u8 unk_0x8_2 : 1;
-    /* 0x0008.3 */ u8 unk_0x8_3 : 1;
-    /* 0x0008.4 */ u8 unk_0x8_4 : 1;
+    /* 0x0007.3 */ u16 unk_0x7_3 : 10;
     /* 0x0008.5 */ u8 unk_0x8_5 : 1;
     /* 0x0008.6 */ u8 unk_0x8_6 : 1;
     /* 0x0008.7 */ u8 unk_0x8_7 : 1; // gets set when you talked to isabelle after she wants to build the dream suite
-    /* 0x0009.0 */ u8 unk_0x9_0 : 1; // ctor sets this bit
-    /* 0x0009.1 */ u8 unk_0x9_1 : 1; // ctor sets this bit
-    /* 0x0009.2 */ u8 unk_0x9_2 : 1; // ctor sets this bit
+    /* 0x0009.0 */ u8 unk_0x9_0 : 3; // ctor sets this bit
     /* 0x0009.3 */ u8 unk_0x9_3 : 1;
-    /* 0x0009.4 */ u8 unk_0x9_4 : 1;
-    /* 0x0009.5 */ u8 unk_0x9_5 : 1;
-    /* 0x0009.6 */ u8 unk_0x9_6 : 1;
-    /* 0x0009.7 */ u8 unk_0x9_7 : 1;
-    /* 0x000A.0 */ u8 unk_0xA_0 : 1;
-    /* 0x000A.1 */ u8 unk_0xA_1 : 1;
-    /* 0x000A.2 */ u8 unk_0xA_2 : 1;
-    /* 0x000A.3 */ u8 unk_0xA_3 : 1;
-    /* 0x000A.4 */ u8 unk_0xA_4 : 1;
-    /* 0x000A.5 */ u8 unk_0xA_5 : 1;
+    /* 0x0009.4 */ u16 unk_0x9_4 : 10;
     /* 0x000A.6 */ u8 unk_0xA_6 : 1; // someone new moved in, isabelle mentions it, then its set to 0 again
     /* 0x000A.7 */ u8 openPublicWorkProject : 1;
     /* 0x000B.0 */ u8 unk_0xB_0 : 1;
-    /* 0x000B.1 */ u8 unk_0xB_1 : 1;
-    /* 0x000B.2 */ u8 unk_0xB_2 : 1;
-    /* 0x000B.3 */ u8 unk_0xB_3 : 1;
+    /* 0x000B.1 */ u8 unk_0xB_1 : 3;
     /* 0x000B.4 */ u8 unk_0xB_4 : 1;
     /* 0x000B.5 */ u8 unk_0xB_5 : 1;
     /* 0x000B.6 */ u8 unk_0xB_6 : 1;
     /* 0x000B.7 */ u8 unk_0xB_7 : 1;
     /* 0x000C.0 */ u8 unk_0xC_0 : 1;
-    /* 0x000C.1 */ u8 unk_0xC_1 : 1;
-    /* 0x000C.2 */ u8 unk_0xC_2 : 1;
-    /* 0x000C.3 */ u8 unk_0xC_3 : 1;
-    /* 0x000C.4 */ u8 unk_0xC_4 : 1;
-    /* 0x000C.5 */ u8 unk_0xC_5 : 1;
-    /* 0x000C.6 */ u8 unk_0xC_6 : 1;
+    /* 0x000C.1 */ u8 unk_0xC_1 : 6;
     /* 0x000C.7 */ u8 unk_0xC_7 : 1;
     /* 0x000D.0 */ u8 hhsStandUnlocked : 1; // lyles stand in tom nooks shop
     /* 0x000D.1 */ u8 unk_0xD_1 : 1;
@@ -1983,6 +3065,8 @@ typedef struct SvTownFlags {
     /* 0x0010.4 */ u8 unk_0x10_4 : 1;
     /* 0x0010.5 */ u8 unk_0x10_5 : 1;
     /* 0x0010.6 */ u8 unk_0x10_6 : 1;
+    /* 0x0010.7 */ u8 unk_0x10_7 : 1;
+    /* 0x0011 */ u8 unk_0x11; // (cleared with the flags by the constructor)
 } SvTownFlags;
 
 /* ---- dSvTown.h ---- */
@@ -1990,7 +3074,14 @@ typedef struct SvTownFlags {
 //
 // Offsets in /* */ are relative to the struct and verified by the ASSERT_SIZE checks.
 
+namespace nn {
+namespace fnd {
+struct DateTimeParameters;
+} // namespace fnd
+} // namespace nn
+
 typedef struct SvBulletinBoardMessage {
+
     /* 0x0000 */ char16 playerName[9]; // Only set when player writes the message
     /* 0x0012 */ char16 townName[9]; // Only set when player from other town writes the message
     /* 0x0024 */ char16 message[0xC1];
@@ -2000,6 +3091,7 @@ typedef struct SvBulletinBoardMessage {
 
 // When a snowmen is built, 0x7FF8 is placed as a town item
 typedef struct SvSnowman {
+
     /* 0x0000 */ SvTime dayOfDeath; // ctor sets 0x7FFFFFFFFFFFFFFF (max positive U64)
     /* 0x0008 */ u8 bingoNumberOfTheDay; // Will be set when talking to the snowman
     /* 0x0009 */ u8 unk_0x9; // Seems to change when playing bingo?
@@ -2007,155 +3099,321 @@ typedef struct SvSnowman {
     /* 0x000B */ u8 bottomSnowBallSize;
 } SvSnowman;
 
+// The part of the town data from 0x5C on: the map (built by its own constructor; the type and the member name are
+// ours, the field names after the research).
+// one byte per slot of an acre, 16*16 (the grass of the town; name is ours)
+typedef struct SvAcreGrass {
+    DECOMP_EMIT_COPY SvAcreGrass() {} // 0x001E0928 (empty in the original too)
+
+    /* 0x0000 */ u8 slots[0x100];
+} SvAcreGrass;
+
+typedef struct SvTownDataUnk5C {
+
+    /* 0x0000 */ u8 oceanSide; // [0-1]; 0: Left, 1: Right; Museum and Camping Ground and the starting position of the train driving by are all on the opposite side to this.; Ctor sets to 3
+    /* 0x0001 */ u8 townGrassType; // [0-2]; 0: Triangle / Square (Winter) | 1: Circle / Star (Winter) | 2: Square / Circle (Winter); Ctor sets to 2
+    /* 0x0002 */ u8 cliffType; // [0-2]; This is unused/scrapped. All 3 cliff texture in the ROM are the exact same.; Ctor sets to 2
+    /* 0x0003 */ u8 pad_0x3;
+    /* 0x0004 */ SvBgName townAcres[0x2A]; // 42 acres in total; 7 columns, 6 rows. Game reads Acre IDs as u16; ctor sets each to 265 (0x109)
+    /* 0x0058 */ SvFgBlock townItems[20]; // Items only cover map acres (5*4)
+    /* 0x5058 */ SvAcreGrass mapGrassToday[20]; // Grass deterioration only affects map acres
+    /* 0x6458 */ u8 unk_0x6458[0x28]; // Town data ctor never initializes this, so likely not used.
+    /* 0x6480 */ u8 mapGrass[0x3000];
+    /* 0x9480 */ u8 unk_0x9480[0x1000]; // Town data actually includes it with MapGrass (0x8000 in total)
+} SvTownDataUnk5C;
+
+// (types and member names ours) parts of the town data that are built by their own constructors (game code, not
+// decompiled yet)
+typedef struct SvTownDataUnkEDBE {
+
+    /* 0x0000 */ SvFgName lostAndFoundItems[0x10];
+} SvTownDataUnkEDBE;
+
+typedef struct SvTownDataUnkEE28 {
+
+    /* 0x0000 */ u8 unk_0x0; // Group 1
+    /* 0x0001 */ u8 unk_0x1; // Group 1
+    /* 0x0002 */ u8 unk_0x2; // Group 1
+    /* 0x0003 */ u8 pad_0x3;
+} SvTownDataUnkEE28;
+
+typedef struct SvTownDataUnkEF14 {
+
+    /* 0x0000 */ SvMyDesign ableDisplayPattern[8];
+} SvTownDataUnkEF14;
+
+typedef struct SvTownDataUnk1AE50 {
+
+    /* 0x0000 */ SvTime unk_0x0;
+    /* 0x0008 */ u8 unk_0x8[7];
+    /* 0x000F */ SvTime unk_0xF;
+    /* 0x0017 */ u8 unk_0x17[7];
+} SvTownDataUnk1AE50;
+
+typedef struct SvTownDataUnk1AE94 {
+
+    /* 0x0000 */ SvBulletinBoardMessage bBoardMessages[0xF];
+} SvTownDataUnk1AE94;
+
+// The Fishing Tourney of the town (the counterpart of SvInsectConvention; the binary has the namespace svfscnve for its
+// classes, the class name is ours): the fish of the tourney, the three best places with a player or a villager each,
+// the size points and the fish.
+
+typedef struct SvFishingConvention {
+
+    /* 0x0000 */ u8 flags; // bit 0: on; bit 3: a villager entered; bits 4-6: a random value 1..2 of the start
+    /* 0x0001 */ u8 unk_0x1;
+    /* 0x0002 */ SvFgName targetFish;   // the fish of the tourney (empty: any fish)
+    /* 0x0006 */ SvTime progressTime;
+    /* 0x000E */ SvTime startTime;     // the start
+    /* 0x0016 */ SvTime endTime;    // the end
+    /* 0x001E */ SvPersonalId placePlayers[3]; // the players of the places (or none)
+    /* 0x00A8 */ SvNpcRef placeVillagers[3];     // the villagers of the places (or none)
+    /* 0x0138 */ u16 placePoints[3];         // the points of the places
+    /* 0x013E */ SvFgName placeFish[3];    // the fish of the places
+} SvFishingConvention;
+
+typedef struct SvTownDataUnk1C7A8 {
+    // (inline in the constructor of the save data)
+    SvTownDataUnk1C7A8()
+    {
+        unk_0x1C.flags = 0;
+    }
+
+    /* 0x0000 */ SvTime unk_0x0;
+    /* 0x0008 */ u8 unk_0x8[0x14];
+    /* 0x001C */ SvFishingConvention unk_0x1C;
+} SvTownDataUnk1C7A8;
+
+// The Bug-Off of the town (the class name is from the original file dSvInsectConvention.cpp; all other names are ours):
+// the three best places are a player or a villager each, with the points and the insect.
+
+typedef struct SvInsectConvention {
+    // (inline in the constructor of the save data)
+    SvInsectConvention()
+    {
+        flags = 0;
+    }
+
+    /* 0x0000 */ u8 flags; // bit 0: on; bit 3: a villager entered (VillagerCatchAtTime)
+    /* 0x0001 */ SvTime progressTime;
+    /* 0x0009 */ SvTime startTime;
+    /* 0x0011 */ SvTime endTime;
+    /* 0x0019 */ u8 unk_0x19;
+    /* 0x001A */ SvPersonalId placePlayers[3]; // the players of the places (or none)
+    /* 0x00A4 */ SvNpcRef placeVillagers[3];     // the villagers of the places (or none)
+    /* 0x0134 */ u16 placePoints[3];         // the points of the places
+    /* 0x013A */ SvFgName placeInsects[3];    // the insects of the places
+} SvInsectConvention;
+
+typedef struct SvTownDataUnk1CA92 {
+
+    /* 0x0000 */ u8 islandGrassType; // [0-2]; 0: Triangle | 1: Circle | 2: Square;
+    /* 0x0001 */ u8 pad_0x1;
+    /* 0x0002 */ SvBgName islandAcres[0x10]; // 16 acres in total; 4 columns, 4 rows. Game reads Acre IDs as u16;
+    /* 0x0022 */ SvFgBlock islandItems[4]; // Items only cover map acres (2*2)
+    /* 0x1022 */ SvStrc islandBuildings[2]; // Island Hut and Lloid
+} SvTownDataUnk1CA92;
+
+typedef struct SvTownDataUnk1E368 {
+
+    /* 0x0000 */ u8 unk_0x0[0xD4];
+} SvTownDataUnk1E368;
+
+typedef struct SvTownDataUnk1E448 {
+
+    /* 0x0000 */ u8 unk_0x0[0x14];
+    /* 0x0014 */ u32 unk_0x14[6]; // (cleared with the town data)
+    /* 0x002C */ u8 unk_0x2C[0x68];
+} SvTownDataUnk1E448;
+
+// The shop of the Nooklings (the class name is from the original file dSvShopZakka.cpp; "zakka" = general goods). All
+// names but the research names are ours.
+typedef struct SvShopZakka {
+
+    // the number of items of a group of places at the level (the row of s_NumItems; 0 from the level 5) / of the group of
+    // the place 8 (always 1)
+    template <u32 ROW>
+    DECOMP_NOINLINE u8 GetNumItems() const
+    {
+        return nooklingState < 5 ? s_NumItems[ROW][nooklingState] : 0;
+    }
+
+    // the date of the renovation: set to tomorrow when the conditions of the next level are met, the level goes up on the
+    // day after it (the shop is closed on that day); none: 0x7FFFFFFFFFFFFFFF (the constructor 0x005CEA18)
+    /* 0x0000 */ SvTime renovationDate;
+    // the time service (the game's name, RTTI NoticeTimeService): the half price sale of the day, "all items in the store
+    // will be half price" (BBS_Kodanuki); with a chance of 1 in 10 per day from a random hour (10..13), not on the days
+    // before, of and after the renovation; none: 0x7FFFFFFFFFFFFFFF (the constructor 0x005CEA18)
+    /* 0x0008 */ SvTime timeServiceTime;
+    /* 0x0010 */ s32 unk_0x10; // a value per level (0x00890774), goes down (UpdateUpgrade)
+    /* 0x0014 */ u8 nooklingState; // level of nookling shop
+    /* 0x0015 */ u8 nooklingStateUnknown;
+    /* 0x0016 */ u8 unk_0x16[2];
+    /* 0x0018 */ SvEncValue nooklingBellsSpent;
+    /* 0x0020 */ SvFgName nooklingsItems[0x18];
+    /* 0x0080 */ u8 unk_0x80[0x18]; // per item: set to 1 when the item is bought (BuyItem)
+    /* 0x0098 */ s32 unk_0x98; // 15 on a renewal to level 0, one less per bought item
+} SvShopZakka;
+
+// The shops of the town (one object that the daily update and the loading get; names are ours). The Nooklings are the
+// first one.
+typedef struct SvTownDataUnkEE2C {
+
+    /* 0x0000 */ SvShopZakka shopZakka;
+    /* 0x009C */ SvFgName ablesItems[5];
+    /* 0x00B0 */ SvFgName ablesPatternItems[8];
+    /* 0x00D0 */ SvEncValue unk_0xEEFC;
+    /* 0x00D8 */ u8 unk_0xEF04[0x10]; // likely padding
+    /* 0x00E8 */ SvTownDataUnkEF14 unk_0xEF14;
+    /* 0x4468 */ SvFgName labellesItems[7]; // Accessories in right of shop
+    /* 0x4484 */ u8 unk_0x132B0[8]; // likely padding
+    /* 0x448C */ SvEncValue unk_0x132B8;
+    // (research: scrappedString[4]; the shop reads the first word as a number, UpdateUpgrade)
+    /* 0x4494 */ s32 unk_0x132C0;
+    /* 0x4498 */ u8 unk_0x132C4[4];
+    /* 0x449C */ SvEncValue unk_0x132C8;
+    /* 0x44A4 */ u8 leifUnlockStatus; // 0 = locked; 1 = Being Built; X = Levels
+    /* 0x44A5 */ u8 unk_0x132D1;
+    /* 0x44A6 */ SvFgName leifItems[0xB];
+    /* 0x44D2 */ u8 unk_0x132FE[0xE]; // likely padding
+    /* 0x44E0 */ SvFgName reddItems[4];
+    /* 0x44F0 */ u8 unk_0x1331C[4]; // likely padding
+    /* 0x44F4 */ SvPersonalId unk_0x13320[4]; // unused?
+    /* 0x45AC */ SvEncValue unk_0x133D8;
+    /* 0x45B4 */ SvEncValue unk_0x133E0;
+    /* 0x45BC */ SvEncValue unk_0x133E8;
+    /* 0x45C4 */ SvEncValue unk_0x133F0;
+    /* 0x45CC */ u8 unk_0x133F8[8];
+    /* 0x45D4 */ SvEncValue unk_0x13400;
+    /* 0x45DC */ u8 kickUnlockStatus; // 0 = locked; 1 = Being Built; 2 = Built/Unlocked
+    /* 0x45DD */ u8 pad_0x13409;
+    /* 0x45DE */ SvFgName kicksItems[6];
+    /* 0x45F6 */ u8 unk_0x13422[6];
+    /* 0x45FC */ SvFgName unk_0x13428[4]; // ctor does this and below separately, 4 at a time
+    /* 0x460C */ SvFgName unk_0x13438[4];
+    /* 0x461C */ u32 pad_0x13448;
+    /* 0x4620 */ SvTime unk_0x1344C; // ctor sets 0x7FFFFFFFFFFFFFFF (none; the constructor sets it like a time, 0x005CEA18)
+    /* 0x4628 */ SvTime unk_0x13454; // ctor sets 0x7FFFFFFFFFFFFFFF (none; the constructor sets it like a time, 0x005CEA18)
+    /* 0x4630 */ SvTime unk_0x1345C; // ctor sets 0x7FFFFFFFFFFFFFFF (none; the constructor sets it like a time, 0x005CEA18)
+    /* 0x4638 */ SvTime unk_0x13464; // ctor sets 0x7FFFFFFFFFFFFFFF (none; the constructor sets it like a time, 0x005CEA18)
+    /* 0x4640 */ u8 unk_0x1346C[0x10]; // likely padding
+    /* 0x4650 */ SvFgName reTailPremiumItems[5]; // if wealthy town, 2 items are shown, if people on streetpass are seen, even more
+    /* 0x4664 */ SvFgName reTailItems[8];
+    /* 0x4684 */ u8 reTailItemsPlayerIndex[8]; // Which player put the item up for sale, unsure what the values are for villagers
+    /* 0x468C */ SvEncValue reTailItemPrices[8];
+    /* 0x46CC */ SvMyDesign reTailItemDesign[8]; // if furniture was customized with a design, the design will be stored here if the item is put for sale
+    /* 0x8A4C */ SvEncValue unk_0x17878;
+    /* 0x8A54 */ SvEncValue unk_0x17880;
+    /* 0x8A5C */ SvEncValue unk_0x17888;
+    /* 0x8A64 */ SvEncValue unk_0x17890;
+    /* 0x8A6C */ u8 museumShopUnlockState;
+    /* 0x8A6D */ u8 unk_0x17899;
+    /* 0x8A6E */ SvFgName museumItems[3];
+    /* 0x8A7A */ u8 unk_0x178A6[4]; // likely padding
+    /* 0x8A7E */ SvFgName nooksHomeItems[8];
+    /* 0x8A9E */ u8 unk_0x178CA[8]; // likely padding
+    /* 0x8AA6 */ u8 gracieUnlockStatus; // 0 = locked??; 1 = Unlocked??
+    /* 0x8AA7 */ u8 pad_0x178D3;
+    /* 0x8AA8 */ SvFgName gracieItems[0x12];
+    /* 0x8AF0 */ u8 unk_0x1791C[0x12]; // likely padding
+    /* 0x8B02 */ SvMannequin gracieMannequins[2]; // the mannequins in Gracie's shop (one array in the constructor)
+    /* 0x8B32 */ u8 clubLolUnlockState;
+    /* 0x8B33 */ u8 unk_0x1795F[0xF];
+    /* 0x8B42 */ SvFgName clubLolGyroids[4];
+    /* 0x8B52 */ u8 dreamSuiteUnlockStatus;
+    /* 0x8B53 */ u8 unk_0x1797F;
+    /* 0x8B54 */ u8 fortuneTellerUnlockStatus;
+    /* 0x8B55 */ u8 unk_0x17981[0xF];
+    /* 0x8B64 */ u8 shampoodleUnlockStatus;
+    /* 0x8B65 */ u8 unk_0x17991[3];
+    /* 0x8B68 */ SvFgName islandShopItems[4];
+    /* 0x8B78 */ SvEncValue unk_0x179A4;
+    /* 0x8B80 */ SvEncValue unk_0x179AC[2];
+    /* 0x8B90 */ SvEncValue turnipPrices[0xC]; // first 6 are AM, second 6 are PM
+    /* 0x8BF0 */ u8 unk_0x17A1C[8];
+    /* 0x8BF8 */ SvFgName unk_0x17A24;
+    /* 0x8BFC */ SvFgName unk_0x17A28[2]; // new year hats?
+    /* 0x8C04 */ SvFgName campgroundShopItems[2];
+    /* 0x8C0C */ u8 unk_0x17A38[4];
+    /* 0x8C10 */ u16 campgroundCaravan[2]; // left and right caravan (uses NPC VID); 0xFFFF if empty
+    /* 0x8C14 */ u8 unk_0x17A40[8];
+    /* 0x8C1C */ SvDate unk_0x17A48;
+    /* 0x8C20 */ SvDate unk_0x17A4C;
+    /* 0x8C24 */ u8 unk_0x17A50[0x44];
+} SvTownDataUnkEE2C;
+
+// (game code, not decompiled yet; names after the addresses) the clear functions of the shops that
+// SvTownDataUnkEE2C::Clear calls, with the first field of each shop
+void Func314144(SvEncValue* turnips); // 0x00314144 (unk_0x179A4, before the turnip prices)
+void Func109FF4(SvFgName* items); // 0x00109FF4 (Thumb; ablesItems)
+void Func2A809C(SvFgName* items); // 0x002A809C (labellesItems)
+void Func10B38C(s32* data); // 0x0010B38C (Thumb; unk_0x132C0, before leifUnlockStatus)
+void Func10A7FC(SvFgName* items); // 0x0010A7FC (Thumb; reddItems)
+void Func108B54(u8* data); // 0x00108B54 (Thumb; unk_0x133F8, before kickUnlockStatus)
+void Func20D8E4(SvFgName* items); // 0x0020D8E4 (unk_0x13428)
+void Func10AB28(SvFgName* items); // 0x0010AB28 (Thumb; reTailPremiumItems)
+void Func10AF5C(u8* data); // 0x0010AF5C (Thumb; museumShopUnlockState)
+void Func10B6CC(SvFgName* items); // 0x0010B6CC (Thumb; nooksHomeItems)
+void Func108A98(u8* data); // 0x00108A98 (Thumb; gracieUnlockStatus)
+void Func10A3FC(u8* data); // 0x0010A3FC (Thumb; clubLolUnlockState)
+void Func108444(u8* data); // 0x00108444 (Thumb; dreamSuiteUnlockStatus)
+void Func10A4A4(u8* data); // 0x0010A4A4 (Thumb; fortuneTellerUnlockStatus)
+void Func10B438(u8* data); // 0x0010B438 (Thumb; unk_0x17981 + 0xB)
+void Func20D628(SvFgName* items); // 0x0020D628 (islandShopItems)
+void Func10B1E0(SvFgName* item); // 0x0010B1E0 (Thumb; unk_0x17A24)
+void Func106BAC(SvFgName* items); // 0x00106BAC (Thumb; campgroundShopItems)
+
 typedef struct SvTownData {
+    // (inline in the constructor of the save data: the members and these values)
+    DECOMP_ALWAYS_INLINE SvTownData() : unk_0x1DABC(0), unk_0x1DAC6(0), unk_0x1DAC7(0), unk_0x1DAC8(0) {}
+
     /* 0x0000 */ u32 checksum; // Checksum of the 0x1E4D8 of this data
     /* 0x0004 */ u8 unk_0x4[0x58];
-    /* 0x005C */ u8 oceanSide; // [0-1]; 0: Left, 1: Right; Museum and Camping Ground and the starting position of the train driving by are all on the opposite side to this.; Ctor sets to 3
-    /* 0x005D */ u8 townGrassType; // [0-2]; 0: Triangle / Square (Winter) | 1: Circle / Star (Winter) | 2: Square / Circle (Winter); Ctor sets to 2
-    /* 0x005E */ u8 cliffType; // [0-2]; This is unused/scrapped. All 3 cliff texture in the ROM are the exact same.; Ctor sets to 2
-    /* 0x005F */ u8 pad_0x5F;
-    /* 0x0060 */ u16 townAcres[0x2A]; // 42 acres in total; 7 columns, 6 rows. Game reads Acre IDs as u16; ctor sets each to 265 (0x109)
-    /* 0x00B4 */ SvFgName townItems[0x1400]; // 16*16 items per acre; Items only cover map acres (5*4); 0x1400 of items
-    /* 0x50B4 */ u8 mapGrassToday[0x1400]; // 16*16 slots per acre; Grass deterioration only affects map acres (5*4); 0x1400 of grass
-    /* 0x64B4 */ u8 unk_0x64B4[0x28]; // Town data ctor never initializes this, so likely not used. Where the code would branch to do so, there is a NOP (both in WA and Orig).
-    /* 0x64DC */ u8 mapGrass[0x3000];
-    /* 0x94DC */ u8 unk_0x94DC[0x1000]; // Town data actually includes it with MapGrass (0x8000 in total), despite this portion not being used
+    /* 0x005C */ SvTownDataUnk5C unk_0x5C;
     /* 0xA4DC */ SvPlayerHouseList playerHouses;
-    /* 0xED7C */ s64 currentTime;
-    /* 0xED84 */ s64 unk_0xED84;
-    /* 0xED8C */ s64 playtime;
+    /* 0xED7C */ SvS64 currentTime;
+    /* 0xED84 */ SvS64 unk_0xED84;
+    /* 0xED8C */ SvS64 playtime;
     /* 0xED94 */ SvTownId townData1;
     /* 0xEDAA */ u8 unk_0xEDAA; // low four bits: the region of the game (event::Region), from the console
     /* 0xEDAB */ SvTownFlags townFlags;
-    /* 0xEDBC */ u16 unk_0xEDBC; // Likely padding
-    /* 0xEDBE */ SvFgName lostAndFoundItems[0x10];
+    /* 0xEDBD */ u8 pad_0xEDBD;
+    /* 0xEDBE */ SvTownDataUnkEDBE unk_0xEDBE;
     /* 0xEDFE */ u8 unk_0xEDFE[0x10]; // likely padding
     /* 0xEE0E */ SvTime unk_0xEE0E; // ctor sets 0x7FFFFFFFFFFFFFFF (none); time::GetSavedTime prefers it
     /* 0xEE16 */ SvFgName townFruit;
     /* 0xEE1A */ u16 daysPlayed;
     /* 0xEE1C */ u8 unk_0xEE1C[0xC];
-    /* 0xEE28 */ u8 unk_0xEE28; // Group 1
-    /* 0xEE29 */ u8 unk_0xEE29; // Group 1
-    /* 0xEE2A */ u8 unk_0xEE2A; // Group 1
-    /* 0xEE2B */ u8 pad_0xEE2B;
-    /* 0xEE2C */ u64 unk_0xEE2C; // ctor sets 0x7FFFFFFFFFFFFFFF (max positive U64)
-    /* 0xEE34 */ u64 unk_0xEE34; // ctor sets 0x7FFFFFFFFFFFFFFF (max positive U64)
-    /* 0xEE3C */ u8 unk_0xEE3C[4];
-    /* 0xEE40 */ u8 nooklingState; // level of nookling shop
-    /* 0xEE41 */ u8 nooklingStateUnknown;
-    /* 0xEE42 */ u8 unk_0xEE42[2];
-    /* 0xEE44 */ SvEncValue nooklingBellsSpent;
-    /* 0xEE4C */ SvFgName nooklingsItems[0x18];
-    /* 0xEEAC */ u8 unk_0xEEAC[0x1C]; // likely padding
-    /* 0xEEC8 */ SvFgName ablesItems[5];
-    /* 0xEEDC */ SvFgName ablesPatternItems[8];
-    /* 0xEEFC */ SvEncValue unk_0xEEFC;
-    /* 0xEF04 */ u8 unk_0xEF04[0x10]; // likely padding
-    /* 0xEF14 */ SvMyDesign ableDisplayPattern[8];
-    /* 0x13294 */ SvFgName labellesItems[7]; // Accessories in right of shop
-    /* 0x132B0 */ u8 unk_0x132B0[8]; // likely padding
-    /* 0x132B8 */ SvEncValue unk_0x132B8;
-    /* 0x132C0 */ char16 scrappedString[4];
-    /* 0x132C8 */ SvEncValue unk_0x132C8;
-    /* 0x132D0 */ u8 leifUnlockStatus; // 0 = locked; 1 = Being Built; X = Levels
-    /* 0x132D1 */ u8 unk_0x132D1;
-    /* 0x132D2 */ SvFgName leifItems[0xB];
-    /* 0x132FE */ u8 unk_0x132FE[0xE]; // likely padding
-    /* 0x1330C */ SvFgName reddItems[4];
-    /* 0x1331C */ u8 unk_0x1331C[4]; // likely padding
-    /* 0x13320 */ SvPersonalId unk_0x13320[4]; // unused?
-    /* 0x133D8 */ SvEncValue unk_0x133D8;
-    /* 0x133E0 */ SvEncValue unk_0x133E0;
-    /* 0x133E8 */ SvEncValue unk_0x133E8;
-    /* 0x133F0 */ SvEncValue unk_0x133F0;
-    /* 0x133F8 */ u8 unk_0x133F8[8];
-    /* 0x13400 */ SvEncValue unk_0x13400;
-    /* 0x13408 */ u8 kickUnlockStatus; // 0 = locked; 1 = Being Built; 2 = Built/Unlocked
-    /* 0x13409 */ u8 pad_0x13409;
-    /* 0x1340A */ SvFgName kicksItems[6];
-    /* 0x13422 */ u8 unk_0x13422[6];
-    /* 0x13428 */ SvFgName unk_0x13428[4]; // ctor does this and below separately, 4 at a time
-    /* 0x13438 */ SvFgName unk_0x13438[4];
-    /* 0x13448 */ u32 pad_0x13448;
-    /* 0x1344C */ u64 unk_0x1344C; // ctor sets 0x7FFFFFFFFFFFFFFF (max positive U64)
-    /* 0x13454 */ u64 unk_0x13454; // ctor sets 0x7FFFFFFFFFFFFFFF (max positive U64)
-    /* 0x1345C */ u64 unk_0x1345C; // ctor sets 0x7FFFFFFFFFFFFFFF (max positive U64)
-    /* 0x13464 */ u64 unk_0x13464; // ctor sets 0x7FFFFFFFFFFFFFFF (max positive U64)
-    /* 0x1346C */ u8 unk_0x1346C[0x10]; // likely padding
-    /* 0x1347C */ SvFgName reTailPremiumItems[5]; // if wealthy town, 2 items are shown, if people on streetpass are seen, even more
-    /* 0x13490 */ SvFgName reTailItems[8];
-    /* 0x134B0 */ u8 reTailItemsPlayerIndex[8]; // Which player put the item up for sale, unsure what the values are for villagers
-    /* 0x134B8 */ SvEncValue reTailItemPrices[8];
-    /* 0x134F8 */ SvMyDesign reTailItemDesign[8]; // if furniture was customized with a design, the design will be stored here if the item is put for sale
-    /* 0x17878 */ SvEncValue unk_0x17878;
-    /* 0x17880 */ SvEncValue unk_0x17880;
-    /* 0x17888 */ SvEncValue unk_0x17888;
-    /* 0x17890 */ SvEncValue unk_0x17890;
-    /* 0x17898 */ u8 museumShopUnlockState;
-    /* 0x17899 */ u8 unk_0x17899;
-    /* 0x1789A */ SvFgName museumItems[3];
-    /* 0x178A6 */ u8 unk_0x178A6[4]; // likely padding
-    /* 0x178AA */ SvFgName nooksHomeItems[8];
-    /* 0x178CA */ u8 unk_0x178CA[8]; // likely padding
-    /* 0x178D2 */ u8 gracieUnlockStatus; // 0 = locked??; 1 = Unlocked??
-    /* 0x178D3 */ u8 pad_0x178D3;
-    /* 0x178D4 */ SvFgName gracieItems[0x12];
-    /* 0x1791C */ u8 unk_0x1791C[0x12]; // likely padding
-    /* 0x1792E */ SvMannequin gracieMannequin1;
-    /* 0x17946 */ SvMannequin gracieMannequin2;
-    /* 0x1795E */ u8 clubLolUnlockState;
-    /* 0x1795F */ u8 unk_0x1795F[0xF];
-    /* 0x1796E */ SvFgName clubLolGyroids[4];
-    /* 0x1797E */ u8 dreamSuiteUnlockStatus;
-    /* 0x1797F */ u8 unk_0x1797F;
-    /* 0x17980 */ u8 fortuneTellerUnlockStatus;
-    /* 0x17981 */ u8 unk_0x17981[0xF];
-    /* 0x17990 */ u8 shampoodleUnlockStatus;
-    /* 0x17991 */ u8 unk_0x17991[3];
-    /* 0x17994 */ SvFgName islandShopItems[4];
-    /* 0x179A4 */ SvEncValue unk_0x179A4;
-    /* 0x179AC */ SvEncValue unk_0x179AC[2];
-    /* 0x179BC */ SvEncValue turnipPrices[0xC]; // first 6 are AM, second 6 are PM
-    /* 0x17A1C */ u8 unk_0x17A1C[8];
-    /* 0x17A24 */ SvFgName unk_0x17A24;
-    /* 0x17A28 */ SvFgName unk_0x17A28[2]; // new year hats?
-    /* 0x17A30 */ SvFgName campgroundShopItems[2];
-    /* 0x17A38 */ u8 unk_0x17A38[4];
-    /* 0x17A3C */ u16 campgroundCaravan[2]; // left and right caravan (uses NPC VID); 0xFFFF if empty
-    /* 0x17A40 */ u8 unk_0x17A40[8];
-    /* 0x17A48 */ SvDate unk_0x17A48;
-    /* 0x17A4C */ SvDate unk_0x17A4C;
-    /* 0x17A50 */ u8 unk_0x17A50[0x44];
+    /* 0xEE28 */ SvTownDataUnkEE28 unk_0xEE28;
+    /* 0xEE2C */ SvTownDataUnkEE2C unk_0xEE2C;
     /* 0x17A94 */ SvMuseum museum;
-    /* 0x1AE50 */ u64 unk_0x1AE50; // ctor sets 0x7FFFFFFFFFFFFFFF (max positive U64)
-    /* 0x1AE58 */ u8 unk_0x1AE58[7];
-    /* 0x1AE5F */ u64 unk_0x1AE5F; // ctor sets 0x7FFFFFFFFFFFFFFF (max positive U64)
-    /* 0x1AE67 */ u8 unk_0x1AE67[7];
-    /* 0x1AE6E */ u64 unk_0x1AE6E; // ctor sets 0x7FFFFFFFFFFFFFFF (max positive U64)
-    /* 0x1AE76 */ u8 unk_0x1AE76[0xA];
+    /* 0x1AE50 */ SvTownDataUnk1AE50 unk_0x1AE50;
+    /* 0x1AE6E */ SvTime unk_0x1AE6E; // ctor sets 0x7FFFFFFFFFFFFFFF (none; the constructor sets it like a time, 0x005CEA18)
+    // the town tune: 16 notes of 4 bits (SoundMelody, PackMelody/UnpackMelody); read by SoundMgr::SUpdateTownMelody
+    /* 0x1AE76 */ u8 townTune[0x8];
+    /* 0x1AE7E */ u8 unk_0x1AE7E[0x2];
     /* 0x1AE80 */ SvPwpProject nextPwpToBuild;
     /* 0x1AE90 */ SvStrc unk_0x1AE90;
-    /* 0x1AE94 */ SvBulletinBoardMessage bBoardMessages[0xF];
-    /* 0x1C7A8 */ u64 unk_0x1C7A8; // ctor sets 0x7FFFFFFFFFFFFFFF (max positive U64)
-    /* 0x1C7B0 */ u8 unk_0x1C7B0[0x14];
-    /* 0x1C7C4 */ u16 unk_0x1C7C4;
-    /* 0x1C7C6 */ SvFgName unk_0x1C7C6;
-    /* 0x1C7CA */ u64 unk_0x1C7CA; // ctor sets 0x7FFFFFFFFFFFFFFF (max positive U64)
-    /* 0x1C7D2 */ u64 unk_0x1C7D2; // ctor sets 0x7FFFFFFFFFFFFFFF (max positive U64)
-    /* 0x1C7DA */ u64 unk_0x1C7DA; // ctor sets 0x7FFFFFFFFFFFFFFF (max positive U64)
-    /* 0x1C7E2 */ SvPersonalId unk_0x1C7E2[3];
-    /* 0x1C86C */ u8 unk_0x1C86C[0x96];
-    /* 0x1C902 */ SvFgName unk_0x1C902[3];
-    /* 0x1C90E */ u8 unk_0x1C90E[0x146];
+    /* 0x1AE94 */ SvTownDataUnk1AE94 unk_0x1AE94;
+    /* 0x1C7A8 */ SvTownDataUnk1C7A8 unk_0x1C7A8;
+    /* 0x1C90E */ SvInsectConvention unk_0x1C90E;
     /* 0x1CA54 */ SvSnowman snowmen[4];
-    /* 0x1CA84 */ u8 unk_0x1CA84[0xE];
-    /* 0x1CA92 */ u8 islandGrassType; // [0-2]; 0: Triangle | 1: Circle | 2: Square;
-    /* 0x1CA93 */ u8 pad_0x1CA93;
-    /* 0x1CA94 */ u16 islandAcres[0x10]; // 16 acres in total; 4 columns, 4 rows. Game reads Acre IDs as u16;
-    /* 0x1CAB4 */ SvFgName islandItems[0x400]; // 16*16 items per acre; Items only cover map acres (2*2); 0x400 of items
-    /* 0x1DAB4 */ SvStrc islandBuildings[2]; // Island Hut and Lloid
-    /* 0x1DABC */ SvMyDesign townFlag;
-    /* 0x1E32C */ u8 unk_0x1E32C[0x1B0];
+    /* 0x1CA84 */ SvTime unk_0x1CA84;
+    /* 0x1CA8C */ u8 unk_0x1CA8C[6];
+    /* 0x1CA92 */ SvTownDataUnk1CA92 unk_0x1CA92;
+    /* 0x1DABC */ u16 unk_0x1DABC;
+    /* 0x1DABE */ SvTime unk_0x1DABE; // set to the current time when the town data is cleared
+    /* 0x1DAC6 */ u8 unk_0x1DAC6; // high four bits: a counter up to 10 (counted up after a load)
+    /* 0x1DAC7 */ u8 unk_0x1DAC7; // bits 0 and 2 are read by netgame::JoinMgr
+    /* 0x1DAC8 */ u8 unk_0x1DAC8;
+    /* 0x1DAC9 */ u8 pad_0x1DAC9;
+    /* 0x1DACA */ SvPersonalId unk_0x1DACA;
+    /* 0x1DAF8 */ SvMyDesign townFlag; // the design of the town flag (cleared with SvMyDesign's clear 0x00305B40)
+    /* 0x1E368 */ SvTownDataUnk1E368 unk_0x1E368;
+    /* 0x1E43C */ SvTime unk_0x1E43C; // (read after a load: set as the current date when valid)
+    /* 0x1E444 */ SvDate unk_0x1E444;
+    /* 0x1E448 */ SvTownDataUnk1E448 unk_0x1E448;
 } SvTownData;
 
 /* ---- dSvCensus.h ---- */
@@ -2163,195 +3421,315 @@ typedef struct SvTownData {
 //
 // Offsets in /* */ are relative to the struct and verified by the ASSERT_SIZE checks.
 
+// (dSvApi.h; declared here because dSvApi.h includes this header through SvGardenPlus)
+u32 SvGetCurrentTownSlot();
+
 typedef struct SvCensusValue {
     /* 0x0000 */ u32 totalPlayerStat; // All player stats combined
     /* 0x0004 */ u32 playerStats[4]; // For each player
 
+    // (inline; name is ours) everything 0
+    void Clear()
+    {
+        totalPlayerStat = 0;
+        playerStats[0] = 0;
+        playerStats[1] = 0;
+        playerStats[2] = 0;
+        playerStats[3] = 0;
+    }
 } SvCensusValue;
 
-typedef struct SvInsectCatchCounts {
-    /* 0x0000 */ u32 commonButterflyCaught;
-    /* 0x0004 */ u32 yellowButterflyCaught;
-    /* 0x0008 */ u32 tigerButterflyCaught;
-    /* 0x000C */ u32 peacockButterflyCaught;
-    /* 0x0010 */ u32 monarchButterflyCaught;
-    /* 0x0014 */ u32 emperorButterflyCaught;
-    /* 0x0018 */ u32 agriasButterflyCaught;
-    /* 0x001C */ u32 rajaBCaught;
-    /* 0x0020 */ u32 birdwingButterflyCaught;
-    /* 0x0024 */ u32 mothCaught;
-    /* 0x0028 */ u32 oakSilkMothCaught;
-    /* 0x002C */ u32 honeybeeCaught;
-    /* 0x0030 */ u32 beeCaught;
-    /* 0x0034 */ u32 longLocustCaught;
-    /* 0x0038 */ u32 migratoryLocustCaught;
-    /* 0x003C */ u32 riceGrasshopperCaught;
-    /* 0x0040 */ u32 mantisCaught;
-    /* 0x0044 */ u32 orchidMantisCaught;
-    /* 0x0048 */ u32 brownCicadaCaught;
-    /* 0x004C */ u32 robustCicadaCaught;
-    /* 0x0050 */ u32 giantCicadaCaught;
-    /* 0x0054 */ u32 walkerCicadaCaught;
-    /* 0x0058 */ u32 eveningCicadaCaught;
-    /* 0x005C */ u32 cicadaShellCaught;
-    /* 0x0060 */ u32 lanternFlyCaught;
-    /* 0x0064 */ u32 redDragonflyCaught;
-    /* 0x0068 */ u32 darnerDragonflyCaught;
-    /* 0x006C */ u32 bandedDragonflyCaught;
-    /* 0x0070 */ u32 petaltailDragonflyCaught;
-    /* 0x0074 */ u32 antCaught;
-    /* 0x0078 */ u32 pondskaterCaught;
-    /* 0x007C */ u32 divingBeetleCaught;
-    /* 0x0080 */ u32 stinkbugCaught;
-    /* 0x0084 */ u32 snailCaught;
-    /* 0x0088 */ u32 cricketCaught;
-    /* 0x008C */ u32 bellCricketCaught;
-    /* 0x0090 */ u32 grasshopperCaught;
-    /* 0x0094 */ u32 moleCricketCaught;
-    /* 0x0098 */ u32 walkingLeafCaught;
-    /* 0x009C */ u32 walkingStickCaught;
-    /* 0x00A0 */ u32 bagwormCaught;
-    /* 0x00A4 */ u32 ladybugCaught;
-    /* 0x00A8 */ u32 violinBeetleCaught;
-    /* 0x00AC */ u32 longhornBeetleCaught;
-    /* 0x00B0 */ u32 tigerBeetleCaught;
-    /* 0x00B4 */ u32 dungBeetleCaught;
-    /* 0x00B8 */ u32 wharfRoachCaught;
-    /* 0x00BC */ u32 hermitCrabCaught;
-    /* 0x00C0 */ u32 fireflyCaught;
-    /* 0x00C4 */ u32 fruitBeetleCaught;
-    /* 0x00C8 */ u32 scarabBeetleCaught;
-    /* 0x00CC */ u32 jewelBeetleCaught;
-    /* 0x00D0 */ u32 miyamaStagCaught;
-    /* 0x00D4 */ u32 sawStagCaught;
-    /* 0x00D8 */ u32 giantStagCaught;
-    /* 0x00DC */ u32 rainbowStagCaught;
-    /* 0x00E0 */ u32 cyclommatusStagCaught;
-    /* 0x00E4 */ u32 goldenStagCaught;
-    /* 0x00E8 */ u32 hornedDynastidCaught;
-    /* 0x00EC */ u32 hornedAtlasCaught;
-    /* 0x00F0 */ u32 hornedElephantCaught;
-    /* 0x00F4 */ u32 hornedHerculesCaught;
-    /* 0x00F8 */ u32 goliathBeetleCaught;
-    /* 0x00FC */ u32 fleaCaught;
-    /* 0x0100 */ u32 pillBugCaught;
-    /* 0x0104 */ u32 mosquitoCaught;
-    /* 0x0108 */ u32 flyCaught;
-    /* 0x010C */ u32 houseCentipedeCaught;
-    /* 0x0110 */ u32 centipedeCaught;
-    /* 0x0114 */ u32 spiderCaught;
-    /* 0x0118 */ u32 tarantulaCaught;
-    /* 0x011C */ u32 scorpionCaught;
-} SvInsectCatchCounts;
+// The values of the census by their index (the order of the values in SvCensus; the census menu, its tables and the
+// event code use it)
+enum SvCensusValueId : u8 {
+    CENSUS_VALUE_BELLS_EARNED = 0,
+    CENSUS_VALUE_ABD_BALANCE = 1,
+    CENSUS_VALUE_BELLS_SPENT = 2,
+    CENSUS_VALUE_LOAN_PAID = 3,
+    CENSUS_VALUE_TURNIPS_BOUGHT = 4,
+    CENSUS_VALUE_TURNIPS_SOLD = 5,
+    CENSUS_VALUE_TURNIP_EXPENSES = 6,
+    CENSUS_VALUE_TURNIP_PROFITS = 7,
+    CENSUS_VALUE_PUBLIC_WORK_EXPENSES = 8,
+    CENSUS_VALUE_RECYCLE_SHOP_EARNINGS = 9,
+    CENSUS_VALUE_FLOWERS_WATERED = 10,
+    CENSUS_VALUE_FISH_CAUGHT = 11,
+    CENSUS_VALUE_BUGS_CAUGHT = 12,
+    CENSUS_VALUE_SEA_CREATURES_CAUGHT = 13,
+    CENSUS_VALUE_PUBLIC_WORKS_BUILT = 14,
+    CENSUS_VALUE_FRUIT_GROWN = 15,
+    CENSUS_VALUE_PERFECT_FRUIT_GROWN = 16,
+    CENSUS_VALUE_FRUITS_GROWN_ON_THE_BEACH = 17,
+    CENSUS_VALUE_FLOWERS_PLANTED = 18,
+    CENSUS_VALUE_TREES_PLANTED = 19,
+    CENSUS_VALUE_TREES_CUT_DOWN = 20,
+    CENSUS_VALUE_DREAM_TOWNS_VISITED = 21,
+    CENSUS_VALUE_KK_SLIDER_CONCERTS_ATTENDED = 22,
+    CENSUS_VALUE_SHRUNK_SKETCHES_ATTENDED = 23,
+    CENSUS_VALUE_TOUR_VISITS = 24,
+    CENSUS_VALUE_ISLAND_VISITS = 25,
+    CENSUS_VALUE_LETTERS_SENT = 26,
+    CENSUS_VALUE_FURNITURE_CUSTOMIZED = 27,
+    CENSUS_VALUE_NOOKLINGS_EXPENSES = 28,
+    CENSUS_VALUE_GRACIES_EXPENSES = 29,
+    CENSUS_VALUE_GARDENING_SHOP_EXPENSES = 30,
+    CENSUS_VALUE_WEEDS_PULLED = 31,
+    CENSUS_VALUE_ABLE_SISTERS_EXPENSES = 32,
+    CENSUS_VALUE_KICKS_EXPENSES = 33,
+    CENSUS_VALUE_KATRINA_VISITS = 34,
+    CENSUS_VALUE_STREET_PASS_VISITORS = 35,
+    CENSUS_VALUE_TOWNS_VISITED = 36,
+    CENSUS_VALUE_TOWN_VISITORS = 37,
+    CENSUS_VALUE_SAHARA_REDECORATIONS = 38,
+    CENSUS_VALUE_JOBS_AT_THE_ROOST = 39,
+    CENSUS_VALUE_FOSSILS_ANALYZED = 40,
+    CENSUS_VALUE_PRO_DESIGNS_CREATED = 41,
+    CENSUS_VALUE_EARNED_BADGES = 42,
+    CENSUS_VALUE_HELPED_GULLIVER = 43,
+    CENSUS_VALUE_SHAMPOODLE_VISITS = 44,
+    CENSUS_VALUE_BOUGHT_ART_AT_REDDS = 45,
+    CENSUS_VALUE_SCALLOPS_GIVEN_TO_PASCAL = 46,
+    CENSUS_VALUE_HELPED_KATIE_TRAVEL = 47,
+    CENSUS_VALUE_BALLOONS_POPPED = 48,
+    CENSUS_VALUE_TOURNEY_FISH_CAUGHT = 49,
+    CENSUS_VALUE_TOURNEY_INSECT_CAUGHT = 50,
+    CENSUS_VALUE_FESTIVAL_FEATHERS_CAUGHT = 51,
+    CENSUS_VALUE_EGGS_GIVEN_TO_ZIPPER = 52,
+    CENSUS_VALUE_FOUND_IMPOSTER_BLANCA = 53,
+    CENSUS_VALUE_FIREWORK_DESIGNS_GIVEN_TO_ISABELLE = 54,
+    CENSUS_VALUE_RECEIVED_CANDY_ON_HALLOWEEN = 55,
+    CENSUS_VALUE_HARVEST_FESTIVAL_COURSES_DONE = 56,
+    CENSUS_VALUE_SNOWMEN_BUILT_BY_YOU_IN_TOWN = 57,
+    CENSUS_VALUE_GIVEN_TOY_DAY_PRESENTS = 58,
+    CENSUS_VALUE_SNOWFLAKES_CAUGHT = 59,
+    CENSUS_VALUE_PARTY_POPPERS_POPPED_AT_NEW_YEARS = 60,
+    CENSUS_VALUE_TOTAL_BINGO_WINS = 61,
+    CENSUS_VALUE_SHOOTING_STAR_WISHES = 62,
+    CENSUS_VALUE_NPC_PICTURES_RECEIVED = 63,
+    CENSUS_VALUE_LOST_ITEMS_GIVEN_BACK = 64,
+    CENSUS_VALUE_YOU_VISITED_VILLAGERS = 65,
+    CENSUS_VALUE_VILLAGERS_VISITED_YOU = 66,
+    CENSUS_VALUE_PLAYED_HIDE_AND_SEEK = 67,
+    CENSUS_VALUE_UNK_0x550 = 68,
+    CENSUS_VALUE_UNK_0x564 = 69,
+    CENSUS_VALUE_AMIIBO_SCANNED = 70,
+    CENSUS_VALUE_RESET_SURVEILLANCE_CENTER_VISITS = 71,
+    CENSUS_VALUE_DJKK_VISITS = 72,
+    CENSUS_VALUE_GOLDEN_ROSES_CREATED = 73,
+    CENSUS_VALUE_BLUE_ROSES_CREATED = 74,
+    CENSUS_VALUE_FAMOUS_MUSHROOMS_EATEN = 75,
+    CENSUS_VALUE_TOWN_INITIATIVES_COMPLETED = 76,
+    CENSUS_VALUE_MEOW_COUPONS_EARNED = 77,
+    CENSUS_VALUE_MEOW_COUPONS_SPENT = 78,
+    CENSUS_VALUE_UNK_0x62C = 79,
+    CENSUS_VALUE_NUM = 80,
+    // the census menu has four more rows after the values (always shown, no value)
+    CENSUS_ROW_NUM = 84,
+};
 
-typedef struct SvFishCatchCounts {
-    /* 0x0000 */ u32 bitterlingCaught;
-    /* 0x0004 */ u32 paleChubCaught;
-    /* 0x0008 */ u32 crucianCarpCaught;
-    /* 0x000C */ u32 daceCaught;
-    /* 0x0010 */ u32 barbelSteedCaught;
-    /* 0x0014 */ u32 carpCaught;
-    /* 0x0018 */ u32 koiCaught;
-    /* 0x001C */ u32 goldfishCaught;
-    /* 0x0020 */ u32 popEyedGoldfishCaught;
-    /* 0x0024 */ u32 killifishCaught;
-    /* 0x0028 */ u32 crawfishCaught;
-    /* 0x002C */ u32 softShelledTurtleCaught;
-    /* 0x0030 */ u32 tadpoleCaught;
-    /* 0x0034 */ u32 frogCaught;
-    /* 0x0038 */ u32 freshwaterGobyCaught;
-    /* 0x003C */ u32 loachCaught;
-    /* 0x0040 */ u32 catfishCaught;
-    /* 0x0044 */ u32 eelCaught;
-    /* 0x0048 */ u32 giantSnakeheadCaught;
-    /* 0x004C */ u32 bluegillCaught;
-    /* 0x0050 */ u32 yellowPerchCaught;
-    /* 0x0054 */ u32 blackBassCaught;
-    /* 0x0058 */ u32 pikeCaught;
-    /* 0x005C */ u32 pondSmeltCaught;
-    /* 0x0060 */ u32 sweetfishCaught;
-    /* 0x0064 */ u32 cherrySalmonCaught;
-    /* 0x0068 */ u32 charCaught;
-    /* 0x006C */ u32 rainbowTroutCaught;
-    /* 0x0070 */ u32 stringfishCaught;
-    /* 0x0074 */ u32 salmonCaught;
-    /* 0x0078 */ u32 kingSalmonCaught;
-    /* 0x007C */ u32 mittenCrabCaught;
-    /* 0x0080 */ u32 guppyCaught;
-    /* 0x0084 */ u32 nibbleFishCaught;
-    /* 0x0088 */ u32 angelfishCaught;
-    /* 0x008C */ u32 neonTetraCaught;
-    /* 0x0090 */ u32 piranhaCaught;
-    /* 0x0094 */ u32 arowanaCaught;
-    /* 0x0098 */ u32 doradoCaught;
-    /* 0x009C */ u32 garCaught;
-    /* 0x00A0 */ u32 arapaimaCaught;
-    /* 0x00A4 */ u32 saddledBichirCaught;
-    /* 0x00A8 */ u32 seaButterflyCaught;
-    /* 0x00AC */ u32 seaHorseCaught;
-    /* 0x00B0 */ u32 clownFishCaught;
-    /* 0x00B4 */ u32 surgeonfishCaught;
-    /* 0x00B8 */ u32 butterflyFishCaught;
-    /* 0x00BC */ u32 napoleonfishCaught;
-    /* 0x00C0 */ u32 zebraTurkeyfishCaught;
-    /* 0x00C4 */ u32 blowfishCaught;
-    /* 0x00C8 */ u32 pufferFishCaught;
-    /* 0x00CC */ u32 horsemackerelCaught;
-    /* 0x00D0 */ u32 barredKnifejawCaught;
-    /* 0x00D4 */ u32 seaBassCaught;
-    /* 0x00D8 */ u32 redSnapperCaught;
-    /* 0x00DC */ u32 dabCaught;
-    /* 0x00E0 */ u32 oliveFlounderCaught;
-    /* 0x00E4 */ u32 squidCaught;
-    /* 0x00E8 */ u32 morayEelCaught;
-    /* 0x00EC */ u32 ribbonEelCaught;
-    /* 0x00F0 */ u32 footballFishCaught;
-    /* 0x00F4 */ u32 tunaCaught;
-    /* 0x00F8 */ u32 blueMarlinCaught;
-    /* 0x00FC */ u32 giantTrevallyCaught;
-    /* 0x0100 */ u32 rayCaught;
-    /* 0x0104 */ u32 oceanSunfishCaught;
-    /* 0x0108 */ u32 hammerheadSharkCaught;
-    /* 0x010C */ u32 sharkCaught;
-    /* 0x0110 */ u32 sawSharkCaught;
-    /* 0x0114 */ u32 whaleSharkCaught;
-    /* 0x0118 */ u32 oarfishCaught;
-    /* 0x011C */ u32 coelacanthCaught;
-} SvFishCatchCounts;
+// The indices of the catch counts of the census (the order of the research names of the save data; the
+// census code indexes the tables with them).
+enum SvCensusInsect {
+    INSECT_COMMON_BUTTERFLY = 0,
+    INSECT_YELLOW_BUTTERFLY = 1,
+    INSECT_TIGER_BUTTERFLY = 2,
+    INSECT_PEACOCK_BUTTERFLY = 3,
+    INSECT_MONARCH_BUTTERFLY = 4,
+    INSECT_EMPEROR_BUTTERFLY = 5,
+    INSECT_AGRIAS_BUTTERFLY = 6,
+    INSECT_RAJA_B = 7,
+    INSECT_BIRDWING_BUTTERFLY = 8,
+    INSECT_MOTH = 9,
+    INSECT_OAK_SILK_MOTH = 10,
+    INSECT_HONEYBEE = 11,
+    INSECT_BEE = 12,
+    INSECT_LONG_LOCUST = 13,
+    INSECT_MIGRATORY_LOCUST = 14,
+    INSECT_RICE_GRASSHOPPER = 15,
+    INSECT_MANTIS = 16,
+    INSECT_ORCHID_MANTIS = 17,
+    INSECT_BROWN_CICADA = 18,
+    INSECT_ROBUST_CICADA = 19,
+    INSECT_GIANT_CICADA = 20,
+    INSECT_WALKER_CICADA = 21,
+    INSECT_EVENING_CICADA = 22,
+    INSECT_CICADA_SHELL = 23,
+    INSECT_LANTERN_FLY = 24,
+    INSECT_RED_DRAGONFLY = 25,
+    INSECT_DARNER_DRAGONFLY = 26,
+    INSECT_BANDED_DRAGONFLY = 27,
+    INSECT_PETALTAIL_DRAGONFLY = 28,
+    INSECT_ANT = 29,
+    INSECT_PONDSKATER = 30,
+    INSECT_DIVING_BEETLE = 31,
+    INSECT_STINKBUG = 32,
+    INSECT_SNAIL = 33,
+    INSECT_CRICKET = 34,
+    INSECT_BELL_CRICKET = 35,
+    INSECT_GRASSHOPPER = 36,
+    INSECT_MOLE_CRICKET = 37,
+    INSECT_WALKING_LEAF = 38,
+    INSECT_WALKING_STICK = 39,
+    INSECT_BAGWORM = 40,
+    INSECT_LADYBUG = 41,
+    INSECT_VIOLIN_BEETLE = 42,
+    INSECT_LONGHORN_BEETLE = 43,
+    INSECT_TIGER_BEETLE = 44,
+    INSECT_DUNG_BEETLE = 45,
+    INSECT_WHARF_ROACH = 46,
+    INSECT_HERMIT_CRAB = 47,
+    INSECT_FIREFLY = 48,
+    INSECT_FRUIT_BEETLE = 49,
+    INSECT_SCARAB_BEETLE = 50,
+    INSECT_JEWEL_BEETLE = 51,
+    INSECT_MIYAMA_STAG = 52,
+    INSECT_SAW_STAG = 53,
+    INSECT_GIANT_STAG = 54,
+    INSECT_RAINBOW_STAG = 55,
+    INSECT_CYCLOMMATUS_STAG = 56,
+    INSECT_GOLDEN_STAG = 57,
+    INSECT_HORNED_DYNASTID = 58,
+    INSECT_HORNED_ATLAS = 59,
+    INSECT_HORNED_ELEPHANT = 60,
+    INSECT_HORNED_HERCULES = 61,
+    INSECT_GOLIATH_BEETLE = 62,
+    INSECT_FLEA = 63,
+    INSECT_PILL_BUG = 64,
+    INSECT_MOSQUITO = 65,
+    INSECT_FLY = 66,
+    INSECT_HOUSE_CENTIPEDE = 67,
+    INSECT_CENTIPEDE = 68,
+    INSECT_SPIDER = 69,
+    INSECT_TARANTULA = 70,
+    INSECT_SCORPION = 71,
+    INSECT_NUM = 72,
+};
 
-typedef struct SvSeaCreatureCatchCounts {
-    /* 0x0000 */ u32 seaweedCaught;
-    /* 0x0004 */ u32 seaGrapesCaught;
-    /* 0x0008 */ u32 seaUrchinCaught;
-    /* 0x000C */ u32 acornBarnacleCaught;
-    /* 0x0010 */ u32 oysterCaught;
-    /* 0x0014 */ u32 turbanShellCaught;
-    /* 0x0018 */ u32 abaloneCaught;
-    /* 0x001C */ u32 earShellCaught;
-    /* 0x0020 */ u32 clamCaught;
-    /* 0x0024 */ u32 pearlOysterCaught;
-    /* 0x0028 */ u32 scallopCaught;
-    /* 0x002C */ u32 seaAnemoneCaught;
-    /* 0x0030 */ u32 seaStarCaught;
-    /* 0x0034 */ u32 seaCucumberCaught;
-    /* 0x0038 */ u32 seaSlugCaught;
-    /* 0x003C */ u32 flatwormCaught;
-    /* 0x0040 */ u32 mantisShrimpCaught;
-    /* 0x0044 */ u32 sweetShrimpCaught;
-    /* 0x0048 */ u32 tigerPrawnCaught;
-    /* 0x004C */ u32 spinyLobsterCaught;
-    /* 0x0050 */ u32 lobsterCaught;
-    /* 0x0054 */ u32 snowCrabCaught;
-    /* 0x0058 */ u32 horsehairCrabCaught;
-    /* 0x005C */ u32 redKingCrabCaught;
-    /* 0x0060 */ u32 spiderCrabCaught;
-    /* 0x0064 */ u32 octopusCaught;
-    /* 0x0068 */ u32 spottedGardenEelCaught;
-    /* 0x006C */ u32 chamberedNautilusCaught;
-    /* 0x0070 */ u32 horseshoeCrabCaught;
-    /* 0x0074 */ u32 giantIsopodCaught;
-    /* 0x0078 */ u32 waterEggCaught; // The other eggs are not listed as a stat, idk why
-} SvSeaCreatureCatchCounts;
+enum SvCensusFish {
+    FISH_BITTERLING = 0,
+    FISH_PALE_CHUB = 1,
+    FISH_CRUCIAN_CARP = 2,
+    FISH_DACE = 3,
+    FISH_BARBEL_STEED = 4,
+    FISH_CARP = 5,
+    FISH_KOI = 6,
+    FISH_GOLDFISH = 7,
+    FISH_POP_EYED_GOLDFISH = 8,
+    FISH_KILLIFISH = 9,
+    FISH_CRAWFISH = 10,
+    FISH_SOFT_SHELLED_TURTLE = 11,
+    FISH_TADPOLE = 12,
+    FISH_FROG = 13,
+    FISH_FRESHWATER_GOBY = 14,
+    FISH_LOACH = 15,
+    FISH_CATFISH = 16,
+    FISH_EEL = 17,
+    FISH_GIANT_SNAKEHEAD = 18,
+    FISH_BLUEGILL = 19,
+    FISH_YELLOW_PERCH = 20,
+    FISH_BLACK_BASS = 21,
+    FISH_PIKE = 22,
+    FISH_POND_SMELT = 23,
+    FISH_SWEETFISH = 24,
+    FISH_CHERRY_SALMON = 25,
+    FISH_CHAR = 26,
+    FISH_RAINBOW_TROUT = 27,
+    FISH_STRINGFISH = 28,
+    FISH_SALMON = 29,
+    FISH_KING_SALMON = 30,
+    FISH_MITTEN_CRAB = 31,
+    FISH_GUPPY = 32,
+    FISH_NIBBLE_FISH = 33,
+    FISH_ANGELFISH = 34,
+    FISH_NEON_TETRA = 35,
+    FISH_PIRANHA = 36,
+    FISH_AROWANA = 37,
+    FISH_DORADO = 38,
+    FISH_GAR = 39,
+    FISH_ARAPAIMA = 40,
+    FISH_SADDLED_BICHIR = 41,
+    FISH_SEA_BUTTERFLY = 42,
+    FISH_SEA_HORSE = 43,
+    FISH_CLOWN_FISH = 44,
+    FISH_SURGEONFISH = 45,
+    FISH_BUTTERFLY_FISH = 46,
+    FISH_NAPOLEONFISH = 47,
+    FISH_ZEBRA_TURKEYFISH = 48,
+    FISH_BLOWFISH = 49,
+    FISH_PUFFER_FISH = 50,
+    FISH_HORSEMACKEREL = 51,
+    FISH_BARRED_KNIFEJAW = 52,
+    FISH_SEA_BASS = 53,
+    FISH_RED_SNAPPER = 54,
+    FISH_DAB = 55,
+    FISH_OLIVE_FLOUNDER = 56,
+    FISH_SQUID = 57,
+    FISH_MORAY_EEL = 58,
+    FISH_RIBBON_EEL = 59,
+    FISH_FOOTBALL_FISH = 60,
+    FISH_TUNA = 61,
+    FISH_BLUE_MARLIN = 62,
+    FISH_GIANT_TREVALLY = 63,
+    FISH_RAY = 64,
+    FISH_OCEAN_SUNFISH = 65,
+    FISH_HAMMERHEAD_SHARK = 66,
+    FISH_SHARK = 67,
+    FISH_SAW_SHARK = 68,
+    FISH_WHALE_SHARK = 69,
+    FISH_OARFISH = 70,
+    FISH_COELACANTH = 71,
+    FISH_NUM = 72,
+};
+
+// (the research had a 31st entry "waterEggCaught" at +0x78: that is the first word of the table per player, ACNL has
+// 30 sea creatures)
+enum SvCensusSeaCreature {
+    SEA_CREATURE_SEAWEED = 0,
+    SEA_CREATURE_SEA_GRAPES = 1,
+    SEA_CREATURE_SEA_URCHIN = 2,
+    SEA_CREATURE_ACORN_BARNACLE = 3,
+    SEA_CREATURE_OYSTER = 4,
+    SEA_CREATURE_TURBAN_SHELL = 5,
+    SEA_CREATURE_ABALONE = 6,
+    SEA_CREATURE_EAR_SHELL = 7,
+    SEA_CREATURE_CLAM = 8,
+    SEA_CREATURE_PEARL_OYSTER = 9,
+    SEA_CREATURE_SCALLOP = 10,
+    SEA_CREATURE_SEA_ANEMONE = 11,
+    SEA_CREATURE_SEA_STAR = 12,
+    SEA_CREATURE_SEA_CUCUMBER = 13,
+    SEA_CREATURE_SEA_SLUG = 14,
+    SEA_CREATURE_FLATWORM = 15,
+    SEA_CREATURE_MANTIS_SHRIMP = 16,
+    SEA_CREATURE_SWEET_SHRIMP = 17,
+    SEA_CREATURE_TIGER_PRAWN = 18,
+    SEA_CREATURE_SPINY_LOBSTER = 19,
+    SEA_CREATURE_LOBSTER = 20,
+    SEA_CREATURE_SNOW_CRAB = 21,
+    SEA_CREATURE_HORSEHAIR_CRAB = 22,
+    SEA_CREATURE_RED_KING_CRAB = 23,
+    SEA_CREATURE_SPIDER_CRAB = 24,
+    SEA_CREATURE_OCTOPUS = 25,
+    SEA_CREATURE_SPOTTED_GARDEN_EEL = 26,
+    SEA_CREATURE_CHAMBERED_NAUTILUS = 27,
+    SEA_CREATURE_HORSESHOE_CRAB = 28,
+    SEA_CREATURE_GIANT_ISOPOD = 29,
+    SEA_CREATURE_NUM = 30,
+};
+
+// the other things caught with the fishing rod
+enum SvCensusJunk {
+    JUNK_EMPTY_CAN = 0,
+    JUNK_BOOT = 1,
+    JUNK_OLD_TIRE = 2,
+    JUNK_NUM = 3,
+};
+
+// the limits of the census values (names are ours): most values, the counts (the catches and several values), the public
+// works projects
+const u32 CENSUS_VALUE_MAX = 999999999;
+const u32 CENSUS_COUNT_MAX = 9999;
+const u32 CENSUS_PUBLIC_WORKS_MAX = 99;
 
 typedef struct SvCensus {
     /* 0x0000 */ SvCensusValue bellsEarned;
@@ -2434,28 +3812,89 @@ typedef struct SvCensus {
     /* 0x0604 */ SvCensusValue meowCouponsEarned;
     /* 0x0618 */ SvCensusValue meowCouponsSpent;
     /* 0x062C */ SvCensusValue unk_0x62C; // NON_PLAYER_SPECIFIC / KOKT82
-    /* 0x0640 */ SvInsectCatchCounts insectsCaughtData;
-    /* 0x0760 */ u32 unk_0x760[0x120];
-    /* 0x0BE0 */ SvFishCatchCounts fishCaughtData;
-    /* 0x0D00 */ u32 unk_0xD00[0x120];
-    /* 0x1180 */ u32 emptyCanCaught;
-    /* 0x1184 */ u32 bootCaught;
-    /* 0x1188 */ u32 oldTireCaught;
-    /* 0x118C */ u32 unk_0x118C[0xC];
-    /* 0x11BC */ SvSeaCreatureCatchCounts seaCreaturesCaughtData;
-    /* 0x1238 */ u32 unk_0x1238[0x83];
+    // the catch counts: all players, then per player [index][town slot]
+    /* 0x0640 */ u32 insectCatchCounts[INSECT_NUM];
+    /* 0x0760 */ u32 insectCatchCountsPerPlayer[INSECT_NUM][4];
+    /* 0x0BE0 */ u32 fishCatchCounts[FISH_NUM];
+    /* 0x0D00 */ u32 fishCatchCountsPerPlayer[FISH_NUM][4];
+    /* 0x1180 */ u32 junkCatchCounts[JUNK_NUM];
+    /* 0x118C */ u32 junkCatchCountsPerPlayer[JUNK_NUM][4];
+    /* 0x11BC */ u32 seaCreatureCatchCounts[SEA_CREATURE_NUM];
+    /* 0x1234 */ u32 seaCreatureCatchCountsPerPlayer[SEA_CREATURE_NUM][4];
+
 } SvCensus;
+
+// the census with its checksum (CRC-32 MSB first, nn::util::Crc32Msb), in the shared data (name is ours)
+// the census of the save data in memory: the same as GetCensus (dSvApi.h), but through GardenPlus (name is ours)
+SvCensus* GetCensusOfGardenPlus(); // 0x006B618C
+
+// The census menu (unused, see SvPlayerFlags::canUseCensusMenu; names are ours). The menu shows its rows in the order of
+// GetCensusValueOfRow; a value index (SvCensusValueId) selects the value, its title (STR_Kokusei_Title) and unit
+// (STR_Kokusei_Unit).
+// whether the row of a value is shown for the current player: the money and nature values always, the others once the
+// player has done it (value > 0), the event values while their event takes place
+u8 IsCensusValueShown(u32 index); // 0x005D10F8
+// (game code, not decompiled yet; name after the address) a bit of the four player entries of GardenPlus; the bingo row
+// of the census menu depends on it
+u8 Func226D48(); // 0x00226D48
+// the value index of a row of the menu (no range check)
+u8 GetCensusValueOfRow(u32 row); // 0x005D1908
+// the value of a player by its town slot; the values without player values give the total
+s32 GetCensusValueForSlot(u32 index, u32 townSlot); // 0x005D1918
+// the total of a value (0 for an unknown index)
+s32 GetCensusValueTotal(u32 index); // 0x005D2010
+// the message index of the unit (STR_Kokusei_Unit) and of the title (STR_Kokusei_Title) of a value (0 out of range)
+u32 GetCensusUnitIndex(u32 index); // 0x005D27A8
+u32 GetCensusTitleIndex(u32 index); // 0x005D27C0
+
+// The values of the census that count during an event (the census value indices 49..61, from tourneyFishCaught to
+// totalBingoWins): whether the event of a value takes place today (names after the address).
+u8 Func4DD108(u8 valueIndex); // 0x004DD108
+
+// The census values that start at 0 again for every event, by their index in the census (the order of the values).
+enum SvCensusEventValue {
+    CENSUS_EVENT_TOURNEY_FISH_CAUGHT = 49,
+    CENSUS_EVENT_TOURNEY_INSECT_CAUGHT = 50,
+    CENSUS_EVENT_FESTIVAL_FEATHERS_CAUGHT = 51,
+    CENSUS_EVENT_EGGS_GIVEN_TO_ZIPPER = 52,
+    CENSUS_EVENT_FOUND_IMPOSTER_BLANCA = 53,
+    CENSUS_EVENT_FIREWORK_DESIGNS_GIVEN_TO_ISABELLE = 54,
+    CENSUS_EVENT_RECEIVED_CANDY_ON_HALLOWEEN = 55,
+    CENSUS_EVENT_HARVEST_FESTIVAL_COURSES_DONE = 56,
+    CENSUS_EVENT_SNOWMEN_BUILT_BY_YOU_IN_TOWN = 57,
+    CENSUS_EVENT_GIVEN_TOY_DAY_PRESENTS = 58,
+    CENSUS_EVENT_SNOWFLAKES_CAUGHT = 59,
+    CENSUS_EVENT_PARTY_POPPERS_POPPED_AT_NEW_YEARS = 60,
+    CENSUS_EVENT_TOTAL_BINGO_WINS = 61,
+};
+
+typedef struct SvCensusData {
+    // an event value: the date is the last day of its event; on the first day of a new event (the date is not today or
+    // yesterday) the value is cleared, unless isSameSeason (the date is set to today when the event takes place today;
+    // true: not cleared) / all event values for today (the snowflakes are cleared with the snowmen of the same winter)
+    DECOMP_NOINLINE u8 UpdateEventValue(SvDate* date, const nn::fnd::DateTimeParameters* today, u8 valueIndex,
+
+    /* 0x0000 */ u32 checksum;
+    /* 0x0004 */ SvCensus census;
+    // the last day of the event of each event value (the snowflakes have no date of their own)
+    /* 0x1418 */ SvDate tourneyFishCaughtDate;
+    /* 0x141C */ SvDate tourneyInsectCaughtDate;
+    /* 0x1420 */ SvDate festivalFeathersCaughtDate;
+    /* 0x1424 */ SvDate eggsGivenToZipperDate;
+    /* 0x1428 */ SvDate foundImposterBlancaDate;
+    /* 0x142C */ SvDate fireworkDesignsGivenToIsabelleDate;
+    /* 0x1430 */ SvDate receivedCandyOnHalloweenDate;
+    /* 0x1434 */ SvDate harvestFestivalCoursesDoneDate;
+    /* 0x1438 */ SvDate snowmenBuiltByYouInTownDate;
+    /* 0x143C */ SvDate givenToyDayPresentsDate;
+    /* 0x1440 */ SvDate partyPoppersPoppedAtNewYearsDate;
+    /* 0x1444 */ SvDate totalBingoWinsDate;
+} SvCensusData;
 
 /* ---- dSvShared.h ---- */
 // Data shared by all players: census, mailboxes, secret storage.
 //
 // Offsets in /* */ are relative to the struct and verified by the ASSERT_SIZE checks.
-
-typedef struct SvStorageDataUnk15934 {
-    /* 0x0000 */ u16 unk_0x0;
-    /* 0x0002 */ u16 unk_0x2;
-    /* 0x0004 */ u16 unk_0x4;
-} SvStorageDataUnk15934;
 
 typedef struct SvSharedFlags {
     /* 0x0000.0 */ u8 flag1 : 1;
@@ -2493,41 +3932,105 @@ typedef struct SvSharedFlags {
 } SvSharedFlags;
 
 typedef struct SvSharedDataUnk0 {
+
     /* 0x0000 */ u32 checksum;
     /* 0x0004 */ u8 unk_0x4[0x1C];
     /* 0x0020 */ SvSharedFlags sharedFlags;
 } SvSharedDataUnk0;
 
 typedef struct SvSharedDataUnk24 {
+
     /* 0x0000 */ u32 checksum;
     /* 0x0004 */ u8 unk_0x4[0xBE4];
 } SvSharedDataUnk24;
 
 typedef struct SvSecretStorage {
+
     /* 0x0000 */ SvFgName storageItems[0x168];
 } SvSecretStorage;
 
 typedef struct SvMailbox {
+
     /* 0x0000 */ SvMail letters[0xA]; // MailBox
     /* 0x1900 */ SvFutureMail futureLetter;
 } SvMailbox;
+
+// (types and member names ours) parts of the storage data that are built by their own constructors (game code, not
+// decompiled yet)
+typedef struct SvStorageDataUnk14CB4 {
+
+    /* 0x0000 */ u8 unk_0x0[0x220];
+} SvStorageDataUnk14CB4;
+
+typedef struct SvStorageDataUnk14ED4 {
+
+    /* 0x0000 */ u8 unk_0x0[0x290];
+} SvStorageDataUnk14ED4;
+
+// (the parts of the record of the Bug-Off: a player with a value, 16 bytes, 6 bytes; names are ours)
+typedef struct SvStorageDataUnk153FC8 {
+
+    /* 0x0000 */ SvPersonalId unk_0x0;
+    /* 0x002E */ u16 unk_0x2E;
+} SvStorageDataUnk153FC8;
+
+typedef struct SvStorageDataUnk153FC968 {
+
+    /* 0x0000 */ u8 unk_0x0[0x10];
+} SvStorageDataUnk153FC968;
+
+typedef struct SvStorageDataUnk153FCC90 {
+
+    /* 0x0000 */ u16 unk_0x0;
+    /* 0x0002 */ u16 unk_0x2;
+    /* 0x0004 */ u8 unk_0x4;
+    /* 0x0005 */ u8 unk_0x5;
+} SvStorageDataUnk153FCC90;
+
+// The record of the Bug-Off in the shared data (its functions are in the original dSvInsectConvention.cpp; names are
+// ours).
+typedef struct SvStorageDataUnk153FCInsect {
+
+    /* 0x0000 */ u32 unk_0x0;
+    /* 0x0004 */ u32 unk_0x4;
+    /* 0x0008 */ SvStorageDataUnk153FC8 unk_0x8[50];
+    /* 0x0968 */ SvStorageDataUnk153FC968 unk_0x968[50];
+    /* 0x0C88 */ u32 unk_0xC88;
+    /* 0x0C8C */ u32 unk_0xC8C;
+    // (one entry per player: ModuleVillage LytTicketExchangeSmaphoLinkSeq reads unk_0x0 (tickets there?) and unk_0x2 (the
+    // number), adds it to SvCensus::unk_0x62C and gives MEOW coupons for it, see docs/census.md)
+    /* 0x0C90 */ SvStorageDataUnk153FCC90 unk_0xC90[4];
+} SvStorageDataUnk153FCInsect;
+
+// The records of the Bug-Off and (by the namespace svfscnve of the functions) the Fishing Tourney (names are ours).
+typedef struct SvStorageDataUnk153FC {
+
+    /* 0x0000 */ SvStorageDataUnk153FCInsect unk_0x0;
+    /* 0x0CA8 */ u8 unk_0xCA8[0xBC]; // four entries of 0x2C and three words (Func27A458)
+} SvStorageDataUnk153FC;
 
 typedef struct SvStorageData {
     /* 0x0000 */ u32 checksum;
     /* 0x0004 */ SvMailbox playerMailBoxLetters[4];
     /* 0x6E24 */ SvSecretStorage playerSecretStorages[4];
     /* 0x84A4 */ SvMail letterPool[0x50];
-    /* 0x14CA4 */ u8 unk_0x14CA4[0xC90]; // int sub_2B8890() Maybe MEOW Coupons? One method checks them (u64 MeowCoupons Count)
-    /* 0x15934 */ SvStorageDataUnk15934 sharedData[4];
-    /* 0x1594C */ u8 unk_0x1594C[0x840];
+    /* 0x14CA4 */ SvTime unk_0x14CA4;
+    /* 0x14CAC */ SvTime unk_0x14CAC;
+    /* 0x14CB4 */ SvStorageDataUnk14CB4 unk_0x14CB4;
+    /* 0x14ED4 */ SvStorageDataUnk14ED4 unk_0x14ED4;
+    /* 0x15164 */ SvStorageDataUnk14ED4 unk_0x15164;
+    /* 0x153F4 */ u8 unk_0x153F4[8];
+    /* 0x153FC */ SvStorageDataUnk153FC unk_0x153FC;
+    // (research: sharedData[4] (6 bytes each) at 0x15934 and 0x840 bytes; the record before is 0xD64 bytes long)
+    /* 0x16160 */ u8 unk_0x16160[0x2C];
 } SvStorageData;
 
 // Starts at 0x71900
 typedef struct SvSharedData {
+
     /* 0x0000 */ SvSharedDataUnk0 unk_0x0;
     /* 0x0024 */ SvSharedDataUnk24 unk_0x24;
-    /* 0x0C0C */ u32 unk_0xC0C;
-    /* 0x0C10 */ SvCensus playerStats;
+    /* 0x0C0C */ SvCensusData playerStats;
     /* 0x2054 */ SvStorageData storageBox;
     /* 0x181E0 */ u8 unk_0x181E0[0x20];
 } SvSharedData;
@@ -2537,23 +4040,65 @@ typedef struct SvSharedData {
 //
 // Offsets in /* */ are relative to the struct and verified by the ASSERT_SIZE checks.
 
+// (names are ours) An element of SvMinigameData::unk_0x8 (constructor 0x002BF60C, game code)
+typedef struct SvMinigameDataUnk8 {
+
+    /* 0x0000 */ u16 unk_0x0;
+    /* 0x0002 */ u8 unk_0x2;
+    /* 0x0003 */ u8 unk_0x3;
+    /* 0x0004 */ u8 unk_0x4[0xC];
+} SvMinigameDataUnk8;
+
+typedef struct SvMinigameDataUnk27A8 {
+    /* 0x0000 */ u32 unk_0x0;
+    /* 0x0004 */ u32 unk_0x4;
+    /* 0x0008 */ u8 unk_0x8;
+} SvMinigameDataUnk27A8;
+
+typedef struct SvMinigameDataUnk27CC {
+    /* 0x0000 */ u32 unk_0x0[4];
+    /* 0x0010 */ u16 unk_0x10;
+    /* 0x0012 */ u32 unk_0x12[4];
+    /* 0x0022 */ u16 unk_0x22;
+    /* 0x0024 */ u32 unk_0x24[4];
+    /* 0x0034 */ u16 unk_0x34;
+} SvMinigameDataUnk27CC;
+
+// The data of four players, stored per field (index = player 0..3). Func2BF890 (0x002BF890) copies one player from a
+// block of 0xA3C bytes (SvMovePlayerPls::unk_0xBC84: 0x10, 0x9D8, 9 + 1 padding, 0x36, five words) into the arrays.
 typedef struct SvMinigameData {
+
     /* 0x0000 */ u32 checksum; // Checksum of the 0x28F0 of this data
-    /* 0x0004 */ u8 unk_0x4[0x28F0];
+    /* 0x0004 */ u32 unk_0x4; // 4 after the constructor
+    /* 0x0008 */ SvMinigameDataUnk8 unk_0x8[4];
+    /* 0x0048 */ u8 unk_0x48[4][0x9D8];
+    /* 0x27A8 */ SvMinigameDataUnk27A8 unk_0x27A8[4];
+    /* 0x27CC */ SvMinigameDataUnk27CC unk_0x27CC[4];
+    /* 0x28A4 */ u32 unk_0x28A4[4];
+    /* 0x28B4 */ u32 unk_0x28B4[4];
+    /* 0x28C4 */ u32 unk_0x28C4[4];
+    /* 0x28D4 */ u32 unk_0x28D4[4]; // flags; bit 0 is read by 0x106E84 (Thumb), Func2BF9E4 sets bit 10 of a random player
+    /* 0x28E4 */ u32 unk_0x28E4[4];
 } SvMinigameData;
 
 typedef struct SvGardenDataUnk52BB0 {
+
+    // (the constructor clears unk_0x4, unk_0x6C and unk_0x7EC; unk_0x20 keeps its value)
     /* 0x0000 */ u32 checksum; // Checksum of the 0x7F0 of this data
-    /* 0x0004 */ u8 unk_0x4[0x7F0];
+    /* 0x0004 */ u32 unk_0x4[7];
+    /* 0x0020 */ u8 unk_0x20[0x4C];
+    /* 0x006C */ u8 unk_0x6C[0x780];
+    /* 0x07EC */ u16 unk_0x7EC[4];
 } SvGardenDataUnk52BB0;
 
 typedef struct SvSecureValueHeader {
-    /* 0x0000 */ u64 secureValue; // Unused in ACNL WA
+    /* 0x0000 */ SvU64 secureValue; // Unused in ACNL WA
     /* 0x0008 */ u32 saveInitialized; // Has to be exactly 1
     /* 0x000C */ u8 pad_0xC[0x74]; // Always 0
 } SvSecureValueHeader;
 
 typedef struct SvSaveHeader {
+
     /* 0x0000 */ u32 headerChecksum; // Checksum of the next 0x1C of header data
     /* 0x0004 */ u16 saveVerifier1; // Always 0x009E; 0x00F8 pre-WA
     /* 0x0006 */ u8 saveVerifier2; // Has to be exactly 0x2; 0x2 pre-WA
@@ -2569,12 +4114,13 @@ typedef struct SvGardenData {
     /* 0x502BC */ SvMinigameData minigameData; // garden_plus.dat + 0x5033C / WA exclusive
     /* 0x52BB0 */ SvGardenDataUnk52BB0 unk_0x52BB0; // garden_plus.dat + 0x52C30 / research name: UnkData / WA exclusive
     /* 0x533A4 */ SvTownData townData; // garden_plus.dat + 0x53424
-    /* 0x71880 */ SvSharedData sharedData; // garden_plus.dat + 0x71900
 } SvGardenData;
 
 typedef struct SvGardenPlus {
+
     /* 0x0000 */ SvSecureValueHeader secureValue;
     /* 0x0080 */ SvGardenData data;
+    /* 0x71900 */ SvSharedData sharedData; // (not a part of SvGardenData: its constructor and checksums stop before it)
 } SvGardenPlus;
 
 #pragma pack(pop)

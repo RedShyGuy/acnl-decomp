@@ -3,7 +3,7 @@
 #include "Other/dActor.h"
 #include "Other/dProcMgr.h"
 #include "Player/dPlayerApi.h"
-#include "Other/dTourResult.h"
+#include "Other/dTourData.h"
 #include "applet/dErrEulaMgr.h"
 #include "netgame/dNetGameMgr.h"
 #include "netgame/netgame_Api.h"
@@ -18,7 +18,7 @@ namespace {
 // the start in front of a structure, a block before its entrance
 inline void MoveBeforeEntrance(nn::math::VEC3_* position)
 {
-    position->z += FIELD_UNIT_SIZE_Z;
+    position->z += FdInfo::UNIT_WORLD_SIZE_ZF;
 }
 
 // a structure with variants: the variant that stands on the field
@@ -181,7 +181,7 @@ bool TransitionMgr::GetExitPoint(ExitPoint* pPoint, u32 index) const
     nn::math::VEC3_ offset;
     offset.x = 0.0f;
     offset.y = 0.0f;
-    offset.z = FIELD_UNIT_SIZE_Z;
+    offset.z = FdInfo::UNIT_WORLD_SIZE_ZF;
     RotateY(&offset, pPoint->rotation.y);
     pPoint->position.x += offset.x;
     pPoint->position.y += offset.y;
@@ -217,13 +217,13 @@ bool TransitionMgr::TransitionToStructure(u8 structure, const nn::math::VEC3_* o
         GetStructurePosition(&position, structure);
         if (structure == STRUCTURE_NOOKLING_STORES) {
             if (std::strncmp(s_pShopNameB, GetShopName(), std::strlen(s_pShopNameB)) == 0) {
-                position.z -= FIELD_HALF_UNIT_SIZE_Z;
+                position.z -= FdInfo::UNIT_WORLD_SIZE_HALF_ZF;
             }
         } else if (structure == STRUCTURE_PHOTO_BOOTH) {
-            position.z -= FIELD_HALF_UNIT_SIZE_Z;
+            position.z -= FdInfo::UNIT_WORLD_SIZE_HALF_ZF;
         }
         if (IsTownHallStructure(structure) && GetTownHallStructure() != STRUCTURE_TOWN_HALL_CLASSIC) {
-            position.z += FIELD_UNIT_SIZE_Z;
+            position.z += FdInfo::UNIT_WORLD_SIZE_ZF;
         }
     } else {
         PlayerSaveNumber player = SvGetPlayerSaveNo(netgame::PLAYER_NO_MY_NO);
@@ -269,20 +269,20 @@ bool TransitionMgr::TransitionFromStructure(u8 typeA, u8 faderA, u8 typeB, u8 fa
     } else if (IsStructurePlaced(structure)) {
         GetStructurePosition(&position, structure);
         if (isCampingCar) {
-            position.x += FIELD_HALF_UNIT_SIZE_X;
+            position.x += FdInfo::UNIT_WORLD_SIZE_HALF_XF;
             rotation = math::Angle16Vec3{0, 0x2000, 0};
-            position.z += FIELD_HALF_UNIT_SIZE_Z;
+            position.z += FdInfo::UNIT_WORLD_SIZE_HALF_ZF;
         }
         if (structure == STRUCTURE_NOOKLING_STORES) {
             if (std::strncmp(s_pShopNameA, GetShopName(), std::strlen(s_pShopNameA)) == 0) {
-                position.z -= FIELD_HALF_UNIT_SIZE_Z;
+                position.z -= FdInfo::UNIT_WORLD_SIZE_HALF_ZF;
                 action = PLAYER_ACTION_DOOR_EXIT_BEGIN;
             }
         } else if (structure == STRUCTURE_PHOTO_BOOTH) {
-            position.z -= FIELD_HALF_UNIT_SIZE_Z;
+            position.z -= FdInfo::UNIT_WORLD_SIZE_HALF_ZF;
         }
         if (IsTownHallStructure(structure) && GetTownHallStructure() != STRUCTURE_TOWN_HALL_CLASSIC) {
-            position.z += FIELD_UNIT_SIZE_Z;
+            position.z += FdInfo::UNIT_WORLD_SIZE_ZF;
         }
         if (!isCampingCar) {
             MoveBeforeEntrance(&position);
@@ -339,9 +339,9 @@ void TransitionMgr::SetReturnParam()
                 f32 dz1 = point1.z - player->m_Position.z;
                 distance1 = std::sqrt(dx1 * dx1 + dz1 * dz1);
             } else {
-                distance0 = distance1 = FIELD_UNIT_SIZE_X * 16.0f;
+                distance0 = distance1 = FdInfo::UNIT_WORLD_SIZE_XF * 16.0f;
             }
-            f32 limit = FIELD_UNIT_SIZE_X * 1.1f;
+            f32 limit = FdInfo::UNIT_WORLD_SIZE_XF * 1.1f;
             if ((distance0 < limit || limit > distance1) && PlayerCanReturn()) {
                 m_Return.action = PLAYER_ACTION_IDLE;
                 m_Return.position = entrance->position;
@@ -449,11 +449,11 @@ bool TransitionMgr::TransitionFromTourHut(u8 typeA, u8 faderA, u8 typeB, u8 fade
     if (structure == 0xFC) {
         return false;
     }
-    if (TourResult::s_pInstance == NULL) {
+    if (TourData::s_pInstance == NULL) {
         return false;
     }
     Name target;
-    s8 type = GetTourType(TourResult::s_pInstance->m_Tour);
+    s8 type = GetTourType(TourData::s_pInstance->m_Tour);
     if (type == 11) {
         target = NAME_ISLAND_BORROWING_RACE;
     } else if (type == 9) {
@@ -598,7 +598,7 @@ bool TransitionMgr::TransitionByEntrance(Name stage, u32 index, u8 typeA, u8 fad
             u8 townHall = GetTownHallStructure();
             if (townHall == STRUCTURE_TOWN_HALL_ZEN || townHall == STRUCTURE_TOWN_HALL_FAIRY_TALE ||
                 townHall == STRUCTURE_TOWN_HALL_MODERN) {
-                position.z -= FIELD_UNIT_SIZE_Z;
+                position.z -= FdInfo::UNIT_WORLD_SIZE_ZF;
             }
         }
         return TransitionToStructure(structure, &position, &rotation, typeA, faderA, typeB, faderB);
@@ -669,7 +669,7 @@ bool TransitionMgr::TransitionByEntrance(Name stage, u32 index, u8 typeA, u8 fad
         nn::math::VEC3_ offset;
         offset.x = 0.0f;
         offset.y = 0.0f;
-        offset.z = FIELD_UNIT_SIZE_Z;
+        offset.z = FdInfo::UNIT_WORLD_SIZE_ZF;
         RotateY(&offset, rotation.y);
         position.x += offset.x;
         position.y += offset.y;

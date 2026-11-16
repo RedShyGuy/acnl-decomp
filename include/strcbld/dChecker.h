@@ -1,8 +1,8 @@
 #pragma once
 
 #include "decomp.h"
-#include "Other/dJmpBlock.h"
-#include "Other/dJmpBlock_Visitor.h"
+#include "field/dJmpBlock.h"
+#include "field/dJmpBlock_Visitor.h"
 
 namespace strcbld {
 // RTTI N7strcbld7CheckerE @ 0x008D3FA0
@@ -11,6 +11,6 @@ class Checker : public ::JmpBlock::Visitor
 {
 public:
     Checker(); // ctor address unknown
-    virtual void vf_0x00(); // 0x0062F8F4 slot 0x00 | virtual slot, introduced by strcbld::Checker
+    bool Visit(JmpBlock* block, s32 unitX, s32 unitZ) override; // 0x0062F8F4 slot 0x00
 };
 } // namespace strcbld

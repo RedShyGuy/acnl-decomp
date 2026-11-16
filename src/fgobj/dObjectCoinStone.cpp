@@ -1,25 +1,32 @@
-#include "fgobj/dObjectExe.h"
 #include "fgobj/dObjectCoinStone.h"
+#include "nn/math/math_Api.h"
 
 namespace fgobj {
-// ctor candidate(s) 0x0059D888 (unverified)
-fgobj::ObjectCoinStone::ObjectCoinStone()
+namespace {
+// the step of the phase and the amplitude of the shake
+const s16 SHAKE_PHASE_STEP = 0x1000;
+const f32 SHAKE_AMPLITUDE = 8.0f;
+} // namespace
+
+// 0x00595930 slot 0x20 (name is ours)
+s32 fgobj::ObjectCoinStone::Execute()
 {
+    m_Phase += SHAKE_PHASE_STEP;
+    if (m_Phase < 0) {
+        return EXECUTE_FINISHED;
+    }
+    f32 offset = nn::math::SinIdx(m_Phase) * SHAKE_AMPLITUDE;
+    m_Position.x = m_UnitPosition.x + offset * nn::math::SinIdx(m_Direction);
+    m_Position.z = m_UnitPosition.z + offset * nn::math::CosIdx(m_Direction);
+    UpdateMatrix(false, 0.0f);
+    return EXECUTE_CONTINUE;
 }
 
-// 0x005959F8 slot 0x00 | slot vf_0x00 of ssys::st::ListNode
+// 0x005959F8 slot 0x00
+// 0x005959C8 (deleting dtor)
 fgobj::ObjectCoinStone::~ObjectCoinStone()
 {
-}
-
-// 0x00595930 slot 0x20 | virtual slot, introduced by fgobj::ObjectCoinStone
-void fgobj::ObjectCoinStone::vf_0x20()
-{
-}
-
-// 0x005A3638 slot 0x24 | virtual slot, introduced by fgobj::ObjectBury
-void fgobj::ObjectCoinStone::vf_0x24()
-{
+    // (only the base is destroyed)
 }
 
 } // namespace fgobj

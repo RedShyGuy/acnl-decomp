@@ -42,6 +42,61 @@ public:
     void ClearSkeletalAnim(); // 0x004EE210
     // the world scales of the bones are not known to be one any more
     void InvalidateWorldScales(); // 0x004EE2A8
+
+    // (inline; copies for the game) the world matrix / the position of a bone without the parent of the model (false
+    // for a negative index)
+    DECOMP_EMIT_COPY bool GetBoneWorldMatrix(nn::math::MTX34* out, s32 boneIdx) const; // 0x007466FC
+    DECOMP_EMIT_COPY bool GetBoneWorldPosition(nn::math::VEC3* out, s32 boneIdx) const; // 0x00746890
+    // the index of the bone of the name (-1: none)
+    DECOMP_EMIT_COPY s32 GetBoneIndex(const char* name) const; // 0x007469FC
 };
 ASSERT_SIZE(SkeletalModel, 0xC);
 } // namespace g3d
+
+#include "g3d/g3d_System.h"
+#include "nw/gfx/gfx_SkeletalModel.h"
+#include "nw/gfx/res/gfx_ResModel.h"
+
+inline bool g3d::SkeletalModel::GetBoneWorldMatrix(nn::math::MTX34* out, s32 boneIdx) const
+{
+    nw::gfx::CalculatedTransform world;
+    if (boneIdx < 0) {
+        return false;
+    }
+    const nw::gfx::Skeleton* skeleton = nw::gfx::DynamicCast<nw::gfx::SkeletalModel>(m_pNode)->GetSkeleton();
+    const nw::gfx::CalculatedTransform* transform = &skeleton->GetWorldTransforms()->begin()[boneIdx];
+    if (transform == NULL) {
+        return false;
+    }
+    UpdateWorldTransform(&world, *transform, GetWorldTransform());
+    *out = world.m_TransformMatrix;
+    return true;
+}
+
+inline bool g3d::SkeletalModel::GetBoneWorldPosition(nn::math::VEC3* out, s32 boneIdx) const
+{
+    nw::gfx::CalculatedTransform world;
+    if (boneIdx < 0) {
+        return false;
+    }
+    const nw::gfx::Skeleton* skeleton = nw::gfx::DynamicCast<nw::gfx::SkeletalModel>(m_pNode)->GetSkeleton();
+    const nw::gfx::CalculatedTransform* transform = &skeleton->GetWorldTransforms()->begin()[boneIdx];
+    if (transform == NULL) {
+        return false;
+    }
+    UpdateWorldTransform(&world, *transform, GetWorldTransform());
+    out->x = world.m_TransformMatrix.m[0][3];
+    out->y = world.m_TransformMatrix.m[1][3];
+    out->z = world.m_TransformMatrix.m[2][3];
+    return true;
+}
+
+inline s32 g3d::SkeletalModel::GetBoneIndex(const char* name) const
+{
+    nw::gfx::SkeletalModel* model = nw::gfx::DynamicCast<nw::gfx::SkeletalModel>(m_pNode);
+    const nw::gfx::res::ResSkeletalModelData* resModel = nw::gfx::res::DynamicCastData<nw::gfx::res::ResSkeletalModelData>(
+        model->GetResSceneObject().ptr(), nw::gfx::res::ResSkeletalModelData::TYPE);
+    const nw::gfx::res::ResSkeletonData* skeleton = resModel->skeleton.To<nw::gfx::res::ResSkeletonData>();
+    nw::ut::ResDicPatricia dic = {skeleton->boneDic.To<nw::ut::ResDicPatricia::Data>()};
+    return dic.GetIndex(name);
+}

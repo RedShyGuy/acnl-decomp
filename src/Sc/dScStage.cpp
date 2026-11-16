@@ -2,6 +2,9 @@
 #include "Bs/dBsScene.h"
 #include "Sc/dScStage.h"
 
+// 0x00952684
+s32 g_StageFrameCounter;
+
 // ctor address unknown
 ScStage::ScStage()
 {

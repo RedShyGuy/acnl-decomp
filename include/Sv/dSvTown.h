@@ -6,6 +6,8 @@
 
 #include "decomp.h"
 #include "Sv/dSvCommon.h"
+#include "Sv/dSvBgName.h"
+#include "Sv/dSvFgBlock.h"
 #include "Sv/dSvFgName.h"
 #include "Sv/dSvHouse.h"
 #include "Sv/dSvMuseum.h"
@@ -59,14 +61,6 @@ ASSERT_SIZE(SvSnowman, 0xC);
 
 // The part of the town data from 0x5C on: the map (built by its own constructor; the type and the member name are
 // ours, the field names after the research).
-// the items of one acre, 16*16 (the town and island constructors build arrays of them; name is ours)
-struct SvAcreItems {
-    DECOMP_EMIT_COPY SvAcreItems() {} // 0x006F08EC
-
-    /* 0x0000 */ SvFgName items[0x100];
-};
-ASSERT_SIZE(SvAcreItems, 0x400);
-
 // one byte per slot of an acre, 16*16 (the grass of the town; name is ours)
 struct SvAcreGrass {
     DECOMP_EMIT_COPY SvAcreGrass() {} // 0x001E0928 (empty in the original too)
@@ -82,8 +76,8 @@ struct SvTownDataUnk5C {
     /* 0x0001 */ u8 townGrassType; // [0-2]; 0: Triangle / Square (Winter) | 1: Circle / Star (Winter) | 2: Square / Circle (Winter); Ctor sets to 2
     /* 0x0002 */ u8 cliffType; // [0-2]; This is unused/scrapped. All 3 cliff texture in the ROM are the exact same.; Ctor sets to 2
     /* 0x0003 */ u8 pad_0x3;
-    /* 0x0004 */ u16 townAcres[0x2A]; // 42 acres in total; 7 columns, 6 rows. Game reads Acre IDs as u16; ctor sets each to 265 (0x109)
-    /* 0x0058 */ SvAcreItems townItems[20]; // Items only cover map acres (5*4)
+    /* 0x0004 */ SvBgName townAcres[0x2A]; // 42 acres in total; 7 columns, 6 rows. Game reads Acre IDs as u16; ctor sets each to 265 (0x109)
+    /* 0x0058 */ SvFgBlock townItems[20]; // Items only cover map acres (5*4)
     /* 0x5058 */ SvAcreGrass mapGrassToday[20]; // Grass deterioration only affects map acres
     /* 0x6458 */ u8 unk_0x6458[0x28]; // Town data ctor never initializes this, so likely not used.
     /* 0x6480 */ u8 mapGrass[0x3000];
@@ -249,8 +243,8 @@ struct SvTownDataUnk1CA92 {
 
     /* 0x0000 */ u8 islandGrassType; // [0-2]; 0: Triangle | 1: Circle | 2: Square;
     /* 0x0001 */ u8 pad_0x1;
-    /* 0x0002 */ u16 islandAcres[0x10]; // 16 acres in total; 4 columns, 4 rows. Game reads Acre IDs as u16;
-    /* 0x0022 */ SvAcreItems islandItems[4]; // Items only cover map acres (2*2)
+    /* 0x0002 */ SvBgName islandAcres[0x10]; // 16 acres in total; 4 columns, 4 rows. Game reads Acre IDs as u16;
+    /* 0x0022 */ SvFgBlock islandItems[4]; // Items only cover map acres (2*2)
     /* 0x1022 */ SvStrc islandBuildings[2]; // Island Hut and Lloid
 };
 ASSERT_SIZE(SvTownDataUnk1CA92, 0x102A);

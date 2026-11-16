@@ -5,7 +5,7 @@
 #include "Bs/dBsTelop.h"
 #include "Bs/dBsTourMgr.h"
 #include "Other/dFriendList.h"
-#include "Other/dTourResult.h"
+#include "Other/dTourData.h"
 #include "Sv/dSvFgName.h"
 #include "Sound/dSoundMgr.h"
 #include "Sv/dSvApi.h"
@@ -99,12 +99,12 @@ DECOMP_ALWAYS_INLINE void SendTourData(const u8* data)
 
 DECOMP_ALWAYS_INLINE void SetupTour(s8 tourName)
 {
-    u8* tour = reinterpret_cast<u8*>(TourResult::s_pInstance);
+    u8* tour = reinterpret_cast<u8*>(TourData::s_pInstance);
     Func6C4D50(tour);
     if (static_cast<u32>(tourName) < TOUR_NUM) {
         u8* data = tour + 16;
         Func6C547C(data, tourName);
-        u8* current = reinterpret_cast<u8*>(TourResult::s_pInstance);
+        u8* current = reinterpret_cast<u8*>(TourData::s_pInstance);
         Func6C499C(current);
         Func6A7498(current);
         Func6C53FC(data);
@@ -323,7 +323,7 @@ void netgame::IslandMgr::Process()
                 SendToGuests(PACKET_TOUR_START);
             } else {
                 SetupTour(m_TourName);
-                SendTourData(reinterpret_cast<u8*>(TourResult::s_pInstance) + 16);
+                SendTourData(reinterpret_cast<u8*>(TourData::s_pInstance) + 16);
             }
             m_Confirms[3].MachineBitTable::Reset();
             m_Timer = s_TourTelopFrames;
@@ -407,7 +407,7 @@ void netgame::IslandMgr::Process()
             PlayerNo myNo = GetMyPlayerNo();
             SetupTour(m_TourName);
             m_Confirms[1].Update(myNo, true);
-            SendTourData(reinterpret_cast<u8*>(TourResult::s_pInstance) + 16);
+            SendTourData(reinterpret_cast<u8*>(TourData::s_pInstance) + 16);
             m_State = 4;
         }
         break;
@@ -1086,7 +1086,7 @@ void netgame::IslandMgr::Process()
             PlayerNo myNo = mgr->GetMyPlayerNo();
             SetupTour(m_TourName);
             m_Confirms[1].Update(myNo, true);
-            SendTourData(reinterpret_cast<u8*>(TourResult::s_pInstance) + 16);
+            SendTourData(reinterpret_cast<u8*>(TourData::s_pInstance) + 16);
             m_State = 73;
         } else {
             unk_0x147 = true;
@@ -1270,7 +1270,7 @@ bool netgame::IslandMgr::EndSeaDepartureDemo(bool stageChanged)
 // 0x0061E494 (name is ours)
 void netgame::IslandMgr::ApplyTourData()
 {
-    u8* tour = reinterpret_cast<u8*>(TourResult::s_pInstance);
+    u8* tour = reinterpret_cast<u8*>(TourData::s_pInstance);
     Func6C499C(tour);
     Func6A7498(tour);
 }
@@ -1370,7 +1370,7 @@ void Func61E708()
         Func6C4750(&positions[i], i);
         rotations[i] = math::Angle16::Atan2(center.x - positions[i].x, center.z - positions[i].z);
     }
-    stage::Name stage = Func6C4514(Func6C4DD0(TourResult::s_pInstance->m_Tour));
+    stage::Name stage = Func6C4514(Func6C4DD0(TourData::s_pInstance->m_Tour));
     u8 isSolo = !IsMultiPlayer();
     stage::GetTransitionMgr()->TransitionWithStartPositions(stage, PLAYER_ACTION_IDLE, PLAYER_ACTION_2, &positions[0], &rotations[0],
                                                             &positions[1], &rotations[1], &positions[2], &rotations[2], &positions[3],
@@ -1681,7 +1681,7 @@ bool netgame::IslandMgr::RequestTourData(PlayerNo player)
 // 0x0061F204 (name after libgarden)
 bool StageTransitionTourResult()
 {
-    stage::Name stage = Func6C4734(Func6C4DD0(TourResult::s_pInstance->m_Tour));
+    stage::Name stage = Func6C4734(Func6C4DD0(TourData::s_pInstance->m_Tour));
     return stage::GetTransitionMgr()->Transition(stage, 1, 1, 1, 1);
 }
 // 0x0061F250 (name is ours)

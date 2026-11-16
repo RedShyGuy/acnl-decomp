@@ -35,4 +35,7 @@ public:
     nn::math::VEC3_ m_AreaCenter;   // 0xDA4
 };
 ASSERT_OFFSET(ScStage, m_Work, 0x420);
+
+// the frames of the stage scene (ScStage counts them; the field objects start animations with it; name is ours)
+extern s32 g_StageFrameCounter;
 ASSERT_OFFSET(ScStage, m_HasArea, 0xD88);

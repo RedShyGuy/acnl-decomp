@@ -144,8 +144,10 @@ void EndFrame(); // 0x004F30A0
 // a binary shader of the shader file of the engine (NULL: no binary shader at that index)
 const nw::gfx::res::ResBinaryShaderData* GetShader(s32 shaderIdx); // 0x004F0BF0
 void ResetRenderState(s32 hashFlags); // 0x004F0C54
-// the world transform from a transform without a parent (the scale kept away from zero)
-void UpdateWorldTransform(nw::gfx::CalculatedTransform* worldTransform, const nw::gfx::CalculatedTransform& transform); // 0x004F0C70
+// the world transform from a transform without a parent (the scale kept away from zero; the callers pass the world
+// transform of the model as parentTransform, which is not used)
+void UpdateWorldTransform(nw::gfx::CalculatedTransform* worldTransform, const nw::gfx::CalculatedTransform& transform,
+                          const nw::gfx::CalculatedTransform& parentTransform); // 0x004F0C70
 
 // the allocator of the engine objects (an ExpHeap made by Initialize)
 ssys::ma::Allocator* GetAllocator(); // 0x004F0694

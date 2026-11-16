@@ -3,7 +3,7 @@
 #include "Bs/dBsPlayerMgr.h"
 #include "Bs/dBsScene.h"
 #include "Other/dProcMgr.h"
-#include "Other/dTourResult.h"
+#include "Other/dTourData.h"
 #include "Sc/dScStage.h"
 #include "netgame/netgame_Api.h"
 #include "stage/dTransitionMgr.h"
@@ -387,7 +387,7 @@ math::Angle16Vec3 s_ZeroRotation;
 namespace {
 // a fifth of a field unit, as a whole number (read nowhere)
 // 0x00958358
-f32 s_UnitFifth = static_cast<u16>(FIELD_UNIT_SIZE_X * 0.2f);
+f32 s_UnitFifth = static_cast<u16>(FdInfo::UNIT_WORLD_SIZE_XF * 0.2f);
 
 // the processes of a stage (command 0)
 // 0x005B4950
@@ -691,10 +691,10 @@ bool GetArea(nn::math::VEC3_* pMin, nn::math::VEC3_* pMax, bool isWidened)
         return false;
     }
     if (isWidened) {
-        pMin->x = scene->m_AreaMin.x - FIELD_UNIT_SIZE_X;
-        pMin->z = scene->m_AreaMin.z - FIELD_UNIT_SIZE_Z;
-        pMax->x = scene->m_AreaMax.x + FIELD_UNIT_SIZE_X;
-        pMax->z = scene->m_AreaMax.z + FIELD_UNIT_SIZE_Z;
+        pMin->x = scene->m_AreaMin.x - FdInfo::UNIT_WORLD_SIZE_XF;
+        pMin->z = scene->m_AreaMin.z - FdInfo::UNIT_WORLD_SIZE_ZF;
+        pMax->x = scene->m_AreaMax.x + FdInfo::UNIT_WORLD_SIZE_XF;
+        pMax->z = scene->m_AreaMax.z + FdInfo::UNIT_WORLD_SIZE_ZF;
     } else {
         *pMin = scene->m_AreaMin;
         *pMax = scene->m_AreaMax;
@@ -821,7 +821,7 @@ bool IsOnIsland()
     if (IsKind(KIND_ISLAND, current)) {
         return true;
     }
-    if (IsKind(KIND_TOUR, current) && TourResult::s_pInstance != NULL && TourResult::s_pInstance->m_State == 2) {
+    if (IsKind(KIND_TOUR, current) && TourData::s_pInstance != NULL && TourData::s_pInstance->m_State == 2) {
         return true;
     }
     return false;
@@ -943,8 +943,8 @@ u32 GetEnvironmentSound(Name name)
 // 0x005B543C (name is ours)
 bool IsHutOfBorrowingRace(Name name)
 {
-    if (IsTourStage() && TourResult::s_pInstance != NULL && IsKind(KIND_ISLAND_HUT, name) &&
-        GetTourType(TourResult::s_pInstance->m_Tour) == 11) {
+    if (IsTourStage() && TourData::s_pInstance != NULL && IsKind(KIND_ISLAND_HUT, name) &&
+        GetTourType(TourData::s_pInstance->m_Tour) == 11) {
         return true;
     }
     return false;

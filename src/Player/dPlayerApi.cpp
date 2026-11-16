@@ -1,7 +1,7 @@
 #include "Player/dPlayerApi.h"
 
 // 0x005C13AC | libgarden [tier A]
-void PlayerGetPosition(long&, long&, netgame::PlayerNo, bool)
+bool PlayerGetPosition(long&, long&, netgame::PlayerNo, bool)
 {
 }
 

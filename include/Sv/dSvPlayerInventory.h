@@ -25,6 +25,10 @@ struct SvPlayerInventory {
     bool SetItem(unsigned int index, const SvFgName& item, ItemAppearance appearance, SvFgName* pNewItem); // 0x00323484 | libgarden [tier A]
     // empties all slots
     void Clear(); // 0x00323444 (name is ours)
+    // the first slot that is empty (-1: none; name is ours)
+    s32 FindEmptySlot() const; // 0x00724E68
+    // a test of the pockets for item that depends on the tour (TourData; meaning unknown)
+    bool Func72503C(SvFgName item) const; // 0x0072503C
 
     /* 0x0000 */ SvFgName items[0x10]; // SIZE
     /* 0x0040 */ u8 appearances[0x10]; // ItemAppearance (research name: item locks; the code reads and writes the appearance)

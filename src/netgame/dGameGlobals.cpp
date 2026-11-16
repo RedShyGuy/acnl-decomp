@@ -1,4 +1,6 @@
 #include "netgame/dGameGlobals.h"
+#include "fgobj/fgobj_Extern.h"
+#include "script/dScriptExtern.h"
 
 namespace netgame {
 // 0x0094EB2C
@@ -10,7 +12,7 @@ volatile u8 g_PlayerFlags;
 // 0x0094FD84
 void* g_pUnknown94FD84;
 // 0x009516CC
-u8 g_EnteringPlayer;
+u8 g_EnteringPlayer = PLAYER_NO_INVALID;
 // 0x00953CB0
 sead::Heap* g_pNetGameHeap;
 // 0x00954238
@@ -24,3 +26,9 @@ u8 g_UnknownA83000[4];
 // 0x00AAFF14
 u8 g_UnknownAAFF14;
 } // namespace netgame
+
+// (globals of the game that fgobj reads; owners unknown)
+// 0x00950534
+void* g_pUnk950534;
+// 0x00951155
+u8 g_Byte0x951155;

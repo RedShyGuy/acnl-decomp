@@ -2,7 +2,7 @@
 #include "Audio/bgm/dBgmClock.h"
 #include "Audio/bgm/dBgmRequestMgr.h"
 #include "Audio/bgm/dBgmTrackMixer.h"
-#include "Other/dFdInfo.h"
+#include "field/dFdInfo.h"
 #include "Sound/dSoundLabel.h"
 #include "Sound/dSoundMgr.h"
 #include "Sound/sound_Extern.h"
@@ -110,7 +110,7 @@ void audio::bgm::StageOpusVillageDowntown::UpdateLowMix()
             s32 kindZ;
             Func307340(&kindX, &kindZ, pos);
             const f32 unit = 32.0f;
-            FieldName field = {0};
+            FieldName field = FIELD_NAME_CURRENT;
             bool done = false;
             if (s_TownState.isOceanLeft ? kindX == 1 : kindX == 5) {
                 nn::math::VEC3 point = *pos;
@@ -119,7 +119,7 @@ void audio::bgm::StageOpusVillageDowntown::UpdateLowMix()
                 } else {
                     point.x += unit;
                 }
-                f32 height = FdInfo::GetHeight(*reinterpret_cast<const nn::math::Vector<float, 3u>*>(&point), field);
+                f32 height = FdInfo::GetHeight(point, field);
                 if (height < 64.0f) {
                     isLow = 1;
                     done = true;
@@ -133,7 +133,7 @@ void audio::bgm::StageOpusVillageDowntown::UpdateLowMix()
                 if (kindZ == 4) {
                     nn::math::VEC3 point = *pos;
                     point.z += unit;
-                    f32 height = FdInfo::GetHeight(*reinterpret_cast<const nn::math::Vector<float, 3u>*>(&point), field);
+                    f32 height = FdInfo::GetHeight(point, field);
                     if (height < 64.0f) {
                         isLow = 1;
                         done = true;

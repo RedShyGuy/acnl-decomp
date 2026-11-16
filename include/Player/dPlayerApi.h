@@ -17,7 +17,8 @@ enum PlayerSaveNumber : u8
 };
 
 // the access functions of the players (game code)
-void PlayerGetPosition(long&, long&, netgame::PlayerNo, bool); // 0x005C13AC | libgarden [tier A]
+// the unit of the player (false without it; meaning of the last argument unknown)
+bool PlayerGetPosition(long& x, long& z, netgame::PlayerNo player, bool unknown); // 0x005C13AC | libgarden [tier A]
 void PlayerGetPositionForCamera(); // 0x005C3238 | libgarden [tier A]
 void PlayerGetState(netgame::PlayerNo); // 0x005C3DDC | libgarden [tier A]
 AcPlayer* PlayerGetActor(netgame::PlayerNo, bool); // 0x005C3EA0 | libgarden [tier A]

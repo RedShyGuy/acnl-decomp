@@ -57,6 +57,8 @@ extern UnkAAFF18 g_UnkAAFF18;
 bool IsSaveIoOnMainData(); // 0x006086B4 (offset 0, size 0x89A60)
 bool IsSaveIoOnWholeFile(); // 0x00607F4C
 bool IsSaveIoOnNpcData(); // 0x00607F8C
+// whether it is working on one of the four players of the town (index 0..3)
+bool IsSaveIoOnPlayer(u8 index); // 0x00608298
 
 // the save file and its parts (names are ours)
 SvGardenPlus* GetGardenPlus(); // 0x002FB344

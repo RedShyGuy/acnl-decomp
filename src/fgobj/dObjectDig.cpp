@@ -1,30 +1,39 @@
-#include "fgobj/dObjectExe.h"
 #include "fgobj/dObjectDig.h"
 
 namespace fgobj {
-// ctor candidate(s) 0x0059A9D0 (unverified)
-fgobj::ObjectDig::ObjectDig()
+namespace {
+const u8 DIG_FRAME_NUM = 4;
+// the radii of the cylinder in the frames (times DIG_CYLINDER_RADIUS)
+// 0x00847790
+const f32 s_DigScales[DIG_FRAME_NUM] = {0.48f, 0.6f, 0.72f, 0.82f};
+const f32 DIG_CYLINDER_RADIUS = 15.0f;
+const f32 DIG_CYLINDER_HEIGHT = 64.0f;
+} // namespace
+
+// 0x005A3544 slot 0x14 (name is ours)
+void fgobj::ObjectDig::Finalize()
 {
+    bgcheck::RemoveBody(&m_Cylinder);
+    ObjectBase::Finalize();
 }
 
-// 0x005A35F8 slot 0x00 | slot vf_0x00 of ssys::st::ListNode
+// 0x005A3560 slot 0x20 (name is ours)
+s32 fgobj::ObjectDig::Execute()
+{
+    if (m_Frame >= DIG_FRAME_NUM) {
+        return EXECUTE_FINISHED;
+    }
+    f32 scale = s_DigScales[m_Frame];
+    m_Frame++;
+    m_Cylinder.SetCylinder(&m_Position, scale * DIG_CYLINDER_RADIUS, DIG_CYLINDER_HEIGHT);
+    return EXECUTE_CONTINUE;
+}
+
+// 0x005A35F8 slot 0x00
+// 0x005A35B4 (deleting dtor)
 fgobj::ObjectDig::~ObjectDig()
 {
-}
-
-// 0x005A3544 slot 0x14 | virtual slot, introduced by fgobj::ObjectBase
-void fgobj::ObjectDig::vf_0x14()
-{
-}
-
-// 0x005A3560 slot 0x20 | virtual slot, introduced by fgobj::ObjectDig
-void fgobj::ObjectDig::vf_0x20()
-{
-}
-
-// 0x005A3638 slot 0x24 | virtual slot, introduced by fgobj::ObjectBury
-void fgobj::ObjectDig::vf_0x24()
-{
+    // (only the members are destroyed)
 }
 
 } // namespace fgobj

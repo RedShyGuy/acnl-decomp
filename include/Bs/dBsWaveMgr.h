@@ -3,6 +3,8 @@
 #include "decomp.h"
 #include "Other/dBase.h"
 #include "Utl/dUtlBase.h"
+#include "field/dFieldAttribute.h"
+#include "nn/math/math_Vector3.h"
 
 // RTTI 9BsWaveMgr @ 0x008CD76C
 // vtable 0x008FA578 (vptr 0x008FA580), offset_to_top 0, 22 entries
@@ -22,4 +24,11 @@ public:
     virtual void vf_0x4C(); // 0x006E1B24 slot 0x4C | virtual slot, introduced by BsWaveMgr
     virtual void vf_0x50(); // 0x006E1B1C slot 0x50 | virtual slot, introduced by BsWaveMgr
     virtual void vf_0x54(); // 0x006E1AF4 slot 0x54 | virtual slot, introduced by BsWaveMgr
+
+    static BsWaveMgr* GetInstance(); // 0x006E1B0C (name is ours)
+    // the attribute of a water part of a shore unit (s_ShoreAttributes) at an offset from the unit center: WATER where
+    // the wave reaches, SAND_16 elsewhere (name is ours)
+    FieldAttribute GetShoreAttribute(FieldAttribute attribute, const nn::math::VEC3& offset) const; // 0x006E1708
+
+    static BsWaveMgr* s_pInstance;
 };

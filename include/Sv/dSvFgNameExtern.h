@@ -24,7 +24,7 @@ bool Func769644(const SvFgName* item); // 0x00769644
 // the item at 0x5E4 of an object of the game (two callers in the code around 0x692B00, which call its slot 0x90 first)
 SvFgName Func6BB164(const void* object); // 0x006BB164
 // sets a value of the flags of an item from the player data (the value of GetDefaultSaveNo or 0)
-void Func304EA0(SvFgName* item, u32 a, u32 saveNo, u32 b); // 0x00304EA0
+bool Func304EA0(SvFgName* item, u32 a, u32 saveNo, u32 b); // 0x00304EA0
 
 // the flowers: the genes of a flower field object from two parents, and the name of a flower of a kind with genes; the
 // genes of the flower names of each kind (game code at 0x001BA1F0..0x001BA2D0)

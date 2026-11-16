@@ -20,8 +20,8 @@
 #include "stage/dTransitionMgr.h"
 #include "stage/stage_Api.h"
 #include "time/time_Api.h"
+#include "field/dFdInfo.h"
 
-extern const f32 FIELD_UNIT_SIZE_X;
 
 // The globals of the file (names are ours). The static initializer builds them together with g_SvProc and the dummy
 // request (and registers their destructors).
@@ -42,7 +42,7 @@ const char* g_SvIdentityFileName = "/identity";
 // 0x0095D368
 ProcThread* g_pSvProcThread = NULL;
 // 0x0095D36C
-f32 g_Unknown95D36C = static_cast<u16>(FIELD_UNIT_SIZE_X * 0.2f);
+f32 g_Unknown95D36C = static_cast<u16>(FdInfo::UNIT_WORLD_SIZE_XF * 0.2f);
 
 // 0x005CE220
 // 0x005CE21C (deleting dtor)

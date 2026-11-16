@@ -3,7 +3,7 @@
 #include "decomp.h"
 #include "math/dAngle16.h"
 #include "nn/math/math_Vector3.h"
-#include "Other/dField.h"
+#include "field/dField.h"
 #include "sead/seadSafeStringBase.h"
 
 namespace oml {
@@ -222,11 +222,8 @@ enum Kind : u32
     KIND_RV_CAR_ENVIRONMENT = 1 << 29,
 };
 
-// a field of the game (libgarden: FieldName, an index into the field table)
-enum FieldName : u8
-{
-    FIELD_NAME_NONE = 0,
-};
+// a field of the field table (libgarden: FieldName; the type is global, field/dFieldTypes.h)
+using ::FieldName;
 
 // (the following types and names are ours)
 
@@ -408,7 +405,7 @@ DECOMP_EMIT_COPY DECOMP_NOINLINE inline bool IsKind(u32 kind, Name name) // 0x00
     return false;
 }
 // the field of the field table
-DECOMP_EMIT_COPY inline Field* GetField(FieldName name) // 0x002FE95C | libgarden [tier A]
+DECOMP_EMIT_COPY DECOMP_NOINLINE inline Field* GetField(FieldName name) // 0x002FE95C | libgarden [tier A]
 {
     return Field::s_pFields[name];
 }

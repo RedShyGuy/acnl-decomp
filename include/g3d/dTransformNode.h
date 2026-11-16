@@ -38,8 +38,23 @@ public:
     void AddToScene(s32 sceneIdx); // 0x004EE9EC
 
     nw::gfx::TransformNode* GetNode() const { return m_pNode; }
+    // (inline; copies for the game) the world / local transform of the node
+    DECOMP_EMIT_COPY const nw::gfx::CalculatedTransform& GetWorldTransform() const; // 0x00746C2C
+    DECOMP_EMIT_COPY const nw::gfx::CalculatedTransform& GetLocalTransform() const; // 0x00746C38
 
     nw::gfx::TransformNode* m_pNode; // 0x4
 };
 ASSERT_SIZE(TransformNode, 0x8);
 } // namespace g3d
+
+#include "nw/gfx/gfx_TransformNode.h"
+
+inline const nw::gfx::CalculatedTransform& g3d::TransformNode::GetWorldTransform() const
+{
+    return m_pNode->m_WorldTransform;
+}
+
+inline const nw::gfx::CalculatedTransform& g3d::TransformNode::GetLocalTransform() const
+{
+    return m_pNode->m_Transform;
+}

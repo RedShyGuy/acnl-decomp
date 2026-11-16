@@ -482,7 +482,14 @@ def source_addresses():
     # and names that correct symbols.json)
     for key, address in header_addresses().items():
         out.setdefault(key, address)
+    for key, copies in HEADER_COPIES.items():
+        COPIES.setdefault(key, []).extend(c for c in copies if c not in COPIES.get(key, []))
     return out, empty, deleting
+
+
+# key -> further copies of inline functions of the headers ("// 0x... (copy)" in the line before the
+# declaration, filled by header_addresses)
+HEADER_COPIES = {}
 
 
 def header_addresses():
@@ -495,9 +502,14 @@ def header_addresses():
             depth = 0
             pending_scope = None
             stmt = ''
+            pending_copies = []
             for line in open(path, encoding='utf-8', errors='replace'):
                 code, _, comment = line.partition('//')
                 st = code.strip()
+                mc = re.match(r'\s*0x([0-9A-Fa-f]{8})\s*\(copy\)\s*$', comment) if not st else None
+                if mc:
+                    pending_copies.append(int(mc.group(1), 16) & ~1)
+                    continue
                 # (a class defined with its qualified name: "class sead::HostIOMgr::Parameter")
                 m = re.match(r'(?:namespace|class|struct)\s+((?:\w+::)*\w*)', st)
                 if m and not st.endswith(';'):
@@ -547,6 +559,9 @@ def header_addresses():
                     if key in out and out[key] != address:
                         dup.add(key)
                     out[key] = address
+                    if pending_copies:
+                        HEADER_COPIES.setdefault(key, []).extend(pending_copies)
+                        pending_copies = []
     for k in dup:
         out.pop(k, None)
     return out
@@ -910,10 +925,21 @@ def make_fuzzy_pair(mem, db, starts, names, by_source, by_name, variables=None):
             return ('data',)                       # global variable defined in another object
         return ('name', norm(dn))
 
+    copy_to_primary = {}
+
     def orig_fn(target):
         # (only unnamed branch islands: a named function made of one "b" stays itself, and a Thumb function read
         # as ARM words may look like a "b")
         target = veneer_target(mem, target, plain_branch=target not in thumb_starts and target not in addr_name)
+        # a call of another copy of a function ("// 0x... (copy)") is a call of the function: our code calls
+        # the one function
+        if not copy_to_primary:
+            for k, cs in COPIES.items():
+                if by_source.get(k, -1) >= 0:
+                    for c in cs:
+                        copy_to_primary[c] = by_source[k] & ~1
+            copy_to_primary[-1] = -1
+        target = copy_to_primary.get(target, target)
         fam = fuzzy.runtime_family(addr_name.get(target))
         if fam:
             return ('rt', fam)
@@ -1462,6 +1488,9 @@ def main():
     for f in funcs:
         if re.search(r'\.part\.\d+$', f[1]):
             part_clones.setdefault(f[0], {})[f[1]] = (f[2], f[3], f[5])
+    # GCC may put the body of a static initializer into __static_initialization_and_destruction_0 and let
+    # _GLOBAL__sub_I_ only branch there: that body is the initializer
+    static_bodies = {f[0]: f for f in funcs if 'static_initialization_and_destruction' in f[1]}
     # the functions, plus one more round for each "(copy)" address of a function
     work = [(f, None) for f in funcs]
     copies_added = set()
@@ -1527,6 +1556,9 @@ def main():
             if addr is None:
                 continue
             name = static_init_names.get(addr, name)
+            body = static_bodies.get(obj)
+            if body is not None and size <= 8:
+                data, size, rel, syminfo = body[2], body[3], body[4], body[5]
         else:
             if parsed and skey in FOLDED:
                 continue                          # compared with the function it was folded with

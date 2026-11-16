@@ -11,8 +11,8 @@ class MoveBg : public ::collision::World::Body
 {
 public:
     MoveBg(); // ctor candidate(s) 0x0061532C (unverified)
-    virtual void vf_0x00(); // 0x00615384 slot 0x00 | virtual slot, introduced by collision::World::Body
-    virtual void vf_0x04(); // 0x00615360 slot 0x04 | virtual slot, introduced by collision::World::Body
+    virtual ~MoveBg(); // 0x00615384 slot 0x00
+    // 0x00615360 (deleting dtor)
     virtual void vf_0x08(); // 0x00615270 slot 0x08 | virtual slot, introduced by bgcheck::MoveBg
     virtual void vf_0x0C(); // 0x0061526C slot 0x0C | virtual slot, introduced by bgcheck::MoveBg
 };

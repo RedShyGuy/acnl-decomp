@@ -11,8 +11,8 @@
 #include "Sv/dSvShared.h"
 #include "Sv/dSvHolder.h"
 #include "Sv/dSvProcExtern.h"
+#include "field/dFdInfo.h"
 
-extern const f32 FIELD_UNIT_SIZE_X;
 
 // The globals of the file (names are ours). The static initializer computes g_Unknown95D2E8, builds s_MailItem and
 // registers its destructor (GCC builds both constantly).
@@ -27,9 +27,9 @@ u32 s_PlaytimeSeconds;
 SvFgName s_MailItem;
 } // namespace
 
-// (FIELD_UNIT_SIZE_X / 5, through u16; nothing in code.bin reads it, the same value as g_Unknown95D36C of dSvProc.cpp)
+// (FdInfo::UNIT_WORLD_SIZE_XF / 5, through u16; nothing in code.bin reads it, the same value as g_Unknown95D36C of dSvProc.cpp)
 // 0x0095D2E8
-f32 g_Unknown95D2E8 = static_cast<u16>(FIELD_UNIT_SIZE_X * 0.2f);
+f32 g_Unknown95D2E8 = static_cast<u16>(FdInfo::UNIT_WORLD_SIZE_XF * 0.2f);
 
 namespace {
 

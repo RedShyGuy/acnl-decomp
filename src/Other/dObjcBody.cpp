@@ -7,13 +7,9 @@ ObjcBody::ObjcBody()
 {
 }
 
-// 0x006AD594 slot 0x00 | virtual slot, introduced by collision::World::Body
-void ObjcBody::vf_0x00()
-{
-}
-
-// 0x006AD584 slot 0x04 | virtual slot, introduced by collision::World::Body
-void ObjcBody::vf_0x04()
+// 0x006AD594 slot 0x00
+// 0x006AD584 (deleting dtor)
+ObjcBody::~ObjcBody()
 {
 }
 
