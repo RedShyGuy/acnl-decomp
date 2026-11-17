@@ -16,23 +16,23 @@ void AcNpcSpPreSisyo::vf_0x4C()
 {
 }
 
-// 0x0010B011 slot 0x78 | virtual slot, introduced by UtlBase<DemoActor>
-void AcNpcSpPreSisyo::vf_0x78()
+// 0x0010B011 slot 0x78
+bool AcNpcSpPreSisyo::StartInitialize()
 {
 }
 
-// 0x0010AFE5 slot 0x7C | virtual slot, introduced by UtlBase<DemoActor>
-void AcNpcSpPreSisyo::vf_0x7C()
+// 0x0010AFE5 slot 0x7C
+oml::framework::Result AcNpcSpPreSisyo::UpdateInitialize()
 {
 }
 
-// 0x0010AF91 slot 0x80 | virtual slot, introduced by UtlBase<DemoActor>
-void AcNpcSpPreSisyo::vf_0x80()
+// 0x0010AF91 slot 0x80
+bool AcNpcSpPreSisyo::EndInitialize()
 {
 }
 
-// 0x0010B021 slot 0x88 | virtual slot, introduced by UtlBase<DemoActor>
-void AcNpcSpPreSisyo::vf_0x88()
+// 0x0010B021 slot 0x88
+oml::framework::Result AcNpcSpPreSisyo::UpdateFinalize()
 {
 }
 

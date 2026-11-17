@@ -9,6 +9,8 @@
 #include "net/nex/dImpl.h"
 #include "netgame/dGameFunctions.h"
 #include "netgame/dNetGameMgr.h"
+#include "Other/dHeapInit.h"
+#include "sead/seadExpHeap.h"
 
 namespace sead {
 class Heap;
@@ -152,7 +154,7 @@ void netgame::FriendListMgr::OnFriendOnline(const u32* principalId, u32 param, c
     }
     onlineFriend->principalId = *principalId;
     net::DecodeBase64(reinterpret_cast<const char16*>(text), length, reinterpret_cast<u8*>(&onlineFriend->ids),
-                      sizeof(onlineFriend->ids) + sizeof(onlineFriend->avatarId), net::g_pNetHeap);
+                      sizeof(onlineFriend->ids) + sizeof(onlineFriend->avatarId), HeapInit::s_pNetHeap);
     onlineFriend->param = param;
     s32 bestFriend = FindBestFriend(*principalId, onlineFriend->avatarId);
     if (bestFriend >= 0) {

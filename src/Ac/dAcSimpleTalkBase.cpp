@@ -42,33 +42,33 @@ void AcSimpleTalkBase::vf_0x60()
 {
 }
 
-// 0x002A8A70 slot 0x78 | virtual slot, introduced by UtlBase<DemoActor>
-void AcSimpleTalkBase::vf_0x78()
+// 0x002A8A70 slot 0x78
+bool AcSimpleTalkBase::StartInitialize()
 {
 }
 
-// 0x002A8A68 slot 0x7C | virtual slot, introduced by UtlBase<DemoActor>
-void AcSimpleTalkBase::vf_0x7C()
+// 0x002A8A68 slot 0x7C
+oml::framework::Result AcSimpleTalkBase::UpdateInitialize()
 {
 }
 
-// 0x002A8A3C slot 0x80 | virtual slot, introduced by UtlBase<DemoActor>
-void AcSimpleTalkBase::vf_0x80()
+// 0x002A8A3C slot 0x80
+bool AcSimpleTalkBase::EndInitialize()
 {
 }
 
-// 0x002A8A88 slot 0x84 | virtual slot, introduced by UtlBase<DemoActor>
-void AcSimpleTalkBase::vf_0x84()
+// 0x002A8A88 slot 0x84
+bool AcSimpleTalkBase::StartFinalize()
 {
 }
 
-// 0x002A8A80 slot 0x88 | virtual slot, introduced by UtlBase<DemoActor>
-void AcSimpleTalkBase::vf_0x88()
+// 0x002A8A80 slot 0x88
+oml::framework::Result AcSimpleTalkBase::UpdateFinalize()
 {
 }
 
-// 0x002A8A78 slot 0x8C | virtual slot, introduced by UtlBase<DemoActor>
-void AcSimpleTalkBase::vf_0x8C()
+// 0x002A8A78 slot 0x8C
+bool AcSimpleTalkBase::EndFinalize()
 {
 }
 

@@ -22,12 +22,12 @@ public:
     virtual oml::framework::Result Draw(); // 0x0068D44C slot 0x30 | slot vf_0x30 of oml::framework::Process
     virtual void vf_0x40(); // 0x00650CFC slot 0x40 | virtual slot, introduced by Actor
     virtual void vf_0x5C(); // 0x007631D4 slot 0x5C | virtual slot, introduced by DemoActor
-    virtual void vf_0x78(); // 0x0064DD30 slot 0x78 | virtual slot, introduced by UtlBase<DemoActor>
-    virtual void vf_0x7C(); // 0x001170B9 slot 0x7C | virtual slot, introduced by UtlBase<DemoActor>
-    virtual void vf_0x80(); // 0x0064D0D0 slot 0x80 | virtual slot, introduced by UtlBase<DemoActor>
-    virtual void vf_0x84(); // 0x00117175 slot 0x84 | virtual slot, introduced by UtlBase<DemoActor>
-    virtual void vf_0x88(); // 0x0011715D slot 0x88 | virtual slot, introduced by UtlBase<DemoActor>
-    virtual void vf_0x8C(); // 0x00117125 slot 0x8C | virtual slot, introduced by UtlBase<DemoActor>
+    bool StartInitialize() override; // 0x0064DD30 slot 0x78
+    oml::framework::Result UpdateInitialize() override; // 0x001170B9 slot 0x7C
+    bool EndInitialize() override; // 0x0064D0D0 slot 0x80
+    bool StartFinalize() override; // 0x00117175 slot 0x84
+    oml::framework::Result UpdateFinalize() override; // 0x0011715D slot 0x88
+    bool EndFinalize() override; // 0x00117125 slot 0x8C
     void DoAction(PlayerAction::Name, PlayerState const*, bool); // 0x0064DB90 | libgarden [tier A]
     void GetScratchState() const; // 0x006576F8 | libgarden [tier A]
 };

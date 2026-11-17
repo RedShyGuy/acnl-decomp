@@ -11,8 +11,8 @@ AcNpcDemoDollPlayer::~AcNpcDemoDollPlayer()
 {
 }
 
-// 0x002ECC48 slot 0x80 | virtual slot, introduced by UtlBase<DemoActor>
-void AcNpcDemoDollPlayer::vf_0x80()
+// 0x002ECC48 slot 0x80
+bool AcNpcDemoDollPlayer::EndInitialize()
 {
 }
 

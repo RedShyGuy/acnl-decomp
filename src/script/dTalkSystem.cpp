@@ -317,7 +317,7 @@ void TalkSystem::EnterLoad()
         return;
     }
     ReleaseMessage();
-    m_Files.Select(m_pMessage->m_File, Mgr::s_pFileHeap);
+    m_Files.Select(m_pMessage->m_File, Mgr::s_pMsgHeap);
     TalkFile* file = m_Files.m_pCurrent;
     if (file == &m_Files.m_Main && !file->m_Loader.Load(file->m_Path, file->m_pHeap, 0)) {
         return;

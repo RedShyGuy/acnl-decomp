@@ -51,8 +51,12 @@ void Func5CB49C();
 void Func5CB690();
 void Func5CB7A4();
 void Func5CB7CC();
-struct SvSaveMemoryUnk8;
-SvSaveMemoryUnk8* SvGetSaveMemoryUnk8(); // 0x005CB0EC
+namespace ssys {
+namespace ma {
+class Allocator;
+} // namespace ma
+} // namespace ssys
+ssys::ma::Allocator* SvGetSaveAllocator(); // 0x005CB0EC
 // 158 (SvSaveHeader::saveVerifier1)
 u16 SvGetSaveVerifier(); // 0x005CB110
 

@@ -157,10 +157,6 @@ FieldObjectIterator GetFieldObjectEnd(FieldObjectList* list); // 0x003148A8
 // the world position of a unit
 void UnitToWorld(nn::math::VEC3_* pPosition, s32 unitX, s32 unitZ); // 0x006A69E4
 
-// creates an actor with its position
-oml::framework::Process* ActorCreate(u16 name, oml::framework::Process* parent, u32 arg, const nn::math::VEC3_* position,
-                                     const math::Angle16Vec3* rotation); // 0x0057C4C4
-
 // the type of a tour of the island (TransitionFromTourHut: the huts lead back to Island_FossilDig for 9 and to
 // Island_BorrowingRace for 11)
 s8 GetTourType(s8 tour); // 0x006C4DD0

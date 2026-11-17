@@ -13,8 +13,6 @@ volatile u8 g_PlayerFlags;
 void* g_pUnknown94FD84;
 // 0x009516CC
 u8 g_EnteringPlayer = PLAYER_NO_INVALID;
-// 0x00953CB0
-sead::Heap* g_pNetGameHeap;
 // 0x00954238
 void* g_pUnknown954238;
 // 0x00954884

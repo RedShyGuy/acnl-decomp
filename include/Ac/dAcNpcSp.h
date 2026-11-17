@@ -13,8 +13,8 @@ public:
     virtual ~AcNpcSp(); // 0x00605F00 slot 0x00 | slot vf_0x00 of oml::framework::Process
     // 0x00605E38 slot 0x04 | slot vf_0x04 of oml::framework::Process (deleting dtor)
     virtual oml::framework::Result Calc(); // 0x00605C30 slot 0x24 | slot vf_0x24 of oml::framework::Process
-    virtual void vf_0x78(); // 0x00300751 slot 0x78 | virtual slot, introduced by UtlBase<DemoActor>
-    virtual void vf_0x80(); // 0x00303F21 slot 0x80 | virtual slot, introduced by UtlBase<DemoActor>
+    bool StartInitialize() override; // 0x00300751 slot 0x78
+    bool EndInitialize() override; // 0x00303F21 slot 0x80
     virtual void vf_0xB4(); // 0x0075E148 slot 0xB4 | virtual slot, introduced by AcNpc
     virtual void vf_0xF4(); // 0x00605B30 slot 0xF4 | virtual slot, introduced by AcNpc
     virtual void vf_0xF8(); // 0x0075E15C slot 0xF8 | virtual slot, introduced by AcNpc

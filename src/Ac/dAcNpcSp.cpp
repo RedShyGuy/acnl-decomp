@@ -16,13 +16,13 @@ oml::framework::Result AcNpcSp::Calc()
 {
 }
 
-// 0x00300751 slot 0x78 | virtual slot, introduced by UtlBase<DemoActor>
-void AcNpcSp::vf_0x78()
+// 0x00300751 slot 0x78
+bool AcNpcSp::StartInitialize()
 {
 }
 
-// 0x00303F21 slot 0x80 | virtual slot, introduced by UtlBase<DemoActor>
-void AcNpcSp::vf_0x80()
+// 0x00303F21 slot 0x80
+bool AcNpcSp::EndInitialize()
 {
 }
 

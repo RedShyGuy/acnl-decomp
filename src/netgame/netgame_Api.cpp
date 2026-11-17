@@ -7,6 +7,8 @@
 #include "netgame/dNetGameMgr.h"
 #include "net/dNet.h"
 #include <cstring>
+#include "Other/dHeapInit.h"
+#include "sead/seadExpHeap.h"
 
 namespace netgame {
 
@@ -715,7 +717,7 @@ void SetJoinAck()
 // 0x006278C8 (name is ours)
 void CreateNetGameMgr()
 {
-    sead::Heap* heap = g_pNetGameHeap;
+    sead::Heap* heap = HeapInit::s_pNetGameHeap;
     if (heap != NULL) {
         NetGameMgr::createInstance(heap);
         NetGameMgr::s_pInstance->AllocBuffers(heap);

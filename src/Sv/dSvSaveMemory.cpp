@@ -10,6 +10,7 @@
 #include "Bs/dBsSvMgr.h"
 #include "Sv/dSvApi.h"
 #include "Sv/dSvChecksum.h"
+#include "ssys/ma/dAllocator.h"
 #include "Sv/dSvHolder.h"
 #include "Sv/dSvProcExtern.h"
 #include "event/event_Api.h"
@@ -34,9 +35,9 @@ bool SvIsCrcValid(const void* base, const void* data, u32* checksum, u32 size, b
 }
 
 // 0x005CB0EC (name is ours)
-SvSaveMemoryUnk8* SvGetSaveMemoryUnk8()
+ssys::ma::Allocator* SvGetSaveAllocator()
 {
-    return g_SvSaveMemory.unk_0x8;
+    return g_SvSaveMemory.pAllocator;
 }
 
 // 0x005CB0FC (name is ours)
@@ -299,7 +300,7 @@ void SvAllocateSaveMemory()
         return;
     }
     g_SvSaveMemory.pData =
-        static_cast<SvGardenPlus*>(g_SvSaveMemory.unk_0x8->pHeap->tryAlloc(sizeof(SvGardenPlus), 128));
+        static_cast<SvGardenPlus*>(g_SvSaveMemory.pAllocator->m_pHeap->tryAlloc(sizeof(SvGardenPlus), 128));
     std::memset(static_cast<void*>(g_SvSaveMemory.pData), 0, sizeof(SvGardenPlus));
     SvGardenPlus* data = g_SvSaveMemory.pData;
     if (data != NULL) {

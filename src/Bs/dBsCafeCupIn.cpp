@@ -11,13 +11,13 @@ BsCafeCupIn::~BsCafeCupIn()
 {
 }
 
-// 0x001C268C slot 0x48 | virtual slot, introduced by BsGeneralObj
-void BsCafeCupIn::vf_0x48()
+// 0x001C268C slot 0x48
+bool BsCafeCupIn::EndInitialize()
 {
 }
 
-// 0x001C283C slot 0x4C | virtual slot, introduced by BsGeneralObj
-void BsCafeCupIn::vf_0x4C()
+// 0x001C283C slot 0x4C
+bool BsCafeCupIn::StartFinalize()
 {
 }
 

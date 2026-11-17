@@ -21,23 +21,23 @@ void AcNpcSpRollan::vf_0x64()
 {
 }
 
-// 0x0010A045 slot 0x78 | virtual slot, introduced by UtlBase<DemoActor>
-void AcNpcSpRollan::vf_0x78()
+// 0x0010A045 slot 0x78
+bool AcNpcSpRollan::StartInitialize()
 {
 }
 
-// 0x0010A019 slot 0x7C | virtual slot, introduced by UtlBase<DemoActor>
-void AcNpcSpRollan::vf_0x7C()
+// 0x0010A019 slot 0x7C
+oml::framework::Result AcNpcSpRollan::UpdateInitialize()
 {
 }
 
-// 0x00210434 slot 0x80 | virtual slot, introduced by UtlBase<DemoActor>
-void AcNpcSpRollan::vf_0x80()
+// 0x00210434 slot 0x80
+bool AcNpcSpRollan::EndInitialize()
 {
 }
 
-// 0x0010A06D slot 0x88 | virtual slot, introduced by UtlBase<DemoActor>
-void AcNpcSpRollan::vf_0x88()
+// 0x0010A06D slot 0x88
+oml::framework::Result AcNpcSpRollan::UpdateFinalize()
 {
 }
 

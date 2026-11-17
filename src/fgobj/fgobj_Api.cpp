@@ -48,6 +48,7 @@
 #include "nw/gfx/gfx_Api.h"
 #include "nn/math/math_Api.h"
 #include "netgame/netgame_Api.h"
+#include "Other/dActor.h"
 
 namespace fgobj {
 // (name is ours)
@@ -1124,7 +1125,7 @@ void GetAngleFromPlayer(math::Angle16* out, const SvFgName& item, s32 x, s32 z, 
     } else {
         nn::math::VEC3 position;
         GetObjectPosition(&position, item, x, z, false);
-        angle = netgame::Func57C4F0(&actor->m_Position, &position);
+        angle = Actor::CalcAngleY(&actor->m_Position, &position);
     }
     *out = angle;
 }

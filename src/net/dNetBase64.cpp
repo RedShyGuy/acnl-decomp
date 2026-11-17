@@ -4,16 +4,15 @@
 #include "nn/util/util_Base64.h"
 #include "sead/seadHeap.h"
 #include <cstring>
+#include "Other/dHeapInit.h"
+#include "sead/seadExpHeap.h"
 
 namespace net {
-// 0x00953CBC (name is ours; set by the game)
-sead::Heap* g_pWorkHeap;
-
 // 0x0051AE28 (name is ours)
 u32 EncodeBase64(const u8* src, u32 srcSize, char16* dst, u32 dstLength, sead::Heap* heap)
 {
     if (heap == NULL) {
-        heap = g_pWorkHeap;
+        heap = HeapInit::s_pWorkHeap;
         if (heap == NULL) {
             return 0;
         }
@@ -68,7 +67,7 @@ u32 EncodeBase64(const u8* src, u32 srcSize, char16* dst, u32 dstLength, char* w
 u32 DecodeBase64(const char16* src, u32 srcLength, u8* dst, u32 dstSize, sead::Heap* heap)
 {
     if (heap == NULL) {
-        heap = g_pWorkHeap;
+        heap = HeapInit::s_pWorkHeap;
         if (heap == NULL) {
             return 0;
         }

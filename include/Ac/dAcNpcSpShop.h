@@ -21,9 +21,9 @@ public:
     virtual void vf_0x58(); // 0x00752DB4 slot 0x58 | virtual slot, introduced by DemoActor
     virtual void vf_0x5C(); // 0x0070D9EC slot 0x5C | virtual slot, introduced by DemoActor
     virtual void vf_0x60(); // 0x0070DC60 slot 0x60 | virtual slot, introduced by DemoActor
-    virtual void vf_0x78(); // 0x00106C11 slot 0x78 | virtual slot, introduced by UtlBase<DemoActor>
-    virtual void vf_0x80(); // 0x001BF064 slot 0x80 | virtual slot, introduced by UtlBase<DemoActor>
-    virtual void vf_0x8C(); // 0x001BF310 slot 0x8C | virtual slot, introduced by UtlBase<DemoActor>
+    bool StartInitialize() override; // 0x00106C11 slot 0x78
+    bool EndInitialize() override; // 0x001BF064 slot 0x80
+    bool EndFinalize() override; // 0x001BF310 slot 0x8C
     virtual void vf_0x90(); // 0x00578340 slot 0x90 | virtual slot, introduced by AcNpc
     virtual void vf_0x11C(); // 0x006E5080 slot 0x11C | virtual slot, introduced by AcNpc
     virtual void vf_0x148(); // 0x001BF7E4 slot 0x148 | virtual slot, introduced by AcNpc

@@ -325,3 +325,5 @@ extern const ProcName PROC_BS_TAKUMI_FLOW_LOADER = static_cast<ProcName>(631);
 extern const ProcName PROC_BS_SEAD_PARTICLE_MGR = static_cast<ProcName>(632);
 // 0x00888408
 extern const ProcName PROC_BS_MODEL_EFFECT_MGR = static_cast<ProcName>(638);
+// 0x0088840A
+extern const ProcName PROC_NAME_NUM = PROC_NAME_COUNT;

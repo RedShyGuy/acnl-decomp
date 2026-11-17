@@ -29,5 +29,4 @@ extern void* g_pUnknown95488C;
 extern u8 g_UnknownA83000[];
 extern u8 g_UnknownAAFF14;
 extern u8 g_EnteringPlayer;
-extern sead::Heap* g_pNetGameHeap;
 } // namespace netgame

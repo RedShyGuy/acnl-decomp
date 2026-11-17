@@ -3,6 +3,7 @@
 #include "Sound/dSoundLabel.h"
 #include "Sound/dSoundMgr.h"
 #include "Other/dHeapInit.h"
+#include "sead/seadExpHeap.h"
 #include "sead/seadAudioMgr.h"
 #include "sead/seadAudioSoundHeapCtr.h"
 #include "sead/seadNew.h"
@@ -71,7 +72,7 @@ void SoundDataLoadMgr::CreateHeaps(sead::Heap* heap)
 // 0x002BD06C
 void SoundDataLoadMgr::CreateStageHeaps(bool all)
 {
-    sead::Heap* heap = HeapInit::s_pSoundDataHeap;
+    sead::Heap* heap = HeapInit::s_pSoundExtStageHeap;
     if (heap == NULL) {
         return;
     }

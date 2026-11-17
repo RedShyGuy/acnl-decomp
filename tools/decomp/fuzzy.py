@@ -1053,6 +1053,20 @@ def _data_literals(a, b):
     return a, b
 
 
+def _fn_literals(a, b):
+    """('fn', w) on one side and the constant w on the other: a constant that happens to be the
+    address of a function (the heap size 0x1A3200 of HeapInit), when the other side does not
+    address that function"""
+    a, b = Counter(a), Counter(b)
+    for x, y in ((a, b), (b, a)):
+        for f in [f for f in x if f[0] == 'fn' and len(f) == 2 and isinstance(f[1], int)]:
+            k = min(x[f] - y[f], y[('k', f[1])] - x[('k', f[1])])
+            if k > 0:
+                x[f] -= k
+                x[('k', f[1])] += k
+    return +a, +b
+
+
 def _cmp_literal(a, b):
     """'cmp K' on one side and a literal K on the other are the same constant: whether it fits
     into the compare depends on the compiler (ARMCC compares a float with 1.0f as an integer)"""
@@ -1248,7 +1262,7 @@ def _orr_consts(a, b, ors_a, ors_b):
 def _consts(a, b, ors_a=None, ors_b=None):
     if ors_a is not None and ors_b is not None:
         a, b = _orr_consts(a, b, ors_a, ors_b)
-    a, b = _range_checks(*_result_checks(*_cmp_literal(*_data_literals(*_division_consts(*_halfword_consts(a, b))))))
+    a, b = _range_checks(*_result_checks(*_cmp_literal(*_fn_literals(*_data_literals(*_division_consts(*_halfword_consts(a, b)))))))
     a, b = _product_consts(a, b)
     pairs = _near_cmp(a, b)
     # compares with 0 only count when they stand in for another compare
@@ -1474,7 +1488,7 @@ def explain(mine, theirs):
         if cat == 'consts':
             # the same steps as _consts
             a, b = _orr_consts(a, b, mine.get('orr') or Counter(), theirs.get('orr') or Counter())
-            a, b = _range_checks(*_result_checks(*_cmp_literal(*_data_literals(*_division_consts(*_halfword_consts(a, b))))))
+            a, b = _range_checks(*_result_checks(*_cmp_literal(*_fn_literals(*_data_literals(*_division_consts(*_halfword_consts(a, b)))))))
             missing, extra = b - a, a - b
             for fa, fb in _near_cmp(a, b):
                 extra[fa] -= 1

@@ -21,11 +21,6 @@ void escape::BsEscapeModelPickupFlyingItem::CanInitialize() const
 {
 }
 
-// 0x0082067C slot 0x0C | slot vf_0x0C of oml::framework::Process
-void escape::BsEscapeModelPickupFlyingItem::vf_0x0C()
-{
-}
-
 // 0x00521610 slot 0x10 | libgarden
 void escape::BsEscapeModelPickupFlyingItem::HandleInitializationResult(oml::framework::Result)
 {
@@ -33,11 +28,6 @@ void escape::BsEscapeModelPickupFlyingItem::HandleInitializationResult(oml::fram
 
 // 0x0052A44C slot 0x14 | libgarden
 void escape::BsEscapeModelPickupFlyingItem::CanFinalize() const
-{
-}
-
-// 0x00820718 slot 0x18 | slot vf_0x18 of oml::framework::Process
-void escape::BsEscapeModelPickupFlyingItem::vf_0x18()
 {
 }
 
@@ -78,11 +68,6 @@ void escape::BsEscapeModelPickupFlyingItem::ProcessDrawResult(oml::framework::Re
 
 // 0x00521710 slot 0x38 | libgarden
 void escape::BsEscapeModelPickupFlyingItem::OnNotify()
-{
-}
-
-// 0x00748D08 slot 0x3C | libgarden
-bool escape::BsEscapeModelPickupFlyingItem::Unk0()
 {
 }
 

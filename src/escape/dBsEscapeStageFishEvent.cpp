@@ -21,11 +21,6 @@ void escape::BsEscapeStageFishEvent::CanInitialize() const
 {
 }
 
-// 0x0082067C slot 0x0C | slot vf_0x0C of oml::framework::Process
-void escape::BsEscapeStageFishEvent::vf_0x0C()
-{
-}
-
 // 0x00521610 slot 0x10 | libgarden
 void escape::BsEscapeStageFishEvent::HandleInitializationResult(oml::framework::Result)
 {
@@ -33,11 +28,6 @@ void escape::BsEscapeStageFishEvent::HandleInitializationResult(oml::framework::
 
 // 0x0052A44C slot 0x14 | libgarden
 void escape::BsEscapeStageFishEvent::CanFinalize() const
-{
-}
-
-// 0x00820718 slot 0x18 | slot vf_0x18 of oml::framework::Process
-void escape::BsEscapeStageFishEvent::vf_0x18()
 {
 }
 
@@ -78,11 +68,6 @@ void escape::BsEscapeStageFishEvent::ProcessDrawResult(oml::framework::Result)
 
 // 0x00521710 slot 0x38 | libgarden
 void escape::BsEscapeStageFishEvent::OnNotify()
-{
-}
-
-// 0x00748D08 slot 0x3C | libgarden
-bool escape::BsEscapeStageFishEvent::Unk0()
 {
 }
 

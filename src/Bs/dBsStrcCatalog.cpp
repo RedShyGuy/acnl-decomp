@@ -12,16 +12,6 @@ BsStrcCatalog::~BsStrcCatalog()
 {
 }
 
-// 0x0082067C slot 0x0C | slot vf_0x0C of oml::framework::Process
-oml::framework::Result BsStrcCatalog::Initialize()
-{
-}
-
-// 0x00820718 slot 0x18 | slot vf_0x18 of oml::framework::Process
-oml::framework::Result BsStrcCatalog::Finalize()
-{
-}
-
 // 0x0022904C slot 0x24 | slot vf_0x24 of oml::framework::Process
 oml::framework::Result BsStrcCatalog::Calc()
 {
@@ -32,33 +22,33 @@ oml::framework::Result BsStrcCatalog::Draw()
 {
 }
 
-// 0x00227764 slot 0x40 | virtual slot, introduced by BsStrcCatalog
-void BsStrcCatalog::vf_0x40()
+// 0x00227764 slot 0x40
+bool BsStrcCatalog::StartInitialize()
 {
 }
 
-// 0x00227564 slot 0x44 | virtual slot, introduced by BsStrcCatalog
-void BsStrcCatalog::vf_0x44()
+// 0x00227564 slot 0x44
+oml::framework::Result BsStrcCatalog::UpdateInitialize()
 {
 }
 
-// 0x002270E0 slot 0x48 | virtual slot, introduced by BsStrcCatalog
-void BsStrcCatalog::vf_0x48()
+// 0x002270E0 slot 0x48
+bool BsStrcCatalog::EndInitialize()
 {
 }
 
-// 0x002278E4 slot 0x4C | virtual slot, introduced by BsStrcCatalog
-void BsStrcCatalog::vf_0x4C()
+// 0x002278E4 slot 0x4C
+bool BsStrcCatalog::StartFinalize()
 {
 }
 
-// 0x002278D4 slot 0x50 | virtual slot, introduced by BsStrcCatalog
-void BsStrcCatalog::vf_0x50()
+// 0x002278D4 slot 0x50
+oml::framework::Result BsStrcCatalog::UpdateFinalize()
 {
 }
 
-// 0x002277FC slot 0x54 | virtual slot, introduced by BsStrcCatalog
-void BsStrcCatalog::vf_0x54()
+// 0x002277FC slot 0x54
+bool BsStrcCatalog::EndFinalize()
 {
 }
 

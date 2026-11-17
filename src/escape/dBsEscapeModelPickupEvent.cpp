@@ -21,11 +21,6 @@ void escape::BsEscapeModelPickupEvent::CanInitialize() const
 {
 }
 
-// 0x0082067C slot 0x0C | slot vf_0x0C of oml::framework::Process
-void escape::BsEscapeModelPickupEvent::vf_0x0C()
-{
-}
-
 // 0x00521610 slot 0x10 | libgarden
 void escape::BsEscapeModelPickupEvent::HandleInitializationResult(oml::framework::Result)
 {
@@ -33,11 +28,6 @@ void escape::BsEscapeModelPickupEvent::HandleInitializationResult(oml::framework
 
 // 0x0052A44C slot 0x14 | libgarden
 void escape::BsEscapeModelPickupEvent::CanFinalize() const
-{
-}
-
-// 0x00820718 slot 0x18 | slot vf_0x18 of oml::framework::Process
-void escape::BsEscapeModelPickupEvent::vf_0x18()
 {
 }
 
@@ -78,11 +68,6 @@ void escape::BsEscapeModelPickupEvent::ProcessDrawResult(oml::framework::Result)
 
 // 0x00521710 slot 0x38 | libgarden
 void escape::BsEscapeModelPickupEvent::OnNotify()
-{
-}
-
-// 0x00748D08 slot 0x3C | libgarden
-bool escape::BsEscapeModelPickupEvent::Unk0()
 {
 }
 

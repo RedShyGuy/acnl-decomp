@@ -653,7 +653,7 @@ void SoundMgr::LoadStageGroups(stage::Name stage)
         }
     }
 extra:
-    if (HeapInit::s_pSoundDataHeap == NULL) {
+    if (HeapInit::s_pSoundExtStageHeap == NULL) {
         return;
     }
     if (group == GROUP_ESCAPE) {

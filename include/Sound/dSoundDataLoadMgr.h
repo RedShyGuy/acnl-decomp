@@ -35,7 +35,7 @@ public:
     void Finalize(); // 0x0013E404
     // heaps 0 and 1 in heap
     void CreateHeaps(sead::Heap* heap); // 0x001238D4
-    // heaps 2..4 (4 only if !all) in HeapInit::s_pSoundDataHeap
+    // heaps 2..4 (4 only if !all) in HeapInit::s_pSoundExtStageHeap
     void CreateStageHeaps(bool all); // 0x002BD06C
     void DestroyStageHeaps(); // 0x002BD0DC
     // the pending frees

@@ -15,10 +15,10 @@ public:
     virtual oml::framework::Result Calc(); // 0x001F3870 slot 0x24 | slot vf_0x24 of oml::framework::Process
     virtual void vf_0x4C(); // 0x007126D8 slot 0x4C | virtual slot, introduced by DemoActor
     virtual void vf_0x64(); // 0x001F38B0 slot 0x64 | virtual slot, introduced by DemoActor
-    virtual void vf_0x78(); // 0x001098AD slot 0x78 | virtual slot, introduced by UtlBase<DemoActor>
-    virtual void vf_0x7C(); // 0x00109825 slot 0x7C | virtual slot, introduced by UtlBase<DemoActor>
-    virtual void vf_0x80(); // 0x00109791 slot 0x80 | virtual slot, introduced by UtlBase<DemoActor>
-    virtual void vf_0x88(); // 0x001098BD slot 0x88 | virtual slot, introduced by UtlBase<DemoActor>
+    bool StartInitialize() override; // 0x001098AD slot 0x78
+    oml::framework::Result UpdateInitialize() override; // 0x00109825 slot 0x7C
+    bool EndInitialize() override; // 0x00109791 slot 0x80
+    oml::framework::Result UpdateFinalize() override; // 0x001098BD slot 0x88
     virtual void vf_0x90(); // 0x001F250C slot 0x90 | virtual slot, introduced by AcNpc
     virtual void vf_0xC8(); // 0x001F2C28 slot 0xC8 | virtual slot, introduced by AcNpc
     virtual void vf_0x114(); // 0x001F3830 slot 0x114 | virtual slot, introduced by AcNpc

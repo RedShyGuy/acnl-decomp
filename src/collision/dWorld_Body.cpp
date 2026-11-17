@@ -1,12 +1,12 @@
 #include "collision/dWorld_Body.h"
 
 // 0x006F89B4 (name is ours)
-collision::World::Body::Body() : m_pShape(NULL), m_Unk8(0), m_UnkC(0)
+collision::World::Body::Body() : m_pShape(NULL), m_Group(0), m_Mask(0)
 {
 }
 
 // 0x006F899C (name is ours)
-collision::World::Body::Body(Shape* shape, u32 unk8, u32 unkC) : m_pShape(shape), m_Unk8(unk8), m_UnkC(unkC)
+collision::World::Body::Body(Shape* shape, u32 group, u32 mask) : m_pShape(shape), m_Group(group), m_Mask(mask)
 {
 }
 
@@ -15,4 +15,18 @@ collision::World::Body::Body(Shape* shape, u32 unk8, u32 unkC) : m_pShape(shape)
 collision::World::Body::~Body()
 {
     // empty (in the original too)
+}
+
+// 0x006F8990 (name is ours)
+void collision::World::Body::Set(Shape* shape, u32 group, u32 mask)
+{
+    m_pShape = shape;
+    m_Group = group;
+    m_Mask = mask;
+}
+
+// 0x006F8954 (name is ours)
+void collision::World::Body::SetMask(u32 mask)
+{
+    m_Mask = mask;
 }

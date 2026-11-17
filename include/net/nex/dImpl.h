@@ -50,9 +50,6 @@ class Heap;
 } // namespace sead
 
 namespace net {
-// the heap of the network layer (name is ours)
-extern sead::Heap* g_pNetHeap;
-
 namespace nex {
 // a station of the network game (names after libgarden)
 struct ParticipantInfo

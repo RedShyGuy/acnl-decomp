@@ -67,33 +67,33 @@ bool AcNpc::vf_0x70(DemoActor*)
 {
 }
 
-// 0x00306990 slot 0x78 | virtual slot, introduced by UtlBase<DemoActor>
-void AcNpc::vf_0x78()
+// 0x00306990 slot 0x78
+bool AcNpc::StartInitialize()
 {
 }
 
-// 0x00304175 slot 0x7C | virtual slot, introduced by UtlBase<DemoActor>
-void AcNpc::vf_0x7C()
+// 0x00304175 slot 0x7C
+oml::framework::Result AcNpc::UpdateInitialize()
 {
 }
 
-// 0x003064C4 slot 0x80 | virtual slot, introduced by UtlBase<DemoActor>
-void AcNpc::vf_0x80()
+// 0x003064C4 slot 0x80
+bool AcNpc::EndInitialize()
 {
 }
 
-// 0x0010C6E1 slot 0x84 | virtual slot, introduced by UtlBase<DemoActor>
-void AcNpc::vf_0x84()
+// 0x0010C6E1 slot 0x84
+bool AcNpc::StartFinalize()
 {
 }
 
-// 0x003041A9 slot 0x88 | virtual slot, introduced by UtlBase<DemoActor>
-void AcNpc::vf_0x88()
+// 0x003041A9 slot 0x88
+oml::framework::Result AcNpc::UpdateFinalize()
 {
 }
 
-// 0x0010C6AD slot 0x8C | virtual slot, introduced by UtlBase<DemoActor>
-void AcNpc::vf_0x8C()
+// 0x0010C6AD slot 0x8C
+bool AcNpc::EndFinalize()
 {
 }
 

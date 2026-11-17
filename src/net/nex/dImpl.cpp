@@ -88,10 +88,9 @@
 #include "nn/pia/common/common_Scheduler.h"
 #include "sead/seadExpHeap.h"
 #include "sead/seadSafeStringBase.h"
+#include "Other/dHeapInit.h"
 
 namespace net {
-// 0x00953CAC (name is ours; set by the game)
-sead::Heap* g_pNetHeap;
 
 namespace nex {
 // The globals of the Impl.
@@ -992,7 +991,7 @@ net::nex::Impl::Impl()
 {
     m_SessionText[234] = 0; // (the constructor clears this character too)
     s_pInstance = this;
-    m_pHeap = g_pNetHeap;
+    m_pHeap = HeapInit::s_pNetHeap;
     m_SessionText[0] = 0;
 }
 

@@ -20,11 +20,11 @@ public:
     virtual oml::framework::Result Draw(); // 0x00336030 slot 0x30 | slot vf_0x30 of oml::framework::Process
     virtual bool vf_0x48(DemoActor* actor); // 0x00726684 slot 0x48 | virtual slot, introduced by DemoActor
     virtual void vf_0x50(u8 message, netgame::PlayerNo player); // 0x00336088 slot 0x50 | virtual slot, introduced by DemoActor
-    virtual void vf_0x78(); // 0x00335EF4 slot 0x78 | virtual slot, introduced by UtlBase<DemoActor>
-    virtual void vf_0x7C(); // 0x00335EEC slot 0x7C | virtual slot, introduced by UtlBase<DemoActor>
-    virtual void vf_0x80(); // 0x00335E70 slot 0x80 | virtual slot, introduced by UtlBase<DemoActor>
-    virtual void vf_0x84(); // 0x00335F0C slot 0x84 | virtual slot, introduced by UtlBase<DemoActor>
-    virtual void vf_0x88(); // 0x00335F04 slot 0x88 | virtual slot, introduced by UtlBase<DemoActor>
-    virtual void vf_0x8C(); // 0x00335EFC slot 0x8C | virtual slot, introduced by UtlBase<DemoActor>
+    bool StartInitialize() override; // 0x00335EF4 slot 0x78
+    oml::framework::Result UpdateInitialize() override; // 0x00335EEC slot 0x7C
+    bool EndInitialize() override; // 0x00335E70 slot 0x80
+    bool StartFinalize() override; // 0x00335F0C slot 0x84
+    oml::framework::Result UpdateFinalize() override; // 0x00335F04 slot 0x88
+    bool EndFinalize() override; // 0x00335EFC slot 0x8C
     virtual void vf_0x90(); // 0x00335F14 slot 0x90 | virtual slot, introduced by AcAutoCampEntrySignboard
 };

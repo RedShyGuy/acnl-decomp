@@ -31,8 +31,9 @@ oml::framework::Result BsFogMgr::Draw()
 {
 }
 
-// 0x00766F68 slot 0x3C | slot vf_0x3C of Base
-bool BsFogMgr::Unk0()
+// 0x00766F68 slot 0x3C (name is ours)
+u32 BsFogMgr::GetTypeMask()
 {
+    return TYPE_MASK_BASE | TYPE_MASK_ENVIRONMENT;
 }
 

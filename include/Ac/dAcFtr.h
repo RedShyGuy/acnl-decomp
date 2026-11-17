@@ -22,15 +22,15 @@ public:
     virtual oml::framework::Result Calc(); // 0x00576834 slot 0x24 | slot vf_0x24 of oml::framework::Process
     virtual oml::framework::Result Draw(); // 0x005760B4 slot 0x30 | slot vf_0x30 of oml::framework::Process
     virtual void OnNotify(); // 0x0056FC8C slot 0x38 | slot vf_0x38 of oml::framework::Process
-    virtual bool Unk0(); // 0x00751DF4 slot 0x3C | slot vf_0x3C of Base
+    virtual u32 GetTypeMask(); // 0x00751DF4 slot 0x3C (name is ours)
     virtual void vf_0x50(u8 message, netgame::PlayerNo player); // 0x00577D9C slot 0x50 | virtual slot, introduced by DemoActor
     virtual void vf_0x58(); // 0x0075198C slot 0x58 | virtual slot, introduced by DemoActor
-    virtual void vf_0x78(); // 0x0056F4EC slot 0x78 | virtual slot, introduced by UtlBase<DemoActor>
-    virtual void vf_0x7C(); // 0x0056F1AC slot 0x7C | virtual slot, introduced by UtlBase<DemoActor>
-    virtual void vf_0x80(); // 0x0056ED34 slot 0x80 | virtual slot, introduced by UtlBase<DemoActor>
-    virtual void vf_0x84(); // 0x005719F8 slot 0x84 | virtual slot, introduced by UtlBase<DemoActor>
-    virtual void vf_0x88(); // 0x00571984 slot 0x88 | virtual slot, introduced by UtlBase<DemoActor>
-    virtual void vf_0x8C(); // 0x00570B10 slot 0x8C | virtual slot, introduced by UtlBase<DemoActor>
+    bool StartInitialize() override; // 0x0056F4EC slot 0x78
+    oml::framework::Result UpdateInitialize() override; // 0x0056F1AC slot 0x7C
+    bool EndInitialize() override; // 0x0056ED34 slot 0x80
+    bool StartFinalize() override; // 0x005719F8 slot 0x84
+    oml::framework::Result UpdateFinalize() override; // 0x00571984 slot 0x88
+    bool EndFinalize() override; // 0x00570B10 slot 0x8C
     virtual void vf_0x90(); // 0x00752418 slot 0x90 | virtual slot, introduced by AcFtr
     virtual void vf_0x94(); // 0x00751DBC slot 0x94 | virtual slot, introduced by AcFtr
     virtual void vf_0x98(); // 0x00573CFC slot 0x98 | virtual slot, introduced by AcFtr

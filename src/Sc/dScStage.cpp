@@ -15,16 +15,6 @@ ScStage::~ScStage()
 {
 }
 
-// 0x008209A4 slot 0x0C | slot vf_0x0C of oml::framework::Process
-oml::framework::Result ScStage::Initialize()
-{
-}
-
-// 0x00820A40 slot 0x18 | slot vf_0x18 of oml::framework::Process
-oml::framework::Result ScStage::Finalize()
-{
-}
-
 // 0x006134F4 slot 0x24 | slot vf_0x24 of oml::framework::Process
 oml::framework::Result ScStage::Calc()
 {
@@ -40,38 +30,33 @@ void ScStage::vf_0x40()
 {
 }
 
-// 0x00612394 slot 0x44 | virtual slot, introduced by ScStage
-void ScStage::vf_0x44()
+// 0x00612394 slot 0x44
+bool ScStage::StartInitialize()
 {
 }
 
-// 0x00611ECC slot 0x48 | virtual slot, introduced by ScStage
-void ScStage::vf_0x48()
+// 0x00611ECC slot 0x48
+oml::framework::Result ScStage::UpdateInitialize()
 {
 }
 
-// 0x00611B8C slot 0x4C | virtual slot, introduced by ScStage
-void ScStage::vf_0x4C()
+// 0x00611B8C slot 0x4C
+bool ScStage::EndInitialize()
 {
 }
 
-// 0x00612E18 slot 0x50 | virtual slot, introduced by ScStage
-void ScStage::vf_0x50()
+// 0x00612E18 slot 0x50
+bool ScStage::StartFinalize()
 {
 }
 
-// 0x00612D48 slot 0x54 | virtual slot, introduced by ScStage
-void ScStage::vf_0x54()
+// 0x00612D48 slot 0x54
+oml::framework::Result ScStage::UpdateFinalize()
 {
 }
 
-// 0x00612B20 slot 0x58 | virtual slot, introduced by ScStage
-void ScStage::vf_0x58()
-{
-}
-
-// 0x0010C404 | libgarden [tier A]
-void ScStage::CreateIslandFieldHeap(sead::Heap*)
+// 0x00612B20 slot 0x58
+bool ScStage::EndFinalize()
 {
 }
 

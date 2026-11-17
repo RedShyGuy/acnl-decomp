@@ -40,9 +40,9 @@ public:
     void SetFrame(f32 frame); // 0x004EF054
 
     // (inline; copies for the game) whether a one-time animation is at its end (the start frame for a negative speed)
-    DECOMP_EMIT_COPY bool IsFinished(); // 0x00746DA0
-    DECOMP_EMIT_COPY f32 GetSpeed(); // 0x00746E54
-    DECOMP_EMIT_COPY f32 GetFrame(); // 0x00746E6C
+    DECOMP_EMIT_COPY DECOMP_NOINLINE inline bool IsFinished(); // 0x00746DA0
+    DECOMP_EMIT_COPY DECOMP_NOINLINE inline f32 GetSpeed(); // 0x00746E54
+    DECOMP_EMIT_COPY DECOMP_NOINLINE inline f32 GetFrame(); // 0x00746E6C
 
     u8 m_PlayMode; // 0x4 PlayMode
 };

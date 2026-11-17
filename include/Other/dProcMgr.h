@@ -189,10 +189,17 @@ enum ProcType : u8
     PROC_TYPE_ACTOR = 2,
 };
 
+// the number of the process classes (a variable of the file of the constants)
+extern const ProcName PROC_NAME_NUM;
+
 class ProcMgr
 {
 public:
-    // NULL for a process class out of range or a stopped parent
+    // a process of the class as a child of parent (NULL for a process class out of range or a stopped parent)
     static oml::framework::Process* Create(ProcName name, oml::framework::Process* parent, u32 arg, ProcType type); // 0x0052A32C (name after libgarden)
-    void Create(ProcName, unsigned long, ProcType); // 0x0052A3B4 | libgarden [tier A]
+    // a process of the class without a parent
+    static oml::framework::Process* Create(ProcName name, u32 arg, ProcType type); // 0x0052A3B4 (name after libgarden)
+
+    // the class of the process that is being made (0xFFFF: none; name is ours)
+    static ProcName s_CreatingName;
 };

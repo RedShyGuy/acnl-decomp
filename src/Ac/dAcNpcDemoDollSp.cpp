@@ -11,8 +11,8 @@ AcNpcDemoDollSp::~AcNpcDemoDollSp()
 {
 }
 
-// 0x0027E334 slot 0x80 | virtual slot, introduced by UtlBase<DemoActor>
-void AcNpcDemoDollSp::vf_0x80()
+// 0x0027E334 slot 0x80
+bool AcNpcDemoDollSp::EndInitialize()
 {
 }
 

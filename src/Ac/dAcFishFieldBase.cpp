@@ -8,6 +8,8 @@ AcFishFieldBase::AcFishFieldBase()
 }
 
 // 0x0027E2AC slot 0x00 | slot vf_0x00 of oml::framework::Process
+// 0x00775604 (thunk)
+// 0x007755EC (deleting thunk)
 AcFishFieldBase::~AcFishFieldBase()
 {
 }

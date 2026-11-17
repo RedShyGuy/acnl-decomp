@@ -19,11 +19,11 @@ public:
     virtual void vf_0x50(u8 message, netgame::PlayerNo player); // 0x002A8AA4 slot 0x50 | virtual slot, introduced by DemoActor
     virtual void vf_0x5C(); // 0x0071D5E0 slot 0x5C | virtual slot, introduced by DemoActor
     virtual void vf_0x60(); // 0x0071D7F8 slot 0x60 | virtual slot, introduced by DemoActor
-    virtual void vf_0x78(); // 0x002A8A70 slot 0x78 | virtual slot, introduced by UtlBase<DemoActor>
-    virtual void vf_0x7C(); // 0x002A8A68 slot 0x7C | virtual slot, introduced by UtlBase<DemoActor>
-    virtual void vf_0x80(); // 0x002A8A3C slot 0x80 | virtual slot, introduced by UtlBase<DemoActor>
-    virtual void vf_0x84(); // 0x002A8A88 slot 0x84 | virtual slot, introduced by UtlBase<DemoActor>
-    virtual void vf_0x88(); // 0x002A8A80 slot 0x88 | virtual slot, introduced by UtlBase<DemoActor>
-    virtual void vf_0x8C(); // 0x002A8A78 slot 0x8C | virtual slot, introduced by UtlBase<DemoActor>
+    bool StartInitialize() override; // 0x002A8A70 slot 0x78
+    oml::framework::Result UpdateInitialize() override; // 0x002A8A68 slot 0x7C
+    bool EndInitialize() override; // 0x002A8A3C slot 0x80
+    bool StartFinalize() override; // 0x002A8A88 slot 0x84
+    oml::framework::Result UpdateFinalize() override; // 0x002A8A80 slot 0x88
+    bool EndFinalize() override; // 0x002A8A78 slot 0x8C
     virtual void vf_0x90(); // 0x0071D5E8 slot 0x90 | virtual slot, introduced by AcSimpleTalkBase
 };

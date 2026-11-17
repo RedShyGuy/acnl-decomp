@@ -18,6 +18,7 @@
 #include "netgame/dNetGameMgr.h"
 #include "stage/dTransitionMgr.h"
 #include "stage/stage_Extern.h"
+#include "Other/dActor.h"
 
 namespace netgame {
 
@@ -1713,7 +1714,7 @@ void netgame::IslandMgr::StartIslandReturn(bool isLeaving)
             if (i == 0) {
                 rotations[0] = Func6DB524();
             } else {
-                rotations[i] = Func57C4F0(&positions[i], &target);
+                rotations[i] = Actor::CalcAngleY(&positions[i], &target);
             }
         }
         if (GetNetgameType() == TYPE_RANDOM_MATCH || isLeaving) {

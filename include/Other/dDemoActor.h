@@ -21,7 +21,6 @@ public:
         // 0x006E511C slot 0x04 (deleting dtor)
 
         DemoActor* m_pActor; // 0x10
-        u8 _14[0xC];         // 0x14
     };
     DemoActor(); // ctor address unknown
     virtual ~DemoActor(); // 0x006E535C slot 0x00 | slot vf_0x00 of oml::framework::Process
@@ -45,6 +44,9 @@ public:
 
     u32 GetId() const { return m_Node.m_Id; }
 
-    ListNodeDemoActor m_Node; // 0x48 (size after libgarden)
+    ListNodeDemoActor m_Node; // 0x48
+    f32 m_Unk5C;              // 0x5C
+    f32 m_Unk60;              // 0x60
+    u16 m_Unk64;              // 0x64 (UtlBase<DemoActor> keeps its flags behind it at 0x66)
 };
 ASSERT_SIZE(DemoActor, 0x68);

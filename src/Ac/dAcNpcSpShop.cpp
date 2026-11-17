@@ -46,18 +46,18 @@ void AcNpcSpShop::vf_0x60()
 {
 }
 
-// 0x00106C11 slot 0x78 | virtual slot, introduced by UtlBase<DemoActor>
-void AcNpcSpShop::vf_0x78()
+// 0x00106C11 slot 0x78
+bool AcNpcSpShop::StartInitialize()
 {
 }
 
-// 0x001BF064 slot 0x80 | virtual slot, introduced by UtlBase<DemoActor>
-void AcNpcSpShop::vf_0x80()
+// 0x001BF064 slot 0x80
+bool AcNpcSpShop::EndInitialize()
 {
 }
 
-// 0x001BF310 slot 0x8C | virtual slot, introduced by UtlBase<DemoActor>
-void AcNpcSpShop::vf_0x8C()
+// 0x001BF310 slot 0x8C
+bool AcNpcSpShop::EndFinalize()
 {
 }
 

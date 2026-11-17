@@ -11,8 +11,8 @@ AcNpcBoardingDemoDollPlayer::~AcNpcBoardingDemoDollPlayer()
 {
 }
 
-// 0x00342CE4 slot 0x80 | virtual slot, introduced by UtlBase<DemoActor>
-void AcNpcBoardingDemoDollPlayer::vf_0x80()
+// 0x00342CE4 slot 0x80
+bool AcNpcBoardingDemoDollPlayer::EndInitialize()
 {
 }
 

@@ -30,9 +30,10 @@ struct VEC3 : public VEC3_
         z = v.z;
     }
 
-    VEC3 operator+(const VEC3& v) const { VEC3 r = { x + v.x, y + v.y, z + v.z }; return r; }
-    VEC3 operator-(const VEC3& v) const { VEC3 r = { x - v.x, y - v.y, z - v.z }; return r; }
-    VEC3 operator*(f32 f) const { VEC3 r = { x * f, y * f, z * f }; return r; }
+    // (the copies in the shared area are called by the collision code of the game)
+    DECOMP_EMIT_COPY VEC3 operator+(const VEC3& v) const { VEC3 r = { x + v.x, y + v.y, z + v.z }; return r; } // 0x00750ECC
+    DECOMP_EMIT_COPY VEC3 operator-(const VEC3& v) const { VEC3 r = { x - v.x, y - v.y, z - v.z }; return r; } // 0x00750E74
+    DECOMP_EMIT_COPY VEC3 operator*(f32 f) const { VEC3 r = { x * f, y * f, z * f }; return r; } // 0x00750EA4
 
     // the zero vector (inline: a function-local static, e.g. in the static initializer of
     // hid_GyroscopeReader.cpp; the name is ours)

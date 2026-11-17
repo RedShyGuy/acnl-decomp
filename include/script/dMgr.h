@@ -36,16 +36,20 @@ public:
 
     static Mgr* s_pInstance;
     static SingletonDisposer_* s_pSingletonDisposer;
-    // the heap of the memory of libms
-    static sead::Heap* s_pMessageHeap;
-    // the heap of the message project and of the string lists of StrMgr
-    static sead::Heap* s_pDataHeap;
-    // the heap of the message files of the talk
-    static sead::Heap* s_pFileHeap;
-    // the heap of the letter files
+    // the heaps of the script (names after the heap names "ScriptHeap<Name>"; made by CreateHeaps): the memory of libms,
+    // the message project and the string lists of StrMgr, the message files of the talk, the letter files, the flow files
+    static sead::Heap* s_pLibmsHeap;
+    static sead::Heap* s_pStaticHeap;
+    static sead::Heap* s_pMsgHeap;
     static sead::Heap* s_pMailHeap;
-    // the heap of the flow files
     static sead::Heap* s_pFlowHeap;
+
+    // the five heaps of the script in parent (the script heap of HeapInit; name is ours)
+    static void CreateHeaps(sead::Heap* parent); // 0x00120E2C
+    // the five heaps are destroyed (name is ours)
+    static void DestroyHeaps(); // 0x0013987C
+    // the size of the script heap of HeapInit (inline; the copy is called by HeapInit; name is ours)
+    DECOMP_EMIT_COPY DECOMP_NOINLINE static u32 GetHeapSize() { return 0x1A3200; } // 0x00120F7C
 
     // (inline)
     Mgr() : m_pDate(NULL), m_pTalk(NULL), m_pFlow(NULL) {}

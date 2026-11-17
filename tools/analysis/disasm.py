@@ -3,6 +3,7 @@
 
     python tools/analysis/disasm.py <start> <end> [--version 0004000000086300]
     python tools/analysis/disasm.py 0x47E788 0x47E8DC
+    python tools/analysis/disasm.py 0x100048 0x100088 --thumb
 
 Function starts from config/<version>/symbols.json get a "--- <address> <name>" header, calls
 are named, and every pc-relative literal is shown with its value and what it points to
@@ -28,6 +29,7 @@ def main():
     ap.add_argument('start')
     ap.add_argument('end')
     ap.add_argument('--version', default='0004000000086300')
+    ap.add_argument('--thumb', action='store_true', help='disassemble as Thumb')
     a = ap.parse_args()
     elf = os.path.join(ROOT, 'orig', a.version, 'code.elf')
     db = json.load(open(os.path.join(ROOT, 'config', a.version, 'symbols.json'), encoding='utf-8'))
@@ -37,12 +39,12 @@ def main():
     vptr = {vt['vptr']: c['name'] for c in db['classes'] for vt in c['vtables']}
     m = elfmem.Mem(elf)
     lo, hi = int(a.start, 16), int(a.end, 16)
-    out = subprocess.run([objdump(), '-d', '-marm', f'--start-address={lo}', f'--stop-address={hi}', elf],
+    out = subprocess.run([objdump(), '-d', '-marm'] + (['-Mforce-thumb'] if a.thumb else []) + [ f'--start-address={lo}', f'--stop-address={hi}', elf],
                          capture_output=True, text=True).stdout
     # jump tables: `cmp rX, #N; ldrcc pc, [pc, rX, lsl #2]; b default` and N words of targets
     last_cmp, table = None, None
     for line in out.splitlines():
-        mm = re.match(r'\s+([0-9a-f]+):\s+([0-9a-f]{8})\s+(.*)', line)
+        mm = re.match(r'\s+([0-9a-f]+):\s+([0-9a-f]{4}(?: [0-9a-f]{4})?|[0-9a-f]{8})\s+(.*)', line)
         if not mm:
             continue
         addr, txt = int(mm.group(1), 16), mm.group(3)
@@ -62,9 +64,13 @@ def main():
             note = names[int(t.group(1), 16)]
         t = re.search(r'\[pc, #(-?\d+)\]', txt)
         if t:
-            v = m.u32(addr + 8 + int(t.group(1)))
+            v = m.u32(((addr + 4) & ~3) + int(t.group(1)) if a.thumb else addr + 8 + int(t.group(1)))
             note = f'={v:#x} ' + (names.get(v & ~1) or (vptr[v] + ' vptr' if v in vptr else '')
                                    or (repr(m.cstr(v)) if m.cstr(v) else ''))
+        t = re.match(r'(?:add\s+r\d+, pc, #|adr\s+r\d+, #?)(-?\d+)', txt)
+        if t and a.thumb:
+            v = ((addr + 4) & ~3) + int(t.group(1))
+            note = f'&{v:#x} ' + (repr(m.cstr(v)) if m.cstr(v) else '')
         txt = re.sub(r'\s*@.*', '', txt)
         print(f'{addr:06x}: {txt:40s} {note}')
 

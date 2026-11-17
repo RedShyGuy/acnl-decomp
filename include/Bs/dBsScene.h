@@ -19,7 +19,7 @@ public:
     virtual void HandleCalcResult(oml::framework::Result); // 0x006074F8 slot 0x28 | slot vf_0x28 of oml::framework::Process
     virtual bool CanDraw() const; // 0x00607898 slot 0x2C | slot vf_0x2C of oml::framework::Process
     virtual void ProcessDrawResult(oml::framework::Result); // 0x006078AC slot 0x34 | slot vf_0x34 of oml::framework::Process
-    virtual bool Unk0(); // 0x0075E164 slot 0x3C | slot vf_0x3C of Base
+    virtual u32 GetTypeMask(); // 0x0075E164 slot 0x3C (name is ours)
     virtual void vf_0x40(); // 0x0011C12F slot 0x40 | slot vf_0x00 of ChangeRentalBase
 
     // (names are ours; only what the stage code uses)
@@ -41,4 +41,8 @@ public:
     static const u8 FADE_TYPE_KEEP = 6;
     static void RequestChange(u16 name, u8 typeA, u8 faderA, u8 typeB, u8 faderB, u32 arg); // 0x006074FC
     static ChangeRequest s_ChangeRequest;
+
+    // (in the tail padding of Process; UtlBase<BsScene> keeps its flags behind them at 0x15)
+    bool m_Unk13; // 0x13
+    bool m_Unk14; // 0x14
 };

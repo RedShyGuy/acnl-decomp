@@ -39,8 +39,8 @@ public:
 
     nw::gfx::TransformNode* GetNode() const { return m_pNode; }
     // (inline; copies for the game) the world / local transform of the node
-    DECOMP_EMIT_COPY const nw::gfx::CalculatedTransform& GetWorldTransform() const; // 0x00746C2C
-    DECOMP_EMIT_COPY const nw::gfx::CalculatedTransform& GetLocalTransform() const; // 0x00746C38
+    DECOMP_EMIT_COPY DECOMP_NOINLINE inline const nw::gfx::CalculatedTransform& GetWorldTransform() const; // 0x00746C2C
+    DECOMP_EMIT_COPY DECOMP_NOINLINE inline const nw::gfx::CalculatedTransform& GetLocalTransform() const; // 0x00746C38
 
     nw::gfx::TransformNode* m_pNode; // 0x4
 };

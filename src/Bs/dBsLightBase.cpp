@@ -31,9 +31,10 @@ oml::framework::Result BsLightBase::Draw()
 {
 }
 
-// 0x0070E3BC slot 0x3C | slot vf_0x3C of Base
-bool BsLightBase::Unk0()
+// 0x0070E3BC slot 0x3C (name is ours)
+u32 BsLightBase::GetTypeMask()
 {
+    return TYPE_MASK_BASE | TYPE_MASK_ENVIRONMENT;
 }
 
 // 0x0011C12F slot 0x40 | slot vf_0x00 of ChangeRentalBase

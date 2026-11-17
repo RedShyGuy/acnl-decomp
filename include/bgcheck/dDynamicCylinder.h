@@ -18,7 +18,7 @@ public:
     // 0x00615060 (deleting dtor)
 
     // the cylinder and the values of the body (the copy lies in the code of the collision world)
-    void Set(const nn::math::VEC3* center, f32 radius, f32 height, u32 unk8, u32 unkC); // 0x006F8960
+    void Set(const nn::math::VEC3* center, f32 radius, f32 height, u32 group, u32 mask); // 0x006F8960
     // the cylinder (the copy lies in the code of the collision world and falls into Cylinder::Set)
     void SetCylinder(const nn::math::VEC3* center, f32 radius, f32 height); // 0x006F8EF0
 

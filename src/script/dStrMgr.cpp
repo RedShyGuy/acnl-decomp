@@ -77,7 +77,7 @@ inline bool StrMgr::File::Load(sead::Heap* tempHeap)
 // 0x005DFFBC (name is ours)
 void StrMgr::MainGroup::AddFiles()
 {
-    sead::Heap* heap = Mgr::s_pDataHeap;
+    sead::Heap* heap = Mgr::s_pStaticHeap;
     for (const ListInfo* info = s_Lists; info->name != NULL; info++) {
         if (info->mask != 0) {
             continue;

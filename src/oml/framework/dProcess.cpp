@@ -68,12 +68,6 @@ Result oml::framework::Process::Draw()
     return RESULT_SUCCESS;
 }
 
-// 0x005220BC slot 0x0C
-Result oml::framework::Process::Initialize()
-{
-    return RESULT_SUCCESS;
-}
-
 // 0x005220C8 slot 0x24
 Result oml::framework::Process::Calc()
 {
@@ -84,12 +78,6 @@ Result oml::framework::Process::Calc()
 bool oml::framework::Process::CanDraw() const
 {
     return true;
-}
-
-// 0x005220DC slot 0x18
-Result oml::framework::Process::Finalize()
-{
-    return RESULT_SUCCESS;
 }
 
 // 0x005220E8 slot 0x34 | libgarden

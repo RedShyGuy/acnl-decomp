@@ -14,6 +14,8 @@
 #include "sead/seadNew.h"
 #include "sead/seadSafeStringBase.h"
 #include <cstring>
+#include "Other/dHeapInit.h"
+#include "sead/seadExpHeap.h"
 
 namespace net {
 namespace cec {
@@ -214,7 +216,7 @@ void Create()
     if (s_pMessageBox != NULL) {
         return;
     }
-    sead::Heap* heap = g_pNetHeap;
+    sead::Heap* heap = HeapInit::s_pNetHeap;
     s_pHeap = sead::ExpHeap::create(0x28000, sead::SafeStringBase<char>("CecHeap"), heap,
                                     sead::Heap::HEAP_DIRECTION_FORWARD, false);
     CecControl::Initialize(s_Allocator);

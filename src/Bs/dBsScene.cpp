@@ -51,9 +51,10 @@ void BsScene::ProcessDrawResult(oml::framework::Result)
 {
 }
 
-// 0x0075E164 slot 0x3C | slot vf_0x3C of Base
-bool BsScene::Unk0()
+// 0x0075E164 slot 0x3C (name is ours)
+u32 BsScene::GetTypeMask()
 {
+    return TYPE_MASK_SCENE;
 }
 
 // 0x0011C12F slot 0x40 | slot vf_0x00 of ChangeRentalBase

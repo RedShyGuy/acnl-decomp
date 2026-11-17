@@ -55,6 +55,15 @@ public:
     void* GetTextureAnims(const char* name) const { return m_pData->textureAnims.GetData(name); }
     // the skeletal animation of the name (for the game; NULL: none; name is ours)
     void* GetSkeletalAnims(const char* name) const; // 0x004A6D24 (name is ours)
+    // (inline; names are ours, after GetModels) the counts and the objects at index / of the name of the animation
+    // dictionaries (the game builds its models from the first entries)
+    s32 GetSkeletalAnimsCount() const { return m_pData->skeletalAnims.count; }
+    void* GetSkeletalAnims(int index) const { return m_pData->skeletalAnims.GetData(index); }
+    s32 GetTextureAnimsCount() const { return m_pData->textureAnims.count; }
+    void* GetTextureAnims(int index) const { return m_pData->textureAnims.GetData(index); }
+    s32 GetVisibilityAnimsCount() const { return m_pData->visibilityAnims.count; }
+    void* GetVisibilityAnims(int index) const { return m_pData->visibilityAnims.GetData(index); }
+    void* GetVisibilityAnims(const char* name) const { return m_pData->visibilityAnims.GetData(name); }
 
     void Cleanup(); // 0x00131E5C | nintendogs:bytes [tier A]
     // the objects of the file: lookup tables, lights, fogs, shaders, textures, animations, models

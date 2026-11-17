@@ -11,8 +11,8 @@ AcNpcTopsChangeDemoDollSpBase::~AcNpcTopsChangeDemoDollSpBase()
 {
 }
 
-// 0x00343B88 slot 0x80 | virtual slot, introduced by UtlBase<DemoActor>
-void AcNpcTopsChangeDemoDollSpBase::vf_0x80()
+// 0x00343B88 slot 0x80
+bool AcNpcTopsChangeDemoDollSpBase::EndInitialize()
 {
 }
 

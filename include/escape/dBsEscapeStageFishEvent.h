@@ -12,10 +12,8 @@ public:
     virtual void vf_0x00(); // 0x005D28E0 slot 0x00 | virtual slot, introduced by escape::BsEscapeStageFishEvent
     virtual void vf_0x04(); // 0x005D28D0 slot 0x04 | virtual slot, introduced by escape::BsEscapeStageFishEvent
     virtual void CanInitialize() const; // 0x0052A438 slot 0x08 | libgarden
-    virtual void vf_0x0C(); // 0x0082067C slot 0x0C | slot vf_0x0C of oml::framework::Process
     virtual void HandleInitializationResult(oml::framework::Result); // 0x00521610 slot 0x10 | libgarden
     virtual void CanFinalize() const; // 0x0052A44C slot 0x14 | libgarden
-    virtual void vf_0x18(); // 0x00820718 slot 0x18 | slot vf_0x18 of oml::framework::Process
     virtual void HandleFinalizationResult(oml::framework::Result); // 0x00521618 slot 0x1C | libgarden
     virtual void CanCalc() const; // 0x0052A3A0 slot 0x20 | libgarden
     virtual void vf_0x24(); // 0x007B2C88 slot 0x24 | virtual slot, introduced by AcStrcCampingCar
@@ -24,7 +22,6 @@ public:
     virtual void vf_0x30(); // 0x007B2C88 slot 0x30 | virtual slot, introduced by AcStrcCampingCar
     virtual void ProcessDrawResult(oml::framework::Result); // 0x005220E8 slot 0x34 | libgarden
     virtual void OnNotify(); // 0x00521710 slot 0x38 | libgarden
-    virtual bool Unk0(); // 0x00748D08 slot 0x3C | libgarden
     virtual void vf_0x40(); // 0x007B2C88 slot 0x40 | virtual slot, introduced by AcStrcCampingCar
     virtual void vf_0x44(); // 0x007B2C88 slot 0x44 | virtual slot, introduced by AcStrcCampingCar
     virtual void vf_0x48(); // 0x007B2C88 slot 0x48 | virtual slot, introduced by AcStrcCampingCar

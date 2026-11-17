@@ -528,6 +528,7 @@ Field* FieldFactory::Create(stage::Name name)
                 resources.Initialize(current, mutil::BaseResourceMgr<g3d::ResourceLoader, 1>::DEFAULT_HEAP_SIZE);
                 const mutil::ResourceKey key = resources.Load("Bg/Outdoor/Textures/GrassBaldness.bcres");
                 Func6F9A68(field, resources.Get(key));
+                resources.Finalize();
                 return field;
             }
             // the other stages: the grounds and heights of the stage layout, indoors also the items

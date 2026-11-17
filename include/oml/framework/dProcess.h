@@ -36,10 +36,11 @@ public:
     virtual ~Process(); // 0x0052218C slot 0x00 | libgarden
     // 0x00522184 (deleting dtor)
     virtual bool CanInitialize() const; // 0x00522128 slot 0x08
-    virtual Result Initialize(); // 0x005220BC slot 0x0C
+    // (inline: UtlBase calls it qualified, ARMCC embeds it there)
+    virtual Result Initialize() { return RESULT_SUCCESS; } // 0x005220BC slot 0x0C
     virtual void HandleInitializationResult(Result result); // 0x00521614 slot 0x10
     virtual bool CanFinalize() const; // 0x00522130 slot 0x14
-    virtual Result Finalize(); // 0x005220DC slot 0x18
+    virtual Result Finalize() { return RESULT_SUCCESS; } // 0x005220DC slot 0x18
     virtual void HandleFinalizationResult(Result result); // 0x0052161C slot 0x1C
     virtual bool CanCalc() const; // 0x00521620 slot 0x20
     virtual Result Calc(); // 0x005220C8 slot 0x24

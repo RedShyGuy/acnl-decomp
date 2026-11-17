@@ -66,7 +66,6 @@ u64 GetClock(); // 0x0056C010
 s64 GetCurrentTime(); // 0x0056C448
 void ResetStageData(); // 0x0056C7EC
 void UpdateClock(); // 0x0056D2B0
-math::Angle16 Func57C4F0(const nn::math::VEC3_* from, const nn::math::VEC3_* to); // 0x0057C4F0
 void Func582F4C(); // 0x00582F4C
 void Func5C401C(); // 0x005C401C
 void Func5C4D04(void* object); // 0x005C4D04

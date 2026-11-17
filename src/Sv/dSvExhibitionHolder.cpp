@@ -68,8 +68,8 @@ bool SvExhibitionHolder::Allocate()
     if (m_pData != NULL) {
         return false;
     }
-    if (HeapInit::s_pUnknown953CB4 != NULL) {
-        m_pData = new (HeapInit::s_pUnknown953CB4, 4) SvExhibition();
+    if (HeapInit::s_pExhibitionParkHeap != NULL) {
+        m_pData = new (HeapInit::s_pExhibitionParkHeap, 4) SvExhibition();
     } else {
         m_pData = new (HeapInit::s_pStageHeap, 4) SvExhibition();
     }

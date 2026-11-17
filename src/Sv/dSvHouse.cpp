@@ -55,3 +55,17 @@ SvRoomActiveLayers::SvRoomActiveLayers()
 {
     SetAllLayersActiveInline(this);
 }
+
+// 0x0032D1D8 (name is ours)
+void SvHouseExterior::SetDefault()
+{
+    houseSize = 0;
+    houseStyle = 0;
+    houseDoorShape = 0;
+    houseBrick = 1;
+    houseRoof = 1;
+    houseDoor = 1;
+    houseFence = 0;
+    housePavement = 1;
+    houseMailBox = 11;
+}

@@ -13,14 +13,12 @@ public:
     BsGrRenderer(); // ctor candidate(s) 0x001F9C88 (unverified)
     virtual ~BsGrRenderer(); // 0x001F9D24 slot 0x00 | slot vf_0x00 of oml::framework::Process
     // 0x001F9CF8 slot 0x04 | slot vf_0x04 of oml::framework::Process (deleting dtor)
-    virtual oml::framework::Result Initialize(); // 0x0082067C slot 0x0C | slot vf_0x0C of oml::framework::Process
-    virtual oml::framework::Result Finalize(); // 0x00820718 slot 0x18 | slot vf_0x18 of oml::framework::Process
     virtual oml::framework::Result Calc(); // 0x001F9C80 slot 0x24 | slot vf_0x24 of oml::framework::Process
     virtual oml::framework::Result Draw(); // 0x001F9C68 slot 0x30 | slot vf_0x30 of oml::framework::Process
-    virtual void vf_0x40(); // 0x001F9B68 slot 0x40 | virtual slot, introduced by BsGrRenderer
-    virtual void vf_0x44(); // 0x001F9B60 slot 0x44 | virtual slot, introduced by BsGrRenderer
-    virtual void vf_0x48(); // 0x001F9B10 slot 0x48 | virtual slot, introduced by BsGrRenderer
-    virtual void vf_0x4C(); // 0x001F9C58 slot 0x4C | virtual slot, introduced by BsGrRenderer
-    virtual void vf_0x50(); // 0x001F9C50 slot 0x50 | virtual slot, introduced by BsGrRenderer
-    virtual void vf_0x54(); // 0x001F9BC8 slot 0x54 | virtual slot, introduced by BsGrRenderer
+    bool StartInitialize() override; // 0x001F9B68 slot 0x40
+    oml::framework::Result UpdateInitialize() override; // 0x001F9B60 slot 0x44
+    bool EndInitialize() override; // 0x001F9B10 slot 0x48
+    bool StartFinalize() override; // 0x001F9C58 slot 0x4C
+    oml::framework::Result UpdateFinalize() override; // 0x001F9C50 slot 0x50
+    bool EndFinalize() override; // 0x001F9BC8 slot 0x54
 };

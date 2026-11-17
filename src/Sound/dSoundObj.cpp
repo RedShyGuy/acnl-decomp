@@ -240,7 +240,7 @@ template void SoundObj<1>::StopSounds(s32 fadeFrames);
 // 0x00250B1C (copy)
 // 0x00821594 (deleting dtor)
 template SoundObj<1>::~SoundObj();
-// 0x00250ACC
+// (0x00250ACC is the constructor of AudioObj1 with this one inline)
 template SoundObj<1>::SoundObj();
 
 // 0x00821638

@@ -43,33 +43,33 @@ void AcPlayer::vf_0x5C()
 {
 }
 
-// 0x0064DD30 slot 0x78 | virtual slot, introduced by UtlBase<DemoActor>
-void AcPlayer::vf_0x78()
+// 0x0064DD30 slot 0x78
+bool AcPlayer::StartInitialize()
 {
 }
 
-// 0x001170B9 slot 0x7C | virtual slot, introduced by UtlBase<DemoActor>
-void AcPlayer::vf_0x7C()
+// 0x001170B9 slot 0x7C
+oml::framework::Result AcPlayer::UpdateInitialize()
 {
 }
 
-// 0x0064D0D0 slot 0x80 | virtual slot, introduced by UtlBase<DemoActor>
-void AcPlayer::vf_0x80()
+// 0x0064D0D0 slot 0x80
+bool AcPlayer::EndInitialize()
 {
 }
 
-// 0x00117175 slot 0x84 | virtual slot, introduced by UtlBase<DemoActor>
-void AcPlayer::vf_0x84()
+// 0x00117175 slot 0x84
+bool AcPlayer::StartFinalize()
 {
 }
 
-// 0x0011715D slot 0x88 | virtual slot, introduced by UtlBase<DemoActor>
-void AcPlayer::vf_0x88()
+// 0x0011715D slot 0x88
+oml::framework::Result AcPlayer::UpdateFinalize()
 {
 }
 
-// 0x00117125 slot 0x8C | virtual slot, introduced by UtlBase<DemoActor>
-void AcPlayer::vf_0x8C()
+// 0x00117125 slot 0x8C
+bool AcPlayer::EndFinalize()
 {
 }
 

@@ -31,8 +31,9 @@ oml::framework::Result BsCamera::Draw()
 {
 }
 
-// 0x00766EAC slot 0x3C | slot vf_0x3C of Base
-bool BsCamera::Unk0()
+// 0x00766EAC slot 0x3C (name is ours)
+u32 BsCamera::GetTypeMask()
 {
+    return TYPE_MASK_BASE | TYPE_MASK_ENVIRONMENT;
 }
 

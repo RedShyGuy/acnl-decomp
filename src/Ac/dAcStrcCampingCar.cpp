@@ -22,11 +22,6 @@ bool AcStrcCampingCar::CanInitialize() const
 {
 }
 
-// 0x00820810 slot 0x0C | virtual slot, introduced by AcStrcCampingCar
-void AcStrcCampingCar::vf_0x0C()
-{
-}
-
 // 0x00307C80 slot 0x10 | slot vf_0x10 of oml::framework::Process
 void AcStrcCampingCar::HandleInitializationResult(oml::framework::Result)
 {
@@ -37,33 +32,8 @@ bool AcStrcCampingCar::CanFinalize() const
 {
 }
 
-// 0x008208AC slot 0x18 | virtual slot, introduced by AcStrcCampingCar
-void AcStrcCampingCar::vf_0x18()
-{
-}
-
-// 0x0057C474 slot 0x1C | slot vf_0x1C of oml::framework::Process
-void AcStrcCampingCar::HandleFinalizationResult(oml::framework::Result)
-{
-}
-
-// 0x0057C478 slot 0x20 | slot vf_0x20 of oml::framework::Process
-bool AcStrcCampingCar::CanCalc() const
-{
-}
-
 // 0x002A9DF4 slot 0x24 | virtual slot, introduced by AcStrcCampingCar
 void AcStrcCampingCar::vf_0x24()
-{
-}
-
-// 0x0057C50C slot 0x28 | slot vf_0x28 of oml::framework::Process
-void AcStrcCampingCar::HandleCalcResult(oml::framework::Result)
-{
-}
-
-// 0x0057C514 slot 0x2C | slot vf_0x2C of oml::framework::Process
-bool AcStrcCampingCar::CanDraw() const
 {
 }
 
@@ -72,23 +42,8 @@ void AcStrcCampingCar::vf_0x30()
 {
 }
 
-// 0x005220E4 slot 0x34 | slot vf_0x34 of oml::framework::Process
-void AcStrcCampingCar::ProcessDrawResult(oml::framework::Result)
-{
-}
-
 // 0x00521710 slot 0x38 | libgarden
 void AcStrcCampingCar::OnNotify()
-{
-}
-
-// 0x007537F0 slot 0x3C | slot vf_0x3C of Base
-bool AcStrcCampingCar::Unk0()
-{
-}
-
-// 0x0057C510 slot 0x40 | virtual slot, introduced by AcStrcCampingCar
-void AcStrcCampingCar::vf_0x40()
 {
 }
 
@@ -277,33 +232,33 @@ void AcStrcCampingCar::vf_0xD4()
 {
 }
 
-// 0x002A9698 slot 0xD8 | virtual slot, introduced by AcStrcCampingCar
-void AcStrcCampingCar::vf_0xD8()
+// 0x002A9698 slot 0xD8
+bool AcStrcCampingCar::StartInitialize()
 {
 }
 
-// 0x002A93E8 slot 0xDC | virtual slot, introduced by AcStrcCampingCar
-void AcStrcCampingCar::vf_0xDC()
+// 0x002A93E8 slot 0xDC
+oml::framework::Result AcStrcCampingCar::UpdateInitialize()
 {
 }
 
-// 0x002A8B70 slot 0xE0 | virtual slot, introduced by AcStrcCampingCar
-void AcStrcCampingCar::vf_0xE0()
+// 0x002A8B70 slot 0xE0
+bool AcStrcCampingCar::EndInitialize()
 {
 }
 
-// 0x002A99A4 slot 0xE4 | virtual slot, introduced by AcStrcCampingCar
-void AcStrcCampingCar::vf_0xE4()
+// 0x002A99A4 slot 0xE4
+bool AcStrcCampingCar::StartFinalize()
 {
 }
 
-// 0x002A98AC slot 0xE8 | virtual slot, introduced by AcStrcCampingCar
-void AcStrcCampingCar::vf_0xE8()
+// 0x002A98AC slot 0xE8
+oml::framework::Result AcStrcCampingCar::UpdateFinalize()
 {
 }
 
-// 0x002A988C slot 0xEC | virtual slot, introduced by AcStrcCampingCar
-void AcStrcCampingCar::vf_0xEC()
+// 0x002A988C slot 0xEC
+bool AcStrcCampingCar::EndFinalize()
 {
 }
 

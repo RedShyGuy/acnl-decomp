@@ -12,16 +12,6 @@ BsCharRoomViewMgr::~BsCharRoomViewMgr()
 {
 }
 
-// 0x0082067C slot 0x0C | slot vf_0x0C of oml::framework::Process
-oml::framework::Result BsCharRoomViewMgr::Initialize()
-{
-}
-
-// 0x00820718 slot 0x18 | slot vf_0x18 of oml::framework::Process
-oml::framework::Result BsCharRoomViewMgr::Finalize()
-{
-}
-
 // 0x002C6A84 slot 0x24 | slot vf_0x24 of oml::framework::Process
 oml::framework::Result BsCharRoomViewMgr::Calc()
 {
@@ -32,33 +22,33 @@ oml::framework::Result BsCharRoomViewMgr::Draw()
 {
 }
 
-// 0x002C5C34 slot 0x40 | virtual slot, introduced by BsCharRoomViewMgr
-void BsCharRoomViewMgr::vf_0x40()
+// 0x002C5C34 slot 0x40
+bool BsCharRoomViewMgr::StartInitialize()
 {
 }
 
-// 0x002C58EC slot 0x44 | virtual slot, introduced by BsCharRoomViewMgr
-void BsCharRoomViewMgr::vf_0x44()
+// 0x002C58EC slot 0x44
+oml::framework::Result BsCharRoomViewMgr::UpdateInitialize()
 {
 }
 
-// 0x002C56C4 slot 0x48 | virtual slot, introduced by BsCharRoomViewMgr
-void BsCharRoomViewMgr::vf_0x48()
+// 0x002C56C4 slot 0x48
+bool BsCharRoomViewMgr::EndInitialize()
 {
 }
 
-// 0x002C645C slot 0x4C | virtual slot, introduced by BsCharRoomViewMgr
-void BsCharRoomViewMgr::vf_0x4C()
+// 0x002C645C slot 0x4C
+bool BsCharRoomViewMgr::StartFinalize()
 {
 }
 
-// 0x002C6288 slot 0x50 | virtual slot, introduced by BsCharRoomViewMgr
-void BsCharRoomViewMgr::vf_0x50()
+// 0x002C6288 slot 0x50
+oml::framework::Result BsCharRoomViewMgr::UpdateFinalize()
 {
 }
 
-// 0x002C60AC slot 0x54 | virtual slot, introduced by BsCharRoomViewMgr
-void BsCharRoomViewMgr::vf_0x54()
+// 0x002C60AC slot 0x54
+bool BsCharRoomViewMgr::EndFinalize()
 {
 }
 

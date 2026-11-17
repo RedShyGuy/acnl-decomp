@@ -1,5 +1,6 @@
 #include "mutil/dBaseResourceMgr.h"
 #include "g3d/dResourceLoader.h"
+#include "mutil/dResourceLoaderMgr.h"
 #include "field/dFieldBuilderUtil.h"
 
 namespace mutil {
@@ -92,4 +93,31 @@ template mutil::BaseResourceMgr<g3d::ResourceLoader, 64u>::ResourceNode::Resourc
 // 0x005B2884 (deleting dtor)
 template mutil::BaseResourceMgr<g3d::ResourceLoader, 64u>::ResourceNode::~ResourceNode();
 
+// 0x008167FC (name is ours)
+template <>
+void BaseResourceMgr<g3d::ResourceLoader, 2u>::Initialize(sead::Heap* parent, u32 size)
+{
+    InitializeImpl(parent, size);
+}
+
+// 0x0081690C (name is ours)
+template <>
+ResourceKey BaseResourceMgr<g3d::ResourceLoader, 2u>::Load(const char* name)
+{
+    return LoadImpl(name);
+}
+
+// 0x00816B64 (name is ours)
+template <>
+ResourceKey BaseResourceMgr<g3d::ResourceLoader, 3u>::Load(const char* name)
+{
+    return LoadImpl(name);
+}
+
+// 0x00816DC8 (name is ours)
+template <>
+ResourceKey BaseResourceMgr<g3d::ResourceLoader, 4u>::Load(const char* name)
+{
+    return LoadImpl(name);
+}
 } // namespace mutil

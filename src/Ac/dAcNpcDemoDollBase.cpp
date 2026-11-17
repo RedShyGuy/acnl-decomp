@@ -16,23 +16,23 @@ oml::framework::Result AcNpcDemoDollBase::Calc()
 {
 }
 
-// 0x0010B92D slot 0x78 | virtual slot, introduced by UtlBase<DemoActor>
-void AcNpcDemoDollBase::vf_0x78()
+// 0x0010B92D slot 0x78
+bool AcNpcDemoDollBase::StartInitialize()
 {
 }
 
-// 0x0010B8D9 slot 0x7C | virtual slot, introduced by UtlBase<DemoActor>
-void AcNpcDemoDollBase::vf_0x7C()
+// 0x0010B8D9 slot 0x7C
+oml::framework::Result AcNpcDemoDollBase::UpdateInitialize()
 {
 }
 
-// 0x0010B869 slot 0x80 | virtual slot, introduced by UtlBase<DemoActor>
-void AcNpcDemoDollBase::vf_0x80()
+// 0x0010B869 slot 0x80
+bool AcNpcDemoDollBase::EndInitialize()
 {
 }
 
-// 0x0010B965 slot 0x88 | virtual slot, introduced by UtlBase<DemoActor>
-void AcNpcDemoDollBase::vf_0x88()
+// 0x0010B965 slot 0x88
+oml::framework::Result AcNpcDemoDollBase::UpdateFinalize()
 {
 }
 

@@ -10,21 +10,17 @@
 // g_SvSaveMemory; the players of other towns in a network game lie in g_SvNetPlayerList.
 
 // the save file in memory (names are ours; the save code of the game allocates the copy)
-// (an object of the save code whose heap the save data is allocated from; names are ours)
-namespace sead {
-class Heap;
-} // namespace sead
-struct SvSaveMemoryUnk8
-{
-    u32 unk_0x0;            // 0x0
-    sead::Heap* pHeap;      // 0x4
-};
+namespace ssys {
+namespace ma {
+class Allocator;
+} // namespace ma
+} // namespace ssys
 
 struct SvSaveMemory
 {
     SvGardenPlus* pData;    // 0x0
     SvGardenPlus* pCopy;    // 0x4 a copy of 0x89B00 bytes
-    SvSaveMemoryUnk8* unk_0x8; // 0x8 (its heap holds the save data)
+    ssys::ma::Allocator* pAllocator; // 0x8 the allocator on the "SaveAllocator" heap (HeapInit::CreateSaveAllocator)
 };
 extern SvSaveMemory g_SvSaveMemory;
 // the save data in memory is valid (name is ours)

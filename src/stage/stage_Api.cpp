@@ -12,6 +12,7 @@
 #include "stage/stage_Tables.h"
 
 #include <cstring>
+#include "Other/dActor.h"
 
 namespace stage {
 // 0x00958340
@@ -416,7 +417,7 @@ bool CreateActors(const Command* command)
         const ActorEntry& entry = entries[i];
         nn::math::VEC3_ position = entry.position;
         math::Angle16Vec3 rotation = entry.rotation;
-        if (ActorCreate(entry.name, s_pParent, entry.arg, &position, &rotation) == NULL) {
+        if (Actor::Create(static_cast<ProcName>(entry.name), s_pParent, entry.arg, &position, &rotation) == NULL) {
             return false;
         }
     }

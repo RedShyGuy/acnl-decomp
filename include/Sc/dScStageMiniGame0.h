@@ -12,15 +12,13 @@ public:
     ScStageMiniGame0(); // ctor candidate(s) 0x007F03F4 (unverified)
     virtual ~ScStageMiniGame0(); // 0x00313AF0 slot 0x00 | slot vf_0x00 of oml::framework::Process
     // 0x002BCBDC slot 0x04 | slot vf_0x04 of oml::framework::Process (deleting dtor)
-    virtual oml::framework::Result Initialize(); // 0x008209A4 slot 0x0C | slot vf_0x0C of oml::framework::Process
-    virtual oml::framework::Result Finalize(); // 0x00820A40 slot 0x18 | slot vf_0x18 of oml::framework::Process
     virtual oml::framework::Result Calc(); // 0x002BCB98 slot 0x24 | slot vf_0x24 of oml::framework::Process
     virtual oml::framework::Result Draw(); // 0x002BCB90 slot 0x30 | slot vf_0x30 of oml::framework::Process
     virtual void vf_0x40(); // 0x0071DF7C slot 0x40 | virtual slot, introduced by BsScene
-    virtual void vf_0x44(); // 0x002BC990 slot 0x44 | virtual slot, introduced by ScStageMiniGame0
-    virtual void vf_0x48(); // 0x002BC948 slot 0x48 | virtual slot, introduced by ScStageMiniGame0
-    virtual void vf_0x4C(); // 0x002BC8A4 slot 0x4C | virtual slot, introduced by ScStageMiniGame0
-    virtual void vf_0x50(); // 0x002BCB68 slot 0x50 | virtual slot, introduced by ScStageMiniGame0
-    virtual void vf_0x54(); // 0x002BCB50 slot 0x54 | virtual slot, introduced by ScStageMiniGame0
-    virtual void vf_0x58(); // 0x002BCAB4 slot 0x58 | virtual slot, introduced by ScStageMiniGame0
+    bool StartInitialize() override; // 0x002BC990 slot 0x44
+    oml::framework::Result UpdateInitialize() override; // 0x002BC948 slot 0x48
+    bool EndInitialize() override; // 0x002BC8A4 slot 0x4C
+    bool StartFinalize() override; // 0x002BCB68 slot 0x50
+    oml::framework::Result UpdateFinalize() override; // 0x002BCB50 slot 0x54
+    bool EndFinalize() override; // 0x002BCAB4 slot 0x58
 };

@@ -28,6 +28,9 @@ public:
         return m_Hash == other.m_Hash;
     }
 
+    // whether the key belongs to a file (a copy in the shared area)
+    DECOMP_EMIT_COPY DECOMP_NOINLINE bool IsValid() const { return m_Hash != 0; } // 0x00756AE0
+
     u32 m_Hash;  // 0x0
     bool m_Flag; // 0x4 (always false in the known code)
 };
@@ -71,12 +74,17 @@ public:
     // the alignment of the loaded files
     static const u32 LOAD_ALIGNMENT = 0x80;
 
-    BaseResourceMgr() { Finalize(); }
-    ~BaseResourceMgr() { Finalize(); }
+    // (not user-provided: the house objects of hobj value-initialize the manager, i.e. clear it first; its owners call
+    // Finalize themselves)
+    BaseResourceMgr() = default;
+    ~BaseResourceMgr() = default;
 
-    // the heap of the manager in parent (nothing without parent)
-    void Initialize(sead::Heap* parent, u32 size)
+    // all is freed first, then the heap of the manager in parent (nothing without parent); some instances have
+    // copies out of line (explicit specializations in dResourceLoaderMgr.h)
+    DECOMP_ALWAYS_INLINE void Initialize(sead::Heap* parent, u32 size) { InitializeImpl(parent, size); }
+    DECOMP_ALWAYS_INLINE void InitializeImpl(sead::Heap* parent, u32 size)
     {
+        Finalize();
         if (parent != NULL) {
             m_Allocator.CreateExpHeap(size, parent, sead::SafeStringBase<char>("ResourceMgr"),
                                       sead::Heap::HEAP_DIRECTION_FORWARD, false);
@@ -107,7 +115,8 @@ public:
 
     // loads the file name into a free node unless a node has it already; the key of the file is returned (the key is
     // the CRC of the name followed by a null character, "%s%c")
-    DECOMP_ALWAYS_INLINE ResourceKey Load(const char* name)
+    DECOMP_ALWAYS_INLINE ResourceKey Load(const char* name) { return LoadImpl(name); }
+    DECOMP_ALWAYS_INLINE ResourceKey LoadImpl(const char* name)
     {
         sead::FixedSafeString<80> path;
         const s8 terminator = 0;

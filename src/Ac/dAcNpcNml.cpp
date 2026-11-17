@@ -26,23 +26,23 @@ void AcNpcNml::vf_0x50(u8, netgame::PlayerNo)
 {
 }
 
-// 0x00117065 slot 0x78 | virtual slot, introduced by UtlBase<DemoActor>
-void AcNpcNml::vf_0x78()
+// 0x00117065 slot 0x78
+bool AcNpcNml::StartInitialize()
 {
 }
 
-// 0x00116FB1 slot 0x7C | virtual slot, introduced by UtlBase<DemoActor>
-void AcNpcNml::vf_0x7C()
+// 0x00116FB1 slot 0x7C
+oml::framework::Result AcNpcNml::UpdateInitialize()
 {
 }
 
-// 0x00116F4D slot 0x80 | virtual slot, introduced by UtlBase<DemoActor>
-void AcNpcNml::vf_0x80()
+// 0x00116F4D slot 0x80
+bool AcNpcNml::EndInitialize()
 {
 }
 
-// 0x00117081 slot 0x88 | virtual slot, introduced by UtlBase<DemoActor>
-void AcNpcNml::vf_0x88()
+// 0x00117081 slot 0x88
+oml::framework::Result AcNpcNml::UpdateFinalize()
 {
 }
 

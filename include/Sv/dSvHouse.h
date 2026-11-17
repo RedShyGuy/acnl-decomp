@@ -42,6 +42,9 @@ struct SvHouseExterior {
     /* 0x0006 */ u8 houseFence;
     /* 0x0007 */ u8 housePavement;
     /* 0x0008 */ u8 houseMailBox;
+
+    // the exterior of a new house (only the house models of hobj call it; SvPlayerHouse sets the same values itself)
+    void SetDefault(); // 0x0032D1D8 (name is ours)
 };
 ASSERT_SIZE(SvHouseExterior, 0x9);
 

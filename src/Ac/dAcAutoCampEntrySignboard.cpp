@@ -33,33 +33,33 @@ void AcAutoCampEntrySignboard::vf_0x50(u8, netgame::PlayerNo)
 {
 }
 
-// 0x00335EF4 slot 0x78 | virtual slot, introduced by UtlBase<DemoActor>
-void AcAutoCampEntrySignboard::vf_0x78()
+// 0x00335EF4 slot 0x78
+bool AcAutoCampEntrySignboard::StartInitialize()
 {
 }
 
-// 0x00335EEC slot 0x7C | virtual slot, introduced by UtlBase<DemoActor>
-void AcAutoCampEntrySignboard::vf_0x7C()
+// 0x00335EEC slot 0x7C
+oml::framework::Result AcAutoCampEntrySignboard::UpdateInitialize()
 {
 }
 
-// 0x00335E70 slot 0x80 | virtual slot, introduced by UtlBase<DemoActor>
-void AcAutoCampEntrySignboard::vf_0x80()
+// 0x00335E70 slot 0x80
+bool AcAutoCampEntrySignboard::EndInitialize()
 {
 }
 
-// 0x00335F0C slot 0x84 | virtual slot, introduced by UtlBase<DemoActor>
-void AcAutoCampEntrySignboard::vf_0x84()
+// 0x00335F0C slot 0x84
+bool AcAutoCampEntrySignboard::StartFinalize()
 {
 }
 
-// 0x00335F04 slot 0x88 | virtual slot, introduced by UtlBase<DemoActor>
-void AcAutoCampEntrySignboard::vf_0x88()
+// 0x00335F04 slot 0x88
+oml::framework::Result AcAutoCampEntrySignboard::UpdateFinalize()
 {
 }
 
-// 0x00335EFC slot 0x8C | virtual slot, introduced by UtlBase<DemoActor>
-void AcAutoCampEntrySignboard::vf_0x8C()
+// 0x00335EFC slot 0x8C
+bool AcAutoCampEntrySignboard::EndFinalize()
 {
 }
 

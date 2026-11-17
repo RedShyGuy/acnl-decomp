@@ -26,23 +26,23 @@ void AcNpcSpMaiko::vf_0x64()
 {
 }
 
-// 0x001098AD slot 0x78 | virtual slot, introduced by UtlBase<DemoActor>
-void AcNpcSpMaiko::vf_0x78()
+// 0x001098AD slot 0x78
+bool AcNpcSpMaiko::StartInitialize()
 {
 }
 
-// 0x00109825 slot 0x7C | virtual slot, introduced by UtlBase<DemoActor>
-void AcNpcSpMaiko::vf_0x7C()
+// 0x00109825 slot 0x7C
+oml::framework::Result AcNpcSpMaiko::UpdateInitialize()
 {
 }
 
-// 0x00109791 slot 0x80 | virtual slot, introduced by UtlBase<DemoActor>
-void AcNpcSpMaiko::vf_0x80()
+// 0x00109791 slot 0x80
+bool AcNpcSpMaiko::EndInitialize()
 {
 }
 
-// 0x001098BD slot 0x88 | virtual slot, introduced by UtlBase<DemoActor>
-void AcNpcSpMaiko::vf_0x88()
+// 0x001098BD slot 0x88
+oml::framework::Result AcNpcSpMaiko::UpdateFinalize()
 {
 }
 

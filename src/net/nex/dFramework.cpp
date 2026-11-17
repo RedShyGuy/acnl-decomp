@@ -1,6 +1,8 @@
 #include "net/nex/dFramework.h"
 
 #include "sead/seadSafeStringBase.h"
+#include "Other/dHeapInit.h"
+#include "sead/seadExpHeap.h"
 
 namespace net {
 namespace nex {
@@ -29,7 +31,7 @@ bool net::nex::Framework::Initialize(Sender* sender, SystemCallback* callback)
     if (m_State != UNINITIALIZED) {
         return true;
     }
-    m_pSystem = new (g_pNetHeap, 4) System(sender, callback);
+    m_pSystem = new (HeapInit::s_pNetHeap, 4) System(sender, callback);
     if (!m_pSystem->Start()) {
         return false;
     }
@@ -72,7 +74,7 @@ bool net::nex::Framework::SearchSessions(ScanBufBase** results, u32 resultNum, u
 // 0x00518BFC (name is ours)
 void net::nex::Framework::CreateThread()
 {
-    sead::Heap* heap = g_pNetHeap;
+    sead::Heap* heap = HeapInit::s_pNetHeap;
     if (m_pPacer == NULL) {
         m_pPacer = ::new (heap, 4) nn::nex::Pacer(30.0f);
     }

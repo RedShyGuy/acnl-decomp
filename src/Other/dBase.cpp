@@ -52,8 +52,8 @@ bool Base::CanDraw() const
     return Process::CanDraw();
 }
 
-// 0x00748D08 slot 0x3C (name after libgarden)
-bool Base::Unk0()
+// 0x00748D08 slot 0x3C (name is ours)
+u32 Base::GetTypeMask()
 {
-    return true;
+    return TYPE_MASK_BASE;
 }

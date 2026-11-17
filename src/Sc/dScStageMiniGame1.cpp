@@ -12,16 +12,6 @@ ScStageMiniGame1::~ScStageMiniGame1()
 {
 }
 
-// 0x008209A4 slot 0x0C | slot vf_0x0C of oml::framework::Process
-oml::framework::Result ScStageMiniGame1::Initialize()
-{
-}
-
-// 0x00820A40 slot 0x18 | slot vf_0x18 of oml::framework::Process
-oml::framework::Result ScStageMiniGame1::Finalize()
-{
-}
-
 // 0x002BCE5C slot 0x24 | slot vf_0x24 of oml::framework::Process
 oml::framework::Result ScStageMiniGame1::Calc()
 {
@@ -37,33 +27,33 @@ void ScStageMiniGame1::vf_0x40()
 {
 }
 
-// 0x002BCCC8 slot 0x44 | virtual slot, introduced by ScStageMiniGame1
-void ScStageMiniGame1::vf_0x44()
+// 0x002BCCC8 slot 0x44
+bool ScStageMiniGame1::StartInitialize()
 {
 }
 
-// 0x002BCC80 slot 0x48 | virtual slot, introduced by ScStageMiniGame1
-void ScStageMiniGame1::vf_0x48()
+// 0x002BCC80 slot 0x48
+oml::framework::Result ScStageMiniGame1::UpdateInitialize()
 {
 }
 
-// 0x002BCBEC slot 0x4C | virtual slot, introduced by ScStageMiniGame1
-void ScStageMiniGame1::vf_0x4C()
+// 0x002BCBEC slot 0x4C
+bool ScStageMiniGame1::EndInitialize()
 {
 }
 
-// 0x002BCE3C slot 0x50 | virtual slot, introduced by ScStageMiniGame1
-void ScStageMiniGame1::vf_0x50()
+// 0x002BCE3C slot 0x50
+bool ScStageMiniGame1::StartFinalize()
 {
 }
 
-// 0x002BCE24 slot 0x54 | virtual slot, introduced by ScStageMiniGame1
-void ScStageMiniGame1::vf_0x54()
+// 0x002BCE24 slot 0x54
+oml::framework::Result ScStageMiniGame1::UpdateFinalize()
 {
 }
 
-// 0x002BCDB4 slot 0x58 | virtual slot, introduced by ScStageMiniGame1
-void ScStageMiniGame1::vf_0x58()
+// 0x002BCDB4 slot 0x58
+bool ScStageMiniGame1::EndFinalize()
 {
 }
 

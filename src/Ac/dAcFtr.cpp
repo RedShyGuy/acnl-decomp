@@ -34,9 +34,10 @@ void AcFtr::OnNotify()
 {
 }
 
-// 0x00751DF4 slot 0x3C | slot vf_0x3C of Base
-bool AcFtr::Unk0()
+// 0x00751DF4 slot 0x3C (name is ours)
+u32 AcFtr::GetTypeMask()
 {
+    return TYPE_MASK_ACTOR | TYPE_MASK_FURNITURE;
 }
 
 // 0x00577D9C slot 0x50 | virtual slot, introduced by DemoActor
@@ -49,33 +50,33 @@ void AcFtr::vf_0x58()
 {
 }
 
-// 0x0056F4EC slot 0x78 | virtual slot, introduced by UtlBase<DemoActor>
-void AcFtr::vf_0x78()
+// 0x0056F4EC slot 0x78
+bool AcFtr::StartInitialize()
 {
 }
 
-// 0x0056F1AC slot 0x7C | virtual slot, introduced by UtlBase<DemoActor>
-void AcFtr::vf_0x7C()
+// 0x0056F1AC slot 0x7C
+oml::framework::Result AcFtr::UpdateInitialize()
 {
 }
 
-// 0x0056ED34 slot 0x80 | virtual slot, introduced by UtlBase<DemoActor>
-void AcFtr::vf_0x80()
+// 0x0056ED34 slot 0x80
+bool AcFtr::EndInitialize()
 {
 }
 
-// 0x005719F8 slot 0x84 | virtual slot, introduced by UtlBase<DemoActor>
-void AcFtr::vf_0x84()
+// 0x005719F8 slot 0x84
+bool AcFtr::StartFinalize()
 {
 }
 
-// 0x00571984 slot 0x88 | virtual slot, introduced by UtlBase<DemoActor>
-void AcFtr::vf_0x88()
+// 0x00571984 slot 0x88
+oml::framework::Result AcFtr::UpdateFinalize()
 {
 }
 
-// 0x00570B10 slot 0x8C | virtual slot, introduced by UtlBase<DemoActor>
-void AcFtr::vf_0x8C()
+// 0x00570B10 slot 0x8C
+bool AcFtr::EndFinalize()
 {
 }
 

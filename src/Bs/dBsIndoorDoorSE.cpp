@@ -12,48 +12,38 @@ BsIndoorDoorSE::~BsIndoorDoorSE()
 {
 }
 
-// 0x0082067C slot 0x0C | slot vf_0x0C of oml::framework::Process
-oml::framework::Result BsIndoorDoorSE::Initialize()
-{
-}
-
-// 0x00820718 slot 0x18 | slot vf_0x18 of oml::framework::Process
-oml::framework::Result BsIndoorDoorSE::Finalize()
-{
-}
-
 // 0x00256464 slot 0x24 | slot vf_0x24 of oml::framework::Process
 oml::framework::Result BsIndoorDoorSE::Calc()
 {
 }
 
-// 0x00256330 slot 0x40 | virtual slot, introduced by BsIndoorDoorSE
-void BsIndoorDoorSE::vf_0x40()
+// 0x00256330 slot 0x40
+bool BsIndoorDoorSE::StartInitialize()
 {
 }
 
-// 0x00256328 slot 0x44 | virtual slot, introduced by BsIndoorDoorSE
-void BsIndoorDoorSE::vf_0x44()
+// 0x00256328 slot 0x44
+oml::framework::Result BsIndoorDoorSE::UpdateInitialize()
 {
 }
 
-// 0x00256314 slot 0x48 | virtual slot, introduced by BsIndoorDoorSE
-void BsIndoorDoorSE::vf_0x48()
+// 0x00256314 slot 0x48
+bool BsIndoorDoorSE::EndInitialize()
 {
 }
 
-// 0x00256394 slot 0x4C | virtual slot, introduced by BsIndoorDoorSE
-void BsIndoorDoorSE::vf_0x4C()
+// 0x00256394 slot 0x4C
+bool BsIndoorDoorSE::StartFinalize()
 {
 }
 
-// 0x0025638C slot 0x50 | virtual slot, introduced by BsIndoorDoorSE
-void BsIndoorDoorSE::vf_0x50()
+// 0x0025638C slot 0x50
+oml::framework::Result BsIndoorDoorSE::UpdateFinalize()
 {
 }
 
-// 0x00256384 slot 0x54 | virtual slot, introduced by BsIndoorDoorSE
-void BsIndoorDoorSE::vf_0x54()
+// 0x00256384 slot 0x54
+bool BsIndoorDoorSE::EndFinalize()
 {
 }
 

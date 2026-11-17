@@ -2,6 +2,8 @@
 
 #include "Other/dFriendList.h"
 #include "nn/os/CTR/CTR_Api.h"
+#include "Other/dHeapInit.h"
+#include "sead/seadExpHeap.h"
 
 namespace net {
 // 0x00A23020
@@ -26,7 +28,7 @@ bool net::Net::Initialize(SystemCallback* callback)
         return false;
     }
     if (m_pFramework == NULL) {
-        m_pFramework = new (g_pNetHeap, 4) nex::Framework();
+        m_pFramework = new (HeapInit::s_pNetHeap, 4) nex::Framework();
     }
     bool isInitialized = m_pFramework->Initialize(&m_Sender, callback);
     if (!isInitialized) {

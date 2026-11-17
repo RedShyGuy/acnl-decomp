@@ -11,7 +11,7 @@ public:
     AcNpcDemoDollSp(); // ctor address unknown
     virtual ~AcNpcDemoDollSp(); // 0x0027E54C slot 0x00 | slot vf_0x00 of oml::framework::Process
     // 0x0027E448 slot 0x04 | slot vf_0x04 of oml::framework::Process (deleting dtor)
-    virtual void vf_0x80(); // 0x0027E334 slot 0x80 | virtual slot, introduced by UtlBase<DemoActor>
+    bool EndInitialize() override; // 0x0027E334 slot 0x80
     virtual void vf_0xA8(); // 0x0071B59C slot 0xA8 | virtual slot, introduced by AcNpc
     virtual void vf_0xF4(); // 0x0027E43C slot 0xF4 | virtual slot, introduced by AcNpc
     virtual void vf_0xF8(); // 0x0071B5C8 slot 0xF8 | virtual slot, introduced by AcNpc

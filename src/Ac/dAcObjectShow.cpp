@@ -8,6 +8,8 @@ AcObjectShow::AcObjectShow()
 }
 
 // 0x001F7A8C slot 0x00 | slot vf_0x00 of oml::framework::Process
+// 0x00778B0C (thunk)
+// 0x00778AF4 (deleting thunk)
 AcObjectShow::~AcObjectShow()
 {
 }

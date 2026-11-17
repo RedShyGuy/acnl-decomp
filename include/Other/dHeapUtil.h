@@ -7,7 +7,7 @@ class ExpHeap;
 class Heap;
 } // namespace sead
 
-// helpers of the game for its heaps (names are ours; the functions are not decompiled yet)
+// helpers of the game for its heaps (names are ours)
 namespace HeapUtil {
 // an ExpHeap of size in parent named name (the last argument is not used)
 sead::ExpHeap* CreateExpHeapWithCName(u32 size, sead::Heap* parent, const char* name, s32 unused); // 0x0011EE4C

@@ -16,6 +16,7 @@
 #include "script/dRenderRuby.h"
 #include "script/dTalkSystem.h"
 #include "script/dTalkWin.h"
+#include "sead/seadExpHeap.h"
 #include "sead/seadNew.h"
 #include "time/time_Api.h"
 
@@ -26,16 +27,41 @@ namespace script {
 Mgr* Mgr::s_pInstance = NULL;
 // 0x0095EED0
 Mgr::SingletonDisposer_* Mgr::s_pSingletonDisposer = NULL;
-// 0x0095EEF4 (name is ours)
-sead::Heap* Mgr::s_pMessageHeap;
-// 0x0095EEF8 (name is ours)
-sead::Heap* Mgr::s_pDataHeap;
-// 0x0095EEFC (name is ours)
-sead::Heap* Mgr::s_pFileHeap;
-// 0x0095EF00 (name is ours)
+// 0x0095EEF4
+sead::Heap* Mgr::s_pLibmsHeap;
+// 0x0095EEF8
+sead::Heap* Mgr::s_pStaticHeap;
+// 0x0095EEFC
+sead::Heap* Mgr::s_pMsgHeap;
+// 0x0095EF00
 sead::Heap* Mgr::s_pMailHeap;
-// 0x0095EF04 (name is ours)
+// 0x0095EF04
 sead::Heap* Mgr::s_pFlowHeap;
+
+// 0x00120E2C (name is ours)
+void Mgr::CreateHeaps(sead::Heap* parent)
+{
+    s_pLibmsHeap = sead::ExpHeap::create(0x400, "ScriptHeapLibms", parent, sead::Heap::HEAP_DIRECTION_FORWARD, true);
+    s_pStaticHeap = sead::ExpHeap::create(0x107C00, "ScriptHeapStatic", parent, sead::Heap::HEAP_DIRECTION_FORWARD, false);
+    s_pMsgHeap = sead::ExpHeap::create(0x6B800, "ScriptHeapMsg", parent, sead::Heap::HEAP_DIRECTION_FORWARD, false);
+    s_pMailHeap = sead::ExpHeap::create(0x25800, "ScriptHeapMail", parent, sead::Heap::HEAP_DIRECTION_FORWARD, true);
+    s_pFlowHeap = sead::ExpHeap::create(0xA000, "ScriptHeapFlow", parent, sead::Heap::HEAP_DIRECTION_FORWARD, false);
+}
+
+// 0x0013987C (name is ours)
+void Mgr::DestroyHeaps()
+{
+    s_pLibmsHeap->destroy();
+    s_pLibmsHeap = NULL;
+    s_pStaticHeap->destroy();
+    s_pStaticHeap = NULL;
+    s_pMsgHeap->destroy();
+    s_pMsgHeap = NULL;
+    s_pMailHeap->destroy();
+    s_pMailHeap = NULL;
+    s_pFlowHeap->destroy();
+    s_pFlowHeap = NULL;
+}
 
 // 0x005EA318 (name after sead)
 Mgr* Mgr::createInstance(sead::Heap* heap)
@@ -143,14 +169,14 @@ namespace {
 // 0x005253E4 (name is ours)
 void* AllocMessageMemory(u32 size)
 {
-    return Mgr::s_pMessageHeap->tryAlloc(size, 4);
+    return Mgr::s_pLibmsHeap->tryAlloc(size, 4);
 }
 
 // 0x005253C0 (name is ours)
 void FreeMessageMemory(void* ptr)
 {
     if (ptr != NULL) {
-        Mgr::s_pMessageHeap->free(ptr);
+        Mgr::s_pLibmsHeap->free(ptr);
     }
 }
 } // namespace
@@ -175,7 +201,7 @@ bool Setup()
     }
     bool isReady = true;
     if (!project->m_Project.IsInitialized()) {
-        if (!project->m_Loader.Load(sead::SafeStringBase<char>("Script/CTR_GardenPlus.msbp"), Mgr::s_pDataHeap, 0)) {
+        if (!project->m_Loader.Load(sead::SafeStringBase<char>("Script/CTR_GardenPlus.msbp"), Mgr::s_pStaticHeap, 0)) {
             isReady = false;
         } else {
             project->m_Project.Initialize(project->m_Loader.GetData());
