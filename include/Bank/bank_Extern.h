@@ -66,12 +66,3 @@ void Func3286CC(ExchangeModelBankBase* bank, g3d::SkeletalModel* model, u32 bone
 // the ambient and diffuse value of the shown model resource index of a bank (false: none)
 bool Func328808(ExchangeModelBankBase* bank, u32 index, f32 value); // 0x00328808
 
-// a list of models of the object 0x00951378 (names are ours; PlayerHeadBank adds to the one at +0x12BE0, PlayerLegsBank
-// to the one at +0x12CA0)
-struct BankModelList
-{
-    g3d::SkeletalModel* m_pModels[7]; // 0x00
-    u32 m_Count;                      // 0x1C
-};
-// 0x00951378 (owner and type unknown)
-extern u8* g_pUnknown951378;

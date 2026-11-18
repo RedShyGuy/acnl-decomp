@@ -16,5 +16,5 @@ public:
     virtual bool CanCalc() const; // 0x00114411 slot 0x20 | slot vf_0x20 of oml::framework::Process
     virtual oml::framework::Result Calc(); // 0x00114471 slot 0x24 | slot vf_0x24 of oml::framework::Process
     virtual oml::framework::Result Draw(); // 0x00114427 slot 0x30 | slot vf_0x30 of oml::framework::Process
-    virtual void vf_0x40(); // 0x00758BD8 slot 0x40 | virtual slot, introduced by BsScene
+    oml::framework::Result vf_0x40() override; // 0x00758BD8 slot 0x40 | virtual slot, introduced by BsScene
 };

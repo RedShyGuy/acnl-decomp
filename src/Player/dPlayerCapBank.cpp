@@ -1,4 +1,5 @@
 #include "Player/dPlayerCapBank.h"
+#include "Bs/dBsPlayerMgr.h"
 
 // 0x0023D1C8 slot 0x10 (name is ours)
 bool PlayerCapBank::LoadResource(const Keyword& keyword, u32 slot)
@@ -101,4 +102,14 @@ PlayerCapBank::PlayerCapBank() : m_pUnknown4DC(NULL)
 PlayerCapBank::~PlayerCapBank()
 {
     // (only the bases and the members are destroyed)
+}
+
+// 0x0023D0B4 (name is ours)
+void PlayerCapBank::RequestDraw()
+{
+    g3d::SkeletalModel* model = GetCurrentModel();
+    if (model == NULL) {
+        return;
+    }
+    BsPlayerMgr::AddModel(BsPlayerMgr::MODEL_LIST_CAP, model);
 }

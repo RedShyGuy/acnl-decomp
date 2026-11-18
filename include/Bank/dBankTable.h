@@ -41,6 +41,34 @@ public:
     virtual void ResetBit() override; // slot 0x14
     virtual ~BankTable(); // slot 0x18
 
+    // (inline; BsPlayerMgr::BankTables) num of the banks with heaps in heap (named name; false: fewer than num or a
+    // heap is missing)
+    bool Initialize(sead::Heap* heap, u32 num, const char* name)
+    {
+        m_Size = Min(num, N);
+        bool isAll = m_Size == num;
+        for (T* bank = m_Banks; bank < m_Banks + m_Size; bank++) {
+            if (!bank->CreateHeaps(heap, name)) {
+                isAll = false;
+            }
+        }
+        return isAll;
+    }
+    // (inline; BsPlayerMgr::BankTables) the heaps of all banks are destroyed (false: a bank is handed out still)
+    bool FinalizeTable()
+    {
+        if (m_UsedNum != 0) {
+            return false;
+        }
+        u32 index = 0;
+        for (T* bank = m_Banks; bank < m_Banks + m_Size; bank++, index++) {
+            CheckBit(index); // (the result is not used)
+            bank->FinalizeBank();
+        }
+        m_Size = 0;
+        return true;
+    }
+
     T m_Banks[N];                 // 0x0C
     u8 m_BankBits[(N + 7) / 8];
 };

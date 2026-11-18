@@ -24,6 +24,8 @@ public:
     virtual s32 LoadResourceSplit(const Keyword& keyword, u32 slot) override; // 0x00273894 slot 0x14
     virtual bool Initialize(const Keyword& keyword, u32 slot, bool isReady) override; // 0x002735D0 slot 0x18
     virtual bool Finalize(const Keyword& keyword, u32 slot) override; // 0x00273838 slot 0x1C
+    // the shown model is drawn this frame (BsPlayerMgr::MODEL_LIST_TOPS)
+    void RequestDraw(); // 0x002731EC
 
 private:
     // (inline) the item that is loaded for keyword

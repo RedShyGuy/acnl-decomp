@@ -21,6 +21,10 @@ enum ProcName : u16
 extern const ProcName PROC_SC_STAGE;
 extern const ProcName PROC_SC_STAGE_MINI_GAME_0;
 extern const ProcName PROC_SC_STAGE_MINI_GAME_1;
+extern const ProcName PROC_BS_ROOT;
+extern const ProcName PROC_SC_BOOT;
+extern const ProcName PROC_BS_MENU_MGR;
+extern const ProcName PROC_BS_DEMO_PROC;
 extern const ProcName PROC_BS_MINI_GAME_0_BG;
 extern const ProcName PROC_BS_MINI_GAME_0_MGR;
 extern const ProcName PROC_BS_MINI_GAME_1_MGR;

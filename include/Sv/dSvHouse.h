@@ -95,6 +95,10 @@ struct SvRoom {
     /* 0x02F6 */ SvFgName flooring;
     /* 0x02FA */ SvFgName playingSong;
     /* 0x02FE */ SvFgName unk_0x2FE;
+
+    // (game code, not decompiled yet; names are ours)
+    void SetWallpaper(const SvFgName& item); // 0x002D52FC
+    void SetFlooring(const SvFgName& item); // 0x002D5750
 };
 ASSERT_SIZE(SvRoom, 0x302);
 

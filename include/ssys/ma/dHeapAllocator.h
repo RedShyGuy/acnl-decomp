@@ -29,7 +29,7 @@ public:
     // adjusts the heap if it is an ExpHeap
     u32 Adjust(); // 0x00567DC8
     // destroys the heap
-    DECOMP_EMIT_COPY void DestroyHeap() // 0x002F72D4
+    DECOMP_EMIT_COPY DECOMP_NOINLINE void DestroyHeap() // 0x002F72D4
     {
         if (m_pHeap != NULL) {
             m_pHeap->destroy();

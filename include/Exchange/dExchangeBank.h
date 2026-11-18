@@ -32,7 +32,7 @@ public:
         m_LoadedBits[0] = 0;
         Reset();
     }
-    DECOMP_NOINLINE virtual ~ExchangeBank();
+    DECOMP_NOINLINE inline virtual ~ExchangeBank();
 
     // the resources of the slot are unloaded (Finalize) if it holds some, the keyword of the slot is cleared
     virtual bool Release(u32 slot) override; // slot 0x08
@@ -70,7 +70,7 @@ public:
         return isReleased;
     }
     // (inline) the slots are released, then the heaps destroyed
-    void FinalizeBank()
+    DECOMP_ALWAYS_INLINE void FinalizeBank()
     {
         for (u32 i = 0; i < 2; i++) {
             ReleaseSlot(i);
@@ -171,7 +171,7 @@ inline bool ExchangeBank<HEAP_SIZE, TVramConfig, TKeyword, FLAG>::Release(u32 sl
 }
 
 template <u32 HEAP_SIZE, typename TVramConfig, typename TKeyword, bool FLAG>
-inline void ExchangeBank<HEAP_SIZE, TVramConfig, TKeyword, FLAG>::OnRequest(const TKeyword& keyword, u32 slot)
+inline void ExchangeBank<HEAP_SIZE, TVramConfig, TKeyword, FLAG>::OnRequest(const TKeyword& /* keyword */, u32 /* slot */)
 {
     // empty (in the original too)
 }
@@ -195,7 +195,7 @@ inline bool ExchangeBank<HEAP_SIZE, TVramConfig, TKeyword, FLAG>::Initialize(con
 }
 
 template <u32 HEAP_SIZE, typename TVramConfig, typename TKeyword, bool FLAG>
-inline bool ExchangeBank<HEAP_SIZE, TVramConfig, TKeyword, FLAG>::Finalize(const TKeyword& keyword, u32 slot)
+inline bool ExchangeBank<HEAP_SIZE, TVramConfig, TKeyword, FLAG>::Finalize(const TKeyword& /* keyword */, u32 /* slot */)
 {
     return true;
 }

@@ -33,6 +33,8 @@ public:
     virtual void ClearBit(u32 index); // 0x0021384C slot 0x10
     virtual void ResetBit(); // 0x00213850 slot 0x14
 
+    // the smaller of a and b (BankTable::Initialize: the number of banks; name is ours)
+    static u32 Min(u32 a, u32 b); // 0x00213854
     // no banks, none handed out
     void Clear(); // 0x00213870
     // a free bank for handle (true: handle holds one, also if it held one already)

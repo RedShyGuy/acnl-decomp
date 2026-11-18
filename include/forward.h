@@ -1134,7 +1134,7 @@ enum PicaDataDrawMode : u8; // nn/gr/CTR/gr_Types.h
 struct PlayerCapBankKeyword; // Exchange/dExchangeBankKeyword.h
 struct PlayerHeadBankKeyword; // Exchange/dExchangeBankKeyword.h
 enum PlayerSaveNumber : u8; // Player/dPlayerApi.h
-struct PlayerState { u32 _unknown; }; // placeholder, real type unknown
+struct PlayerState; // Player/dPlayerState.h
 enum ProcName : u16; // Other/dProcMgr.h
 enum ProcType : u8; // Other/dProcMgr.h
 struct RandomPlacerUsual { u32 _unknown; }; // placeholder, real type unknown

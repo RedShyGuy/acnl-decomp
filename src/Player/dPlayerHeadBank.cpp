@@ -1,6 +1,7 @@
 #include "Player/dPlayerHeadBank.h"
 #include <cstddef>
 #include "Bank/bank_Extern.h"
+#include "Bs/dBsPlayerMgr.h"
 #include "Human/dHumanResTextureAnimBank.h"
 #include "Human/human_Extern.h"
 #include "Player/dPlayerFaceBank.h"
@@ -43,8 +44,6 @@ const u32 MII_DATA_OFFSET = offsetof(SvPlayerUnk0, playerMii) - offsetof(SvPlaye
 const s16 MII_BONE_ROTATE = -0x4000;
 // the flag of the animation table: a one-time animation (the expression stops at the end frame)
 const u8 ANIM_FLAG_LOOP = 1 << 5;
-// the model lists of the object 0x00951378
-const u32 MODEL_LIST_OFFSET = 0x12BE0;
 // the light set count of SkeletalModel::Create of the head
 const s32 HEAD_MODEL_CREATE_FLAGS = 2;
 // the colors of the face (Func1CEEF0)
@@ -60,14 +59,10 @@ void PlayerHeadBank::RequestDraw()
         return;
     }
     g3d::SkeletalModel* model = GetCurrentModel();
-    if (model == NULL || g_pUnknown951378 == NULL) {
+    if (model == NULL) {
         return;
     }
-    BankModelList* list = reinterpret_cast<BankModelList*>(g_pUnknown951378 + MODEL_LIST_OFFSET);
-    if (list->m_Count < 7) {
-        list->m_pModels[list->m_Count] = model;
-        list->m_Count++;
-    }
+    BsPlayerMgr::AddModel(BsPlayerMgr::MODEL_LIST_HEAD, model);
 }
 
 // 0x00271608 (name is ours)

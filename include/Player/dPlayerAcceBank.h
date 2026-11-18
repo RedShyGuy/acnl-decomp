@@ -22,5 +22,7 @@ public:
     virtual s32 LoadResourceSplit(const Keyword& keyword, u32 slot) override; // 0x00270F90 slot 0x14
     virtual bool Initialize(const Keyword& keyword, u32 slot, bool isReady) override; // 0x00270DC4 slot 0x18
     virtual bool Finalize(const Keyword& keyword, u32 slot) override; // 0x00270F48 slot 0x1C
+    // the shown model is drawn this frame (BsPlayerMgr::MODEL_LIST_ACCE)
+    void RequestDraw(); // 0x00270CDC
 };
 ASSERT_SIZE(PlayerAcceBank, 0x280);

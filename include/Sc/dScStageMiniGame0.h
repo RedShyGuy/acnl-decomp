@@ -14,7 +14,7 @@ public:
     // 0x002BCBDC slot 0x04 | slot vf_0x04 of oml::framework::Process (deleting dtor)
     virtual oml::framework::Result Calc(); // 0x002BCB98 slot 0x24 | slot vf_0x24 of oml::framework::Process
     virtual oml::framework::Result Draw(); // 0x002BCB90 slot 0x30 | slot vf_0x30 of oml::framework::Process
-    virtual void vf_0x40(); // 0x0071DF7C slot 0x40 | virtual slot, introduced by BsScene
+    oml::framework::Result vf_0x40() override; // 0x0071DF7C slot 0x40 | virtual slot, introduced by BsScene
     bool StartInitialize() override; // 0x002BC990 slot 0x44
     oml::framework::Result UpdateInitialize() override; // 0x002BC948 slot 0x48
     bool EndInitialize() override; // 0x002BC8A4 slot 0x4C

@@ -21,6 +21,8 @@ public:
     // a heap of size bytes of parent (all it can give for 0) in an ExpHeap of heapSize bytes of heap (all for 0)
     static VramExpHeap* Create(u32 size, const sead::SafeStringBase<char>& name, VramHeap* parent, u32 heapSize,
                                sead::Heap* heap); // 0x00567650
+    // (inline) the heapSize of Create for a heap of blockNum blocks (the users pass it as a constant; name is ours)
+    static u32 GetHeapSize(u32 blockNum) { return 0x280 + blockNum * 0x18; }
 
     DECOMP_EMIT_COPY DECOMP_NOINLINE VramExpHeap(const sead::SafeStringBase<char>& name, sead::ExpHeap* heap, VramHeap* parent,
                                  uptr address, u32 size) // 0x00120C6C

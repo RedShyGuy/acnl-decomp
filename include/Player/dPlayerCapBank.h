@@ -22,6 +22,8 @@ public:
     virtual s32 LoadResourceSplit(const Keyword& keyword, u32 slot) override; // 0x0023D60C slot 0x14
     virtual bool Initialize(const Keyword& keyword, u32 slot, bool isReady) override; // 0x0023D370 slot 0x18
     virtual bool Finalize(const Keyword& keyword, u32 slot) override; // 0x0023D5B0 slot 0x1C
+    // the shown model is drawn this frame (BsPlayerMgr::MODEL_LIST_CAP)
+    void RequestDraw(); // 0x0023D0B4
 
     const void* m_pUnknown4DC; // 0x4DC (read by Initialize with Func713778)
 };

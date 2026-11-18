@@ -24,6 +24,8 @@ ldr pc, [pc, #-4]      ; E51FF004
 
 The thunk word is filled in on load. [tools/analysis/crothunks.py](../tools/analysis/crothunks.py) resolves every thunk to its target, so the code.bin function a module calls is known by name.
 
+The other direction exists too: `static.crs` has its own import table, so code.bin calls a few module functions through the same kind of thunk (for example BsCharRoomViewMgr calls the sunshine object of ModuleIndoor through 0x001500F0..). Until the module is loaded, the thunk word points to a stub that reports an unresolved import (0x007B2C88). [tools/analysis/static_imports.py](../tools/analysis/static_imports.py) lists which module export ends up in which code.bin thunk. In the source such a function is declared normally, with the thunk address as its address comment and the module offset in the comment.
+
 ## In this project
 
 | what | where |
@@ -59,5 +61,5 @@ That enables a `<Module>_cro` target per module. `check.py` compares only code.b
 ### Rules for module code
 
 - A module may call any function of code.bin. Declare it normally; the thunk is the linker's job.
-- code.bin never calls into a module directly, only through virtual functions or function pointers that the module registers.
+- code.bin reaches module code through virtual functions, function pointers the module registers, or the import thunks of static.crs (see above).
 - Anonymous-namespace classes keep their original file name, for example `modules/ModuleShop/src/anonymous/...`. When the file name is unknown the file is `unknown.cpp` until the name turns up.

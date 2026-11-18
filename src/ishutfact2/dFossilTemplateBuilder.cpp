@@ -65,16 +65,16 @@ DECOMP_ALWAYS_INLINE void ishutfact2::FossilItemsSetter::operator()(const Vector
     // the small fossils for the placeholder
     SvFgNameSet fossils;
     fossils.Clear();
-    AddToSet(&fossils, SvFgName(SvFgName::NAME_AMBER));
-    AddToSet(&fossils, SvFgName(SvFgName::NAME_AMMONITE));
-    AddToSet(&fossils, SvFgName(SvFgName::NAME_COPROLITE));
-    AddToSet(&fossils, SvFgName(SvFgName::NAME_DINOSAUR_EGG));
-    AddToSet(&fossils, SvFgName(SvFgName::NAME_FERN_FOSSIL));
-    AddToSet(&fossils, SvFgName(SvFgName::NAME_DINOSAUR_TRACK));
-    AddToSet(&fossils, SvFgName(SvFgName::NAME_ARCHAEOPTERYX));
-    AddToSet(&fossils, SvFgName(SvFgName::NAME_PEKING_MAN));
-    AddToSet(&fossils, SvFgName(SvFgName::NAME_SHARK_TOOTH));
-    AddToSet(&fossils, SvFgName(SvFgName::NAME_TRILOBITE));
+    AddToSet(&fossils, SvFgName(static_cast<SvFgName::ID>(SvFgName::NAME_AMBER)));
+    AddToSet(&fossils, SvFgName(static_cast<SvFgName::ID>(SvFgName::NAME_AMMONITE)));
+    AddToSet(&fossils, SvFgName(static_cast<SvFgName::ID>(SvFgName::NAME_COPROLITE)));
+    AddToSet(&fossils, SvFgName(static_cast<SvFgName::ID>(SvFgName::NAME_DINOSAUR_EGG)));
+    AddToSet(&fossils, SvFgName(static_cast<SvFgName::ID>(SvFgName::NAME_FERN_FOSSIL)));
+    AddToSet(&fossils, SvFgName(static_cast<SvFgName::ID>(SvFgName::NAME_DINOSAUR_TRACK)));
+    AddToSet(&fossils, SvFgName(static_cast<SvFgName::ID>(SvFgName::NAME_ARCHAEOPTERYX)));
+    AddToSet(&fossils, SvFgName(static_cast<SvFgName::ID>(SvFgName::NAME_PEKING_MAN)));
+    AddToSet(&fossils, SvFgName(static_cast<SvFgName::ID>(SvFgName::NAME_SHARK_TOOTH)));
+    AddToSet(&fossils, SvFgName(static_cast<SvFgName::ID>(SvFgName::NAME_TRILOBITE)));
     for (u32 i = 0; i < num; i++) {
         const FgDataItem& entry = m_Items[i];
         const u16 id = entry.id;

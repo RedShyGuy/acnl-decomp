@@ -1,4 +1,5 @@
 #include "Player/dPlayerTopsBank.h"
+#include "Bs/dBsPlayerMgr.h"
 
 #include "sead/seadSafeStringBase.h"
 
@@ -115,4 +116,14 @@ PlayerTopsBank::PlayerTopsBank() : m_pUnknown4D0(NULL)
 PlayerTopsBank::~PlayerTopsBank()
 {
     // (only the bases and the members are destroyed)
+}
+
+// 0x002731EC (name is ours)
+void PlayerTopsBank::RequestDraw()
+{
+    g3d::SkeletalModel* model = GetCurrentModel();
+    if (model == NULL) {
+        return;
+    }
+    BsPlayerMgr::AddModel(BsPlayerMgr::MODEL_LIST_TOPS, model);
 }

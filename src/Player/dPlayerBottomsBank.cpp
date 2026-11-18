@@ -1,4 +1,5 @@
 #include "Player/dPlayerBottomsBank.h"
+#include "Bs/dBsPlayerMgr.h"
 
 #include "sead/seadSafeStringBase.h"
 
@@ -73,4 +74,14 @@ PlayerBottomsBank::PlayerBottomsBank() : m_Unknown4A8(false)
 PlayerBottomsBank::~PlayerBottomsBank()
 {
     // (only the bases and the members are destroyed)
+}
+
+// 0x002D06D4 (name is ours)
+void PlayerBottomsBank::RequestDraw()
+{
+    g3d::SkeletalModel* model = GetCurrentModel();
+    if (model == NULL) {
+        return;
+    }
+    BsPlayerMgr::AddModel(BsPlayerMgr::MODEL_LIST_BOTTOMS, model);
 }

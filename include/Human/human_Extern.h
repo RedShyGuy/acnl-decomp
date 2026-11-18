@@ -3,6 +3,10 @@
 #include "decomp.h"
 #include "nw/anim/res/anim_ResAnim.h"
 
+namespace sead {
+class Heap;
+} // namespace sead
+
 namespace nw {
 namespace os {
 class IAllocator;
@@ -27,6 +31,10 @@ struct HumanAnimTable
     u32 _unknown;
 };
 extern HumanAnimTable g_HumanAnimTable;
+// (game code; names after the addresses) loading of the animations of the table for the stage (true when loaded) and
+// their release (ScStage)
+bool Func6E59D0(HumanAnimTable* table, sead::Heap* heap); // 0x006E59D0
+void Func6E57E4(HumanAnimTable* table); // 0x006E57E4
 
 // the entry of id (an empty one for an invalid id)
 HumanAnimEntry* Func770970(HumanAnimTable* table, u32 id); // 0x00770970

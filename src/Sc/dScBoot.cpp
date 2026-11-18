@@ -37,7 +37,8 @@ oml::framework::Result ScBoot::Draw()
 }
 
 // 0x00758BD8 slot 0x40 | virtual slot, introduced by BsScene
-void ScBoot::vf_0x40()
+oml::framework::Result ScBoot::vf_0x40()
 {
+    return oml::framework::RESULT_INVALID;
 }
 

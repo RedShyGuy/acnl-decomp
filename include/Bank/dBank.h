@@ -5,10 +5,15 @@
 #include "ssys/ma/dHeapAllocator.h"
 #include "sead/seadHeap.h"
 #include "ssys/ma/dVramHeap.h"
+#include "ssys/ma/dVramExpHeap.h"
+#include "graphic/dMemoryMgr.h"
+#include "sead/seadFixedSafeString.h"
+#include "sead/seadSafeStringBase.h"
+#include "sead/seadStringFormatter.h"
 
 // A bank of NUM slots for resources that are loaded at run time (class name from the RTTI; the members and the parameter
 // names are ours): each slot has a heap of HEAP_SIZE bytes (created by the users of the bank) and two VRAM heaps
-// (TVramConfig). FLAG: meaning unknown (true for some banks of the player parts).
+// (TVramConfig). FLAG: the slots get frame heaps (else exp heaps; CreateHeaps).
 // Instantiations found in the binary (typeinfo / vtable):
 //   Bank<100096u, 1u, false, BankVramConfig<0u, 0u, 0u, 0u, false> >  typeinfo 0x008CD178  vtable 0x008F834C
 //   Bank<10240u, 1u, false, BankVramConfig<0u, 0u, 0u, 0u, false> >  typeinfo 0x008CD180  vtable 0x008F8360
@@ -64,6 +69,78 @@ public:
         }
         return Release(slot);
     }
+    // (inline; BsPlayerMgr::BankTables::Initialize) the heaps of all slots in parent: a heap of HEAP_SIZE bytes (a
+    // frame heap for FLAG, else an exp heap; named name) and the two VRAM heaps of TVramConfig (named name + "VramA" /
+    // "VramB" in the VRAM A / B of graphic::MemoryMgr; vramA selects the getter of the first one, the room views pass
+    // it); false: a heap could not be made (the VRAM heaps are not checked)
+    bool CreateHeaps(sead::Heap* parent, const char* name, u32 vramA = 0)
+    {
+        bool isCreated = true;
+        for (u32 slot = 0; slot < NUM; slot++) {
+            if (FLAG) {
+                isCreated &= m_Allocators[slot].CreateFrameHeap(HEAP_SIZE, parent, sead::SafeStringBase<char>(name),
+                                                                sead::Heap::HEAP_DIRECTION_FORWARD);
+            } else {
+                isCreated &= m_Allocators[slot].CreateExpHeap(HEAP_SIZE, parent, sead::SafeStringBase<char>(name),
+                                                              sead::Heap::HEAP_DIRECTION_FORWARD, false);
+            }
+            if (TVramConfig::VRAM0_SIZE != 0) {
+                // (the names of the VRAM heaps of a bank type and the VRAM heaps they are made in)
+                // 0x00AF9474 (guard 0x00983320) [<26275u, 2u, false, BankVramConfig<1800u, 4u, 6600u, 4u, false> >]
+                // 0x00AF936C (guard 0x009832F0) [<18597u, 2u, true, BankVramConfig<500u, 2u, 2800u, 2u, false> >]
+                // 0x00AF9524 (guard 0x00983340) [<33659u, 2u, true, BankVramConfig<2800u, 2u, 8800u, 2u, false> >]
+                // 0x00AF93C4 (guard 0x00983300) [<18647u, 2u, true, BankVramConfig<700u, 2u, 3600u, 2u, false> >]
+                // 0x00AF9314 (guard 0x009832E0) [<18471u, 2u, true, BankVramConfig<600u, 2u, 3600u, 2u, false> >]
+                // 0x00AF92BC (guard 0x009832D0) [<14156u, 2u, true, BankVramConfig<300u, 2u, 2000u, 2u, false> >]
+                // 0x00AF94CC (guard 0x00983330) [<32191u, 2u, true, BankVramConfig<2500u, 3u, 12400u, 3u, false> >]
+                // 0x00AF941C (guard 0x00983310) [<25216u, 2u, false, BankVramConfig<736u, 4u, 3824u, 4u, false> >]
+                // 0x00AF95D4 (guard 0x00983360) [<66384u, 2u, false, BankVramConfig<66000u, 1u, 0u, 0u, false> >]
+                // 0x00AF9600 (guard 0x0098336C) [<8984u, 2u, false, BankVramConfig<8320u, 1u, 0u, 0u, false> >]
+                static sead::FixedSafeString<32> s_VramAName;
+                // 0x00983328 [<26275u, 2u, false, BankVramConfig<1800u, 4u, 6600u, 4u, false> >]
+                // 0x009832F8 [<18597u, 2u, true, BankVramConfig<500u, 2u, 2800u, 2u, false> >]
+                // 0x00983348 [<33659u, 2u, true, BankVramConfig<2800u, 2u, 8800u, 2u, false> >]
+                // 0x00983308 [<18647u, 2u, true, BankVramConfig<700u, 2u, 3600u, 2u, false> >]
+                // 0x009832E8 [<18471u, 2u, true, BankVramConfig<600u, 2u, 3600u, 2u, false> >]
+                // 0x009832D8 [<14156u, 2u, true, BankVramConfig<300u, 2u, 2000u, 2u, false> >]
+                // 0x00983338 [<32191u, 2u, true, BankVramConfig<2500u, 3u, 12400u, 3u, false> >]
+                // 0x00983318 [<25216u, 2u, false, BankVramConfig<736u, 4u, 3824u, 4u, false> >]
+                // 0x00983364 [<66384u, 2u, false, BankVramConfig<66000u, 1u, 0u, 0u, false> >]
+                // 0x00983370 [<8984u, 2u, false, BankVramConfig<8320u, 1u, 0u, 0u, false> >]
+                static ssys::ma::VramHeap* (*s_GetVramHeaps[2])() = {&graphic::MemoryMgr::GetVramAHeap,
+                                                                    &graphic::MemoryMgr::GetVramBHeap};
+                ssys::ma::VramHeap* vramAHeap = s_GetVramHeaps[vramA]();
+                {
+                    sead::StringFormatter formatter(&s_VramAName);
+                    formatter.append("%sVramA").append(name).flush();
+                }
+                m_pVramAHeaps[slot] =
+                    ssys::ma::VramExpHeap::Create(TVramConfig::VRAM0_SIZE, sead::SafeStringBase<char>(s_VramAName.getCString()), vramAHeap,
+                                                  ssys::ma::VramExpHeap::GetHeapSize(TVramConfig::VRAM0_PARAM), parent);
+                // (no B heap for a configuration without one)
+                if (TVramConfig::VRAM1_SIZE != 0) {
+                    // 0x00AF94A0 (guard 0x00983324) [<26275u, 2u, false, BankVramConfig<1800u, 4u, 6600u, 4u, false> >]
+                    // 0x00AF9398 (guard 0x009832F4) [<18597u, 2u, true, BankVramConfig<500u, 2u, 2800u, 2u, false> >]
+                    // 0x00AF9550 (guard 0x00983344) [<33659u, 2u, true, BankVramConfig<2800u, 2u, 8800u, 2u, false> >]
+                    // 0x00AF93F0 (guard 0x00983304) [<18647u, 2u, true, BankVramConfig<700u, 2u, 3600u, 2u, false> >]
+                    // 0x00AF9340 (guard 0x009832E4) [<18471u, 2u, true, BankVramConfig<600u, 2u, 3600u, 2u, false> >]
+                    // 0x00AF92E8 (guard 0x009832D4) [<14156u, 2u, true, BankVramConfig<300u, 2u, 2000u, 2u, false> >]
+                    // 0x00AF94F8 (guard 0x00983334) [<32191u, 2u, true, BankVramConfig<2500u, 3u, 12400u, 3u, false> >]
+                    // 0x00AF9448 (guard 0x00983314) [<25216u, 2u, false, BankVramConfig<736u, 4u, 3824u, 4u, false> >]
+                    static sead::FixedSafeString<32> s_VramBName;
+                    ssys::ma::VramHeap* vramB = s_GetVramHeaps[1]();
+                    {
+                        sead::StringFormatter formatter(&s_VramBName);
+                        formatter.append("%sVramB").append(name).flush();
+                    }
+                    m_pVramBHeaps[slot] =
+                        ssys::ma::VramExpHeap::Create(TVramConfig::VRAM1_SIZE, sead::SafeStringBase<char>(s_VramBName.getCString()), vramB,
+                                                      ssys::ma::VramExpHeap::GetHeapSize(TVramConfig::VRAM1_PARAM), parent);
+                }
+            }
+        }
+        return isCreated;
+    }
     // (inline) the heaps of all slots are destroyed
     void FinalizeBank()
     {
@@ -107,7 +184,7 @@ inline Bank<HEAP_SIZE, NUM, FLAG, TVramConfig>::~Bank()
 }
 
 template <u32 HEAP_SIZE, u32 NUM, bool FLAG, typename TVramConfig>
-inline bool Bank<HEAP_SIZE, NUM, FLAG, TVramConfig>::Release(u32 slot)
+inline bool Bank<HEAP_SIZE, NUM, FLAG, TVramConfig>::Release(u32 /* slot */)
 {
     return true;
 }

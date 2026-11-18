@@ -1,4 +1,5 @@
 #include "Player/dPlayerAcceBank.h"
+#include "Bs/dBsPlayerMgr.h"
 
 #include "Bank/bank_Extern.h"
 #include "g3d/g3d_System.h"
@@ -68,4 +69,14 @@ PlayerAcceBank::PlayerAcceBank()
 PlayerAcceBank::~PlayerAcceBank()
 {
     // (only the bases and the members are destroyed)
+}
+
+// 0x00270CDC (name is ours)
+void PlayerAcceBank::RequestDraw()
+{
+    g3d::SkeletalModel* model = GetCurrentModel();
+    if (model == NULL) {
+        return;
+    }
+    BsPlayerMgr::AddModel(BsPlayerMgr::MODEL_LIST_ACCE, model);
 }

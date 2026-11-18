@@ -1,4 +1,5 @@
 #include "Player/dPlayerShoesBank.h"
+#include "Bs/dBsPlayerMgr.h"
 
 #include "Bank/bank_Extern.h"
 #include "g3d/g3d_System.h"
@@ -68,4 +69,14 @@ PlayerShoesBank::PlayerShoesBank()
 PlayerShoesBank::~PlayerShoesBank()
 {
     // (only the bases and the members are destroyed)
+}
+
+// 0x002A20F8 (name is ours)
+void PlayerShoesBank::RequestDraw()
+{
+    g3d::SkeletalModel* model = GetCurrentModel();
+    if (model == NULL) {
+        return;
+    }
+    BsPlayerMgr::AddModel(BsPlayerMgr::MODEL_LIST_SHOES, model);
 }

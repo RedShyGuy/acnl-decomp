@@ -1,3 +1,4 @@
+#include "Sc/dScStage.h"
 #include "Other/dTicketList.h"
 
 #include "Item/item_Api.h"
@@ -47,7 +48,7 @@ bool TicketList::SetupItems()
     SvFgName groups[GROUP_NUM][GROUP_MAX];
     s32 counts[GROUP_NUM] = {0, 0, 0};
     if (scene != NULL) {
-        const void* object = Func75E9AC(scene);
+        const void* object = scene->GetCurrentCampingCarInfo();
         if (object != NULL) {
             for (s32 i = 0; i < LIST0_NUM; i++) {
                 const SvFgName name = Func71FF94(object, i).item;

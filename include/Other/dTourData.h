@@ -30,6 +30,9 @@ public:
     // whether the list of 8 items of the tour type (a table 0x0095D704 of 12 lists) has an item (this is not used)
     bool Func76F678(s8 tourType) const; // 0x0076F678
 
+    // the item of the tour that the players get when the tour starts (BsPlayerMgr::GiveTourItems)
+    const SvFgName* Func76F580() const; // 0x0076F580
+
     // the instance (292 bytes) in heap, with its SingletonDisposer_ (name after the sead singletons)
     static TourData* createInstance(sead::Heap* heap); // 0x006C4634
 

@@ -11,7 +11,7 @@ void PlayerGetPositionForCamera()
 }
 
 // 0x005C3DDC | libgarden [tier A]
-void PlayerGetState(netgame::PlayerNo)
+const PlayerState* PlayerGetState(netgame::PlayerNo player)
 {
 }
 

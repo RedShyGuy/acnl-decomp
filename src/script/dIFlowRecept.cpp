@@ -2052,7 +2052,7 @@ void IFlowRecept::SetPocketItemAndNotify(u32 a, u32 b)
 {
     SvPlayer* player = SvGetCurrentPlayer();
     if (player != NULL) {
-        Func2BFDE0(&player->inventory, a, b, 1);
+        Func2BFDE0(&player->inventory, reinterpret_cast<const SvFgName*>(a), b, 1);
         Func5C8CC4();
     }
 }

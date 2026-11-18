@@ -61,9 +61,7 @@ void Func11A818(SvNpc* npc, const FgDataItem* items, SvFgBlock* layer0, SvFgBloc
 void Func1199C4(SvNpc* npc, const FgDataItem* items, SvFgBlock* layer0, SvFgBlock* layer1); // 0x001199C4
 // the layouts of items of the grounds (an array of 5 at 0x009B4B08; the first one for an index of 5 or more)
 FgDataLoader* Func6E565C(u32 index); // 0x006E565C
-// the object of the camping car index (0, 1) of the scene (NULL for other indices) and its items (24); the empty item
-// for the index when there is none
-void* Func75E984(ScStage* scene, u32 index); // 0x0075E984
+// the items (24) of the camping car index when the scene has no camping car info for it (ScStage::GetCampingCarInfo)
 FgPlacement Func2CFE88(s32 index); // 0x002CFE88
 // the grounds of the downtown blocks (size bytes) for the ocean side of the town
 void Func6FB288(u16* out, u32 size, u8 oceanSide); // 0x006FB288

@@ -5,6 +5,18 @@ namespace graphic {
 // 0x00953B9C
 MemoryMgr* MemoryMgr::s_pInstance = NULL;
 
+// 0x00617A88 (name is ours)
+ssys::ma::VramHeap* graphic::MemoryMgr::GetVramAHeap()
+{
+    return s_pInstance->m_pVramAHeap;
+}
+
+// 0x00617A9C (name is ours)
+ssys::ma::VramHeap* graphic::MemoryMgr::GetVramBHeap()
+{
+    return s_pInstance->m_pVramBHeap;
+}
+
 // ctor address unknown
 graphic::MemoryMgr::MemoryMgr()
 {

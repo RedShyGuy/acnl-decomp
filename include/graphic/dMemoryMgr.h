@@ -26,7 +26,13 @@ public:
     // the instance (names are ours)
     static MemoryMgr* s_pInstance;
 
-    u8 m_Unknown0x08[0xC];                       // 0x08 (+0x0C/+0x10: the heaps of VRAM A and B)
+    // the heaps of VRAM A and B of the instance (Bank::CreateHeaps keeps them in a table)
+    static ssys::ma::VramHeap* GetVramAHeap(); // 0x00617A88
+    static ssys::ma::VramHeap* GetVramBHeap(); // 0x00617A9C
+
+    u8 m_Unknown0x08[0x4];                       // 0x08
+    ssys::ma::VramHeap* m_pVramAHeap;            // 0x0C
+    ssys::ma::VramHeap* m_pVramBHeap;            // 0x10
     ssys::ma::VramHeap* m_pCurrentHeaps[3];      // 0x14 the heaps the allocations of each kind come from (CurrentSetter)
 };
 } // namespace graphic

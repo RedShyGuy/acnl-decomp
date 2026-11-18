@@ -6,6 +6,9 @@
 #include "field/dField.h"
 #include "sead/seadSafeStringBase.h"
 
+namespace g3d {
+class ResourceLoader;
+} // namespace g3d
 namespace oml {
 namespace framework {
 class Process;
@@ -433,8 +436,8 @@ u8 GetLightingType(Name name); // 0x005B4CD0
 bool GetArea(nn::math::VEC3_* pMin, nn::math::VEC3_* pMax, bool isWidened); // 0x005B4D30
 // the furniture of the stage at most, at most 48
 u32 GetMaxFurniture(Name name); // 0x005B4DE4
-// a part of the stage scene (type unknown); NULL without a scene
-void* GetSceneWork(); // 0x005B4E10
+// the resource of the unit cursor of the stage scene (ScStage; NULL without a scene)
+g3d::ResourceLoader* GetUnitCursorResource(); // 0x005B4E10
 // the structure of the stage (0xFC: none)
 u8 GetStructure(Name name); // 0x005B4E28
 bool IsCampingCar(Name name); // 0x005B4E40

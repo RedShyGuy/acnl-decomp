@@ -717,12 +717,12 @@ u32 GetMaxFurniture(Name name)
 }
 
 // 0x005B4E10 (name is ours)
-void* GetSceneWork()
+g3d::ResourceLoader* GetUnitCursorResource()
 {
     if (s_pScene == NULL) {
         return NULL;
     }
-    return s_pScene->m_Work;
+    return &s_pScene->m_UnitCursorResource;
 }
 
 // 0x005B4E28 (name is ours)

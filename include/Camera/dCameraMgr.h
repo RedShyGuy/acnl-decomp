@@ -19,6 +19,7 @@ public:
         s16 m_RotateY;              // 0x1E the rotation about y (fgobj turns objects with ObjectBase::FLAG_FACE_CAMERA to it)
         u8 m_Unknown0x20[4];        // 0x20
         nn::math::VEC3_ m_Point;    // 0x24 a point of the camera (the areas of the field objects are around it; meaning unknown)
+        nn::math::VEC3_ m_Eye;      // 0x30 the position of the camera (the room walls fade when they turn away from it)
     };
 
     u8 m_Unknown0x0[0x1A4];         // 0x000

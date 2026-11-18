@@ -36,7 +36,7 @@ public:
 };
 ASSERT_SIZE(ResourceKey, 0x8);
 
-// A fixed number of resources (T = a loader with Load(path, heap, alignment) and Unload) in their own heap, found by the
+// A fixed number of resources (T = a loader with LoadAsync(path, heap, alignment) and Unload) in their own heap, found by the
 // CRC of their path. The class name and the instances are from the RTTI of ResourceNode; the members and functions are
 // ours. Instantiations found in the binary (ResourceNode typeinfo / vtable):
 //   <FgDataLoader, 18u>  0x008D2D04 / 0x0090918C
@@ -99,22 +99,23 @@ public:
             node->m_Key.Clear();
             node->m_Resource.Unload();
         }
-        for (ResourceNode* node = static_cast<ResourceNode*>(m_OtherList.GetFirst()); node != NULL;
+        for (ResourceNode* node = static_cast<ResourceNode*>(m_LoadingList.GetFirst()); node != NULL;
              node = static_cast<ResourceNode*>(node->GetNext())) {
             node->m_Key.Clear();
             node->m_Resource.Unload();
         }
         m_UsedList.Clear();
         m_FreeList.Clear();
-        m_OtherList.Clear();
+        m_LoadingList.Clear();
         for (u32 i = 0; i < N; i++) {
             m_FreeList.PushBack(&m_Nodes[i]);
         }
         m_Allocator.DestroyHeap();
     }
 
-    // loads the file name into a free node unless a node has it already; the key of the file is returned (the key is
-    // the CRC of the name followed by a null character, "%s%c")
+    // starts or goes on loading the file name (T::LoadAsync): the key of the file when it is loaded, an empty key while it
+    // is loading (a free node starts it and goes into the loading list; a finished one moves into the used list). The key
+    // is the CRC of the name followed by a null character, "%s%c".
     DECOMP_ALWAYS_INLINE ResourceKey Load(const char* name) { return LoadImpl(name); }
     DECOMP_ALWAYS_INLINE ResourceKey LoadImpl(const char* name)
     {
@@ -124,6 +125,7 @@ public:
             sead::StringFormatter formatter(&path);
             formatter.append("%s%c").append(name).appendValue(terminator).flush();
         }
+        sead::Heap* heap = m_Allocator.m_pHeap;
         const char* str = path.getCString();
         ResourceKey key;
         key.Set(SvCalcCrc32C(str, std::strlen(str), 0xFFFFFFFF, 0xFFFFFFFF));
@@ -133,13 +135,24 @@ public:
                 return key;
             }
         }
+        for (ResourceNode* node = static_cast<ResourceNode*>(m_LoadingList.GetFirst()); node != NULL;
+             node = static_cast<ResourceNode*>(node->GetNext())) {
+            if (key == node->m_Key) {
+                if (!node->m_Resource.LoadAsync(sead::SafeStringBase<char>(name), heap, LOAD_ALIGNMENT)) {
+                    return ResourceKey();
+                }
+                m_LoadingList.Erase(node);
+                m_UsedList.PushBack(node);
+                return node->m_Key;
+            }
+        }
         // (the free list is not checked)
         ResourceNode* node = static_cast<ResourceNode*>(m_FreeList.GetFirst());
-        node->m_Resource.Load(sead::SafeStringBase<char>(name), m_Allocator.m_pHeap, LOAD_ALIGNMENT);
+        node->m_Resource.LoadAsync(sead::SafeStringBase<char>(name), heap, LOAD_ALIGNMENT);
         node->m_Key = key;
         m_FreeList.Erase(node);
-        m_UsedList.PushBack(node);
-        return node->m_Key;
+        m_LoadingList.PushBack(node);
+        return ResourceKey();
     }
 
     // the resource of a key (NULL if no node has it)
@@ -158,6 +171,6 @@ public:
     ResourceNode m_Nodes[N];               // 0x8
     ::ssys::st::List m_UsedList;           // the loaded resources
     ::ssys::st::List m_FreeList;           // the free nodes
-    ::ssys::st::List m_OtherList;          // (only Finalize uses it here: unloaded like the used list)
+    ::ssys::st::List m_LoadingList;          // the resources that are still loading
 };
 } // namespace mutil

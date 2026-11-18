@@ -375,3 +375,6 @@ enum SvBgName : u16
 // whether a ground is outside (GRD_*) or a room (IDR_*) (names are ours)
 bool IsOutdoorBgName(u32 name); // 0x006060C0
 bool IsIndoorBgName(u32 name);  // 0x006060D0
+// the file name of a ground ("grd_F_0", "idr_room_1C_6_s", ...; name is ours)
+const char* GetBgNameString(u32 name); // 0x006060B0
+extern const char* s_BgNameStrings[BG_NAME_NUM];

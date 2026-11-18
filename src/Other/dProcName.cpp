@@ -1,6 +1,8 @@
 #include "Other/dProcMgr.h"
 
 // the constants of the process classes (names after the process table 0x00954FD0 of the binary)
+// 0x00887E30
+extern const ProcName PROC_BS_ROOT = static_cast<ProcName>(0);
 // 0x00887E32
 extern const ProcName PROC_SC_STAGE = static_cast<ProcName>(1);
 // 0x00887E34
@@ -271,6 +273,8 @@ extern const ProcName PROC_AC_PHOTO_MGR = static_cast<ProcName>(519);
 extern const ProcName PROC_BS_GROW_UP = static_cast<ProcName>(520);
 // 0x00888324
 extern const ProcName PROC_BS_CFL = static_cast<ProcName>(521);
+// 0x00888326
+extern const ProcName PROC_SC_BOOT = static_cast<ProcName>(522);
 // 0x00888328
 extern const ProcName PROC_SCRIPT_BASE = static_cast<ProcName>(523);
 // 0x0088832A
@@ -287,6 +291,8 @@ extern const ProcName PROC_BS_OBJ_CHECK_MGR = static_cast<ProcName>(529);
 extern const ProcName PROC_BS_TITLE = static_cast<ProcName>(530);
 // 0x0088833A
 extern const ProcName PROC_BS_SV_MGR = static_cast<ProcName>(532);
+// 0x0088833C
+extern const ProcName PROC_BS_MENU_MGR = static_cast<ProcName>(533);
 // 0x00888364
 extern const ProcName PROC_BS_TIME_BEL_WINDOW = static_cast<ProcName>(553);
 // 0x00888380
@@ -313,6 +319,8 @@ extern const ProcName PROC_BS_FG_PROC = static_cast<ProcName>(623);
 extern const ProcName PROC_BS_GR_RENDERER = static_cast<ProcName>(625);
 // 0x008883F0
 extern const ProcName PROC_BS_RETURN_SAVE_MGR = static_cast<ProcName>(626);
+// 0x008883F2
+extern const ProcName PROC_BS_DEMO_PROC = static_cast<ProcName>(627);
 // 0x008883F4
 extern const ProcName PROC_BS_DEMO_CANCEL_MGR = static_cast<ProcName>(628);
 // 0x008883F6

@@ -23,8 +23,9 @@ oml::framework::Result ScStageMiniGame0::Draw()
 }
 
 // 0x0071DF7C slot 0x40 | virtual slot, introduced by BsScene
-void ScStageMiniGame0::vf_0x40()
+oml::framework::Result ScStageMiniGame0::vf_0x40()
 {
+    return oml::framework::RESULT_SUCCESS;
 }
 
 // 0x002BC990 slot 0x44

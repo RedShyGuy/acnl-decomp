@@ -417,7 +417,7 @@ struct SvTownDataUnkEE2C {
     /* 0x8BFC */ SvFgName unk_0x17A28[2]; // new year hats?
     /* 0x8C04 */ SvFgName campgroundShopItems[2];
     /* 0x8C0C */ u8 unk_0x17A38[4];
-    /* 0x8C10 */ u16 campgroundCaravan[2]; // left and right caravan (uses NPC VID); 0xFFFF if empty
+    /* 0x8C10 */ u16 campgroundCampingCar[2]; // left and right camping car (uses NPC VID); 0xFFFF if empty
     /* 0x8C14 */ u8 unk_0x17A40[8];
     /* 0x8C1C */ SvDate unk_0x17A48;
     /* 0x8C20 */ SvDate unk_0x17A4C;

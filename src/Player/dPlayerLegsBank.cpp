@@ -1,4 +1,5 @@
 #include "Player/dPlayerLegsBank.h"
+#include "Bs/dBsPlayerMgr.h"
 
 #include "sead/seadSafeStringBase.h"
 
@@ -108,14 +109,10 @@ PlayerLegsBank::~PlayerLegsBank()
 void PlayerLegsBank::RequestDraw()
 {
     g3d::SkeletalModel* model = GetCurrentModel();
-    if (model == NULL || g_pUnknown951378 == NULL) {
+    if (model == NULL) {
         return;
     }
-    BankModelList* list = reinterpret_cast<BankModelList*>(g_pUnknown951378 + 0x12CA0);
-    if (list->m_Count < 7) {
-        list->m_pModels[list->m_Count] = model;
-        list->m_Count++;
-    }
+    BsPlayerMgr::AddModel(BsPlayerMgr::MODEL_LIST_LEGS, model);
 }
 
 // 0x002728BC (name is ours)

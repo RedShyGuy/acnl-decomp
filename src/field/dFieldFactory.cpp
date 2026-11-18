@@ -1,3 +1,4 @@
+#include "Sc/dScStage.h"
 #include "field/dFieldFactory.h"
 #include "field/dField.h"
 #include "field/dFieldBuilderUtil.h"
@@ -390,7 +391,7 @@ Field* FieldFactory::Create(stage::Name name)
         layer1->Clear();
         ScStage* scene = stage::GetScene();
         if (scene != NULL) {
-            const void* car = Func75E984(scene, index);
+            const void* car = scene->GetCampingCarInfo(index);
             for (s32 i = 0; i < 24; i++) {
                 const FgPlacement placement = car != NULL ? Func71FF94(car, i) : Func2CFE88(i);
                 if (placement.item.IsUsual()) {

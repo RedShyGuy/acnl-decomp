@@ -1,7 +1,7 @@
 #include "Bank/dBankTableBase.h"
 
 // 0x0021384C slot 0x10 (name is ours)
-void BankTableBase::ClearBit(u32 index)
+void BankTableBase::ClearBit(u32 /* index */)
 {
     // empty (in the original too)
 }
@@ -13,9 +13,15 @@ void BankTableBase::ResetBit()
 }
 
 // 0x00213868 slot 0x00 (name is ours)
-bool BankTableBase::Release(u32 index)
+bool BankTableBase::Release(u32 /* index */)
 {
     return true;
+}
+
+// 0x00213854 (name is ours)
+u32 BankTableBase::Min(u32 a, u32 b)
+{
+    return a > b ? b : a;
 }
 
 // 0x00213870 (name is ours)
@@ -78,7 +84,7 @@ bool BankTableBase::Free(BankHandle* handle)
 }
 
 // 0x00213A58 slot 0x0C (name is ours)
-void BankTableBase::SetBit(u32 index)
+void BankTableBase::SetBit(u32 /* index */)
 {
     // empty (in the original too)
 }
@@ -89,13 +95,13 @@ BankTableBase::BankTableBase() : m_Size(0), m_UsedNum(0), m_Next(0)
 }
 
 // 0x00713F78 slot 0x08 (name is ours)
-bool BankTableBase::CheckBit(u32 index)
+bool BankTableBase::CheckBit(u32 /* index */)
 {
     return true;
 }
 
 // 0x00713F80 slot 0x04 (name is ours)
-bool BankTableBase::IsValid(u32 index)
+bool BankTableBase::IsValid(u32 /* index */)
 {
     return true;
 }

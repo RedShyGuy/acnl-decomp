@@ -181,7 +181,8 @@ bool Func251930(); // 0x00251930
 void Func2912B8(u32 value); // 0x002912B8
 void Func293264(); // 0x00293264
 void Func2BBDE8(void* flags, u32 index, bool value); // 0x002BBDE8
-void Func2BFDE0(SvPlayerInventory* inventory, u32 a, u32 b, u32 c); // 0x002BFDE0
+// item into the pockets (SvPlayerInventory::AddItem with appearance)
+void Func2BFDE0(SvPlayerInventory* inventory, const SvFgName* item, u32 appearance, u32 c); // 0x002BFDE0
 void Func2BFF98(SvPlayerInventory* inventory, u32 slot, const SvFgName* item, u32 a, u32 b); // 0x002BFF98
 void Func2C00A8(SvPlayerInventory* inventory, u32 value); // 0x002C00A8
 void Func2C02C8(SvPlayerInventory* inventory, u32 value); // 0x002C02C8

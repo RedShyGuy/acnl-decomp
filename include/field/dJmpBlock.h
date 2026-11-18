@@ -69,10 +69,10 @@ public:
     DECOMP_EMIT_COPY DECOMP_NOINLINE bool IsUnknownFlag80() const { return (m_Flags & FLAG_UNKNOWN_80) >> 7; } // 0x0075E8D4
 
     // the triangle of a side relative to the unit center: the center and the two corners of the side (y = height)
-    DECOMP_EMIT_COPY DECOMP_NOINLINE void GetTriangleNorth(ssys::ma::Vec3i* points) const; // 0x0075E64C
-    DECOMP_EMIT_COPY DECOMP_NOINLINE void GetTriangleSouth(ssys::ma::Vec3i* points) const; // 0x0075E6C0
-    DECOMP_EMIT_COPY DECOMP_NOINLINE void GetTriangleWest(ssys::ma::Vec3i* points) const;  // 0x0075E734
-    DECOMP_EMIT_COPY DECOMP_NOINLINE void GetTriangleEast(ssys::ma::Vec3i* points) const;  // 0x0075E7A4
+    DECOMP_EMIT_COPY DECOMP_NOINLINE inline void GetTriangleNorth(ssys::ma::Vec3i* points) const; // 0x0075E64C
+    DECOMP_EMIT_COPY DECOMP_NOINLINE inline void GetTriangleSouth(ssys::ma::Vec3i* points) const; // 0x0075E6C0
+    DECOMP_EMIT_COPY DECOMP_NOINLINE inline void GetTriangleWest(ssys::ma::Vec3i* points) const;  // 0x0075E734
+    DECOMP_EMIT_COPY DECOMP_NOINLINE inline void GetTriangleEast(ssys::ma::Vec3i* points) const;  // 0x0075E7A4
 
 private:
     /* 0x0 */ u16 m_Heights[SIDE_NUM];
