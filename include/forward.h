@@ -1131,8 +1131,8 @@ enum FieldName : u8; // field/dFieldTypes.h
 enum PicaDataColor : u8; // nn/gr/CTR/gr_Types.h
 enum PicaDataDepth : u8; // nn/gr/CTR/gr_Types.h
 enum PicaDataDrawMode : u8; // nn/gr/CTR/gr_Types.h
-struct PlayerCapBankKeyword { u32 _unknown; }; // placeholder, real type unknown
-struct PlayerHeadBankKeyword { u32 _unknown; }; // placeholder, real type unknown
+struct PlayerCapBankKeyword; // Exchange/dExchangeBankKeyword.h
+struct PlayerHeadBankKeyword; // Exchange/dExchangeBankKeyword.h
 enum PlayerSaveNumber : u8; // Player/dPlayerApi.h
 struct PlayerState { u32 _unknown; }; // placeholder, real type unknown
 enum ProcName : u16; // Other/dProcMgr.h
@@ -1151,14 +1151,14 @@ struct nnfriesndsGameAuthenticationData; // nn/friends/CTR/friends_Types.h
 struct nnfriesndsServiceLocatorData; // nn/friends/CTR/friends_Types.h
 enum nngxlowInterrupt : u8; // nn/gxlow/CTR/CTR_Api.h
 struct u { u32 _unknown; }; // placeholder, real type unknown
-template <auto T0, auto T1, auto T2, auto T3, auto T4> struct BankVramConfig { u32 _unknown; }; // placeholder
-template <auto T0, auto T1, auto T2, typename T3> class Bank;
-template <auto T0, auto T1, typename T2> class DoubleBank;
+template <u32 VRAM0_SIZE, u32 VRAM0_PARAM, u32 VRAM1_SIZE, u32 VRAM1_PARAM, bool FLAG> struct BankVramConfig; // Bank/dBankVramConfig.h
+template <u32 HEAP_SIZE, u32 NUM, bool FLAG, typename TVramConfig> class Bank; // Bank/dBank.h
+template <u32 HEAP_SIZE, bool FLAG, typename TVramConfig> class DoubleBank; // Double/dDoubleBank.h
 template <auto T0, auto T1, typename T2> class RoadSearchCand;
 template <auto T0, auto T1> class SearchCandXZ;
-template <auto T0, typename T1, typename T2, auto T3> class ExchangeBank;
-template <auto T0, typename T1, typename T2, typename T3, auto T4, auto T5> class ExchangeModelBank;
-template <auto T0, typename T1, typename T2, typename T3, auto T4, auto T5> class ExchangeResBank;
+template <u32 HEAP_SIZE, typename TVramConfig, typename TKeyword, bool FLAG> class ExchangeBank; // Exchange/dExchangeBank.h
+template <u32 FILE_SIZE, typename TVramConfig, typename TKeyword, typename TLoader, u32 MODEL_NUM, bool FLAG> class ExchangeModelBank; // Exchange/dExchangeModelBank.h
+template <u32 FILE_SIZE, typename TVramConfig, typename TKeyword, typename TLoader, u32 MODEL_NUM, bool FLAG> class ExchangeResBank; // Exchange/dExchangeResBank.h
 template <auto T0> class InOutWindowInButton;
 template <int N> class InstCatalog; // Other/dInstCatalog.h
 template <int N> class InstSelect; // Other/dInstSelect.h
@@ -1166,9 +1166,9 @@ template <int N> class SearchCand;
 template <auto T0> class SoundObj;
 template <int N> class Tab;
 template <auto T0> class mySearchCand;
-template <auto T0> struct ExchangeBankKeywordFgNameEx { u32 _unknown; }; // placeholder
-template <auto T0> struct ExchangeBankKeywordMyDesignFgNameEx { u32 _unknown; }; // placeholder
-template <typename T0, auto T1> class BankTable;
+// ExchangeBankKeywordFgNameEx<SvFgName::Name>: Exchange/dExchangeBankKeyword.h
+// ExchangeBankKeywordMyDesignFgNameEx<SvFgName::Name>: Exchange/dExchangeBankKeyword.h
+template <typename T, u32 N> class BankTable; // Bank/dBankTable.h
 template <typename T0, typename T1> class SvStep;
 template <typename T0> class AcSimpleTalk;
 template <typename T0> class BsPartsSaveMgr;
@@ -1287,7 +1287,7 @@ namespace berlina {
 }
 
 namespace bg { 
-    template <typename T0, auto T1> class ExchangeBank;
+    template <typename TVramConfig, u32 FILE_SIZE> class ExchangeBank; // bg/dExchangeBank.h
 }
 
 namespace bgcheck { 

@@ -30,6 +30,7 @@ public:
     // (names after the addresses) a flag of the emitter set / its velocity (meaning unknown) and its matrix (EmitterSet::setMtx)
     void Func2E6848(u32 value); // 0x002E6848
     void Func2E64A4(const nn::math::VEC3* value); // 0x002E64A4
+    void Func2E6550(const nn::math::VEC3* direction); // 0x002E6550
     void SetMatrix(const nn::math::MTX34* matrix); // 0x002E6C58
     // kills the effect
     void Kill(); // 0x002E6934

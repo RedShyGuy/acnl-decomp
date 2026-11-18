@@ -220,7 +220,12 @@ def sig_key(qualname, params, const):
 
 TYPEDEFS = {'u8': 'unsigned char', 'u16': 'unsigned short', 'u32': 'unsigned int', 'bit32': 'unsigned int',
             'u64': 'unsigned long long', 's8': 'signed char', 's16': 'short', 's32': 'int',
-            's64': 'long long', 'f32': 'float', 'f64': 'double'}
+            's64': 'long long', 'f32': 'float', 'f64': 'double',
+            # the GL types of nn/gx/gx_Types.h
+            'GLenum': 'unsigned int', 'GLuint': 'unsigned int', 'GLbitfield': 'unsigned int', 'GLint': 'int',
+            'GLsizei': 'int', 'GLfloat': 'float', 'GLboolean': 'unsigned char', 'GLubyte': 'unsigned char',
+            'GLushort': 'unsigned short', 'GLshort': 'short', 'GLbyte': 'signed char', 'GLchar': 'char',
+            'GLclampf': 'float', 'GLintptr': 'int', 'GLsizeiptr': 'int'}
 TYPE_WORDS = {'int', 'char', 'short', 'long', 'unsigned', 'signed', 'float', 'double', 'bool', 'void', 'const'}
 
 

@@ -1,19 +1,37 @@
 #pragma once
 
 #include "decomp.h"
-#include "Sv/dSvFgName.h"
+#include "Exchange/dExchangeModelBank.h"
+#include "Item/dResLoader.h"
+#include "Item/item_Api.h"
 
-// RTTI 14PlayerLegsBank @ 0x008CBD64
+// The bank of the legs of the player (class name from the RTTI; the member names are ours): the common legs model
+// (s_ModelPath, loader 0) and, for a socks item, its item file (loader 1).
+// RTTI 14PlayerLegsBank @ 0x008CBD5C
 // vtable 0x008F0678 (vptr 0x008F0680), offset_to_top 0, 11 entries
 // vtable 0x008F06AC (vptr 0x008F06B4), offset_to_top -1200, 3 entries
 class PlayerLegsBank
+    : public ::ExchangeModelBank<17879u, BankVramConfig<700u, 2u, 3600u, 2u, false>,
+                                 ExchangeBankKeywordMyDesignFgNameEx<(SvFgName::Name)0x7FFD>, item::ResLoader, 2u, true>
 {
 public:
-    PlayerLegsBank(); // ctor candidate(s) 0x00272ED0 (unverified)
-    virtual ~PlayerLegsBank(); // 0x00273184 slot 0x00 | slot vf_0x00 of ExchangeBank<18647u, BankVramConfig<700u, 2u, 3600u, 2u, false>, ExchangeBankKeywordMyDesignFgNameEx<(SvFgName::Name)32765>, true>
-    // 0x00273118 slot 0x04 | slot vf_0x04 of ExchangeBank<18647u, BankVramConfig<700u, 2u, 3600u, 2u, false>, ExchangeBankKeywordMyDesignFgNameEx<(SvFgName::Name)32765>, true> (deleting dtor)
-    virtual void vf_0x10(); // 0x00272980 slot 0x10 | virtual slot, introduced by ExchangeBank<18647u, BankVramConfig<700u, 2u, 3600u, 2u, false>, ExchangeBankKeywordMyDesignFgNameEx<(SvFgName::Name)32765>, true>
-    virtual void vf_0x14(); // 0x00272D98 slot 0x14 | virtual slot, introduced by ExchangeBank<18647u, BankVramConfig<700u, 2u, 3600u, 2u, false>, ExchangeBankKeywordMyDesignFgNameEx<(SvFgName::Name)32765>, true>
-    virtual void vf_0x18(); // 0x00272A7C slot 0x18 | virtual slot, introduced by ExchangeBank<18647u, BankVramConfig<700u, 2u, 3600u, 2u, false>, ExchangeBankKeywordMyDesignFgNameEx<(SvFgName::Name)32765>, true>
-    virtual void vf_0x1C(); // 0x00272D3C slot 0x1C | virtual slot, introduced by ExchangeBank<18647u, BankVramConfig<700u, 2u, 3600u, 2u, false>, ExchangeBankKeywordMyDesignFgNameEx<(SvFgName::Name)32765>, true>
+    typedef ExchangeBankKeywordMyDesignFgNameEx<(SvFgName::Name)0x7FFD> Keyword;
+
+    PlayerLegsBank(); // 0x00272ED0
+    virtual ~PlayerLegsBank(); // 0x00273184 slot 0x00
+
+    virtual bool LoadResource(const Keyword& keyword, u32 slot) override; // 0x00272980 slot 0x10
+    virtual s32 LoadResourceSplit(const Keyword& keyword, u32 slot) override; // 0x00272D98 slot 0x14
+    virtual bool Initialize(const Keyword& keyword, u32 slot, bool isReady) override; // 0x00272A7C slot 0x18
+    virtual bool Finalize(const Keyword& keyword, u32 slot) override; // 0x00272D3C slot 0x1C
+
+    // the shown model goes into the model list of the object 0x00951378 (at +0x12CA0)
+    void RequestDraw(); // 0x00272868
+    // the colors of the shown model: the two bytes of m_pUnknown4D0 and colors (false: no object or no model)
+    bool SetColors(const ExchangeBankKeywordUnknown3* colors); // 0x002728BC
+
+    static const char* s_ModelPath;
+
+    const void* m_pUnknown4D0; // 0x4D0 (read by Initialize with Func713778/Func713788)
 };
+ASSERT_SIZE(PlayerLegsBank, 0x4D4);

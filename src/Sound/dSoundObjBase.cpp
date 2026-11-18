@@ -272,6 +272,12 @@ void SoundObjBase::SetTypeEntry11()
     m_Type = 11;
 }
 
+// 0x0020B27C
+void SoundObjBase::SetIsUseHeightEntry(bool isUseHeight)
+{
+    SetIsUseHeight(isUseHeight);
+}
+
 // 0x0020B280
 void SoundObjBase::SetIsUseHeight(bool isUseHeight)
 {

@@ -1,7 +1,11 @@
 #pragma once
 
 #include "decomp.h"
+#include "Exchange/dExchangeBank.h"
 
+// An exchange bank that loads files (class name from the RTTI; the member names are ours): MODEL_NUM loaders per slot
+// (TLoader: item::ResLoader or g3d::ResourceLoader). The heap of a slot is 384 bytes per loader larger than the files (the loader
+// needs them). No virtual functions of its own.
 // Instantiations found in the binary:
 //   ExchangeResBank<13772u, BankVramConfig<300u, 2u, 2000u, 2u, false>, ExchangeBankKeywordFgNameEx<(SvFgName::Name)32766>, item::ResLoader, 1u, true>  typeinfo 0x008CC02C  vtable 0x008F1918
 //   ExchangeResBank<16768u, BankVramConfig<0u, 0u, 0u, 0u, false>, ExchangeBankKeywordMyDesignFgNameEx<(SvFgName::Name)32765>, item::ResLoader, 1u, false>  typeinfo 0x008CC038  vtable 0x008F1940
@@ -15,9 +19,22 @@
 //   ExchangeResBank<66000u, BankVramConfig<66000u, 1u, 0u, 0u, false>, ExchangeBankKeywordMyDesignFgNameEx<(SvFgName::Name)32766>, item::ResLoader, 1u, false>  typeinfo 0x008CC098  vtable 0x008F1A80
 //   ExchangeResBank<8600u, BankVramConfig<0u, 0u, 0u, 0u, false>, ExchangeBankKeywordFgNameEx<(SvFgName::Name)32766>, item::ResLoader, 1u, false>  typeinfo 0x008CC0A4  vtable 0x008F1AA8
 //   ExchangeResBank<8600u, BankVramConfig<8320u, 1u, 0u, 0u, false>, ExchangeBankKeywordMyDesignFgNameEx<(SvFgName::Name)32766>, item::ResLoader, 1u, false>  typeinfo 0x008CC0B0  vtable 0x008F1AD0
-template <auto T0, typename T1, typename T2, typename T3, auto T4, auto T5>
-class ExchangeResBank
+template <u32 FILE_SIZE, typename TVramConfig, typename TKeyword, typename TLoader, u32 MODEL_NUM, bool FLAG>
+class ExchangeResBank : public ExchangeBank<FILE_SIZE + 384 * MODEL_NUM, TVramConfig, TKeyword, FLAG>
 {
 public:
-    // TODO: members unknown
+    ExchangeResBank() {}
+    virtual ~ExchangeResBank();
+
+    // (inline) the loader index of the slot (the first one for a slot out of range)
+    TLoader* GetLoader(u32 slot, u32 index) { return slot < 2 ? &m_Loaders[index][slot] : &m_Loaders[0][0]; }
+    const TLoader* GetLoader(u32 slot, u32 index) const { return slot < 2 ? &m_Loaders[index][slot] : &m_Loaders[0][0]; }
+
+    TLoader m_Loaders[MODEL_NUM][2];
 };
+
+template <u32 FILE_SIZE, typename TVramConfig, typename TKeyword, typename TLoader, u32 MODEL_NUM, bool FLAG>
+inline ExchangeResBank<FILE_SIZE, TVramConfig, TKeyword, TLoader, MODEL_NUM, FLAG>::~ExchangeResBank()
+{
+    // (only the members and the base are destroyed)
+}

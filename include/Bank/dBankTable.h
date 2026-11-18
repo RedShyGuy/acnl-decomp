@@ -1,7 +1,12 @@
 #pragma once
 
-#include "decomp.h"
+#include <cstring>
 
+#include "decomp.h"
+#include "Bank/dBankTableBase.h"
+
+// A table of N banks of type T (class name from the RTTI; the member names are ours): m_Size of them are in use,
+// m_BankBits marks the handed-out ones (BankTableBase::Alloc/Free).
 // Instantiations found in the binary:
 //   BankTable<Bank<100096u, 1u, false, BankVramConfig<0u, 0u, 0u, 0u, false> >, 10u>  typeinfo 0x008CD650  vtable 0x008FA158
 //   BankTable<Bank<10240u, 1u, false, BankVramConfig<0u, 0u, 0u, 0u, false> >, 10u>  typeinfo 0x008CD65C  vtable 0x008FA180
@@ -22,9 +27,93 @@
 //   BankTable<PlayerTopsBank, 7u>  typeinfo 0x008CD614  vtable 0x008FA090
 //   BankTable<ToolBank, 10u>  typeinfo 0x008CD698  vtable 0x008FA248
 //   BankTable<ToolBank, 7u>  typeinfo 0x008CD6A4  vtable 0x008FA270
-template <typename T0, auto T1>
-class BankTable
+template <typename T, u32 N>
+class BankTable : public BankTableBase
 {
 public:
-    // TODO: members unknown
+    BankTable() { std::memset(m_BankBits, 0, sizeof(m_BankBits)); }
+
+    virtual bool Release(u32 index) override; // slot 0x00
+    virtual bool IsValid(u32 index) override; // slot 0x04
+    virtual bool CheckBit(u32 index) override; // slot 0x08
+    virtual void SetBit(u32 index) override; // slot 0x0C
+    virtual void ClearBit(u32 index) override; // slot 0x10
+    virtual void ResetBit() override; // slot 0x14
+    virtual ~BankTable(); // slot 0x18
+
+    T m_Banks[N];                 // 0x0C
+    u8 m_BankBits[(N + 7) / 8];
 };
+
+template <typename T, u32 N>
+inline bool BankTable<T, N>::Release(u32 index)
+{
+    if (index >= m_Size) {
+        return true;
+    }
+    T& bank = m_Banks[index];
+    bool isReleased = true;
+    for (u32 slot = 0; slot < T::SLOT_NUM; slot++) {
+        isReleased &= bank.ReleaseSlot(slot);
+    }
+    return isReleased;
+}
+
+template <typename T, u32 N>
+inline bool BankTable<T, N>::IsValid(u32 index)
+{
+    if (index >= m_Size) {
+        return false;
+    }
+    T& bank = m_Banks[index];
+    for (u32 slot = 0; slot < T::SLOT_NUM; slot++) {
+        if (bank.m_Allocators[slot].m_pHeap != NULL) {
+            return true;
+        }
+    }
+    return true;
+}
+
+template <typename T, u32 N>
+inline bool BankTable<T, N>::CheckBit(u32 index)
+{
+    if (index >= N) {
+        return false;
+    }
+    return (m_BankBits[index >> 3] >> (index & 7)) & 1;
+}
+
+template <typename T, u32 N>
+inline void BankTable<T, N>::SetBit(u32 index)
+{
+    if (index < N) {
+        m_BankBits[index >> 3] |= 1 << (index & 7);
+    }
+}
+
+template <typename T, u32 N>
+inline void BankTable<T, N>::ClearBit(u32 index)
+{
+    if (index < N) {
+        m_BankBits[index >> 3] &= ~(1 << (index & 7));
+    }
+}
+
+template <typename T, u32 N>
+inline void BankTable<T, N>::ResetBit()
+{
+    std::memset(m_BankBits, 0, sizeof(m_BankBits));
+}
+
+template <typename T, u32 N>
+inline BankTable<T, N>::~BankTable()
+{
+    u32 index = 0;
+    for (T* bank = m_Banks; bank < m_Banks + m_Size; bank++, index++) {
+        CheckBit(index); // (the result is not used)
+        bank->FinalizeBank();
+    }
+    m_Size = 0;
+    Clear();
+    std::memset(m_BankBits, 0, sizeof(m_BankBits));
+}

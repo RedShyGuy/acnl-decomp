@@ -304,3 +304,13 @@ ASSERT_SIZE(SvFgName, 0x4);
 bool Func2FE704(const SvFgName* a, const SvFgName* b); // 0x002FE704
 // the field object of the item item (out; false when there is none; the purpose of the other conversions is unknown)
 bool Func768A60(const SvFgName* item, SvFgName* out); // 0x00768A60
+
+// (game code, not decompiled; names after the addresses) whether two items are the same (ID and flags without bit 15 /
+// the top two bits), and whether an item is a My Design texture (kind KIND_MY_DESIGN_TEXTURE)
+bool Func76BA20(const SvFgName* a, const SvFgName* b); // 0x0076BA20
+bool Func76BBF0(const SvFgName* item); // 0x0076BBF0
+// whether the item is the Mii Mask (NAME_MII_MASK; name is ours)
+bool IsMiiMask(const SvFgName* item); // 0x0076D45C
+// a kind of the item from its parameters (0 for none; PlayerHeadBank: the headwear kinds 41 the model variant b, 43 no
+// head model, 44/45 the bald model with ears, 46/47 the bald model)
+s32 Func311840(const SvFgName* item); // 0x00311840

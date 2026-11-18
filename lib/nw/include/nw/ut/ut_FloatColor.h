@@ -10,6 +10,8 @@ class FloatColor
 public:
     // black, opaque (inline)
     FloatColor() : r(0.0f), g(0.0f), b(0.0f), a(1.0f) {}
+    // (inline)
+    FloatColor(f32 red, f32 green, f32 blue, f32 alpha) : r(red), g(green), b(blue), a(alpha) {}
 
     // the color for the GPU: 0xAABBGGRR, every channel clamped and rounded
     u32 ToPicaU32() const; // 0x007375CC | nintendogs:bytes [tier A]

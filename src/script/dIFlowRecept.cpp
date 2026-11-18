@@ -740,7 +740,7 @@ s32 IFlowRecept::Branch41(u32* index, const libms::FlowNodeBranch& node)
     u32 value = 1;
     SvPlayer* player = SvGetCurrentPlayer();
     if (player != NULL && player->playerInfo.IsValid()) {
-        if (Func76D45C(Func71B33C(&player->playerAppearance.playerOutfit))) {
+        if (IsMiiMask(Func71B33C(&player->playerAppearance.playerOutfit))) {
             value = 0;
         }
     }

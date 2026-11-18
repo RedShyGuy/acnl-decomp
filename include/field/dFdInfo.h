@@ -70,6 +70,9 @@ public:
     static f32 GetHeight95E93E(const nn::math::VEC3& wpos, FieldName field); // 0x006C8374
     // like GetSurfaceHeight; the parts 17/18 and the attributes AD..B1 after GetHeightDefault
     static f32 GetSurfaceHeightEx(const nn::math::VEC3& wpos, FieldName field); // 0x006C8D48
+    // (two heights of the auto camp stages; names after the address)
+    static f32 Func6C8C4C(const nn::math::VEC3& wpos, FieldName field); // 0x006C8C4C
+    static f32 Func6C880C(const nn::math::VEC3& wpos, FieldName field); // 0x006C880C
     // GetHeightDefault after the table 95E93E of the part (2: the water surface, 1/3: 32 higher) and 112 for the
     // parts of s_Attributes891697
     static f32 GetSurfaceHeightDefault(const nn::math::VEC3& wpos, FieldName field); // 0x006C863C

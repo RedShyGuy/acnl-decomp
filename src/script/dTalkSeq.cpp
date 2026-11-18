@@ -1550,7 +1550,7 @@ void TalkSeq::Tag10_19(const Tag* tag)
     GetTagArgs(tag, labels, 2);
     u32 index = 0;
     SvPlayer* player = SvGetCurrentPlayer();
-    if (player != NULL && player->playerInfo.IsValid() && !Func76D45C(Func71B33C(&player->playerAppearance.playerOutfit))) {
+    if (player != NULL && player->playerInfo.IsValid() && !IsMiiMask(Func71B33C(&player->playerAppearance.playerOutfit))) {
         index = 1;
     }
     Branch(labels[index]);

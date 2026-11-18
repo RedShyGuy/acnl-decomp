@@ -84,9 +84,9 @@ struct SvPlayerInventory;
 // the speech sound of a character (TalkSeq/TalkRuby)
 // the player reacts to a choice (value: ChoiceItem::m_Sound < 47); false: no reaction (game code, name is ours)
 bool Func5C8F30(u8 value, u32 arg); // 0x005C8F30
-u32 Func71B33C(const SvPlayerOutfit* outfit); // 0x0071B33C
-bool Func76D45C(u32 value); // 0x0076D45C
-bool Func76A518(u32 value); // 0x0076A518
+// the hat of the outfit if it is the Mii Mask or of the item type 1, otherwise SvFgName::s_Empty
+const SvFgName* Func71B33C(const SvPlayerOutfit* outfit); // 0x0071B33C
+bool Func76A518(const SvFgName* item); // 0x0076A518
 // the share of the unlocked items of a kind in percent (0..100)
 u32 Func770F68(const u32* unlockedItems, u32 kind); // 0x00770F68
 bool Func713404(SvPlayer* player); // 0x00713404
@@ -105,7 +105,6 @@ s32 Func76E44C(SvMuseum* museum); // 0x0076E44C
 s32 Func76E5CC(SvMuseum* museum); // 0x0076E5CC
 const SvFgName* Func71B394(const SvPlayerOutfit* outfit); // 0x0071B394
 bool Func76BA8C(const SvFgName* item); // 0x0076BA8C
-s32 Func311840(const SvFgName* item); // 0x00311840
 
 // (FlowSystem) clears the second byte of the flags 0x00954B34 of the file of ObjTalkRecept before a flow starts
 void Func23CCB4(); // 0x0023CCB4

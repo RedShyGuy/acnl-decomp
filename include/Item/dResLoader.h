@@ -20,10 +20,10 @@ public:
     // 0x005378B4 (deleting dtor)
 
     // (game code, not decompiled; names are ours) the resources of an item (arguments as the letter paper passes them)
-    bool Load(const SvFgName* item, sead::Heap* heap, u32 arg3, u32 arg4, u32 arg5, bool arg6, u32 arg7); // 0x00537704
+    bool Load(const SvFgName* item, sead::Heap* heap, u32 arg3, u32 arg4, const void* arg5, bool arg6, u32 arg7); // 0x00537704
     // the image / the format of the texture of the index
     // (game code, not decompiled; name after the address) the resources of a pattern item (fgobj passes 4, 1, 0, 1, 0)
-    bool Func536B74(const SvFgName* item, sead::Heap* heap, u32 alignment, u32 arg4, u32 arg5, u32 arg6, u32 arg7); // 0x00536B74
+    bool Func536B74(const SvFgName* item, sead::Heap* heap, u32 alignment, u32 arg4, const void* arg5, u32 arg6, u32 arg7); // 0x00536B74
     void* GetTextureImage(s32 index); // 0x005370D4
     u8 GetTextureFormat(s32 index); // 0x0053707C
     // (the extra part freed first, then ResourceLoader::Unload)

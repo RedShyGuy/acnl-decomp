@@ -42,6 +42,8 @@ public:
     void SetType(u32 type); // 0x0020AC08
     void SetTypeEntry11(); // 0x0020B270
     void SetIsUseHeight(bool isUseHeight); // 0x0020B280
+    // a removed call in front (falls into SetIsUseHeight; ToolBank calls it)
+    void SetIsUseHeightEntry(bool isUseHeight); // 0x0020B27C
     void SetIsNoDistance(bool isNoDistance); // 0x0020B2A4
     // (never on the title screen)
     void SetIsIgnoreMaster(bool isIgnoreMaster); // 0x0020B2C8

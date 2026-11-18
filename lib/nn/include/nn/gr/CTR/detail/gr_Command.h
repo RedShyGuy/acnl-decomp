@@ -110,6 +110,39 @@ inline u32 Float32ToFix13Fraction8(f32 value)
     return static_cast<u32>(fixed - 4096.0f);
 }
 
+// signed 2.11 fixed point (two's complement in 13 bits; the light directions)
+inline u32 Float32ToFix13Fraction11(f32 value)
+{
+    if (value == 0.0f || IsInfOrNan(BitsOf(value))) {
+        return 0;
+    }
+    f32 fixed = (value + 2.0f) * 2048.0f;
+    if (fixed < 0.0f) {
+        fixed = 0.0f;
+    } else if (fixed >= 8192.0f) {
+        fixed = 8191.0f;
+    }
+    if (fixed < 4096.0f) {
+        return static_cast<u32>(fixed + 4096.0f);
+    }
+    return static_cast<u32>(fixed - 4096.0f);
+}
+
+// 1.7.12 float (the distance attenuation of the lights)
+inline u32 Float32ToFloat20(f32 value)
+{
+    const u32 bits = BitsOf(value);
+    const u32 sign = bits >> 31;
+    s32 exponent = 0;
+    if ((bits & 0x7FFFFFFF) != 0) {
+        exponent = static_cast<s32>((bits << 1) >> 24) - 64;
+        if (exponent < 0) {
+            return sign << 19;
+        }
+    }
+    return ((bits << 9) >> 20) | (exponent << 12) | (sign << 19);
+}
+
 // [0, 1] to a byte, rounded
 inline u8 Float32ToUnsignedByte(f32 value)
 {

@@ -2,6 +2,7 @@
 
 #include "decomp.h"
 #include "Other/dDemoActor.h"
+#include "Player/dPlayerModel.h"
 #include "Player/dPlayerSimpleMessage.h"
 #include "Utl/dUtlBase.h"
 
@@ -30,4 +31,11 @@ public:
     bool EndFinalize() override; // 0x00117125 slot 0x8C
     void DoAction(PlayerAction::Name, PlayerState const*, bool); // 0x0064DB90 | libgarden [tier A]
     void GetScratchState() const; // 0x006576F8 | libgarden [tier A]
+    // (the float of the fishing rod of this player landed at position; name after the address)
+    void Func67867C(const nn::math::VEC3* position); // 0x0067867C
+
+    // (the layout so far as the tools show it; the constructor 0x0068EC58 builds the model at 0x1B4; names are ours)
+    u32 m_UnknownE4[(0x1B4 - 0xE4) / 4]; // 0xE4 (words: ARMCC does not use the tail padding of the bases)
+    PlayerModel m_Model;          // 0x1B4
 };
+ASSERT_OFFSET(AcPlayer, m_Model, 0x1B4);

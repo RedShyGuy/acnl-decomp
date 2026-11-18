@@ -227,6 +227,8 @@ const CFLiMiiDataOfficial* CFLi_GetDatabaseData(u16 index, bool checkSpecial);  
 extern "C" {
 s32 CFLi_AddRecentDBCharInfo(const CFLiCharInfo* info);
 s32 CFLi_AddRecentDBData(const CFLiMiiDataCore* data);
+// whether the official Mii index is in the database
+bool CFL_IsAvailableOfficialData(u16 index);
 } // extern "C"
 u32 CFL_GetResFileSize();          // 0x00153098 (name is ours)
 s32 CFL_LoadResFile(void* buffer); // 0x00153794 (name is ours)

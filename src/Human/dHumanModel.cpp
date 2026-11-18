@@ -55,3 +55,10 @@ void HumanModel::vf_0x28()
 {
 }
 
+
+#include "Human/dHumanModel_FaceCtrl.h"
+
+// 0x001AC59C (name is ours)
+bool HumanModel::FaceCtrl::Update()
+{
+}
