@@ -15,9 +15,13 @@ public:
     // whether the candidate may be picked (the derived classes filter)
     virtual bool IsCandidate(s32 index); // 0x00276058 slot 0x00
 
-    // all candidates again
+    // all candidates again / none
     void Reset(); // 0x00306EA8
-    // a candidate is removed
+    void Clear(); // 0x00306E84
+    // the places for which IsCandidate holds become candidates
+    void AddCandidates(); // 0x003070B8
+    // a candidate is added / removed
+    void Add(s32 index); // 0x00276014
     void Remove(s32 index); // 0x003071A8
     // a random one of the remaining candidates (none: -1)
     s32 Pick(); // 0x00306F8C

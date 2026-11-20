@@ -2,13 +2,16 @@
 
 #include "decomp.h"
 #include "Bs/dBsNpcMgr.h"
-#include "Bs/dBsNpcMgr_NpcForeachFunction.h"
 
+// calls the slot OnPlayerStartEmoticon of each NPC (BsNpcMgr; members are ours)
 // RTTI 28ForeachOnPlayerStartEmoticon @ 0x008CD10C
 // vtable 0x008F8120 (vptr 0x008F8128), offset_to_top 0, 1 entries
 class ForeachOnPlayerStartEmoticon : public ::BsNpcMgr::NpcForeachFunction
 {
 public:
-    ForeachOnPlayerStartEmoticon(); // ctor candidate(s) 0x0069A2C4 (unverified)
-    virtual void vf_0x00(); // 0x00343974 slot 0x00 | virtual slot, introduced by ForeachOnPlayerStartEmoticon
+    // (inline)
+    explicit ForeachOnPlayerStartEmoticon(u8 emoticon) : m_Emoticon(emoticon) {}
+    void Invoke(AcNpc* npc) override; // 0x00343974 slot 0x00
+
+    u8 m_Emoticon; // 0x4
 };

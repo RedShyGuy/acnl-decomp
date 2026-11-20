@@ -194,6 +194,48 @@ enum ProcType : u8
 };
 
 // the number of the process classes (a variable of the file of the constants)
+extern const ProcName PROC_AC_NPC_SP_MAIKO;
+extern const ProcName PROC_AC_NPC_OUT;
+extern const ProcName PROC_AC_NPC_SP_CAFE_TALK;
+extern const ProcName PROC_AC_NPC_SP_SECRETARY_CEREMONY;
+extern const ProcName PROC_AC_NPC_SP_SECRETARY_EVENT;
+extern const ProcName PROC_AC_NPC_SP_SECRETARY_GP_EVENT;
+extern const ProcName PROC_AC_NPC_SP_SECRETARY_P_WORKS;
+extern const ProcName PROC_AC_NPC_SP_RAKOSUKE;
+extern const ProcName PROC_AC_NPC_PLAYER_GHOST;
+extern const ProcName PROC_AC_NPC_SP_KABURIBA;
+extern const ProcName PROC_AC_NPC_SP_GRACE_OUT;
+extern const ProcName PROC_AC_NPC_SP_JONNY;
+extern const ProcName PROC_AC_NPC_SP_ROLLAN;
+extern const ProcName PROC_AC_NPC_SP_PERIO_NORMAL;
+extern const ProcName PROC_AC_NPC_SP_JINGLE;
+extern const ProcName PROC_AC_NPC_SP_FRANKRIN;
+extern const ProcName PROC_AC_NPC_SP_PUMPKING;
+extern const ProcName PROC_AC_NPC_SP_PYONTAROU;
+extern const ProcName PROC_AC_NPC_SP_TUNEKICHI_EVENT;
+extern const ProcName PROC_AC_NPC_SP_CLEANING;
+extern const ProcName PROC_AC_NPC_SP_UOMASA;
+extern const ProcName PROC_AC_NPC_SP_KAMEYAMA;
+extern const ProcName PROC_AC_NPC_SP_BERLINA;
+extern const ProcName PROC_AC_NPC_SP_SECRETARY_PLANT_TREE;
+extern const ProcName PROC_AC_NPC_SP_PROLOGUE_TANUKICHI;
+extern const ProcName PROC_AC_NPC_SP_SECRETARY_OUT;
+extern const ProcName PROC_AC_NPC_SP_PERIO_TUTORIAL;
+extern const ProcName PROC_AC_NPC_SP_SECRETARY_ANNIVERSARY;
+extern const ProcName PROC_AC_NPC_SP_PERIO_SPECIAL;
+extern const ProcName PROC_AC_NPC_SP_PERIO_WARNING;
+extern const ProcName PROC_AC_NPC_SP_PRE_SISYO;
+extern const ProcName PROC_AC_NPC_SP_MYSTERY_CAT;
+extern const ProcName PROC_AC_NPC_SP_PUMPKING_PRE;
+extern const ProcName PROC_AC_NPC_SP_CLEANING_VISIT;
+extern const ProcName PROC_AC_NPC_SP_PALLONCINO;
+extern const ProcName PROC_AC_NPC_SP_YUTAROU_VISIT;
+extern const ProcName PROC_AC_NPC_DEMO_DOLL;
+extern const ProcName PROC_AC_NPC_DT;
+extern const ProcName PROC_AC_NPC_SP_RESETSAN_IN;
+extern const ProcName PROC_AC_NPC_SP_RACKETSAN_IN;
+extern const ProcName PROC_AC_OBJ_WALL_HANG_BACK;
+extern const ProcName PROC_AC_OBJ_WALL_HANG_UNIT_CURSOR;
 extern const ProcName PROC_NAME_NUM;
 
 class ProcMgr

@@ -49,6 +49,10 @@ SvFgName Func6173D4(f32* factor, s32 a, s32 b, const nn::fnd::DateTimeParameters
 
 // A set of up to 32 indices as bits (the villagers of the town; name is ours): the number of places, the bits, the
 // number of set bits.
+namespace math {
+class Random;
+} // namespace math
+
 struct BitSet32 {
     // (game code, Thumb, not decompiled yet) a bit is set / cleared / all places are set or none / a copy (two copies)
     // / a random set index
@@ -58,6 +62,12 @@ struct BitSet32 {
     BitSet32& operator=(const BitSet32& other); // 0x00116F32 (Thumb)
     // 0x00116EAA (copy)
     s32 PickRandom() const; // 0x002FE468 (Thumb)
+    // a random set index from random (-1: none)
+    s32 PickRandom(math::Random* random) const; // 0x0011B4D6 (Thumb)
+    // the set index of the rank n (-1: none)
+    s32 GetNth(u32 n) const; // 0x0011B4A4 (Thumb)
+    // the index is set
+    bool Test(u32 index) const; // 0x0011B50E (Thumb)
 
     /* 0x0000 */ u32 num;
     /* 0x0004 */ u32 bits;

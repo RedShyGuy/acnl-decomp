@@ -91,7 +91,7 @@ DECOMP_ALWAYS_INLINE void ishutfact2::FossilItemsSetter::operator()(const Vector
             const u8 direction = static_cast<u8>(id - PLACEHOLDER_FOSSIL2_FIRST);
             u16 angle = Func6947A0(direction);
             angle += 0x4000;
-            const u32 orientation = Func692070(&angle);
+            const u32 orientation = GetQuarterOfAngle(&angle);
             const u16* parts = isfactory::s_Fossils2[m_pRandom->getU32(4)];
             SvFgName first;
             SvFgName second;
@@ -111,7 +111,7 @@ DECOMP_ALWAYS_INLINE void ishutfact2::FossilItemsSetter::operator()(const Vector
             const u8 direction = static_cast<u8>(id - PLACEHOLDER_FOSSIL3_FIRST);
             u16 angle = Func6947A0(direction);
             angle += 0x4000;
-            const u32 orientation = Func692070(&angle);
+            const u32 orientation = GetQuarterOfAngle(&angle);
             const u16* parts = isfactory::s_Fossils3[m_pRandom->getU32(11)];
             SvFgName first;
             SvFgName second;

@@ -135,7 +135,8 @@ public:
     static void Destroy(SoundTvHandle* handle); // 0x00606018
 
     void Start(); // 0x00605FC0
-    void Load(); // 0x00605FE4
+    // (true: the sound data is there)
+    bool Load(); // 0x00605FE4
     void Update(s32 frame, u16 program, const nn::math::VEC3* world); // 0x00606054
     void Stop(); // 0x00606090
     void Mute(); // 0x001DB5A8

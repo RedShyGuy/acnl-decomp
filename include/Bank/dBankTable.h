@@ -60,6 +60,13 @@ public:
         if (m_UsedNum != 0) {
             return false;
         }
+        return FinalizeBanksImpl();
+    }
+    // (name is ours) the heaps of all banks are destroyed, also of handed-out ones (always true); ARMCC keeps copies
+    // for some instances (explicit specializations below)
+    bool FinalizeBanks() { return FinalizeBanksImpl(); }
+    DECOMP_ALWAYS_INLINE bool FinalizeBanksImpl()
+    {
         u32 index = 0;
         for (T* bank = m_Banks; bank < m_Banks + m_Size; bank++, index++) {
             CheckBit(index); // (the result is not used)

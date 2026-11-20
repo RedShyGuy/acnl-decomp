@@ -1,14 +1,8 @@
-#include "Bs/dBsNpcMgr_NpcForeachFunction.h"
-#include "Bs/dBsNpcMgr.h"
 #include "Npc/dNpcOnBuildFunc.h"
+#include "Ac/dAcNpc.h"
 
-// ctor candidate(s) 0x00696124 (unverified)
-NpcOnBuildFunc::NpcOnBuildFunc()
+// 0x00270AC4 slot 0x00
+void NpcOnBuildFunc::Invoke(AcNpc* npc)
 {
+    npc->OnBuild(m_X0, m_Z0, m_X1, m_Z1, m_Flag);
 }
-
-// 0x00270AC4 slot 0x00 | virtual slot, introduced by NpcOnBuildFunc
-void NpcOnBuildFunc::vf_0x00()
-{
-}
-

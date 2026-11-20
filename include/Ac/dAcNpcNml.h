@@ -21,9 +21,9 @@ public:
     bool EndInitialize() override; // 0x00116F4D slot 0x80
     oml::framework::Result UpdateFinalize() override; // 0x00117081 slot 0x88
     virtual void vf_0xB0(); // 0x00762FDC slot 0xB0 | virtual slot, introduced by AcNpc
-    virtual void vf_0xC0(); // 0x006320B4 slot 0xC0 | virtual slot, introduced by AcNpc
-    virtual void vf_0xC4(); // 0x0063240C slot 0xC4 | virtual slot, introduced by AcNpc
-    virtual void vf_0xD8(); // 0x00632704 slot 0xD8 | virtual slot, introduced by AcNpc
+    void OnPreview(s32 x0, s32 z0, s32 x1, s32 z1, u8 flag) override; // 0x006320B4 slot 0xC0
+    void OnPreviewEnd() override; // 0x0063240C slot 0xC4
+    void OnPlayerStartEmoticon(u8 emoticon) override; // 0x00632704 slot 0xD8
     virtual void vf_0xF4(); // 0x00632594 slot 0xF4 | virtual slot, introduced by AcNpc
     virtual void vf_0xF8(); // 0x0076155C slot 0xF8 | virtual slot, introduced by AcNpc
     virtual void vf_0xFC(); // 0x006324D8 slot 0xFC | virtual slot, introduced by AcNpc

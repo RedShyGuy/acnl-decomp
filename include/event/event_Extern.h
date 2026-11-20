@@ -49,4 +49,6 @@ struct UnknownA84AEC
 extern UnknownA84AEC g_UnknownA84AEC;
 extern void* g_pUnknown94FE58;
 extern u8 g_Unknown94EDF8;
+// (meaning unknown) an event id after the net game type and the current events (EVENT_ID_NONE: none)
+u8 Func308E74(); // 0x00308E74
 } // namespace event

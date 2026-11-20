@@ -113,7 +113,7 @@ void AcNpc::vf_0x98()
 }
 
 // 0x00579B54 slot 0x9C | virtual slot, introduced by AcNpc
-void AcNpc::vf_0x9C()
+u32 AcNpc::vf_0x9C()
 {
 }
 
@@ -153,47 +153,47 @@ void AcNpc::vf_0xB8()
 }
 
 // 0x00578534 slot 0xBC | virtual slot, introduced by AcNpc
-void AcNpc::vf_0xBC()
+void AcNpc::OnBuild(s32 /* x0 */, s32 /* z0 */, s32 /* x1 */, s32 /* z1 */, u8 /* flag */)
 {
 }
 
 // 0x00578DAC slot 0xC0 | virtual slot, introduced by AcNpc
-void AcNpc::vf_0xC0()
+void AcNpc::OnPreview(s32 /* x0 */, s32 /* z0 */, s32 /* x1 */, s32 /* z1 */, u8 /* flag */)
 {
 }
 
 // 0x005795EC slot 0xC4 | virtual slot, introduced by AcNpc
-void AcNpc::vf_0xC4()
+void AcNpc::OnPreviewEnd()
 {
 }
 
 // 0x00579338 slot 0xC8 | virtual slot, introduced by AcNpc
-void AcNpc::vf_0xC8()
+s32 AcNpc::vf_0xC8(u32 /* a */, u32 /* b */)
 {
 }
 
 // 0x00579D0C slot 0xCC | virtual slot, introduced by AcNpc
-void AcNpc::vf_0xCC()
+void AcNpc::OnFallToPitfall()
 {
 }
 
 // 0x0057A03C slot 0xD0 | virtual slot, introduced by AcNpc
-void AcNpc::vf_0xD0()
+void AcNpc::OnStrugglePitfall()
 {
 }
 
 // 0x00579EC8 slot 0xD4 | virtual slot, introduced by AcNpc
-void AcNpc::vf_0xD4()
+void AcNpc::OnMoveOutPitfall()
 {
 }
 
 // 0x0057A680 slot 0xD8 | virtual slot, introduced by AcNpc
-void AcNpc::vf_0xD8()
+void AcNpc::OnPlayerStartEmoticon(u8 /* emoticon */)
 {
 }
 
 // 0x0057A64C slot 0xDC | virtual slot, introduced by AcNpc
-void AcNpc::vf_0xDC()
+void AcNpc::OnPlayerEndEmoticon(u8 /* emoticon */)
 {
 }
 
@@ -208,17 +208,17 @@ void AcNpc::vf_0xE4()
 }
 
 // 0x0057BF74 slot 0xE8 | virtual slot, introduced by AcNpc
-void AcNpc::vf_0xE8()
+s32 AcNpc::vf_0xE8(const void* /* arg */)
 {
 }
 
 // 0x00578D40 slot 0xEC | virtual slot, introduced by AcNpc
-void AcNpc::vf_0xEC()
+bool AcNpc::vf_0xEC(const void* /* arg */)
 {
 }
 
 // 0x0057A064 slot 0xF0 | virtual slot, introduced by AcNpc
-void AcNpc::vf_0xF0()
+s32 AcNpc::vf_0xF0()
 {
 }
 

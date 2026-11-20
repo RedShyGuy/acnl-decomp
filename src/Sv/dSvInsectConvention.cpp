@@ -644,7 +644,7 @@ DECOMP_NOINLINE bool SvInsectConvention::CanVillagerTakePart(s32 index, bool a, 
     if (mgr == NULL) {
         return false;
     }
-    for (AcNpc** actor = mgr->m_pNpcsBegin; actor != mgr->m_pNpcsEnd; actor++) {
+    for (AcNpc** actor = mgr->m_Npcs.first; actor != mgr->m_Npcs.last; actor++) {
         if (*actor != NULL) {
             func.Invoke(*actor);
         }
@@ -654,7 +654,7 @@ DECOMP_NOINLINE bool SvInsectConvention::CanVillagerTakePart(s32 index, bool a, 
             if (static_cast<u32>(i) >= mgr->GetNpcNum()) {
                 return true;
             }
-            AcNpc* actor = mgr->m_pNpcsBegin[i];
+            AcNpc* actor = mgr->m_Npcs.first[i];
             if (actor == NULL || GetActorNpcIndex(actor) == index) {
                 return true;
             }

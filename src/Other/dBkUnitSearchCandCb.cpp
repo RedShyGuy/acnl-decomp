@@ -1,13 +1,14 @@
-#include "Search/dSearchCandXZ.h"
 #include "Other/dBkUnitSearchCandCb.h"
 
-// ctor candidate(s) 0x00226894, 0x00699318, 0x00699A24 (unverified)
-BkUnitSearchCandCb::BkUnitSearchCandCb()
+// 0x002D6BB8 slot 0x04
+bool BkUnitSearchCandCb::IsCandidateXZ(s32 x, s32 z)
 {
+    if (m_pCallback == NULL) {
+        return false;
+    }
+    return m_pCallback(m_BlockX, m_BlockZ, x, z, m_Arg);
 }
 
-// 0x002D6BB8 slot 0x04 | virtual slot, introduced by SearchCandXZ<16, 16>
-void BkUnitSearchCandCb::vf_0x04()
-{
-}
-
+// (the slot of SearchCandXZ<16, 16>: armlink folded it with FdBkSearchCand::IsCandidateXZ)
+// 0x002BCEEC (folded)
+template bool SearchCandXZ<16, 16>::IsCandidateXZ(s32 x, s32 z);

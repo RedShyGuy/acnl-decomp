@@ -1155,7 +1155,7 @@ template <u32 VRAM0_SIZE, u32 VRAM0_PARAM, u32 VRAM1_SIZE, u32 VRAM1_PARAM, bool
 template <u32 HEAP_SIZE, u32 NUM, bool FLAG, typename TVramConfig> class Bank; // Bank/dBank.h
 template <u32 HEAP_SIZE, bool FLAG, typename TVramConfig> class DoubleBank; // Double/dDoubleBank.h
 template <auto T0, auto T1, typename T2> class RoadSearchCand;
-template <auto T0, auto T1> class SearchCandXZ;
+template <s32 W, s32 H> class SearchCandXZ;
 template <u32 HEAP_SIZE, typename TVramConfig, typename TKeyword, bool FLAG> class ExchangeBank; // Exchange/dExchangeBank.h
 template <u32 FILE_SIZE, typename TVramConfig, typename TKeyword, typename TLoader, u32 MODEL_NUM, bool FLAG> class ExchangeModelBank; // Exchange/dExchangeModelBank.h
 template <u32 FILE_SIZE, typename TVramConfig, typename TKeyword, typename TLoader, u32 MODEL_NUM, bool FLAG> class ExchangeResBank; // Exchange/dExchangeResBank.h

@@ -29,16 +29,6 @@ namespace framework {
 class Process;
 } // namespace framework
 } // namespace oml
-// (game code, not decompiled; names are ours) an object that shows an item while it is selected in a list: the
-// process that shows it and the item
-struct Unknown950338
-{
-    oml::framework::Process* m_pProcess;  // 0x0
-    SvFgName m_Name;                      // 0x4
-};
-Unknown950338* Func692FD0(); // 0x00692FD0 (returns the object 0x00950338)
-void Func692330(Unknown950338* object, const SvFgName& name); // 0x00692330
-bool Func6925C0(Unknown950338* object); // 0x006925C0 (stops the process, the item becomes empty)
 
 // A CatalogBase whose rows are buttons (B_list_NN / G_list_NN in the panes N_list_NN): one item is selected with
 // a cursor pane (P_slct_00) that moves into the row, and the rows show the items by GetItemWord. The file also has

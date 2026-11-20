@@ -52,7 +52,7 @@ void AcNpcSpMaiko::vf_0x90()
 }
 
 // 0x001F2C28 slot 0xC8 | virtual slot, introduced by AcNpc
-void AcNpcSpMaiko::vf_0xC8()
+s32 AcNpcSpMaiko::vf_0xC8(u32 /* a */, u32 /* b */)
 {
 }
 

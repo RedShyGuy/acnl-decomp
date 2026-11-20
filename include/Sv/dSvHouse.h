@@ -99,6 +99,9 @@ struct SvRoom {
     // (game code, not decompiled yet; names are ours)
     void SetWallpaper(const SvFgName& item); // 0x002D52FC
     void SetFlooring(const SvFgName& item); // 0x002D5750
+    // (inline copies; names are ours)
+    DECOMP_NOINLINE const SvFgName* GetWallpaper() const { return &wallpaper; } // 0x00720FD4
+    DECOMP_NOINLINE const SvFgName* GetFlooring() const { return &flooring; } // 0x007210A8
 };
 ASSERT_SIZE(SvRoom, 0x302);
 

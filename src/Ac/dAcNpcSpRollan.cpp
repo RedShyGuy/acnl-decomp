@@ -47,7 +47,7 @@ void AcNpcSpRollan::vf_0x90()
 }
 
 // 0x00210BB0 slot 0xC8 | virtual slot, introduced by AcNpc
-void AcNpcSpRollan::vf_0xC8()
+s32 AcNpcSpRollan::vf_0xC8(u32 /* a */, u32 /* b */)
 {
 }
 

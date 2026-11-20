@@ -89,6 +89,10 @@ extern const ProcName PROC_AC_ROBJ_RESET_MACHINE = static_cast<ProcName>(184);
 extern const ProcName PROC_AC_ROBJ_LIVE_CHAIR = static_cast<ProcName>(185);
 // 0x0088808C
 extern const ProcName PROC_AC_ROBJ_PLAYER_SELECT = static_cast<ProcName>(186);
+// 0x008880F0
+extern const ProcName PROC_AC_OBJ_WALL_HANG_BACK = static_cast<ProcName>(236);
+// 0x008880F2
+extern const ProcName PROC_AC_OBJ_WALL_HANG_UNIT_CURSOR = static_cast<ProcName>(237);
 // 0x008880F4
 extern const ProcName PROC_BS_FTR_MGR = static_cast<ProcName>(238);
 // 0x008880F6
@@ -141,10 +145,26 @@ extern const ProcName PROC_BS_COCKROACH_MGR = static_cast<ProcName>(385);
 extern const ProcName PROC_BS_PIKO_HAN_OBJ_MGR = static_cast<ProcName>(387);
 // 0x00888222
 extern const ProcName PROC_BS_NPC_MGR = static_cast<ProcName>(390);
+// 0x00888224
+extern const ProcName PROC_AC_NPC_DEMO_DOLL = static_cast<ProcName>(391);
 // 0x00888226
 extern const ProcName PROC_AC_NPC_DEMO_DOLL_SP = static_cast<ProcName>(392);
+// 0x00888238
+extern const ProcName PROC_AC_NPC_OUT = static_cast<ProcName>(402);
+// 0x0088823A
+extern const ProcName PROC_AC_NPC_PLAYER_GHOST = static_cast<ProcName>(403);
+// 0x0088823C
+extern const ProcName PROC_AC_NPC_DT = static_cast<ProcName>(404);
 // 0x00888240
 extern const ProcName PROC_AC_NPC_SP_ASAMI = static_cast<ProcName>(406);
+// 0x00888242
+extern const ProcName PROC_AC_NPC_SP_BERLINA = static_cast<ProcName>(407);
+// 0x00888244
+extern const ProcName PROC_AC_NPC_SP_CAFE_TALK = static_cast<ProcName>(408);
+// 0x00888246
+extern const ProcName PROC_AC_NPC_SP_CLEANING = static_cast<ProcName>(409);
+// 0x00888248
+extern const ProcName PROC_AC_NPC_SP_CLEANING_VISIT = static_cast<ProcName>(410);
 // 0x0088824A
 extern const ProcName PROC_AC_NPC_SP_DJKK = static_cast<ProcName>(411);
 // 0x0088824C
@@ -153,16 +173,38 @@ extern const ProcName PROC_AC_NPC_SP_DREAM = static_cast<ProcName>(412);
 extern const ProcName PROC_AC_NPC_SP_EXHIBITION_IN = static_cast<ProcName>(413);
 // 0x00888252
 extern const ProcName PROC_AC_NPC_SP_FORTUNETELLER = static_cast<ProcName>(415);
+// 0x00888254
+extern const ProcName PROC_AC_NPC_SP_FRANKRIN = static_cast<ProcName>(416);
 // 0x00888256
 extern const ProcName PROC_AC_NPC_SP_FUTA = static_cast<ProcName>(417);
+// 0x00888258
+extern const ProcName PROC_AC_NPC_SP_GRACE_OUT = static_cast<ProcName>(418);
 // 0x0088825A
 extern const ProcName PROC_AC_NPC_SP_HONMA = static_cast<ProcName>(419);
 // 0x0088825C
 extern const ProcName PROC_AC_NPC_SP_KAPPEIS_KID_ONE = static_cast<ProcName>(420);
+// 0x0088825E
+extern const ProcName PROC_AC_NPC_SP_JINGLE = static_cast<ProcName>(421);
+// 0x00888260
+extern const ProcName PROC_AC_NPC_SP_JONNY = static_cast<ProcName>(422);
+// 0x00888262
+extern const ProcName PROC_AC_NPC_SP_RACKETSAN_IN = static_cast<ProcName>(423);
+// 0x00888264
+extern const ProcName PROC_AC_NPC_SP_RAKOSUKE = static_cast<ProcName>(424);
 // 0x00888266
 extern const ProcName PROC_AC_NPC_SP_RESETSAN = static_cast<ProcName>(425);
+// 0x00888268
+extern const ProcName PROC_AC_NPC_SP_RESETSAN_IN = static_cast<ProcName>(426);
+// 0x0088826A
+extern const ProcName PROC_AC_NPC_SP_ROLLAN = static_cast<ProcName>(427);
+// 0x0088826C
+extern const ProcName PROC_AC_NPC_SP_PALLONCINO = static_cast<ProcName>(428);
+// 0x0088826E
+extern const ProcName PROC_AC_NPC_SP_KABURIBA = static_cast<ProcName>(429);
 // 0x00888270
 extern const ProcName PROC_AC_NPC_SP_KAPPEI = static_cast<ProcName>(430);
+// 0x00888272
+extern const ProcName PROC_AC_NPC_SP_KAMEYAMA = static_cast<ProcName>(431);
 // 0x00888274
 extern const ProcName PROC_AC_NPC_SP_KAMEYAMA_TENT = static_cast<ProcName>(432);
 // 0x00888276
@@ -191,12 +233,34 @@ extern const ProcName PROC_AC_NPC_SP_KOTOBUKI_MINING = static_cast<ProcName>(443
 extern const ProcName PROC_AC_NPC_SP_KOTOBUKI_PIKO_HAN = static_cast<ProcName>(444);
 // 0x0088828E
 extern const ProcName PROC_AC_NPC_SP_KOTOBUKI_TREASURE_HUNT = static_cast<ProcName>(445);
+// 0x00888290
+extern const ProcName PROC_AC_NPC_SP_MAIKO = static_cast<ProcName>(446);
 // 0x00888292
 extern const ProcName PROC_AC_NPC_SP_MASTER = static_cast<ProcName>(447);
+// 0x00888294
+extern const ProcName PROC_AC_NPC_SP_MYSTERY_CAT = static_cast<ProcName>(448);
+// 0x00888296
+extern const ProcName PROC_AC_NPC_SP_PRE_SISYO = static_cast<ProcName>(449);
 // 0x00888298
 extern const ProcName PROC_AC_NPC_SP_PL_SELECT = static_cast<ProcName>(450);
+// 0x0088829A
+extern const ProcName PROC_AC_NPC_SP_PROLOGUE_TANUKICHI = static_cast<ProcName>(451);
+// 0x0088829C
+extern const ProcName PROC_AC_NPC_SP_SECRETARY_EVENT = static_cast<ProcName>(452);
+// 0x0088829E
+extern const ProcName PROC_AC_NPC_SP_SECRETARY_GP_EVENT = static_cast<ProcName>(453);
 // 0x008882A0
 extern const ProcName PROC_AC_NPC_SP_SECRETARY_IN = static_cast<ProcName>(454);
+// 0x008882A2
+extern const ProcName PROC_AC_NPC_SP_SECRETARY_OUT = static_cast<ProcName>(455);
+// 0x008882A4
+extern const ProcName PROC_AC_NPC_SP_SECRETARY_PLANT_TREE = static_cast<ProcName>(456);
+// 0x008882A6
+extern const ProcName PROC_AC_NPC_SP_SECRETARY_P_WORKS = static_cast<ProcName>(457);
+// 0x008882A8
+extern const ProcName PROC_AC_NPC_SP_SECRETARY_CEREMONY = static_cast<ProcName>(458);
+// 0x008882AA
+extern const ProcName PROC_AC_NPC_SP_SECRETARY_ANNIVERSARY = static_cast<ProcName>(459);
 // 0x008882B2
 extern const ProcName PROC_AC_NPC_SP_SISYO = static_cast<ProcName>(464);
 // 0x008882B4
@@ -205,10 +269,26 @@ extern const ProcName PROC_AC_NPC_SP_STATION_MASTER = static_cast<ProcName>(465)
 extern const ProcName PROC_AC_NPC_SP_TOTAKEKE = static_cast<ProcName>(466);
 // 0x008882B8
 extern const ProcName PROC_AC_NPC_SP_TRAIN = static_cast<ProcName>(467);
+// 0x008882BA
+extern const ProcName PROC_AC_NPC_SP_PERIO_NORMAL = static_cast<ProcName>(468);
+// 0x008882BC
+extern const ProcName PROC_AC_NPC_SP_PERIO_SPECIAL = static_cast<ProcName>(469);
+// 0x008882BE
+extern const ProcName PROC_AC_NPC_SP_PERIO_TUTORIAL = static_cast<ProcName>(470);
+// 0x008882C0
+extern const ProcName PROC_AC_NPC_SP_PERIO_WARNING = static_cast<ProcName>(471);
 // 0x008882C2
 extern const ProcName PROC_AC_NPC_SP_PERIKO = static_cast<ProcName>(472);
 // 0x008882C4
 extern const ProcName PROC_AC_NPC_SP_PERIMI = static_cast<ProcName>(473);
+// 0x008882C6
+extern const ProcName PROC_AC_NPC_SP_PUMPKING = static_cast<ProcName>(474);
+// 0x008882C8
+extern const ProcName PROC_AC_NPC_SP_PUMPKING_PRE = static_cast<ProcName>(475);
+// 0x008882CA
+extern const ProcName PROC_AC_NPC_SP_PYONTAROU = static_cast<ProcName>(476);
+// 0x008882CC
+extern const ProcName PROC_AC_NPC_SP_UOMASA = static_cast<ProcName>(477);
 // 0x008882CE
 extern const ProcName PROC_AC_NPC_SP_UOMASA_TENT = static_cast<ProcName>(478);
 // 0x008882D0
@@ -245,8 +325,12 @@ extern const ProcName PROC_AC_NPC_SP_SHOP_TUBUKICHI = static_cast<ProcName>(493)
 extern const ProcName PROC_AC_NPC_SP_SHOP_MAMEKICHI = static_cast<ProcName>(494);
 // 0x008882F0
 extern const ProcName PROC_AC_NPC_SP_SHOP_TUNEKICHI = static_cast<ProcName>(495);
+// 0x008882F2
+extern const ProcName PROC_AC_NPC_SP_TUNEKICHI_EVENT = static_cast<ProcName>(496);
 // 0x008882F4
 extern const ProcName PROC_AC_NPC_SP_TOUR_DESK = static_cast<ProcName>(497);
+// 0x008882F8
+extern const ProcName PROC_AC_NPC_SP_YUTAROU_VISIT = static_cast<ProcName>(499);
 // 0x008882FA
 extern const ProcName PROC_AC_NPC_SP_TAKUMI_REAL_ESTATE = static_cast<ProcName>(500);
 // 0x008882FC

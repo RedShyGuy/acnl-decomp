@@ -139,11 +139,13 @@ void SoundTvHandle::Start()
 }
 
 // 0x00605FE4
-void SoundTvHandle::Load()
+bool SoundTvHandle::Load()
 {
-    if (m_pTv->Load()) {
+    const bool isLoaded = m_pTv->Load();
+    if (isLoaded) {
         m_IsLoaded = true;
     }
+    return isLoaded;
 }
 
 // 0x00606054

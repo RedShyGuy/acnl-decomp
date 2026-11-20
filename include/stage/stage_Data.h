@@ -1,10 +1,14 @@
 #pragma once
 
+#include "nn/math/math_Vector3.h"
+
 #include "stage/stage_Api.h"
 
 // the definitions of the stages (names are ours: the first stage that uses one)
 namespace stage {
 namespace detail {
+// positions that the code of special NPCs reads (meaning unknown)
+extern nn::math::VEC3 s_NpcPosition7;
 extern const Info s_AccessoryShopInfo;
 extern const Info s_BeautySalonInfo;
 extern const Info s_CafeInfo;

@@ -22,6 +22,8 @@ public:
     void Set(Shape* shape, u32 group, u32 mask); // 0x006F8990
     // (armlink removed a call at the start)
     void SetMask(u32 mask); // 0x006F8954
+    // (inline; the copy lies in the shared code and starts with a removed call)
+    DECOMP_EMIT_COPY DECOMP_NOINLINE u32 GetMask() const { return m_Mask; } // 0x00771C20
 
     Shape* m_pShape; // 0x4
     u32 m_Group;     // 0x8

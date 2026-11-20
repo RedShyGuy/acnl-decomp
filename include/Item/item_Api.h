@@ -192,7 +192,8 @@ struct ParamItemEntry
 {
     u16 iconID;                 // 0x00
     u16 price;                  // 0x02
-    u8 roomOrientation[6];      // 0x04
+    u8 roomOrientation[4];      // 0x04
+    u16 ftrSoundKind;           // 0x08 the sound of the furniture (SoundObjFurniture::Kind; 0x0069075C; name is ours)
     u8 kind;                    // 0x0A Kind
     u8 modelID;                 // 0x0B
     u8 unk_0xC;                 // 0x0C
@@ -200,7 +201,9 @@ struct ParamItemEntry
     s8 priceMultiplier;         // 0x0E
     u8 unk_0xF[2];              // 0x0F
     u8 ftr;                     // 0x11
-    u8 unk_0x12[7];             // 0x12
+    u8 unk_0x12[5];             // 0x12
+    u8 shape;                   // 0x17 the shape of the furniture (low 4 bits; BsFtrMgr::FindPlace; name is ours)
+    u8 unk_0x18;                // 0x18
     u8 type;                    // 0x19
     u8 inventoryActionFlags;    // 0x1A
     u8 unk_0x1B[3];             // 0x1B

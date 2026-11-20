@@ -52,17 +52,17 @@ void AcNpcNml::vf_0xB0()
 }
 
 // 0x006320B4 slot 0xC0 | virtual slot, introduced by AcNpc
-void AcNpcNml::vf_0xC0()
+void AcNpcNml::OnPreview(s32 /* x0 */, s32 /* z0 */, s32 /* x1 */, s32 /* z1 */, u8 /* flag */)
 {
 }
 
 // 0x0063240C slot 0xC4 | virtual slot, introduced by AcNpc
-void AcNpcNml::vf_0xC4()
+void AcNpcNml::OnPreviewEnd()
 {
 }
 
 // 0x00632704 slot 0xD8 | virtual slot, introduced by AcNpc
-void AcNpcNml::vf_0xD8()
+void AcNpcNml::OnPlayerStartEmoticon(u8 /* emoticon */)
 {
 }
 

@@ -81,7 +81,7 @@ bool AcFtr::EndFinalize()
 }
 
 // 0x00752418 slot 0x90 | virtual slot, introduced by AcFtr
-void AcFtr::vf_0x90()
+bool AcFtr::vf_0x90()
 {
 }
 

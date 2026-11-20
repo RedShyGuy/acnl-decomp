@@ -270,6 +270,8 @@ ASSERT_SIZE(PlayerStart, 0x18);
 struct alignas(4) NpcInfo
 {
     // (inline in the original: the stage file builds the NPC infos in its static initializer)
+    // (nothing; BsNpcMgr keeps uninitialized entries in its queue)
+    NpcInfo() {}
     NpcInfo(u8 kind, u8 flag, const char* model) : kind(kind), flag(flag)
     {
         for (s32 i = 0; i < 3; i++) {
@@ -278,10 +280,21 @@ struct alignas(4) NpcInfo
         this->model[3] = sead::SafeStringBase<char>::s_NullChar;
     }
 
-    u8 kind;        // 0x0 BsNpcMgr counts the kinds 0 and 1 apart (all stage NPCs are 1)
+    // kind: how the NPC is identified (AcNpc keeps its info at 0x9A8; BsNpcMgr finds NPCs by it)
+    enum Kind : u8
+    {
+        KIND_ID = 0,    // a villager by its id (the low 16 bits of value)
+        KIND_MODEL = 1, // a special character by its model (all stage NPCs)
+        KIND_VALUE = 2, // the whole word value (meaning unknown)
+    };
+
+    u8 kind;        // 0x0 Kind
     u8 flag;        // 0x1 (meaning unknown; set in the campgrounds)
     u16 _2;
-    char model[4];  // 0x4 the three letters of the NPC model ("ttl", "owl", ...)
+    union {
+        char model[4];  // 0x4 the three letters of the NPC model ("ttl", "owl", ...)
+        u32 value;      // 0x4
+    };
 };
 ASSERT_SIZE(NpcInfo, 0x8);
 

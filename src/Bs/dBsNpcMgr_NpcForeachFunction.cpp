@@ -1,7 +1,3 @@
 #include "Bs/dBsNpcMgr_NpcForeachFunction.h"
 
-// ctor address unknown
-BsNpcMgr::NpcForeachFunction::NpcForeachFunction()
-{
-}
-
+// (the constructor is inline, the slot is pure virtual)

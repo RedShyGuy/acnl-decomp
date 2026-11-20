@@ -17,7 +17,7 @@ SvFgName Func7202FC(const void* object); // 0x007202FC (the item of the name at 
 SvFgName Func720324(const void* object); // 0x00720324 (the item of the u16 at +134: a song)
 
 // The list of the items of the camping car info of the current camping car: wallpapers, carpets and the other items, each group sorted by
-// the sort table; the selected one is shown by the object of Func692FD0. Only the class name is from the RTTI; all
+// the sort table; the selected one is shown by the FtrPreview. Only the class name is from the RTTI; all
 // other names are ours.
 // RTTI 10TicketList @ 0x008CB208
 // vtable 0x008EC584 (vptr 0x008EC58C), offset_to_top 0, 26 entries

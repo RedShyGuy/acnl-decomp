@@ -1,4 +1,5 @@
 #include "Sc/dScStage.h"
+#include "Bs/dBsFtrMgr_Preview.h"
 #include "Other/dTicketList.h"
 
 #include "Item/item_Api.h"
@@ -26,8 +27,8 @@ void TicketList::Finalize()
 {
     SelectBase::Finalize();
     Func293264();
-    if (Func692FD0()->m_pProcess != NULL) {
-        Func6925C0(Func692FD0());
+    if (GetFtrPreview()->m_pProcess != NULL) {
+        GetFtrPreview()->Hide();
     }
 }
 
@@ -96,8 +97,8 @@ void TicketList::UpdateWait()
     SelectBase::UpdateWait();
     if (m_Selected != -1) {
         const SvFgName name(m_Items[m_Selected]);
-        Func692330(Func692FD0(), name);
+        GetFtrPreview()->Show(name);
     } else if (prev != -1) {
-        Func6925C0(Func692FD0());
+        GetFtrPreview()->Hide();
     }
 }

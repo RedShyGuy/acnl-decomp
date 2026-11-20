@@ -3,6 +3,7 @@
 #include "decomp.h"
 #include "netgame/netgame_Api.h"
 #include "Other/dDemoActor.h"
+#include "stage/stage_Api.h"
 #include "Utl/dUtlBase.h"
 
 // RTTI 5AcNpc @ 0x008CD28C
@@ -34,7 +35,7 @@ public:
     virtual void vf_0x90(); // 0x00578480 slot 0x90 | virtual slot, introduced by AcNpc
     virtual void vf_0x94(); // 0x00578A1C slot 0x94 | virtual slot, introduced by AcNpc
     virtual void vf_0x98(); // 0x0075327C slot 0x98 | virtual slot, introduced by AcNpc
-    virtual void vf_0x9C(); // 0x00579B54 slot 0x9C | virtual slot, introduced by AcNpc
+    virtual u32 vf_0x9C(); // 0x00579B54 slot 0x9C | virtual slot, introduced by AcNpc
     virtual void vf_0xA0(); // 0x0057A514 slot 0xA0 | virtual slot, introduced by AcNpc
     virtual void vf_0xA4(); // 0x00579EB8 slot 0xA4 | virtual slot, introduced by AcNpc
     virtual void vf_0xA8(); // 0x00752F54 slot 0xA8 | virtual slot, introduced by AcNpc
@@ -42,20 +43,20 @@ public:
     virtual void vf_0xB0(); // 0x007536A4 slot 0xB0 | virtual slot, introduced by AcNpc
     virtual void vf_0xB4(); // 0x007531B8 slot 0xB4 | virtual slot, introduced by AcNpc
     virtual void vf_0xB8(); // 0x0057BA04 slot 0xB8 | virtual slot, introduced by AcNpc
-    virtual void vf_0xBC(); // 0x00578534 slot 0xBC | virtual slot, introduced by AcNpc
-    virtual void vf_0xC0(); // 0x00578DAC slot 0xC0 | virtual slot, introduced by AcNpc
-    virtual void vf_0xC4(); // 0x005795EC slot 0xC4 | virtual slot, introduced by AcNpc
-    virtual void vf_0xC8(); // 0x00579338 slot 0xC8 | virtual slot, introduced by AcNpc
-    virtual void vf_0xCC(); // 0x00579D0C slot 0xCC | virtual slot, introduced by AcNpc
-    virtual void vf_0xD0(); // 0x0057A03C slot 0xD0 | virtual slot, introduced by AcNpc
-    virtual void vf_0xD4(); // 0x00579EC8 slot 0xD4 | virtual slot, introduced by AcNpc
-    virtual void vf_0xD8(); // 0x0057A680 slot 0xD8 | virtual slot, introduced by AcNpc
-    virtual void vf_0xDC(); // 0x0057A64C slot 0xDC | virtual slot, introduced by AcNpc
+    virtual void OnBuild(s32 x0, s32 z0, s32 x1, s32 z1, u8 flag); // 0x00578534 slot 0xBC
+    virtual void OnPreview(s32 x0, s32 z0, s32 x1, s32 z1, u8 flag); // 0x00578DAC slot 0xC0
+    virtual void OnPreviewEnd(); // 0x005795EC slot 0xC4
+    virtual s32 vf_0xC8(u32 a, u32 b); // 0x00579338 slot 0xC8 | virtual slot, introduced by AcNpc
+    virtual void OnFallToPitfall(); // 0x00579D0C slot 0xCC
+    virtual void OnStrugglePitfall(); // 0x0057A03C slot 0xD0
+    virtual void OnMoveOutPitfall(); // 0x00579EC8 slot 0xD4
+    virtual void OnPlayerStartEmoticon(u8 emoticon); // 0x0057A680 slot 0xD8
+    virtual void OnPlayerEndEmoticon(u8 emoticon); // 0x0057A64C slot 0xDC
     virtual void vf_0xE0(); // 0x00578B90 slot 0xE0 | virtual slot, introduced by AcNpc
     virtual void vf_0xE4(); // 0x00578DE0 slot 0xE4 | virtual slot, introduced by AcNpc
-    virtual void vf_0xE8(); // 0x0057BF74 slot 0xE8 | virtual slot, introduced by AcNpc
-    virtual void vf_0xEC(); // 0x00578D40 slot 0xEC | virtual slot, introduced by AcNpc
-    virtual void vf_0xF0(); // 0x0057A064 slot 0xF0 | virtual slot, introduced by AcNpc
+    virtual s32 vf_0xE8(const void* arg); // 0x0057BF74 slot 0xE8
+    virtual bool vf_0xEC(const void* arg); // 0x00578D40 slot 0xEC
+    virtual s32 vf_0xF0(); // 0x0057A064 slot 0xF0 | virtual slot, introduced by AcNpc
     virtual void vf_0xF4(); // 0x00579EB0 slot 0xF4 | virtual slot, introduced by AcNpc
     virtual void vf_0xF8(); // 0x0075328C slot 0xF8 | virtual slot, introduced by AcNpc
     virtual void vf_0xFC(); // 0x00579C58 slot 0xFC | virtual slot, introduced by AcNpc
@@ -84,4 +85,32 @@ public:
     virtual void vf_0x158(); // 0x0057A5FC slot 0x158 | virtual slot, introduced by AcNpc
     virtual void vf_0x15C(); // 0x00578C38 slot 0x15C | virtual slot, introduced by AcNpc
     virtual void vf_0x160(); // 0x00578C3C slot 0x160 | virtual slot, introduced by AcNpc
+
+    // (game code of AcNpc, not decompiled yet; meaning unknown)
+    s32 Func57A600(u32 arg); // 0x0057A600
+    bool Func57A8FC(); // 0x0057A8FC
+
+    // (the members that BsNpcMgr reads; the layout of AcNpc follows with its own code, names are ours)
+    u32 _unk68[(0xA8 - 0x68) / 4]; // (words: GCC would put bytes into the tail padding of the base, ARMCC does not)
+    u8 m_UnknownA8;              // 0xA8 (BsNpcMgr::SetupAsrWords leaves out a special character with 27)
+    u8 _unkA9[3];
+    u32 _unkAC[(0x938 - 0xAC) / 4];
+    u32 m_Unknown938;            // 0x938 (BsNpcMgr::SetValueOfKind)
+    u32 _unk93C[(0x95C - 0x93C) / 4];
+    u8 _unk95C[2];
+    u8 m_Kind;                   // 0x95E BsNpcMgr finds an NPC of a kind (meaning of the values unknown)
+    u8 _unk95F[0x9A8 - 0x95F];
+    stage::NpcInfo m_Info;       // 0x9A8 how the NPC is identified (BsNpcMgr::FindNpc)
+    u32 _unk9B0[(0xB1C - 0x9B0) / 4];
+    u8 _unkB1C[2];
+    bool m_UnknownB1E;           // 0xB1E (set for a villager of BsNpcMgr::CreateAnniversaryNpcs)
+    u8 _unkB1F;
+    u32 _unkB20[(0xDA4 - 0xB20) / 4];
+    u8 _unkDA4;
+    u8 m_UnknownDA5;             // 0xDA5 (BsNpcMgr::CreateAnniversaryNpcs sets the bit 4)
+    u8 _unkDA6[2];
+    u32 _unkDA8[(0x1030 - 0xDA8) / 4];
+    u32 m_Unknown1030;           // 0x1030 (BsNpcMgr::FindNpcByName)
 };
+ASSERT_OFFSET(AcNpc, m_Kind, 0x95E);
+ASSERT_OFFSET(AcNpc, m_Info, 0x9A8);

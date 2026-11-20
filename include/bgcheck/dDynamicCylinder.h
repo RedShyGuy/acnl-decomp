@@ -26,7 +26,9 @@ public:
 };
 ASSERT_SIZE(DynamicCylinder, 0x2C);
 
-// the body joins / leaves the collision world 0x009880A8 (NULL: nothing)
+// the collision world of the cylinders
+extern collision::World g_CylinderWorld;
+// the body joins / leaves the world of the cylinders (NULL: nothing)
 void AddBody(collision::World::Body* body); // 0x00615208
 void RemoveBody(collision::World::Body* body); // 0x00615244
 } // namespace bgcheck

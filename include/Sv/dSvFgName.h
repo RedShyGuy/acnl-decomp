@@ -114,6 +114,8 @@ public:
     void ClearUnique(); // 0x006BA454
     void ClearCommon(); // 0x006BA474
     void SetUnique(u16 value); // 0x006BA89C
+    // the name (bit 15 is kept; name is ours)
+    void SetName(u16 name); // 0x002FCFF4
 
     // (names are ours) the kinds PICTURE_WALL, FAKE_PICTURE_WALL, MUSIC_WALL, TOPS_WALL and ONE_PIECE_WALL become
     // PICTURE, FAKE_PICTURE, MUSIC, TOPS and ONE_PIECE_OUTFIT; true if the item changed

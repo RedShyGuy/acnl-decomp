@@ -20,7 +20,7 @@ public:
     bool EndInitialize() override; // 0x00210434 slot 0x80
     oml::framework::Result UpdateFinalize() override; // 0x0010A06D slot 0x88
     virtual void vf_0x90(); // 0x00210860 slot 0x90 | virtual slot, introduced by AcNpc
-    virtual void vf_0xC8(); // 0x00210BB0 slot 0xC8 | virtual slot, introduced by AcNpc
+    s32 vf_0xC8(u32 a, u32 b) override; // 0x00210BB0 slot 0xC8 | virtual slot, introduced by AcNpc
     virtual void vf_0x114(); // 0x00210BF4 slot 0x114 | virtual slot, introduced by AcNpc
     virtual void vf_0x11C(); // 0x00210AC4 slot 0x11C | virtual slot, introduced by AcNpc
     virtual void vf_0x120(); // 0x00210890 slot 0x120 | virtual slot, introduced by AcNpc

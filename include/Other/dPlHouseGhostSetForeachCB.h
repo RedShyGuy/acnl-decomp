@@ -8,6 +8,9 @@
 class PlHouseGhostSetForeachCB : public ::RoadSearchForeachNodeCB
 {
 public:
-    PlHouseGhostSetForeachCB(); // ctor address unknown
+    // (inline; BsNpcMgr::CreatePlayerGhostInHouse)
+    explicit PlHouseGhostSetForeachCB(void* search) : m_pSearch(search) {}
     virtual void vf_0x00(); // 0x0010BAF5 slot 0x00 | virtual slot, introduced by PlHouseGhostSetForeachCB
+
+    void* m_pSearch; // 0x04 the road search (names are ours)
 };

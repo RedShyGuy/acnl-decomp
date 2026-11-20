@@ -43,6 +43,8 @@ struct SvMuseum {
     // the current player donates an item: donor = save number + 1, date = today; then the tests whether a group and the
     // whole museum are complete run (their results are not used: the code after them was removed)
     void Donate(const SvFgName& item); // 0x006BD168
+    // (name is ours) an item with a donation is shown in the room (a museum stage)
+    bool HasDonationInRoom(u8 room); // 0x0076DEE0
 
     // (copies of the inline functions of the museum in the shared area; names are ours) the donor of an item (0: not
     // donated; 1..4: save number + 1, DONOR_FORMER) / the kind and index have a place in the museum / all fish and sea

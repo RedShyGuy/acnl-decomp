@@ -1,10 +1,8 @@
 #include "Other/dOrderList.h"
+#include "Bs/dBsFtrMgr_Preview.h"
 
 #include "Item/item_Api.h"
 #include "script/dScriptExtern.h"
-
-// 0x0098C080
-Unknown98C080 g_Unknown98C080;
 
 namespace {
 // the groups of the items (GetKindGroup)
@@ -26,8 +24,8 @@ void OrderList::Finalize()
 {
     SelectBase::Finalize();
     Func293264();
-    if (Func692FD0()->m_pProcess != NULL) {
-        Func6925C0(Func692FD0());
+    if (GetFtrPreview()->m_pProcess != NULL) {
+        GetFtrPreview()->Hide();
     }
 }
 
@@ -55,14 +53,14 @@ u32 OrderList::vf_0x2C()
 // 0x006EF410 slot 0x34
 bool OrderList::SetupItems()
 {
-    const u32 num = g_Unknown98C080.num;
+    const u32 num = g_OrderItems.num;
     void* myDesign = Func6FB8CC();
     // wallpapers, carpets and the others, each sorted
     SvFgName groups[GROUP_NUM][ITEM_MAX];
     s32 counts[GROUP_NUM] = {0, 0, 0};
     for (u32 i = 0; i < num; i++) {
-        const s32 group = GetKindGroup(g_Unknown98C080.items[i]);
-        AddName(groups[group], &counts[group], g_Unknown98C080.items[i]);
+        const s32 group = GetKindGroup(g_OrderItems.items[i]);
+        AddName(groups[group], &counts[group], g_OrderItems.items[i]);
     }
     m_ItemNum = 0;
     for (s32 i = 0; i < GROUP_NUM; i++) {
@@ -85,8 +83,8 @@ void OrderList::UpdateWait()
     SelectBase::UpdateWait();
     if (m_Selected != -1) {
         const SvFgName name(m_Items[m_Selected]);
-        Func692330(Func692FD0(), name);
+        GetFtrPreview()->Show(name);
     } else if (prev != -1) {
-        Func6925C0(Func692FD0());
+        GetFtrPreview()->Hide();
     }
 }

@@ -88,7 +88,8 @@ struct SvFgName;
 void Func119298(SvNpc* npcs); // 0x00119298 (Thumb)
 void Func2FC8A4(SvFgName* items, const SvFgName* item); // 0x002FC8A4
 void Func1BB258(); // 0x001BB258
-void Func2FC0D0(); // 0x002FC0D0
+// returns the global 0x00A85270 (type unknown)
+u8* Func2FC0D0(); // 0x002FC0D0
 void Func2FC0DC(); // 0x002FC0DC
 
 // (called by the functions of SvGardenData in dSvSaveMemory.cpp: the parts of the town data; names after the addresses)

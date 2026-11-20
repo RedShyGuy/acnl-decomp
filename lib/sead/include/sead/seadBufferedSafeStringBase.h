@@ -110,6 +110,12 @@ public:
     // terminated only where the string gets longer
     DECOMP_NOINLINE s32 overwriteAt(s32 at, const SafeStringBase<T>& src, s32 length)
     {
+        return overwriteAtImpl(at, src, length);
+    }
+    // appends length characters of src (length < 0: all; cut at the end of the buffer); the number appended
+    DECOMP_NOINLINE s32 append(const SafeStringBase<T>& src, s32 length) { return overwriteAtImpl(-1, src, length); }
+    DECOMP_ALWAYS_INLINE s32 overwriteAtImpl(s32 at, const SafeStringBase<T>& src, s32 length)
+    {
         s32 oldLength = this->getLength();
         if (length < 0) {
             length = src.getLength();

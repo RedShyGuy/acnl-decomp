@@ -4,14 +4,24 @@
 #include "bgcheck/dMoveBg.h"
 
 namespace bgcheck {
+// a box that calls a function when the movement test touches it (BsNpcMgr has four, the functions come from the
+// modules; names are ours)
 // RTTI N7bgcheck8GuardBoxE @ 0x008D3F00
 // vtable 0x0090BCAC (vptr 0x0090BCB4), offset_to_top 0, 4 entries
 class GuardBox : public ::bgcheck::MoveBg
 {
 public:
-    GuardBox(); // ctor candidate(s) 0x006154C0 (unverified)
-    virtual void vf_0x00(); // 0x00317F74 slot 0x00 | virtual slot, introduced by collision::World::Body
-    virtual void vf_0x04(); // 0x006154E0 slot 0x04 | virtual slot, introduced by collision::World::Body
-    virtual void vf_0x0C(); // 0x00615434 slot 0x0C | virtual slot, introduced by bgcheck::MoveBg
+    typedef void (*Callback)(const nn::math::VEC3* contact, u32 flags, void* object);
+
+    GuardBox(); // 0x006154C0
+    ~GuardBox() override; // 0x00317F74 slot 0x00
+    // 0x006154E0 (deleting dtor)
+    void OnGuard(const nn::math::VEC3* contact, u32 flags, void* object) override; // 0x00615434 slot 0x0C
+
+    // an unturned box of size on base
+    void Set(const nn::math::VEC3& base, const nn::math::VEC3& size, u32 group, u32 mask, Callback callback); // 0x0061546C
+
+    Callback m_pCallback; // 0x48
 };
+ASSERT_SIZE(GuardBox, 0x4C);
 } // namespace bgcheck

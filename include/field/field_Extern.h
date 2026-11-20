@@ -91,7 +91,9 @@ void Func302F80(SvFgNameSet* set, const SvFgName* item); // 0x00302F80
 SvFgName Func1AD2E0(SvFgNameSet* set, u32 random); // 0x001AD2E0
 // the angle of a direction 0..3 (0, 0x4000, 0x8000, 0xC000) / the orientation of an item (0..3) for an angle
 u16 Func6947A0(u8 direction); // 0x006947A0
-u32 Func692070(const u16* angle); // 0x00692070
+u32 GetQuarterOfAngle(const u16* angle); // 0x00692070 (in the file of BsFtrMgr; name is ours)
+// the angle of a quarter (0..3; others: 0)
+u16 GetAngleOfQuarter(u32 quarter); // 0x006947A0 (in the file of BsFtrMgr; name is ours)
 
 // (the tour builders, isfactory) an object without members whose function places something on the field 31 of the
 // island with the random numbers / the block of a position on the island (x, z) / something of the kind at a unit (the

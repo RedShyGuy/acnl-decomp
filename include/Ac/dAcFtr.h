@@ -31,7 +31,7 @@ public:
     bool StartFinalize() override; // 0x005719F8 slot 0x84
     oml::framework::Result UpdateFinalize() override; // 0x00571984 slot 0x88
     bool EndFinalize() override; // 0x00570B10 slot 0x8C
-    virtual void vf_0x90(); // 0x00752418 slot 0x90 | virtual slot, introduced by AcFtr
+    virtual bool vf_0x90(); // 0x00752418 slot 0x90 | virtual slot, introduced by AcFtr
     virtual void vf_0x94(); // 0x00751DBC slot 0x94 | virtual slot, introduced by AcFtr
     virtual void vf_0x98(); // 0x00573CFC slot 0x98 | virtual slot, introduced by AcFtr
     virtual void vf_0x9C(); // 0x0075206C slot 0x9C | virtual slot, introduced by AcFtr

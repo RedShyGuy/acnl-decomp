@@ -4,16 +4,26 @@
 #include "List/dInstSelect.h"
 #include "script/dWordFix.h"
 
-// (game code, not decompiled; names are ours) a list of items of the game: OrderList shows them
-struct Unknown98C080
+// The items of a model house that can be ordered (names are ours): BsFtrMgr::EndInitialize collects them from the
+// field of the model house (walls and carpets as their item kinds), OrderList shows them. The global belongs to the
+// file of BsFtrMgr (dBsFtrMgr.cpp).
+struct OrderItemList
 {
     static const s32 ITEM_MAX = 128;
+
+    void Add(const SvFgName& item)
+    {
+        items[num] = item;
+        num++;
+    }
 
     SvFgName items[ITEM_MAX];  // 0x000
     u32 num;                   // 0x200
 };
-ASSERT_SIZE(Unknown98C080, 0x204);
-extern Unknown98C080 g_Unknown98C080;
+ASSERT_SIZE(OrderItemList, 0x204);
+extern OrderItemList g_OrderItems;
+// the list is emptied (in the file of BsFtrMgr; EndInitialize inlines it; name is ours)
+void ClearOrderItems(); // 0x00694048
 // (game code) the design argument of item::GetName for the names of OrderList
 void* Func6FB8CC(); // 0x006FB8CC
 // (game code) a value of the parameters of an item (OrderList::vf_0x28 tests it for 178)
@@ -21,15 +31,15 @@ u8 Func769264(const SvFgName* name); // 0x00769264
 // (game code) a number of the parameters of an item (OrderList::vf_0x2C returns it * 1.2)
 s32 Func3055C8(const SvFgName* name); // 0x003055C8
 
-// The list of the items of g_Unknown98C080: wallpapers, carpets and the other items, each group sorted by the sort
-// table; the selected one is shown by the object of Func692FD0. Only the class name is from the RTTI; all other
+// The list of the items of g_OrderItems: wallpapers, carpets and the other items, each group sorted by the sort
+// table; the selected one is shown by the FtrPreview. Only the class name is from the RTTI; all other
 // names are ours.
 // RTTI 9OrderList @ 0x008CD7D8
 // vtable 0x008FA754 (vptr 0x008FA75C), offset_to_top 0, 26 entries
 class OrderList : public ::InstSelect<8>
 {
 public:
-    static const s32 ITEM_MAX = Unknown98C080::ITEM_MAX;
+    static const s32 ITEM_MAX = OrderItemList::ITEM_MAX;
 
     // (inline, in CatalogBase::Create<OrderList>)
     OrderList() { m_TextLength = 21; }

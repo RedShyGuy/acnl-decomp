@@ -551,7 +551,7 @@ DECOMP_NOINLINE bool SvFishingConvention::CanVillagerTakePart(s32 index, bool a,
     if (mgr == NULL) {
         return true;
     }
-    for (AcNpc** actor = mgr->m_pNpcsBegin; actor != mgr->m_pNpcsEnd; actor++) {
+    for (AcNpc** actor = mgr->m_Npcs.first; actor != mgr->m_Npcs.last; actor++) {
         if (*actor != NULL) {
             static_cast<BsNpcMgr::NpcForeachFunction&>(func).Invoke(*actor);
         }
@@ -561,7 +561,7 @@ DECOMP_NOINLINE bool SvFishingConvention::CanVillagerTakePart(s32 index, bool a,
             if (static_cast<u32>(i) >= mgr->GetNpcNum()) {
                 return true;
             }
-            AcNpc* actor = mgr->m_pNpcsBegin[i];
+            AcNpc* actor = mgr->m_Npcs.first[i];
             if (actor == NULL) {
                 return true;
             }

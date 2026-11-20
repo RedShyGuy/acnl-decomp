@@ -25,6 +25,40 @@ void SearchCandCore::Reset()
     m_RestNum = m_Num;
 }
 
+// 0x00306E84
+void SearchCandCore::Clear()
+{
+    std::memset(m_pBits, 0, m_WordNum * sizeof(u32));
+    m_RestNum = 0;
+}
+
+// 0x003070B8
+void SearchCandCore::AddCandidates()
+{
+    for (s32 i = 0; i < m_Num; i++) {
+        if (!IsCandidate(i)) {
+            continue;
+        }
+        const u32 bit = 1u << (i & 31);
+        if (m_pBits[i >> 5] & bit) {
+            continue;
+        }
+        m_pBits[i >> 5] |= bit;
+        m_RestNum++;
+    }
+}
+
+// 0x00276014
+void SearchCandCore::Add(s32 index)
+{
+    const u32 bit = 1u << (index & 31);
+    if (m_pBits[index >> 5] & bit) {
+        return;
+    }
+    m_pBits[index >> 5] |= bit;
+    m_RestNum++;
+}
+
 // 0x003071A8
 void SearchCandCore::Remove(s32 index)
 {

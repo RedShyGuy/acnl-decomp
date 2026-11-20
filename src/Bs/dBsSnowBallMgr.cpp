@@ -52,3 +52,5 @@ bool BsSnowBallMgr::EndFinalize()
 {
 }
 
+// 0x009516A4 (name is ours)
+BsSnowBallMgr* BsSnowBallMgr::s_pInstance;

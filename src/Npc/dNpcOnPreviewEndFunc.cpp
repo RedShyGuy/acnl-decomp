@@ -1,14 +1,8 @@
-#include "Bs/dBsNpcMgr_NpcForeachFunction.h"
-#include "Bs/dBsNpcMgr.h"
 #include "Npc/dNpcOnPreviewEndFunc.h"
+#include "Ac/dAcNpc.h"
 
-// ctor candidate(s) 0x00697BCC (unverified)
-NpcOnPreviewEndFunc::NpcOnPreviewEndFunc()
+// 0x002FA634 slot 0x00
+void NpcOnPreviewEndFunc::Invoke(AcNpc* npc)
 {
+    npc->OnPreviewEnd();
 }
-
-// 0x002FA634 slot 0x00 | virtual slot, introduced by NpcOnPreviewEndFunc
-void NpcOnPreviewEndFunc::vf_0x00()
-{
-}
-
