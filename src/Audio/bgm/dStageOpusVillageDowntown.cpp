@@ -8,6 +8,7 @@
 #include "Sound/sound_Extern.h"
 #include "Sv/dSvApi.h"
 #include "Sv/dSvGardenPlus.h"
+#include "Bs/dBsStrcMgr.h"
 
 // 0x00589310
 void audio::bgm::StageOpusVillageDowntown::Setup(stage::Name stage)
@@ -262,8 +263,8 @@ void audio::bgm::StageOpusVillageDowntown::Update()
     UpdateSideMixes();
     UpdateLowMix();
     if (m_IsEventChanged && IsSubFree()) {
-        if (g_Unknown9516C0.mode == 255 && g_Unknown9516C0.p4 != NULL) {
-            Func6DDC18(g_Unknown9516C0.p4);
+        if (BsStrcMgr::s_InitState == 255 && BsStrcMgr::s_pInstance != NULL) {
+            BsStrcMgr::s_pInstance->Func6DDC18();
         }
         m_IsEventChanged = 0;
     }

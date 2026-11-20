@@ -8,6 +8,7 @@
 #include "sead/seadExpHeap.h"
 #include "sead/seadFixedSafeString.h"
 #include "sead/seadStringFormatter.h"
+#include "Bs/dBsStrcMgr.h"
 
 namespace hobj {
 // 0x00530CF4 (name is ours)
@@ -48,7 +49,7 @@ bool Mat::Load()
         sead::StringFormatter formatter(&path);
         formatter.append("Strc/hobj/mat/hobj_mat_%02d/Textures/%s.bcres");
         formatter.appendValue(kind);
-        formatter.append(g_SeasonTextureFolders[Func630618(g_Unknown9516C0.p4)]);
+        formatter.append(g_SeasonTextureFolders[Func630618(BsStrcMgr::s_pInstance)]);
         formatter.flush();
     }
     m_TextureKey = m_ResourceMgr.Load(path.getCString());

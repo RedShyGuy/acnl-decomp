@@ -112,8 +112,8 @@ void AcStrcCampingCar::vf_0x74()
 {
 }
 
-// 0x00758AB4 slot 0x78 | virtual slot, introduced by AcStrcCampingCar
-void AcStrcCampingCar::vf_0x78()
+// 0x00758AB4 slot 0x78 | (introduced by AcStrc)
+bool AcStrcCampingCar::vf_0x78()
 {
 }
 
@@ -154,11 +154,6 @@ void AcStrcCampingCar::vf_0x94()
 
 // 0x005BF3E4 slot 0x98 | virtual slot, introduced by AcStrcCampingCar
 void AcStrcCampingCar::vf_0x98()
-{
-}
-
-// 0x007B2C88 slot 0x9C | virtual slot, introduced by AcStrcCampingCar
-void AcStrcCampingCar::vf_0x9C()
 {
 }
 

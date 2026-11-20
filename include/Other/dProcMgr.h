@@ -236,6 +236,13 @@ extern const ProcName PROC_AC_NPC_SP_RESETSAN_IN;
 extern const ProcName PROC_AC_NPC_SP_RACKETSAN_IN;
 extern const ProcName PROC_AC_OBJ_WALL_HANG_BACK;
 extern const ProcName PROC_AC_OBJ_WALL_HANG_UNIT_CURSOR;
+extern const ProcName PROC_AC_STRC_TRAIN;
+extern const ProcName PROC_AC_STRC_BOAT;
+extern const ProcName PROC_AC_HOME_TICKET_MACHINE;
+extern const ProcName PROC_AC_STRC_DEMO_PIER;
+extern const ProcName PROC_AC_STRC_DOWNTOWN_LAMP;
+extern const ProcName PROC_AC_STRC_DOWNTOWN_ATT;
+extern const ProcName PROC_AC_STRC_BBS_BIRD;
 extern const ProcName PROC_NAME_NUM;
 
 class ProcMgr

@@ -9,6 +9,7 @@
 #include "sead/seadExpHeap.h"
 #include "sead/seadFixedSafeString.h"
 #include "sead/seadStringFormatter.h"
+#include "Bs/dBsStrcMgr.h"
 
 namespace hobj {
 // 0x00953CC8 (name is ours)
@@ -30,7 +31,7 @@ void MyHouse::Update(const nn::math::VEC3* world, bool isPaused)
 // 0x00533CB4 slot 0x0C (name is ours)
 void MyHouse::Build(const void* houseData)
 {
-    g3d::ResourceLoader* shared = Func6DB618(g_Unknown9516C0.p4);
+    g3d::ResourceLoader* shared = BsStrcMgr::s_pInstance->GetHouseLut();
     shared->InitializeCgfx(&m_Allocator, NULL, true);
     g3d::ResourceLoader* model = m_ResourceMgr.Get(m_ModelKey);
     model->Read(0x10000, 0x20000, 0x30000);
@@ -87,7 +88,7 @@ bool MyHouse::Load()
         const s32 roof = m_Exterior.houseRoof;
         sead::StringFormatter formatter(&path);
         formatter.append("Strc/hobj/my_house/Textures/%s/roof_%02d.bcres");
-        formatter.append(g_SeasonTextureFolders[Func630618(g_Unknown9516C0.p4)]);
+        formatter.append(g_SeasonTextureFolders[Func630618(BsStrcMgr::s_pInstance)]);
         formatter.appendValue(roof);
         formatter.flush();
     }
@@ -181,10 +182,10 @@ void MyHouse::AddToScene()
 // 0x005349D0 slot 0x18 (name is ours)
 void MyHouse::UpdateMatrix(const nn::math::MTX34& matrix)
 {
-    const u8* object = static_cast<const u8*>(g_Unknown9516C0.p4);
+    const BsStrcMgr* mgr = BsStrcMgr::s_pInstance;
     if (m_pLampMaterial != NULL) {
-        // (the alpha of the lamp is a value of the object at +0x6AC8)
-        g3d::SetConstantColor(m_pLampMaterial, 0, -1, -1, -1, *reinterpret_cast<const s32*>(object + 0x6AC8));
+        // (the alpha of the lamp: day/night)
+        g3d::SetConstantColor(m_pLampMaterial, 0, -1, -1, -1, mgr->m_DayNightValue);
     }
     m_Door.UpdateMatrix(matrix);
     m_Model.SetMatrix(matrix);

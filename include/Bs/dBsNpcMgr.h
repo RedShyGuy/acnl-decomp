@@ -353,7 +353,7 @@ public:
     // queues a special NPC at a position (false: the queue is full)
     bool QueueNpc(u16 name, const stage::NpcInfo* info, const nn::math::VEC3_* position,
                   const math::Angle16Vec3* rotation); // 0x0069EAC0
-    // (only ModuleOutdoor and ModuleSummer) the house of key in g_Unknown9516C0 gets on (and !on unless keep)
+    // (only ModuleOutdoor and ModuleSummer) the house of key in BsStrcMgr gets on (and !on unless keep)
     static void Func698A38(u32 key, bool on, bool keep); // 0x00698A38
 
     // the accessory resources of the season or an event (Initialize)

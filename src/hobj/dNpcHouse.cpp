@@ -8,6 +8,7 @@
 #include "nw/gfx/res/gfx_ResSkeleton.h"
 #include "sead/seadFixedSafeString.h"
 #include "sead/seadStringFormatter.h"
+#include "Bs/dBsStrcMgr.h"
 
 namespace hobj {
 namespace {
@@ -24,7 +25,7 @@ void NpcHouse::FormatRoofPath(sead::BufferedSafeStringBase<char>* path, s32 kind
     sead::StringFormatter formatter(path);
     formatter.append("Strc/hobj/npc_house/hobj_npchouse_%02d/Textures/%s/roof_%d_%02d.bcres");
     formatter.appendValue(kind);
-    formatter.append(g_SeasonTextureFolders[Func630618(g_Unknown9516C0.p4)]);
+    formatter.append(g_SeasonTextureFolders[Func630618(BsStrcMgr::s_pInstance)]);
     formatter.appendValue(kind);
     formatter.appendValue(roof);
     formatter.flush();
@@ -33,7 +34,7 @@ void NpcHouse::FormatRoofPath(sead::BufferedSafeStringBase<char>* path, s32 kind
 // 0x00534CE8 (name is ours)
 void NpcHouse::Build(const nn::math::VEC3* world)
 {
-    g3d::ResourceLoader* shared = Func6DB618(g_Unknown9516C0.p4);
+    g3d::ResourceLoader* shared = BsStrcMgr::s_pInstance->GetHouseLut();
     shared->InitializeCgfx(&m_Allocator, NULL, true);
     g3d::ResourceLoader* model = m_ResourceMgr.Get(m_ModelKey);
     model->Read(0x10000, 0x20000, 0x30000);

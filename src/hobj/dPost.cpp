@@ -10,6 +10,7 @@
 #include "sead/seadFixedSafeString.h"
 #include "sead/seadStringFormatter.h"
 #include "script/dScriptExtern.h"
+#include "Bs/dBsStrcMgr.h"
 
 namespace hobj {
 namespace {
@@ -23,7 +24,7 @@ inline f32 GetFrameSize(const void* anim)
 // 0x00531C34 (name is ours)
 void Post::Build(const nn::math::VEC3* world)
 {
-    g3d::ResourceLoader* shared = Func6DB618(g_Unknown9516C0.p4);
+    g3d::ResourceLoader* shared = BsStrcMgr::s_pInstance->GetHouseLut();
     shared->InitializeCgfx(&m_Allocator, NULL, true);
     g3d::ResourceLoader* textures = m_ResourceMgr.Get(m_TextureKey);
     textures->InitializeCgfx(&m_Allocator, NULL, true);
@@ -75,7 +76,7 @@ bool Post::Load()
         sead::StringFormatter formatter(&path);
         formatter.append("Strc/hobj/post/hobj_post_%02d/Textures/%s.bcres");
         formatter.appendValue(kind);
-        formatter.append(g_SeasonTextureFolders[Func630618(g_Unknown9516C0.p4)]);
+        formatter.append(g_SeasonTextureFolders[Func630618(BsStrcMgr::s_pInstance)]);
         formatter.flush();
     }
     m_TextureKey = m_ResourceMgr.Load(path.getCString());

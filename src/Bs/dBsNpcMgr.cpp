@@ -38,6 +38,7 @@
 #include "time/time_Extern.h"
 #include "sead/seadMathCalcCommon.h"
 #include "Bs/dBsSvDemo.h"
+#include "Bs/dBsStrcMgr.h"
 #include "Other/dMailLoadAdapt.h"
 #include "Other/dForeachOnFallToPitfall.h"
 #include "Other/dForeachOnPlayerStartEmoticon.h"
@@ -887,10 +888,10 @@ u32 BsNpcMgr::Func698894(u16 value)
 // 0x00698A38
 void BsNpcMgr::Func698A38(u32 key, bool on, bool keep)
 {
-    if (g_Unknown9516C0.mode != 255 || g_Unknown9516C0.p4 == NULL) {
+    if (BsStrcMgr::s_InitState != 255 || BsStrcMgr::s_pInstance == NULL) {
         return;
     }
-    void* house = Func6DD804(g_Unknown9516C0.p4, key);
+    void* house = BsStrcMgr::s_pInstance->FindVillagerHouse(key);
     if (house == NULL) {
         return;
     }
@@ -1674,10 +1675,10 @@ void BsNpcMgr::CalcStageControl()
     if (npc == NULL) {
         return;
     }
-    if (g_Unknown9516C0.mode != 255 || g_Unknown9516C0.p4 == NULL) {
+    if (BsStrcMgr::s_InitState != 255 || BsStrcMgr::s_pInstance == NULL) {
         return;
     }
-    void* house = Func6DD804(g_Unknown9516C0.p4, m_Frame);
+    void* house = BsStrcMgr::s_pInstance->FindVillagerHouse(m_Frame);
     if (Func52CF24() == house) {
         return;
     }
@@ -2569,7 +2570,7 @@ bool BsNpcMgr::CreateWalkingVillagersF()
     const s32 z = Func718E90(object);
     alignas(4) u8 buffer[16 * sizeof(Vector2i)];
     Vector<Vector2i> units(reinterpret_cast<Vector2i*>(buffer), 16);
-    if (Func6CD484(kind)) {
+    if (IsBridgeStructure(kind)) {
         switch (Func6CC2E0(kind)) {
         case 0:
             PushUnit(units, x - 1, z - 3);

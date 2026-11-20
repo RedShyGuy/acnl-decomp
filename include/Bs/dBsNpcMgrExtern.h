@@ -114,8 +114,6 @@ void* Func70FA3C(void* houses, u8 saveNo); // 0x0070FA3C
 const SvFgName* Func770034(void* house, u32 room, u32 z, u32 x); // 0x00770034
 // the owner of a field of the second list (save number)
 const s8* Func76DE58(void* data, u8 index); // 0x0076DE58
-// the house object of a key (hobj, g_Unknown9516C0)
-void* Func6DD804(void* houses, u32 key); // 0x006DD804
 // (static.crs import thunks into a module)
 void Func150350(void* house, bool on); // 0x00150350
 void Func150358(void* house, bool on); // 0x00150358
@@ -293,8 +291,7 @@ u32 Func302704(void* object); // 0x00302704
 s32 Func718E6C(void* object); // 0x00718E6C
 s32 Func718E90(void* object); // 0x00718E90
 void Func3361FC(nn::math::VEC3* center, u32 kind); // 0x003361FC
-// the kind of structure has a direction (0..3: Func6CC2E0) / its rectangle of units (left, ?, right, front)
-bool Func6CD484(u32 kind); // 0x006CD484
+// the direction of a kind of structure (0..3) / its rectangle of units (left, ?, right, front)
 u32 Func6CC2E0(u32 kind); // 0x006CC2E0
 const s8* Func5CAD04(u32 kind); // 0x005CAD04
 bool Func5CAF48(); // 0x005CAF48

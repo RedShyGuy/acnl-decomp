@@ -8,6 +8,7 @@
 #include "sead/seadExpHeap.h"
 #include "sead/seadFixedSafeString.h"
 #include "sead/seadStringFormatter.h"
+#include "Bs/dBsStrcMgr.h"
 
 namespace hobj {
 // 0x00532C58 slot 0x14 (name is ours)
@@ -37,7 +38,7 @@ void Tent::Update(const nn::math::VEC3* world, bool isPaused)
 // 0x00532D5C slot 0x0C (name is ours)
 void Tent::Build(const void* houseData)
 {
-    g3d::ResourceLoader* shared = Func6DB618(g_Unknown9516C0.p4);
+    g3d::ResourceLoader* shared = BsStrcMgr::s_pInstance->GetHouseLut();
     shared->InitializeCgfx(&m_Allocator, NULL, true);
     g3d::ResourceLoader* textures = m_ResourceMgr.Get(m_TextureKey);
     textures->Read(0x10000, 0x10000, 0x10000);
@@ -65,7 +66,7 @@ bool Tent::Load()
         sead::StringFormatter formatter(&path);
         formatter.append("Strc/hobj/tent/hobj_tent_%02d/Textures/%s.bcres");
         formatter.appendValue(kind);
-        formatter.append(g_SeasonTextureFolders[Func630618(g_Unknown9516C0.p4)]);
+        formatter.append(g_SeasonTextureFolders[Func630618(BsStrcMgr::s_pInstance)]);
         formatter.flush();
     }
     m_TextureKey = m_ResourceMgr.Load(path.getCString());

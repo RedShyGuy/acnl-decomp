@@ -7,6 +7,7 @@
 #include "Sound/sound_Extern.h"
 #include "event/event_Api.h"
 #include "time/time_Api.h"
+#include "Bs/dBsStrcMgr.h"
 
 namespace audio {
 namespace bgm {
@@ -142,8 +143,8 @@ void audio::bgm::StartSub()
     GetRequestMgr()->Request(KIND_SUB, 0, s_SubStartFade, times);
     GetTrackMixer()->AddMix(16);
     SoundMgr::SMuteForEvent(true, s_SubStartFade);
-    if (g_Unknown9516C0.mode == 255 && g_Unknown9516C0.p4 != NULL) {
-        Func6DDE90(g_Unknown9516C0.p4);
+    if (BsStrcMgr::s_InitState == 255 && BsStrcMgr::s_pInstance != NULL) {
+        BsStrcMgr::s_pInstance->Func6DDE90();
     }
 }
 

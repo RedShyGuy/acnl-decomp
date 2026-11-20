@@ -108,6 +108,10 @@ enum StructureId : u8
     STRUCTURE_PLAYER_2_HOUSE = 0x01,
     STRUCTURE_PLAYER_3_HOUSE = 0x02,
     STRUCTURE_PLAYER_4_HOUSE = 0x03,
+    STRUCTURE_POLICE_STATION_MODERN = 0x4C,
+    STRUCTURE_POLICE_STATION_CLASSIC = 0x4D,
+    STRUCTURE_CAFE = 0x4E,
+    STRUCTURE_RESET_CENTER = 0x4F,
     STRUCTURE_TOWN_HALL_CLASSIC = 0x50,
     STRUCTURE_TOWN_HALL_ZEN = 0x51,
     STRUCTURE_TOWN_HALL_FAIRY_TALE = 0x52,
@@ -116,17 +120,43 @@ enum StructureId : u8
     STRUCTURE_STATION_ZEN = 0x55,
     STRUCTURE_STATION_FAIRY_TALE = 0x56,
     STRUCTURE_STATION_MODERN = 0x57,
+    STRUCTURE_TOWN_PLAZA = 0x59,
+    STRUCTURE_RAILROAD_CROSSING_ARMS = 0x5A,
     STRUCTURE_ISLAND_STORAGE_BIN = 0x5C,
+    STRUCTURE_KAPPNS_BOAT = 0x5D,
+    STRUCTURE_FRANKLINS_TABLE = 0x63,
+    STRUCTURE_DOCK = 0x68,
+    STRUCTURE_ISLAND_HUT = 0x69,
     STRUCTURE_CAMPING_CAR_1 = 0x7F,
     STRUCTURE_CAMPING_CAR_2 = 0x80,
+    STRUCTURE_DREAM_SUITE = 0x82,
+    STRUCTURE_CLUB_LOL = 0x83,
+    STRUCTURE_MUSEUM = 0x84,
     STRUCTURE_NOOKLING_STORES = 0x85,
+    STRUCTURE_GARDENING_STORE = 0x86,
+    STRUCTURE_SHAMPOODLE = 0x88,
     STRUCTURE_PHOTO_BOOTH = 0x8D,
+    STRUCTURE_MAIN_STREET_LAMP = 0x8E,
+    // the 24 bridges 0x90..0xA7: six designs (cobblestone, suspension, brick, modern, zen, fairy-tale) with the
+    // directions N-S, SW-NE, NW-SE, W-E each
+    STRUCTURE_BRIDGE_FIRST = 0x90,
+    STRUCTURE_BRIDGE_LAST = 0xA7,
+    STRUCTURE_PICNIC_BLANKET = 0xC7,
+    STRUCTURE_FIRE_PIT = 0xC9,
+    STRUCTURE_CUSTOM_DESIGN_SIGN = 0xDC,
+    STRUCTURE_FACE_CUTOUT_STANDEE = 0xDD,
     STRUCTURE_EMPTY_SPACE = 0xFC,
 };
 bool IsStructurePlaced(u8 structure); // 0x0030940C
 // the position in front of the structure; false if it is not on the field
 bool GetStructurePosition(nn::math::VEC3_* pPosition, u8 structure); // 0x003071EC
+// the stage a structure stands on (table 0x88C852: stage::NAME_VILLAGE for the houses; NAME_NONE for 252 or more)
 stage::Name GetStageOfStructure(u8 structure); // 0x005CAE68
+// the stage inside a structure (table 0x88C754: the first room of a house, e.g. NAME_PLAYER_HOUSE_0_1F for the house of
+// player 1; NAME_NONE for none and for 252 or more)
+stage::Name GetInsideStageOfStructure(u8 structure); // 0x005CADF8 (name is ours)
+// the structure is a bridge (its category in the table 0x88CD40 is 15: exactly STRUCTURE_BRIDGE_FIRST..LAST)
+bool IsBridgeStructure(u32 structure); // 0x006CD484 (name is ours)
 // the structures with variants: 0x50..0x53 the town hall, 0x54..0x57 the train station (classic, zen, fairy-tale, modern)
 bool IsTownHallStructure(u8 structure); // 0x006CD4A8
 bool IsStationStructure(u8 structure); // 0x006CD4CC
@@ -135,10 +165,34 @@ u8 GetStationStructure(); // 0x006CC734
 bool IsPlayerHouseStructure(u8 structure); // 0x006CB82C
 // the model name of the Nookling General Stores on Main Street ("shop" .. "depart")
 const char* GetShopName(); // 0x006DD8A0
+// the name of the building of Shampoodle ("cut" or the renovation "rebuilding_01"; in the file of BsStrcMgr)
+const char* GetShampoodleName(); // 0x006DE304
+// the names of the buildings of Leif ("garden" ..) and Kicks ("shoeshop" ..) by their states (in the file of BsStrcMgr)
+const char* GetLeifName(); // 0x006DDDE4
+const char* GetKicksName(); // 0x006DDE48
+// the suffix of the region of the town for file names ("_JP", "_US_ENG" .. "_KR"; in the file of BsStrcMgr)
+const char* GetRegionSuffix(); // 0x006DD41C
 
 // the objects of the field: a registry of 14 lists
 struct FieldObject;
-struct FieldObjectList;
+// an object of a list: its unit and its kind (names are ours)
+struct FieldObjectEntry
+{
+    s32 unitX; // 0x0
+    s32 unitZ; // 0x4
+    u8 kind;   // 0x8
+    u8 _9[3];
+};
+// a list of objects of the field (the slots before 0x10 are not known; names are ours)
+struct FieldObjectList
+{
+    virtual void vf_0x00();
+    virtual void vf_0x04();
+    virtual void vf_0x08();
+    virtual void vf_0x0C();
+    virtual u32 GetNum(); // slot 0x10
+    virtual FieldObjectEntry Get(u32 index); // slot 0x14
+};
 struct FieldObjectIterator
 {
     FieldObjectIterator(FieldObjectList* list); // 0x00314928 the first object

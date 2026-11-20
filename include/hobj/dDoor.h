@@ -12,7 +12,7 @@
 
 // The door of a house (class name after the heap name "hobj::Door::Allocator"; the rest is ours; no vtable).
 // The model "Strc/hobj/door/hobj_door/hobj_door_<shape>" with the textures of the design; the animation of the door
-// comes from one of two shared animation files (Func6DF40C/Func6DF244), the first one also shows the closed door.
+// comes from one of two shared animation files (BsStrcMgr::GetHobjDoorOutAnim/GetHobjDoorInAnim), the first one also shows the closed door.
 // MyHouse (door at +0x4C8) and MyHouseMax (+0x3AC) forward their door slots to it.
 namespace hobj {
 class Door
@@ -46,7 +46,7 @@ public:
     // the door stops once it is open (past frame 31 of the second animation, not at its end, or past frame 22 of the
     // first one); true when it stopped
     bool HoldOpen(bool isSecondAnim); // 0x005314F8
-    // the door closes (the animation runs backwards) with the close sound, unless g_Unknown9516C0 keeps it open
+    // the door closes (the animation runs backwards) with the close sound, unless BsStrcMgr keeps it open
     void Close(); // 0x00531758
 
 private:

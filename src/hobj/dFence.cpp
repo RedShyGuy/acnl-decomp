@@ -7,12 +7,13 @@
 #include "sead/seadExpHeap.h"
 #include "sead/seadFixedSafeString.h"
 #include "sead/seadStringFormatter.h"
+#include "Bs/dBsStrcMgr.h"
 
 namespace hobj {
 // 0x0053368C (name is ours)
 void Fence::Build()
 {
-    g3d::ResourceLoader* shared = Func6DB618(g_Unknown9516C0.p4);
+    g3d::ResourceLoader* shared = BsStrcMgr::s_pInstance->GetHouseLut();
     shared->InitializeCgfx(&m_Allocator, NULL, true);
     g3d::ResourceLoader* model = m_ResourceMgr.Get(m_ModelKey);
     model->Read(0x10000, 0x20000, 0x30000);
@@ -42,7 +43,7 @@ bool Fence::Load()
         sead::StringFormatter formatter(&path);
         formatter.append("Strc/hobj/fence/hobj_fence_%02d/Textures/%s.bcres");
         formatter.appendValue(kind);
-        formatter.append(g_SeasonTextureFolders[Func630618(g_Unknown9516C0.p4)]);
+        formatter.append(g_SeasonTextureFolders[Func630618(BsStrcMgr::s_pInstance)]);
         formatter.flush();
     }
     m_TextureKey = m_ResourceMgr.Load(path.getCString());

@@ -49,6 +49,20 @@ extern const ProcName PROC_BS_PLAYER_MGR = static_cast<ProcName>(106);
 extern const ProcName PROC_BS_INDOOR_DOOR_SE = static_cast<ProcName>(107);
 // 0x00887F08
 extern const ProcName PROC_BS_STRC_MGR = static_cast<ProcName>(108);
+// 0x00887F18
+extern const ProcName PROC_AC_STRC_TRAIN = static_cast<ProcName>(116);
+// 0x00887F1C
+extern const ProcName PROC_AC_STRC_BBS_BIRD = static_cast<ProcName>(118);
+// 0x00887F26
+extern const ProcName PROC_AC_STRC_DEMO_PIER = static_cast<ProcName>(123);
+// 0x00887F2E
+extern const ProcName PROC_AC_STRC_BOAT = static_cast<ProcName>(127);
+// 0x00887F32
+extern const ProcName PROC_AC_STRC_DOWNTOWN_ATT = static_cast<ProcName>(129);
+// 0x00887F3A
+extern const ProcName PROC_AC_STRC_DOWNTOWN_LAMP = static_cast<ProcName>(133);
+// 0x00887F6C
+extern const ProcName PROC_AC_HOME_TICKET_MACHINE = static_cast<ProcName>(158);
 // 0x00887F6E
 extern const ProcName PROC_BS_MY_DESIGN_EDIT_MODEL = static_cast<ProcName>(159);
 // 0x00887F70

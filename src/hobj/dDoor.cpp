@@ -11,6 +11,7 @@
 #include "sead/seadFixedSafeString.h"
 #include "sead/seadStringFormatter.h"
 #include "stage/stage_Api.h"
+#include "Bs/dBsStrcMgr.h"
 
 namespace hobj {
 namespace {
@@ -20,10 +21,10 @@ const f32 LONG_ANIM_TURN_FRAME = 32.0f;
 const f32 SHORT_ANIM_END_FRAME = 49.0f;
 const f32 SHORT_ANIM_TURN_FRAME = 23.0f;
 
-// whether g_Unknown9516C0 keeps the door open (mode 255 and its flag +0x6ACE)
+// whether BsStrcMgr keeps the door open (ready and its flag m_Unknown6ACE)
 inline bool IsKeptOpen()
 {
-    return static_cast<const u8*>(g_Unknown9516C0.p4)[0x6ACE] != 0;
+    return BsStrcMgr::s_pInstance->m_Unknown6ACE != 0;
 }
 } // namespace
 
@@ -103,7 +104,7 @@ void Door::Update(const nn::math::VEC3* world, bool isPaused)
             if ((endFrame == LONG_ANIM_END_FRAME && frame == LONG_ANIM_TURN_FRAME) ||
                 (endFrame == SHORT_ANIM_END_FRAME && frame == SHORT_ANIM_TURN_FRAME)) {
                 m_Anim.SetSpeed(-1.0f);
-                if (g_Unknown9516C0.mode == 255 && g_Unknown9516C0.p4 != NULL && IsKeptOpen() &&
+                if (BsStrcMgr::s_InitState == 255 && BsStrcMgr::s_pInstance != NULL && IsKeptOpen() &&
                     m_Anim.GetEndFrame() == LONG_ANIM_END_FRAME) {
                     m_Anim.SetSpeed(0.0f);
                 } else {
@@ -121,7 +122,7 @@ void Door::Update(const nn::math::VEC3* world, bool isPaused)
 // 0x00530FA8 (name is ours)
 void Door::Build()
 {
-    g3d::ResourceLoader* shared = Func6DB618(g_Unknown9516C0.p4);
+    g3d::ResourceLoader* shared = BsStrcMgr::s_pInstance->GetHouseLut();
     shared->InitializeCgfx(&m_Allocator, NULL, true);
     g3d::ResourceLoader* model = m_ResourceMgr.Get(m_ModelKey);
     model->Read(0x10000, 0x20000, 0x30000);
@@ -135,7 +136,7 @@ void Door::Build()
     textures->InitializeCgfx(&m_Allocator, NULL, true);
     const nw::gfx::res::ResTexture texture(textures->GetGraphicsFile().ptr()->textures.GetData(0));
     g3d::SetTexture(m_Model.GetModel()->GetResModel().FindMaterial("hobj_door_m"), "hobj_door_dummy", texture);
-    g3d::ResourceLoader* anims = Func6DF40C(g_Unknown9516C0.p4);
+    g3d::ResourceLoader* anims = BsStrcMgr::s_pInstance->GetHobjDoorOutAnim();
     m_Anim.Build(&m_Model, nw::anim::res::ResAnim(anims->GetGraphicsFile().GetSkeletalAnims(0)), &m_Allocator, 0);
     m_Model.SetSkeletalAnim(&m_Anim);
     m_Anim.SetFrame(m_Anim.GetEndFrame());
@@ -210,7 +211,7 @@ void Door::Open(bool isSecondAnim, netgame::PlayerNo player)
     if (m_Anim.m_pAnimObject == NULL) {
         return;
     }
-    g3d::ResourceLoader* anims = isSecondAnim ? Func6DF244(g_Unknown9516C0.p4) : Func6DF40C(g_Unknown9516C0.p4);
+    g3d::ResourceLoader* anims = isSecondAnim ? BsStrcMgr::s_pInstance->GetHobjDoorInAnim() : BsStrcMgr::s_pInstance->GetHobjDoorOutAnim();
     m_Anim.ChangeAnim(nw::anim::res::ResAnim(anims->GetGraphicsFile().GetSkeletalAnims(0)));
     m_Anim.SetFrame(0.0f);
     m_Anim.SetSpeed(1.0f);
@@ -228,7 +229,7 @@ void Door::Open(bool isSecondAnim, netgame::PlayerNo player)
 // 0x00531758 (name is ours)
 void Door::Close()
 {
-    if (g_Unknown9516C0.mode != 255 || g_Unknown9516C0.p4 == NULL || m_Anim.m_pAnimObject == NULL || IsKeptOpen()) {
+    if (BsStrcMgr::s_InitState != 255 || BsStrcMgr::s_pInstance == NULL || m_Anim.m_pAnimObject == NULL || IsKeptOpen()) {
         return;
     }
     m_Anim.SetSpeed(-1.0f);
@@ -244,7 +245,7 @@ void Door::OpenWithChime(bool isSecondAnim, const u8* packedMelody, netgame::Pla
     if (m_Anim.m_pAnimObject == NULL) {
         return;
     }
-    g3d::ResourceLoader* anims = isSecondAnim ? Func6DF244(g_Unknown9516C0.p4) : Func6DF40C(g_Unknown9516C0.p4);
+    g3d::ResourceLoader* anims = isSecondAnim ? BsStrcMgr::s_pInstance->GetHobjDoorInAnim() : BsStrcMgr::s_pInstance->GetHobjDoorOutAnim();
     m_Anim.ChangeAnim(nw::anim::res::ResAnim(anims->GetGraphicsFile().GetSkeletalAnims(0)));
     m_Anim.SetFrame(0.0f);
     m_Anim.SetSpeed(1.0f);

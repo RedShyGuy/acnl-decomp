@@ -87,16 +87,6 @@ struct UnknownA8449C
     UnknownA8449CEntry* entries;
 };
 extern UnknownA8449C g_UnknownA8449C;
-// a game object at 0x9516C0 (+0 u8 mode, +4 pointer); StageOpusVillageDowntown and SubState call Func6DDC18/Func6DDE90
-struct Unknown9516C0
-{
-    u8 mode;
-    u8 _1[3];
-    void* p4;
-};
-extern Unknown9516C0 g_Unknown9516C0;
-void Func6DDC18(void* obj); // 0x006DDC18
-void Func6DDE90(void* obj); // 0x006DDE90
 // a value of the stage (StageOpusMgr::SelectOpus passes it to Func300928)
 s32 Func31336C(u8 stage); // 0x0031336C
 // a check on the villagers of the town with that value (Thumb)

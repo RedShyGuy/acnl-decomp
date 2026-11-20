@@ -32,7 +32,7 @@ public:
     virtual void vf_0x6C(); // 0x006E5068 slot 0x6C | virtual slot, introduced by AcStrcCampingCar
     virtual bool vf_0x70(DemoActor* actor); // 0x00770554 slot 0x70 | virtual slot, introduced by AcStrcCampingCar
     virtual void vf_0x74(); // 0x00770564 slot 0x74 | virtual slot, introduced by AcStrcCampingCar
-    virtual void vf_0x78(); // 0x00758AB4 slot 0x78 | virtual slot, introduced by AcStrcCampingCar
+    virtual bool vf_0x78(); // 0x00758AB4 slot 0x78 | (introduced by AcStrc)
     virtual void vf_0x7C(); // 0x002A9A6C slot 0x7C | virtual slot, introduced by AcStrcCampingCar
     virtual void vf_0x80(); // 0x002A9A5C slot 0x80 | virtual slot, introduced by AcStrcCampingCar
     virtual void vf_0x84(); // 0x007B2C88 slot 0x84 | virtual slot, introduced by AcStrcCampingCar
@@ -41,7 +41,6 @@ public:
     virtual void vf_0x90(); // 0x00758AA4 slot 0x90 | virtual slot, introduced by AcStrcCampingCar
     virtual void vf_0x94(); // 0x005BF3F4 slot 0x94 | virtual slot, introduced by AcStrcCampingCar
     virtual void vf_0x98(); // 0x005BF3E4 slot 0x98 | virtual slot, introduced by AcStrcCampingCar
-    virtual void vf_0x9C(); // 0x007B2C88 slot 0x9C | virtual slot, introduced by AcStrcCampingCar
     virtual void vf_0xA0(); // 0x007B2C88 slot 0xA0 | virtual slot, introduced by AcStrcCampingCar
     virtual void vf_0xA4(); // 0x005BF400 slot 0xA4 | virtual slot, introduced by AcStrcCampingCar
     virtual void vf_0xA8(); // 0x005BF3FC slot 0xA8 | virtual slot, introduced by AcStrcCampingCar
