@@ -8,6 +8,14 @@ class BankTableBase;
 // a bank of a table that a user holds (the type and the names are ours; empty: no table, index -1)
 struct BankHandle
 {
+    // (inline: NpcModelBase constructs and destroys its handles with these)
+    BankHandle() : m_pTable(NULL), m_Index(-1) {}
+    ~BankHandle()
+    {
+        m_pTable = NULL;
+        m_Index = -1;
+    }
+
     BankTableBase* m_pTable; // 0x0
     s32 m_Index;             // 0x4
 };

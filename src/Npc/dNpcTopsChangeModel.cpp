@@ -2,7 +2,8 @@
 #include "Npc/dNpcTopsChangeModel.h"
 
 // ctor address unknown
-NpcTopsChangeModel::NpcTopsChangeModel()
+// (built inline with NpcModel(true, false, false) in AcNpcTopsChangeDemoDollSp 0x007F2AE8)
+NpcTopsChangeModel::NpcTopsChangeModel() : NpcModel(true, false, false)
 {
 }
 

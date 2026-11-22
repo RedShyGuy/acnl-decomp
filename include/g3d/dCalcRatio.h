@@ -48,6 +48,8 @@ public:
     // (inline) one frame of the morph
     void Update() { (this->*s_UpdateFuncs[m_Type])(); }
     bool IsMorphing() const { return m_Weight > 0.0f; }
+    // (inline; a copy for the game)
+    DECOMP_EMIT_COPY bool IsDone() const { return m_Weight <= 0.0f; } // 0x0074750C
 
     static const StartFunc s_StartFuncs[TYPE_COUNT];
     static const UpdateFunc s_UpdateFuncs[TYPE_COUNT];

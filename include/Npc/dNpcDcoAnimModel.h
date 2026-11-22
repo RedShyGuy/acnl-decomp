@@ -9,7 +9,7 @@ class NpcDcoAnimModel : public ::NpcSimpleModel
 {
 public:
     NpcDcoAnimModel(); // ctor address unknown
-    virtual void vf_0x00(); // 0x0029CF4C slot 0x00 | virtual slot, introduced by HumanModel
+    bool PlayAnim(u16 id, u32 playMode, u32 flags, f32 frame, f32 speed, f32 duration, bool* changed, u8 morphType) override; // 0x0029CF4C slot 0x00
     virtual void vf_0x0C(); // 0x0029CF90 slot 0x0C | virtual slot, introduced by HumanModel
     virtual ~NpcDcoAnimModel(); // 0x0029D0D4 slot 0x1C | slot vf_0x1C of HumanModel
     // 0x0029D0C4 slot 0x20 | slot vf_0x20 of HumanModel (deleting dtor)

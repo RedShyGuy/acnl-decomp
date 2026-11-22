@@ -76,6 +76,15 @@ public:
         return true;
     }
 
+    // (inline) the bank of handle (NULL: not a handed out bank of this table)
+    T* GetBank(const BankHandle* handle)
+    {
+        if (handle->m_pTable != this || m_Size <= static_cast<u32>(handle->m_Index) || !CheckBit(handle->m_Index)) {
+            return NULL;
+        }
+        return &m_Banks[handle->m_Index];
+    }
+
     T m_Banks[N];                 // 0x0C
     u8 m_BankBits[(N + 7) / 8];
 };

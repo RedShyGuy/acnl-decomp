@@ -23,9 +23,10 @@ const char* Func17C3D0(const SvFgName* item); // 0x0017C3D0
 u32 Func76BB44(const SvFgName* item); // 0x0076BB44
 // another shared graphics file (PlayerLegsBank without a socks item)
 g3d::ResourceLoader* Func5C6794(); // 0x005C6794
-// two bytes of the object of PlayerLegsBank::m_pUnknown4D0 (+3 below 6, +1 below 16; 0 otherwise)
-u8 Func713778(const void* object); // 0x00713778
-u8 Func713788(const void* object); // 0x00713788
+struct SvPlayerAppearance;
+// the eye color (below 6) and the hair color (below 16) of an appearance (0 otherwise)
+u8 Func713778(const SvPlayerAppearance* appearance); // 0x00713778
+u8 Func713788(const SvPlayerAppearance* appearance); // 0x00713788
 struct ExchangeBankKeywordUnknown3;
 namespace nw {
 namespace gfx {
@@ -34,8 +35,6 @@ struct ResModelData;
 } // namespace res
 } // namespace gfx
 } // namespace nw
-// (applied to the model of PlayerLegsBank with the two bytes above and the three bytes of the keyword)
-void Func1CEEF0(const nw::gfx::res::ResModelData* model, s32 a, s32 b, const ExchangeBankKeywordUnknown3* c, s32 d); // 0x001CEEF0
 // the path of the model file of a tops item (a function-local static string; NULL: no model)
 const char* Func1768C8(const SvFgName* item); // 0x001768C8
 // whether an item can carry a My Design (for the tops)

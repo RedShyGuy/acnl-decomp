@@ -379,6 +379,9 @@ ASSERT_SIZE(SvPlayerFeatures, 0x6);
 
 #pragma pack(push, 1)
 struct SvPlayerOutfit {
+    // (game code) all items empty, unk_0x20 = 1 (PlayerModel builds its copy with it)
+    SvPlayerOutfit(); // 0x0027B9E4
+
     /* 0x0000 */ SvFgName hat; // Item ID < 0xXXXX
     /* 0x0004 */ SvFgName accessory; // Item ID < 0xXXXX
     /* 0x0008 */ SvFgName topWear; // Item ID < 0xXXXX

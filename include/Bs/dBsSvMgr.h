@@ -67,7 +67,7 @@ void Func5D0334(); // 0x005D0334
 // (called by the steps of the saves of the network game; names after the addresses)
 struct SvPlayerOutfit;
 class SvFgName;
-const SvFgName* Func71B3B8(SvPlayerOutfit* outfit); // 0x0071B3B8
+const SvFgName* Func71B3B8(const SvPlayerOutfit* outfit); // 0x0071B3B8 (the tops of an outfit if of type 3, else SvFgName::s_Empty)
 void Func27B1EC(SvPlayerOutfit* outfit); // 0x0027B1EC
 void Func27B1F4(SvPlayerOutfit* outfit, const SvFgName* item); // 0x0027B1F4
 void Func5C344C(const SvFgName* item); // 0x005C344C

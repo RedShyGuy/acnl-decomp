@@ -72,7 +72,7 @@ PlayerShoesBank::~PlayerShoesBank()
 }
 
 // 0x002A20F8 (name is ours)
-void PlayerShoesBank::RequestDraw()
+void PlayerShoesBank::RequestDraw(u32 /* sceneIdx */)
 {
     g3d::SkeletalModel* model = GetCurrentModel();
     if (model == NULL) {

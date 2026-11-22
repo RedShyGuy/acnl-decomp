@@ -63,9 +63,10 @@ public:
     virtual bool Finalize(const Keyword& keyword, u32 slot) override; // 0x00271D04 slot 0x1C
 
     // the shown slot is drawn (the Mii; the model goes into the model list of the object 0x00951378)
-    void RequestDraw(); // 0x00271584
-    // the expression animation of the Mii starts with the animation id
-    void StartMiiExpressionAnim(u16 id, f32 frame); // 0x00271608
+    void RequestDraw(u32 sceneIdx); // (sceneIdx: not read, PlayerModel passes 0) 0x00271584
+    // the expression animation of the Mii starts with the animation id (playMode: the play mode of the animation of the
+    // body, not read)
+    void StartMiiExpressionAnim(u16 id, u8 playMode, f32 frame); // 0x00271608
     // the face and the expression of the Mii in the frame
     void Update(); // 0x00271680
     // the colors of the shown model: the hair and eye color of its keyword and colors (false: no player or no model)
@@ -101,7 +102,7 @@ public:
         m_Miis[1].m_IsUsed = false;
     }
 
-    PlayerFaceBank* m_pFaceBanks[2];                       // 0x29C (keyword.m_Unknown10: the second one first)
+    PlayerFaceBank* m_pFaceBanks[2];                       // 0x29C (keyword.m_IsFaceB: the second one first)
     const SvPlayerAppearance* m_pPlayer;                    // 0x2A4 the player data after the checksum (its Mii)
     HeadMii m_Miis[2];                                     // 0x2A8
     HumanResTextureAnimBank* m_pTextureAnimBanks[2][2];    // 0x3D0 [face slot][bank slot]

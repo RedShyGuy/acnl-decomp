@@ -47,6 +47,8 @@ public:
     // for a negative index)
     DECOMP_EMIT_COPY bool GetBoneWorldMatrix(nn::math::MTX34* out, s32 boneIdx) const; // 0x007466FC
     DECOMP_EMIT_COPY bool GetBoneWorldPosition(nn::math::VEC3* out, s32 boneIdx) const; // 0x00746890
+    // the world transform of a bone (no check of the index)
+    DECOMP_EMIT_COPY const nw::gfx::CalculatedTransform* GetBoneWorldTransform(s32 boneIdx) const; // 0x00746BC8
     // the index of the bone of the name (-1: none)
     DECOMP_EMIT_COPY s32 GetBoneIndex(const char* name) const; // 0x007469FC
 };
@@ -71,6 +73,12 @@ inline bool g3d::SkeletalModel::GetBoneWorldMatrix(nn::math::MTX34* out, s32 bon
     UpdateWorldTransform(&world, *transform, GetWorldTransform());
     *out = world.m_TransformMatrix;
     return true;
+}
+
+inline const nw::gfx::CalculatedTransform* g3d::SkeletalModel::GetBoneWorldTransform(s32 boneIdx) const
+{
+    const nw::gfx::Skeleton* skeleton = nw::gfx::DynamicCast<nw::gfx::SkeletalModel>(m_pNode)->GetSkeleton();
+    return &skeleton->GetWorldTransforms()->begin()[boneIdx];
 }
 
 inline bool g3d::SkeletalModel::GetBoneWorldPosition(nn::math::VEC3* out, s32 boneIdx) const

@@ -1,4 +1,5 @@
 #include "Player/dPlayerTopsBank.h"
+#include "Player/dPlayerModel.h"
 #include "Bs/dBsPlayerMgr.h"
 
 #include "sead/seadSafeStringBase.h"
@@ -46,9 +47,9 @@ bool PlayerTopsBank::Initialize(const Keyword& keyword, u32 slot, bool isReady)
     textures->SetHeaps(GetVramAHeap(slot), GetVramBHeap(slot), NULL);
     model->Read(0x10000, 0x30000, 0x20000);
     model->SetHeaps(GetVramAHeap(slot), GetVramBHeap(slot), NULL);
-    if (m_pUnknown4D0 != NULL) {
-        Func1CEEF0(static_cast<const nw::gfx::res::ResModelData*>(model->GetGraphicsFile().GetModels(0)),
-                   Func713778(m_pUnknown4D0), Func713788(m_pUnknown4D0), &keyword.m_UnknownC, 8);
+    if (m_pAppearance != NULL) {
+        PlayerModel::SetModelColors(static_cast<const nw::gfx::res::ResModelData*>(model->GetGraphicsFile().GetModels(0)),
+                   Func713788(m_pAppearance), Func713778(m_pAppearance), &keyword.m_UnknownC, 8);
     }
     textures->InitializeCgfx(allocator, NULL, true);
     model->InitializeCgfx(allocator, Func5C22D8(), true);
@@ -107,7 +108,7 @@ s32 PlayerTopsBank::LoadResourceSplit(const Keyword& keyword, u32 slot)
 }
 
 // 0x00273B58 (name is ours)
-PlayerTopsBank::PlayerTopsBank() : m_pUnknown4D0(NULL)
+PlayerTopsBank::PlayerTopsBank() : m_pAppearance(NULL)
 {
 }
 
@@ -119,11 +120,28 @@ PlayerTopsBank::~PlayerTopsBank()
 }
 
 // 0x002731EC (name is ours)
-void PlayerTopsBank::RequestDraw()
+void PlayerTopsBank::RequestDraw(u32 /* sceneIdx */)
 {
     g3d::SkeletalModel* model = GetCurrentModel();
     if (model == NULL) {
         return;
     }
     BsPlayerMgr::AddModel(BsPlayerMgr::MODEL_LIST_TOPS, model);
+}
+
+// 0x00273240 (name is ours)
+bool PlayerTopsBank::SetColors(const ExchangeBankKeywordUnknown3* skinColor)
+{
+    if (m_pAppearance == NULL) {
+        return false;
+    }
+    item::ResLoader* loader = GetLoader(GetCurrentSlot(), 0);
+    if (loader->m_SetupResult == g3d::ResourceSet::SETUP_RESULT_NONE || !loader->m_GraphicsFile.IsValid() ||
+        loader->m_GraphicsFile.ptr()->models.count == 0) {
+        return false;
+    }
+    const nw::gfx::res::ResModelData* model =
+        static_cast<const nw::gfx::res::ResModelData*>(loader->GetGraphicsFile().GetModels(0));
+    PlayerModel::SetModelColors(model, Func713788(m_pAppearance), Func713778(m_pAppearance), skinColor, 8);
+    return true;
 }

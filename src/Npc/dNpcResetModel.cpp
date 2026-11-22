@@ -32,17 +32,17 @@ NpcResetModel::~NpcResetModel()
 }
 
 // 0x002301FC slot 0x24 | virtual slot, introduced by HumanModel
-void NpcResetModel::vf_0x24()
+void NpcResetModel::SetMtx(const nn::math::MTX34*)
 {
 }
 
 // 0x002303F0 slot 0x30 | virtual slot, introduced by NpcModelBase
-void NpcResetModel::vf_0x30()
+bool NpcResetModel::StartLoad(const stage::NpcInfo*, u16)
 {
 }
 
 // 0x006AD00C slot 0x34 | virtual slot, introduced by NpcModelBase
-void NpcResetModel::vf_0x34()
+bool NpcResetModel::Unload()
 {
 }
 

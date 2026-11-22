@@ -4,6 +4,8 @@
 #include "Exchange/dExchangeModelBank.h"
 #include "Item/dResLoader.h"
 
+struct SvPlayerAppearance;
+
 // The bank of the caps of the player (class name from the RTTI; the member name is ours): per slot the item file (loader
 // 0) and, for items that carry a My Design, the design (loader 1, with the data of the keyword).
 // RTTI 13PlayerCapBank @ 0x008CBA78
@@ -23,8 +25,10 @@ public:
     virtual bool Initialize(const Keyword& keyword, u32 slot, bool isReady) override; // 0x0023D370 slot 0x18
     virtual bool Finalize(const Keyword& keyword, u32 slot) override; // 0x0023D5B0 slot 0x1C
     // the shown model is drawn this frame (BsPlayerMgr::MODEL_LIST_CAP)
-    void RequestDraw(); // 0x0023D0B4
+    void RequestDraw(u32 sceneIdx); // (sceneIdx: not read, PlayerModel passes 0) 0x0023D0B4
+    // the colors of the shown model: hair (the keyword), eyes (m_pAppearance) and skin (false: no appearance or no model)
+    bool SetColors(const ExchangeBankKeywordUnknown3* skinColor); // 0x0023D104
 
-    const void* m_pUnknown4DC; // 0x4DC (read by Initialize with Func713778)
+    const SvPlayerAppearance* m_pAppearance; // 0x4DC of the player (PlayerModel::Setup)
 };
 ASSERT_SIZE(PlayerCapBank, 0x4E0);

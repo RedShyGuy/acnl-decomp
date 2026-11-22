@@ -9,7 +9,7 @@ class NpcKotobukiModel : public ::NpcTopsChangeModel
 {
 public:
     NpcKotobukiModel(); // ctor address unknown
-    virtual void vf_0x00(); // 0x002BB4CC slot 0x00 | virtual slot, introduced by HumanModel
+    bool PlayAnim(u16 id, u32 playMode, u32 flags, f32 frame, f32 speed, f32 duration, bool* changed, u8 morphType) override; // 0x002BB4CC slot 0x00
     virtual ~NpcKotobukiModel(); // 0x002BB58C slot 0x1C | slot vf_0x1C of HumanModel
     // 0x002BB57C slot 0x20 | slot vf_0x20 of HumanModel (deleting dtor)
 };

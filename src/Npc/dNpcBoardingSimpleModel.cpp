@@ -12,7 +12,7 @@ NpcBoardingSimpleModel::~NpcBoardingSimpleModel()
 }
 
 // 0x00331B84 slot 0x24 | virtual slot, introduced by HumanModel
-void NpcBoardingSimpleModel::vf_0x24()
+void NpcBoardingSimpleModel::SetMtx(const nn::math::MTX34*)
 {
 }
 

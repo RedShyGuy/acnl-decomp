@@ -5,7 +5,7 @@
 #include "Item/dResLoader.h"
 
 // The bank of the bottoms of the player (class name from the RTTI; the member name is ours): per slot the model file
-// (loader 0) and the item file (loader 1). Items of another type than 4 are replaced by 0x26F6 or 0x26F7 (m_Unknown4A8;
+// (loader 0) and the item file (loader 1). Items of another type than 4 are replaced by 0x26F6 or 0x26F7 (m_IsMale;
 // both IDs are not in the item list).
 // RTTI 17PlayerBottomsBank @ 0x008CC528
 // vtable 0x008F3BB4 (vptr 0x008F3BBC), offset_to_top 0, 11 entries
@@ -25,14 +25,14 @@ public:
     virtual bool Initialize(const Keyword& keyword, u32 slot, bool isReady) override; // 0x002D0888 slot 0x18
     virtual bool Finalize(const Keyword& keyword, u32 slot) override; // 0x002D0A78 slot 0x1C
     // the shown model is drawn this frame (BsPlayerMgr::MODEL_LIST_BOTTOMS)
-    void RequestDraw(); // 0x002D06D4
+    void RequestDraw(u32 sceneIdx); // (sceneIdx: not read, PlayerModel passes 0) 0x002D06D4
 
 private:
     // (inline) the item that is loaded for keyword
     void GetItem(SvFgName* item) const
     {
         if (Func76BB44(item) != 4) {
-            if (m_Unknown4A8) {
+            if (m_IsMale) {
                 *item = SvFgName(static_cast<SvFgName::ID>(0x26F6));
             } else {
                 *item = SvFgName(static_cast<SvFgName::ID>(0x26F7));
@@ -41,6 +41,6 @@ private:
     }
 
 public:
-    bool m_Unknown4A8; // 0x4A8
+    bool m_IsMale; // 0x4A8 (PlayerModel::Setup: 1 & ~SvPlayerId::gender)
 };
 ASSERT_SIZE(PlayerBottomsBank, 0x4AC);

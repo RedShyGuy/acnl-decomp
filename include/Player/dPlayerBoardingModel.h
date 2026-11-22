@@ -11,5 +11,5 @@ public:
     PlayerBoardingModel(); // ctor address unknown
     virtual ~PlayerBoardingModel(); // 0x002FABB4 slot 0x1C | slot vf_0x1C of HumanModel
     // 0x002FABA4 slot 0x20 | slot vf_0x20 of HumanModel (deleting dtor)
-    virtual void vf_0x24(); // 0x002FAA24 slot 0x24 | virtual slot, introduced by HumanModel
+    void SetMtx(const nn::math::MTX34* mtx) override; // 0x002FAA24 slot 0x24
 };

@@ -72,7 +72,7 @@ PlayerAcceBank::~PlayerAcceBank()
 }
 
 // 0x00270CDC (name is ours)
-void PlayerAcceBank::RequestDraw()
+void PlayerAcceBank::RequestDraw(u32 /* sceneIdx */)
 {
     g3d::SkeletalModel* model = GetCurrentModel();
     if (model == NULL) {

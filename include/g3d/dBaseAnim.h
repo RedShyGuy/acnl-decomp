@@ -45,6 +45,9 @@ public:
     DECOMP_EMIT_COPY ssys::ma::HeapAllocator* GetHeapAllocator() { return &m_HeapAllocator; } // 0x00746E84
     // (inline; a copy for the game) the end frame of the evaluator
     DECOMP_EMIT_COPY DECOMP_NOINLINE f32 GetEndFrame() { return GetAnimObject()->m_AnimFrameController.m_EndFrame; } // 0x00746D70
+    // (inline; a copy for the game) the last frame step passed frame (in the direction of the speed, also over the
+    // wrap of a loop; without a step: the frame is frame and the speed is not zero)
+    DECOMP_EMIT_COPY bool IsFramePassed(f32 frame); // 0x00746C44
     // the next frame
     void UpdateFrame(); // 0x004F2CA8
     // a member animation that does not animate its group member any more
@@ -55,3 +58,27 @@ public:
 };
 ASSERT_SIZE(BaseAnim, 0x14);
 } // namespace g3d
+
+#include "nw/gfx/gfx_BaseAnimEvaluator.h"
+
+inline bool g3d::BaseAnim::IsFramePassed(f32 frame)
+{
+    const f32 prev = GetAnimObject()->m_AnimFrameController.m_Frame.m_PrevFrame;
+    const f32 cur = GetAnimObject()->m_AnimFrameController.m_Frame.m_Frame;
+    if (prev == cur) {
+        if (GetAnimObject()->m_AnimFrameController.m_Speed == 0.0f) {
+            return false;
+        }
+        return cur == frame;
+    }
+    if (0.0f > GetAnimObject()->m_AnimFrameController.m_Speed) {
+        if (prev > cur) {
+            return prev > frame && cur <= frame;
+        }
+        return prev > frame || cur <= frame;
+    }
+    if (prev < cur) {
+        return prev < frame && cur >= frame;
+    }
+    return prev < frame || cur >= frame;
+}

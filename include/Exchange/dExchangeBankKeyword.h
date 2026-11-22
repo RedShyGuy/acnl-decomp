@@ -28,6 +28,7 @@ template <SvFgName::Name EMPTY>
 struct ExchangeBankKeywordFgNameEx : public SvFgName
 {
     ExchangeBankKeywordFgNameEx() : SvFgName(static_cast<SvFgName::ID>(EMPTY)) {}
+    explicit ExchangeBankKeywordFgNameEx(const SvFgName& name) : SvFgName(name) {}
     ~ExchangeBankKeywordFgNameEx() {}
 
     bool IsSame(const ExchangeBankKeywordFgNameEx& other) const { return Func76BA20(this, &other); }
@@ -39,6 +40,16 @@ struct ExchangeBankKeywordMyDesignFgNameEx
 {
     ExchangeBankKeywordMyDesignFgNameEx() : m_Name(static_cast<SvFgName::ID>(EMPTY)), m_pUnknown4(NULL), m_pUnknown8(NULL) {}
     explicit ExchangeBankKeywordMyDesignFgNameEx(const SvFgName& name) : m_Name(name), m_pUnknown4(NULL), m_pUnknown8(NULL) {}
+    // (PlayerModel) an item with the designs of a player (SvPlayerUnk0::patterns)
+    ExchangeBankKeywordMyDesignFgNameEx(const SvFgName& name, const void* designs)
+        : m_Name(name), m_pUnknown4(designs), m_pUnknown8(NULL)
+    {
+    }
+    ExchangeBankKeywordMyDesignFgNameEx(const SvFgName& name, const void* designs,
+                                        const ExchangeBankKeywordUnknown3& color)
+        : m_Name(name), m_pUnknown4(designs), m_pUnknown8(NULL), m_UnknownC(color)
+    {
+    }
     ~ExchangeBankKeywordMyDesignFgNameEx() {}
 
     // (the two values at +4 and +8 are not compared)
@@ -72,10 +83,21 @@ struct ExchangeBankKeywordMyDesignFgNameEx
 // the keyword of the caps of the player (a My Design keyword and one more value)
 struct PlayerCapBankKeyword : public ExchangeBankKeywordMyDesignFgNameEx<SvFgName::NAME_EMPTY>
 {
-    PlayerCapBankKeyword() : m_Unknown10(-1) {}
+    PlayerCapBankKeyword() : m_HairColor(-1) {}
+    // (PlayerModel) the cap item with the designs of the player, the skin color and the hair color
+    PlayerCapBankKeyword(const SvFgName& name, const void* designs, const ExchangeBankKeywordUnknown3& color,
+                         s32 hairColor)
+        : ExchangeBankKeywordMyDesignFgNameEx<SvFgName::NAME_EMPTY>(name, designs, color), m_HairColor(hairColor)
+    {
+    }
     ~PlayerCapBankKeyword() {}
 
-    s32 m_Unknown10; // 0x10
+    bool IsSame(const PlayerCapBankKeyword& other) const
+    {
+        return m_HairColor == other.m_HairColor && ExchangeBankKeywordMyDesignFgNameEx<SvFgName::NAME_EMPTY>::IsSame(other);
+    }
+
+    s32 m_HairColor; // 0x10 (the hair color of the head keyword of the player model; the colors of the model)
 };
 ASSERT_SIZE(PlayerCapBankKeyword, 0x14);
 
@@ -84,16 +106,41 @@ struct PlayerHeadBankKeyword
 {
     // (copies for the arrays of the bank)
     DECOMP_EMIT_COPY PlayerHeadBankKeyword() // 0x0032AA5C
-        : hairStyle(34), hairColor(-1), eyeColor(-1), item(SvFgName::s_Empty), m_Unknown10(0)
+        : hairStyle(34), hairColor(-1), eyeColor(-1), item(SvFgName::s_Empty), m_IsFaceB(false)
     {
     }
+    // (copy, called by PlayerModel) base with item and the skin color
+    DECOMP_EMIT_COPY DECOMP_NOINLINE PlayerHeadBankKeyword(const PlayerHeadBankKeyword& base, const SvFgName& item,
+                                                           const ExchangeBankKeywordUnknown3& skinColor) // 0x0032A9B4
+    {
+        *this = base;
+        this->item = item;
+        m_SkinColor = skinColor;
+    }
     DECOMP_EMIT_COPY ~PlayerHeadBankKeyword() {} // 0x0032AAA4
+
+    // (copy, called by PlayerModel) the values of the player
+    DECOMP_EMIT_COPY DECOMP_NOINLINE void Set(u8 hairStyle, s32 hairColor, s32 eyeColor, const SvFgName& item,
+                                              bool isFaceB) // 0x0032A908
+    {
+        this->hairStyle = hairStyle;
+        this->hairColor = hairColor;
+        this->eyeColor = eyeColor;
+        m_IsFaceB = isFaceB;
+        this->item = item;
+    }
+    // (copy, called by the exchange of the heads)
+    DECOMP_EMIT_COPY DECOMP_NOINLINE bool IsSame(const PlayerHeadBankKeyword& other) const // 0x00725B50
+    {
+        return hairStyle == other.hairStyle && hairColor == other.hairColor && eyeColor == other.eyeColor &&
+               m_SkinColor == other.m_SkinColor && m_IsFaceB == other.m_IsFaceB && Func76BA20(&item, &other.item);
+    }
 
     u8 hairStyle;                           // 0x00
     s32 hairColor;                          // 0x04
     s32 eyeColor;                           // 0x08
     SvFgName item;                          // 0x0C
-    u8 m_Unknown10;                         // 0x10
-    ExchangeBankKeywordUnknown3 m_Unknown11; // 0x11
+    bool m_IsFaceB;                         // 0x10 PlayerHeadBank takes the second face bank first
+    ExchangeBankKeywordUnknown3 m_SkinColor; // 0x11 (the colors of the model)
 };
 ASSERT_SIZE(PlayerHeadBankKeyword, 0x14);

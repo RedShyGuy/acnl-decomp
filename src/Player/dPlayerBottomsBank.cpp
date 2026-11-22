@@ -65,7 +65,7 @@ s32 PlayerBottomsBank::LoadResourceSplit(const Keyword& keyword, u32 slot)
 }
 
 // 0x002D0C98 (name is ours)
-PlayerBottomsBank::PlayerBottomsBank() : m_Unknown4A8(false)
+PlayerBottomsBank::PlayerBottomsBank() : m_IsMale(false)
 {
 }
 
@@ -77,7 +77,7 @@ PlayerBottomsBank::~PlayerBottomsBank()
 }
 
 // 0x002D06D4 (name is ours)
-void PlayerBottomsBank::RequestDraw()
+void PlayerBottomsBank::RequestDraw(u32 /* sceneIdx */)
 {
     g3d::SkeletalModel* model = GetCurrentModel();
     if (model == NULL) {

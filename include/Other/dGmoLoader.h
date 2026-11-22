@@ -12,4 +12,9 @@ public:
     virtual ~GmoLoader(); // 0x006E5774 slot 0x00 | slot vf_0x00 of ssys::st::ListNode
     // 0x006E5764 slot 0x04 | slot vf_0x04 of ssys::st::ListNode (deleting dtor)
     virtual void vf_0x08(); // 0x006E56BC slot 0x08 | virtual slot, introduced by ssys::ma::LoadSplit
+
+    // (the loaded file; names are ours)
+    const void* m_pFileEC;  // 0xEC
+    void* m_pEntriesF0;     // 0xF0
 };
+ASSERT_SIZE(GmoLoader, 0xF4);

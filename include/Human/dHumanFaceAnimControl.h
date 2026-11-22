@@ -2,6 +2,7 @@
 
 #include "decomp.h"
 #include "Human/dHumanModel_FaceCtrl.h"
+#include "Human/human_Extern.h"
 #include "g3d/dMaterialAnim.h"
 #include "nw/anim/res/anim_ResAnim.h"
 
@@ -78,6 +79,45 @@ public:
     void Initialize(g3d::Model* model, HumanResTextureAnimBank* bankA, HumanResTextureAnimBank* bankB, void* unused,
                     g3d::ResourceSet* resourceSet, bool unknown24); // 0x0031E5E4
     void Finalize(); // 0x0031E6C4
+    // (in the file of HumanModel) the talk animations in the second slot (FaceCtrl::Update without m_Unknown18)
+    bool UpdateTalk(); // 0x001AC6D0
+
+    // (inline; copies for the game) the default animation of the first slot (ANIM_F7 if it has no face animation)
+    DECOMP_EMIT_COPY u16 GetDefaultAnimIdA() // 0x00724BA4
+    {
+        return Func770970(&g_HumanAnimTable, m_DefaultAnimIdA)->anim1.IsValid() ? m_DefaultAnimIdA
+                                                                                 : static_cast<u16>(HumanAnimName::ANIM_F7);
+    }
+    // the first slot plays its default animation
+    DECOMP_EMIT_COPY bool IsDefaultAnimA() // 0x00724B04
+    {
+        if (m_SlotA.m_AnimId == HumanAnimName::COUNT) {
+            return false;
+        }
+        return GetDefaultAnimIdA() == m_SlotA.m_AnimId;
+    }
+    DECOMP_EMIT_COPY u16 GetAnimIdA() // 0x00724B54
+    {
+        if (m_SlotA.m_AnimId == HumanAnimName::COUNT) {
+            return HumanAnimName::COUNT;
+        }
+        return m_SlotA.m_AnimId;
+    }
+    // the animation of the second slot has ended (or there is none)
+    DECOMP_EMIT_COPY bool IsSlotBFinished() // 0x00724B6C
+    {
+        if (m_SlotB.m_AnimId == HumanAnimName::COUNT) {
+            return true;
+        }
+        return m_SlotB.m_Anim.IsFinished();
+    }
+    DECOMP_EMIT_COPY u16 GetAnimIdB() // 0x00724B8C
+    {
+        if (m_SlotB.m_AnimId == HumanAnimName::COUNT) {
+            return HumanAnimName::COUNT;
+        }
+        return m_SlotB.m_AnimId;
+    }
 
     g3d::ResourceSet* m_pResourceSet20; // 0x20 (the same as FaceCtrl::m_pResourceSet)
     bool m_Unknown24;                   // 0x24 (false: the clones unbind member 1 of the animation)

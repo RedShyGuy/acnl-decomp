@@ -1,4 +1,5 @@
 #include "Player/dPlayerHeadBank.h"
+#include "Player/dPlayerModel.h"
 #include <cstddef>
 #include "Bank/bank_Extern.h"
 #include "Bs/dBsPlayerMgr.h"
@@ -46,12 +47,12 @@ const s16 MII_BONE_ROTATE = -0x4000;
 const u8 ANIM_FLAG_LOOP = 1 << 5;
 // the light set count of SkeletalModel::Create of the head
 const s32 HEAD_MODEL_CREATE_FLAGS = 2;
-// the colors of the face (Func1CEEF0)
+// the colors of the face (PlayerModel::SetModelColors)
 const s32 FACE_COLOR_KIND = 7;
 } // namespace
 
 // 0x00271584 (name is ours)
-void PlayerHeadBank::RequestDraw()
+void PlayerHeadBank::RequestDraw(u32 /* sceneIdx */)
 {
     HeadMii& mii = m_Miis[GetCurrentSlot()];
     if (mii.m_IsUsed && &mii.m_Model != NULL) {
@@ -66,7 +67,7 @@ void PlayerHeadBank::RequestDraw()
 }
 
 // 0x00271608 (name is ours)
-void PlayerHeadBank::StartMiiExpressionAnim(u16 id, f32 frame)
+void PlayerHeadBank::StartMiiExpressionAnim(u16 id, u8 /* playMode */, f32 frame)
 {
     const HumanAnimInfo* info = Func6E6268(id);
     MiiExpressionAnim& anim = m_MiiExpressionAnim;
@@ -156,7 +157,7 @@ bool PlayerHeadBank::SetFaceColors(const ExchangeBankKeywordUnknown3* colors)
         return false;
     }
     const Keyword& keyword = m_Keywords[slot];
-    Func1CEEF0(static_cast<const nw::gfx::res::ResModelData*>(loader->GetGraphicsFile().GetModels(0)),
+    PlayerModel::SetModelColors(static_cast<const nw::gfx::res::ResModelData*>(loader->GetGraphicsFile().GetModels(0)),
                keyword.hairColor, keyword.eyeColor, colors, FACE_COLOR_KIND);
     return true;
 }
@@ -209,7 +210,7 @@ bool PlayerHeadBank::Initialize(const Keyword& keyword, u32 slot, bool isReady)
     }
     g3d::ResourceLoader* model = GetLoader(slot, 0);
     PlayerFaceBank* faceBank;
-    if (keyword.m_Unknown10) {
+    if (keyword.m_IsFaceB) {
         faceBank = m_pFaceBanks[1] != NULL ? m_pFaceBanks[1] : m_pFaceBanks[0];
     } else {
         faceBank = m_pFaceBanks[0] != NULL ? m_pFaceBanks[0] : m_pFaceBanks[1];
@@ -217,8 +218,8 @@ bool PlayerHeadBank::Initialize(const Keyword& keyword, u32 slot, bool isReady)
     model->Read(0x10000, 0x30000, 0x20000);
     model->SetHeaps(GetVramAHeap(slot), GetVramBHeap(slot), NULL);
     if (m_pPlayer != NULL) {
-        Func1CEEF0(static_cast<const nw::gfx::res::ResModelData*>(model->GetGraphicsFile().GetModels(0)),
-                   keyword.hairColor, keyword.eyeColor, &keyword.m_Unknown11, FACE_COLOR_KIND);
+        PlayerModel::SetModelColors(static_cast<const nw::gfx::res::ResModelData*>(model->GetGraphicsFile().GetModels(0)),
+                   keyword.hairColor, keyword.eyeColor, &keyword.m_SkinColor, FACE_COLOR_KIND);
     }
     if (faceBank != NULL) {
         model->InitializeCgfx(allocator, &faceBank->m_Loader, true);

@@ -14,7 +14,7 @@ public:
     virtual void vf_0x14(); // 0x002BB5DC slot 0x14 | virtual slot, introduced by HumanModel
     virtual ~NpcRakosukeModel(); // 0x002BB9FC slot 0x1C | slot vf_0x1C of HumanModel
     // 0x002BB9D4 slot 0x20 | slot vf_0x20 of HumanModel (deleting dtor)
-    virtual void vf_0x30(); // 0x002BB65C slot 0x30 | virtual slot, introduced by NpcModelBase
-    virtual void vf_0x34(); // 0x002BB87C slot 0x34 | virtual slot, introduced by NpcModelBase
+    bool StartLoad(const stage::NpcInfo* info, u16 modelIndex) override; // 0x002BB65C slot 0x30
+    bool Unload() override; // 0x002BB87C slot 0x34
     virtual void vf_0x50(); // 0x002BB5D0 slot 0x50 | virtual slot, introduced by NpcRakosukeModel
 };

@@ -78,15 +78,29 @@ public:
         ClearRequest();
         Base::FinalizeBank();
     }
-    // (inline) keyword is shown (into the slot that is not shown, then the slots change): 0 still loading, 1 nothing new
-    // (keyword is shown already, or the setup failed), 2 keyword is shown now
-    DECOMP_ALWAYS_INLINE s32 Exchange(const TKeyword& keyword)
+    // the results of Exchange (names are ours)
+    enum ExchangeResult
+    {
+        EXCHANGE_RESULT_LOADING = 0, // still loading
+        EXCHANGE_RESULT_SAME = 1,    // nothing new (keyword is shown already, or the setup failed)
+        EXCHANGE_RESULT_SHOWN = 2,   // keyword is shown now
+        EXCHANGE_RESULT_LOADED = 3,  // (only without isApply) keyword is loaded and waits for a call with isApply
+    };
+
+    // (inline) keyword is shown (into the slot that is not shown, then the slots change): ExchangeResult; without isApply
+    // a loaded keyword is not set up yet (m_IsSetupPending), so that several banks can change in the same frame
+    DECOMP_ALWAYS_INLINE s32 Exchange(const TKeyword& keyword, bool isApply = true)
+    {
+        return ExchangeImpl(keyword, isApply);
+    }
+    DECOMP_ALWAYS_INLINE s32 ExchangeImpl(const TKeyword& keyword, bool isApply)
     {
         const u32 next = ~this->m_ExchangeBit & 1;
         if (!m_IsLoading && m_Keywords[this->GetCurrentSlot()].IsSame(keyword)) {
             return 1;
         }
-        if ((!m_IsLoading && !m_IsSetupPending) || !m_Current.IsSame(keyword)) {
+        // (the original also requests the same keyword again while it loads, unless its setup is pending)
+        if ((!m_IsLoading && !m_IsSetupPending) || !m_Current.IsSame(keyword) || !m_IsSetupPending) {
             if (next >= 2 || (this->m_Allocators[next].m_pHeap != NULL && Release(next))) {
                 m_Current = keyword;
                 m_IsLoading = true;
@@ -102,10 +116,16 @@ public:
             if (m_LoadResult == 0) {
                 return 0;
             }
+            if (!isApply) {
+                m_IsSetupPending = true;
+            }
             isLoaded = true;
             m_IsLoading = false;
         }
         if (m_IsSetupPending) {
+            if (!isApply) {
+                return EXCHANGE_RESULT_LOADED;
+            }
             m_IsSetupPending = false;
         } else if (!isLoaded) {
             return 0;
@@ -144,7 +164,7 @@ public:
 
     TKeyword m_Current; // 0x26 (0x28 for the My Design keyword)
     bool m_IsLoading;      // the request is loading
-    s8 m_IsSetupPending;   // (only cleared in the known code)
+    s8 m_IsSetupPending;   // loaded, the setup waits for Exchange with isApply
     u8 m_LoadResult;       // of LoadResourceSplit
     TKeyword m_Keywords[2];
     u8 m_LoadedBits[1];

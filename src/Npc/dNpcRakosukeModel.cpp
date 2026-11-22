@@ -27,12 +27,12 @@ NpcRakosukeModel::~NpcRakosukeModel()
 }
 
 // 0x002BB65C slot 0x30 | virtual slot, introduced by NpcModelBase
-void NpcRakosukeModel::vf_0x30()
+bool NpcRakosukeModel::StartLoad(const stage::NpcInfo*, u16)
 {
 }
 
 // 0x002BB87C slot 0x34 | virtual slot, introduced by NpcModelBase
-void NpcRakosukeModel::vf_0x34()
+bool NpcRakosukeModel::Unload()
 {
 }
 

@@ -1807,3 +1807,61 @@ ToolBank::~ToolBank()
 {
     // (only the members and the bases are destroyed)
 }
+
+// 0x0076F254 (name is ours)
+bool ToolBank::GetBonePosition(nn::math::VEC3* out, s32 bone, bool isCurved) const
+{
+    if (bone < 0) {
+        return false;
+    }
+    const g3d::SkeletalModel* model = GetShownModel();
+    if (model == NULL || !model->GetBoneWorldPosition(out, bone)) {
+        return false;
+    }
+    if (isCurved) {
+        Func52EA98(out, out);
+    }
+    return true;
+}
+
+// 0x0076F2F4 (name is ours)
+bool ToolBank::TransformByModel(nn::math::VEC3* out, const nn::math::VEC3* position, bool isCurved) const
+{
+    const g3d::SkeletalModel* model = GetShownModel();
+    if (model == NULL) {
+        return false;
+    }
+    sead::Vector3CalcCtr<f32>::mul(*out, model->GetLocalTransform().m_TransformMatrix, *position);
+    if (isCurved) {
+        Func52EA98(out, out);
+    }
+    return true;
+}
+
+// 0x0076F454 (name is ours)
+bool ToolBank::IsBalloonReleased() const
+{
+    const BalloonString* string = m_pBalloonStrings[GetCurrentSlot()];
+    return string != NULL ? string->IsReleased() : false;
+}
+
+// 0x0076F474 (name is ours)
+bool ToolBank::IsBalloonGone() const
+{
+    const BalloonString* string = m_pBalloonStrings[GetCurrentSlot()];
+    return string == NULL || (string->IsReleased() && string->m_ReleaseFrames == 0);
+}
+
+// 0x0076F4B8 (name is ours)
+bool ToolBank::HasKindFlag() const
+{
+    const u8* entry = static_cast<const u8*>(Func536114(&m_Keywords[GetCurrentSlot()].m_Name));
+    return entry != NULL && (entry[13] & 4) != 0;
+}
+
+// 0x0076F540 (name is ours)
+bool ToolBank::IsBalloon() const
+{
+    SvFgName item(m_Keywords[GetCurrentSlot()].m_Name);
+    return Func311840(&item) == TOOL_KIND_BALLOON;
+}

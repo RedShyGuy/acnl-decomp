@@ -15,7 +15,7 @@ public:
     virtual void vf_0x14(); // 0x00230370 slot 0x14 | virtual slot, introduced by HumanModel
     virtual ~NpcResetModel(); // 0x002305D4 slot 0x1C | slot vf_0x1C of HumanModel
     // 0x002305A4 slot 0x20 | slot vf_0x20 of HumanModel (deleting dtor)
-    virtual void vf_0x24(); // 0x002301FC slot 0x24 | virtual slot, introduced by HumanModel
-    virtual void vf_0x30(); // 0x002303F0 slot 0x30 | virtual slot, introduced by NpcModelBase
-    virtual void vf_0x34(); // 0x006AD00C slot 0x34 | virtual slot, introduced by NpcModelBase
+    void SetMtx(const nn::math::MTX34* mtx) override; // 0x002301FC slot 0x24
+    bool StartLoad(const stage::NpcInfo* info, u16 modelIndex) override; // 0x002303F0 slot 0x30
+    bool Unload() override; // 0x006AD00C slot 0x34
 };

@@ -11,5 +11,5 @@ public:
     NpcResetChairSimpleModel(); // ctor address unknown
     virtual ~NpcResetChairSimpleModel(); // 0x0033E810 slot 0x1C | slot vf_0x1C of HumanModel
     // 0x0033E800 slot 0x20 | slot vf_0x20 of HumanModel (deleting dtor)
-    virtual void vf_0x24(); // 0x0033E758 slot 0x24 | virtual slot, introduced by HumanModel
+    void SetMtx(const nn::math::MTX34* mtx) override; // 0x0033E758 slot 0x24
 };

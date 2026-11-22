@@ -1,4 +1,5 @@
 #include "Player/dPlayerLegsBank.h"
+#include "Player/dPlayerModel.h"
 #include "Bs/dBsPlayerMgr.h"
 
 #include "sead/seadSafeStringBase.h"
@@ -38,9 +39,9 @@ bool PlayerLegsBank::Initialize(const Keyword& keyword, u32 slot, bool isReady)
     }
     model->Read(0x10000, 0x30000, 0x20000);
     model->SetHeaps(GetVramAHeap(slot), GetVramBHeap(slot), NULL);
-    if (m_pUnknown4D0 != NULL) {
-        Func1CEEF0(static_cast<const nw::gfx::res::ResModelData*>(model->GetGraphicsFile().GetModels(0)),
-                   Func713778(m_pUnknown4D0), Func713788(m_pUnknown4D0), &keyword.m_UnknownC, 16);
+    if (m_pAppearance != NULL) {
+        PlayerModel::SetModelColors(static_cast<const nw::gfx::res::ResModelData*>(model->GetGraphicsFile().GetModels(0)),
+                   Func713788(m_pAppearance), Func713778(m_pAppearance), &keyword.m_UnknownC, 16);
     }
     if (isSocks) {
         textures->InitializeCgfx(allocator, NULL, true);
@@ -94,7 +95,7 @@ s32 PlayerLegsBank::LoadResourceSplit(const Keyword& keyword, u32 slot)
 }
 
 // 0x00272ED0 (name is ours)
-PlayerLegsBank::PlayerLegsBank() : m_pUnknown4D0(NULL)
+PlayerLegsBank::PlayerLegsBank() : m_pAppearance(NULL)
 {
 }
 
@@ -106,7 +107,7 @@ PlayerLegsBank::~PlayerLegsBank()
 }
 
 // 0x00272868 (name is ours)
-void PlayerLegsBank::RequestDraw()
+void PlayerLegsBank::RequestDraw(u32 /* sceneIdx */)
 {
     g3d::SkeletalModel* model = GetCurrentModel();
     if (model == NULL) {
@@ -118,7 +119,7 @@ void PlayerLegsBank::RequestDraw()
 // 0x002728BC (name is ours)
 bool PlayerLegsBank::SetColors(const ExchangeBankKeywordUnknown3* colors)
 {
-    if (m_pUnknown4D0 == NULL) {
+    if (m_pAppearance == NULL) {
         return false;
     }
     item::ResLoader* loader = GetLoader(GetCurrentSlot(), 0);
@@ -128,6 +129,6 @@ bool PlayerLegsBank::SetColors(const ExchangeBankKeywordUnknown3* colors)
     }
     const nw::gfx::res::ResModelData* model =
         static_cast<const nw::gfx::res::ResModelData*>(loader->GetGraphicsFile().GetModels(0));
-    Func1CEEF0(model, Func713778(m_pUnknown4D0), Func713788(m_pUnknown4D0), colors, 16);
+    PlayerModel::SetModelColors(model, Func713788(m_pAppearance), Func713778(m_pAppearance), colors, 16);
     return true;
 }

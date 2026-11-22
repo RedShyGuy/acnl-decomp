@@ -2,7 +2,8 @@
 #include "Npc/dNpcSimpleModel.h"
 
 // ctor address unknown
-NpcSimpleModel::NpcSimpleModel()
+// (the special NPCs build it inline with NpcModel(false, false, false), e.g. 0x001F1F28)
+NpcSimpleModel::NpcSimpleModel() : NpcModel(false, false, false)
 {
 }
 

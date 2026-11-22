@@ -4,6 +4,7 @@
 #include "sead/seadFixedSafeString.h"
 #include "sead/seadWFixedSafeString.h"
 #include "sead/seadFormatFixedSafeString.h"
+#include <cstring>
 
 // The functions of the SafeString classes and the copies of their template members (the name of the
 // file is ours).
@@ -363,3 +364,131 @@ template sead::WFixedSafeString<201>::~WFixedSafeString();
 // 0x00548AF8 (deleting dtor)
 template sead::WFixedSafeString<256>::~WFixedSafeString();
 } // namespace sead
+
+// 0x00812690 (name is ours)
+template <>
+s32 sead::BufferedSafeStringBase<char>::replaceStringImpl(char* dst, s32* length, s32 dstSize, const char* src,
+                                                         s32 srcLength, const SafeStringBase<char>& oldStr,
+                                                         const SafeStringBase<char>& newStr, bool* truncated)
+{
+    *truncated = false;
+    const s32 maxLength = dstSize - 1;
+    const char* oldTop = oldStr.getCString();
+    const s32 oldLength = oldStr.getLength();
+    if (oldLength == 0) {
+        // (nothing to replace: a copy)
+        if (dst != src) {
+            *truncated = dstSize < srcLength + 1;
+            if (*truncated) {
+                std::memcpy(dst, src, maxLength);
+                dst[maxLength] = 0;
+                if (length != NULL) {
+                    *length = maxLength;
+                }
+            } else {
+                std::memcpy(dst, src, srcLength + 1);
+                if (length != NULL) {
+                    *length = srcLength;
+                }
+            }
+        }
+        return 0;
+    }
+    const char* newTop = newStr.getCString();
+    const s32 newLength = newStr.getLength();
+    s32 count = 0;
+    if (dst == src && newLength > oldLength) {
+        // (in place and longer: the result length first, then backwards from the end)
+        s32 i = 0;
+        s32 j = 0;
+        while (i < srcLength) {
+            if (std::memcmp(src + i, oldTop, oldLength) == 0) {
+                j += newLength;
+                i += oldLength;
+            } else {
+                j++;
+                i++;
+            }
+            if (j > maxLength) {
+                *truncated = true;
+                break;
+            }
+        }
+        if (*truncated) {
+            dst[maxLength] = 0;
+            if (length != NULL) {
+                *length = maxLength;
+            }
+        } else {
+            dst[j] = 0;
+            if (length != NULL) {
+                *length = j;
+            }
+        }
+        i--;
+        j--;
+        while (i >= 0) {
+            if (std::memcmp(src + i - oldLength + 1, oldTop, oldLength) == 0) {
+                const s32 start = j - newLength;
+                s32 copyLength = maxLength - start - 1;
+                if (newLength < copyLength) {
+                    copyLength = newLength;
+                }
+                if (copyLength > 0) {
+                    std::memcpy(dst + j - newLength + 1, newTop, copyLength);
+                    count++;
+                }
+                j = start;
+                i -= oldLength;
+            } else {
+                if (maxLength > j) {
+                    dst[j] = src[i];
+                }
+                i--;
+                j--;
+            }
+        }
+        return count;
+    }
+    s32 i = 0;
+    s32 j = 0;
+    while (i < srcLength) {
+        if (std::memcmp(src + i, oldTop, oldLength) == 0) {
+            s32 copyLength = maxLength - j;
+            if (newLength < copyLength) {
+                copyLength = newLength;
+            }
+            if (copyLength > 0) {
+                std::memcpy(dst + j, newTop, copyLength);
+                count++;
+            } else if (newLength == 0) {
+                count++;
+            }
+            if (copyLength < newLength) {
+                *truncated = true;
+                dst[maxLength] = 0;
+                if (length != NULL) {
+                    *length = maxLength;
+                }
+                return count;
+            }
+            j += newLength;
+            i += oldLength;
+        } else {
+            if (maxLength <= j) {
+                *truncated = true;
+                dst[maxLength] = 0;
+                if (length != NULL) {
+                    *length = maxLength;
+                }
+                return count;
+            }
+            dst[j++] = src[i++];
+        }
+    }
+    dst[j] = 0;
+    if (length != NULL) {
+        *length = j;
+    }
+    return count;
+}

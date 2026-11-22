@@ -11,5 +11,5 @@ public:
     NpcBoardingSimpleModel(); // ctor address unknown
     virtual ~NpcBoardingSimpleModel(); // 0x00331D94 slot 0x1C | slot vf_0x1C of HumanModel
     // 0x00331D84 slot 0x20 | slot vf_0x20 of HumanModel (deleting dtor)
-    virtual void vf_0x24(); // 0x00331B84 slot 0x24 | virtual slot, introduced by HumanModel
+    void SetMtx(const nn::math::MTX34* mtx) override; // 0x00331B84 slot 0x24
 };

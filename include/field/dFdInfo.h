@@ -31,6 +31,10 @@ public:
     // the same sizes as variables (most code reads these from .rodata; libgarden: unitWorldSizeX etc.)
     static const s32 BLOCK_WORLD_SIZE_X;      // 512
     static const s32 BLOCK_WORLD_SIZE_Z;      // 512
+    static const f32 BLOCK_WORLD_SIZE_XF;      // 512.0 (names are ours, after the others)
+    static const f32 BLOCK_WORLD_SIZE_ZF;      // 512.0
+    static const f32 BLOCK_WORLD_SIZE_HALF_XF; // 256.0
+    static const f32 BLOCK_WORLD_SIZE_HALF_ZF; // 256.0
     static const f32 UNIT_WORLD_SIZE_XF;      // 32.0
     static const f32 UNIT_WORLD_SIZE_ZF;      // 32.0
     static const f32 UNIT_WORLD_SIZE_HALF_XF; // 16.0

@@ -12,7 +12,7 @@ PlayerBoardingModel::~PlayerBoardingModel()
 }
 
 // 0x002FAA24 slot 0x24 | virtual slot, introduced by HumanModel
-void PlayerBoardingModel::vf_0x24()
+void PlayerBoardingModel::SetMtx(const nn::math::MTX34*)
 {
 }
 

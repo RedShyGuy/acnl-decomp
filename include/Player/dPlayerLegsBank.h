@@ -3,6 +3,8 @@
 #include "decomp.h"
 #include "Exchange/dExchangeModelBank.h"
 #include "Item/dResLoader.h"
+
+struct SvPlayerAppearance;
 #include "Item/item_Api.h"
 
 // The bank of the legs of the player (class name from the RTTI; the member names are ours): the common legs model
@@ -26,12 +28,12 @@ public:
     virtual bool Finalize(const Keyword& keyword, u32 slot) override; // 0x00272D3C slot 0x1C
 
     // the shown model goes into the model list of the object 0x00951378 (at +0x12CA0)
-    void RequestDraw(); // 0x00272868
-    // the colors of the shown model: the two bytes of m_pUnknown4D0 and colors (false: no object or no model)
+    void RequestDraw(u32 sceneIdx); // (sceneIdx: not read, PlayerModel passes 0) 0x00272868
+    // the colors of the shown model: the two bytes of hair and eye color of m_pAppearance and colors (false: no appearance or no model)
     bool SetColors(const ExchangeBankKeywordUnknown3* colors); // 0x002728BC
 
     static const char* s_ModelPath;
 
-    const void* m_pUnknown4D0; // 0x4D0 (read by Initialize with Func713778/Func713788)
+    const SvPlayerAppearance* m_pAppearance; // 0x4D0 of the player (PlayerModel::Setup)
 };
 ASSERT_SIZE(PlayerLegsBank, 0x4D4);

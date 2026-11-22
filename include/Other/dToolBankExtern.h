@@ -62,3 +62,7 @@ u32 GetAxeDamage(const SvFgName* item); // 0x0076BE10
 bool Func76D69C(const SvFgName* item); // 0x0076D69C
 bool Func76D6C0(const SvFgName* item); // 0x0076D6C0
 bool Func76D600(const SvFgName* item); // 0x0076D600
+
+// the kind entry of an item (the table of the kinds of 0x00A193AC by byte 0x0F of the item parameters; NULL: none; its
+// first halfword is the tool animation of the players, Func6E61CC)
+const void* Func536114(const SvFgName* item); // 0x00536114

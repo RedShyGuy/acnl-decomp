@@ -3,6 +3,7 @@
 #include "decomp.h"
 #include "Exchange/dExchangeModelBank.h"
 #include "Item/dResLoader.h"
+#include "Sv/dSvPlayer.h"
 
 // The bank of the tops of the player (class name from the RTTI; the member names are ours): per slot the model file
 // (loader 0) and the textures (loader 1): the item file, or for items that carry a My Design the design (with the data of
@@ -25,14 +26,16 @@ public:
     virtual bool Initialize(const Keyword& keyword, u32 slot, bool isReady) override; // 0x002735D0 slot 0x18
     virtual bool Finalize(const Keyword& keyword, u32 slot) override; // 0x00273838 slot 0x1C
     // the shown model is drawn this frame (BsPlayerMgr::MODEL_LIST_TOPS)
-    void RequestDraw(); // 0x002731EC
+    void RequestDraw(u32 sceneIdx); // (sceneIdx: not read, PlayerModel passes 0) 0x002731EC
+    // the colors of the shown model with skinColor (false: no appearance or no model)
+    bool SetColors(const ExchangeBankKeywordUnknown3* skinColor); // 0x00273240
 
 private:
     // (inline) the item that is loaded for keyword
     void GetItem(SvFgName* item) const
     {
         if (Func76BB44(item) != 3) {
-            if (m_pUnknown4D0 == NULL || static_cast<const u8*>(m_pUnknown4D0)[38] != 0) {
+            if (m_pAppearance == NULL || m_pAppearance->playerOutfit.unk_0x20 != 0) {
                 *item = SvFgName(static_cast<SvFgName::ID>(0x2493));
             } else {
                 *item = SvFgName(static_cast<SvFgName::ID>(0x2494));
@@ -41,6 +44,6 @@ private:
     }
 
 public:
-    const void* m_pUnknown4D0; // 0x4D0 (also read by Initialize with Func713778/Func713788)
+    const SvPlayerAppearance* m_pAppearance; // 0x4D0 of the player (PlayerModel::Setup)
 };
 ASSERT_SIZE(PlayerTopsBank, 0x4D4);

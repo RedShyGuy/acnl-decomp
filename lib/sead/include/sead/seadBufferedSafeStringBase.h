@@ -114,6 +114,11 @@ public:
     }
     // appends length characters of src (length < 0: all; cut at the end of the buffer); the number appended
     DECOMP_NOINLINE s32 append(const SafeStringBase<T>& src, s32 length) { return overwriteAtImpl(-1, src, length); }
+    // every oldStr in src (srcLength characters) is replaced by newStr, the result goes to dst (dstSize characters with
+    // the null character; length: its length, optional; truncated: the result was cut); the number of replacements (the
+    // game calls it on the same buffer; name is ours)
+    static s32 replaceStringImpl(T* dst, s32* length, s32 dstSize, const T* src, s32 srcLength, const SafeStringBase<T>& oldStr,
+                                 const SafeStringBase<T>& newStr, bool* truncated);
     DECOMP_ALWAYS_INLINE s32 overwriteAtImpl(s32 at, const SafeStringBase<T>& src, s32 length)
     {
         s32 oldLength = this->getLength();

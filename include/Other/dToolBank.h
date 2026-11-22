@@ -249,6 +249,19 @@ public:
     {
         return static_cast<const ModelBank*>(this)->ModelBank::GetCurrentModel();
     }
+    // (copies of inline functions of the header for the game; called by PlayerModel)
+    // the world position of bone of the shown model (isCurved: in the curved world; false: no bone or model)
+    bool GetBonePosition(nn::math::VEC3* out, s32 bone, bool isCurved) const; // 0x0076F254
+    // position in the space of the shown model (isCurved: in the curved world; false: no model)
+    bool TransformByModel(nn::math::VEC3* out, const nn::math::VEC3* position, bool isCurved) const; // 0x0076F2F4
+    // the string of the balloon of the shown slot is released / it is released and gone or there is none
+    bool IsBalloonReleased() const; // 0x0076F454
+    bool IsBalloonGone() const; // 0x0076F474
+    // (bit 2 of byte 0x0D of the kind entry of the item of the shown slot, see Func536114: PlayerModel passes speed, frame
+    // and play mode of slot 0 to the tool only then; meaning unknown)
+    bool HasKindFlag() const; // 0x0076F4B8
+    // the item of the shown slot is a balloon (TOOL_KIND_BALLOON)
+    bool IsBalloon() const; // 0x0076F540
     // (inline) the animations of the shown slot (NULL without a shown model)
     g3d::MorphSkeletalAnim* GetMorphAnim()
     {

@@ -1,4 +1,5 @@
 #include "Player/dPlayerCapBank.h"
+#include "Player/dPlayerModel.h"
 #include "Bs/dBsPlayerMgr.h"
 
 // 0x0023D1C8 slot 0x10 (name is ours)
@@ -34,9 +35,9 @@ bool PlayerCapBank::Initialize(const Keyword& keyword, u32 slot, bool isReady)
     ExchangeBankKeywordUnknown3 unknownC = keyword.m_UnknownC;
     ssys::ma::HeapAllocator* allocator = GetAllocator(slot);
     item::ResLoader* model = GetLoader(slot, 0);
-    if (m_pUnknown4DC != NULL) {
-        Func1CEEF0(static_cast<const nw::gfx::res::ResModelData*>(model->GetGraphicsFile().GetModels(0)),
-                   keyword.m_Unknown10, Func713778(m_pUnknown4DC), &unknownC, 2);
+    if (m_pAppearance != NULL) {
+        PlayerModel::SetModelColors(static_cast<const nw::gfx::res::ResModelData*>(model->GetGraphicsFile().GetModels(0)),
+                   keyword.m_HairColor, Func713778(m_pAppearance), &unknownC, 2);
     }
     model->Read(0x10000, 0x30000, 0x20000);
     model->SetHeaps(GetVramAHeap(slot), GetVramBHeap(slot), NULL);
@@ -93,7 +94,7 @@ s32 PlayerCapBank::LoadResourceSplit(const Keyword& keyword, u32 slot)
 }
 
 // 0x0023D7F0 (name is ours)
-PlayerCapBank::PlayerCapBank() : m_pUnknown4DC(NULL)
+PlayerCapBank::PlayerCapBank() : m_pAppearance(NULL)
 {
 }
 
@@ -105,11 +106,29 @@ PlayerCapBank::~PlayerCapBank()
 }
 
 // 0x0023D0B4 (name is ours)
-void PlayerCapBank::RequestDraw()
+void PlayerCapBank::RequestDraw(u32 /* sceneIdx */)
 {
     g3d::SkeletalModel* model = GetCurrentModel();
     if (model == NULL) {
         return;
     }
     BsPlayerMgr::AddModel(BsPlayerMgr::MODEL_LIST_CAP, model);
+}
+
+// 0x0023D104 (name is ours)
+bool PlayerCapBank::SetColors(const ExchangeBankKeywordUnknown3* skinColor)
+{
+    if (m_pAppearance == NULL) {
+        return false;
+    }
+    item::ResLoader* loader = GetLoader(GetCurrentSlot(), 0);
+    if (loader->m_SetupResult == g3d::ResourceSet::SETUP_RESULT_NONE || !loader->m_GraphicsFile.IsValid() ||
+        loader->m_GraphicsFile.ptr()->models.count == 0) {
+        return false;
+    }
+    const nw::gfx::res::ResModelData* model =
+        static_cast<const nw::gfx::res::ResModelData*>(loader->GetGraphicsFile().GetModels(0));
+    PlayerModel::SetModelColors(model, m_Keywords[GetCurrentSlot()].m_HairColor, Func713778(m_pAppearance), skinColor,
+                                2);
+    return true;
 }

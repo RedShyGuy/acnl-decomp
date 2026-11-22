@@ -22,6 +22,6 @@ public:
     virtual bool Initialize(const Keyword& keyword, u32 slot, bool isReady) override; // 0x002A2220 slot 0x18
     virtual bool Finalize(const Keyword& keyword, u32 slot) override; // 0x002A2410 slot 0x1C
     // the shown model is drawn this frame (BsPlayerMgr::MODEL_LIST_SHOES)
-    void RequestDraw(); // 0x002A20F8
+    void RequestDraw(u32 sceneIdx); // (sceneIdx: not read, PlayerModel passes 0) 0x002A20F8
 };
 ASSERT_SIZE(PlayerShoesBank, 0x4A8);

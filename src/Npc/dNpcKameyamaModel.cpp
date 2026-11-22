@@ -7,7 +7,7 @@ NpcKameyamaModel::NpcKameyamaModel()
 }
 
 // 0x002BB3E0 slot 0x00 | virtual slot, introduced by HumanModel
-void NpcKameyamaModel::vf_0x00()
+bool NpcKameyamaModel::PlayAnim(u16, u32, u32, f32, f32, f32, bool*, u8)
 {
 }
 

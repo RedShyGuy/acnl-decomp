@@ -3,7 +3,8 @@
 
 namespace esc {
 // ctor address unknown
-esc::NpcEscapeModel::NpcEscapeModel()
+// (built inline with NpcModel(true, true, true) in AcNpcEscape, ModuleMiniGame0.cro +0x00E838)
+esc::NpcEscapeModel::NpcEscapeModel() : NpcModel(true, true, true)
 {
 }
 
