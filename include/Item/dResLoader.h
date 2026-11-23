@@ -2,6 +2,9 @@
 
 #include "decomp.h"
 #include "g3d/dResourceLoader.h"
+#include "nw/ut/internal/ut_LinkListImpl.h"
+
+struct SvMyDesign;
 
 class SvFgName;
 namespace sead {
@@ -29,9 +32,8 @@ public:
     // (the extra part freed first, then ResourceLoader::Unload)
     void Release(); // 0x005376D4
 
-    s32 unknown0; // 0x108
-    s32 unknown1; // 0x10C
-    s32 unknown2; // 0x110
+    nw::ut::LinkListNode m_DesignNode; // 0x108 in g_DesignLoaders while m_pDesign is shown (names are ours; libgarden: unknown0/1)
+    SvMyDesign* m_pDesign;             // 0x110 the design of the textures (libgarden: unknown2)
 };
 ASSERT_SIZE(ResLoader, 0x114);
 } // namespace item

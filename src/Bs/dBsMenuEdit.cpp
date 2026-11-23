@@ -2,6 +2,9 @@
 #include "Other/dMenuBase.h"
 #include "Bs/dBsMenuEdit.h"
 
+// 0x0098C2B8
+SvMyDesign BsMenuEdit::s_EditDesign;
+
 // ctor address unknown
 BsMenuEdit::BsMenuEdit()
 {

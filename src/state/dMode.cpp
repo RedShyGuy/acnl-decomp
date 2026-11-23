@@ -278,6 +278,8 @@ template const char* state::Mode<BsTelop>::GetName(Func func) const;
 template const char* state::Mode<Caution>::GetName(Func func) const;
 // 0x0082D1A0 slot 0x08
 template const char* state::Mode<Palette>::GetName(Func func) const;
+// 0x0081C210
+template void state::Mode<Palette>::Change(Func func);
 // 0x0082D218 slot 0x08
 template const char* state::Mode<BsMenuBg>::GetName(Func func) const;
 // 0x0082D290 slot 0x08

@@ -45,3 +45,7 @@ struct SvPersonalId {
 };
 ASSERT_SIZE(SvPersonalId, 0x2E);
 
+// (game code, not decompiled yet; names are ours) a copy of a town id; two personal ids are the same player (player id, name,
+// gender and town id)
+void AssignTownId(SvTownId* town, const SvTownId* other); // 0x0030F69C
+bool IsSamePersonalId(const SvPersonalId* id, const SvPersonalId* other); // 0x002FEBC4

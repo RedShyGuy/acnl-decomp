@@ -19,6 +19,7 @@
 #include "ssys/ma/ma_Math.h"
 #include "stage/stage_Api.h"
 #include "Sv/dSvHouse.h"
+#include "Sv/dSvMyDesign.h"
 #include "Sc/dScStageExtern.h"
 #include "demo/demo_Extern.h"
 #include "List/dSelectBase.h"
@@ -1533,15 +1534,15 @@ s32 BsFtrMgr::FindPlaceOfMyDesign(CreateFtrArg* out, u32 item, u32 design, u32 u
     if (player == NULL || !Func304E74(&probe, design)) {
         return 4;
     }
-    const u8* data = static_cast<const u8*>(Func76AD48(&probe));
+    const SvMyDesign* data = static_cast<const SvMyDesign*>(Func76AD48(&probe));
     if (data == NULL) {
         return 4;
     }
     u32 id = item;
-    if (Func70C880(data)) {
+    if (data->IsWearable()) {
         // the clothes and hats of the shape of the design (the wall versions follow 7 later)
-        if (data[105] <= 5) {
-            switch (Func70C870(data)) {
+        if (data->patternType <= 5) {
+            switch (data->GetClothesType()) {
             case 0:
                 id = SvFgName::NAME_CUSTOM_DESIGN_LONG_SLEEVE_DRESS;
                 if (isWall) {
@@ -1579,8 +1580,8 @@ s32 BsFtrMgr::FindPlaceOfMyDesign(CreateFtrArg* out, u32 item, u32 design, u32 u
                 }
                 break;
             }
-        } else if (static_cast<u32>(data[105] - 6) <= 1) {
-            const u32 hat = Func70C85C(data);
+        } else if (static_cast<u32>(data->patternType - 6) <= 1) {
+            const u32 hat = data->GetHatType();
             if (hat == 6) {
                 id = SvFgName::NAME_CUSTOM_DESIGN_HORNED_HAT;
             } else if (hat == 7) {

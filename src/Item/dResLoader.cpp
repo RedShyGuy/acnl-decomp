@@ -2,7 +2,7 @@
 
 namespace item {
 // 0x0053788C (name after the RTTI)
-item::ResLoader::ResLoader() : unknown0(0), unknown1(0), unknown2(0)
+item::ResLoader::ResLoader() : m_pDesign(NULL)
 {
 }
 

@@ -2,6 +2,7 @@
 
 #include "decomp.h"
 #include "Other/dMenuBase.h"
+#include "Sv/dSvMyDesign.h"
 #include "state/dMode.h"
 
 // RTTI 10BsMenuEdit @ 0x008CAFC4
@@ -17,4 +18,7 @@ public:
     virtual oml::framework::Result Finalize(); // 0x00197A40 slot 0x18 | slot vf_0x18 of oml::framework::Process
     virtual oml::framework::Result Calc(); // 0x00197654 slot 0x24 | slot vf_0x24 of oml::framework::Process
     virtual oml::framework::Result Draw(); // 0x00196C0C slot 0x30 | slot vf_0x30 of oml::framework::Process
+
+    // the design being edited (a copy; the palette and the pickers work on it; name is ours)
+    static SvMyDesign s_EditDesign;
 };

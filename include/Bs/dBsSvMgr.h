@@ -53,7 +53,6 @@ void SvCopyPlayer(SvPlayer* dst, const SvPlayer* src); // 0x006BD94C
 void Func283100(netgame::PlayerNo player); // 0x00283100
 // (called by the steps after the network error, back in the own town and after the game start)
 void Func2932C4(); // 0x002932C4
-void Func6ABAE4(); // 0x006ABAE4
 void Func17D478(); // 0x0017D478
 void Func293988(); // 0x00293988
 void Func6F0C80(s32 a, s32 b); // 0x006F0C80

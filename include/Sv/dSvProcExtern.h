@@ -146,4 +146,3 @@ void Func24AAE4(SvTownDataUnk1E448* data); // 0x0024AAE4
 struct SvMyDesign;
 void Func118A8C(SvTime* data); // 0x00118A8C (Thumb)
 void Func1DF9E8(SvSharedData* data); // 0x001DF9E8
-void Func1B44E0(SvMyDesign* design, u32 value); // 0x001B44E0

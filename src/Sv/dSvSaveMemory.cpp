@@ -420,7 +420,7 @@ void SvGardenData::SetupNewTown()
     townData.unk_0xEE2C.Func10A2C8();
     townData.museum.ClearExhibits2();
     Func118A7C(&townData.unk_0x1CA84);
-    Func1B44E0(&townData.townFlag, 22);
+    townData.townFlag.ResetToTemplate(22);
 }
 
 // 0x005CBD3C (name is ours)

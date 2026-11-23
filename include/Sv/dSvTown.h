@@ -108,6 +108,8 @@ ASSERT_SIZE(SvTownDataUnkEE28, 0x4);
 
 struct SvTownDataUnkEF14 {
     SvTownDataUnkEF14(); // 0x001E0738
+    // (game code, not decompiled yet; name is ours) the display of index (the first one for 8 or more)
+    SvMyDesign* GetDesign(u32 index); // 0x00304CE0
 
     /* 0x0000 */ SvMyDesign ableDisplayPattern[8];
 };

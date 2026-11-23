@@ -129,11 +129,6 @@ bool Func76D474(const SvFgName* item); // 0x0076D474
 bool Func304E74(SvFgName* item, u32 design); // 0x00304E74
 // the data of the custom design of the item (byte 105: the kind of the design; NULL: none)
 const void* Func76AD48(const SvFgName* item); // 0x0076AD48
-// queries of the kind of a custom design (inline copies; meanings after the code): clothes or a hat (kinds below 9 or
-// 12) / the shape of clothes (kinds 0..5, else 10) / the kind of a hat (kinds 6, 7, else 11)
-bool Func70C880(const void* design); // 0x0070C880
-u8 Func70C870(const void* design); // 0x0070C870
-u8 Func70C85C(const void* design); // 0x0070C85C
 // the weather of the day (the index of the weather program of the TV, 0..10)
 u8 Func630B28(); // 0x00630B28
 // the stage allows talking to furniture (meaning unknown)

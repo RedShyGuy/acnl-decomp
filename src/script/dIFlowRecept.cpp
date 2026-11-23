@@ -2033,7 +2033,7 @@ s32 IFlowRecept::EventMenu3(libms::Flow* flow, const libms::FlowNodeEvent& node)
                     SvDesignStand* stand = &GetGardenData()->strcData.stands[g_ModuleStandIndex];
                     SvPlayer* player = SvGetCurrentPlayer();
                     if (player != NULL && stand != NULL) {
-                        Func1B4F6C(Func20C4C8(player->patterns, BsMenuMgr::s_Unknown950DB0), stand);
+                        static_cast<SvMyDesign*>(Func20C4C8(player->patterns, BsMenuMgr::s_Unknown950DB0))->Assign(&stand->pattern);
                     }
                 }
                 m_EventState++;

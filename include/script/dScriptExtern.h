@@ -163,7 +163,6 @@ extern void* g_pObject94FD54;
 extern u8 g_Byte0x951155;
 extern u8 g_Byte0xAAEAD4;
 
-void Func1B4F6C(void* design, SvDesignStand* stand); // 0x001B4F6C
 const s32* Func1BB904(); // 0x001BB904
 void Func1E0818(u32 value); // 0x001E0818
 void Func1E0870(u32 value); // 0x001E0870

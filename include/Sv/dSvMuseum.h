@@ -12,6 +12,8 @@
 struct SvMuseumExhibit {
     // (game code, not decompiled yet; the constructor of the save data builds it)
     SvMuseumExhibit(); // 0x001B65E4
+    // (game code, not decompiled yet; name is ours) exhibitPoster
+    SvMyDesign* GetPoster(); // 0x001B63C4
 
     /* 0x0000 */ s8 playerIndex; // ctor sets to 0xFF (-1: none)
     /* 0x0001 */ u8 pad_0x1;
