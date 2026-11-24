@@ -38,4 +38,14 @@ public:
     void CheckFriendOnline(); // 0x006D8D38 | libgarden [tier A]
     void State_Wait(); // 0x006D8F5C | libgarden [tier A]
     BsMenuTab(); // 0x006D98E0 | libgarden [tier A]
+    // (not decompiled yet; name is ours) called by BsMenuMgr::Reset
+    void Func6D93D0(); // 0x006D93D0
+
+    u8 _unknown38[0x1910 - 0x38];  // 0x0038
+    bool m_IsBgShown;              // 0x1910 the background of the menus is shown (set by BsMenuMgr every frame; name is ours)
+    u8 _unknown1911[5];            // 0x1911
+    s8 m_Unknown0x1916;            // 0x1916 (read by BsMenuMgr::Func6D3334)
+    u8 _unknown1917[0x19B8 - 0x1917]; // 0x1917
 };
+ASSERT_OFFSET(BsMenuTab, m_IsBgShown, 0x1910);
+ASSERT_SIZE(BsMenuTab, 0x19B8);

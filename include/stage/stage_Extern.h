@@ -137,6 +137,7 @@ enum StructureId : u8
     STRUCTURE_NOOKLING_STORES = 0x85,
     STRUCTURE_GARDENING_STORE = 0x86,
     STRUCTURE_SHAMPOODLE = 0x88,
+    STRUCTURE_POST_OFFICE = 0x8C,
     STRUCTURE_PHOTO_BOOTH = 0x8D,
     STRUCTURE_MAIN_STREET_LAMP = 0x8E,
     // the 24 bridges 0x90..0xA7: six designs (cobblestone, suspension, brick, modern, zen, fairy-tale) with the
@@ -163,6 +164,9 @@ bool IsBridgeStructure(u32 structure); // 0x006CD484 (name is ours)
 bool IsTownHallStructure(u8 structure); // 0x006CD4A8
 bool IsStationStructure(u8 structure); // 0x006CD4CC
 u8 GetTownHallStructure(); // 0x006CC580
+// out to the town in front of the town hall / to Main Street in front of the post office (names are ours)
+void TransitionToTownHall(); // 0x00695138
+void TransitionToPostOffice(); // 0x006951F4
 u8 GetStationStructure(); // 0x006CC734
 bool IsPlayerHouseStructure(u8 structure); // 0x006CB82C
 // the model name of the Nookling General Stores on Main Street ("shop" .. "depart")

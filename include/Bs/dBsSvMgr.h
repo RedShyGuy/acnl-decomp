@@ -527,6 +527,9 @@ public:
     static u8 s_Unknown9516D5;
     // the file of the messages ("SYS_Save")
     static const char* s_MessageFile;
+    // (names are ours) the message files of the errors (read by other menus as well)
+    static const char* s_ErrorFile;
+    static const char* s_NetworkFile;
     // the instance and the mode the next "Wait" changes to
     static BsSvMgr* s_pInstance;
     static Func s_NextMode;

@@ -30,6 +30,8 @@ struct TouchState
 
     // held for at least 3 frames (game code that is not decompiled yet; name is ours)
     bool IsHeld() const; // 0x001B7ABC
+    // (game code; called by BsMenuMgr::Calc while BsMenuMgr::m_IsCancel is set; name is ours)
+    void Func1B78E8(); // 0x001B78E8
 };
 ASSERT_SIZE(TouchState, 0x1E);
 

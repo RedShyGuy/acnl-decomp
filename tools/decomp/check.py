@@ -1005,11 +1005,19 @@ def make_fuzzy_pair(mem, db, starts, names, by_source, by_name, variables=None):
     def pair(data, size, syminfo, addr, osize, name=None, this_offset=0, is_thumb=False):
         structor = is_ctor_dtor(name)
         f_mine = mine_features(data, size, syminfo, structor, is_thumb=is_thumb)
+        pmf_base_state['allow'], pmf_base_state['used'] = True, False
         f_orig = orig_features(addr, osize, structor, this_offset, f_mine['calls'])
+        if pmf_base_state['used']:
+            pmf_base_state['allow'] = False
+            f_other = orig_features(addr, osize, structor, this_offset, f_mine['calls'])
+            pmf_base_state['allow'] = True
+            if fuzzy.compare(f_mine, f_other)[0] > fuzzy.compare(f_mine, f_orig)[0]:
+                f_orig = f_other
         inline_expand(f_mine, f_orig)
         if name and '::~' in name:
             fuzzy.ignore_dtor_vptr(f_mine, f_orig)
         ignore_static_init(f_mine, f_orig)
+        reconcile_pmf_consts(f_mine, f_orig)
         return f_mine, f_orig
 
     def mine_features(data, size, syminfo, structor=False, depth=0, is_thumb=False):
@@ -1039,6 +1047,12 @@ def make_fuzzy_pair(mem, db, starts, names, by_source, by_name, variables=None):
             if not info:
                 return None
             name, typ, secname, _, value = info
+            if name.startswith('.LTHUNK') and secname.startswith('.text.'):
+                # GCC's local alias of the target of a thunk (`sub r0, r0, #N; b .LTHUNKn`): the function of
+                # its section
+                base = by_name.get(norm(names.get(secname[6:], secname[6:])))
+                if base is not None:
+                    return orig_fn((base & ~1) + value)
             if secname.startswith('.text.') and (typ == 3 or typ == 0 and value):
                 # hand-written assembly branching into the middle of another function (a local label
                 # there or its section symbol): that function's address plus the offset
@@ -1182,6 +1196,40 @@ def make_fuzzy_pair(mem, db, starts, names, by_source, by_name, variables=None):
             for k in dtors[:atexits]:
                 del f_orig['consts'][k]
 
+    # whether orig_word may read a base literal that starts with 0 as a constant base (see pmf_block): a wide ""
+    # in front of other data looks the same, so pair() tries both readings when it happened
+    pmf_base_state = {'allow': True, 'used': False}
+
+    def pmf_block(w):
+        """whether member function pointers {function, 0} follow the word at w within 32 bytes"""
+        for a in range(w, min(w + 32, mem.ro[1] - 7), 4):
+            f = mem.u32(a)
+            if mem.u32(a + 4) == 0 and mem.in_text(f) and (f in start_set or f in addr_name):
+                return True
+        return False
+
+    def reconcile_pmf_consts(f_mine, f_orig):
+        """ARMCC loads the member function pointers of Change() & co. through the shared base literal of
+        its file (ldm from base + offset); when that base is a variable of the sources, the two words
+        count as a global load. GCC loads the function from its literal pool. A load of the words
+        {function, 0} from .rodata in the original is that constant, if our function has it as one
+        (only then: a real table of member function pointers is loaded by both)."""
+        mem_o = f_orig['mem']
+        for key in [k for k in mem_o if k[0] == 'L' and k[1] == 'w' and isinstance(k[2], tuple)
+                    and k[2][0] == 'g']:
+            a = key[2][1]
+            if a % 4 or not mem.ro[0] <= a < mem.ro[1] - 7 or key not in mem_o:
+                continue
+            f = mem.u32(a)
+            if mem.u32(a + 4) != 0 or not mem.in_text(f) or not (f in start_set or f in addr_name):
+                continue
+            fk = orig_fn(f)
+            if f_mine['consts'][fk] <= f_orig['consts'][fk] or key in f_mine['mem']:
+                continue
+            del mem_o[key]
+            mem_o.pop(('L', 'w', ('g', a + 4)), None)
+            f_orig['consts'][fk] += 1
+
     def pc_relative_literals(addr, n_orig):
         """literal index -> pc of the add that turns it into an address: ARMCC's position independent
         addressing ldr rX, =offset; add rY, pc, rX (the C library)"""
@@ -1273,6 +1321,12 @@ def make_fuzzy_pair(mem, db, starts, names, by_source, by_name, variables=None):
                     return ('rconst', w)
                 s = mem_cstr(mem, w)
                 if not s and mem.mem[w - mem.base] == 0:
+                    if (pmf_base_state['allow'] and w % 4 == 0 and w not in variable_addresses
+                            and pmf_block(w)):
+                        pmf_base_state['used'] = True
+                        # the shared base literal of a file whose first word is 0 (a float, a null member
+                        # function pointer), with the member function pointers of Change() behind it
+                        return ('rconst', w)
                     return ('str', '')                     # ""
                 if s:
                     return ('str', s)

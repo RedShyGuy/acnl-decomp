@@ -6,6 +6,15 @@
 // 0x00AAFF18
 UnkAAFF18 g_UnkAAFF18;
 
+// 0x00725230 (name is ours)
+SvPlayerInventory::ItemAppearance SvPlayerInventory::GetAppearance(u32 index) const
+{
+    if (index < SIZE) {
+        return static_cast<ItemAppearance>(appearances[index]);
+    }
+    return ITEM_APPEARANCE_DEFAULT;
+}
+
 // 0x007250DC | libgarden [tier A]
 const SvFgName* SvPlayerInventory::GetItem(unsigned int index, ItemAppearance* pAppearance) const
 {

@@ -124,20 +124,7 @@ class WordFix;
 class ITalkRecept;
 } // namespace script
 
-// the value given to the process of the flow event 100 (Func1A9920 sets it up; 100 bytes)
-struct FlowProcessArg
-{
-    u32 _unknown0x0;  // 0x00
-    u32 param;        // 0x04
-    u32 arg0;         // 0x08
-    u32 arg1;         // 0x0C
-    u32 _unknown0x10; // 0x10
-    s32 result;       // 0x14 read by the branch 155
-    u8 _unknown0x18[0x4C];
-};
-ASSERT_SIZE(FlowProcessArg, 0x64);
-extern FlowProcessArg g_FlowProcessArg;
-void InitFlowProcessArg(FlowProcessArg* arg); // 0x001A9920
+// (the value given to the common dialog of the flow event 100 is DialogTextRequest g_DialogTextRequest, Other/dComDialogA.h)
 
 // an object of a CRO module (the imports 0x00150280.. are thunks into it)
 struct FlowModuleObject
@@ -172,6 +159,8 @@ void Func1FE478(u32 kind, script::WordFix<33>* word); // 0x001FE478
 void* Func20C4C8(SvMyDesign* designs, u32 index); // 0x0020C4C8
 // (a copy of Func20C4C8 that returns the design: designs[index], designs for an index of 10 or more)
 SvMyDesign* Func713388(SvMyDesign* designs, u32 index); // 0x00713388
+// (a copy) the design of a place of the order of the designs (SvPlayer::patternOrder behind the designs)
+u8 Func7133A0(SvMyDesign* designs, u32 slot); // 0x007133A0
 s32 Func23C368(u32 value); // 0x0023C368
 bool Func23CB00(); // 0x0023CB00
 bool Func23CB14(u32* value); // 0x0023CB14

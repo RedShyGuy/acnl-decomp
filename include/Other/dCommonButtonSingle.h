@@ -39,7 +39,7 @@ public:
     void PlayOkSound() override { SoundMgr::PlaySound(m_SeOk, 0.0f); } // 0x00721270 slot 0x38
 
     // the archive of the layouts of the buttons (once for all buttons)
-    static void LoadArchive(); // 0x002E0998
+    static bool LoadArchive(); // 0x002E0998
     // the layout with the two fonts of the text; the button starts out of the screen
     bool Setup(const char* fontName, const nw::font::Font* font, const char* fontName2, const nw::font::Font* font2,
                bool unused); // 0x002E0A64

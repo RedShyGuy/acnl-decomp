@@ -2001,7 +2001,7 @@ void BsMenuEdit::Enter_ProOut()
 void BsMenuEdit::State_NameInput()
 {
     // the keyboard for the title
-    if (g_Unknown951658 != NULL || m_pKeyboard != NULL) {
+    if (BsSkb::s_pInstance != NULL || m_pKeyboard != NULL) {
         if (m_pKeyboard != NULL && sys::g_IsFinished) {
             m_pKeyboard->OnClose();
             m_pKeyboard = NULL;
@@ -2047,7 +2047,7 @@ void BsMenuEdit::Enter_NameInput()
     sys::g_IsBufferOwned = false;
     m_pKeyboard = static_cast<BsSkb*>(ProcMgr::Create(PROC_BS_SKB, this, 0, PROC_TYPE_BASE));
     if (m_pKeyboard != NULL) {
-        m_pKeyboard->m_Unknown0x1148 = false;
+        m_pKeyboard->m_IsResultUsed = false;
     }
 }
 
@@ -2068,7 +2068,7 @@ void BsMenuEdit::Enter_FirstNoticeIn()
     arg.pFile = MESSAGE_FILE;
     arg.labels[0] = s_EditNoticeLabels[0][m_Notice];
     arg.labels[3] = s_EditNoticeLabels[1][m_Notice];
-    arg._unknown0x38 = true;
+    arg.isCentered = true;
     arg.isLast = false;
     if (BsCommonDialog::GetInstance() == NULL) {
         BsMenuMgr::Func6D406C(true);
@@ -2076,7 +2076,7 @@ void BsMenuEdit::Enter_FirstNoticeIn()
     }
     if (s_EditNoticeLabels[0][m_Notice + 1] == -1) {
         arg.isLast = true;
-        arg.se = SE_SYS_DECIDE_L;
+        arg.okSe = SE_SYS_DECIDE_L;
     }
     BsCommonDialog::GetInstance()->ShowNext();
 }
@@ -2085,7 +2085,7 @@ void BsMenuEdit::Enter_FirstNoticeIn()
 void BsMenuEdit::State_FirstNotice()
 {
     if (BsCommonDialog::GetInstance() != NULL) {
-        if (BsCommonDialog::GetInstance()->IsWaiting()) {
+        if (BsCommonDialog::GetInstance()->IsIdle()) {
             m_Notice++;
             if (s_EditNoticeLabels[0][m_Notice] != -1) {
                 Change(&BsMenuEdit::State_FirstNoticeIn);
@@ -2124,10 +2124,10 @@ void BsMenuEdit::Enter_CancelConfirmIn()
     arg.labels[3] = LABEL_CANCEL_CONFIRM_NO;
     arg.labels[0] = LABEL_CANCEL_CONFIRM;
     arg.labels[1] = LABEL_CANCEL_CONFIRM_YES;
-    arg._unknown0x38 = true;
+    arg.isCentered = true;
     arg.isLast = true;
-    arg._unknown0x3A = false;
-    arg.se = SE_SYS_DECIDE_QUIT;
+    arg.isIconShown = false;
+    arg.okSe = SE_SYS_DECIDE_QUIT;
     BsMenuMgr::Func6D406C(true);
     m_IsComButtonDisabled = true;
 }

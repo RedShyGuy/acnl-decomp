@@ -48,6 +48,14 @@ public:
     void SetButtonsVisible(bool visible); // 0x002CD1D0
     // the disabled look of the button index (it is inactive then)
     void SetButtonDisabled(s32 index, bool disabled); // 0x002CD23C
+    // (copy for the game) the index of the button chosen (2: none yet)
+    DECOMP_EMIT_COPY DECOMP_NOINLINE u8 GetDecidedIndex() const // 0x0071FBC8
+    {
+        if (m_pCurrent != NULL && IsSelectOkDone()) {
+            return m_pCurrent->m_Index;
+        }
+        return 2;
+    }
     // (copy for the game) the buttons come in or go out
     DECOMP_EMIT_COPY DECOMP_NOINLINE bool IsBusy() const // 0x0071FB44
     {

@@ -17,4 +17,8 @@ public:
     virtual oml::framework::Result Finalize(); // 0x00225838 slot 0x18 | slot vf_0x18 of oml::framework::Process
     virtual oml::framework::Result Calc(); // 0x00225798 slot 0x24 | slot vf_0x24 of oml::framework::Process
     virtual oml::framework::Result Draw(); // 0x00225624 slot 0x30 | slot vf_0x30 of oml::framework::Process
+
+    // (not decompiled yet; names are ours) called by BsMenuMgr: outside / the room is shown (every frame)
+    void Func2258A8(); // 0x002258A8
+    void Func225828(s8 isShown); // 0x00225828
 };

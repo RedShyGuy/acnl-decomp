@@ -8,6 +8,15 @@
 #include "script/dWordRes.h"
 
 namespace script {
+// 0x00894208
+const SeID DialogCompo::s_ButtonSes[5][2] = {
+    {SE_SYS_CANCEL, SE_SYS_DECIDE_L},
+    {SE_SYS_DECIDE_L, SE_SYS_DECIDE},
+    {SE_SYS_DECIDE_QUIT, SE_SYS_CANCEL},
+    {SE_SYS_CANCEL, SE_SYS_RETURN_TITLE},
+    {SE_SYS_CANCEL, SE_SYS_DECIDE_QUIT},
+};
+
 // the arguments of the dialog texts (copied and completed)
 // 0x008941D8
 const DialogCompo::Arg DialogCompo::s_IndexArg = {"SYS_2D_Dialog_Text", 0, -1, NULL, NULL, 5};
@@ -82,7 +91,7 @@ void DialogCompo::Compose(const Arg& arg)
     m_Info.values[0] = 0;
     m_Info.values[1] = 0;
     m_Info.kind = -1;
-    m_Info.unknown8 = 0;
+    m_Info.values[2] = 0;
     m_Info.flag = -1;
     m_Info.value = 5;
     m_Attribute.Clear();
@@ -136,7 +145,7 @@ void DialogCompo::Compose(const Arg& arg)
     m_Info.values[0] = 0;
     m_Info.values[1] = 0;
     m_Info.kind = -1;
-    m_Info.unknown8 = 0;
+    m_Info.values[2] = 0;
     m_Info.flag = -1;
     m_Info.value = 5;
     const char16* text = static_cast<const IWord&>(m_Text).GetWord();

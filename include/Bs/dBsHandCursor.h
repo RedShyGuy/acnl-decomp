@@ -36,7 +36,8 @@ public:
     nn::math::VEC2 m_Move;        // 0x4C8 non-zero while the cursor moves (name is ours)
     bool m_Unknown0x4D0;          // 0x4D0
     bool m_IsEnabled;             // 0x4D1 (name is ours)
-    u8 m_Unknown0x4D2[5];         // 0x4D2
+    u8 m_HandMode;                // 0x4D2 BsMenuMgr::m_HandMode (copied by BsMenuMgr::Calc; name is ours)
+    u8 m_Unknown0x4D3[4];         // 0x4D3
     bool m_Unknown0x4D7;          // 0x4D7 (set while a scroll bar is moved with the cursor keys)
 };
 ASSERT_OFFSET(BsHandCursor, m_Position, 0x4C0);

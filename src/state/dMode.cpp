@@ -120,6 +120,8 @@ template const char* state::Mode<BsMenuItem>::GetName(Func func) const;
 template const char* state::Mode<BsMenuMain>::GetName(Func func) const;
 // 0x0082A950 slot 0x08
 template const char* state::Mode<ComDialogA>::GetName(Func func) const;
+// 0x008178FC
+template void state::Mode<ComDialogA>::Change(Func func);
 // 0x0082A9C8 slot 0x08
 template const char* state::Mode<BsMenuChest>::GetName(Func func) const;
 // 0x0082AAB8 slot 0x08
@@ -154,6 +156,8 @@ template void state::Mode<ProButtonNode>::Change(Func func);
 template const char* state::Mode<SetDateTimeBg>::GetName(Func func) const;
 // 0x0082B1C0 slot 0x08
 template const char* state::Mode<BsCommonDialog>::GetName(Func func) const;
+// 0x00818794
+template void state::Mode<BsCommonDialog>::Change(Func func);
 // 0x0082B238 slot 0x08
 template const char* state::Mode<BsMenuMyDesign>::GetName(Func func) const;
 // 0x0082B2B0 slot 0x08
@@ -278,6 +282,8 @@ template const char* state::Mode<Fade>::GetName(Func func) const;
 template const char* state::Mode<Wipe>::GetName(Func func) const;
 // 0x0082CFC0 slot 0x08
 template const char* state::Mode<BsSkb>::GetName(Func func) const;
+// 0x0081BFF8
+template void state::Mode<BsSkb>::Change(Func func);
 // 0x0082D038 slot 0x08
 template const char* state::Mode<BsSvMgr>::GetName(Func func) const;
 // 0x0082D0B0 slot 0x08
@@ -290,6 +296,8 @@ template const char* state::Mode<Palette>::GetName(Func func) const;
 template void state::Mode<Palette>::Change(Func func);
 // 0x0082D218 slot 0x08
 template const char* state::Mode<BsMenuBg>::GetName(Func func) const;
+// 0x0081C318
+template void state::Mode<BsMenuBg>::Change(Func func);
 // 0x0082D290 slot 0x08
 template const char* state::Mode<BsSvDemo>::GetName(Func func) const;
 // 0x0082D308 slot 0x08

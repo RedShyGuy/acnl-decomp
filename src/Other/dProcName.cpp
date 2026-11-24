@@ -391,24 +391,162 @@ extern const ProcName PROC_BS_TITLE = static_cast<ProcName>(530);
 extern const ProcName PROC_BS_SV_MGR = static_cast<ProcName>(532);
 // 0x0088833C
 extern const ProcName PROC_BS_MENU_MGR = static_cast<ProcName>(533);
+// 0x0088833E
+extern const ProcName PROC_BS_HAND_CURSOR = static_cast<ProcName>(534);
+// 0x00888340
+extern const ProcName PROC_BS_MENU_MAIN = static_cast<ProcName>(535);
+// 0x00888342
+extern const ProcName PROC_BS_MENU_TAB = static_cast<ProcName>(536);
+// 0x00888344
+extern const ProcName PROC_BS_MENU_MAP = static_cast<ProcName>(537);
+// 0x00888352
+extern const ProcName PROC_BS_MENU_ITEM = static_cast<ProcName>(544);
+// 0x00888354
+extern const ProcName PROC_BS_MENU_BOOK = static_cast<ProcName>(545);
+// 0x00888356
+extern const ProcName PROC_BS_MENU_MY_DESIGN = static_cast<ProcName>(546);
+// 0x00888358
+extern const ProcName PROC_BS_MENU_MY_DESIGN_SELECT = static_cast<ProcName>(547);
+// 0x0088835A
+extern const ProcName PROC_BS_MENU_MY_DESIGN_KEEP = static_cast<ProcName>(548);
+// 0x0088835C
+extern const ProcName PROC_BS_MENU_PASSPORT = static_cast<ProcName>(549);
+// 0x0088835E
+extern const ProcName PROC_BS_MENU_PASSPORT_FOR_FRIEND = static_cast<ProcName>(550);
+// 0x00888360
+extern const ProcName PROC_BS_MENU_PASSPORT_FOR_GHOST = static_cast<ProcName>(551);
+// 0x00888362
+extern const ProcName PROC_BS_MENU_PASSPORT_FOR_PHOTO = static_cast<ProcName>(552);
 // 0x00888364
 extern const ProcName PROC_BS_TIME_BEL_WINDOW = static_cast<ProcName>(553);
+// 0x00888366
+extern const ProcName PROC_BS_MENU_ITEM_CHANGE = static_cast<ProcName>(554);
+// 0x00888368
+extern const ProcName PROC_BS_MENU_ITEM_SELECT = static_cast<ProcName>(555);
+// 0x0088836A
+extern const ProcName PROC_BS_MENU_ITEM_MANNEQUIN = static_cast<ProcName>(556);
+// 0x0088836C
+extern const ProcName PROC_BS_MENU_SETUP_TIME = static_cast<ProcName>(557);
+// 0x0088836E
+extern const ProcName PROC_BS_MENU_ATM = static_cast<ProcName>(558);
+// 0x00888370
+extern const ProcName PROC_BS_MENU_NUMBER_INPUT = static_cast<ProcName>(559);
+// 0x00888372
+extern const ProcName PROC_BS_MENU_CHEST = static_cast<ProcName>(560);
+// 0x00888374
+extern const ProcName PROC_BS_MENU_COOLBOX = static_cast<ProcName>(561);
+// 0x00888376
+extern const ProcName PROC_BS_MENU_RENTAL_HANIWA = static_cast<ProcName>(562);
+// 0x00888378
+extern const ProcName PROC_BS_MENU_SEND_MAIL_LAND = static_cast<ProcName>(563);
+// 0x0088837A
+extern const ProcName PROC_BS_MENU_SEND_MAIL_ME = static_cast<ProcName>(564);
+// 0x0088837C
+extern const ProcName PROC_BS_MENU_MAILBOX = static_cast<ProcName>(565);
+// 0x0088837E
+extern const ProcName PROC_BS_MENU_MAIL_SELECT = static_cast<ProcName>(566);
 // 0x00888380
 extern const ProcName PROC_BS_MENU_LETTER = static_cast<ProcName>(567);
+// 0x00888382
+extern const ProcName PROC_BS_MENU_LETTER_EDITER = static_cast<ProcName>(568);
+// 0x00888384
+extern const ProcName PROC_BS_MENU_LETTER_STOCK = static_cast<ProcName>(569);
+// 0x00888386
+extern const ProcName PROC_BS_MENU_LETTER_MGR = static_cast<ProcName>(570);
+// 0x00888388
+extern const ProcName PROC_BS_MENU_BBS_EDITER = static_cast<ProcName>(571);
+// 0x0088838A
+extern const ProcName PROC_BS_MENU_BBS_MGR = static_cast<ProcName>(572);
 // 0x0088838C
 extern const ProcName PROC_BS_MENU_BULLETIN_BOARD = static_cast<ProcName>(573);
 // 0x0088838E
 extern const ProcName PROC_BS_SKB = static_cast<ProcName>(574);
+// 0x00888390
+extern const ProcName PROC_BS_MENU_CHAT = static_cast<ProcName>(575);
 // 0x00888392
 extern const ProcName PROC_BS_BALLOON_CHAT = static_cast<ProcName>(576);
 // 0x00888394
 extern const ProcName PROC_BS_TELOP = static_cast<ProcName>(577);
+// 0x00888396
+extern const ProcName PROC_BS_MENU_AUDIO_PLAYER_MGR = static_cast<ProcName>(578);
+// 0x00888398
+extern const ProcName PROC_BS_MENU_AUDIO_PLAYER = static_cast<ProcName>(579);
+// 0x0088839A
+extern const ProcName PROC_BS_MENU_BEST_FRIEND_REGISTER = static_cast<ProcName>(580);
+// 0x0088839C
+extern const ProcName PROC_BS_MENU_SANTA_BAG_VIEW = static_cast<ProcName>(581);
+// 0x0088839E
+extern const ProcName PROC_BS_MENU_SANTA_BAG_SELECT = static_cast<ProcName>(582);
+// 0x008883A0
+extern const ProcName PROC_BS_MENU_BINGO_CARD = static_cast<ProcName>(583);
+// 0x008883A2
+extern const ProcName PROC_BS_MENU_EXPLAIN_PLATE = static_cast<ProcName>(584);
+// 0x008883A4
+extern const ProcName PROC_BS_MENU_INPUT_COMMENT = static_cast<ProcName>(585);
+// 0x008883A6
+extern const ProcName PROC_BS_MENU_BORROW_THING_LIST = static_cast<ProcName>(586);
+// 0x008883A8
+extern const ProcName PROC_BS_MENU_SIGN_LIST = static_cast<ProcName>(587);
+// 0x008883AA
+extern const ProcName PROC_BS_MENU_CREDIT = static_cast<ProcName>(588);
+// 0x008883AC
+extern const ProcName PROC_BS_MENU_WHAT_TREE_IS_THIS_TREE = static_cast<ProcName>(589);
+// 0x008883AE
+extern const ProcName PROC_BS_MENU_BEST_FRIEND_LIST_MGR = static_cast<ProcName>(590);
+// 0x008883B0
+extern const ProcName PROC_BS_MENU_BEST_FRIEND_LIST = static_cast<ProcName>(591);
+// 0x008883B2
+extern const ProcName PROC_BS_MENU_FRIEND_CHAT = static_cast<ProcName>(592);
+// 0x008883B4
+extern const ProcName PROC_BS_MENU_FRIEND_CHAT_LOG = static_cast<ProcName>(593);
+// 0x008883B6
+extern const ProcName PROC_BS_MENU_ROOM_LIGHT_SWITCH = static_cast<ProcName>(594);
+// 0x008883B8
+extern const ProcName PROC_BS_TRIP_LIST = static_cast<ProcName>(595);
+// 0x008883BA
+extern const ProcName PROC_BS_MENU_MII_SELECT = static_cast<ProcName>(596);
+// 0x008883BC
+extern const ProcName PROC_BS_MENU_MELODY = static_cast<ProcName>(597);
+// 0x008883BE
+extern const ProcName PROC_BS_MENU_EDIT = static_cast<ProcName>(598);
+// 0x008883C0
+extern const ProcName PROC_BS_MENU_QR_READER = static_cast<ProcName>(599);
 // 0x008883C2
 extern const ProcName PROC_BS_MENU_CATALOG = static_cast<ProcName>(600);
+// 0x008883C4
+extern const ProcName PROC_BS_MENU_REACTION = static_cast<ProcName>(601);
+// 0x008883C6
+extern const ProcName PROC_BS_MENU_TOUR_SELECT = static_cast<ProcName>(602);
+// 0x008883C8
+extern const ProcName PROC_BS_MENU_AREA_SELECT = static_cast<ProcName>(603);
+// 0x008883CA
+extern const ProcName PROC_BS_MENU_AREA_RESULT = static_cast<ProcName>(604);
+// 0x008883CC
+extern const ProcName PROC_BS_MENU_QR_ENCODER = static_cast<ProcName>(605);
+// 0x008883CE
+extern const ProcName PROC_BS_MENU_MODEL_HOME_BOARD = static_cast<ProcName>(606);
+// 0x008883D0
+extern const ProcName PROC_BS_MENU_MY_DESIGN_DREAM_PRESENT = static_cast<ProcName>(607);
+// 0x008883D2
+extern const ProcName PROC_BS_MENU_BG = static_cast<ProcName>(608);
+// 0x008883D4
+extern const ProcName PROC_BS_MENU_ROOM_MGR = static_cast<ProcName>(609);
+// 0x008883D6
+extern const ProcName PROC_BS_MENU_NFC_READER = static_cast<ProcName>(610);
 // 0x008883D8
 extern const ProcName PROC_BS_COMMON_DIALOG = static_cast<ProcName>(611);
+// 0x008883DA
+extern const ProcName PROC_BS_MENU_CAMPER = static_cast<ProcName>(612);
+// 0x008883DC
+extern const ProcName PROC_BS_MENU_INTERIOR_EDITOR = static_cast<ProcName>(613);
+// 0x008883DE
+extern const ProcName PROC_BS_MENU_RANDOM_HEADS_UP = static_cast<ProcName>(614);
+// 0x008883E0
+extern const ProcName PROC_BS_MENU_TICKET_EXCHANGE = static_cast<ProcName>(615);
 // 0x008883E2
 extern const ProcName PROC_BS_MENU_AMIIBO_PHOTO = static_cast<ProcName>(616);
+// 0x008883E4
+extern const ProcName PROC_BS_MENU_APPRAISER = static_cast<ProcName>(617);
 // 0x008883E6
 extern const ProcName PROC_BS_SV_DEMO = static_cast<ProcName>(621);
 // 0x008883E8

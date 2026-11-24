@@ -39,6 +39,13 @@ struct TextCheck
     TextCheck(); // 0x00524C68
     bool IsDone(); // 0x00524B80
     void Start(script::IWord* text); // 0x00524BD4
+    // (names are ours) the check of the text begins / goes on (true: it has ended)
+    void Begin(script::IWord* text); // 0x00524C44
+    bool Update(); // 0x00524BF0
+    // (copies) the result is ok / the text has a number / more numbers than num
+    bool IsOk(); // 0x00748C7C
+    bool HasNumber(); // 0x00748C48
+    bool HasMoreNumbers(s32 num); // 0x00748C90
 
     u32 m_Unknown0x0;   // 0x0
     u32 m_Unknown0x4;   // 0x4
@@ -56,7 +63,7 @@ script::WordPtr Func5CCFB4(SvMail* mail); // 0x005CCFB4
 void Func5CCF74(SvMail* mail); // 0x005CCF74
 void Func5CCFA4(SvMail* mail); // 0x005CCFA4
 // (game code) the kind of the letter paper, its item name and the color frame of the paper
-bool Func75910C(); // 0x0075910C
+bool Func75910C(const SvMail* mail); // 0x0075910C
 u32 Func76BF8C(const SvFgName* paper); // 0x0076BF8C
 s32 Func5D51A8(); // 0x005D51A8
 // (a global of the game code: the letter being written lies at +0x118)

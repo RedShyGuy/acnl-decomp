@@ -17,4 +17,7 @@ public:
     virtual oml::framework::Result Finalize(); // 0x001A15B4 slot 0x18 | slot vf_0x18 of oml::framework::Process
     virtual oml::framework::Result Calc(); // 0x001A1514 slot 0x24 | slot vf_0x24 of oml::framework::Process
     virtual oml::framework::Result Draw(); // 0x001A1448 slot 0x30 | slot vf_0x30 of oml::framework::Process
+
+    // (not decompiled yet; name is ours) called by BsMenuMgr::Reset
+    void Func1A0E74(); // 0x001A0E74
 };

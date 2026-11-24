@@ -7,7 +7,5 @@ void* g_pObject94FD54;
 FlowObject951138* g_pObject951138;
 // 0x00951155
 u8 g_Byte0x951155;
-// 0x009AC068
-FlowProcessArg g_FlowProcessArg;
 // 0x00AAEAD4
 u8 g_Byte0xAAEAD4;

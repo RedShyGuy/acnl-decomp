@@ -115,10 +115,10 @@ void CommonButtonSingle::SetPane(nw::lyt::Pane* pane)
 }
 
 // 0x002E0998
-void CommonButtonSingle::LoadArchive()
+bool CommonButtonSingle::LoadArchive()
 {
     ssys::ma::Allocator* allocator = ssys::ma::lyt::GetDeviceAllocator();
-    s_Archive.Read(sead::SafeStringBase<char>("Layout/common/cmn_btn.arc"), allocator->m_pHeap, 128);
+    return s_Archive.Read(sead::SafeStringBase<char>("Layout/common/cmn_btn.arc"), allocator->m_pHeap, 128);
 }
 
 // 0x002E09F4

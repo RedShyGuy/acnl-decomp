@@ -1,5 +1,6 @@
 #include "Bs/dBsCommonDialog.h"
 #include "script/dIFlowRecept.h"
+#include "Other/dComDialogA.h"
 #include "Bs/dBsMenuMgr.h"
 #include "Other/dDemoActor.h"
 #include "Other/dProcMgr.h"
@@ -200,14 +201,14 @@ s32 IFlowRecept::Event100(libms::Flow* flow, const libms::FlowNodeEvent& node)
         if (parent == NULL) {
             break;
         }
-        FlowProcessArg arg;
-        InitFlowProcessArg(&arg);
-        arg.param = param;
+        DialogTextRequest arg;
+        arg.Clear();
+        arg.number = param;
         arg.arg0 = s_ProcessArg0;
         arg.arg1 = s_ProcessArg1;
         s_ProcessArg0 = 0;
         s_ProcessArg1 = 0;
-        g_FlowProcessArg = arg;
+        g_DialogTextRequest = arg;
         oml::framework::Process* process = ProcMgr::Create(PROC_BS_COMMON_DIALOG, parent, 0, static_cast<ProcType>(0));
         if (process != NULL) {
             s_pProcess = process;
@@ -655,7 +656,7 @@ s32 IFlowRecept::BranchSeason(u32* index, const libms::FlowNodeBranch& node)
 s32 IFlowRecept::Branch155(u32* index, const libms::FlowNodeBranch& node)
 {
     (void)node;
-    s32 value = g_FlowProcessArg.result;
+    s32 value = g_DialogTextRequest.pressed;
     if (value < 0 || value >= 2) {
         return RESULT_NONE;
     }
@@ -966,7 +967,7 @@ s32 IFlowRecept::EventMenu(libms::Flow* flow, const libms::FlowNodeEvent& node)
     case 4:
     case 5:
     case 6: {
-        void* process = BsMenuMgr::s_pInstance->m_pProcess;
+        void* process = BsMenuMgr::s_pInstance->m_pBsMenuMap;
         if (m_EventState == 0) {
             if (process != NULL) {
                 BsMenuMgr::Func6D2744();
@@ -1020,14 +1021,14 @@ s32 IFlowRecept::EventMenu(libms::Flow* flow, const libms::FlowNodeEvent& node)
     }
     case 24:
         if (m_EventState == 0) {
-            BsMenuMgr::Func6D2A08(66);
+            BsMenuMgr::OpenMenuForResult(66);
             m_EventState = 1;
             return RESULT_WAIT;
         }
         return WaitMenuClosed(m_EventState);
     case 27:
         if (m_EventState == 0) {
-            BsMenuMgr::Func6D2A08(67);
+            BsMenuMgr::OpenMenuForResult(67);
             m_EventState = 1;
             return RESULT_WAIT;
         }
@@ -1131,7 +1132,7 @@ s32 IFlowRecept::EventMenu(libms::Flow* flow, const libms::FlowNodeEvent& node)
     case 25:
     case 33:
         if (m_EventState == 0) {
-            if (param == 33 ? BsMenuMgr::Func6D3C68() : BsMenuMgr::Func6D3C34()) {
+            if (param == 33 ? BsMenuMgr::OpenAreaSelect() : BsMenuMgr::OpenAreaResult()) {
                 m_EventState = 1;
             }
             return RESULT_WAIT;
@@ -1143,7 +1144,7 @@ s32 IFlowRecept::EventMenu(libms::Flow* flow, const libms::FlowNodeEvent& node)
         return RESULT_NONE;
     case 18:
         if (m_EventState == 0) {
-            BsMenuMgr::Func6D33D8(3);
+            BsMenuMgr::OpenCatalog(3);
             m_EventState = 1;
             return RESULT_WAIT;
         }
@@ -1535,9 +1536,9 @@ s32 IFlowRecept::EventOpenMenu(libms::Flow* flow, const libms::FlowNodeEvent& no
         u32 arg = 0;
         if (param < MENU_NUM) {
             if (m_MenuFilter != NULL) {
-                arg = BsMenuMgr::Func6D2AC8(m_MenuFilter);
+                arg = BsMenuMgr::GetPocketSlotMask(m_MenuFilter);
             } else if (s_Menus[param].filter != NULL) {
-                arg = BsMenuMgr::Func6D2AC8(s_Menus[param].filter);
+                arg = BsMenuMgr::GetPocketSlotMask(s_Menus[param].filter);
             }
             if (m_MenuArg != 0) {
                 BsMenuMgr::s_Unknown950D94 = m_MenuArg;
@@ -1837,7 +1838,7 @@ s32 IFlowRecept::Branch157(u32* index, const libms::FlowNodeBranch& node)
 s32 IFlowRecept::Branch88(u32* index, const libms::FlowNodeBranch& node)
 {
     (void)node;
-    *index = BsMenuMgr::s_pInstance->m_pProcess != NULL ? 1 : 0;
+    *index = BsMenuMgr::s_pInstance->m_pBsMenuMap != NULL ? 1 : 0;
     return RESULT_DONE;
 }
 
@@ -2002,7 +2003,7 @@ s32 IFlowRecept::EventMenu3(libms::Flow* flow, const libms::FlowNodeEvent& node)
                 Func150288()->pTalkRecept->m_pOwner->m_State != TalkSystem::STATE_CLOSED) {
                 break;
             }
-            BsMenuMgr::Func6D29C4(BsMenuMgr::s_Unknown950DB0, Func150288()->value);
+            BsMenuMgr::OpenEdit(BsMenuMgr::s_Unknown950DB0, Func150288()->value);
             m_EventState++;
         } else if (param == 13) {
             if (demo::PlayerGetActorEntry(static_cast<netgame::PlayerNo>(4), false) == NULL) {

@@ -17,4 +17,9 @@ public:
     virtual oml::framework::Result Finalize(); // 0x006D264C slot 0x18 | slot vf_0x18 of oml::framework::Process
     virtual oml::framework::Result Calc(); // 0x006D240C slot 0x24 | slot vf_0x24 of oml::framework::Process
     virtual oml::framework::Result Draw(); // 0x006D213C slot 0x30 | slot vf_0x30 of oml::framework::Process
+
+    // (not decompiled yet; names are ours) called by BsMenuMgr: in a building / the map is shown (every frame)
+    void Func6D2370(); // 0x006D2370
+    void Func6D2590(s8 isShown); // 0x006D2590
+    bool Func6D1FAC(u32 a, u32 b); // 0x006D1FAC
 };

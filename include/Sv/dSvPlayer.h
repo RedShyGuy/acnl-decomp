@@ -18,6 +18,17 @@
 #include "Sv/dSvPlayerFlags.h"
 
 struct SvEmoticons {
+    // (copy for the game; name is ours) the player has an emotion
+    DECOMP_EMIT_COPY DECOMP_NOINLINE bool HasAny() const // 0x00717478
+    {
+        for (u32 i = 0; i < 0x28; i++) {
+            if (emoticons[i] != 0) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     /* 0x0000 */ u8 emoticons[0x28];
 };
 ASSERT_SIZE(SvEmoticons, 0x28);
@@ -1134,6 +1145,8 @@ ASSERT_SIZE(SvPlayerData, 0x29200);
 
 // (game code that the functions of the player call, not decompiled yet; names after the addresses)
 u32 Func76E7CC(SvPlayer* player); // 0x0076E7CC
+// the place of the reaction in slot among the 40 reactions (table 0x008902A4), -1: none (a copy in the area 0x717xxx)
+s32 Func7173E4(const SvEmoticons* emotes, u32 slot); // 0x007173E4
 void Func58381C(SvPlayer* player); // 0x0058381C
 void Func5836A8(SvPlayer* player); // 0x005836A8
 u32 Func24AC8C(SvPlayerInitiative* initiative); // 0x0024AC8C

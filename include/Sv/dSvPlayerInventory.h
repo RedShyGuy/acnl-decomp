@@ -23,6 +23,8 @@ struct SvPlayerInventory {
     // puts the item into the first empty slot
     bool AddItem(const SvFgName& item, ItemAppearance appearance, SvFgName* pNewItem); // 0x003233A4 | libgarden [tier A]
     bool SetItem(unsigned int index, const SvFgName& item, ItemAppearance appearance, SvFgName* pNewItem); // 0x00323484 | libgarden [tier A]
+    // the appearance of the slot (ITEM_APPEARANCE_DEFAULT for a wrong index; name is ours)
+    ItemAppearance GetAppearance(u32 index) const; // 0x00725230
     // empties all slots
     void Clear(); // 0x00323444 (name is ours)
     // the first slot that is empty (-1: none; name is ours)

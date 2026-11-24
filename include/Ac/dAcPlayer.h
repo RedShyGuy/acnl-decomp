@@ -9,6 +9,20 @@
 // RTTI 8AcPlayer @ 0x008CD434
 // vtable 0x008F96D8 (vptr 0x008F96E0), offset_to_top 0, 36 entries
 // vtable 0x008F9770 (vptr 0x008F9778), offset_to_top -104, 63 entries
+// the entry of a player action in the table 0x00843C20 (235 entries of 10 bytes; names are ours)
+struct PlayerActionInfo
+{
+    u8 _unknown0x0[9];
+    u8 flags; // 0x9 (bit 6: see BsMenuMgr::CanOpenMenuThink)
+};
+ASSERT_SIZE(PlayerActionInfo, 10);
+
+// the number of player actions (entries of the table)
+const u32 PLAYER_ACTION_NUM = 235;
+
+// the table entry of an action (NULL for an invalid action; name is ours)
+const PlayerActionInfo* GetPlayerActionInfo(u8 action); // 0x0064FE68
+
 class AcPlayer : public ::UtlBase<DemoActor>, public ::PlayerSimpleMessage
 {
 public:
@@ -33,9 +47,26 @@ public:
     void GetScratchState() const; // 0x006576F8 | libgarden [tier A]
     // (the float of the fishing rod of this player landed at position; name after the address)
     void Func67867C(const nn::math::VEC3* position); // 0x0067867C
+    // the table entry of the current action (name is ours)
+    DECOMP_NOINLINE DECOMP_NOIPA inline const PlayerActionInfo* GetActionInfo() const; // 0x00764834
 
     // (the layout so far as the tools show it; the constructor 0x0068EC58 builds the model at 0x1B4; names are ours)
-    u32 m_UnknownE4[(0x1B4 - 0xE4) / 4]; // 0xE4 (words: ARMCC does not use the tail padding of the bases)
+    u32 m_UnknownE4[(0x1A8 - 0xE4) / 4]; // 0xE4 (words: ARMCC does not use the tail padding of the bases)
+    u8 m_Unknown0x1A8;
+    u8 m_Action;                  // 0x1A9 (index of the action table)
+    u8 m_Unknown0x1AA[0x1B4 - 0x1AA];
     PlayerModel m_Model;          // 0x1B4
+    u8 m_Unknown0x424[0x8C7 - 0x424];
+    u8 m_Unknown0x8C7;            // 0x8C7 (bits 0 and 5: no menu, see BsMenuMgr::CanOpenMenuThink)
 };
 ASSERT_OFFSET(AcPlayer, m_Model, 0x1B4);
+ASSERT_OFFSET(AcPlayer, m_Action, 0x1A9);
+ASSERT_OFFSET(AcPlayer, m_Unknown0x8C7, 0x8C7);
+
+inline const PlayerActionInfo* AcPlayer::GetActionInfo() const
+{
+    if (m_Action >= PLAYER_ACTION_NUM) {
+        return NULL;
+    }
+    return GetPlayerActionInfo(m_Action);
+}

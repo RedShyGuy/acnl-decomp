@@ -40,6 +40,10 @@ BsSvMgr* BsSvMgr::s_pInstance;
 u32 BsSvMgr::s_Unknown9516E4;
 // 0x009516F0
 BsSvMgr::Func BsSvMgr::s_NextMode;
+// 0x009516F8
+const char* BsSvMgr::s_ErrorFile = "SYS_Error";
+// 0x009516FC
+const char* BsSvMgr::s_NetworkFile = "SYS_Network";
 // (built by the static initializer of the file 0x00786020 together with BsPartsSaveMgr<SvBestFriendList>::s_Request)
 // 0x00998DB0
 SvStepInner BsSvMgr::s_ApplyRequest(SvStepInner::FLAG_KEEP_ERROR);

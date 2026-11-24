@@ -279,7 +279,7 @@ inline void SetPaperTexture(nw::lyt::Picture* picture, nw::gfx::res::ResImageTex
 void lyt::TextAreaMail::SetupPaper()
 {
     m_pMail = reinterpret_cast<SvMail*>(g_pUnknown950BD0 + 0x118);
-    m_PaperKind = Func75910C() ? 42 : 41;
+    m_PaperKind = Func75910C(m_pMail) ? 42 : 41;
     const u8 paperId = m_pMail->paperId;
     ssys::ma::Allocator* allocator = ssys::ma::lyt::GetDeviceAllocator();
     sead::Heap* heap = ssys::ma::lyt::GetDeviceAllocator()->m_pHeap;
