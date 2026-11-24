@@ -2,6 +2,13 @@
 #include "Other/dMenuBase.h"
 #include "Bs/dBsCommonDialog.h"
 
+// 0x0094FE4C
+u8 BsCommonDialog::s_Unknown94FE4C = 1;
+// 0x0094FE50
+BsCommonDialog* BsCommonDialog::s_pInstance;
+// 0x0098D56C
+CommonDialogArg g_CommonDialogArg;
+
 // ctor candidate(s) 0x007EE8C4 (unverified)
 BsCommonDialog::BsCommonDialog()
 {
@@ -39,3 +46,18 @@ void BsCommonDialog::OnClose()
 {
 }
 
+// 0x00251908
+void BsCommonDialog::ShowNext()
+{
+}
+
+// 0x0025195C
+void BsCommonDialog::State_Wait()
+{
+}
+
+// 0x00251930
+BsCommonDialog* BsCommonDialog::GetInstance()
+{
+    return s_pInstance;
+}

@@ -129,8 +129,14 @@ public:
     static void Func6D448C(u32 menu, u32 arg); // 0x006D448C
     static void Func6D44B0(); // 0x006D44B0
     static void Func6D4724(u32 arg, u8 menu, u32 param); // 0x006D4724
+    // (names are ours) opens the common dialog (138) with g_CommonDialogArg / resets g_CommonDialogArg / sets
+    // g_Unknown98D508 to 584
+    static void Func6D406C(bool a); // 0x006D406C
+    static void Func6D32D0(); // 0x006D32D0
+    static void Func6D32A0(); // 0x006D32A0
 
     static u8 s_Unknown950D25;
+    static u8 s_Unknown950D26; // (2: the editor does not change the background)
     static u8 s_SelectedSlot;       // the pocket slot of the item menu
     static u8 s_Result;             // the result of the last menu
     static s16 s_Unknown950D42;
@@ -144,6 +150,9 @@ public:
     // flags of the menu system (name is ours)
     static u32 s_Flags;
 };
+// (names are ours) parameters of the software keyboard (the editor sets the first two)
+extern u32 g_Unknown98D508[3];
+
 ASSERT_OFFSET(BsMenuMgr, m_HandMode, 0x40);
 ASSERT_OFFSET(BsMenuMgr, m_Controller, 0x44);
 ASSERT_OFFSET(BsMenuMgr, m_pBsHandCursor, 0x1F4);

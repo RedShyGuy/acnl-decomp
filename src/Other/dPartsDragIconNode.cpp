@@ -12,52 +12,52 @@ PartsDragIconNode::~PartsDragIconNode()
 }
 
 // 0x0072032C slot 0x40 | virtual slot, introduced by DragIconNode
-void PartsDragIconNode::vf_0x40()
+nw::lyt::Pane* PartsDragIconNode::GetIconPane()
 {
 }
 
 // 0x002D0680 slot 0x44 | virtual slot, introduced by DragIconNode
-void PartsDragIconNode::vf_0x44()
+void PartsDragIconNode::SetAttached(bool attach)
 {
 }
 
 // 0x002D0684 slot 0x54 | virtual slot, introduced by DragIconNode
-void PartsDragIconNode::vf_0x54()
+void PartsDragIconNode::Release()
 {
 }
 
 // 0x002D067C slot 0x58 | virtual slot, introduced by DragIconNode
-void PartsDragIconNode::vf_0x58()
+void PartsDragIconNode::DrawDragged()
 {
 }
 
 // 0x002D05EC slot 0x5C | virtual slot, introduced by DragIconNode
-void PartsDragIconNode::vf_0x5C()
+void PartsDragIconNode::SetParentPane(nw::lyt::Pane* pane)
 {
 }
 
 // 0x002D05E4 slot 0x60 | virtual slot, introduced by DragIconNode
-void PartsDragIconNode::vf_0x60()
+nw::lyt::Pane* PartsDragIconNode::GetParentPane()
 {
 }
 
 // 0x002D05F4 slot 0x64 | virtual slot, introduced by DragIconNode
-void PartsDragIconNode::vf_0x64()
+void PartsDragIconNode::OnDropTargetEnter()
 {
 }
 
 // 0x002D0648 slot 0x68 | virtual slot, introduced by DragIconNode
-void PartsDragIconNode::vf_0x68()
+void PartsDragIconNode::OnDropTargetLeave()
 {
 }
 
 // 0x00720334 slot 0x6C | virtual slot, introduced by DragIconNode
-void PartsDragIconNode::vf_0x6C()
+bool PartsDragIconNode::IsNotDraggable()
 {
 }
 
 // 0x0072033C slot 0x70 | virtual slot, introduced by DragIconNode
-void PartsDragIconNode::vf_0x70()
+f32 PartsDragIconNode::GetPan()
 {
 }
 

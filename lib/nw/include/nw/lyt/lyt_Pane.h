@@ -119,6 +119,12 @@ public:
         m_Translate = value;
         m_Flag &= ~FLAG_MTX_CONDITION_MASK;
     }
+    // (inline, name is ours)
+    void SetRotate(const nn::math::VEC3& value)
+    {
+        m_Rotate = value;
+        m_Flag &= ~FLAG_MTX_CONDITION_MASK;
+    }
     void SetName(const char* name); // 0x004B7E34 (name is ours)
     // the commands of the pane and its visible children
     u32* MakeUniformData(u32* pCommand, DrawInfo& drawInfo, Drawer& drawer); // 0x0073CD84 (name is ours)

@@ -3,6 +3,9 @@
 #include "Other/dMenuBase.h"
 #include "Bs/dBsSkb.h"
 
+// 0x00951658
+void* g_Unknown951658;
+
 // ctor candidate(s) 0x00581870 (unverified)
 BsSkb::BsSkb()
 {

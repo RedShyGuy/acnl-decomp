@@ -32,5 +32,7 @@ math::Angle16 math::Angle16::Atan2(float, float)
 extern const nn::math::VEC3 VEC3_ZERO(0.0f, 0.0f, 0.0f);
 // 0x00AE6870
 extern const nn::math::VEC3 VEC3_ONE(1.0f, 1.0f, 1.0f);
+// 0x00976C90
+extern const nn::math::VEC2 VEC2_ZERO(0.0f, 0.0f);
 // 0x00976C0E
 extern const math::Angle16Vec3 ANGLE16_VEC3_ZERO = {0, 0, 0};

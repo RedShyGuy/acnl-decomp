@@ -2,6 +2,9 @@
 #include "Other/dBase.h"
 #include "Bs/dBsMyDesignEditModel.h"
 
+// 0x009510FC
+BsMyDesignEditModel* BsMyDesignEditModel::s_pInstance;
+
 // ctor candidate(s) 0x002F5B94 (unverified)
 BsMyDesignEditModel::BsMyDesignEditModel()
 {

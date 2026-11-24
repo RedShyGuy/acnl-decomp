@@ -1,3 +1,4 @@
+#include "Bs/dBsCommonDialog.h"
 #include "script/dIFlowRecept.h"
 #include "Bs/dBsMenuMgr.h"
 #include "Other/dDemoActor.h"
@@ -224,7 +225,7 @@ s32 IFlowRecept::Event100(libms::Flow* flow, const libms::FlowNodeEvent& node)
         break;
     case 2:
         result = RESULT_WAIT;
-        if (!Func251930()) {
+        if (BsCommonDialog::GetInstance() == NULL) {
             result = RESULT_DONE;
         }
         break;

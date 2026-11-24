@@ -170,13 +170,14 @@ void Func1FE400(u32 kind); // 0x001FE400
 void Func1FE458(); // 0x001FE458
 void Func1FE478(u32 kind, script::WordFix<33>* word); // 0x001FE478
 void* Func20C4C8(SvMyDesign* designs, u32 index); // 0x0020C4C8
+// (a copy of Func20C4C8 that returns the design: designs[index], designs for an index of 10 or more)
+SvMyDesign* Func713388(SvMyDesign* designs, u32 index); // 0x00713388
 s32 Func23C368(u32 value); // 0x0023C368
 bool Func23CB00(); // 0x0023CB00
 bool Func23CB14(u32* value); // 0x0023CB14
 bool Func23CBC0(); // 0x0023CBC0
 bool Func23CBF0(); // 0x0023CBF0
 void Func23CC08(u32 value); // 0x0023CC08
-bool Func251930(); // 0x00251930
 void Func2912B8(u32 value); // 0x002912B8
 void Func293264(); // 0x00293264
 void Func2BBDE8(void* flags, u32 index, bool value); // 0x002BBDE8

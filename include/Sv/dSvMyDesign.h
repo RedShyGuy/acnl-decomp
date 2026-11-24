@@ -5,6 +5,8 @@
 // Offsets in /* */ are relative to the struct and verified by the ASSERT_SIZE checks.
 
 #include "decomp.h"
+
+#include <cstring>
 #include "Sv/dSvCommon.h"
 #include "Sv/dSvPersonalId.h"
 
@@ -75,6 +77,8 @@ struct SvMyDesign {
     void SetTitle(const script::IWord& word); // 0x001B3F90
     // the parts that the pattern type does not use are filled with color 12
     void FillUnusedParts(); // 0x001B406C
+    // (copy for the game, name is ours) the parts 2..4 get the color index 12
+    DECOMP_EMIT_COPY void FillExtraParts() { std::memset(patternData2, 0xCC, 3 * sizeof(patternData2)); } // 0x001401E0
     // the current player becomes the creator
     void SetCreatorToCurrentPlayer(); // 0x001B42E8
     // the template of the design id (with the creator "Name" of the town of the region; kind: not read, the town flag
@@ -196,6 +200,11 @@ inline bool SvMyDesign::GetPartRegion(PartRegion* region, u32 part) const
 u16 FindDesignId(const SvMyDesign* design); // 0x006AB738
 // the textures of the item loaders that show design are updated
 void UpdateDesignTextures(SvMyDesign* design); // 0x006ABB88
+// (a nop entry that falls into UpdateDesignTextures)
+void UpdateDesignTexturesEntry(SvMyDesign* design); // 0x006ABB84
+// (game code that is not decompiled yet; called with the slot after a design of the current player was saved; name is
+// ours)
+void Func5C4398(s32 slot); // 0x005C4398
 // (only kind 0) the design index of player sub changed
 void OnDesignChanged(u16 id, bool isChanged); // 0x006ABA70
 // the pixel x, y (y: row of parts * 32 + row) of the textures of the item loaders that show design

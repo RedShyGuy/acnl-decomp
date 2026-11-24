@@ -17,7 +17,7 @@ void ItemDragIconNode::FUN_002b72e0()
 }
 
 // 0x002B99D8 slot 0x50 | virtual slot, introduced by DragIconNode
-void ItemDragIconNode::vf_0x50()
+void ItemDragIconNode::SetSounds(bool isOn)
 {
 }
 

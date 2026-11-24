@@ -112,6 +112,8 @@ public:
     void SelectByIndex(s32 index); // 0x002F7654
     void RequestOk(s32 index, u8 request); // 0x002F7700
     void ResetSelectAll(); // 0x002F732C
+    // the hand cursor of the menus is disabled (name is ours)
+    static void DisableHandCursor(); // 0x002F7634
     DECOMP_EMIT_COPY bool IsSelectingOk() const { return (m_Flags & IS_SELECTING_OK) != 0; } // 0x00724488
     DECOMP_EMIT_COPY bool IsCurrentPressed() const // 0x00724478
     {

@@ -55,3 +55,8 @@ bool ItemSelectWindow::IsClosed()
 bool ItemSelectWindow::IsBusy()
 {
 }
+
+// 0x002BA9A0
+void ItemSelectWindow::Draw()
+{
+}

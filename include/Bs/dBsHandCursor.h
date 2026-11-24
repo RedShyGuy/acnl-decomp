@@ -28,6 +28,8 @@ public:
     // (purpose not known yet; called when a scroll bar thumb is grabbed / let go with the cursor)
     void Func1F9FC4(); // 0x001F9FC4
     void Func1FA0C4(bool value); // 0x001FA0C4
+    // (purpose not known yet; DragIconControl::FUN_002f7300 ends the return of an icon when it is true)
+    bool Func1FA040(); // 0x001FA040
 
     u8 _unknown38[0x4C0 - 0x38];  // 0x038 (the layout of the cursor at 0x38)
     nn::math::VEC2 m_Position;    // 0x4C0 (name is ours)

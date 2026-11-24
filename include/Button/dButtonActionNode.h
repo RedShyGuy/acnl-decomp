@@ -125,8 +125,9 @@ public:
     bool m_SoundMode;                         // 0xDC true: SoundMgr::SPlaySystemSound
     // chosen again and again while it is held (name is ours, libgarden: m_IsAvailable)
     bool m_IsRepeat;                          // 0xDD
-    // never accessed, but the members of the derived classes start at 0xE0 (ARMCC does not use the tail padding)
-    u8 _paddingDE[2];                         // 0xDE
+    // the members of the derived classes start at 0xE0 (ARMCC does not use the tail padding)
+    u8 m_Unknown0xDE;                         // 0xDE (only GridButtonNode uses it: its switch state)
+    u8 _paddingDF;                            // 0xDF
 };
 ASSERT_OFFSET(ButtonActionNode, m_Touch, 0x20);
 ASSERT_OFFSET(ButtonActionNode, m_pCursorCallback, 0xC0);

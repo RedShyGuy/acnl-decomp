@@ -168,6 +168,7 @@ extern const ProcName PROC_BS_SV_MGR;
 extern const ProcName PROC_BS_TIME_BEL_WINDOW;
 extern const ProcName PROC_BS_MENU_LETTER;
 extern const ProcName PROC_BS_MENU_BULLETIN_BOARD;
+extern const ProcName PROC_BS_SKB;
 extern const ProcName PROC_BS_BALLOON_CHAT;
 extern const ProcName PROC_BS_TELOP;
 extern const ProcName PROC_BS_MENU_CATALOG;

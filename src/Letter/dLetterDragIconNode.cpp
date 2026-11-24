@@ -12,7 +12,7 @@ LetterDragIconNode::~LetterDragIconNode()
 }
 
 // 0x002E3D44 slot 0x50 | virtual slot, introduced by DragIconNode
-void LetterDragIconNode::vf_0x50()
+void LetterDragIconNode::SetSounds(bool isOn)
 {
 }
 

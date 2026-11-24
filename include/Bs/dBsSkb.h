@@ -20,4 +20,11 @@ public:
     virtual oml::framework::Result Calc(); // 0x00580E0C slot 0x24 | slot vf_0x24 of oml::framework::Process
     virtual oml::framework::Result Draw(); // 0x0057FDB8 slot 0x30 | slot vf_0x30 of oml::framework::Process
     virtual void OnClose(); // 0x0057C900 slot 0x44 | slot vf_0x44 of MenuBase
+
+    u8 m_Unknown0xC8[0x1148 - 0xC8];
+    bool m_Unknown0x1148; // (cleared by the design editor after it made the keyboard)
 };
+ASSERT_OFFSET(BsSkb, m_Unknown0x1148, 0x1148);
+
+// (read by BsMenuChat and BsMenuEdit before they open a keyboard; name is ours)
+extern void* g_Unknown951658;

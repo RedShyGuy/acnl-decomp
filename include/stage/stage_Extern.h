@@ -3,6 +3,7 @@
 #include "decomp.h"
 #include "field/dFdInfo.h"
 #include "math/dAngle16.h"
+#include "nn/math/math_Vector2.h"
 #include "nn/math/math_Vector3.h"
 #include "netgame/netgame_Api.h"
 #include "Player/dPlayerApi.h"
@@ -81,6 +82,7 @@ extern const nn::math::VEC3 CAMPING_CAR_ENTRANCE_POSITION;
 
 extern const nn::math::VEC3 VEC3_ZERO;
 extern const nn::math::VEC3 VEC3_ONE;
+extern const nn::math::VEC2 VEC2_ZERO;
 extern const math::Angle16Vec3 ANGLE16_VEC3_ZERO;
 // rotates the vector around the Y axis
 void RotateY(nn::math::VEC3_* v, math::Angle16 angle); // 0x0056AD0C

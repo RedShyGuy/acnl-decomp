@@ -8,6 +8,8 @@ struct TextureImage
 {
     // the image of resTexture (an image texture, else no data)
     TextureImage(const void* resTexture); // 0x005BFFE8
+    // (inline) the pixels data of width x height
+    TextureImage(u16* data, u32 width, u32 height) : m_pData(data), m_Width(width), m_Height(height) {}
 
     // (copies for the game) the index of the pixel at x, y
     u32 GetIndex(u32 x, u32 y) const; // 0x00758ABC
@@ -27,6 +29,8 @@ ASSERT_SIZE(TextureImage, 0xC);
 struct TextureImage16 : public TextureImage
 {
     TextureImage16(const void* resTexture); // 0x001C51D0
+    // (inline)
+    TextureImage16(u16* data, u32 width, u32 height) : TextureImage(data, width, height) {}
 
     // (copy for the game) the pixel at x, y
     DECOMP_EMIT_COPY u16 GetPixel(u32 x, u32 y) const // 0x0070E454

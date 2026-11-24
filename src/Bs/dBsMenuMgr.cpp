@@ -4,6 +4,8 @@
 
 // 0x00950D25
 u8 BsMenuMgr::s_Unknown950D25;
+// 0x00950D26
+u8 BsMenuMgr::s_Unknown950D26;
 // 0x00950D35
 u8 BsMenuMgr::s_SelectedSlot;
 // 0x00950D3B
@@ -72,3 +74,20 @@ bool BsMenuMgr::IsPressed(unsigned long)
 {
 }
 
+// 0x0098D508 (name is ours)
+u32 g_Unknown98D508[3];
+
+// 0x006D406C
+void BsMenuMgr::Func6D406C(bool a)
+{
+}
+
+// 0x006D32D0
+void BsMenuMgr::Func6D32D0()
+{
+}
+
+// 0x006D32A0
+void BsMenuMgr::Func6D32A0()
+{
+}

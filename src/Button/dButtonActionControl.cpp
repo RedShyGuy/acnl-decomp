@@ -712,3 +712,10 @@ bool ButtonActionControl::IsSelectOkDone() const
     }
     return false;
 }
+
+// 0x002F7634
+void ButtonActionControl::DisableHandCursor()
+{
+    BsMenuMgr::Get()->m_HandMode = 0;
+    BsMenuMgr::Get()->m_pBsHandCursor->Disable();
+}

@@ -2,13 +2,30 @@
 
 #include "decomp.h"
 #include "Other/dComButtonLytBase.h"
+#include "Other/dControl2Button.h"
 
+// The layout of 2 common buttons (class name from the RTTI, all other names are ours).
 // RTTI 13ComButton2Lyt @ 0x008CB9C4
 // vtable 0x008EF250 (vptr 0x008EF258), offset_to_top 0, 2 entries
 class ComButton2Lyt : public ::ComButtonLytBase
 {
 public:
-    ComButton2Lyt(); // ctor candidate(s) 0x001FE0BC, 0x0021D160, 0x00289F3C, 0x0028D358, 0x002B13FC, 0x002B1FF4, 0x002B4B94, 0x0031B2FC, 0x00334DAC, 0x003424B4, 0x007EF6C4, 0x007EF978, 0x007F09CC, 0x007F1EB0, 0x007F37D4 (unverified)
-    virtual void vf_0x00(); // 0x0022C58C slot 0x00 | virtual slot, introduced by ComButtonLytBase
-    virtual void vf_0x04(); // 0x0022C518 slot 0x04 | virtual slot, introduced by ComButtonLytBase
+    // (inline in the owners)
+    ComButton2Lyt() {}
+    // 0x0022C518 (deleting dtor)
+    ~ComButton2Lyt() override; // 0x0022C58C slot 0x00
+
+    // the layout and the buttons on their positions
+    bool Setup(); // 0x0022C45C
+    // the buttons leave their panes
+    bool Finalize(); // 0x0022C4F0
+    // the buttons and their state
+    void Update(); // 0x0022C510
+    // both buttons on their positions
+    void ShowBoth(); // 0x0022C3AC
+    // only the second button, on the position
+    void ShowOne(s32 position); // 0x0022C418
+
+    Control2Button m_Control; // 0x398
 };
+ASSERT_SIZE(ComButton2Lyt, 0x398 + sizeof(Control2Button));

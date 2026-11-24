@@ -241,6 +241,12 @@ bool Func6ABAE4()
     return true;
 }
 
+// 0x006ABB84
+void UpdateDesignTexturesEntry(SvMyDesign* design)
+{
+    UpdateDesignTextures(design);
+}
+
 // 0x006ABB88
 void UpdateDesignTextures(SvMyDesign* design)
 {

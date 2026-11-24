@@ -157,4 +157,15 @@ bool ChoiceStandardItem::IsReady() const
 {
     return !const_cast<ItemSelectWindow&>(m_Window).IsBusy();
 }
+// 0x002BA998
+void script::ChoiceStandardItem::Draw()
+{
+    m_Window.Draw();
+}
+
+// 0x002BABBC
+void script::ChoiceStandardItem::Func2BABBC()
+{
+}
+
 } // namespace script

@@ -2,6 +2,9 @@
 #include "Other/dBase.h"
 #include "Bs/dBsMenuBg.h"
 
+// 0x00950718
+BsMenuBg* BsMenuBg::s_pInstance;
+
 // ctor candidate(s) 0x00695EC8 (unverified)
 BsMenuBg::BsMenuBg()
 {
@@ -39,3 +42,17 @@ void BsMenuBg::ChangeBg(long)
 {
 }
 
+// 0x00695E90
+void BsMenuBg::StartChange(s8 kind, u8 frames)
+{
+}
+
+// 0x006952B8
+void BsMenuBg::State_Wait()
+{
+}
+
+// 0x00695468
+void BsMenuBg::State_Change()
+{
+}

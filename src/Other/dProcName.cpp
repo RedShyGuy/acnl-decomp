@@ -397,6 +397,8 @@ extern const ProcName PROC_BS_TIME_BEL_WINDOW = static_cast<ProcName>(553);
 extern const ProcName PROC_BS_MENU_LETTER = static_cast<ProcName>(567);
 // 0x0088838C
 extern const ProcName PROC_BS_MENU_BULLETIN_BOARD = static_cast<ProcName>(573);
+// 0x0088838E
+extern const ProcName PROC_BS_SKB = static_cast<ProcName>(574);
 // 0x00888392
 extern const ProcName PROC_BS_BALLOON_CHAT = static_cast<ProcName>(576);
 // 0x00888394

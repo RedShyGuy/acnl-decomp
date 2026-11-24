@@ -17,22 +17,22 @@ void ItemMultiDragIconNode::FUN_002b72e0()
 }
 
 // 0x00328994 slot 0x48 | virtual slot, introduced by DragIconNode
-void ItemMultiDragIconNode::vf_0x48()
+void ItemMultiDragIconNode::SetMarker(bool show)
 {
 }
 
 // 0x003288F8 slot 0x54 | virtual slot, introduced by DragIconNode
-void ItemMultiDragIconNode::vf_0x54()
+void ItemMultiDragIconNode::Release()
 {
 }
 
 // 0x0032883C slot 0x64 | virtual slot, introduced by DragIconNode
-void ItemMultiDragIconNode::vf_0x64()
+void ItemMultiDragIconNode::OnDropTargetEnter()
 {
 }
 
 // 0x00328858 slot 0x68 | virtual slot, introduced by DragIconNode
-void ItemMultiDragIconNode::vf_0x68()
+void ItemMultiDragIconNode::OnDropTargetLeave()
 {
 }
 

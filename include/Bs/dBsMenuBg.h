@@ -18,4 +18,17 @@ public:
     virtual oml::framework::Result Calc(); // 0x00695BF4 slot 0x24 | slot vf_0x24 of oml::framework::Process
     virtual oml::framework::Result Draw(); // 0x00695988 slot 0x30 | slot vf_0x30 of oml::framework::Process
     void ChangeBg(long); // 0x006953F0 | libgarden [tier A]
+
+    // (game code that is not decompiled yet; names are ours) the background changes to kind (frames: the speed)
+    void StartChange(s8 kind, u8 frames); // 0x00695E90
+    // (copy for the game) the change has ended
+    DECOMP_EMIT_COPY DECOMP_NOINLINE bool IsChangeDone() const { return ::state::Mode<BsMenuBg>::GetState() != &BsMenuBg::State_Change; } // 0x00766F70
+    // (inline) the background does not change
+    bool IsWaiting() const { return ::state::Mode<BsMenuBg>::GetState() == &BsMenuBg::State_Wait; }
+    // (an empty state: nothing changes) / (the background changes)
+    void State_Wait(); // 0x006952B8
+    void State_Change(); // 0x00695468
+    DECOMP_EMIT_COPY DECOMP_NOINLINE static BsMenuBg* GetInstance() { return s_pInstance; } // 0x006952A8
+
+    static BsMenuBg* s_pInstance;
 };

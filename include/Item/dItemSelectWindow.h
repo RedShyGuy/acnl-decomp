@@ -1,6 +1,7 @@
 #pragma once
 
 #include "decomp.h"
+#include "nn/math/math_Vector3.h"
 #include "state/dMode.h"
 
 namespace nw {
@@ -38,6 +39,10 @@ public:
     // the window is prepared (true when its layout is ready)
     bool Setup(u32 arg); // 0x002BA9BC
     void Update(); // 0x002BACB8
+    // the name pane N_itm_nm_00 (game code that is not decompiled yet; name is ours)
+    void SetNameVisible(bool visible); // 0x002BA070
+    // the layout is drawn on the bottom screen (game code that is not decompiled yet; name is ours)
+    void Draw(); // 0x002BA9A0
     // the window opens (the cancel choice)
     void Open(s32 cancel); // 0x002BB054
     // (the states; names are ours)
@@ -51,10 +56,16 @@ public:
     u8 _unknown0x24[0x3BC - 0x24];
     ChoiceText m_Texts[CHOICE_NUM];   // 0x3BC
     nw::lyt::TextBox* m_pTitleText;   // 0x404
-    u8 _unknown0x408[0x4BC - 0x408];
+    u8 _unknown0x408[0x4B4 - 0x408];
+    nw::lyt::Pane* m_pAttachPane;      // 0x4B4 the pane the window shows at (DragIconControl::UpdateItemWindow; name is ours)
+    u8 _unknown0x4B8[0x4BC - 0x4B8];
     s32 m_Cursor;                     // 0x4BC
     u8 _unknown0x4C0[0x4CC - 0x4C0];
     bool m_IsCanceled;                  // 0x4CC
-    u8 _unknown0x4CD[0xB10 - 0x4CD];
+    u8 _unknown0x4CD[0x4CF - 0x4CD];
+    bool m_IsNameVisible;               // 0x4CF N_itm_nm_00 (name is ours)
+    u8 _unknown0x4D0[0x4D4 - 0x4D0];
+    nn::math::VEC3 m_AttachPosition;    // 0x4D4 (name is ours)
+    u8 _unknown0x4E0[0xB10 - 0x4E0];
 };
 ASSERT_SIZE(ItemSelectWindow, 0xB10);

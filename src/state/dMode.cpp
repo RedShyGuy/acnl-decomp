@@ -112,6 +112,8 @@ template const char* state::Mode<BsMenuBook>::GetName(Func func) const;
 template const char* state::Mode<BsMenuChat>::GetName(Func func) const;
 // 0x0082A7E8 slot 0x08
 template const char* state::Mode<BsMenuEdit>::GetName(Func func) const;
+// 0x008175D8
+template void state::Mode<BsMenuEdit>::Change(Func func);
 // 0x0082A860 slot 0x08
 template const char* state::Mode<BsMenuItem>::GetName(Func func) const;
 // 0x0082A8D8 slot 0x08
@@ -146,6 +148,8 @@ template const char* state::Mode<CameraShutter>::GetName(Func func) const;
 template const char* state::Mode<PhotoBoxFrame>::GetName(Func func) const;
 // 0x0082B0D0 slot 0x08
 template const char* state::Mode<ProButtonNode>::GetName(Func func) const;
+// 0x00818580
+template void state::Mode<ProButtonNode>::Change(Func func);
 // 0x0082B148 slot 0x08
 template const char* state::Mode<SetDateTimeBg>::GetName(Func func) const;
 // 0x0082B1C0 slot 0x08
@@ -168,6 +172,8 @@ template const char* state::Mode<PostDragWindow>::GetName(Func func) const;
 template const char* state::Mode<SantaBagWindow>::GetName(Func func) const;
 // 0x0082B5F8 slot 0x08
 template const char* state::Mode<ToolButtonNode>::GetName(Func func) const;
+// 0x00818EE0
+template void state::Mode<ToolButtonNode>::Change(Func func);
 // 0x0082B670 slot 0x08
 template const char* state::Mode<BsMenuBbsEditer>::GetName(Func func) const;
 // 0x0082B6E8 slot 0x08
@@ -204,6 +210,8 @@ template const char* state::Mode<BsMenuNumberInput>::GetName(Func func) const;
 template const char* state::Mode<ChangeStockLetter>::GetName(Func func) const;
 // 0x0082BEE0 slot 0x08
 template const char* state::Mode<ControlButtonBase>::GetName(Func func) const;
+// 0x0081A0A0
+template void state::Mode<ControlButtonBase>::Change(Func func);
 // 0x0082BF58 slot 0x08
 template const char* state::Mode<LifeSupportWindow>::GetName(Func func) const;
 // 0x0082BFD0 slot 0x08

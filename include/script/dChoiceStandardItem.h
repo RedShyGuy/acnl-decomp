@@ -27,6 +27,11 @@ public:
     virtual void OnDecide(); // 0x002BB0AC slot 0x34
     virtual bool IsReady() const; // 0x0075C1EC slot 0x38
 
+    // (a nop entry that falls into ItemSelectWindow::Draw; names are ours)
+    void Draw(); // 0x002BA998
+    // (game code that is not decompiled yet)
+    void Func2BABBC(); // 0x002BABBC
+
     // the title of the list
     void SetTitle(const IWord& title); // 0x005E8F68
     // the texts of the choices into the renderers and the text boxes of the window
